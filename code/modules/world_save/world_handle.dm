@@ -13,6 +13,7 @@
 	var/element_index = 1
 
 	var/list/thing_map = list()
+	var/list/reverse_map = list()
 
 	var/list/thing_inserts = list()
 	var/list/var_inserts = list()
@@ -127,11 +128,17 @@
 /datum/persistence/serializer/proc/DeserializeThing(var/thing_id, var/thing_path, var/x, var/y, var/z)
 	// Will deserialize a thing by ID, including all of its
 	// child variables.
+	var/existing
+	try
+		existing = reverse_map[num2text(thing_id)]
+		if(!isnull(existing))
+			return existing
+	catch
+
 	if(!dbcon.IsConnected())
 		return
 
 	// Handlers for specific types would go here.
-	var/existing
 	if (ispath(thing_path, /turf))
 		// turf turf turf
 		var/turf/T = locate(x, y, z)
@@ -141,6 +148,7 @@
 		// default creation
 		existing = new thing_path()
 
+	reverse_map[num2text(thing_id)] = existing
 	var/DBQuery/query = dbcon.NewQuery("SELECT `key`,`type`,`value` FROM `thing_var` WHERE `version`=[version] AND `thing_id`=[thing_id];")
 	query.Execute()
 	while(query.NextRow())
@@ -216,14 +224,25 @@
 		return
 
 	// world.log << "INSERT INTO `thing`(`id`,`type`,`x`,`y`,`z`,`version`) VALUES[jointext(thing_inserts, ",")]"
-	var/DBQuery/query = dbcon.NewQuery("INSERT INTO `thing`(`id`,`type`,`x`,`y`,`z`,`version`) VALUES[jointext(thing_inserts, ",")]")
-	query.Execute()
-	query = dbcon.NewQuery("INSERT INTO `thing_var`(`id`,`thing_id`,`key`,`type`,`value`,`version`) VALUES[jointext(var_inserts, ",")]")
-	query.Execute()
-	query = dbcon.NewQuery("INSERT INTO `list`(`id`,`length`,`version`) VALUES[jointext(list_inserts, ",")]")
-	query.Execute()
-	query = dbcon.NewQuery("INSERT INTO `list_element`(`id`,`list_id`,`index`,`key`,`key_type`,`value`,`value_type`,`version`) VALUES[jointext(element_inserts, ",")]")
-	query.Execute()
+	var/values
+	var/DBQuery/query
+
+	if(thing_inserts.len > 0)
+		values = jointext(thing_inserts, ",")
+		query = dbcon.NewQuery("INSERT INTO `thing`(`id`,`type`,`x`,`y`,`z`,`version`) VALUES[values]")
+		query.Execute()
+	if(var_inserts.len > 0)
+		values = jointext(var_insers, ",")
+		query = dbcon.NewQuery("INSERT INTO `thing_var`(`id`,`thing_id`,`key`,`type`,`value`,`version`) VALUES[values]")
+		query.Execute()
+	if(list_inserts.len > 0)
+		values = jointext(list_inserts, ",")
+		query = dbcon.NewQuery("INSERT INTO `list`(`id`,`length`,`version`) VALUES[values]")
+		query.Execute()
+	if(element_inserts.len > 0)
+		values = jointext(element_inserts, ",")
+		query = dbcon.NewQuery("INSERT INTO `list_element`(`id`,`list_id`,`index`,`key`,`key_type`,`value`,`value_type`,`version`) VALUES[values]")
+		query.Execute()
 
 	LAZYCLEARLIST(thing_inserts)
 	LAZYCLEARLIST(var_inserts)
@@ -232,6 +251,18 @@
 
 /datum/persistence/world_handle
 	var/datum/persistence/serializer/serializer = new()
+
+/datum/persistence/world_handle/proc/FetchVersion()
+	establish_db_connection()
+	if(!dbcon.IsConnected())
+		return
+	var/DBQuery/query = dbcon.NewQuery("SELECT MAX(`version`) FROM `thing`;")
+	query.Execute()
+	while(query.NextRow())
+		SetVersion(text2num(query.item[1]) + 1)
+		break
+
+	serializer.FetchIndexes()
 
 /datum/persistence/world_handle/proc/SetVersion(var/_version)
 	version = _version
@@ -245,7 +276,6 @@
 		for(var/x in 1 to world.maxx step SAVECHUNK_SIZEX)
 			for(var/y in 1 to world.maxy step SAVECHUNK_SIZEY)
 				SaveChunk(x,y,z)	
-				serializer.Commit()
 
 /datum/persistence/world_handle/proc/SaveChunk(var/xi, var/yi, var/zi)
 	var/z = zi
@@ -253,11 +283,11 @@
 	yi = (yi - (yi % SAVECHUNK_SIZEY) + 1)
 	for(var/y in yi to yi + SAVECHUNK_SIZEY)
 		for(var/x in xi to xi + SAVECHUNK_SIZEX)
-			var/turf/T = locate(x,y,z).
+			var/turf/T = locate(x,y,z)
 			if(!T || ((T.type == /turf/space || T.type == /turf/simulated/open) && (!T.contents || !T.contents.len)))
-				continues
+				continue
 			serializer.SerializeThing(T)
-
+	serializer.Commit()
 
 /datum/persistence/world_handle/proc/LoadWorld()
 	// Loads all data in as part of a version.
