@@ -58,15 +58,15 @@
 // 			LAZYADD(A.all_doors, src)
 // 			areas_added += A
 
-/obj/item/weapon/storage/after_deserialize()
+/obj/item/storage/after_deserialize()
 	..()
 	startswith = 0
 
-/obj/item/weapon/tank/after_deserialize()
+/obj/item/tank/after_deserialize()
 	..()
 	starting_pressure = 0
 
-/obj/item/weapon/extinguisher/after_deserialize()
+/obj/item/extinguisher/after_deserialize()
 	..()
 	starting_water = 0	
 

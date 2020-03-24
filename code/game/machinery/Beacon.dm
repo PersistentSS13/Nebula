@@ -15,8 +15,7 @@
 	Beacon = new /obj/item/radio/beacon(T)
 	Beacon.invisibility = INVISIBILITY_MAXIMUM
 
-		if(T)	// TODO Change to happen during initialize
-			hide(!T.is_plating())
+	hide(!T.is_plating())
 
 /obj/machinery/bluespace_beacon/Destroy()
 	QDEL_NULL(Beacon)
