@@ -5,10 +5,28 @@
 
 /datum/proc/before_save()
 
+/turf/simulated/before_save()
+	..()
+	if(fire && fire.firelevel > 0)
+		is_on_fire = fire.firelevel
+	else
+		is_on_fire = 0
+	if(zone)
+		c_copy_air()
+
 /datum/proc/after_deserialize()
 
 /datum
 	var/should_save = TRUE
+
+/turf
+	var/is_on_fire = FALSE
+
+/obj/fire
+	should_save = FALSE
+
+/obj/effect/fake_fire
+	should_save = FALSE
 
 /obj/effect/expl_particles
 	should_save = FALSE
@@ -68,7 +86,7 @@
 
 /obj/item/extinguisher/after_deserialize()
 	..()
-	starting_water = 0	
+	starting_water = 0
 
 /obj/structure/cable/after_deserialize()
 	..()
@@ -93,21 +111,27 @@
 
 /turf/after_deserialize()
 	..()
+	if(is_on_fire)
+		hotspot_expose(700, 2)
+	is_on_fire = FALSE
+	needs_air_update = TRUE
 	queue_icon_update()
 	if(dynamic_lighting)
 		lighting_build_overlay()
 	else
 		lighting_clear_overlay()
 
-/zone/after_deserialize()
-	..()
-	needs_update = TRUE
+// /zone/after_deserialize()
+// 	..()
+// 	needs_update = TRUE
 
 /atom/movable/lighting_overlay/after_deserialize()
+	..()
 	loc = null
 	qdel(src)
 
 /area/after_deserialize()
+	..()
 	power_change()
 
 /datum/proc/get_saved_vars()
