@@ -512,6 +512,9 @@ default behaviour is:
 				affecting_mob.handle_grab_damage()
 
 /mob/living/Move(a, b, flag)
+	if(SSautosave.saving)
+		return
+		
 	if (buckled)
 		return
 
