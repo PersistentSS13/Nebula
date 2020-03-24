@@ -14,6 +14,9 @@
 
 /obj/structure/lattice/Initialize()
 	. = ..()
+	if(SSmapping.using_save)
+		return INITIALIZE_HINT_LATELOAD
+		
 	if(. != INITIALIZE_HINT_QDEL)
 		if(!istype(material))
 			return INITIALIZE_HINT_QDEL
