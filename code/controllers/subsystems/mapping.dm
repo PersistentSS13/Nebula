@@ -3,12 +3,15 @@ SUBSYSTEM_DEF(mapping)
 	init_order = SS_INIT_MAPPING
 	flags = SS_NO_FIRE
 
+	var/datum/persistence/world_handle/persistence = new()
 	var/list/map_templates = list()
 	var/list/space_ruins_templates = list()
 	var/list/exoplanet_ruins_templates = list()
 	var/list/away_sites_templates = list()
 	var/list/submaps = list()
 	var/list/submap_archetypes = list()
+	var/list/saved_levels = list()
+	var/using_save = FALSE // Whether or not we're using a persistence save.
 
 /datum/controller/subsystem/mapping/Initialize(timeofday)
 	// Load templates and build away sites.
@@ -16,7 +19,24 @@ SUBSYSTEM_DEF(mapping)
 	for(var/atype in subtypesof(/decl/submap_archetype))
 		submap_archetypes[atype] = new atype
 	GLOB.using_map.build_away_sites()
-	. = ..()
+
+
+	// Build the list of static persisted levels from our map.
+	saved_levels = GLOB.using_map.saved_levels
+	persistence.FetchVersion()
+#ifdef UNIT_TEST
+	report_progress("Unit testing, so not loading saved map")
+#else
+	// If version is 0, no saves exist.
+	if (persistence.version > 0)
+		report_progress("Loading world save version [persistence.version].")
+		using_save = TRUE
+		persistence.LoadWorld()
+#endif
+	return ..()
+
+/datum/controller/subsystem/mapping/proc/Save()
+	persistence.SaveWorld()
 
 /datum/controller/subsystem/mapping/Recover()
 	flags |= SS_NO_INIT

@@ -1098,6 +1098,8 @@ GLOBAL_DATUM_INIT(dview_mob, /mob/dview, new)
 
 /mob/dview/Destroy()
 	SHOULD_CALL_PARENT(FALSE)
+	if(SSautosave.saving)
+		return ..()// Allow destruction during saving.
 	crash_with("Prevented attempt to delete dview mob: [log_info_line(src)]")
 	return QDEL_HINT_LETMELIVE // Prevents destruction
 

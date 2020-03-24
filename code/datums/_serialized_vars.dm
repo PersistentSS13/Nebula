@@ -1,0 +1,2889 @@
+/proc/initialize_saved_vars()
+	. = list()
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/computer_file/data
+	//
+	LAZYADD(.[/datum/computer_file/data], "stored_data")
+	LAZYADD(.[/datum/computer_file/data], "size")
+	LAZYADD(.[/datum/computer_file/data], "block_size")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/computer_file/program
+	//
+	LAZYADD(.[/datum/computer_file/program], "program_state")
+	LAZYADD(.[/datum/computer_file/program], "computer")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/dna
+	//
+	LAZYADD(.[/datum/dna], "uni_identity")
+	LAZYADD(.[/datum/dna], "struc_enzymes")
+	LAZYADD(.[/datum/dna], "unique_enzymes")
+	LAZYADD(.[/datum/dna], "UI")
+	LAZYADD(.[/datum/dna], "SE")
+	LAZYADD(.[/datum/dna], "b_type")
+	LAZYADD(.[/datum/dna], "real_name")
+	LAZYADD(.[/datum/dna], "species")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/extension/holster
+	//
+	LAZYADD(.[/datum/extension/holster], "holder")
+	LAZYADD(.[/datum/extension/holster], "atom_holder")
+	LAZYADD(.[/datum/extension/holster], "storage")
+	LAZYADD(.[/datum/extension/holster], "can_holster")
+	LAZYADD(.[/datum/extension/holster], "holstered")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/fluidtrack
+	//
+	LAZYADD(.[/datum/fluidtrack], "direction")
+	LAZYADD(.[/datum/fluidtrack], "basecolor")
+	LAZYADD(.[/datum/fluidtrack], "crusty")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/gas_mixture
+	//
+	LAZYADD(.[/datum/gas_mixture], "gas")
+	LAZYADD(.[/datum/gas_mixture], "temperature")
+	LAZYADD(.[/datum/gas_mixture], "total_moles")
+	LAZYADD(.[/datum/gas_mixture], "volume")
+	LAZYADD(.[/datum/gas_mixture], "group_multiplier")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/integrated_io
+	//
+	LAZYADD(.[/datum/integrated_io], "holder")
+	LAZYADD(.[/datum/integrated_io], "linked")
+	LAZYADD(.[/datum/integrated_io], "io_type")
+	LAZYADD(.[/datum/integrated_io], "pin_type")
+	LAZYADD(.[/datum/integrated_io], "ord")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/mind
+	//
+	LAZYADD(.[/datum/mind], "memory")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/money_account
+	//
+	LAZYADD(.[/datum/money_account], "owner_name")
+	LAZYADD(.[/datum/money_account], "account_number")
+	LAZYADD(.[/datum/money_account], "remote_access_pin")
+	LAZYADD(.[/datum/money_account], "money")
+	LAZYADD(.[/datum/money_account], "transaction_log")
+	LAZYADD(.[/datum/money_account], "suspended")
+	LAZYADD(.[/datum/money_account], "security_level")
+	LAZYADD(.[/datum/money_account], "account_type")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/omni_port
+	//
+	LAZYADD(.[/datum/omni_port], "master")
+	LAZYADD(.[/datum/omni_port], "dir")
+	LAZYADD(.[/datum/omni_port], "mode")
+	LAZYADD(.[/datum/omni_port], "concentration")
+	LAZYADD(.[/datum/omni_port], "con_lock")
+	LAZYADD(.[/datum/omni_port], "transfer_moles")
+	LAZYADD(.[/datum/omni_port], "air")
+	LAZYADD(.[/datum/omni_port], "node")
+	LAZYADD(.[/datum/omni_port], "network")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/pipeline
+	//
+	LAZYADD(.[/datum/pipeline], "air")
+	LAZYADD(.[/datum/pipeline], "edges")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/reagent
+	//
+	LAZYADD(.[/datum/reagent], "holder")
+	LAZYADD(.[/datum/reagent], "data")
+	LAZYADD(.[/datum/reagent], "volume")
+	LAZYADD(.[/datum/reagent], "ingest_met")
+	LAZYADD(.[/datum/reagent], "touch_met")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/reagents/metabolism
+	//
+	LAZYADD(.[/datum/reagents/metabolism], "metabolism_class")
+	LAZYADD(.[/datum/reagents/metabolism], "parent")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/reagents
+	//
+	LAZYADD(.[/datum/reagents], "reagent_list")
+	LAZYADD(.[/datum/reagents], "total_volume")
+	LAZYADD(.[/datum/reagents], "maximum_volume")
+	LAZYADD(.[/datum/reagents], "my_atom")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/robot_component/cell
+	//
+	LAZYADD(.[/datum/robot_component/cell], "stored_cell")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/seed
+	//
+	LAZYADD(.[/datum/seed], "name")
+	LAZYADD(.[/datum/seed], "seed_name")
+	LAZYADD(.[/datum/seed], "seed_noun")
+	LAZYADD(.[/datum/seed], "display_name")
+	LAZYADD(.[/datum/seed], "can_self_harvest")
+	LAZYADD(.[/datum/seed], "growth_stages")
+	LAZYADD(.[/datum/seed], "traits")
+	LAZYADD(.[/datum/seed], "mutants")
+	LAZYADD(.[/datum/seed], "chems")
+	LAZYADD(.[/datum/seed], "consume_gasses")
+	LAZYADD(.[/datum/seed], "exude_gasses")
+	LAZYADD(.[/datum/seed], "kitchen_tag")
+	LAZYADD(.[/datum/seed], "trash_type")
+	LAZYADD(.[/datum/seed], "splat_type")
+	LAZYADD(.[/datum/seed], "has_mob_product")
+	LAZYADD(.[/datum/seed], "force_layer")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/shuttle
+	//
+	LAZYADD(.[/datum/shuttle], "name")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/stored_items
+	//
+	LAZYADD(.[/datum/stored_items], "item_name")
+	LAZYADD(.[/datum/stored_items], "item_path")
+	LAZYADD(.[/datum/stored_items], "amount")
+	LAZYADD(.[/datum/stored_items], "instances")
+	LAZYADD(.[/datum/stored_items], "storing_object")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/tech/materials
+	//
+	LAZYADD(.[/datum/tech/materials], "level")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/transaction
+	//
+	LAZYADD(.[/datum/transaction], "purpose")
+	LAZYADD(.[/datum/transaction], "amount")
+	LAZYADD(.[/datum/transaction], "date")
+	LAZYADD(.[/datum/transaction], "time")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/turbolift
+	//
+	LAZYADD(.[/datum/turbolift], "current_floor")
+	LAZYADD(.[/datum/turbolift], "doors")
+	LAZYADD(.[/datum/turbolift], "floors")
+	LAZYADD(.[/datum/turbolift], "control_panel_interior")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/turbolift_floor
+	//
+	LAZYADD(.[/datum/turbolift_floor], "label")
+	LAZYADD(.[/datum/turbolift_floor], "name")
+	LAZYADD(.[/datum/turbolift_floor], "announce_str")
+	LAZYADD(.[/datum/turbolift_floor], "arrival_sound")
+	LAZYADD(.[/datum/turbolift_floor], "doors")
+	LAZYADD(.[/datum/turbolift_floor], "ext_panel")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/wires
+	//
+	LAZYADD(.[/datum/wires], "wire_count")
+	LAZYADD(.[/datum/wires], "wires_status")
+	LAZYADD(.[/datum/wires], "wires")
+	LAZYADD(.[/datum/wires], "signallers")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/wound
+	//
+	LAZYADD(.[/datum/wound], "current_stage")
+	LAZYADD(.[/datum/wound], "damage")
+	LAZYADD(.[/datum/wound], "bleed_timer")
+	LAZYADD(.[/datum/wound], "bleed_threshold")
+	LAZYADD(.[/datum/wound], "min_damage")
+	LAZYADD(.[/datum/wound], "bandaged")
+	LAZYADD(.[/datum/wound], "clamped")
+	LAZYADD(.[/datum/wound], "salved")
+	LAZYADD(.[/datum/wound], "disinfected")
+	LAZYADD(.[/datum/wound], "created")
+	LAZYADD(.[/datum/wound], "amount")
+	LAZYADD(.[/datum/wound], "germ_level")
+	LAZYADD(.[/datum/wound], "embedded_objects")
+	LAZYADD(.[/datum/wound], "desc_list")
+	LAZYADD(.[/datum/wound], "damage_list")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /mob/living/bot
+	//
+	LAZYADD(.[/mob/living/bot], "on")
+	LAZYADD(.[/mob/living/bot], "open")
+	LAZYADD(.[/mob/living/bot], "locked")
+	LAZYADD(.[/mob/living/bot], "will_patrol")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /mob/living/carbon/slime
+	//
+	LAZYADD(.[/mob/living/carbon/slime], "colour")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /mob/living/silicon/robot
+	//
+	LAZYADD(.[/mob/living/silicon/robot], "name")
+	LAZYADD(.[/mob/living/silicon/robot], "module")
+	LAZYADD(.[/mob/living/silicon/robot], "stat")
+	LAZYADD(.[/mob/living/silicon/robot], "module_state_1")
+	LAZYADD(.[/mob/living/silicon/robot], "module_state_2")
+	LAZYADD(.[/mob/living/silicon/robot], "cell")
+	LAZYADD(.[/mob/living/silicon/robot], "components")
+	LAZYADD(.[/mob/living/silicon/robot], "mmi")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /mob/living/simple_animal/cat
+	//
+	LAZYADD(.[/mob/living/simple_animal/cat], "name")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /mob/living/simple_animal/hostile
+	//
+	LAZYADD(.[/mob/living/simple_animal/hostile], "attack_same")
+	LAZYADD(.[/mob/living/simple_animal/hostile], "desc")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/effect/floor_decal
+	//
+	LAZYADD(.[/obj/effect/floor_decal], "supplied_dir")
+	LAZYADD(.[/obj/effect/floor_decal], "color")
+	LAZYADD(.[/obj/effect/floor_decal], "plane")
+	LAZYADD(.[/obj/effect/floor_decal], "layer")
+	LAZYADD(.[/obj/effect/floor_decal], "appearance_flags")
+	LAZYADD(.[/obj/effect/floor_decal], "alpha")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/ammo_casing
+	//
+	LAZYADD(.[/obj/item/ammo_casing], "BB")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/clothing/accessory/storage
+	//
+	LAZYADD(.[/obj/item/clothing/accessory/storage], "slots")
+	LAZYADD(.[/obj/item/clothing/accessory/storage], "hold")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/clothing/accessory
+	//
+	LAZYADD(.[/obj/item/clothing/accessory], "has_suit")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/clothing/head/welding
+	//
+	LAZYADD(.[/obj/item/clothing/head/welding], "up")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/clothing/mask/smokable/cigarette
+	//
+	LAZYADD(.[/obj/item/clothing/mask/smokable/cigarette], "reagents")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/clothing/ring/material
+	//
+	LAZYADD(.[/obj/item/clothing/ring/material], "material")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/clothing/shoes/magboots
+	//
+	LAZYADD(.[/obj/item/clothing/shoes/magboots], "shoes")
+	LAZYADD(.[/obj/item/clothing/shoes/magboots], "wearer")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/clothing/suit/space/void
+	//
+	LAZYADD(.[/obj/item/clothing/suit/space/void], "boots")
+	LAZYADD(.[/obj/item/clothing/suit/space/void], "helmet")
+	LAZYADD(.[/obj/item/clothing/suit/space/void], "tank")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/clothing/suit/storage
+	//
+	LAZYADD(.[/obj/item/clothing/suit/storage], "pockets")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/clothing
+	//
+	LAZYADD(.[/obj/item/clothing], "species_restricted")
+	LAZYADD(.[/obj/item/clothing], "accessories")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/assembly/infra
+	//
+	LAZYADD(.[/obj/item/assembly/infra], "on")
+	LAZYADD(.[/obj/item/assembly/infra], "visible")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/assembly/mousetrap
+	//
+	LAZYADD(.[/obj/item/assembly/mousetrap], "armed")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/assembly/prox_sensor
+	//
+	LAZYADD(.[/obj/item/assembly/prox_sensor], "scanning")
+	LAZYADD(.[/obj/item/assembly/prox_sensor], "timing")
+	LAZYADD(.[/obj/item/assembly/prox_sensor], "time")
+	LAZYADD(.[/obj/item/assembly/prox_sensor], "range")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/assembly/signaler
+	//
+	LAZYADD(.[/obj/item/assembly/signaler], "code")
+	LAZYADD(.[/obj/item/assembly/signaler], "frequency")
+	LAZYADD(.[/obj/item/assembly/signaler], "delay")
+	LAZYADD(.[/obj/item/assembly/signaler], "airlock_wire")
+	LAZYADD(.[/obj/item/assembly/signaler], "connected")
+	LAZYADD(.[/obj/item/assembly/signaler], "deadman")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/assembly/timer
+	//
+	LAZYADD(.[/obj/item/assembly/timer], "timing")
+	LAZYADD(.[/obj/item/assembly/timer], "time")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/assembly/voice
+	//
+	LAZYADD(.[/obj/item/assembly/voice], "listening")
+	LAZYADD(.[/obj/item/assembly/voice], "recorded")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/assembly
+	//
+	LAZYADD(.[/obj/item/assembly], "secured")
+	LAZYADD(.[/obj/item/assembly], "attached_overlays")
+	LAZYADD(.[/obj/item/assembly], "holder")
+	LAZYADD(.[/obj/item/assembly], "cooldown")
+	LAZYADD(.[/obj/item/assembly], "wires")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/assembly_holder
+	//
+	LAZYADD(.[/obj/item/assembly_holder], "secured")
+	LAZYADD(.[/obj/item/assembly_holder], "a_left")
+	LAZYADD(.[/obj/item/assembly_holder], "a_right")
+	LAZYADD(.[/obj/item/assembly_holder], "special_assembly")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/electronic_assembly
+	//
+	LAZYADD(.[/obj/item/electronic_assembly], "assembly_components")
+	LAZYADD(.[/obj/item/electronic_assembly], "opened")
+	LAZYADD(.[/obj/item/electronic_assembly], "battery")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/flashlight
+	//
+	LAZYADD(.[/obj/item/flashlight], "on")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/integrated_circuit_printer
+	//
+	LAZYADD(.[/obj/item/integrated_circuit_printer], "metal")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/lightreplacer
+	//
+	LAZYADD(.[/obj/item/lightreplacer], "uses")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/radio/headset
+	//
+	LAZYADD(.[/obj/item/radio/headset], "ks1type")
+	LAZYADD(.[/obj/item/radio/headset], "ks2type")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/radio
+	//
+	LAZYADD(.[/obj/item/radio], "frequency")
+	LAZYADD(.[/obj/item/radio], "wires")
+	LAZYADD(.[/obj/item/radio], "b_stat")
+	LAZYADD(.[/obj/item/radio], "broadcasting")
+	LAZYADD(.[/obj/item/radio], "listening")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/taperecorder
+	//
+	LAZYADD(.[/obj/item/taperecorder], "mytape")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/glass_jar
+	//
+	LAZYADD(.[/obj/item/glass_jar], "contains")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/integrated_circuit/filter/ref
+	//
+	LAZYADD(.[/obj/item/integrated_circuit/filter/ref], "filter_type")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/integrated_circuit/manipulation/grenade
+	//
+	LAZYADD(.[/obj/item/integrated_circuit/manipulation/grenade], "attached_grenade")
+	LAZYADD(.[/obj/item/integrated_circuit/manipulation/grenade], "pre_attached_grenade_type")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/integrated_circuit/time/delay/custom
+	//
+	LAZYADD(.[/obj/item/integrated_circuit/time/delay/custom], "delay")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/integrated_circuit
+	//
+	LAZYADD(.[/obj/item/integrated_circuit], "inputs")
+	LAZYADD(.[/obj/item/integrated_circuit], "outputs")
+	LAZYADD(.[/obj/item/integrated_circuit], "activators")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/modular_computer
+	//
+	LAZYADD(.[/obj/item/modular_computer], "hardware_flag")
+	LAZYADD(.[/obj/item/modular_computer], "computer_emagged")
+	LAZYADD(.[/obj/item/modular_computer], "bsod")
+	LAZYADD(.[/obj/item/modular_computer], "damage")
+	LAZYADD(.[/obj/item/modular_computer], "processor_unit")
+	LAZYADD(.[/obj/item/modular_computer], "network_card")
+	LAZYADD(.[/obj/item/modular_computer], "hard_drive")
+	LAZYADD(.[/obj/item/modular_computer], "battery_module")
+	LAZYADD(.[/obj/item/modular_computer], "card_slot")
+	LAZYADD(.[/obj/item/modular_computer], "nano_printer")
+	LAZYADD(.[/obj/item/modular_computer], "portable_drive")
+	LAZYADD(.[/obj/item/modular_computer], "ai_slot")
+	LAZYADD(.[/obj/item/modular_computer], "tesla_link")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/organ/external
+	//
+	LAZYADD(.[/obj/item/organ/external], "pain")
+	LAZYADD(.[/obj/item/organ/external], "model")
+	LAZYADD(.[/obj/item/organ/external], "s_tone")
+	LAZYADD(.[/obj/item/organ/external], "s_col")
+	LAZYADD(.[/obj/item/organ/external], "s_col_blend")
+	LAZYADD(.[/obj/item/organ/external], "wounds")
+	LAZYADD(.[/obj/item/organ/external], "number_wounds")
+	LAZYADD(.[/obj/item/organ/external], "parent")
+	LAZYADD(.[/obj/item/organ/external], "children")
+	LAZYADD(.[/obj/item/organ/external], "internal_organs")
+	LAZYADD(.[/obj/item/organ/external], "implants")
+	LAZYADD(.[/obj/item/organ/external], "genetic_degradation")
+	LAZYADD(.[/obj/item/organ/external], "autopsy_data")
+	LAZYADD(.[/obj/item/organ/external], "dislocated")
+	LAZYADD(.[/obj/item/organ/external], "encased")
+	LAZYADD(.[/obj/item/organ/external], "cavity")
+	LAZYADD(.[/obj/item/organ/external], "stage")
+	LAZYADD(.[/obj/item/organ/external], "applied_pressure")
+	LAZYADD(.[/obj/item/organ/external], "splinted")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/organ
+	//
+	LAZYADD(.[/obj/item/organ], "status")
+	LAZYADD(.[/obj/item/organ], "owner")
+	LAZYADD(.[/obj/item/organ], "dna")
+	LAZYADD(.[/obj/item/organ], "species")
+	LAZYADD(.[/obj/item/organ], "damage")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/pipe
+	//
+	LAZYADD(.[/obj/item/pipe], "connect_types")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/rig_module
+	//
+	LAZYADD(.[/obj/item/rig_module], "holder")
+	LAZYADD(.[/obj/item/rig_module], "charges")
+	LAZYADD(.[/obj/item/rig_module], "active")
+	LAZYADD(.[/obj/item/rig_module], "charge_selected")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/robot_parts/robot_suit
+	//
+	LAZYADD(.[/obj/item/robot_parts/robot_suit], "parts")
+	LAZYADD(.[/obj/item/robot_parts/robot_suit], "created_name")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/robot_parts
+	//
+	LAZYADD(.[/obj/item/robot_parts], "part")
+	LAZYADD(.[/obj/item/robot_parts], "sabotaged")
+	LAZYADD(.[/obj/item/robot_parts], "model_info")
+	LAZYADD(.[/obj/item/robot_parts], "bp_tag")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/seeds
+	//
+	LAZYADD(.[/obj/item/seeds], "seed")
+	LAZYADD(.[/obj/item/seeds], "seed_type")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stack/material/wood/mahogany
+	//
+	LAZYADD(.[/obj/item/stack/material/wood/mahogany], "material")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stack
+	//
+	LAZYADD(.[/obj/item/stack], "amount")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/underwear
+	//
+	LAZYADD(.[/obj/item/underwear], "gender")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/airlock_brace
+	//
+	LAZYADD(.[/obj/item/airlock_brace], "cur_health")
+	LAZYADD(.[/obj/item/airlock_brace], "airlock")
+	LAZYADD(.[/obj/item/airlock_brace], "electronics")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/airlock_electronics
+	//
+	LAZYADD(.[/obj/item/airlock_electronics], "conf_access")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/beartrap
+	//
+	LAZYADD(.[/obj/item/beartrap], "deployed")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/book
+	//
+	LAZYADD(.[/obj/item/book], "dat")
+	LAZYADD(.[/obj/item/book], "author")
+	LAZYADD(.[/obj/item/book], "unique")
+	LAZYADD(.[/obj/item/book], "title")
+	LAZYADD(.[/obj/item/book], "carved")
+	LAZYADD(.[/obj/item/book], "store")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/card/id
+	//
+	LAZYADD(.[/obj/item/card/id], "age")
+	LAZYADD(.[/obj/item/card/id], "access")
+	LAZYADD(.[/obj/item/card/id], "registered_name")
+	LAZYADD(.[/obj/item/card/id], "associated_account_number")
+	LAZYADD(.[/obj/item/card/id], "blood_type")
+	LAZYADD(.[/obj/item/card/id], "dna_hash")
+	LAZYADD(.[/obj/item/card/id], "fingerprint_hash")
+	LAZYADD(.[/obj/item/card/id], "sex")
+	LAZYADD(.[/obj/item/card/id], "assignment")
+	LAZYADD(.[/obj/item/card/id], "rank")
+	LAZYADD(.[/obj/item/card/id], "job_access_type")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/cell
+	//
+	LAZYADD(.[/obj/item/cell], "charge")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/disk/botany
+	//
+	LAZYADD(.[/obj/item/disk/botany], "genes")
+	LAZYADD(.[/obj/item/disk/botany], "genesource")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/flamethrower
+	//
+	LAZYADD(.[/obj/item/flamethrower], "weldtool")
+	LAZYADD(.[/obj/item/flamethrower], "igniter")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/grenade/chem_grenade
+	//
+	LAZYADD(.[/obj/item/grenade/chem_grenade], "stage")
+	LAZYADD(.[/obj/item/grenade/chem_grenade], "path")
+	LAZYADD(.[/obj/item/grenade/chem_grenade], "detonator")
+	LAZYADD(.[/obj/item/grenade/chem_grenade], "beakers")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/grenade
+	//
+	LAZYADD(.[/obj/item/grenade], "det_time")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/gun/energy
+	//
+	LAZYADD(.[/obj/item/gun/energy], "power_supply")
+	LAZYADD(.[/obj/item/gun/energy], "cell_type")
+	LAZYADD(.[/obj/item/gun/energy], "charge_meter")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/gun/launcher/pneumatic
+	//
+	LAZYADD(.[/obj/item/gun/launcher/pneumatic], "tank")
+	LAZYADD(.[/obj/item/gun/launcher/pneumatic], "item_storage")
+	LAZYADD(.[/obj/item/gun/launcher/pneumatic], "pressure_setting")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/gun/magnetic
+	//
+	LAZYADD(.[/obj/item/gun/magnetic], "cell")
+	LAZYADD(.[/obj/item/gun/magnetic], "capacitor")
+	LAZYADD(.[/obj/item/gun/magnetic], "loaded")
+	LAZYADD(.[/obj/item/gun/magnetic], "load_type")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/implant/freedom
+	//
+	LAZYADD(.[/obj/item/implant/freedom], "activation_emote")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/key
+	//
+	LAZYADD(.[/obj/item/key], "key_data")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/material/lock_construct
+	//
+	LAZYADD(.[/obj/item/material/lock_construct], "lock_data")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/material
+	//
+	LAZYADD(.[/obj/item/material], "material")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/melee/baton
+	//
+	LAZYADD(.[/obj/item/melee/baton], "bcell")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/melee/energy/axe
+	//
+	LAZYADD(.[/obj/item/melee/energy/axe], "color")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/ore
+	//
+	LAZYADD(.[/obj/item/ore], "geologic_data")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/paper
+	//
+	LAZYADD(.[/obj/item/paper], "info")
+	LAZYADD(.[/obj/item/paper], "info_links")
+	LAZYADD(.[/obj/item/paper], "stamps")
+	LAZYADD(.[/obj/item/paper], "stamped")
+	LAZYADD(.[/obj/item/paper], "ico")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/paper_bundle
+	//
+	LAZYADD(.[/obj/item/paper_bundle], "page")
+	LAZYADD(.[/obj/item/paper_bundle], "pages")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/photo
+	//
+	LAZYADD(.[/obj/item/photo], "icon")
+	LAZYADD(.[/obj/item/photo], "scribble")
+	LAZYADD(.[/obj/item/photo], "tiny")
+	LAZYADD(.[/obj/item/photo], "photo_size")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/rcd
+	//
+	LAZYADD(.[/obj/item/rcd], "stored_matter")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/chems/food/snacks/grown
+	//
+	LAZYADD(.[/obj/item/chems/food/snacks/grown], "plantname")
+	LAZYADD(.[/obj/item/chems/food/snacks/grown], "name")
+	LAZYADD(.[/obj/item/chems/food/snacks/grown], "seed")
+	LAZYADD(.[/obj/item/chems/food/snacks/grown], "potency")
+	LAZYADD(.[/obj/item/chems/food/snacks/grown], "reagents")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/rig
+	//
+	LAZYADD(.[/obj/item/rig], "hides_uniform")
+	LAZYADD(.[/obj/item/rig], "wearer")
+	LAZYADD(.[/obj/item/rig], "chest")
+	LAZYADD(.[/obj/item/rig], "cell")
+	LAZYADD(.[/obj/item/rig], "air_supply")
+	LAZYADD(.[/obj/item/rig], "boots")
+	LAZYADD(.[/obj/item/rig], "helmet")
+	LAZYADD(.[/obj/item/rig], "gloves")
+	LAZYADD(.[/obj/item/rig], "selected_module")
+	LAZYADD(.[/obj/item/rig], "visor")
+	LAZYADD(.[/obj/item/rig], "speech")
+	LAZYADD(.[/obj/item/rig], "installed_modules")
+	LAZYADD(.[/obj/item/rig], "open")
+	LAZYADD(.[/obj/item/rig], "locked")
+	LAZYADD(.[/obj/item/rig], "subverted")
+	LAZYADD(.[/obj/item/rig], "interface_locked")
+	LAZYADD(.[/obj/item/rig], "control_overridden")
+	LAZYADD(.[/obj/item/rig], "ai_override_enabled")
+	LAZYADD(.[/obj/item/rig], "security_check_enabled")
+	LAZYADD(.[/obj/item/rig], "malfunctioning")
+	LAZYADD(.[/obj/item/rig], "electrified")
+	LAZYADD(.[/obj/item/rig], "locked_down")
+	LAZYADD(.[/obj/item/rig], "offline")
+	LAZYADD(.[/obj/item/rig], "airtight")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/spacecash
+	//
+	LAZYADD(.[/obj/item/spacecash], "access")
+	LAZYADD(.[/obj/item/spacecash], "worth")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stock_parts/capacitor/super
+	//
+	LAZYADD(.[/obj/item/stock_parts/capacitor/super], "charge")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stool
+	//
+	LAZYADD(.[/obj/item/stool], "material")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/storage/internal
+	//
+	LAZYADD(.[/obj/item/storage/internal], "master_item")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/storage/secure/safe
+	//
+	LAZYADD(.[/obj/item/storage/secure/safe], "l_code")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/storage/wallet/leather
+	//
+	LAZYADD(.[/obj/item/storage/wallet/leather], "front_id")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/storage
+	//
+	LAZYADD(.[/obj/item/storage], "max_storage_space")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/tank
+	//
+	LAZYADD(.[/obj/item/tank], "air_contents")
+	LAZYADD(.[/obj/item/tank], "distribute_pressure")
+	LAZYADD(.[/obj/item/tank], "integrity")
+	LAZYADD(.[/obj/item/tank], "valve_welded")
+	LAZYADD(.[/obj/item/tank], "proxyassembly")
+	LAZYADD(.[/obj/item/tank], "volume")
+	LAZYADD(.[/obj/item/tank], "manipulated_by")
+	LAZYADD(.[/obj/item/tank], "leaking")
+	LAZYADD(.[/obj/item/tank], "wired")
+	LAZYADD(.[/obj/item/tank], "starting_pressure")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/weldingtool
+	//
+	LAZYADD(.[/obj/item/weldingtool], "tank")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/weldpack
+	//
+	LAZYADD(.[/obj/item/weldpack], "welder")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/airlock_sensor
+	//
+	LAZYADD(.[/obj/machinery/airlock_sensor], "master_tag")
+	LAZYADD(.[/obj/machinery/airlock_sensor], "frequency")
+	LAZYADD(.[/obj/machinery/airlock_sensor], "command")
+	LAZYADD(.[/obj/machinery/airlock_sensor], "on")
+	LAZYADD(.[/obj/machinery/airlock_sensor], "alert")
+	LAZYADD(.[/obj/machinery/airlock_sensor], "previousPressure")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/alarm
+	//
+	LAZYADD(.[/obj/machinery/alarm], "rcon_setting")
+	LAZYADD(.[/obj/machinery/alarm], "locked")
+	LAZYADD(.[/obj/machinery/alarm], "wiresexposed")
+	LAZYADD(.[/obj/machinery/alarm], "aidisabled")
+	LAZYADD(.[/obj/machinery/alarm], "mode")
+	LAZYADD(.[/obj/machinery/alarm], "target_temperature")
+	LAZYADD(.[/obj/machinery/alarm], "regulating_temperature")
+	LAZYADD(.[/obj/machinery/alarm], "TLV")
+	LAZYADD(.[/obj/machinery/alarm], "oxygen_dangerlevel")
+	LAZYADD(.[/obj/machinery/alarm], "co2_dangerlevel")
+	LAZYADD(.[/obj/machinery/alarm], "report_danger_level")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/atmospherics/binary/passive_gate
+	//
+	LAZYADD(.[/obj/machinery/atmospherics/binary/passive_gate], "unlocked")
+	LAZYADD(.[/obj/machinery/atmospherics/binary/passive_gate], "target_pressure")
+	LAZYADD(.[/obj/machinery/atmospherics/binary/passive_gate], "regulate_mode")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/atmospherics/binary/pump
+	//
+	LAZYADD(.[/obj/machinery/atmospherics/binary/pump], "target_pressure")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/atmospherics/omni/filter
+	//
+	LAZYADD(.[/obj/machinery/atmospherics/omni/filter], "filters")
+	LAZYADD(.[/obj/machinery/atmospherics/omni/filter], "gas_filters")
+	LAZYADD(.[/obj/machinery/atmospherics/omni/filter], "input")
+	LAZYADD(.[/obj/machinery/atmospherics/omni/filter], "output")
+	LAZYADD(.[/obj/machinery/atmospherics/omni/filter], "set_flow_rate")
+	LAZYADD(.[/obj/machinery/atmospherics/omni/filter], "filtering_outputs")
+	LAZYADD(.[/obj/machinery/atmospherics/omni/filter], "ports")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/atmospherics/omni
+	//
+	LAZYADD(.[/obj/machinery/atmospherics/omni], "overlays_on")
+	LAZYADD(.[/obj/machinery/atmospherics/omni], "overlays_off")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/atmospherics/pipeturbine
+	//
+	LAZYADD(.[/obj/machinery/atmospherics/pipeturbine], "network1")
+	LAZYADD(.[/obj/machinery/atmospherics/pipeturbine], "network2")
+	LAZYADD(.[/obj/machinery/atmospherics/pipeturbine], "node2")
+	LAZYADD(.[/obj/machinery/atmospherics/pipeturbine], "node1")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/atmospherics/portables_connector
+	//
+	LAZYADD(.[/obj/machinery/atmospherics/portables_connector], "connected_device")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/atmospherics/tvalve
+	//
+	LAZYADD(.[/obj/machinery/atmospherics/tvalve], "state")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/atmospherics/unary/freezer
+	//
+	LAZYADD(.[/obj/machinery/atmospherics/unary/freezer], "set_temperature")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/atmospherics/unary/outlet_injector
+	//
+	LAZYADD(.[/obj/machinery/atmospherics/unary/outlet_injector], "injecting")
+	LAZYADD(.[/obj/machinery/atmospherics/unary/outlet_injector], "volume_rate")
+	LAZYADD(.[/obj/machinery/atmospherics/unary/outlet_injector], "frequency")
+	LAZYADD(.[/obj/machinery/atmospherics/unary/outlet_injector], "id")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/atmospherics/unary/vent_pump
+	//
+	LAZYADD(.[/obj/machinery/atmospherics/unary/vent_pump], "pump_direction")
+	LAZYADD(.[/obj/machinery/atmospherics/unary/vent_pump], "external_pressure_bound")
+	LAZYADD(.[/obj/machinery/atmospherics/unary/vent_pump], "internal_pressure_bound")
+	LAZYADD(.[/obj/machinery/atmospherics/unary/vent_pump], "pressure_checks")
+	LAZYADD(.[/obj/machinery/atmospherics/unary/vent_pump], "welded")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/atmospherics/unary/vent_scrubber
+	//
+	LAZYADD(.[/obj/machinery/atmospherics/unary/vent_scrubber], "scrubbing")
+	LAZYADD(.[/obj/machinery/atmospherics/unary/vent_scrubber], "welded")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/atmospherics/valve
+	//
+	LAZYADD(.[/obj/machinery/atmospherics/valve], "open")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/atmospherics
+	//
+	LAZYADD(.[/obj/machinery/atmospherics], "initialize_directions")
+	LAZYADD(.[/obj/machinery/atmospherics], "pipe_color")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/beehive
+	//
+	LAZYADD(.[/obj/machinery/beehive], "bee_count")
+	LAZYADD(.[/obj/machinery/beehive], "frames")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/biogenerator
+	//
+	LAZYADD(.[/obj/machinery/biogenerator], "points")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/bodyscanner
+	//
+	LAZYADD(.[/obj/machinery/bodyscanner], "occupant")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/cell_charger
+	//
+	LAZYADD(.[/obj/machinery/cell_charger], "charging")
+	LAZYADD(.[/obj/machinery/cell_charger], "chargelevel")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/chemical_dispenser
+	//
+	LAZYADD(.[/obj/machinery/chemical_dispenser], "cartridges")
+	LAZYADD(.[/obj/machinery/chemical_dispenser], "container")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/computer/operating
+	//
+	LAZYADD(.[/obj/machinery/computer/operating], "table")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/computer/rdconsole/core
+	//
+	LAZYADD(.[/obj/machinery/computer/rdconsole/core], "files")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/computer/telecomms/monitor
+	//
+	LAZYADD(.[/obj/machinery/computer/telecomms/monitor], "network")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/computer/telecomms/server
+	//
+	LAZYADD(.[/obj/machinery/computer/telecomms/server], "network")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/conveyor
+	//
+	LAZYADD(.[/obj/machinery/conveyor], "forwards")
+	LAZYADD(.[/obj/machinery/conveyor], "backwards")
+	LAZYADD(.[/obj/machinery/conveyor], "id")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/cryopod
+	//
+	LAZYADD(.[/obj/machinery/cryopod], "applies_stasis")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/deployable/barrier
+	//
+	LAZYADD(.[/obj/machinery/deployable/barrier], "locked")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/disposal
+	//
+	LAZYADD(.[/obj/machinery/disposal], "air_contents")
+	LAZYADD(.[/obj/machinery/disposal], "mode")
+	LAZYADD(.[/obj/machinery/disposal], "trunk")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/door/airlock/lift
+	//
+	LAZYADD(.[/obj/machinery/door/airlock/lift], "lift")
+	LAZYADD(.[/obj/machinery/door/airlock/lift], "floor")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/door/airlock
+	//
+	LAZYADD(.[/obj/machinery/door/airlock], "welded")
+	LAZYADD(.[/obj/machinery/door/airlock], "locked")
+	LAZYADD(.[/obj/machinery/door/airlock], "lock_cut_state")
+	LAZYADD(.[/obj/machinery/door/airlock], "closeOther")
+	LAZYADD(.[/obj/machinery/door/airlock], "closeOtherId")
+	LAZYADD(.[/obj/machinery/door/airlock], "safe")
+	LAZYADD(.[/obj/machinery/door/airlock], "secured_wires")
+	LAZYADD(.[/obj/machinery/door/airlock], "brace")
+	LAZYADD(.[/obj/machinery/door/airlock], "airlock_type")
+	LAZYADD(.[/obj/machinery/door/airlock], "door_color")
+	LAZYADD(.[/obj/machinery/door/airlock], "stripe_color")
+	LAZYADD(.[/obj/machinery/door/airlock], "symbol_color")
+	LAZYADD(.[/obj/machinery/door/airlock], "frequency")
+	LAZYADD(.[/obj/machinery/door/airlock], "shockedby")
+	LAZYADD(.[/obj/machinery/door/airlock], "cur_command")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/door/firedoor
+	//
+	LAZYADD(.[/obj/machinery/door/firedoor], "areas_added")
+	LAZYADD(.[/obj/machinery/door/firedoor], "net_id")
+	LAZYADD(.[/obj/machinery/door/firedoor], "pdiff")
+	LAZYADD(.[/obj/machinery/door/firedoor], "pdiff_alert")
+	LAZYADD(.[/obj/machinery/door/firedoor], "blocked")
+	LAZYADD(.[/obj/machinery/door/firedoor], "lockdown")
+	LAZYADD(.[/obj/machinery/door/firedoor], "hatch_open")
+	LAZYADD(.[/obj/machinery/door/firedoor], "nextstate")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/door/unpowered/simple
+	//
+	LAZYADD(.[/obj/machinery/door/unpowered/simple], "material")
+	LAZYADD(.[/obj/machinery/door/unpowered/simple], "lock")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/door/unpowered
+	//
+	LAZYADD(.[/obj/machinery/door/unpowered], "locked")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/door/window
+	//
+	LAZYADD(.[/obj/machinery/door/window], "base_state")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/door
+	//
+	LAZYADD(.[/obj/machinery/door], "layer")
+	LAZYADD(.[/obj/machinery/door], "visible")
+	LAZYADD(.[/obj/machinery/door], "p_open")
+	LAZYADD(.[/obj/machinery/door], "autoclose")
+	LAZYADD(.[/obj/machinery/door], "glass")
+	LAZYADD(.[/obj/machinery/door], "normalspeed")
+	LAZYADD(.[/obj/machinery/door], "health")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/embedded_controller
+	//
+	LAZYADD(.[/obj/machinery/embedded_controller], "on")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/embedded_controller/radio/simple_docking_controller
+	//
+	LAZYADD(.[/obj/machinery/embedded_controller/radio/simple_docking_controller], "tag_door")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/embedded_controller/radio/docking_port_multi
+	//
+	LAZYADD(.[/obj/machinery/embedded_controller/radio/docking_port_multi], "child_names")
+	LAZYADD(.[/obj/machinery/embedded_controller/radio/docking_port_multi], "child_names_txt")
+	LAZYADD(.[/obj/machinery/embedded_controller/radio/docking_port_multi], "child_tags_txt")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/embedded_controller/radio/airlock/docking_port
+	//
+	LAZYADD(.[/obj/machinery/embedded_controller/radio/airlock/docking_port], "display_name")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/embedded_controller/radio/airlock
+	//
+	LAZYADD(.[/obj/machinery/embedded_controller/radio/airlock], "tag_exterior_door")
+	LAZYADD(.[/obj/machinery/embedded_controller/radio/airlock], "tag_interior_door")
+	LAZYADD(.[/obj/machinery/embedded_controller/radio/airlock], "tag_airpump")
+	LAZYADD(.[/obj/machinery/embedded_controller/radio/airlock], "tag_chamber_sensor")
+	LAZYADD(.[/obj/machinery/embedded_controller/radio/airlock], "tag_exterior_sensor")
+	LAZYADD(.[/obj/machinery/embedded_controller/radio/airlock], "tag_interior_sensor")
+	LAZYADD(.[/obj/machinery/embedded_controller/radio/airlock], "tag_airlock_mech_sensor")
+	LAZYADD(.[/obj/machinery/embedded_controller/radio/airlock], "tag_shuttle_mech_sensor")
+	LAZYADD(.[/obj/machinery/embedded_controller/radio/airlock], "tag_secure")
+	LAZYADD(.[/obj/machinery/embedded_controller/radio/airlock], "cycle_to_external_air")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/floorlayer
+	//
+	LAZYADD(.[/obj/machinery/floorlayer], "old_turf")
+	LAZYADD(.[/obj/machinery/floorlayer], "on")
+	LAZYADD(.[/obj/machinery/floorlayer], "T")
+	LAZYADD(.[/obj/machinery/floorlayer], "mode")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/floor_light
+	//
+	LAZYADD(.[/obj/machinery/floor_light], "on")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/light
+	//
+	LAZYADD(.[/obj/machinery/light], "lightbulb")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/light_switch
+	//
+	LAZYADD(.[/obj/machinery/light_switch], "on")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/message_server
+	//
+	LAZYADD(.[/obj/machinery/message_server], "decryptkey")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/microwave
+	//
+	LAZYADD(.[/obj/machinery/microwave], "dirty")
+	LAZYADD(.[/obj/machinery/microwave], "broken")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/mineral/processing_unit
+	//
+	LAZYADD(.[/obj/machinery/mineral/processing_unit], "ores_processing")
+	LAZYADD(.[/obj/machinery/mineral/processing_unit], "ores_stored")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/mineral
+	//
+	LAZYADD(.[/obj/machinery/mineral], "input_turf")
+	LAZYADD(.[/obj/machinery/mineral], "output_turf")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/navbeacon
+	//
+	LAZYADD(.[/obj/machinery/navbeacon], "locked")
+	LAZYADD(.[/obj/machinery/navbeacon], "location")
+	LAZYADD(.[/obj/machinery/navbeacon], "codes")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/organ_printer
+	//
+	LAZYADD(.[/obj/machinery/organ_printer], "stored_matter")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/papershredder
+	//
+	LAZYADD(.[/obj/machinery/papershredder], "paperamount")
+	LAZYADD(.[/obj/machinery/papershredder], "shred_amounts")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/photocopier/faxmachine
+	//
+	LAZYADD(.[/obj/machinery/photocopier/faxmachine], "department")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/photocopier
+	//
+	LAZYADD(.[/obj/machinery/photocopier], "copyitem")
+	LAZYADD(.[/obj/machinery/photocopier], "copies")
+	LAZYADD(.[/obj/machinery/photocopier], "toner")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/portable_atmospherics/canister
+	//
+	LAZYADD(.[/obj/machinery/portable_atmospherics/canister], "health")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/canister], "valve_open")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/canister], "release_pressure")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/canister], "canister_color")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/portable_atmospherics/hydroponics
+	//
+	LAZYADD(.[/obj/machinery/portable_atmospherics/hydroponics], "base_name")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/hydroponics], "dead")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/hydroponics], "harvest")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/hydroponics], "age")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/hydroponics], "health")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/hydroponics], "lastproduce")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/hydroponics], "lastcycle")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/hydroponics], "seed")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/hydroponics], "toxic_reagents")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/hydroponics], "nutrient_reagents")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/hydroponics], "weedkiller_reagents")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/hydroponics], "pestkiller_reagents")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/hydroponics], "water_reagents")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/hydroponics], "beneficial_reagents")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/hydroponics], "mutagenic_reagents")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/portable_atmospherics/powered/pump
+	//
+	LAZYADD(.[/obj/machinery/portable_atmospherics/powered/pump], "cell")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/portable_atmospherics/powered/scrubber
+	//
+	LAZYADD(.[/obj/machinery/portable_atmospherics/powered/scrubber], "cell")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/portable_atmospherics
+	//
+	LAZYADD(.[/obj/machinery/portable_atmospherics], "air_contents")
+	LAZYADD(.[/obj/machinery/portable_atmospherics], "connected_port")
+	LAZYADD(.[/obj/machinery/portable_atmospherics], "holding")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/porta_turret
+	//
+	LAZYADD(.[/obj/machinery/porta_turret], "health")
+	LAZYADD(.[/obj/machinery/porta_turret], "locked")
+	LAZYADD(.[/obj/machinery/porta_turret], "installation")
+	LAZYADD(.[/obj/machinery/porta_turret], "check_access")
+	LAZYADD(.[/obj/machinery/porta_turret], "enabled")
+	LAZYADD(.[/obj/machinery/porta_turret], "lethal")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/power/apc
+	//
+	LAZYADD(.[/obj/machinery/power/apc], "area")
+	LAZYADD(.[/obj/machinery/power/apc], "cell")
+	LAZYADD(.[/obj/machinery/power/apc], "cell_type")
+	LAZYADD(.[/obj/machinery/power/apc], "opened")
+	LAZYADD(.[/obj/machinery/power/apc], "shorted")
+	LAZYADD(.[/obj/machinery/power/apc], "lighting")
+	LAZYADD(.[/obj/machinery/power/apc], "equipment")
+	LAZYADD(.[/obj/machinery/power/apc], "environ")
+	LAZYADD(.[/obj/machinery/power/apc], "operating")
+	LAZYADD(.[/obj/machinery/power/apc], "chargemode")
+	LAZYADD(.[/obj/machinery/power/apc], "locked")
+	LAZYADD(.[/obj/machinery/power/apc], "coverlocked")
+	LAZYADD(.[/obj/machinery/power/apc], "aidisabled")
+	LAZYADD(.[/obj/machinery/power/apc], "lastused_light")
+	LAZYADD(.[/obj/machinery/power/apc], "lastused_equip")
+	LAZYADD(.[/obj/machinery/power/apc], "lastused_environ")
+	LAZYADD(.[/obj/machinery/power/apc], "lastused_charging")
+	LAZYADD(.[/obj/machinery/power/apc], "lastused_total")
+	LAZYADD(.[/obj/machinery/power/apc], "main_status")
+	LAZYADD(.[/obj/machinery/power/apc], "has_electronics")
+	LAZYADD(.[/obj/machinery/power/apc], "beenhit")
+	LAZYADD(.[/obj/machinery/power/apc], "is_critical")
+	LAZYADD(.[/obj/machinery/power/apc], "autoflag")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/power/emitter
+	//
+	LAZYADD(.[/obj/machinery/power/emitter], "active")
+	LAZYADD(.[/obj/machinery/power/emitter], "locked")
+	LAZYADD(.[/obj/machinery/power/emitter], "powered")
+	LAZYADD(.[/obj/machinery/power/emitter], "burst_shots")
+	LAZYADD(.[/obj/machinery/power/emitter], "fire_delay")
+	LAZYADD(.[/obj/machinery/power/emitter], "last_shot")
+	LAZYADD(.[/obj/machinery/power/emitter], "shot_number")
+	LAZYADD(.[/obj/machinery/power/emitter], "efficiency")
+	LAZYADD(.[/obj/machinery/power/emitter], "min_burst_delay")
+	LAZYADD(.[/obj/machinery/power/emitter], "max_burst_delay")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/power/port_gen
+	//
+	LAZYADD(.[/obj/machinery/power/port_gen], "active")
+	LAZYADD(.[/obj/machinery/power/port_gen], "open")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/power/sensor
+	//
+	LAZYADD(.[/obj/machinery/power/sensor], "name_tag")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/power/shield_generator
+	//
+	LAZYADD(.[/obj/machinery/power/shield_generator], "shield_modes")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "mitigation_em")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "mitigation_physical")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "mitigation_heat")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "mitigation_max")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "max_energy")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "current_energy")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "field_radius")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "running")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "input_cap")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "upkeep_power_usage")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "upkeep_multiplier")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "mode_changes_locked")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "mode_list")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "field_segments")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "damaged_segments")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "target_radius")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "power_usage")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "overloaded")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "hacked")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "offline_for")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "input_cut")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "full_shield_strength")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "idle_multiplier")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "spinup_delay")
+	LAZYADD(.[/obj/machinery/power/shield_generator], "spinup_counter")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/power/smes/batteryrack
+	//
+	LAZYADD(.[/obj/machinery/power/smes/batteryrack], "max_transfer_rate")
+	LAZYADD(.[/obj/machinery/power/smes/batteryrack], "mode")
+	LAZYADD(.[/obj/machinery/power/smes/batteryrack], "internal_cells")
+	LAZYADD(.[/obj/machinery/power/smes/batteryrack], "max_cells")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/power/smes
+	//
+	LAZYADD(.[/obj/machinery/power/smes], "capacity")
+	LAZYADD(.[/obj/machinery/power/smes], "charge")
+	LAZYADD(.[/obj/machinery/power/smes], "input_attempt")
+	LAZYADD(.[/obj/machinery/power/smes], "input_level")
+	LAZYADD(.[/obj/machinery/power/smes], "output_attempt")
+	LAZYADD(.[/obj/machinery/power/smes], "output_level")
+	LAZYADD(.[/obj/machinery/power/smes], "name_tag")
+	LAZYADD(.[/obj/machinery/power/smes], "terminals")
+	LAZYADD(.[/obj/machinery/power/smes], "should_be_mapped")
+	LAZYADD(.[/obj/machinery/power/smes], "damage")
+	LAZYADD(.[/obj/machinery/power/smes], "input_cut")
+	LAZYADD(.[/obj/machinery/power/smes], "output_cut")
+	LAZYADD(.[/obj/machinery/power/smes], "failure_timer")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/power/solar
+	//
+	LAZYADD(.[/obj/machinery/power/solar], "sunfrac")
+	LAZYADD(.[/obj/machinery/power/solar], "control")
+	LAZYADD(.[/obj/machinery/power/solar], "obscured")
+	LAZYADD(.[/obj/machinery/power/solar], "adir")
+	LAZYADD(.[/obj/machinery/power/solar], "ndir")
+	LAZYADD(.[/obj/machinery/power/solar], "turn_angle")
+	LAZYADD(.[/obj/machinery/power/solar], "health")
+	LAZYADD(.[/obj/machinery/power/solar], "id")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/power/terminal
+	//
+	LAZYADD(.[/obj/machinery/power/terminal], "master")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/power/tracker
+	//
+	LAZYADD(.[/obj/machinery/power/tracker], "control")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/reagentgrinder
+	//
+	LAZYADD(.[/obj/machinery/reagentgrinder], "beaker")
+	LAZYADD(.[/obj/machinery/reagentgrinder], "contents")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/recharger
+	//
+	LAZYADD(.[/obj/machinery/recharger], "charging")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/sleeper
+	//
+	LAZYADD(.[/obj/machinery/sleeper], "occupant")
+	LAZYADD(.[/obj/machinery/sleeper], "beaker")
+	LAZYADD(.[/obj/machinery/sleeper], "filtering")
+	LAZYADD(.[/obj/machinery/sleeper], "pump")
+	LAZYADD(.[/obj/machinery/sleeper], "stasis")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/smartfridge
+	//
+	LAZYADD(.[/obj/machinery/smartfridge], "item_records")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/suit_cycler
+	//
+	LAZYADD(.[/obj/machinery/suit_cycler], "locked")
+	LAZYADD(.[/obj/machinery/suit_cycler], "target_species")
+	LAZYADD(.[/obj/machinery/suit_cycler], "suit")
+	LAZYADD(.[/obj/machinery/suit_cycler], "helmet")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/telecomms/receiver
+	//
+	LAZYADD(.[/obj/machinery/telecomms/receiver], "links")
+	LAZYADD(.[/obj/machinery/telecomms/receiver], "listening_levels")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/telecomms
+	//
+	LAZYADD(.[/obj/machinery/telecomms], "on")
+	LAZYADD(.[/obj/machinery/telecomms], "id")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery
+	//
+	LAZYADD(.[/obj/machinery], "stat")
+	LAZYADD(.[/obj/machinery], "emagged")
+	LAZYADD(.[/obj/machinery], "malf_upgraded")
+	LAZYADD(.[/obj/machinery], "use_power")
+	LAZYADD(.[/obj/machinery], "component_parts")
+	LAZYADD(.[/obj/machinery], "uid")
+	LAZYADD(.[/obj/machinery], "panel_open")
+	LAZYADD(.[/obj/machinery], "power_components")
+	LAZYADD(.[/obj/machinery], "anchored")
+	LAZYADD(.[/obj/machinery], "state")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/barricade
+	//
+	LAZYADD(.[/obj/structure/barricade], "material")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/bed
+	//
+	LAZYADD(.[/obj/structure/bed], "material")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/bigDelivery
+	//
+	LAZYADD(.[/obj/structure/bigDelivery], "wrapped")
+	LAZYADD(.[/obj/structure/bigDelivery], "sortTag")
+	LAZYADD(.[/obj/structure/bigDelivery], "examtext")
+	LAZYADD(.[/obj/structure/bigDelivery], "nameset")
+	LAZYADD(.[/obj/structure/bigDelivery], "label_y")
+	LAZYADD(.[/obj/structure/bigDelivery], "label_x")
+	LAZYADD(.[/obj/structure/bigDelivery], "tag_x")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/cable
+	//
+	LAZYADD(.[/obj/structure/cable], "d1")
+	LAZYADD(.[/obj/structure/cable], "d2")
+	LAZYADD(.[/obj/structure/cable], "color")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/closet/secure_closet/personal
+	//
+	LAZYADD(.[/obj/structure/closet/secure_closet/personal], "registered_name")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/closet
+	//
+	LAZYADD(.[/obj/structure/closet], "broken")
+	LAZYADD(.[/obj/structure/closet], "opened")
+	LAZYADD(.[/obj/structure/closet], "locked")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/c_tray
+	//
+	LAZYADD(.[/obj/structure/c_tray], "connected")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/dispenser
+	//
+	LAZYADD(.[/obj/structure/dispenser], "oxygentanks")
+	LAZYADD(.[/obj/structure/dispenser], "phorontanks")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/disposalconstruct
+	//
+	LAZYADD(.[/obj/structure/disposalconstruct], "dpdir")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/disposalpipe
+	//
+	LAZYADD(.[/obj/structure/disposalpipe], "dpdir")
+	LAZYADD(.[/obj/structure/disposalpipe], "health")
+	LAZYADD(.[/obj/structure/disposalpipe], "base_icon_state")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/door_assembly
+	//
+	LAZYADD(.[/obj/structure/door_assembly], "panel_icon")
+	LAZYADD(.[/obj/structure/door_assembly], "fill_icon")
+	LAZYADD(.[/obj/structure/door_assembly], "glass_icon")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/girder
+	//
+	LAZYADD(.[/obj/structure/girder], "state")
+	LAZYADD(.[/obj/structure/girder], "material")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/janitorialcart
+	//
+	LAZYADD(.[/obj/structure/janitorialcart], "mybag")
+	LAZYADD(.[/obj/structure/janitorialcart], "mymop")
+	LAZYADD(.[/obj/structure/janitorialcart], "myspray")
+	LAZYADD(.[/obj/structure/janitorialcart], "myreplacer")
+	LAZYADD(.[/obj/structure/janitorialcart], "signs")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/lift/button
+	//
+	LAZYADD(.[/obj/structure/lift/button], "lift")
+	LAZYADD(.[/obj/structure/lift/button], "floor")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/ore_box
+	//
+	LAZYADD(.[/obj/structure/ore_box], "stored_ore")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/sign/poster
+	//
+	LAZYADD(.[/obj/structure/sign/poster], "desc")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/table
+	//
+	LAZYADD(.[/obj/structure/table], "flipped")
+	LAZYADD(.[/obj/structure/table], "material")
+	LAZYADD(.[/obj/structure/table], "reinforced")
+	LAZYADD(.[/obj/structure/table], "carpeted")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/wall_frame
+	//
+	LAZYADD(.[/obj/structure/wall_frame], "stripe_color")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/window
+	//
+	LAZYADD(.[/obj/structure/window], "health")
+	LAZYADD(.[/obj/structure/window], "polarized")
+	LAZYADD(.[/obj/structure/window], "reinf_material")
+	LAZYADD(.[/obj/structure/window], "init_material")
+	LAZYADD(.[/obj/structure/window], "blend_objects")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure
+	//
+	LAZYADD(.[/obj/structure], "connections")
+	LAZYADD(.[/obj/structure], "health")
+	LAZYADD(.[/obj/structure], "other_connections")
+	LAZYADD(.[/obj/structure], "waterproof")
+	LAZYADD(.[/obj/structure], "color")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/vehicle/train/cargo/engine
+	//
+	LAZYADD(.[/obj/vehicle/train/cargo/engine], "key")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/vehicle/train
+	//
+	LAZYADD(.[/obj/vehicle/train], "passenger_allowed")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/vehicle
+	//
+	LAZYADD(.[/obj/vehicle], "on")
+	LAZYADD(.[/obj/vehicle], "health")
+	LAZYADD(.[/obj/vehicle], "open")
+	LAZYADD(.[/obj/vehicle], "locked")
+	LAZYADD(.[/obj/vehicle], "stat")
+	LAZYADD(.[/obj/vehicle], "cell")
+	LAZYADD(.[/obj/vehicle], "load")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /turf/simulated/wall
+	//
+	LAZYADD(.[/turf/simulated/wall], "material")
+	LAZYADD(.[/turf/simulated/wall], "state")
+	LAZYADD(.[/turf/simulated/wall], "floor_type")
+	LAZYADD(.[/turf/simulated/wall], "paint_color")
+	LAZYADD(.[/turf/simulated/wall], "stripe_color")
+	LAZYADD(.[/turf/simulated/wall], "damage")
+	LAZYADD(.[/turf/simulated/wall], "opacity")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /zone
+	//
+	LAZYADD(.[/zone], "air")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /turf
+	//
+	LAZYADD(.[/turf], "level")
+	LAZYADD(.[/turf], "holy")
+	LAZYADD(.[/turf], "blocks_air")
+	LAZYADD(.[/turf], "blessed")
+	LAZYADD(.[/turf], "fluid_can_pass")
+	LAZYADD(.[/turf], "flooded")
+	LAZYADD(.[/turf], "footstep_type")
+	LAZYADD(.[/turf], "contents")
+	LAZYADD(.[/turf], "density")
+	LAZYADD(.[/turf], "icon_state")
+	LAZYADD(.[/turf], "name")
+	LAZYADD(.[/turf], "pixel_x")
+	LAZYADD(.[/turf], "pixel_y")
+	LAZYADD(.[/turf], "dir")
+	LAZYADD(.[/turf], "decals")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /mob
+	//
+	LAZYADD(.[/mob], "real_name")
+	LAZYADD(.[/mob], "mind")
+	LAZYADD(.[/mob], "contents")
+	LAZYADD(.[/mob], "dna")
+	LAZYADD(.[/mob], "feet_blood_color")
+	LAZYADD(.[/mob], "gender")
+	LAZYADD(.[/mob], "languages")
+	LAZYADD(.[/mob], "loc")
+	LAZYADD(.[/mob], "id_tag")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /atom/movable
+	//
+	LAZYADD(.[/atom/movable], "level")
+	LAZYADD(.[/atom/movable], "germ_level")
+	LAZYADD(.[/atom/movable], "blood_DNA")
+	LAZYADD(.[/atom/movable], "was_bloodied")
+	LAZYADD(.[/atom/movable], "last_bumped")
+	LAZYADD(.[/atom/movable], "climbers")
+	LAZYADD(.[/atom/movable], "contents")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /atom
+	//
+	LAZYADD(.[/atom], "visibility")
+	LAZYADD(.[/atom], "suit_fibers")
+	LAZYADD(.[/atom], "fingerprints")
+	LAZYADD(.[/atom], "gunshot_resique")
+	LAZYADD(.[/atom], "contents")
+	LAZYADD(.[/atom], "blend_mode")
+	LAZYADD(.[/atom], "density")
+	LAZYADD(.[/atom], "dir")
+	LAZYADD(.[/atom], "icon_state")
+	LAZYADD(.[/atom], "name")
+	LAZYADD(.[/atom], "opacity")
+	LAZYADD(.[/atom], "layer")
+	LAZYADD(.[/atom], "pixel_x")
+	LAZYADD(.[/atom], "pixel_y")
+	LAZYADD(.[/atom], "loc")
+	LAZYADD(.[/atom], "id_tag")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj
+	//
+	LAZYADD(.[/obj], "visibility")
+	LAZYADD(.[/obj], "suit_fibers")
+	LAZYADD(.[/obj], "fingerprints")
+	LAZYADD(.[/obj], "gunshot_resique")
+	LAZYADD(.[/obj], "contents")
+	LAZYADD(.[/obj], "density")
+	LAZYADD(.[/obj], "dir")
+	LAZYADD(.[/obj], "icon")
+	LAZYADD(.[/obj], "icon_state")
+	LAZYADD(.[/obj], "name")
+	LAZYADD(.[/obj], "opacity")
+	LAZYADD(.[/obj], "pixel_x")
+	LAZYADD(.[/obj], "pixel_y")
+	LAZYADD(.[/obj], "loc")
+	LAZYADD(.[/obj], "id_tag")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/robot_component
+	//
+	LAZYADD(.[/datum/robot_component], "name")
+	LAZYADD(.[/datum/robot_component], "installed")
+	LAZYADD(.[/datum/robot_component], "powered")
+	LAZYADD(.[/datum/robot_component], "toggled")
+	LAZYADD(.[/datum/robot_component], "brute_damage")
+	LAZYADD(.[/datum/robot_component], "electronics_damage")
+	LAZYADD(.[/datum/robot_component], "max_damage")
+	LAZYADD(.[/datum/robot_component], "external_type")
+	LAZYADD(.[/datum/robot_component], "wrapped")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /mob/living/simple_animal/corgi/puppy
+	//
+	LAZYADD(.[/mob/living/simple_animal/corgi/puppy], "max_health")
+	LAZYADD(.[/mob/living/simple_animal/corgi/puppy], "color")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/clothing/shoes
+	//
+	LAZYADD(.[/obj/item/clothing/shoes], "overshoes")
+	LAZYADD(.[/obj/item/clothing/shoes], "hidden_item")
+	LAZYADD(.[/obj/item/clothing/shoes], "attached_cuffs")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/clothing/suit
+	//
+	LAZYADD(.[/obj/item/clothing/suit], "allowed")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/clothing/under/rank/psych/turtleneck/sweater
+	//
+	LAZYADD(.[/obj/item/clothing/under/rank/psych/turtleneck/sweater], "contents")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/clothing/under
+	//
+	LAZYADD(.[/obj/item/clothing/under], "sensor_mode")
+	LAZYADD(.[/obj/item/clothing/under], "rolled_down")
+	LAZYADD(.[/obj/item/clothing/under], "rolled_sleeves")
+	LAZYADD(.[/obj/item/clothing/under], "worn_state")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/electronic_assembly/medium
+	//
+	LAZYADD(.[/obj/item/electronic_assembly/medium], "opened")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/flashlight/flare
+	//
+	LAZYADD(.[/obj/item/flashlight/flare], "fuel")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/tankassemblyproxy
+	//
+	LAZYADD(.[/obj/item/tankassemblyproxy], "tank")
+	LAZYADD(.[/obj/item/tankassemblyproxy], "assembly")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/disposal_switch_construct
+	//
+	LAZYADD(.[/obj/item/disposal_switch_construct], "id_tag")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/integrated_circuit/manipulation/ai
+	//
+	LAZYADD(.[/obj/item/integrated_circuit/manipulation/ai], "aicard")
+	LAZYADD(.[/obj/item/integrated_circuit/manipulation/ai], "controlling")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/pizzabox
+	//
+	LAZYADD(.[/obj/item/pizzabox], "pizza")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/robot_parts/chest
+	//
+	LAZYADD(.[/obj/item/robot_parts/chest], "wires")
+	LAZYADD(.[/obj/item/robot_parts/chest], "cell")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/robot_parts/head
+	//
+	LAZYADD(.[/obj/item/robot_parts/head], "flash1")
+	LAZYADD(.[/obj/item/robot_parts/head], "flash2")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stack/material/generic
+	//
+	LAZYADD(.[/obj/item/stack/material/generic], "material")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/cell/apc
+	//
+	LAZYADD(.[/obj/item/cell/apc], "maxcharge")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/cell/device/variable
+	//
+	LAZYADD(.[/obj/item/cell/device/variable], "maxcharge")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stock_parts
+	//
+	LAZYADD(.[/obj/item/stock_parts], "rating")
+	LAZYADD(.[/obj/item/stock_parts], "status")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stock_parts/computer/ai_slot
+	//
+	LAZYADD(.[/obj/item/stock_parts/computer/ai_slot], "stored_card")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stock_parts/computer/battery_module
+	//
+	LAZYADD(.[/obj/item/stock_parts/computer/battery_module], "battery")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stock_parts/computer/hard_drive
+	//
+	LAZYADD(.[/obj/item/stock_parts/computer/hard_drive], "stored_files")
+	LAZYADD(.[/obj/item/stock_parts/computer/hard_drive], "used_capacity")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stock_parts/computer/card_slot
+	//
+	LAZYADD(.[/obj/item/stock_parts/computer/card_slot], "stored_card")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stock_parts/computer/nano_printer
+	//
+	LAZYADD(.[/obj/item/stock_parts/computer/nano_printer], "stored_paper")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stock_parts/computer/
+	//
+	LAZYADD(.[/obj/item/stock_parts/computer/], "damage")
+	LAZYADD(.[/obj/item/stock_parts/computer/], "enabled")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/disk/tech_disk
+	//
+	LAZYADD(.[/obj/item/disk/tech_disk], "stored")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/disk/tech_disk
+	//
+	LAZYADD(.[/obj/item/disk/tech_disk], "stored")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/disk/tech_disk
+	//
+	LAZYADD(.[/obj/item/disk/tech_disk], "stored")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/ducttape
+	//
+	LAZYADD(.[/obj/item/ducttape], "stuck")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/flamethrower/full
+	//
+	LAZYADD(.[/obj/item/flamethrower/full], "tank")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/material/
+	//
+	LAZYADD(.[/obj/item/material/], "material")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/tank
+	//
+	LAZYADD(.[/obj/item/tank], "air_contents")
+	LAZYADD(.[/obj/item/tank], "distribute_pressure")
+	LAZYADD(.[/obj/item/tank], "valve_welded")
+	LAZYADD(.[/obj/item/tank], "proxyassembly")
+	LAZYADD(.[/obj/item/tank], "wired")
+	LAZYADD(.[/obj/item/tank], "leaking")
+	LAZYADD(.[/obj/item/tank], "starting_pressure")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/button
+	//
+	LAZYADD(.[/obj/machinery/button], "active")
+	LAZYADD(.[/obj/machinery/button], "operating")
+	LAZYADD(.[/obj/machinery/button], "in_use")
+	LAZYADD(.[/obj/machinery/button], "public_variables")
+	LAZYADD(.[/obj/machinery/button], "public_methods")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/access_button
+	//
+	LAZYADD(.[/obj/machinery/access_button], "master_tag")
+	LAZYADD(.[/obj/machinery/access_button], "frequency")
+	LAZYADD(.[/obj/machinery/access_button], "command")
+	LAZYADD(.[/obj/machinery/access_button], "on")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/atmospherics/pipe
+	//
+	LAZYADD(.[/obj/machinery/atmospherics/pipe], "reagents")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/fabricator
+	//
+	LAZYADD(.[/obj/machinery/fabricator], "stored_material")
+	LAZYADD(.[/obj/machinery/fabricator], "contents")
+	LAZYADD(.[/obj/machinery/fabricator], "has_recycler")
+	LAZYADD(.[/obj/machinery/fabricator], "base_icon_state")
+	LAZYADD(.[/obj/machinery/fabricator], "panel_image")
+	LAZYADD(.[/obj/machinery/fabricator], "queued_orders")
+	LAZYADD(.[/obj/machinery/fabricator], "currently_building")
+	LAZYADD(.[/obj/machinery/fabricator], "storage_capacity")
+	LAZYADD(.[/obj/machinery/fabricator], "show_category")
+	LAZYADD(.[/obj/machinery/fabricator], "fab_status_flags")
+	LAZYADD(.[/obj/machinery/fabricator], "mat_efficiency")
+	LAZYADD(.[/obj/machinery/fabricator], "build_time_multiplier")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/conveyor_switch
+	//
+	LAZYADD(.[/obj/machinery/conveyor_switch], "id")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/disposal_switch
+	//
+	LAZYADD(.[/obj/machinery/disposal_switch], "id_tag")
+	LAZYADD(.[/obj/machinery/disposal_switch], "on")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/integrated_circuit_printer
+	//
+	LAZYADD(.[/obj/item/integrated_circuit_printer], "upgraded")
+	LAZYADD(.[/obj/item/integrated_circuit_printer], "materials")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/iv_drip
+	//
+	LAZYADD(.[/obj/structure/iv_drip], "mode")
+	LAZYADD(.[/obj/structure/iv_drip], "beaker")
+	LAZYADD(.[/obj/structure/iv_drip], "attached")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/portable_atmospherics/canister/air
+	//
+	LAZYADD(.[/obj/machinery/portable_atmospherics/canister/air], "destroyed")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/canister/air], "health")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/canister/air], "valve_open")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/canister/air], "release_pressure")
+	LAZYADD(.[/obj/machinery/portable_atmospherics/canister/air], "canister_color")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/power/port_gen/pacman
+	//
+	LAZYADD(.[/obj/machinery/power/port_gen/pacman], "sheets")
+	LAZYADD(.[/obj/machinery/power/port_gen/pacman], "sheets_left")
+	LAZYADD(.[/obj/machinery/power/port_gen/pacman], "operating_temperature")
+	LAZYADD(.[/obj/machinery/power/port_gen/pacman], "overheating")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/power/solar_control
+	//
+	LAZYADD(.[/obj/machinery/power/solar_control], "connected_tracker")
+	LAZYADD(.[/obj/machinery/power/solar_control], "connected_panels")
+	LAZYADD(.[/obj/machinery/power/solar_control], "trackrate")
+	LAZYADD(.[/obj/machinery/power/solar_control], "targetdir")
+	LAZYADD(.[/obj/machinery/power/solar_control], "track")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/telecomms/bus
+	//
+	LAZYADD(.[/obj/machinery/telecomms/bus], "change_frequency")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/telecomms/processor
+	//
+	LAZYADD(.[/obj/machinery/telecomms/processor], "process_mode")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/telecomms/server
+	//
+	LAZYADD(.[/obj/machinery/telecomms/server], "log_entries")
+	LAZYADD(.[/obj/machinery/telecomms/server], "stored_names")
+	LAZYADD(.[/obj/machinery/telecomms/server], "TrafficActions")
+	LAZYADD(.[/obj/machinery/telecomms/server], "logs")
+	LAZYADD(.[/obj/machinery/telecomms/server], "memory")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/disposalpipe/diversion_junction
+	//
+	LAZYADD(.[/obj/structure/disposalpipe/diversion_junction], "active")
+	LAZYADD(.[/obj/structure/disposalpipe/diversion_junction], "active_dir")
+	LAZYADD(.[/obj/structure/disposalpipe/diversion_junction], "inactive_dir")
+	LAZYADD(.[/obj/structure/disposalpipe/diversion_junction], "sortdir")
+	LAZYADD(.[/obj/structure/disposalpipe/diversion_junction], "id_tag")
+	LAZYADD(.[/obj/structure/disposalpipe/diversion_junction], "linked")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/disposalpipe/sortjunction
+	//
+	LAZYADD(.[/obj/structure/disposalpipe/sortjunction], "sortdir")
+	LAZYADD(.[/obj/structure/disposalpipe/sortjunction], "posdir")
+	LAZYADD(.[/obj/structure/disposalpipe/sortjunction], "negdir")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/disposalpipe/tagger
+	//
+	LAZYADD(.[/obj/structure/disposalpipe/tagger], "sorttag")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/lift/panel
+	//
+	LAZYADD(.[/obj/structure/lift/panel], "lift")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /turf/simulated/mineral
+	//
+	LAZYADD(.[/turf/simulated/mineral], "resources")
+	LAZYADD(.[/turf/simulated/mineral], "mineral")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /turf/simulated/floor
+	//
+	LAZYADD(.[/turf/simulated/floor], "burnt")
+	LAZYADD(.[/turf/simulated/floor], "broken")
+	LAZYADD(.[/turf/simulated/floor], "icon_state")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /image
+	//
+	LAZYADD(.[/image], "color")
+	LAZYADD(.[/image], "transform")
+	LAZYADD(.[/image], "icon")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/wrapper/area
+	//
+	LAZYADD(.[/datum/wrapper/area], "area_type")
+	LAZYADD(.[/datum/wrapper/area], "name")
+	LAZYADD(.[/datum/wrapper/area], "turfs")
+	LAZYADD(.[/datum/wrapper/area], "has_gravity")
+	LAZYADD(.[/datum/wrapper/area], "apc")
+	LAZYADD(.[/datum/wrapper/area], "power_light")
+	LAZYADD(.[/datum/wrapper/area], "power_equip")
+	LAZYADD(.[/datum/wrapper/area], "power_environ")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /zone
+	//
+	LAZYADD(.[/zone], "name")
+	LAZYADD(.[/zone], "contents")
+	LAZYADD(.[/zone], "air")
+	LAZYADD(.[/zone], "fire_tiles")
+	LAZYADD(.[/zone], "edges")
+	LAZYADD(.[/zone], "fuel_objs")
+	LAZYADD(.[/zone], "last_air_temperature")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/wrapper/multiz
+	//
+	LAZYADD(.[/datum/wrapper/multiz], "saved_z_levels")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/light
+	//
+	LAZYADD(.[/obj/machinery/light], "status")
+	LAZYADD(.[/obj/machinery/light], "switchcount")
+	LAZYADD(.[/obj/machinery/light], "rigged")
+	LAZYADD(.[/obj/machinery/light], "broken_chance")
+	LAZYADD(.[/obj/machinery/light], "b_colour")
+	LAZYADD(.[/obj/machinery/light], "current_mode")
+	LAZYADD(.[/obj/machinery/light], "icon_state")
+	LAZYADD(.[/obj/machinery/light], "base_state")
+	LAZYADD(.[/obj/machinery/light], "light_type")
+	LAZYADD(.[/obj/machinery/light], "on")
+	LAZYADD(.[/obj/machinery/light], "lightbulb")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/ladder
+	//
+	LAZYADD(.[/obj/structure/ladder], "allowed_directions")
+	LAZYADD(.[/obj/structure/ladder], "target_up")
+	LAZYADD(.[/obj/structure/ladder], "target_down")
+	LAZYADD(.[/obj/structure/ladder], "climb_time")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/stairs
+	//
+	LAZYADD(.[/obj/structure/stairs], "layer")
+	LAZYADD(.[/obj/structure/stairs], "bound_height")
+	LAZYADD(.[/obj/structure/stairs], "dir")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/power/supermatter
+	//
+	LAZYADD(.[/obj/machinery/power/supermatter], "nitrogen_retardation_factor")
+	LAZYADD(.[/obj/machinery/power/supermatter], "thermal_release_modifier")
+	LAZYADD(.[/obj/machinery/power/supermatter], "phoron_release_modifier")
+	LAZYADD(.[/obj/machinery/power/supermatter], "oxygen_release_modifier")
+	LAZYADD(.[/obj/machinery/power/supermatter], "radiation_release_modifier")
+	LAZYADD(.[/obj/machinery/power/supermatter], "reaction_power_modifier")
+	LAZYADD(.[/obj/machinery/power/supermatter], "power_factor")
+	LAZYADD(.[/obj/machinery/power/supermatter], "decay_factor")
+	LAZYADD(.[/obj/machinery/power/supermatter], "critical_temperature")
+	LAZYADD(.[/obj/machinery/power/supermatter], "charging_factor")
+	LAZYADD(.[/obj/machinery/power/supermatter], "damage_rate_limit")
+	LAZYADD(.[/obj/machinery/power/supermatter], "gasefficency")
+	LAZYADD(.[/obj/machinery/power/supermatter], "damage")
+	LAZYADD(.[/obj/machinery/power/supermatter], "light_color")
+	LAZYADD(.[/obj/machinery/power/supermatter], "warning_color")
+	LAZYADD(.[/obj/machinery/power/supermatter], "emergency_color")
+	LAZYADD(.[/obj/machinery/power/supermatter], "grav_pulling")
+	LAZYADD(.[/obj/machinery/power/supermatter], "pull_time")
+	LAZYADD(.[/obj/machinery/power/supermatter], "explosion_power")
+	LAZYADD(.[/obj/machinery/power/supermatter], "emergency_issued")
+	LAZYADD(.[/obj/machinery/power/supermatter], "lastwarning")
+	LAZYADD(.[/obj/machinery/power/supermatter], "exploded")
+	LAZYADD(.[/obj/machinery/power/supermatter], "power")
+	LAZYADD(.[/obj/machinery/power/supermatter], "oxygen")
+	LAZYADD(.[/obj/machinery/power/supermatter], "config_bullet_energy")
+	LAZYADD(.[/obj/machinery/power/supermatter], "config_hallucination_power")
+	LAZYADD(.[/obj/machinery/power/supermatter], "aw_normal")
+	LAZYADD(.[/obj/machinery/power/supermatter], "aw_notify")
+	LAZYADD(.[/obj/machinery/power/supermatter], "aw_warning")
+	LAZYADD(.[/obj/machinery/power/supermatter], "aw_danger")
+	LAZYADD(.[/obj/machinery/power/supermatter], "aw_emerg")
+	LAZYADD(.[/obj/machinery/power/supermatter], "aw_delam")
+	LAZYADD(.[/obj/machinery/power/supermatter], "aw_EPR")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/kinetic_harvester
+	//
+	LAZYADD(.[/obj/machinery/kinetic_harvester], "stored")
+	LAZYADD(.[/obj/machinery/kinetic_harvester], "harvesting")
+	LAZYADD(.[/obj/machinery/kinetic_harvester], "harvest_from")
+	LAZYADD(.[/obj/machinery/kinetic_harvester], "initial_id_tag")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/power/fusion_core
+	//
+	LAZYADD(.[/obj/machinery/power/fusion_core], "owned_field")
+	LAZYADD(.[/obj/machinery/power/fusion_core], "field_strength")
+	LAZYADD(.[/obj/machinery/power/fusion_core], "initial_id_tag")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/effect/fusion_em_field
+	//
+	LAZYADD(.[/obj/effect/fusion_em_field], "size")
+	LAZYADD(.[/obj/effect/fusion_em_field], "energy")
+	LAZYADD(.[/obj/effect/fusion_em_field], "plasma_temperature")
+	LAZYADD(.[/obj/effect/fusion_em_field], "radiation")
+	LAZYADD(.[/obj/effect/fusion_em_field], "field_strength")
+	LAZYADD(.[/obj/effect/fusion_em_field], "tick_instability")
+	LAZYADD(.[/obj/effect/fusion_em_field], "percent_unstable")
+	LAZYADD(.[/obj/effect/fusion_em_field], "owned_core")
+	LAZYADD(.[/obj/effect/fusion_em_field], "reactants")
+	LAZYADD(.[/obj/effect/fusion_em_field], "particle_catchers")
+	LAZYADD(.[/obj/effect/fusion_em_field], "light_min_range")
+	LAZYADD(.[/obj/effect/fusion_em_field], "light_min_power")
+	LAZYADD(.[/obj/effect/fusion_em_field], "light_max_range")
+	LAZYADD(.[/obj/effect/fusion_em_field], "light_max_power")
+	LAZYADD(.[/obj/effect/fusion_em_field], "last_range")
+	LAZYADD(.[/obj/effect/fusion_em_field], "last_power")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/fuel_assembly
+	//
+	LAZYADD(.[/obj/item/fuel_assembly], "material_name")
+	LAZYADD(.[/obj/item/fuel_assembly], "percent_depleted")
+	LAZYADD(.[/obj/item/fuel_assembly], "rod_quantities")
+	LAZYADD(.[/obj/item/fuel_assembly], "fuel_type")
+	LAZYADD(.[/obj/item/fuel_assembly], "fuel_colour")
+	LAZYADD(.[/obj/item/fuel_assembly], "radioactivity")
+	LAZYADD(.[/obj/item/fuel_assembly], "initial_amount")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/fusion_fuel_injector
+	//
+	LAZYADD(.[/obj/machinery/fusion_fuel_injector], "fuel_usage")
+	LAZYADD(.[/obj/machinery/fusion_fuel_injector], "initial_id_tag")
+	LAZYADD(.[/obj/machinery/fusion_fuel_injector], "injecting")
+	LAZYADD(.[/obj/machinery/fusion_fuel_injector], "cur_assembly")
+	LAZYADD(.[/obj/machinery/fusion_fuel_injector], "injection_rate")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/computer/fusion
+	//
+	LAZYADD(.[/obj/machinery/computer/fusion], "ui_template")
+	LAZYADD(.[/obj/machinery/computer/fusion], "initial_id_tag")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/effect/fusion_particle_catcher
+	//
+	LAZYADD(.[/obj/effect/fusion_particle_catcher], "parent")
+	LAZYADD(.[/obj/effect/fusion_particle_catcher], "mysize")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/compressor
+	//
+	LAZYADD(.[/obj/machinery/compressor], "turbine")
+	LAZYADD(.[/obj/machinery/compressor], "gas_contained")
+	LAZYADD(.[/obj/machinery/compressor], "inturf")
+	LAZYADD(.[/obj/machinery/compressor], "starter")
+	LAZYADD(.[/obj/machinery/compressor], "rpm")
+	LAZYADD(.[/obj/machinery/compressor], "rpmtarget")
+	LAZYADD(.[/obj/machinery/compressor], "capacity")
+	LAZYADD(.[/obj/machinery/compressor], "comp_id")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/power/turbine
+	//
+	LAZYADD(.[/obj/machinery/power/turbine], "compressor")
+	LAZYADD(.[/obj/machinery/power/turbine], "outturf")
+	LAZYADD(.[/obj/machinery/power/turbine], "lastgen")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/computer/turbine_computer
+	//
+	LAZYADD(.[/obj/machinery/computer/turbine_computer], "compressor")
+	LAZYADD(.[/obj/machinery/computer/turbine_computer], "doors")
+	LAZYADD(.[/obj/machinery/computer/turbine_computer], "door_status")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stock_parts/radio/receiver
+	//
+	LAZYADD(.[/obj/item/stock_parts/radio/receiver], "receive_and_write")
+	LAZYADD(.[/obj/item/stock_parts/radio/receiver], "receive_and_call")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stock_parts/radio/transmitter
+	//
+	LAZYADD(.[/obj/item/stock_parts/radio/transmitter], "range")
+	LAZYADD(.[/obj/item/stock_parts/radio/transmitter], "latency")
+	LAZYADD(.[/obj/item/stock_parts/radio/transmitter], "buffer")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stock_parts/radio
+	//
+	LAZYADD(.[/obj/item/stock_parts/radio], "frequency")
+	LAZYADD(.[/obj/item/stock_parts/radio], "id_tag")
+	LAZYADD(.[/obj/item/stock_parts/radio], "filter")
+	LAZYADD(.[/obj/item/stock_parts/radio], "encryption")
+	LAZYADD(.[/obj/item/stock_parts/radio], "multitool_extension")
+	LAZYADD(.[/obj/item/stock_parts/radio], "radio")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stock_parts/power/terminal
+	//
+	LAZYADD(.[/obj/item/stock_parts/power/terminal], "terminal_dir")
+	LAZYADD(.[/obj/item/stock_parts/power/terminal], "terminal")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/stock_parts/power/terminal
+	//
+	LAZYADD(.[/obj/item/stock_parts/power/terminal], "priority")
+	LAZYADD(.[/obj/item/stock_parts/power/terminal], "cached_channel")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/power/emitter/gyrotron
+	//
+	LAZYADD(.[/obj/machinery/power/emitter/gyrotron], "initial_id_tag")
+	LAZYADD(.[/obj/machinery/power/emitter/gyrotron], "rate")
+	LAZYADD(.[/obj/machinery/power/emitter/gyrotron], "mega_energy")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/ntnet_relay
+	//
+	LAZYADD(.[/obj/machinery/ntnet_relay], "enabled")
+	LAZYADD(.[/obj/machinery/ntnet_relay], "dos_failure")
+	LAZYADD(.[/obj/machinery/ntnet_relay], "dos_sources")
+	LAZYADD(.[/obj/machinery/ntnet_relay], "dos_overload")
+	LAZYADD(.[/obj/machinery/ntnet_relay], "dos_capacity")
+	LAZYADD(.[/obj/machinery/ntnet_relay], "dos_dissipate")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/structure/lift
+	//
+	LAZYADD(.[/obj/structure/lift], "lift")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/machinery/door/blast
+	//
+	LAZYADD(.[/obj/machinery/door/blast], "icon_state_open")
+	LAZYADD(.[/obj/machinery/door/blast], "icon_state_opening")
+	LAZYADD(.[/obj/machinery/door/blast], "icon_state_closed")
+	LAZYADD(.[/obj/machinery/door/blast], "icon_state_closing")
+	LAZYADD(.[/obj/machinery/door/blast], "icon_state_open_broken")
+	LAZYADD(.[/obj/machinery/door/blast], "icon_state_closed_broken")
+	LAZYADD(.[/obj/machinery/door/blast], "begins_closed")
+	LAZYADD(.[/obj/machinery/door/blast], "implicit_material")
+	LAZYADD(.[/obj/machinery/door/blast], "min_force")
+	LAZYADD(.[/obj/machinery/door/blast], "maxhealth")
+	LAZYADD(.[/obj/machinery/door/blast], "block_air_zones")
+	LAZYADD(.[/obj/machinery/door/blast], "explosion_resistance")
+	LAZYADD(.[/obj/machinery/door/blast], "pry_mod")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/fabricator_build_order
+	//
+	LAZYADD(.[/datum/fabricator_build_order], "target_recipe")
+	LAZYADD(.[/datum/fabricator_build_order], "multiplier")
+	LAZYADD(.[/datum/fabricator_build_order], "remaining_time")
+	LAZYADD(.[/datum/fabricator_build_order], "earmarked_materials")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /datum/fabricator_recipe
+	//
+	LAZYADD(.[/datum/fabricator_recipe], "name")
+	LAZYADD(.[/datum/fabricator_recipe], "path")
+	LAZYADD(.[/datum/fabricator_recipe], "hidden")
+	LAZYADD(.[/datum/fabricator_recipe], "category")
+	LAZYADD(.[/datum/fabricator_recipe], "resources")
+	LAZYADD(.[/datum/fabricator_recipe], "build_time")
+	LAZYADD(.[/datum/fabricator_recipe], "ignore_materials")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/effect/fake_fire
+	//
+	LAZYADD(.[/obj/effect/fake_fire], "lifetime")
+	LAZYADD(.[/obj/effect/fake_fire], "firelevel")
+	LAZYADD(.[/obj/effect/fake_fire], "last_temperature")
+	LAZYADD(.[/obj/effect/fake_fire], "pressure")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/item/razorweb
+	//
+	LAZYADD(.[/obj/item/razorweb], "web_type")
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/effect/fluid
+	//
+
+
+	//////////////////////////////////////////////////////////////////////////////
+	//
+	// /obj/effect/effect/smoke/chem
+	//
+
+
+	for(var/type in .)
+		for (var/subtype in subtypesof(type))
+			for (var/v in .[type])
+				LAZYDISTINCTADD(.[subtype], v)
+

@@ -49,6 +49,8 @@
 	* mob/RangedAttack(atom,params) - used only ranged, only used for tk and laser eyes but could be changed
 */
 /mob/proc/ClickOn(var/atom/A, var/params)
+	if(SSautosave.saving)
+		return
 
 	if(world.time <= next_click) // Hard check, before anything else, to avoid crashing
 		return
@@ -164,6 +166,9 @@
 // Default behavior: ignore double clicks, the second click that makes the doubleclick call already calls for a normal click
 /mob/proc/DblClickOn(var/atom/A, var/params)
 	. = A.show_atom_list_for_turf(src, get_turf(A))
+	if(SSautosave.saving)
+		return
+	return
 
 /*
 	Translates into attack_hand, etc.
