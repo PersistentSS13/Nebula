@@ -2337,6 +2337,7 @@
 	LAZYADD(.[/mob], "feet_blood_color")
 	LAZYADD(.[/mob], "gender")
 	LAZYADD(.[/mob], "id_tag")
+	LAZYADD(.[/mob], "saved_ckey")
 
 
 	//////////////////////////////////////////////////////////////////////////////
@@ -3193,6 +3194,8 @@
 	LAZYADD(.[/datum/skillset], "skill_list")
 	LAZYADD(.[/datum/skillset], "owner")
 	LAZYADD(.[/datum/skillset], "skill_buffs")
+	LAZYADD(.[/datum/skillset], "time_skills_set")
+	LAZYADD(.[/datum/skillset], "points_remaining")
 
 
 	for(var/type in .)
