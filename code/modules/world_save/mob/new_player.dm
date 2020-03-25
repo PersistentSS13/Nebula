@@ -18,9 +18,9 @@
 	if(!SScharacter_setup.initialized && !force)
 		return // Not ready yet.
 	var/output = list()
+	output += "<div align='center'>"
 	if(GAME_STATE < RUNLEVEL_GAME)
 		output += "<span class='average'><b>The Game Is Loading!</b></span><br><br>"
-	output += "<div align='center'>"
 	output += "<i>[GLOB.using_map.get_map_info()]</i>"
 	output +="<hr>"
 	output += "<a href='byond://?src=\ref[src];setupCharacter=1'>Set up character</A> "
@@ -217,7 +217,7 @@ mob/new_player/MayRespawn()
 	close_browser(src, "window=latechoices") //closes late choices window
 	panel.close()
 
-// Taken and adjusted from jobs.dm to reduce dependencies on subsystems for Persistence. Available gear can be adjuste using loadout_blacklist for the map.
+// Taken and adjusted from jobs.dm to reduce dependencies on subsystems for Persistence. Available gear can be adjusted using loadout_blacklist for the map.
 /proc/apply_custom_loadout(var/mob/living/carbon/human/H)
 
 	if(!H || !H.client)
@@ -243,20 +243,6 @@ mob/new_player/MayRespawn()
 					spawn_in_storage.Add(G)
 				else
 					loadout_taken_slots.Add(G.slot)
-
-	// do accessories last so they don't attach to a suit that will be replaced
-	if(H.char_rank && H.char_rank.accessory)
-		for(var/accessory_path in H.char_rank.accessory)
-			var/list/accessory_data = H.char_rank.accessory[accessory_path]
-			if(islist(accessory_data))
-				var/amt = accessory_data[1]
-				var/list/accessory_args = accessory_data.Copy()
-				accessory_args[1] = src
-				for(var/i in 1 to amt)
-					H.equip_to_slot_or_del(new accessory_path(arglist(accessory_args)), slot_tie)
-			else
-				for(var/i in 1 to (isnull(accessory_data)? 1 : accessory_data))
-					H.equip_to_slot_or_del(new accessory_path(src), slot_tie)
 
 	if(spawn_in_storage)
 		for(var/datum/gear/G in spawn_in_storage)
