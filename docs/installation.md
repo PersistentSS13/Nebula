@@ -22,11 +22,11 @@ A database will also be required to enable persistence. You can get MySQL from [
 
 HeidiSQL is available [here](https://www.heidisql.com/download.php) or alternatively it's possible to use MySQL workbench available [here](https://dev.mysql.com/downloads/workbench/). Once that's downloaded, installed, and connected to the database. Create a database called **persistence** and execute to **schema.sql** which is available at the base level of this repository.
 
-This is a sourcecode-only release, so the next step is to compile the server files.  Open `baystation12.dme` by double-clicking it, open the Build menu, and click compile.  This'll take a little while, and if everything's done right you'll get a message like this:
+This is a sourcecode-only release, so the next step is to compile the server files.  Open `nebula.dme` by double-clicking it, open the Build menu, and click compile.  This'll take a little while, and if everything's done right you'll get a message like this:
 
-    saving baystation12.dmb (DEBUG mode)
+    saving nebula.dmb (DEBUG mode)
     
-    baystation12.dmb - 0 errors, 0 warnings
+    nebula.dmb - 0 errors, 0 warnings
 
 If you see any errors or warnings, something has gone wrong - possibly a corrupt download or the files extracted wrong, or a code issue on the main repo.  Ask on IRC or discord.
 
@@ -48,7 +48,7 @@ Edit `admins.txt` to remove the default admins and add your own.  "Game Master" 
 
 where the BYOND key must be in lowercase and the admin rank must be properly capitalised.  There are a bunch more admin ranks, but these two should be enough for most servers, assuming you have trustworthy admins.
 
-To start the server, run Dream Daemon and enter the path to your compiled `baystation12.dmb` file.  Make sure to set the port to the one you  specified in the `config.txt`, and set the Security box to 'Trusted' so you don't have to confirm access to every single configuration and storage file for the server.  Then press GO and the server should start up and be ready to join.
+To start the server, run Dream Daemon and enter the path to your compiled `nebula.dmb` file.  Make sure to set the port to the one you  specified in the `config.txt`, and set the Security box to 'Trusted' so you don't have to confirm access to every single configuration and storage file for the server.  Then press GO and the server should start up and be ready to join.
 
 ---
 
