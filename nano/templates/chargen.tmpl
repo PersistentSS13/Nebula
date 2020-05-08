@@ -1,0 +1,121 @@
+</div>
+	<div class='block' style='clear: both;'>
+		<center><h2>Welcome to Outreach</h2></center>
+		<center>
+			We're excited that you've decided to join the Outreach Outpost immigration program. Please fill out the below application for processing.
+		</center>
+		<center>
+			Once the application is complete, enter the cryopod to begin your journey to Outreach.
+		</center>
+	</div>
+</div>
+
+<div style="float:left;width:50%;">
+	<fieldset style="min-height:180px;background-color: #202020;">
+		<legend style="text-align:center">Dossier Fields</legend> 
+		<div class='item'>
+			<div class="itemLabelWider">
+				Age:
+			</div>
+			<div style="float:right">
+				{{:helper.link(data.age, null, { 'action' : 'choose_age'}, null, null)}}
+			</div>
+		</div>
+		<div class='item'>
+			<div class="itemLabelWider">
+				Born on:
+			</div>
+			<div style="float:right">
+				{{:helper.link(data.origin, null, { 'action' : 'choose_origin'}, null, data.active == 'origin' ? 'yellowButton' : null)}}
+			</div>
+		</div> 
+		<div class='item'>
+			<div class="itemLabelWider">
+				Prior career:
+			</div>
+			<div style="float:right">
+				{{:helper.link(data.role, null, { 'action' : 'choose_role'}, null, data.active == 'role' ? 'yellowButton' : null)}}
+			</div>
+		</div> 
+		<div class='item'>
+			<div class="itemLabelWider">
+				Special exceptions:
+			</div>
+			<div style="float:right">
+				{{:helper.link('Traits', null, { 'action' : 'choose_traits'}, null, data.active == 'traits' ? 'yellowButton' : null)}}
+			</div>
+		</div>
+		<div class='item'>
+			<div class="itemLabelWider">
+				Background:
+			</div>
+			<div style="float:right">
+				{{:helper.link('Background', null, { 'action' : 'choose_background'}, null, data.active == 'background' ? 'yellowButton' : null)}}
+			</div>
+		</div>
+		<div class='item'>
+			<div class="itemLabelWider">
+				{{if data.finished}}
+					{{:helper.link('Unsubmit', null, { 'action' : 'unsubmit' }, null, null)}}
+				{{else}}
+					{{:helper.link('Submit', null, { 'action' : 'submit' }, null, null)}}
+				{{/if}}
+			</div>
+		</div>
+	</fieldset>
+</div>
+	
+<div style="float:left;width:50%">
+	{{if data.active == 'origin' || data.active == 'role' }}
+		<fieldset style="min-height:180px;background-color: #202020;">
+			<legend style="text-align:center">Options</legend>
+			<div class='statusDisplay'>
+				<table style="width:100%">
+				<tr><th style="width:40%">Name<th>Skills<th>Actions
+				{{for data.active == 'origin' ? data.origins : data.roles }}
+					<tr class="candystripe">
+					<td>{{:value.name}}
+					<td>{{:value.skills}}
+					{{if data.active == 'origin'}}
+						<td>{{:helper.link(value.active ? 'Chosen' : 'Choose', null, { 'action' : 'confirm_origin', 'ref': value.ref }, null, value.active ? 'yellowButton' : null)}}
+					{{else}}
+						<td>{{:helper.link(value.active ? 'Chosen' : 'Choose', null, { 'action' : 'confirm_role', 'ref': value.ref }, null, value.active ? 'yellowButton' : null)}}
+					{{/if}}
+				{{/for}}
+			</table>
+		</fieldset>
+	{{else}}
+		other section
+	{{/if}}
+</div>
+
+</div>
+	<div class='block' style='clear: both'>
+		<center><h2>Skills</h2></center>
+		<table style="width:100%">
+		{{for data.skills_by_cat}}
+			<tr>
+			<th>
+				{{:value.name}}
+			</th>
+			</tr>
+			{{for value.skills :skill_value:skill_key}}
+				<tr>
+				<td>
+				<div class="itemLabel">
+					{{:skill_value.name}}:
+				</div>
+				</td>
+				{{for skill_value.levels :level_value:level_key}}
+					{{if !level_value.blank}}
+					<td>
+						{{:helper.link(level_value.name, null, {'value_hit' : level_value.val, 'skill' : skill_value.ref}, null, level_value.selected ? 'selected' : null)}}
+					</td>
+					{{/if}}
+				{{/for}}
+				</tr>
+			{{/for}}
+		{{/for}}
+		</table>
+	</div>
+</div>
