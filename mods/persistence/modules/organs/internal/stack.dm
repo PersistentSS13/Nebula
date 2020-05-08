@@ -19,8 +19,17 @@
 	var/datum/computer_file/data/cloning/backup
 	var/mob/living/carbon/limbo/stackmob = null
 
-/obj/item/organ/internal/stack/Initialize()
+	var/obj/item/radio/stack_radio/radio
+	var/cortical_alias
+	var/last_alias_change
+
+/obj/item/organ/internal/stack/Initialize(var/mapload, var/datum/dna/given_dna)
 	. = ..()
+
+	radio = new(src)
+	cortical_alias = Gibberish(owner.name, 100)
+	verbs |= /obj/item/organ/internal/stack/proc/change_cortical_alias
+
 	robotize()
 
 /obj/item/organ/internal/stack/examine(var/mob/user)
@@ -61,3 +70,20 @@
 	QDEL_NULL(stackmob)
 	QDEL_NULL(backup)
 	. = ..()
+
+/obj/item/organ/internal/stack/proc/change_cortical_alias()
+	set name = "Change Cortical Chat alias"
+	set desc = "Changes your alias displayed on Cortical Chat."
+	set category = "IC"
+	set src in usr
+	if(!owner || owner.incapacitated())
+		return
+	if(world.time < last_alias_change + 1 MINUTE)
+		to_chat(owner, SPAN_WARNING("You can't adjust your Cortical Chat alias again so soon!"))
+		return
+	var/new_alias = sanitizeName(input("Please enter your new Cortical Chat alias.", "Alias Select", cortical_alias)) as text|null
+	if(new_alias)
+		cortical_alias = new_alias
+		to_chat(owner, SPAN_NOTICE("You change your Cortical Chat alias to [cortical_alias]"))
+		last_alias_change = world.time
+

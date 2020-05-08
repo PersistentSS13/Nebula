@@ -1,0 +1,1 @@
+var/const/COR_FREQ = 1551
