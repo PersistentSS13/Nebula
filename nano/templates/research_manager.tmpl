@@ -1,0 +1,144 @@
+<div class='item'>
+	<div class='itemLabel'>Storage Medium</div>
+	{{:helper.link(data.current_source, null, { "PRG_change_filesource" : 1 }, null)}}
+</div>
+{{if data.fileserver}}
+	<div class='item'>
+		<div class='itemLabel'>File Server</div>
+		{{:helper.link(data.fileserver, null, { "PRG_changefileserver" : 1 }, null)}}
+	</div>
+{{/if}}
+<div class='item'>
+	<div class='itemLabel'>Protolathe</div>
+	{{:helper.link(data.current_protolathe, null, { "PRG_change_protolathe" : 1 }, null)}}
+</div>
+{{if data.error}}
+	<h2>An error has occured:</h2>
+	Additional information: {{:data.error}}<br>
+	<i>Please try again. If the problem persists contact your system administrator for assistance.</i>
+	{{:helper.link('Back to menu', null, { "PRG_closefile" : 1 })}}
+{{else}}
+	<center><h2>Science Management Program</h2></center>
+	<div class='item'>
+		<div class='itemLabel'>Mode</div>
+		<div>
+			{{:helper.link(data.mode, null, { "PRG_changemode" : 1}, null)}}
+		</div>
+	</div>
+	{{if data.mode == 'invention'}}
+		<center><h3>Invention Menu</h3></center>
+	{{else data.mode == 'experimentation'}}
+		<center><h3>Experimentation Menu</h3></center>
+		<div class='item'>
+			<div class='itemLabel'>Blueprint:</div>
+			{{:helper.link(data.blueprint, null, { "PRG_changeblueprint" : 1 }, null)}}
+			{{:helper.link('GENERATE EXPERIMENTS', null, { "PRG_generate_experiments" : 1 }, null)}}
+		</div>
+		<div style="float:left;width:75%">
+			{{for data.experiments}}
+				<fieldset style="min-height:180px;background-color: #202020;">
+					<legend style="text-align:center">Experiment {{:value.id}}</legend> 
+					<div class='item'>
+						<div class="itemLabelWider">
+							Stasus:
+						</div>
+						<div style="float:right">
+							{{:value.status}}
+						</div>
+					</div>
+					<div class='item'>
+						<div class="itemLabelWider">
+							Improves:
+						</div>
+						<div style="float:right">
+							{{:value.improves}}
+						</div>
+					</div>
+					<div class='item'>
+						<div class="itemLabelWider">
+							Requirements:
+						</div>
+						<div style="float:right">
+							{{:value.tech_levels}}
+						</div>
+					</div>
+					<div class='item'>
+						<div class="itemLabelWider">
+							Code fragments:
+						</div>
+						<div style="float:right">
+							{{:value.code_fragments}}
+						</div>
+					</div>
+					<div class='item'>
+						<div class="itemLabelWider">
+							Actions:
+						</div>
+						<div style="float:right">
+							{{:helper.link('BEGIN', null, { "PRG_beginexperiment" : value.id }, value.undeletable ? 'disabled' : null)}}
+						</div>
+					</div>
+				</fieldset>
+			{{/for}}
+		</div>
+		{{if data.usbconnected}}
+			<h2>Available files (portable device):</h2>
+			<table>
+				<tr><th>File name
+				<th>File type
+				<th>File size (GQ)
+				<th>Operations
+				{{for data.usbfiles}}
+					<tr><td>{{:value.name}}
+					<td>.{{:value.type}}
+					<td>{{:value.size}}GQ
+					<td>
+						{{:helper.link('DELETE', null, { "PRG_usbdeletefile" : value.name }, value.undeletable ? 'disabled' : null)}}
+				{{/for}}
+			</table>
+		{{/if}}
+	{{else data.mode == 'analyze'}}
+		<center><h3>Analyzer Mode</h3></center>
+		<div style="float:left;width:75%;">
+			{{for data.analyzers}}
+				<fieldset style="min-height:180px;background-color: #202020;">
+					<legend style="text-align:center">Destructive Analyzer ({{:value.network_tag}})</legend> 
+					<div class='item'>
+						<div class="itemLabelWider">
+							Loaded with:
+						</div>
+						<div style="float:right">
+							{{:value.loaded_with}}
+						</div>
+					</div>
+					<div class='item'>
+						<div class="itemLabelWider">
+							Tech levels:
+						</div>
+						<div style="float:right">
+							{{:value.tech_levels}}
+						</div>
+					</div>
+					<div class='item'>
+						<div class="itemLabelWider">
+							Experiment
+						</div>
+						<div style="float:right">
+							{{:value.experiment}}
+						</div>
+					</div>
+					<div class='item'>
+						<div class="itemLabelWider">
+							Actions:
+						</div>
+						<div style="float:right">
+							{{if value.loaded_with}}
+								{{:helper.link('Analyze', null, { "PRG_analyze" : value.ref })}}
+								{{:helper.link('Eject', null, { "PRG_eject" : value.ref })}}
+							{{/if}}
+						</div>
+					</div>
+				</fieldset>
+			{{/for}}
+	{{/if}}
+{{/if}}
