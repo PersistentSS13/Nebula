@@ -1,6 +1,7 @@
 /obj/item/experiment
-	name = "experiment #A7B44D"
+	name = "experimental device"
 	icon = 'icons/obj/assemblies/electronic_setups.dmi'
+	material = MAT_STEEL
 	var/max_components = 3
 	var/list/components = list()
 	var/wired = FALSE
@@ -30,6 +31,8 @@
 	. = ..()
 	if(!assembly_icon)
 		assembly_icon = pick(assembly_icons)
+	if(name == initial(name) && !experiment_id)
+		name = "experimental invention ([replacetext(uniqueness_repository.Generate(/datum/uniqueness_generator/phrase), " ", "_")])"
 	update_icon()
 
 /obj/item/experiment/on_update_icon()
@@ -49,6 +52,7 @@
 		if(do_after(user, 50, src))
 			new /obj/item/stack/cable_coil(src, cables_required)
 			wired = FALSE
+			update_icon()
 			to_chat(user, SPAN_NOTICE("You cut the cables and dismantle [src]."))
 
 	// Wiring construction stage.
@@ -67,6 +71,7 @@
 					SPAN_WARNING("\The [user] has added cables to the [src]!"),\
 					"You add cables to [src].")
 				wired = TRUE
+				update_icon()
 				return TRUE
 
 	// Welding construction stage.
@@ -81,12 +86,14 @@
 			if(WT.remove_fuel(25) && do_after(usr, 7))
 				to_chat(user, "You finish [src].")
 				welded = TRUE
+				update_icon()
 			return TRUE
 		else
 			to_chat(user, "You begin disassembling [src]...")
 			if(WT.remove_fuel(25) && do_after(usr, 7))
 				to_chat(user, "You disassemble [src].")
 				welded = FALSE
+				update_icon()
 			return TRUE
 
 
@@ -142,10 +149,28 @@
 		var/list/item_levels = json_decode(H.origin_tech)
 		for(var/item_level in item_levels)
 			if(item_level in tech_levels)
-				tech_levels[item_level] = max(tech_levels[item_level], item_levels[item_level])
+				tech_levels[item_level] += item_levels[item_level]
 			else
 				tech_levels[item_level] = item_levels[item_level]
 	return tech_levels
 
 
 
+/datum/fabricator_recipe/experimental_device
+	name = "experimental device"
+	path = /obj/item/experiment
+	disabled = TRUE
+	var/experiment_id
+	var/experiment_name
+
+/datum/fabricator_recipe/experimental_device/New(var/_id, var/_name)
+	experiment_id = _id
+	experiment_name = _name
+
+/datum/fabricator_recipe/experimental_device/build(var/turf/location, var/amount = 1)
+	var/obj/item/experiment/experiment = ..()
+	if(experiment_id)
+		experiment.experiment_id = experiment_id
+	if(experiment_name)
+		experiment.name = "experimental device ([experiment_name])"
+	return experiment

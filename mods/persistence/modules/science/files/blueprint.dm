@@ -1,4 +1,6 @@
 /datum/computer_file/data/blueprint
+	filetype = "BLP"
+	do_not_edit = TRUE
 	var/instability			= BASE_BLUEPRINT_INSTABILITY	// 0-100 scale of how unstable this blueprint is.
 	var/efficiency			= BASE_BLUEPRINT_EFFICIENCY		// Every material is divided by this to get how much it'll take to make something.
 	var/speed				= BASE_BLUEPRINT_SPEED			// Time to make is divided by this.
@@ -14,11 +16,16 @@
 
 /datum/computer_file/data/blueprint/proc/set_recipe(var/datum/fabricator_recipe/_recipe)
 	recipe = _recipe
-	filename = sanitize("[_recipe.name].[sequential_id("blueprint")]")
-	calculate_size()
+	filename = sanitize("[_recipe.name]")
+	for(var/badchar in list("/","\\",":","*","?","\"","<",">","|","#", ".", " ", ")"))
+		filename = replacetext(filename, badchar, "")
+	filename = replacetext(filename, "(", "-")
+	to_world("created blueprint file [filename]")
+	size = calculate_size()
+	return TRUE
 
 /datum/computer_file/data/blueprint/calculate_size()
-	var/size = ceil(max(1, efficiency + speed + power_efficiency - instability) / compression)
+	var/size = ceil(max(1, efficiency + speed + power_efficiency - (instability / 100)) / compression)
 	if(!recipe)
 		return size
 	for(var/tech in recipe.required_technology)
@@ -50,4 +57,24 @@
 		for(var/i in 1 to 3)
 			experiment.tech_levels[pick_n_take(tech_list)] = 1 + rand(0, experiment.multiplier * 3)
 		experiments += weakref(experiment)
-		holder.store_file(experiment)
+		if(!holder.store_file(experiment))
+			experiments -= weakref(experiment)
+			QDEL_NULL(experiment)
+
+/datum/computer_file/data/blueprint/proc/get_stats()
+	. = list()
+	.+= "Produces: [recipe.name]"
+	.+= "Instability: [instability]%"
+	.+= "Material Efficiency: rating [efficiency] ([100 / efficiency]% of normal cost)"
+	.+= "Speed: rating [speed] ([get_build_time() / 10] seconds)"
+	.+= "File Compression: [(BASE_BLUEPRINT_COMPRESSION / compression) * 100]%"
+	.+= "Power Efficiency: rating [power_efficiency]"
+	.+= "Complexity: [complexity]"
+	var/list/materials = list()
+	var/list/resources = get_resources()
+	for(var/mat_type in resources)
+		var/material/mat = SSmaterials.get_material_datum(mat_type)
+		materials += "[resources[mat_type]]x [mat.display_name]"
+	.+= "Materials: [english_list(materials)]"
+
+	. = jointext(.,"<br>")

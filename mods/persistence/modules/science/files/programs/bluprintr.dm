@@ -1,7 +1,7 @@
-/datum/computer_file/program/research_manager
-	filename = "research_manager"
-	filedesc = "Research Manager"
-	extended_desc = "This program allows management of research."
+/datum/computer_file/program/bluprintr
+	filename = "bluprintr"
+	filedesc = "bluprintr"
+	extended_desc = "This program allows iterative development over blueprints."
 	program_icon_state = "generic"
 	program_key_state = "generic_key"
 	program_menu_icon = "folder-collapsed"
@@ -11,7 +11,6 @@
 	usage_flags = PROGRAM_ALL
 	category = PROG_UTIL
 
-	var/mode = "experimentation"
 	var/datum/computer_file/data/blueprint/open_file
 	var/current_protolathe // Network tag for protolathe.
 	var/error
@@ -22,13 +21,13 @@
 	)
 	var/datum/file_storage/current_filesource = /datum/file_storage/disk
 
-/datum/computer_file/program/research_manager/on_startup(var/mob/living/user, var/datum/extension/interactive/ntos/new_host)
+/datum/computer_file/program/bluprintr/on_startup(var/mob/living/user, var/datum/extension/interactive/ntos/new_host)
 	..()
 	for(var/T in file_sources)
 		file_sources[T] = new T(new_host)
 	current_filesource = file_sources[initial(current_filesource)]
 
-/datum/computer_file/program/research_manager/on_shutdown()
+/datum/computer_file/program/bluprintr/on_shutdown()
 	for(var/T in file_sources)
 		var/datum/file_storage/FS = file_sources[T]
 		qdel(FS)
@@ -37,7 +36,7 @@
 	ui_header = null
 	return ..()
 
-/datum/computer_file/program/research_manager/Topic(href, href_list, state)
+/datum/computer_file/program/bluprintr/Topic(href, href_list, state)
 	. = ..()
 	if(.)
 		return
@@ -84,16 +83,6 @@
 		error = errors
 		return TOPIC_HANDLED
 
-	if(href_list["PRG_usbdeletefile"])
-		. = TOPIC_REFRESH
-		current_filesource.delete_file(href_list["PRG_usbdeletefile"])
-
-	if(href_list["PRG_changemode"])
-		. = TOPIC_REFRESH
-		var/choice = input(user, "Choose a mode:","Research Mode", null) as null|anything in list("experimentation", "invention", "analyze")
-		if(choice)
-			mode = choice
-
 	if(href_list["PRG_changeblueprint"])
 		. = TOPIC_REFRESH
 		var/list/blueprints = list()
@@ -103,28 +92,6 @@
 		if(!choice)
 			return
 		open_file = blueprints[choice]
-
-	if(href_list["PRG_analyze"])
-		. = TOPIC_REFRESH
-		var/datum/computer_network/network = computer.get_network()
-		if(!network)
-			return
-		var/datum/extension/network_device/D = network.get_device_by_tag(href_list["PRG_eject"])
-		var/obj/machinery/destructive_analyzer/DA = D.holder
-		if(DA.loaded_item)
-			DA.process_loaded(user)
-
-	if(href_list["PRG_eject"])
-		. = TOPIC_REFRESH
-		var/datum/computer_network/network = computer.get_network()
-		if(!network)
-			return
-		var/datum/extension/network_device/D = network.get_device_by_tag(href_list["PRG_eject"])
-		var/obj/machinery/destructive_analyzer/DA = D.holder
-		if(DA.loaded_item)
-			DA.loaded_item.dropInto(DA.loc)
-			DA.loaded_item = null
-			DA.update_icon()
 
 	if(href_list["PRG_beginexperiment"])
 		. = TOPIC_REFRESH
@@ -139,13 +106,18 @@
 			to_chat(user, SPAN_NOTICE("A working protolathe must be selected in order to begin an experiment."))
 			current_protolathe = null
 			return
-		var/obj/protolathe = D.holder
-		var/datum/computer_file/data/experiment/experiment = network.find_file_by_name(href_list["PRG_beginexperiment"])
+		var/obj/machinery/fabricator/protolathe = D.holder
+		var/datum/computer_file/data/experiment/experiment = current_filesource.get_file(href_list["PRG_beginexperiment"])
+		if(!istype(experiment))
+			experiment = network.find_file_by_name(href_list["PRG_beginexperiment"])
 		if(!istype(experiment))
 			to_chat(user, SPAN_NOTICE("Unable to find experiment [href_list["PRG_beginexperiment"]]."))
 			return
-		var/obj/item/experiment/experimental_device = new(protolathe.loc)
-		experimental_device.experiment_id = experiment.id
+		var/datum/fabricator_recipe/experimental_device/ED = new(experiment.id, experiment.filename)
+		if(!protolathe.try_queue_build(ED, 1))
+			to_chat(user, SPAN_WARNING("Unable to start experiment. A technical error has occured with the protolathe."))
+			QDEL_NULL(ED)
+			return
 		experiment.begin()
 
 	if(href_list["PRG_generate_experiments"])
@@ -160,7 +132,7 @@
 		if(!network)
 			return
 		var/list/protolathes = list()
-		for(var/obj/machinery/fabricator/protolathe/P in network.get_devices_of_type(/obj/machinery/fabricator/protolathe, user))
+		for(var/obj/machinery/fabricator/protolathe/P in network.get_devices_by_type(/obj/machinery/fabricator/protolathe, user))
 			var/datum/extension/network_device/D = get_extension(P, /datum/extension/network_device)
 			protolathes |= D.network_tag
 		var/choice = input(user, "Choose a protolathe:", "Protolathes", null) as null|anything in protolathes
@@ -168,7 +140,7 @@
 			return
 		current_protolathe = choice
 
-/datum/computer_file/program/research_manager/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1, var/datum/topic_state/state = GLOB.default_state)
+/datum/computer_file/program/bluprintr/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1, var/datum/topic_state/state = GLOB.default_state)
 	. = ..()
 	if(!.)
 		return
@@ -186,64 +158,40 @@
 
 	data["current_protolathe"] = current_protolathe ? current_protolathe : "Not set"
 
-	data["mode"] = uppertext(mode)
 	var/datum/computer_network/network = computer.get_network()
-	switch(mode)
-		if("invention")
+	data["blueprint"] = uppertext(open_file ? open_file.recipe.name : "Not set")
+	if(istype(open_file) && network)
+		data["blueprint_stats"] = open_file.get_stats()
 
-		if("experimentation")
-			data["blueprint"] = uppertext(open_file ? open_file.recipe.name : "Not set")
-			if(istype(open_file))
-				// We can get experiments!
-				data["experiments"] = list()
-				for(var/weakref/E in open_file.experiments)
-					var/datum/computer_file/data/experiment/experiment = E.resolve()
-					if(!istype(experiment))
-						continue // File deleted.
-					var/modifier
-					if(experiment.multiplier >= 3)
-						modifier = "greatly improves"
-					else if(experiment.multiplier >= 2)
-						modifier = "moderately improves"
-					else
-						modifier = "mildly improves"
+		// We can get experiments!
+		data["experiments"] = list()
+		for(var/weakref/E in open_file.experiments)
+			var/datum/computer_file/data/experiment/experiment = E.resolve()
+			if(!istype(experiment))
+				continue // File deleted.
+			var/modifier
+			if(experiment.multiplier >= 3)
+				modifier = "greatly improves"
+			else if(experiment.multiplier >= 2)
+				modifier = "moderately improves"
+			else
+				modifier = "mildly improves"
 
-					var/list/requirements = list()
-					for(var/tech_level in experiment.tech_levels)
-						requirements += "[tech_level] [experiment.tech_levels[tech_level]]"
-					var/list/e_data = list(
-						"id" = experiment.filename,
-						"improves" = "[modifier] [experiment.attribute]",
-						"requirements" = english_list(requirements),
-						"code_fragments" = "",
-						"status" = experiment.in_progress ? "In Progress" : "Proposal"
-					)
-					data["experiments"] += list(e_data)
-		if("analyze")
-			if(istype(network))
-				var/list/analyzers = list()
-				for(var/obj/machinery/destructive_analyzer/DA in network.get_devices_of_type(/obj/machinery/destructive_analyzer, user))
-					var/datum/extension/network_device/device = get_extension(DA, /datum/extension/network_device)
-					var/analyzer = list(
-						"network_tag" = device.network_tag,
-						"loaded_with" = istype(DA.loaded_item) ? DA.loaded_item.name : "Empty"
-					)
-					if(istype(DA.loaded_item))
-						var/list/techlvls = json_decode(DA.loaded_item.origin_tech)
-						var/list/results = list()
-						for(var/techlvl in techlvls)
-							results += "[techlvl] [techlvls[techlvl]]"
-						analyzer["tech_levels"] = english_list(results)
-						if(istype(DA.loaded_item, /obj/item/experiment))
-							var/obj/item/experiment/experiment = DA.loaded_item
-							analyzer["experiment"] = experiment.experiment_id ? "experiment [experiment.experiment_id]" : "invention"
-						else
-							analyzer["experiment"] = "None"
-					analyzers += list(analyzer)
+			var/list/requirements = list()
+			for(var/tech_level in experiment.tech_levels)
+				requirements += "[tech_level] [experiment.tech_levels[tech_level]]"
+			var/list/e_data = list(
+				"id" = experiment.filename,
+				"improves" = "[modifier] [experiment.attribute]",
+				"requirements" = english_list(requirements),
+				"status" = experiment.in_progress ? "In Progress" : "Proposal",
+				"can_begin" = !experiment.in_progress
+			)
+			data["experiments"] += list(e_data)
 
 	ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if (!ui)
-		ui = new(user, src, ui_key, "research_manager.tmpl", "Research Manager", 600, 700, state = state)
+		ui = new(user, src, ui_key, "bluprintr.tmpl", "bluPrintr", 600, 700, state = state)
 		ui.auto_update_layout = 1
 		ui.set_initial_data(data)
 		ui.set_auto_update(1)
