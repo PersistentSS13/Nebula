@@ -81,7 +81,7 @@
 	if(world.time < last_alias_change + 1 MINUTE)
 		to_chat(owner, SPAN_WARNING("You can't adjust your Cortical Chat alias again so soon!"))
 		return
-	var/new_alias = sanitizeName(input("Please enter your new Cortical Chat alias.", "Alias Select", cortical_alias)) as text|null
+	var/new_alias = sanitizeName(input("Please enter your new Cortical Chat alias.", "Alias Select", cortical_alias) as text|null)
 	if(new_alias)
 		cortical_alias = new_alias
 		to_chat(owner, SPAN_NOTICE("You change your Cortical Chat alias to [cortical_alias]"))
