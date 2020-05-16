@@ -32,7 +32,6 @@
 #include "modules\cloning\device_types\cloning_pod.dm"
 #include "modules\cloning\machines\cloning_pod.dm"
 #include "modules\mob\death.dm"
-#include "modules\cortical_chat\stack_radio.dm"
 #include "modules\mob\mob.dm"
 #include "modules\mob\new_player.dm"
 #include "modules\mob\say.dm"
