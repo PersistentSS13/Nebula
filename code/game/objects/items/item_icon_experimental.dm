@@ -16,6 +16,7 @@ var/list/icon_state_cache = list()
 
 /obj/item
 	var/on_mob_icon
+	var/on_mob_use_spritesheets  // use spritesheets list for on-mob icon
 	var/tmp/has_inventory_icon	// do not set manually
 
 /obj/item/Initialize(ml, material_key)
@@ -37,12 +38,17 @@ var/list/icon_state_cache = list()
 /obj/item/proc/update_world_inventory_state()
 	if(on_mob_icon && has_inventory_icon)
 		var/last_state = icon_state
-		if(plane == HUD_PLANE)
-			icon_state = "inventory"
-		else
-			icon_state = "world"
+		icon_state = get_world_inventory_state()
 		if(last_state != icon_state)
 			update_icon()
+
+/obj/item/proc/get_world_inventory_state()
+	if(!on_mob_icon)
+		return
+	if(plane == HUD_PLANE && has_inventory_icon)
+		return "inventory"
+	else
+		return "world"
 
 /mob/proc/get_bodytype()
 	return
@@ -67,6 +73,10 @@ var/list/icon_state_cache = list()
 
 /obj/item/proc/get_icon_for_bodytype(var/bodytype)
 	. = icon
+	if(on_mob_use_spritesheets)
+		for(var/btype in sprite_sheets)
+			if(lowertext(btype) == bodytype)
+				return sprite_sheets[btype]
 
 /obj/item/proc/apply_overlays(var/mob/user_mob, var/bodytype, var/image/overlay, var/slot)
 	. = overlay

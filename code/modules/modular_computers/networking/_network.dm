@@ -1,5 +1,3 @@
-GLOBAL_LIST_EMPTY(computer_networks)
-
 /datum/computer_network
 	var/network_id
 	var/network_key
@@ -26,7 +24,7 @@ GLOBAL_LIST_EMPTY(computer_networks)
 	if(!new_id)
 		new_id = "network[random_id(type, 100,999)]"
 	network_id = new_id
-	GLOB.computer_networks[network_id] = src
+	SSnetworking.networks[network_id] = src
 
 /datum/computer_network/Destroy()
 	for(var/datum/extension/network_device/D in devices)
@@ -34,7 +32,7 @@ GLOBAL_LIST_EMPTY(computer_networks)
 	QDEL_NULL_LIST(chat_channels)
 	devices = null
 	mainframes = null
-	GLOB.computer_networks -= network_id
+	SSnetworking.networks -= network_id
 	. = ..()
 
 /datum/computer_network/proc/add_device(datum/extension/network_device/D)
@@ -144,10 +142,10 @@ GLOBAL_LIST_EMPTY(computer_networks)
 	for(var/datum/extension/network_device/D in devices)
 		if(D.network_id != new_id)
 			D.network_id = new_id
-	GLOB.computer_networks -= network_id
+	SSnetworking.networks -= network_id
 	add_log("Network ID was changed from '[network_id]' to '[new_id]'")
 	network_id = new_id
-	GLOB.computer_networks[network_id] = src
+	SSnetworking.networks[network_id] = src
 
 /datum/computer_network/proc/enable_network_feature(feature)
 	network_features_enabled |= feature
@@ -181,8 +179,8 @@ GLOBAL_LIST_EMPTY(computer_networks)
 
 // TODO: Some way to set what network it should be, based on map vars or overmap vars
 /proc/get_local_network_at(turf/T)
-	for(var/id in GLOB.computer_networks)
-		var/datum/computer_network/net = GLOB.computer_networks[id]
+	for(var/id in SSnetworking.networks)
+		var/datum/computer_network/net = SSnetworking.networks[id]
 		if(net.router && ARE_Z_CONNECTED(get_z(net.router.holder), get_z(T)))
 			return net
 
@@ -198,4 +196,19 @@ GLOBAL_LIST_EMPTY(computer_networks)
 		if(D.has_access(user))
 			allowed_mainframes |= D
 	return allowed_mainframes
+
+/datum/computer_network/proc/get_devices_by_type(var/type, var/mob/user)
+	var/bypass_auth = !user
+	if(!bypass_auth)
+		// Check for admin.
+		var/obj/item/card/id/network/id = user.GetIdCard()
+		if(id && istype(id, /obj/item/card/id/network) && access_controller && (id.user_id in access_controller.administrators))
+			bypass_auth = TRUE
+
+	var/list/results = list()
+	for(var/datum/extension/network_device/device in devices)
+		if(istype(device.holder, type))
+			if(bypass_auth || device.has_access(user))
+				results += device.holder
+	return results
 

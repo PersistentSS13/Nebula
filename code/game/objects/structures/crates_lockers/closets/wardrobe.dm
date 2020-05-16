@@ -333,12 +333,12 @@
 /obj/structure/closet/wardrobe/tactical/Initialize()
 	. = ..()
 	new /obj/item/clothing/under/tactical(src)
-	new /obj/item/clothing/suit/storage/vest/tactical(src)
+	new /obj/item/clothing/suit/armor/pcarrier/tactical(src)
 	new /obj/item/clothing/head/helmet/tactical(src)
 	new /obj/item/clothing/mask/balaclava/tactical(src)
 	new /obj/item/clothing/glasses/tacgoggles(src)
 	new /obj/item/storage/belt/holster/security/tactical(src)
-	new /obj/item/clothing/shoes/tactical(src)
+	new /obj/item/clothing/shoes/jackboots/tactical(src)
 	new /obj/item/clothing/gloves/tactical(src)
 
 /obj/structure/closet/wardrobe/suit
