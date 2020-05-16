@@ -1,4 +1,4 @@
-GLOBAL_LIST_INIT(all_mainframe_roles, list(MF_ROLE_SOFTWARE, MF_ROLE_FILESERVER, MF_ROLE_EMAIL_SERVER, MF_ROLE_LOG_SERVER, MF_ROLE_CREW_RECORDS, MF_ROLE_CLONING))
+GLOBAL_LIST_INIT(all_mainframe_roles, list(MF_ROLE_SOFTWARE, MF_ROLE_FILESERVER, MF_ROLE_EMAIL_SERVER, MF_ROLE_LOG_SERVER, MF_ROLE_CREW_RECORDS, MF_ROLE_CLONING, MF_ROLE_DESIGN))
 
 /datum/extension/network_device/mainframe
 	connection_type = NETWORK_CONNECTION_WIRED
@@ -14,7 +14,7 @@ GLOBAL_LIST_INIT(all_mainframe_roles, list(MF_ROLE_SOFTWARE, MF_ROLE_FILESERVER,
 	update_roles()
 
 /datum/extension/network_device/mainframe/proc/update_roles()
-	var/datum/computer_network/net = GLOB.computer_networks[network_id]
+	var/datum/computer_network/net = SSnetworking.networks[network_id]
 	if(!net)
 		return FALSE
 	if(!check_connection())

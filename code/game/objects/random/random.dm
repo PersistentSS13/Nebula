@@ -256,7 +256,6 @@
 /obj/random/energy/spawn_choices()
 	return list(/obj/item/gun/energy/laser = 4,
 				/obj/item/gun/energy/gun = 3,
-				/obj/item/gun/energy/retro = 2,
 				/obj/item/gun/energy/lasercannon = 2,
 				/obj/item/gun/energy/xray = 3,
 				/obj/item/gun/energy/sniperrifle = 1,
@@ -264,8 +263,7 @@
 				/obj/item/gun/energy/ionrifle = 2,
 				/obj/item/gun/energy/toxgun = 3,
 				/obj/item/gun/energy/taser = 4,
-				/obj/item/gun/energy/crossbow/largecrossbow = 2,
-				/obj/item/gun/energy/stunrevolver = 4)
+				/obj/item/gun/energy/crossbow/largecrossbow = 2)
 
 /obj/random/projectile
 	name = "Random Projectile Weapon"
@@ -294,9 +292,8 @@
 
 /obj/random/handgun/spawn_choices()
 	return list(/obj/item/gun/projectile/pistol = 3,
-				/obj/item/gun/energy/gun = 2,
-				/obj/item/gun/projectile/pistol/holdout = 2,
-				/obj/item/gun/energy/retro = 1,
+				/obj/item/gun/energy/gun = 3,
+				/obj/item/gun/projectile/pistol/holdout = 2
 				)
 
 /obj/random/ammo
@@ -484,8 +481,8 @@
 				/obj/item/toy/therapy_yellow,
 				/obj/item/toy/therapy_orange,
 				/obj/item/toy/therapy_green,
-				/obj/item/toy/cultsword,
-				/obj/item/toy/katana,
+				/obj/item/material/sword/cult_toy,
+				/obj/item/material/sword/katana/toy,
 				/obj/item/toy/snappop,
 				/obj/item/toy/sword,
 				/obj/item/toy/water_balloon,
@@ -725,17 +722,17 @@ obj/random/obstruction/spawn_choices()
 /obj/random/shoes/spawn_choices()
 	return list(/obj/item/clothing/shoes/workboots = 3,
 				/obj/item/clothing/shoes/jackboots = 3,
-				/obj/item/clothing/shoes/swat = 1,
-				/obj/item/clothing/shoes/combat = 1,
+				/obj/item/clothing/shoes/jackboots/swat = 1,
+				/obj/item/clothing/shoes/jackboots/swat/combat = 1,
 				/obj/item/clothing/shoes/galoshes = 2,
 				/obj/item/clothing/shoes/syndigaloshes = 1,
 				/obj/item/clothing/shoes/magboots = 1,
 				/obj/item/clothing/shoes/laceup = 4,
+				/obj/item/clothing/shoes/jackboots/jungleboots = 3,
+				/obj/item/clothing/shoes/jackboots/desertboots = 3,
+				/obj/item/clothing/shoes/jackboots/duty = 3,
+				/obj/item/clothing/shoes/jackboots/tactical = 1,
 				/obj/item/clothing/shoes/color/black = 4,
-				/obj/item/clothing/shoes/jungleboots = 3,
-				/obj/item/clothing/shoes/desertboots = 3,
-				/obj/item/clothing/shoes/dutyboots = 3,
-				/obj/item/clothing/shoes/tactical = 1,
 				/obj/item/clothing/shoes/dress = 3,
 				/obj/item/clothing/shoes/dress/white = 3,
 				/obj/item/clothing/shoes/sandal = 3,
@@ -816,8 +813,8 @@ obj/random/obstruction/spawn_choices()
 				/obj/item/clothing/suit/storage/toggle/labcoat = 4,
 				/obj/item/clothing/suit/space/emergency = 1,
 				/obj/item/clothing/suit/armor/vest = 4,
-				/obj/item/clothing/suit/storage/vest/tactical = 1,
-				/obj/item/clothing/suit/storage/vest = 3,
+				/obj/item/clothing/suit/armor/pcarrier/tactical = 1,
+				/obj/item/clothing/suit/armor/vest/heavy = 3,
 				/obj/item/clothing/suit/storage/toggle/bomber = 3,
 				/obj/item/clothing/suit/chef/classic = 3,
 				/obj/item/clothing/suit/surgicalapron = 2,
@@ -960,7 +957,7 @@ something, make sure it's not in one of the other lists.*/
 				/obj/item/clothing/glasses/thermal = 1,
 				/obj/item/clothing/glasses/welding/superior = 7,
 				/obj/item/clothing/head/collectable/petehat = 4,
-				/obj/item/clothing/suit/storage/vest/merc = 3,
+				/obj/item/clothing/suit/armor/pcarrier/merc = 3,
 				/obj/item/clothing/suit/straight_jacket = 6,
 				/obj/item/clothing/head/helmet/merc = 3,
 				/obj/item/stack/material/diamond/ten = 7,
