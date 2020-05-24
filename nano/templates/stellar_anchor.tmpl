@@ -1,0 +1,102 @@
+{{if data.error}}
+	<h2>An error has occured:</h2>
+	Additional information: {{:data.error}}<br>
+	<i>Please try again. If the problem persists contact your system administrator for assistance.</i>
+	<div class="item">
+		{{:helper.link('Refresh', null, {'refresh' : 1 })}}
+	</div>
+{{else}}
+	<div class="itemLabel">
+		Network TAG:
+	</div>
+	<div class="itemContent">
+		{{:data.network_tag}}
+	</div>
+	<div class="itemLabel">
+		Network ID:
+	</div>
+	<div class="itemContent">
+		{{:data.network_id}}
+	</div>
+	<div class="item">
+		<div class="itemLabel">
+			Anchored Areas:
+		</div>
+		<div class="itemContent">
+			<div class="statusDisplay" style="min-height: 120px;">
+				<div class="item">
+					<div class="itemContent" style="width: 100%;">
+						{{for data.anchored_areas}}
+							{{:value}}<br>
+						{{/for}}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="item">
+		<div class="itemContent">
+			{{:helper.link('Select Areas', null, {'select_areas' : 1})}}
+		</div>
+	</div>
+	{{if !data.created_sector}}
+		<div class="item">
+			<div class="itemLabel">
+				Set to Launch:
+			</div>
+			<div class="itemContent">
+				{{:helper.link(data.should_launch ? 'Enabled' : 'Disabled', null, {'should_launch' : 1}, null, null)}}
+			</div>
+		</div>
+	{{/if}}
+	{{if data.should_launch}}
+		<h3>Launch Options</h3>
+		{{if data.created_sector}}
+			<div class="item">
+				<div class="itemLabel">
+					Sector name:
+				</div>
+				<div class="itemContent">
+					{{:data.sector_name}}
+				</div>
+			</div>
+		{{else}}
+			<i>Launching the stellar anchor will create a registered sector in space, allowing a larger area to be anchored.</i><br>
+			<div class="item">
+				<div class="itemLabel">
+					Sector name:
+				</div>
+				<div class="itemContent">
+					{{:helper.link(data.sector_name ? data.sector_name : 'No name!', 'pencil', {'change_sector_name' : '1'}, null , null)}}
+				</div>
+			</div>
+			<div class="item">
+				<div class="itemLabel">
+					Sector Color:
+				</div>
+				<div class="itemContent">
+					{{:helper.link('Change color', 'pencil', { 'change_color' : 1})}}
+				</div>
+			</div>
+			<div class="item">
+				<div class="itemContent" style="width: 100%;">
+					<div class="statusDisplay" style="min-height: 120px;">
+						{{for data.errors}}
+							{{:value}}<br>
+						{{/for}}
+					</div>
+				</div>
+			</div>
+			<div class="item">
+				<div class="itemContent">
+					{{:helper.link('Launch Ship Core', 'arrowthickstop-1-e', {'launch' : '1'}, null , null)}}
+				</div>
+				<div class="itemContent">
+					{{:helper.link('Check launching validity', 'gear', {'check_errors' : '1'}, null , null)}}
+				</div>
+			</div>
+		{{/if}}
+	{{/if}}
+	<hr>
+	<i>EXONET Firmware v110.04.4h Copyright EXONETWORKS INC</i>
+{{/if}}
