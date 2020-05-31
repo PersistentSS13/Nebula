@@ -534,8 +534,8 @@
 		SSticker.minds += mind
 	if(!mind.name)	mind.name = real_name
 	mind.current = src
-	if(player_is_antag(mind))
-		src.client.verbs += /client/proc/aooc
+	// if(player_is_antag(mind))
+	// 	src.client.verbs += /client/proc/aooc
 
 //HUMAN
 /mob/living/carbon/human/mind_initialize()
