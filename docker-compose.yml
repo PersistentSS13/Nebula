@@ -3,6 +3,8 @@ services:
   db:
     image: persistent-db
     build: ./sql
+    ports:
+        - "3306:3306"
     volumes:
         - "./sql/test_db:/var/lib/mysql"
   ss13:
