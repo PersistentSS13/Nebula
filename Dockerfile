@@ -46,4 +46,7 @@ COPY --from=compile /persistent/nebula.rsc /persistent/nebula.dmb \
 WORKDIR /persistent
 VOLUME /persistent/data/
 VOLUME /persistent/config/
+
+RUN apt-get update \
+	&& apt-get install -y libmariadb-client-lgpl-dev-compat
 ENTRYPOINT [ "/wait.sh", "-h", "db", "-p", "3306", "-t", "30", "--", "DreamDaemon", "nebula.dmb", "-port", "8000", "-trusted", "-verbose" ]
