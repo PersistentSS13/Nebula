@@ -16,7 +16,9 @@ RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime \
 	zlib1g-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
 	xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev libbz2-dev \
 	uchardet default-jdk \
-	&& git clone --recursive https://github.com/pyenv/pyenv.git $PYENV_ROOT
+	&& git clone --recursive https://github.com/pyenv/pyenv.git $PYENV_ROOT \
+	&& curl -o /wait.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
+	&& chmod u+x /wait.sh
 WORKDIR $PYENV_ROOT
 ENV PATH=$PATH:$PYENV_ROOT/bin:$PYENV_ROOT/shims
 RUN git reset --hard $PYENV_COMMIT \
@@ -35,13 +37,13 @@ FROM persistentss13/byond:512-latest as ss13
 RUN mkdir -p /persistent/data /persistent/config
 COPY .git/HEAD /persistent/.git/HEAD
 COPY .git/logs/HEAD /persistent/.git/logs/HEAD
+COPY --from=test_setup /wait.sh /wait.sh
 COPY --from=compile /persistent/config/example/* /persistent/config/
 COPY --from=compile /persistent/config/names/* /persistent/config/names/
 COPY --from=compile /persistent/nebula.rsc /persistent/nebula.dmb \
 	/persistent/
 
 WORKDIR /persistent
-EXPOSE 1337
 VOLUME /persistent/data/
 VOLUME /persistent/config/
-ENTRYPOINT [ "DreamDaemon", "nebula.dmb", "-port", "1337", "-trusted", "-close", "-verbose" ]
+ENTRYPOINT [ "/wait.sh", "-h", "db", "-p", "3306", "-t", "30", "--", "DreamDaemon", "nebula.dmb", "-port", "8000", "-trusted", "-verbose" ]

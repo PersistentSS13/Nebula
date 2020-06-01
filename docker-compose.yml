@@ -1,12 +1,12 @@
 version: "3.7"
 services:
   db:
+    image: persistent-db
     build: ./sql
-    image: persistent-db:latest
-    volumes:
-        - "./sql/test_db:/var/lib/mysql:Z"
     networks:
         - internal
+    volumes:
+        - "./sql/test_db:/var/lib/mysql"
   ss13:
     build:
       context: .
@@ -15,7 +15,7 @@ services:
     depends_on:
         - db
     ports:
-        - "1337:1337"
+        - "8000:8000"
     networks:
         - internal
     volumes:
