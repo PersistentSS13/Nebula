@@ -11,8 +11,8 @@
 /*!40014 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0 */;
 /*!40101 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='NO_AUTO_VALUE_ON_ZERO' */;
 
--- Data exporting was unselected.
 -- Dumping structure for table persistent.list_element
+DROP TABLE IF EXISTS `list_element`;
 CREATE TABLE IF NOT EXISTS `list_element` (
   `id` int(11) NOT NULL,
   `list_id` int(11) NOT NULL,
@@ -25,6 +25,7 @@ CREATE TABLE IF NOT EXISTS `list_element` (
 
 -- Data exporting was unselected.
 -- Dumping structure for table persistent.thing
+DROP TABLE IF EXISTS `thing`;
 CREATE TABLE IF NOT EXISTS `thing` (
   `id` int(11) NOT NULL,
   `type` varchar(256) NOT NULL,
@@ -36,6 +37,7 @@ CREATE TABLE IF NOT EXISTS `thing` (
 
 -- Data exporting was unselected.
 -- Dumping structure for table persistent.thing_var
+DROP TABLE IF EXISTS `thing_var`;
 CREATE TABLE IF NOT EXISTS `thing_var` (
   `id` int(11) NOT NULL,
   `thing_id` int(11) NOT NULL,
@@ -43,6 +45,19 @@ CREATE TABLE IF NOT EXISTS `thing_var` (
   `type` varchar(256) NOT NULL,
   `value` longtext NOT NULL,
   PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- Data exporting was unselected.
+-- Dumping structure for table persistent.z_level
+DROP TABLE IF EXISTS `z_level`;
+CREATE TABLE IF NOT EXISTS `z_level` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `z` int(11) NOT NULL,
+  `dynamic` tinyint(1) NOT NULL DEFAULT '0',
+  `default_turf` varchar(256) DEFAULT NULL,
+  `metadata` varchar(64) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
