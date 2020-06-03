@@ -1,6 +1,9 @@
 # For running on the included Dockerized database + gameserver
 # MySQL Connection Configuration
 
+# Uncomment the following line to enable SQL.
+# ENABLED
+
 # Server the MySQL database can be found at
 # Examples: localhost, 200.135.5.43, www.mysqldb.com, etc.
 ADDRESS db
