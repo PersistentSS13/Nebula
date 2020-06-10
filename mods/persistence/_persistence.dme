@@ -84,10 +84,13 @@
 #include "modules\shuttles\shuttle_autodock.dm"
 #include "modules\world_save\_persistence.dm"
 #include "modules\world_save\load_cache.dm"
-#include "modules\world_save\wrappers.dm"
 #include "modules\world_save\serializers\_serializer.dm"
 #include "modules\world_save\serializers\json_serializer.dm"
 #include "modules\world_save\serializers\sql_serializer.dm"
+#include "modules\world_save\wrappers\_wrapper.dm"
+#include "modules\world_save\wrappers\area_wrapper.dm"
+#include "modules\world_save\wrappers\decal_wrapper.dm"
+#include "modules\world_save\wrappers\decl_wrapper.dm"
 #include "modules\xgm\xgm_gas_mixture.dm"
 // END_INCLUDE
 #endif

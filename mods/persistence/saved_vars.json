@@ -73,7 +73,6 @@
 			"has_been_rev",
 			"faction",
 			"changeling",
-			"rev_cooldown",
 			"brigged_since",
 			"initial_account",
 			"philotic_damage",
@@ -534,7 +533,6 @@
 			"bleed_ticks",
 			"can_bleed",
 			"in_stasis",
-			"ability_cooldown",
 			"time_last_used_ability",
 			"return_damage_min",
 			"return_damage_max"
@@ -670,7 +668,6 @@
 			"secured",
 			"attached_overlays",
 			"holder",
-			"cooldown",
 			"wires"
 		]
 	},
@@ -1947,13 +1944,11 @@
 			"contents",
 			"density",
 			"icon_state",
-			"name",
 			"pixel_x",
 			"pixel_y",
 			"dir",
 			"air",
-			"is_on_fire",
-			"saved_decals"
+			"is_on_fire"
 		]
 	},
 	{
@@ -1981,7 +1976,6 @@
 			"resting",
 			"lying",
 			"lying_prev",
-			"radio_interrupt_cooldown",
 			"unacidable",
 			"pinned",
 			"embedded",
@@ -2078,7 +2072,6 @@
 			"loc",
 			"w_class",
 			"unacidable",
-			"throwforce",
 			"sharp",
 			"edge",
 			"in_use",
@@ -2465,23 +2458,6 @@
 		]
 	},
 	{
-		"path":"/datum/wrapper/area",
-		"vars":[
-			"area_type",
-			"name",
-			"turfs",
-			"has_gravity",
-			"apc"
-		]
-	},
-	{
-		"path":"/datum/wrapper/multiz",
-		"vars":[
-			"saved_z_levels"
-		],
-		"flatten":true
-	},
-	{
 		"path":"/obj/machinery/light",
 		"vars":[
 			"current_mode",
@@ -2698,7 +2674,6 @@
 			"icon_state_open_broken",
 			"icon_state_closed_broken",
 			"begins_closed",
-			"min_force",
 			"maxhealth",
 			"block_air_zones",
 			"explosion_resistance",
@@ -3084,8 +3059,6 @@
 			"origin_tech",
 			"attack_verb",
 			"lock_picking_level",
-			"force",
-			"attack_cooldown",
 			"melee_accuracy_bonus",
 			"heat_protection",
 			"cold_protection",
@@ -3136,7 +3109,6 @@
 			"maxhealth",
 			"health",
 			"destroy_hits",
-			"min_force",
 			"pry_mod",
 			"repairing",
 			"block_air_zones",
@@ -3287,10 +3259,7 @@
 	{
 		"path":"/obj/item/organ/external/groin/insectoid/mantid",
 		"vars":[
-			"existing_webs",
-			"max_webs",
-			"web_weave_time",
-			"cooldown"
+			"existing_webs"
 		]
 	},
 	{
@@ -3530,8 +3499,6 @@
 			"activators",
 			"complexity",
 			"size",
-			"cooldown_per_use",
-			"ext_cooldown",
 			"power_draw_per_use",
 			"power_draw_idle",
 			"spawn_flags",
@@ -3849,25 +3816,6 @@
 		]
 	},
 	{
-		"path":"/datum/wrapper/decal",
-		"vars":[
-			"icon",
-			"icon_state",
-			"appearance_flags",
-			"color",
-			"dir",
-			"plane",
-			"layer",
-			"alpha",
-			"detail_overlay",
-			"detail_color",
-			"x",
-			"y",
-			"z"
-		],
-		"flatten":true
-	},
-	{
 		"path":"/datum/computer_file/report/crew_record",
 		"vars":[
 			"grants",
@@ -3909,13 +3857,6 @@
 		"vars":[
 			"materials"
 		]
-	},
-	{
-		"path":"/datum/wrapper/game_data",
-		"vars":[
-			"key"
-		],
-		"flatten":true
 	},
 	{
 		"path":"/obj/machinery/power/terminal",
@@ -4041,6 +3982,23 @@
 		"vars":[
 			"handle_color"
 		]
+	},
+	{
+		"path":"/datum/wrapper",
+		"vars":[
+			"key"
+		],
+		"flatten":true
+	},
+	{
+		"path":"/datum/wrapper/area",
+		"vars":[
+			"name",
+			"turfs",
+			"has_gravity",
+			"apc"
+		],
+		"flatten":true
 	},
 	{
 		"path":"/datum/extension/lockable",
