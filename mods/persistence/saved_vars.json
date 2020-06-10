@@ -784,7 +784,6 @@
 			"dna",
 			"damage",
 			"min_broken_damage",
-			"max_damage",
 			"rejecting",
 			"death_time"
 		]
@@ -2061,7 +2060,6 @@
 		"vars":[
 			"visibility",
 			"contents",
-			"density",
 			"dir",
 			"icon",
 			"icon_state",
@@ -2070,13 +2068,8 @@
 			"pixel_x",
 			"pixel_y",
 			"loc",
-			"w_class",
-			"unacidable",
 			"sharp",
 			"edge",
-			"in_use",
-			"damtype",
-			"armor_penetration",
 			"anchor_fall",
 			"holographic",
 			"req_access"
@@ -2085,13 +2078,11 @@
 	{
 		"path":"/datum/robot_component",
 		"vars":[
-			"name",
 			"installed",
 			"powered",
 			"toggled",
 			"brute_damage",
 			"electronics_damage",
-			"max_damage",
 			"external_type",
 			"wrapped"
 		]
@@ -3332,10 +3323,8 @@
 			"total_damage",
 			"brute_damage",
 			"burn_damage",
-			"max_damage",
 			"damage_state",
 			"has_hardpoints",
-			"decal",
 			"power_use"
 		]
 	},
