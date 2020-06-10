@@ -52,7 +52,6 @@
 
 /serializer/proc/Clear()
 	z_index = -1
-	z_levels.Cut(1)
 	thing_map.Cut(1)
 	reverse_map.Cut(1)
 	list_map.Cut(1)
