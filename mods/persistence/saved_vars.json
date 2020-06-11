@@ -745,11 +745,10 @@
 			"body_part",
 			"icon_position",
 			"model",
-			"s_tone",
-			"s_base",
-			"s_col",
-			"s_col_blend",
-			"h_col",
+			"skin_tone",
+			"skin_base",
+			"skin_cololour",
+			"hair_colour",
 			"body_hair",
 			"markings",
 			"wound_update_accuracy",
@@ -2957,22 +2956,14 @@
 			"temperature_alert",
 			"heartbeat",
 			"stamina",
-			"r_hair",
-			"g_hair",
-			"b_hair",
+			"hair_color",
 			"h_style",
-			"r_facial",
-			"g_facial",
-			"b_facial",
 			"f_style",
-			"r_eyes",
-			"g_eyes",
-			"b_eyes",
-			"s_tone",
-			"s_base",
-			"r_skin",
-			"g_skin",
-			"b_skin",
+			"eye_colour",
+			"facial_hair_colour",
+			"skin_tone",
+			"skin_base",
+			"skin_color",
 			"size_multiplier",
 			"damage_multiplier",
 			"lip_style",
@@ -4049,6 +4040,36 @@
 		"path":"/obj/item/screwdriver",
 		"vars":[
 			"handle_color"
+		]
+	},
+	{
+		"path":"/datum/extension/lockable",
+		"vars":[
+			"locked",
+			"code",
+			"l_code",
+			"l_set",
+			"l_setshort",
+			"l_hacking",
+			"emagged",
+			"is_digital_lock",
+			"open",
+			"error"
+		]
+	},
+	{
+		"path":"/obj/item/charge_stick",
+		"vars":[
+			"creator",
+			"id",
+			"currency",
+			"loaded_worth"
+		]
+	},
+	{
+		"path":"/obj/item/stock_parts/computer/charge_stick_slot",
+		"vars":[
+			"stored_stick"
 		]
 	}
 ]

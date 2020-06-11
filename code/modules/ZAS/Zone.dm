@@ -186,7 +186,7 @@ Class Procs:
 	condensing = TRUE
 	for(var/g in air.gas)
 		var/decl/material/mat = decls_repository.get_decl(g)
-		if(length(mat.chemical_makeup) && air.temperature <= mat.gas_condensation_point)
+		if(air.temperature <= mat.gas_condensation_point)
 			var/condensation_area = air.group_multiplier / length(air.gas)
 			while(condensation_area > 0 && length(contents))
 				condensation_area--
@@ -195,8 +195,7 @@ Class Procs:
 				if(condense_amt < 1)
 					break
 				air.adjust_gas(g, -condense_amt)
-				for(var/chem in mat.chemical_makeup)
-					flooding.add_fluid(mat.chemical_makeup[chem] * condense_amt * REAGENT_UNITS_PER_GAS_MOLE, chem)
+				flooding.add_fluid(condense_amt * REAGENT_UNITS_PER_GAS_MOLE, g)
 				CHECK_TICK
 	condensing = FALSE
 
@@ -204,7 +203,7 @@ Class Procs:
 	to_chat(M, name)
 	for(var/g in air.gas)
 		var/decl/material/mat = decls_repository.get_decl(g)
-		to_chat(M, "[capitalize(mat.name)]: [air.gas[g]]")
+		to_chat(M, "[capitalize(mat.gas_name)]: [air.gas[g]]")
 	to_chat(M, "P: [air.return_pressure()] kPa V: [air.volume]L T: [air.temperature]°K ([air.temperature - T0C]°C)")
 	to_chat(M, "O2 per N2: [(air.gas[MAT_NITROGEN] ? air.gas[MAT_OXYGEN]/air.gas[MAT_NITROGEN] : "N/A")] Moles: [air.total_moles]")
 	to_chat(M, "Simulated: [contents.len] ([air.group_multiplier])")

@@ -115,7 +115,7 @@
 	lore_text = "A tasty juice blended from various kinds of very deadly and toxic berries."
 	taste_description = "berries"
 	color = "#863353"
-	strength = 5
+	toxicity = 5
 
 	glass_name = "poison berry juice"
 	glass_desc = "A glass of deadly juice."
@@ -419,7 +419,7 @@
 	..()
 	M.add_chemical_effect(CE_SPEEDBOOST, 1)
 	M.make_jittery(20)
-	M.druggy = max(M.druggy, 30)
+	M.adjust_drugged(30, 30)
 	M.dizziness += 5
 	M.drowsyness = 0
 

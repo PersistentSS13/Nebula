@@ -227,7 +227,7 @@
 			for(var/g in atmosphere.gas)
 				if(atmosphere.gas[g] > atmosphere.total_moles * 0.05)
 					var/decl/material/mat = decls_repository.get_decl(g)
-					gases += mat.name
+					gases += mat.gas_name
 			extra_data += "Atmosphere composition: [english_list(gases)]"
 			var/inaccuracy = rand(8,12)/10
 			extra_data += "Atmosphere pressure [atmosphere.return_pressure()*inaccuracy] kPa, temperature [atmosphere.temperature*inaccuracy] K"
@@ -258,3 +258,4 @@
 	name = "\improper Planetary surface"
 	ambience = list('sound/effects/wind/wind_2_1.ogg','sound/effects/wind/wind_2_2.ogg','sound/effects/wind/wind_3_1.ogg','sound/effects/wind/wind_4_1.ogg','sound/effects/wind/wind_4_2.ogg','sound/effects/wind/wind_5_1.ogg')
 	always_unpowered = 1
+	area_flags = AREA_FLAG_IS_BACKGROUND

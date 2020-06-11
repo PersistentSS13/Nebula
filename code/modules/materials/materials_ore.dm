@@ -12,7 +12,7 @@
 		matter[material.type] = SHEET_MATERIAL_AMOUNT
 		name =       material.ore_name
 		desc =       material.ore_desc ? material.ore_desc : "A lump of ore."
-		color =      material.icon_colour
+		color =      material.color
 		icon_state = material.ore_icon_overlay
 		if(material.ore_desc)
 			desc = material.ore_desc
@@ -29,6 +29,11 @@
 			H.eye_blind += 5
 			H.eye_blurry += 10
 			QDEL_IN(src, 1)
+
+/obj/item/ore/explosion_act(var/severity)
+	SHOULD_CALL_PARENT(FALSE)
+	if(severity == 1 && prob(25))
+		qdel(src)
 
 // Map definitions.
 /obj/item/ore/uranium

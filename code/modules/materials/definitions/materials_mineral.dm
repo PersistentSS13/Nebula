@@ -1,7 +1,7 @@
 /decl/material/pitchblende
 	name = "pitchblende"
 	ore_compresses_to = MAT_PITCHBLENDE
-	icon_colour = "#917d1a"
+	color = "#917d1a"
 	ore_smelts_to = MAT_URANIUM
 	ore_result_amount = 5
 	ore_spread_chance = 10
@@ -10,7 +10,7 @@
 	stack_origin_tech = "{'materials':5}"
 	xarch_source_mineral = /decl/material/chem/phosphorus
 	ore_icon_overlay = "nugget"
-	chemical_makeup = list(
+	dissolves_into = list(
 		/decl/material/chem/radium = 0.5,
 		/decl/material/uranium = 0.5
 	)
@@ -23,13 +23,13 @@
 /decl/material/graphite
 	name = "graphite"
 	ore_compresses_to = MAT_GRAPHITE
-	icon_colour = "#444444"
+	color = "#444444"
 	ore_name = "graphite"
 	ore_result_amount = 5
 	ore_spread_chance = 25
 	ore_scan_icon = "mineral_common"
 	ore_icon_overlay = "lump"
-	chemical_makeup = list(
+	dissolves_into = list(
 		/decl/material/chem/carbon = 0.6,
 		/decl/material/chem/toxin/plasticide = 0.2,
 		/decl/material/chem/acetone = 0.2
@@ -37,6 +37,7 @@
 	value = 0.8
 	sparse_material_weight = 35
 	rich_material_weight = 20
+	dirtiness = 15
 
 /decl/material/quartz
 	name = "quartz"
@@ -47,8 +48,8 @@
 	ore_spread_chance = 10
 	ore_scan_icon = "mineral_common"
 	ore_icon_overlay = "lump"
-	icon_colour = "#effffe"
-	chemical_makeup = list(
+	color = "#effffe"
+	dissolves_into = list(
 		/decl/material/chem/silicon = 1
 	)
 	door_icon_base = "stone"
@@ -68,8 +69,8 @@
 	ore_spread_chance = 10
 	ore_scan_icon = "mineral_common"
 	ore_icon_overlay = "lump"
-	icon_colour = "#ccc9a3"
-	chemical_makeup = list(
+	color = "#ccc9a3"
+	dissolves_into = list(
 		/decl/material/chem/sulfur = 0.75,
 		/decl/material/iron = 0.25
 	)
@@ -93,8 +94,8 @@
 	ore_spread_chance = 10
 	ore_scan_icon = "mineral_common"
 	ore_icon_overlay = "lump"
-	icon_colour = "#e5becb"
-	chemical_makeup = list(
+	color = "#e5becb"
+	dissolves_into = list(
 		/decl/material/chem/lithium = 1
 	)
 	door_icon_base = "stone"
@@ -115,8 +116,8 @@
 	ore_spread_chance = 10
 	ore_scan_icon = "mineral_common"
 	ore_icon_overlay = "lump"
-	icon_colour = "#e54e4e"
-	chemical_makeup = list(
+	color = "#e54e4e"
+	dissolves_into = list(
 		/decl/material/chem/mercury = 1
 	)
 	door_icon_base = "stone"
@@ -137,8 +138,8 @@
 	ore_spread_chance = 10
 	ore_scan_icon = "mineral_common"
 	ore_icon_overlay = "lump"
-	icon_colour = "#acad95"
-	chemical_makeup = list(
+	color = "#acad95"
+	dissolves_into = list(
 		/decl/material/chem/phosphorus = 1
 	)
 	door_icon_base = "stone"
@@ -151,16 +152,17 @@
 	sparse_material_weight = 3
 	rich_material_weight = 1
 
-/decl/material/rocksalt
-	name = "rock salt"
+/decl/material/sodium_chloride
+	name = "sodium chloride"
+	lore_text = "A salt made of sodium chloride. Commonly used to season food."
 	ore_compresses_to = MAT_ROCK_SALT
 	ore_name = "rock salt"
 	ore_result_amount = 10
 	ore_spread_chance = 10
 	ore_scan_icon = "mineral_common"
 	ore_icon_overlay = "lump"
-	icon_colour = "#d1c0bc"
-	chemical_makeup = list(
+	color = "#d1c0bc"
+	dissolves_into = list(
 		/decl/material/chem/sodium = 1
 	)
 	door_icon_base = "stone"
@@ -172,6 +174,8 @@
 	value = 0.8
 	sparse_material_weight = 3
 	rich_material_weight = 1
+	overdose = REAGENTS_OVERDOSE
+	taste_description = "salt"
 
 /decl/material/potash
 	name = "potash"
@@ -181,8 +185,8 @@
 	ore_spread_chance = 10
 	ore_scan_icon = "mineral_common"
 	ore_icon_overlay = "lump"
-	icon_colour = "#b77464"
-	chemical_makeup = list(
+	color = "#b77464"
+	dissolves_into = list(
 		/decl/material/chem/potassium = 1
 	)
 	door_icon_base = "stone"
@@ -202,8 +206,8 @@
 	ore_spread_chance = 10
 	ore_scan_icon = "mineral_common"
 	ore_icon_overlay = "lump"
-	icon_colour = "#d8ad97"
-	chemical_makeup = list(
+	color = "#d8ad97"
+	dissolves_into = list(
 		/decl/material/aluminium = 1
 	)
 	door_icon_base = "stone"
@@ -221,19 +225,19 @@
 /decl/material/sand
 	name = "sand"
 	stack_type = null
-	icon_colour = "#e2dbb5"
+	color = "#e2dbb5"
 	ore_smelts_to = MAT_GLASS
 	ore_compresses_to = MAT_SANDSTONE
 	ore_name = "sand"
 	ore_icon_overlay = "dust"
-	chemical_makeup = list(
+	dissolves_into = list(
 		/decl/material/chem/silicon = 1
 	)
 	value = 0.8
 
 /decl/material/sand/clay
 	name = "clay"
-	icon_colour = COLOR_OFF_WHITE
+	color = COLOR_OFF_WHITE
 	ore_name = "clay"
 	ore_icon_overlay = "lump"
 	ore_smelts_to = MAT_CERAMIC
@@ -246,7 +250,7 @@
 	ignition_point = FLAMMABLE_GAS_MINIMUM_BURN_TEMPERATURE
 	icon_base = "stone"
 	table_icon_base = "stone"
-	icon_colour = "#e37108"
+	color = "#e37108"
 	shard_type = SHARD_SHARD
 	hardness = MAT_VALUE_RIGID
 	stack_origin_tech = "{'materials':2,'exoticmatter':2}"
@@ -254,7 +258,7 @@
 	sheet_singular_name = "crystal"
 	sheet_plural_name = "crystals"
 	is_fusion_fuel = 1
-	chemical_makeup = list(
+	dissolves_into = list(
 		/decl/material/chem/toxin/phoron = 1
 	)
 	construction_difficulty = MAT_VALUE_HARD_DIY
@@ -299,7 +303,7 @@
 /decl/material/phoron/supermatter
 	name = "exotic matter"
 	lore_text = "Hypercrystalline supermatter is a subset of non-baryonic 'exotic' matter. It is found mostly in the heart of large stars, and features heavily in bluespace technology."
-	icon_colour = "#ffff00"
+	color = "#ffff00"
 	radioactivity = 20
 	stack_origin_tech = "{'bluespace':2,'materials':6,'exoticmatter':4}"
 	stack_type = null

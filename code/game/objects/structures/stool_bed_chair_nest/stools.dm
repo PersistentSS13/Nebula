@@ -45,20 +45,20 @@
 	// Base icon.
 	var/list/noverlays = list()
 	var/image/I = image(icon, "[base_icon]_base")
-	I.color = material.icon_colour
+	I.color = material.color
 	noverlays |= I
 	// Padding overlay.
 	if(padding_material)
 		I =  image(icon, "[base_icon]_padding")
-		I.color = padding_material.icon_colour
+		I.color = padding_material.color
 		noverlays += I
 	overlays = noverlays
 	// Strings.
 	if(padding_material)
-		SetName("[padding_material.name] [initial(name)]") //this is not perfect but it will do for now.
+		SetName("[padding_material.solid_name] [initial(name)]") //this is not perfect but it will do for now.
 		desc = "A padded stool. Apply butt. It's made of [material.use_name] and covered with [padding_material.use_name]."
 	else
-		SetName("[material.name] [initial(name)]")
+		SetName("[material.solid_name] [initial(name)]")
 		desc = "A stool. Apply butt with care. It's made of [material.use_name]."
 
 /obj/item/stool/proc/add_padding(var/padding_type)

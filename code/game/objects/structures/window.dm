@@ -36,8 +36,8 @@
 
 /obj/structure/window/update_materials(var/keep_health)
 	. = ..()
-	name = "[reinf_material ? "reinforced " : ""][material.name] window"
-	desc = "A window pane made from [material.name]."
+	name = "[reinf_material ? "reinforced " : ""][material.solid_name] window"
+	desc = "A window pane made from [material.solid_name]."
 
 /obj/structure/window/Initialize(var/ml, var/dir_to_set, var/anchored, var/_mat, var/_reinf_mat)
 	. = ..(ml, _mat, _reinf_mat)
@@ -315,8 +315,8 @@
 /obj/structure/window/examine(mob/user)
 	. = ..(user)
 	if(reinf_material)
-		to_chat(user, SPAN_NOTICE("It is reinforced with the [reinf_material.name] lattice."))
-		
+		to_chat(user, SPAN_NOTICE("It is reinforced with the [reinf_material.solid_name] lattice."))
+
 /obj/structure/window/proc/set_anchored(var/new_anchored)
 	if(anchored == new_anchored)
 		return
@@ -341,9 +341,8 @@
 /obj/structure/window/on_update_icon()
 	//A little cludge here, since I don't know how it will work with slim windows. Most likely VERY wrong.
 	//this way it will only update full-tile ones
-	if(istype(material))
-		color =  material.icon_colour
-	if(istype(reinf_material))
+	color =  material.color
+	if(reinf_material)
 		basestate = reinf_basestate
 	else
 		basestate = initial(basestate)
@@ -453,7 +452,7 @@
 	if(!polarized)
 		return
 	if(opacity)
-		animate(src, color=material.icon_colour, time=5)
+		animate(src, color=material.color, time=5)
 		set_opacity(0)
 	else
 		animate(src, color=GLASS_COLOR_TINTED, time=5)
