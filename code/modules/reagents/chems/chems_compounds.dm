@@ -5,27 +5,8 @@
 	color = "#808080"
 	metabolism = REM * 0.2
 	value = 0.1
-
-/decl/material/chem/acetone/affect_blood(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
-	M.adjustToxLoss(removed * 3)
-
-/decl/material/chem/acetone/touch_obj(var/obj/O, var/amount, var/datum/reagents/holder)	//I copied this wholesale from ethanol and could likely be converted into a shared proc. ~Techhead
-	var/volume = REAGENT_VOLUME(holder, type)
-	if(istype(O, /obj/item/paper))
-		var/obj/item/paper/paperaffected = O
-		paperaffected.clearpaper()
-		to_chat(usr, "The solution dissolves the ink on the paper.")
-		return
-	if(istype(O, /obj/item/book))
-		if(volume < 5)
-			return
-		if(istype(O, /obj/item/book/tome))
-			to_chat(usr, "<span class='notice'>The solution does nothing. Whatever this is, it isn't normal ink.</span>")
-			return
-		var/obj/item/book/affectedbook = O
-		affectedbook.dat = null
-		to_chat(usr, "<span class='notice'>The solution dissolves the ink on the book.</span>")
-	return
+	solvent_power = MAT_SOLVENT_MODERATE
+	toxicity = 3
 
 /decl/material/chem/surfactant // Foam precursor
 	name = "surfacant"
@@ -47,11 +28,7 @@
 	taste_description = "slime"
 	color = "#009ca8"
 	value = 0.1
-
-/decl/material/chem/lube/touch_turf(var/turf/T, var/amount, var/datum/reagents/holder)
-	if(REAGENT_VOLUME(holder, type) >= 1 && istype(T, /turf/simulated))
-		var/turf/simulated/slip = T
-		slip.wet_floor(80)
+	slipperiness = 80
 
 /decl/material/chem/luminol
 	name = "luminol"
@@ -90,15 +67,7 @@
 	. = ..()
 	M.add_chemical_effect(CE_TOXIN, 1)
 	M.hallucination(60, 20)
-	M.druggy = max(M.druggy, 2)
-
-/decl/material/chem/sodiumchloride
-	name = "table salt"
-	lore_text = "A salt made of sodium chloride. Commonly used to season food."
-	taste_description = "salt"
-	color = "#ffffff"
-	overdose = REAGENTS_OVERDOSE
-	value = 0.1
+	M.adjust_drugged(2)
 
 /decl/material/chem/blackpepper
 	name = "black pepper"
@@ -404,24 +373,7 @@
 	taste_description = "bitterness"
 	color = "#c8a5dc"
 	touch_met = 5
-
-/decl/material/chem/antiseptic/affect_touch(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
-	if(M.germ_level < INFECTION_LEVEL_TWO) // rest and antibiotics is required to cure serious infections
-		M.germ_level -= min(removed*20, M.germ_level)
-	for(var/obj/item/I in M.contents)
-		I.was_bloodied = null
-	M.was_bloodied = null
-
-/decl/material/chem/antiseptic/touch_obj(var/obj/O, var/amount, var/datum/reagents/holder)
-	O.germ_level -= min(REAGENT_VOLUME(holder, type)*20, O.germ_level)
-	O.was_bloodied = null
-
-/decl/material/chem/antiseptic/touch_turf(var/turf/T, var/amount, var/datum/reagents/holder)
-	T.germ_level -= min(REAGENT_VOLUME(holder, type)*20, T.germ_level)
-	for(var/obj/item/I in T.contents)
-		I.was_bloodied = null
-	for(var/obj/effect/decal/cleanable/blood/B in T)
-		qdel(B)
+	dirtiness = DIRTINESS_STERILE
 
 /decl/material/chem/crystal_agent
 	name = "crystallizing agent"

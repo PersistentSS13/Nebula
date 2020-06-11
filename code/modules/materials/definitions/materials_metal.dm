@@ -9,10 +9,10 @@
 	door_icon_base = "stone"
 	table_icon_base = "stone"
 	icon_reinf = "reinf_stone"
-	icon_colour = "#007a00"
+	color = "#007a00"
 	weight = MAT_VALUE_HEAVY
 	stack_origin_tech = "{'materials':5}"
-	chemical_makeup = list(
+	dissolves_into = list(
 		/decl/material/uranium = 1
 	)
 	construction_difficulty = MAT_VALUE_HARD_DIY
@@ -21,25 +21,19 @@
 	removed_by_welder = TRUE
 	taste_description = "the inside of a reactor"
 
-/decl/material/uranium/affect_touch(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
-	affect_ingest(M, alien, removed, holder)
-
-/decl/material/uranium/affect_blood(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
-	M.apply_damage(5 * removed, IRRADIATE, armor_pen = 100)
-
 /decl/material/gold
 	name = "gold"
 	lore_text = "A heavy, soft, ductile metal. Once considered valuable enough to back entire currencies, now predominantly used in corrosion-resistant electronics."
 	wall_name = "bulkhead"
 	stack_type = /obj/item/stack/material/gold
-	icon_colour = COLOR_GOLD
+	color = COLOR_GOLD
 	weight = MAT_VALUE_HEAVY
 	hardness = MAT_VALUE_FLEXIBLE + 5
 	integrity = 100
 	stack_origin_tech = "{'materials':4}"
 	sheet_singular_name = "ingot"
 	sheet_plural_name = "ingots"
-	chemical_makeup = list(
+	dissolves_into = list(
 		/decl/material/gold = 1
 	)
 	construction_difficulty = MAT_VALUE_HARD_DIY
@@ -59,7 +53,7 @@
 	name = "bronze"
 	lore_text = "An alloy of copper and tin."
 	reflectiveness = MAT_VALUE_SHINY
-	icon_colour = "#edd12f"
+	color = "#edd12f"
 	construction_difficulty = MAT_VALUE_HARD_DIY
 	ore_smelts_to = null
 	ore_compresses_to = null
@@ -70,14 +64,14 @@
 /decl/material/copper
 	name = "copper"
 	wall_name = "bulkhead"
-	icon_colour = COLOR_COPPER
+	color = COLOR_COPPER
 	weight = MAT_VALUE_NORMAL
 	hardness = MAT_VALUE_FLEXIBLE + 10
 	reflectiveness = MAT_VALUE_SHINY
 	stack_origin_tech = "{'materials':2}"
 	sheet_singular_name = "ingot"
 	sheet_plural_name = "ingots"
-	chemical_makeup = list(
+	dissolves_into = list(
 		/decl/material/copper = 0.6,
 		/decl/material/silver = 0.4
 	)
@@ -95,14 +89,14 @@
 	lore_text = "A soft, white, lustrous transition metal. Has many and varied industrial uses in electronics, solar panels and mirrors."
 	wall_name = "bulkhead"
 	stack_type = /obj/item/stack/material/silver
-	icon_colour = "#d1e6e3"
+	color = "#d1e6e3"
 	weight = MAT_VALUE_HEAVY
 	hardness = MAT_VALUE_FLEXIBLE + 10
 	reflectiveness = MAT_VALUE_SHINY
 	stack_origin_tech = "{'materials':3}"
 	sheet_singular_name = "ingot"
 	sheet_plural_name = "ingots"
-	chemical_makeup = list(
+	dissolves_into = list(
 		/decl/material/silver = 1
 	)
 	construction_difficulty = MAT_VALUE_HARD_DIY
@@ -127,9 +121,9 @@
 	brute_armor = 5
 	icon_base = "solid"
 	icon_reinf = "reinf_over"
-	icon_colour = COLOR_STEEL
+	color = COLOR_STEEL
 	hitsound = 'sound/weapons/smash.ogg'
-	chemical_makeup = list(
+	dissolves_into = list(
 		/decl/material/iron = 0.98,
 		/decl/material/chem/carbon = 0.02
 	)
@@ -159,14 +153,14 @@
 	lore_text = "A low-density ductile metal with a silvery-white sheen."
 	wall_name = "bulkhead"
 	stack_type = /obj/item/stack/material/aluminium
-	chemical_makeup = list(
+	dissolves_into = list(
 		/decl/material/aluminium = 1
 	)
 	integrity = 125
 	weight = MAT_VALUE_LIGHT
 	icon_base = "solid"
 	icon_reinf = "reinf_over"
-	icon_colour = "#cccdcc"
+	color = "#cccdcc"
 	hitsound = 'sound/weapons/smash.ogg'
 	reflectiveness = MAT_VALUE_SHINY
 	removed_by_welder = TRUE
@@ -193,7 +187,7 @@
 	melting_point = 6000
 	icon_base = "solid"
 	icon_reinf = "reinf_over"
-	icon_colour = "#a8a9b2"
+	color = "#a8a9b2"
 	explosion_resistance = 25
 	brute_armor = 6
 	burn_armor = 10
@@ -220,7 +214,7 @@
 	stack_type = /obj/item/stack/material/titanium
 	icon_base = "metal"
 	door_icon_base = "metal"
-	icon_colour = "#d1e6e3"
+	color = "#d1e6e3"
 	icon_reinf = "reinf_metal"
 	construction_difficulty = MAT_VALUE_VERY_HARD_DIY
 	alloy_materials = null
@@ -235,7 +229,7 @@
 	melting_point = 12000
 	icon_base = "solid"
 	icon_reinf = "reinf_over"
-	icon_colour = "#9bc6f2"
+	color = "#9bc6f2"
 	brute_armor = 4
 	burn_armor = 20
 	weight = MAT_VALUE_HEAVY
@@ -251,7 +245,7 @@
 	lore_text = "An extremely hard form of platinum."
 	wall_name = "bulkhead"
 	stack_type = /obj/item/stack/material/osmium
-	icon_colour = "#9999ff"
+	color = "#9999ff"
 	stack_origin_tech = "{'materials':5}"
 	sheet_singular_name = "ingot"
 	sheet_plural_name = "ingots"
@@ -266,7 +260,7 @@
 	lore_text = "A very dense, unreactive, precious metal. Has many industrial uses, particularly as a catalyst."
 	wall_name = "bulkhead"
 	stack_type = /obj/item/stack/material/platinum
-	icon_colour = "#deddff"
+	color = "#deddff"
 	weight = MAT_VALUE_VERY_HEAVY
 	stack_origin_tech = "{'materials':2}"
 	sheet_singular_name = "ingot"
@@ -290,13 +284,13 @@
 	lore_text = "A ubiquitous, very common metal. The epitaph of stars and the primary ingredient in Earth's core."
 	wall_name = "bulkhead"
 	stack_type = /obj/item/stack/material/iron
-	icon_colour = "#5c5454"
+	color = "#5c5454"
 	weight = MAT_VALUE_HEAVY
 	sheet_singular_name = "ingot"
 	sheet_plural_name = "ingots"
 	hitsound = 'sound/weapons/smash.ogg'
 	construction_difficulty = MAT_VALUE_NORMAL_DIY
-	chemical_makeup = list(
+	dissolves_into = list(
 		/decl/material/iron = 1
 	)
 	reflectiveness = MAT_VALUE_MATTE
@@ -311,7 +305,7 @@
 	name = "dense alloy"
 	wall_name = "bulkhead"
 	stack_type = null
-	icon_colour = "#6c7364"
+	color = "#6c7364"
 	integrity = 1200
 	melting_point = 6000       // Hull plating.
 	explosion_resistance = 200 // Hull plating.
@@ -327,7 +321,7 @@
 /decl/material/voxalloy/elevatorium
 	name = "elevator panelling"
 	wall_name = "bulkhead"
-	icon_colour = "#666666"
+	color = "#666666"
 	construction_difficulty = MAT_VALUE_HARD_DIY
 	hidden_from_codex = TRUE
 
@@ -349,7 +343,7 @@
 
 /decl/material/aliumium/New()
 	icon_base = "metal"
-	icon_colour = rgb(rand(10,150),rand(10,150),rand(10,150))
+	color = rgb(rand(10,150),rand(10,150),rand(10,150))
 	explosion_resistance = rand(25,40)
 	brute_armor = rand(10,20)
 	burn_armor = rand(10,20)
@@ -366,7 +360,7 @@
 	name = "hematite"
 	wall_name = "bulkhead"
 	stack_type = null
-	icon_colour = "#aa6666"
+	color = "#aa6666"
 	ore_smelts_to = MAT_IRON
 	ore_result_amount = 5
 	ore_spread_chance = 25
@@ -382,7 +376,7 @@
 	name = "rutile"
 	wall_name = "bulkhead"
 	stack_type = null
-	icon_colour = "#d8ad97"
+	color = "#d8ad97"
 	ore_smelts_to = MAT_TITANIUM
 	ore_result_amount = 5
 	ore_spread_chance = 15

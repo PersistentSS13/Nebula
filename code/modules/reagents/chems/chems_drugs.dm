@@ -93,14 +93,14 @@
 	metabolism = REM * 0.5
 	overdose = REAGENTS_OVERDOSE
 	value = 2
+	narcosis = 7
+
+	euphoriant = 15
+	euphoriant_max = 15
 
 /decl/material/chem/psychoactives/affect_blood(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
-	var/drug_strength = 15
-	M.druggy = max(M.druggy, drug_strength)
-	if(prob(10))
-		M.SelfMove(pick(GLOB.cardinal))
-	if(prob(7))
-		M.emote(pick("twitch", "drool", "moan", "giggle"))
+	..()
+	M.adjust_drugged(15, 15)
 	M.add_chemical_effect(CE_PULSE, -1)
 
 /decl/material/chem/hallucinogenics
@@ -124,11 +124,11 @@
 	overdose = REAGENTS_OVERDOSE
 	metabolism = REM * 0.5
 	value = 2
+	euphoriant = 30
+	euphoriant_max = 30
 
 /decl/material/chem/psychotropics/affect_blood(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
 	var/threshold = 1
-	M.druggy = max(M.druggy, 30)
-
 	if(M.chem_doses[type] < 1 * threshold)
 		M.apply_effect(3, STUTTER)
 		M.make_dizzy(5)
@@ -138,7 +138,8 @@
 		M.apply_effect(3, STUTTER)
 		M.make_jittery(5)
 		M.make_dizzy(5)
-		M.druggy = max(M.druggy, 35)
+		M.adjust_drugged(35, 35)
+
 		if(prob(10))
 			M.emote(pick("twitch", "giggle"))
 	else
@@ -146,7 +147,7 @@
 		M.apply_effect(3, STUTTER)
 		M.make_jittery(10)
 		M.make_dizzy(10)
-		M.druggy = max(M.druggy, 40)
+		M.adjust_drugged(40, 40)
 		if(prob(15))
 			M.emote(pick("twitch", "giggle"))
 

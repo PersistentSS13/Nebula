@@ -15,6 +15,7 @@
 	taste_mult = 1.5
 	color = "#1c1300"
 	value = 0.5
+	dirtiness = 30
 
 /decl/material/chem/carbon/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
 	var/datum/reagents/ingested = M.get_ingested_reagents()
@@ -24,28 +25,13 @@
 			if(R != type)
 				ingested.remove_reagent(R, removed * effect)
 
-/decl/material/chem/carbon/touch_turf(var/turf/T, var/amount, var/datum/reagents/holder)
-	if(!istype(T, /turf/space))
-		var/volume = REAGENT_VOLUME(holder, src)
-		var/obj/effect/decal/cleanable/dirt/dirtoverlay = locate(/obj/effect/decal/cleanable/dirt, T)
-		if (!dirtoverlay)
-			dirtoverlay = new/obj/effect/decal/cleanable/dirt(T)
-			dirtoverlay.alpha = volume * 30
-		else
-			dirtoverlay.alpha = min(dirtoverlay.alpha + volume * 30, 255)
-
 /decl/material/chem/lithium
 	name = "lithium"
 	lore_text = "A chemical element, used as antidepressant."
 	taste_description = "metal"
 	color = "#808080"
 	value = 0.5
-
-/decl/material/chem/lithium/affect_blood(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
-	if(istype(M.loc, /turf/space))
-		M.SelfMove(pick(GLOB.cardinal))
-	if(prob(5))
-		M.emote(pick("twitch", "drool", "moan"))
+	narcosis = 5
 
 /decl/material/chem/mercury
 	name = "mercury"
@@ -53,13 +39,7 @@
 	taste_mult = 0 //mercury apparently is tasteless. IDK
 	color = "#484848"
 	value = 0.5
-
-/decl/material/chem/mercury/affect_blood(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
-	if(istype(M.loc, /turf/space))
-		M.SelfMove(pick(GLOB.cardinal))
-	if(prob(5))
-		M.emote(pick("twitch", "drool", "moan"))
-	M.adjustBrainLoss(0.1)
+	narcosis = 5
 
 /decl/material/chem/phosphorus
 	name = "phosphorus"
@@ -89,9 +69,6 @@
 	color = "#c7c7c7"
 	value = 0.5
 	radioactivity = 12
-
-/decl/material/chem/radium/affect_blood(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
-	M.apply_damage(10 * removed, IRRADIATE, armor_pen = 100) // Radium may increase your chances to cure a disease
 
 /decl/material/chem/silicon
 	name = "silicon"
