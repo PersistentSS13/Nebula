@@ -6,3 +6,8 @@
 		is_on_fire = 0
 	if(zone)
 		c_copy_air()
+
+/turf/simulated/after_deserialize()
+	. = ..()
+	for(var/decal in decals)
+		overlays += decal

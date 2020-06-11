@@ -69,7 +69,6 @@
 			"role_alt_title",
 			"assigned_job",
 			"objectives",
-			"special_verbs",
 			"has_been_rev",
 			"faction",
 			"changeling",
@@ -1912,6 +1911,12 @@
 		]
 	},
 	{
+		"path":"/turf/simulated",
+		"vars":[
+			"decals"
+		]
+	},
+	{
 		"path":"/turf/simulated/wall",
 		"vars":[
 			"floor_type",
@@ -2435,18 +2440,16 @@
 		]
 	},
 	{
-		"path":"/image",
+		"path":"/datum/wrapper/image",
 		"vars":[
 			"color",
-			"icon",
 			"icon_state",
-			"appearance_flags",
-			"plane",
 			"alpha",
 			"layer",
 			"dir",
-			"visibility"
-		]
+			"appearance_flags"
+		],
+		"flatten":true
 	},
 	{
 		"path":"/obj/machinery/light",
@@ -3048,7 +3051,6 @@
 			"no_attack_log",
 			"master",
 			"origin_tech",
-			"attack_verb",
 			"lock_picking_level",
 			"melee_accuracy_bonus",
 			"heat_protection",
@@ -3988,6 +3990,12 @@
 			"apc"
 		],
 		"flatten":true
+	},
+	{
+		"path":"/obj/effect/decal/cleanable",
+		"vars":[
+			"age"
+		]
 	},
 	{
 		"path":"/datum/extension/lockable",

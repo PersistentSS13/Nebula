@@ -18,7 +18,7 @@
 	var/area/A = new area_type()
 	A.name = name
 	A.has_gravity = has_gravity
-
+ 
 	var/list/new_turfs = list()
 	for(var/index in 1 to length(turfs))
 		var/list/coords = splittext(turfs[index], ",")
