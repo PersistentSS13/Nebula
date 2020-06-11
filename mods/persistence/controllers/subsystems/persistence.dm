@@ -125,12 +125,16 @@ SUBSYSTEM_DEF(persistence)
 
 		// This will save all the turfs/world.
 		var/index = 1
+		var/list/areas_to_save = list()
 		for(var/z in saved_levels)
 			var/default_turf = get_base_turf(z)
 			for(var/x in 1 to world.maxx)
 				for(var/y in 1 to world.maxy)
 					// Get the thing to serialize and serialize it.
 					var/turf/T = locate(x,y,z)
+					var/area/A = get_area(T)
+					if("\ref[A]" in areas_to_save)
+						areas_to_save["\ref[A]"] = A
 					// This if statement, while complex, checks to see if we should save this turf.
 					// Turfs not saved become their default_turf after deserialization.
 					if(!istype(T) || istype(T, default_turf))
@@ -156,6 +160,14 @@ SUBSYSTEM_DEF(persistence)
 					// Prevent the whole game from locking up.
 					CHECK_TICK
 			serializer.Commit() // cleanup leftovers.
+
+		for(var/AK in areas_to_save)
+			var/area/A = areas_to_save[AK]
+			var/z
+			for(var/turf/T in A)
+				z = T.z
+				break
+			serializer.Serialize(A, null, z)
 
 		// Insert our z-level remaps.
 		var/list/z_inserts = list()
@@ -214,12 +226,12 @@ SUBSYSTEM_DEF(persistence)
 			if(z_level.dynamic)
 				INCREMENT_WORLD_Z_SIZE
 				z_level.new_index = world.maxz
-				if(z_level.default_turf && !ispath(z_level.default_turf, /turf/space))
-					for(var/turf/T in block(locate(1, 1, z_level.new_index), locate(world.maxx, world.maxy, z_level.new_index)))
-						T.ChangeTurf(z_level.default_turf)
 			else
 				z_level.new_index = z_level.index
-			to_world_log("Mapping Save Z ([z_level.index]) to World Z ([z_level.new_index])")
+			if(z_level.default_turf && !ispath(z_level.default_turf, /turf/space))
+				for(var/turf/T in block(locate(1, 1, z_level.new_index), locate(world.maxx, world.maxy, z_level.new_index)))
+					T.ChangeTurf(z_level.default_turf)
+			to_world_log("Mapping Save Z ([z_level.index]) to World Z ([z_level.new_index]) with default turf ([z_level.default_turf]).")
 			serializer.z_map["[z_level.index]"] = z_level.new_index
 		to_world_log("Z-Levels loaded!")
 

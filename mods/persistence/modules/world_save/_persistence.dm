@@ -12,7 +12,6 @@
 
 /turf
 	var/is_on_fire = FALSE
-	var/list/saved_decals
 
 /obj/fire
 	should_save = FALSE

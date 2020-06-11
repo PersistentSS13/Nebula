@@ -69,11 +69,9 @@
 			"role_alt_title",
 			"assigned_job",
 			"objectives",
-			"special_verbs",
 			"has_been_rev",
 			"faction",
 			"changeling",
-			"rev_cooldown",
 			"brigged_since",
 			"initial_account",
 			"philotic_damage",
@@ -534,7 +532,6 @@
 			"bleed_ticks",
 			"can_bleed",
 			"in_stasis",
-			"ability_cooldown",
 			"time_last_used_ability",
 			"return_damage_min",
 			"return_damage_max"
@@ -670,7 +667,6 @@
 			"secured",
 			"attached_overlays",
 			"holder",
-			"cooldown",
 			"wires"
 		]
 	},
@@ -787,7 +783,6 @@
 			"dna",
 			"damage",
 			"min_broken_damage",
-			"max_damage",
 			"rejecting",
 			"death_time"
 		]
@@ -1916,6 +1911,12 @@
 		]
 	},
 	{
+		"path":"/turf/simulated",
+		"vars":[
+			"decals"
+		]
+	},
+	{
 		"path":"/turf/simulated/wall",
 		"vars":[
 			"floor_type",
@@ -1947,13 +1948,11 @@
 			"contents",
 			"density",
 			"icon_state",
-			"name",
 			"pixel_x",
 			"pixel_y",
 			"dir",
 			"air",
-			"is_on_fire",
-			"saved_decals"
+			"is_on_fire"
 		]
 	},
 	{
@@ -1981,7 +1980,6 @@
 			"resting",
 			"lying",
 			"lying_prev",
-			"radio_interrupt_cooldown",
 			"unacidable",
 			"pinned",
 			"embedded",
@@ -2067,7 +2065,6 @@
 		"vars":[
 			"visibility",
 			"contents",
-			"density",
 			"dir",
 			"icon",
 			"icon_state",
@@ -2076,14 +2073,8 @@
 			"pixel_x",
 			"pixel_y",
 			"loc",
-			"w_class",
-			"unacidable",
-			"throwforce",
 			"sharp",
 			"edge",
-			"in_use",
-			"damtype",
-			"armor_penetration",
 			"anchor_fall",
 			"holographic",
 			"req_access"
@@ -2092,13 +2083,11 @@
 	{
 		"path":"/datum/robot_component",
 		"vars":[
-			"name",
 			"installed",
 			"powered",
 			"toggled",
 			"brute_damage",
 			"electronics_damage",
-			"max_damage",
 			"external_type",
 			"wrapped"
 		]
@@ -2451,33 +2440,14 @@
 		]
 	},
 	{
-		"path":"/image",
+		"path":"/datum/wrapper/image",
 		"vars":[
 			"color",
-			"icon",
 			"icon_state",
-			"appearance_flags",
-			"plane",
 			"alpha",
 			"layer",
 			"dir",
-			"visibility"
-		]
-	},
-	{
-		"path":"/datum/wrapper/area",
-		"vars":[
-			"area_type",
-			"name",
-			"turfs",
-			"has_gravity",
-			"apc"
-		]
-	},
-	{
-		"path":"/datum/wrapper/multiz",
-		"vars":[
-			"saved_z_levels"
+			"appearance_flags"
 		],
 		"flatten":true
 	},
@@ -2698,7 +2668,6 @@
 			"icon_state_open_broken",
 			"icon_state_closed_broken",
 			"begins_closed",
-			"min_force",
 			"maxhealth",
 			"block_air_zones",
 			"explosion_resistance",
@@ -3082,10 +3051,7 @@
 			"no_attack_log",
 			"master",
 			"origin_tech",
-			"attack_verb",
 			"lock_picking_level",
-			"force",
-			"attack_cooldown",
 			"melee_accuracy_bonus",
 			"heat_protection",
 			"cold_protection",
@@ -3136,7 +3102,6 @@
 			"maxhealth",
 			"health",
 			"destroy_hits",
-			"min_force",
 			"pry_mod",
 			"repairing",
 			"block_air_zones",
@@ -3287,10 +3252,7 @@
 	{
 		"path":"/obj/item/organ/external/groin/insectoid/mantid",
 		"vars":[
-			"existing_webs",
-			"max_webs",
-			"web_weave_time",
-			"cooldown"
+			"existing_webs"
 		]
 	},
 	{
@@ -3363,10 +3325,8 @@
 			"total_damage",
 			"brute_damage",
 			"burn_damage",
-			"max_damage",
 			"damage_state",
 			"has_hardpoints",
-			"decal",
 			"power_use"
 		]
 	},
@@ -3530,8 +3490,6 @@
 			"activators",
 			"complexity",
 			"size",
-			"cooldown_per_use",
-			"ext_cooldown",
 			"power_draw_per_use",
 			"power_draw_idle",
 			"spawn_flags",
@@ -3849,25 +3807,6 @@
 		]
 	},
 	{
-		"path":"/datum/wrapper/decal",
-		"vars":[
-			"icon",
-			"icon_state",
-			"appearance_flags",
-			"color",
-			"dir",
-			"plane",
-			"layer",
-			"alpha",
-			"detail_overlay",
-			"detail_color",
-			"x",
-			"y",
-			"z"
-		],
-		"flatten":true
-	},
-	{
 		"path":"/datum/computer_file/report/crew_record",
 		"vars":[
 			"grants",
@@ -3909,13 +3848,6 @@
 		"vars":[
 			"materials"
 		]
-	},
-	{
-		"path":"/datum/wrapper/game_data",
-		"vars":[
-			"key"
-		],
-		"flatten":true
 	},
 	{
 		"path":"/obj/machinery/power/terminal",
@@ -4040,6 +3972,29 @@
 		"path":"/obj/item/screwdriver",
 		"vars":[
 			"handle_color"
+		]
+	},
+	{
+		"path":"/datum/wrapper",
+		"vars":[
+			"key"
+		],
+		"flatten":true
+	},
+	{
+		"path":"/datum/wrapper/area",
+		"vars":[
+			"name",
+			"turfs",
+			"has_gravity",
+			"apc"
+		],
+		"flatten":true
+	},
+	{
+		"path":"/obj/effect/decal/cleanable",
+		"vars":[
+			"age"
 		]
 	},
 	{

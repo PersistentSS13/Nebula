@@ -15,24 +15,14 @@
 	// Add the flatten serializer.
 	var/serializer/json/flattener
 
-	var/list/wrappers = list(
-		/datum/species	 	= /datum/wrapper/game_data/species,
-		/decl/material 		= /datum/wrapper/game_data/material,
-		/decl				= /datum/wrapper/game_data/decl
-	)
-
 #ifdef SAVE_DEBUG
 	var/verbose_logging = FALSE
 #endif
 
 
 /serializer/sql/New()
+	..()
 	flattener = new(src)
-
-/serializer/sql/proc/get_wrapper(var/D)
-	for(var/wrapper_type in wrappers)	
-		if(istype(D, wrapper_type))
-			return wrappers[wrapper_type]
 
 // Serialize an object datum. Returns the appropriate serialized form of the object. What's outputted depends on the serializer.
 /serializer/sql/SerializeDatum(var/datum/object, var/object_parent)
@@ -119,7 +109,7 @@
 		else if(get_wrapper(VV))
 			VT = "WRAP"
 			var/wrapper_path = get_wrapper(VV)
-			var/datum/wrapper/game_data/GD = new wrapper_path
+			var/datum/wrapper/GD = new wrapper_path
 			if(!GD)
 				// Missing wrapper!
 				continue
@@ -128,9 +118,6 @@
 				// Wrapper is null.
 				continue
 			VV = flattener.SerializeDatum(GD)
-		else if (isarea(VV))
-			VT = "AREA"
-			VV = SerializeArea(VV)
 		else if (istype(VV, /datum))
 			var/datum/VD = VV
 			if(!VD.should_save(object))
@@ -205,7 +192,7 @@
 		else if(get_wrapper(key))
 			KT = "WRAP"
 			var/wrapper_path = get_wrapper(key)
-			var/datum/wrapper/game_data/GD = new wrapper_path
+			var/datum/wrapper/GD = new wrapper_path
 			if(!GD)
 				// Missing wrapper!
 				continue
@@ -214,9 +201,6 @@
 				// Wrapper is null.
 				continue
 			KV = flattener.SerializeDatum(GD)
-		else if(isarea(key))
-			KT = "AREA"
-			KV = SerializeArea(KV)
 		else if(istype(key, /datum))
 			var/datum/key_d = key
 			if(!key_d.should_save(list_parent))
@@ -250,7 +234,7 @@
 			else if(get_wrapper(EV))
 				ET = "WRAP"
 				var/wrapper_path = get_wrapper(EV)
-				var/datum/wrapper/game_data/GD = new wrapper_path
+				var/datum/wrapper/GD = new wrapper_path
 				if(!GD)
 					// Missing wrapper!
 					continue
@@ -259,11 +243,6 @@
 					// Wrapper is null.
 					continue
 				EV = flattener.SerializeDatum(GD)
-			else if(isarea(key))
-				ET = "AREA"
-				EV = SerializeArea(EV)
-				if(isnull(EV))
-					continue
 			else if (istype(EV, /datum))
 				if(should_flatten(EV))
 					ET = "FLAT_OBJ" // If we flatten an object, the var becomes json. This saves on indexes for simple objects.
@@ -332,7 +311,7 @@
 				if("NULL")
 					existing.vars[TV.key] = null
 				if("WRAP")
-					var/datum/wrapper/game_data/GD = flattener.QueryAndDeserializeDatum(TV.value)
+					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(TV.value)
 					existing.vars[TV.key] = GD.on_deserialize()
 				if("LIST")
 					existing.vars[TV.key] = QueryAndDeserializeList(TV.value)
@@ -342,8 +321,6 @@
 					existing.vars[TV.key] = flattener.QueryAndDeserializeDatum(TV.value)
 				if("FILE")
 					existing.vars[TV.key] = file(TV.value)
-				if("AREA")
-					existing.vars[TV.key] = DeserializeArea(TV.value)
 		catch(var/exception/e)
 			to_world_log("Failed to deserialize '[TV.key]' of type '[TV.var_type]' on line [e.line] / file [e.file] for reason: '[e]'.")
 #ifdef SAVE_DEBUG
@@ -369,6 +346,9 @@
 					key_value = text2num(LE.key)
 				if("PATH")
 					key_value = text2path(LE.key)
+				if("WRAP")
+					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(LE.key)
+					key_value = GD.on_deserialize()
 				if("LIST")
 					key_value = QueryAndDeserializeList(LE.key)
 				if("OBJ")
@@ -377,8 +357,6 @@
 					key_value = flattener.QueryAndDeserializeDatum(LE.key)
 				if("FILE")
 					key_value = file(LE.key)
-				if("AREA")
-					key_value = DeserializeArea(LE.key)
 
 			switch(LE.value_type)
 				if("NULL")
@@ -390,6 +368,9 @@
 					existing[key_value] = text2num(LE.value)
 				if("PATH")
 					existing[key_value] = text2path(LE.value)
+				if("WRAP")
+					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(LE.value)
+					existing[key_value] = GD.on_deserialize()
 				if("LIST")
 					existing[key_value] = QueryAndDeserializeList(LE.value)
 				if("OBJ")
@@ -398,46 +379,11 @@
 					existing[key_value] = flattener.QueryAndDeserializeDatum(LE.value)
 				if("FILE")
 					existing[key_value] = file(LE.value)
-				if("AREA")
-					existing[key_value] = DeserializeArea(LE.value)
 
 		catch(var/exception/e)
 			to_world_log("Failed to deserialize list element [key_value] on line [e.line] / file [e.file] for reason: [e].")
 
 	return existing
-
-
-/serializer/sql/proc/SerializeArea(var/area/A)
-	var/existing = thing_map["\ref[A]"]
-	if(existing) return existing
-	if(istype(A, /area/space)) return
-	var/datum/wrapper/area/wrapper = new(A)
-
-	var/area_id = SerializeDatum(wrapper)
-	thing_map["\ref[A]"] = area_id
-	return area_id
-
-
-/serializer/sql/proc/DeserializeArea(var/area_id)
-	var/existing = reverse_map["[area_id]"]
-	if(existing)
-		return existing
-
-	var/datum/wrapper/area/area_wrapper = QueryAndDeserializeDatum(area_id)
-	var/area/A = new area_wrapper.area_type()
-	A.name = area_wrapper.name
-	A.has_gravity = area_wrapper.has_gravity
-	A.apc = area_wrapper.apc
-	var/list/turfs = list()
-	for(var/index in 1 to length(area_wrapper.turfs))
-		var/list/coords = splittext(area_wrapper.turfs[index], ",")
-		var/turf/T = locate(text2num(coords[1]), text2num(coords[2]), text2num(coords[3]))
-		turfs |= T
-	A.contents.Add(turfs)
-
-	reverse_map["[area_id]"] = A
-	return A
-
 
 /serializer/sql/proc/Commit()
 	establish_db_connection()
