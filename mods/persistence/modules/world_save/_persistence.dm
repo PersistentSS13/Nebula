@@ -69,7 +69,7 @@
 		if(z in SSpersistence.saved_levels)
 			should_save = TRUE
 	start_x = x
-	start_y = x
+	start_y = y
 	..()
 
 /datum/computer_file/report/after_deserialize()

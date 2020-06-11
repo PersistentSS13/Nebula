@@ -1,7 +1,7 @@
 /datum/shuttle/New(_name, var/obj/effect/shuttle_landmark/initial_location)
 	if(!SSpersistence.in_loaded_world)
 		return ..()
-	
+
 /datum/shuttle/after_deserialize()
 	. = ..()
 
