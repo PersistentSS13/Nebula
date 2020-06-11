@@ -84,20 +84,20 @@
 		to_chat(src, SPAN_NOTICE("Wait until the round starts to join."))
 		return
 	if(!config.enter_allowed)
-		to_chat(usr, "<span class='notice'>There is an administrative lock on entering the game!</span>")
+		to_chat(usr, SPAN_NOTICE("There is an administrative lock on entering the game!"))
 		return
 	if(spawning)
 		return
-	for(var/mob/M in SSmobs.mob_list)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
+	for(var/mob/M in GLOB.living_mob_list_)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
 		if(M.loc && !istype(M, /mob/new_player) && (M.saved_ckey == ckey || M.saved_ckey == "@[ckey]"))
 			transition_to_game()
 			to_chat(src, SPAN_NOTICE("A character is already in game."))
 			spawning = TRUE
 			M.key = key
+			qdel(src)
 			return
 
 	create_character()	// Creating a new character based off the player's preferences.
-
 	qdel(src)
 
 /mob/new_player/create_character()
