@@ -240,11 +240,6 @@
 	arrival_sound = null
 	lift_announce_str = null
 
-/area/turbolift/alert_on_fall(var/mob/living/carbon/human/H)
-	if(H.client && SSpersistence.elevator_fall_shifts > 0)
-		SSwebhooks.send(WEBHOOK_ELEVATOR_FALL, list("text" = "We managed to make it [SSpersistence.elevator_fall_shifts] shift\s without someone falling down an elevator shaft."))
-		SSpersistence.elevator_fall_shifts = -1
-
 /area/turbolift/tradeship_enclave
 	name = "Disused Sublevel"
 	base_turf = /turf/simulated/floor
