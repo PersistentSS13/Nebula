@@ -16,6 +16,10 @@
 			continue
 		maploader.load_map(map_file, 1, 1, text2num(z), no_changeturf = TRUE)
 		CHECK_TICK
+	for(var/z in GLOB.using_map.station_levels)
+		if(z == 1)
+			continue
+		z_levels[z] = TRUE
 
 	// Build the list of static persisted levels from our map.
 #ifdef UNIT_TEST
