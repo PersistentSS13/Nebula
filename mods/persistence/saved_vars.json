@@ -1815,9 +1815,13 @@
 	{
 		"path":"/obj/structure/door_assembly",
 		"vars":[
-			"panel_icon",
-			"fill_icon",
-			"glass_icon"
+			"state",
+			"glass",
+			"glass_material",
+			"door_color",
+			"stripe_color",
+			"symbol_color",
+			"electronics"
 		]
 	},
 	{
@@ -3970,6 +3974,12 @@
 	},
 	{
 		"path":"/obj/item/screwdriver",
+		"vars":[
+			"handle_color"
+		]
+	},
+	{
+		"path":"/obj/item/wrench",
 		"vars":[
 			"handle_color"
 		]
