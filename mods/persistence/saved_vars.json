@@ -158,7 +158,20 @@
 	{
 		"path":"/datum/shuttle",
 		"vars":[
-			"name"
+			"name",
+			"shuttle_area",
+			"current_location",
+			"moving_status",
+			"flags"
+		]
+	},
+	{
+		"path":"/datum/shuttle/autodock",
+		"vars":[
+			"current_dock_target",
+			"dock_target",
+			"docking_codes",
+			"next_location"
 		]
 	},
 	{
@@ -1274,6 +1287,13 @@
 		"path":"/obj/machinery/computer/telecomms/server",
 		"vars":[
 			"network"
+		]
+	},
+	{
+		"path":"/obj/machinery/computer/shuttle_control",
+		"vars":[
+			"hacked",
+			"shuttle_tag"
 		]
 	},
 	{
@@ -2814,9 +2834,19 @@
 		"path":"/obj/effect/overmap/visitable/ship/landable",
 		"vars":[
 			"tag_shuttle_mech_sensor",
+			"shuttle",
 			"landmark",
 			"multiz",
-			"status"
+			"status",
+			"saved_shuttle"
+		]
+	},
+	{
+		"path":"/obj/effect/shuttle_landmark",
+		"vars":[
+			"base_area",
+			"base_turf",
+			"shuttle_restricted"
 		]
 	},
 	{
@@ -2824,6 +2854,12 @@
 		"vars":[
 			"shuttle_name",
 			"visitors"
+		]
+	},
+	{
+		"path":"/obj/effect/shuttle_landmark/visiting_shuttle",
+		"vars":[
+			"core_landmark"
 		]
 	},
 	{
@@ -2876,6 +2912,21 @@
 		]
 	},
 	{
+		"path":"/obj/machinery/network/stellar_anchor",
+		"vars":[
+			"anchored_areas",
+			"should_launch",
+			"sector_name",
+			"created_sector"
+		]
+	},
+	{
+		"path":"/obj/machinery/network/stellar_anchor/ship_core",
+		"vars":[
+			"parent_shuttle"
+		]
+	},
+	{
 		"path":"/datum/shuttle/autodock/overmap",
 		"vars":[
 			"range",
@@ -2902,9 +2953,10 @@
 			"start_x",
 			"start_y",
 			"base",
-			"in_space",
+			"sector_flags",
 			"hide_from_reports",
-			"has_distress_beacon"
+			"has_distress_beacon",
+			"free_landing"
 		]
 	},
 	{

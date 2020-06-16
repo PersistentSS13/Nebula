@@ -25,8 +25,8 @@
 		"4" = /turf/simulated/open
 	)
 
-	overmap_size = 35
-	overmap_event_areas = 34
+	overmap_size = 100
+	overmap_event_areas = 250
 
 	allowed_spawns = list("Cyrogenic Storage")
 	default_spawn = "Cyrogenic Storage"

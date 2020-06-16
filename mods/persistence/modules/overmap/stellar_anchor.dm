@@ -13,26 +13,45 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 
 	var/should_launch = FALSE						 // Used to determine when launching blurb should be added to the UI.
 	var/sector_name									 // Name and identifying tag of the created sector, shuttle, ship etc.
-	var/obj/effect/overmap/visitable/created_sector  // Keep track of the created effect to prevent spam creation of sectors.
+	var/obj/effect/overmap/visitable/created_sector  // The ship or sector created by the stellar anchor. Also keeps track of if the
+													 // stellar anchor is anchoring areas or z_levels.
 	var/sector_type = /obj/effect/overmap/visitable/sector/created
 	var/sector_color = COLOR_WHITE					 // Color of the sector or other objects created by the stellar anchor.
 
 /obj/machinery/network/stellar_anchor/Initialize()
 	. = ..()
-	GLOB.world_saving_event.register(SSpersistence, src, /obj/machinery/network/stellar_anchor/proc/on_world_saving)
+	GLOB.world_saving_start_event.register(SSpersistence, src, /obj/effect/overmap/visitable/proc/on_saving_start)
+	GLOB.world_saving_finish_event.register(SSpersistence, src, /obj/effect/overmap/visitable/proc/on_saving_end)
 	GLOB.stellar_anchors += src
+
 	set_extension(src, /datum/extension/eye/stellar_anchor)
 
 /obj/machinery/network/stellar_anchor/Destroy()
 	. = ..()
-	GLOB.world_saving_event.unregister(SSpersistence, src)
+	GLOB.world_saving_start_event.unregister(SSpersistence, src)
+	GLOB.world_saving_finish_event.unregister(SSpersistence, src)
 	GLOB.stellar_anchors -= src
 
-/obj/machinery/network/stellar_anchor/proc/on_world_saving()
+/obj/machinery/network/stellar_anchor/proc/on_saving_start()
 	if(is_paid())
-		refresh_anchored_areas()
-		for(var/A in anchored_areas)
-			SSpersistence.AddSavedArea(A)
+		if(created_sector)
+			if(z in created_sector.map_z) // Stellar anchor must be in the sector's z-level(s) to save it.
+				for(var/sector_z in created_sector.map_z)
+					SSpersistence.saved_levels |= sector_z
+		else
+			refresh_anchored_areas()
+			for(var/A in anchored_areas)
+				SSpersistence.AddSavedArea(A)
+
+/obj/machinery/network/stellar_anchor/proc/on_saving_end()
+	for(var/A in anchored_areas)
+		SSpersistence.RemoveSavedArea(A)
+	
+	if(created_sector)
+		for(var/sector_z in created_sector.map_z)
+			if(z in GLOB.using_map.saved_levels) // Safety check.
+				continue
+			SSpersistence.saved_levels -= sector_z
 
 /obj/machinery/network/stellar_anchor/ui_data(var/mob/user, ui_key)
 	. = ..()
@@ -106,11 +125,8 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 		. += "this area cannot be anchored"
 	if(area_to_add in anchored_areas)
 		. += "this area is already being anchored by \the [src]"
-	else
-		for(var/obj/machinery/network/stellar_anchor/other_anchor in GLOB.stellar_anchors)
-			if(area_to_add in other_anchor.anchored_areas)
-				. += "this area is already being anchored by another stellar anchor"
-				break
+	if(area_to_add in SSpersistence.saved_areas)
+		. += "this area is already being anchored by another stellar anchor"
 
 	if(!LAZYLEN(.))
 		LAZYDISTINCTADD(anchored_areas, area_to_add)
@@ -183,7 +199,7 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 	if(!origin_sector)	// In case a player is launching from an area unknown to the overmap. In normal gameplay this should not occur.
 		LAZYDISTINCTADD(errors, "\The [src] cannot be launched from this location")
 		. = FALSE
-	else if(!istype(origin_sector, /obj/effect/overmap/visitable/ship/))
+	else if(!istype(origin_sector, /obj/effect/overmap/visitable/ship))
 		LAZYDISTINCTADD(errors, "\The [src] must be launched from a ship")
 		. = FALSE
 	
@@ -234,22 +250,6 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 			else
 				create_landable_ship()
 				return TOPIC_REFRESH
-
-/obj/machinery/network/stellar_anchor/ship_core/after_save()
-	. = ..()
-	
-	if(istype(parent_shuttle) && length(anchored_areas) && SSpersistence.in_loaded_world)
-		// Landmark it
-		var/obj/effect/shuttle_landmark/ship/landmark = new()
-		landmark.shuttle_name = parent_shuttle.name
-		landmark.loc = loc
-
-		// Rebuild shuttle effect.
-		var/obj/effect/overmap/visitable/ship/landable/ship = new()
-		ship.name = parent_shuttle.name
-		ship.loc = loc
-		ship.shuttle = parent_shuttle
-		ship.landmark = landmark
 
 // Ship cores create ships that do not stay in one z-level, so some checks are unnecessary.
 /obj/machinery/network/stellar_anchor/ship_core/is_valid_location(var/produce_error = TRUE)
@@ -341,7 +341,7 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 		base_area = /area/space
 	 
 	var/obj/effect/shuttle_landmark/temporary/construction/landmark = new(get_turf(src), base_area, get_base_turf(z))
-	parent_shuttle = new /datum/shuttle/autodock/overmap(sector_name, landmark, anchored_areas)
+	parent_shuttle = new /datum/shuttle/autodock/overmap(sector_name, landmark, anchored_areas.Copy())
 
 	var/obj/effect/overmap/visitable/ship/landable/ship = new(get_turf(src), sector_name)
 	ship.color = sector_color
