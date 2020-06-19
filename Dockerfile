@@ -34,11 +34,13 @@ ENTRYPOINT ["test/run-test.sh"]
 
 
 FROM persistentss13/byond:512-latest as ss13
-RUN mkdir -p /persistent/data /persistent/config
+RUN mkdir -p /persistent/data /persistent/config /persistent/html /persistent/nano /persistent/fonts
 COPY .git/HEAD /persistent/.git/HEAD
 COPY .git/logs/HEAD /persistent/.git/logs/HEAD
 COPY --from=test_setup /wait.sh /wait.sh
-COPY --from=compile * /persistent/
+COPY --from=compile /persistent/html /persistent/html
+COPY --from=compile /persistent/nano /persistent/nano
+COPY --from=compile /persistent/fonts /persistent/fonts
 COPY --from=compile /persistent/config/example/* /persistent/config/
 COPY --from=compile /persistent/config/names/* /persistent/config/names/
 COPY --from=compile /persistent/nebula.rsc /persistent/nebula.dmb \
