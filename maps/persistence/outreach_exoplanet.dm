@@ -1,47 +1,77 @@
-/obj/effect/overmap/visitable/sector/exoplanet/chlorine/outreach
+/obj/effect/overmap/visitable/sector/exoplanet/outreach
 	name = "\improper Outreach"
 	desc = "A mining border-world, home to those lost in space."
-	planetary_area = /area/exoplanet/chlorine
-	lightlevel = 0.9
-	daycycle = 25 MINUTES
-	daycycle_column_delay = 100
-	night = FALSE
-	daycolumn = 1
-	var/list/surface_z = list(3, 4)
+	planetary_area = /area/exoplanet/outreach
+	map_generators = list(/datum/random_map/noise/outreach)
 
-/obj/effect/overmap/visitable/sector/exoplanet/chlorine/outreach/Initialize()
+	possible_themes = list()
+	ruin_tags_blacklist = RUIN_HABITAT | RUIN_HUMAN | RUIN_ALIEN | RUIN_WRECK | RUIN_NATURAL | RUIN_WATER
+	surface_color = COLOR_DARK_GREEN_GRAY
+
+	flora_diversity = 0
+
+/obj/effect/overmap/visitable/sector/exoplanet/outreach/Initialize(mapload, z_level)
+	. = ..()
+	build_level()
+	name = initial(name)
+
+/obj/effect/overmap/visitable/sector/exoplanet/outreach/find_z_levels()
+	map_z = GLOB.using_map.station_levels
+
+/obj/effect/overmap/visitable/sector/exoplanet/outreach/generate_habitability()
+	habitability_class = HABITABILITY_BAD
+
+/obj/effect/overmap/visitable/sector/exoplanet/outreach/generate_atmosphere()
+	atmosphere = new
+	atmosphere.adjust_gas(MAT_CHLORINE, MOLES_CELLSTANDARD * 0.15)
+	atmosphere.temperature = (T0C - 20)
+	atmosphere.update_values()
+
+/obj/effect/overmap/visitable/sector/exoplanet/outreach/handle_atmosphere()
+	map_z = difflist(GLOB.using_map.station_levels, GLOB.using_map.mining_areas)
 	. = ..()
 	map_z = GLOB.using_map.station_levels
-	register_z_levels() // This makes external calls to update global z level information.
+	
+/datum/random_map/noise/outreach
+	descriptor = "outreach exoplanet"
+	smoothing_iterations = 1
+	target_turf_type = /turf/unsimulated/mask
 
-	if(!GLOB.using_map.overmap_z)
-		build_overmap()
+/datum/random_map/noise/outreach/proc/is_edge_turf(turf/T)
+	return T.x <= TRANSITIONEDGE || T.x >= (limit_x - TRANSITIONEDGE + 1) || T.y <= TRANSITIONEDGE || T.y >= (limit_y - TRANSITIONEDGE + 1)
 
-	start_x = start_x || rand(OVERMAP_EDGE, GLOB.using_map.overmap_size - OVERMAP_EDGE)
-	start_y = start_y || rand(OVERMAP_EDGE, GLOB.using_map.overmap_size - OVERMAP_EDGE)
+/datum/random_map/noise/outreach/get_additional_spawns(value, turf/T)
+	if(is_edge_turf(T))
+		return
+	if(T.contains_dense_objects())
+		T.ChangeTurf(/turf/simulated/floor/exoplanet/outreach)
+		return
+	// Value is 0 .. 255, parsed is 0 .. 9
+	var/parsed_value = min(9,max(0,round((value/cell_range)*10)))
+	switch(parsed_value)
+		if(0 to 2)
+			T.ChangeTurf(/turf/simulated/wall/natural/volcanic/outreach)
+		if(3 to 9)
+			T.ChangeTurf(/turf/simulated/floor/exoplanet/outreach)
 
-	forceMove(locate(start_x, start_y, GLOB.using_map.overmap_z))
+/area/exoplanet/outreach
+	name = "\improper Outreach Planetary surface"
+	ambience = list('sound/ambience/spookyspace2.ogg', 'sound/effects/wind/wind_2_1.ogg','sound/effects/wind/wind_2_2.ogg','sound/effects/wind/wind_3_1.ogg','sound/effects/wind/wind_4_1.ogg')
+	base_turf = /turf/simulated/floor/exoplanet
 
-	docking_codes = "[ascii2text(rand(65,90))][ascii2text(rand(65,90))][ascii2text(rand(65,90))][ascii2text(rand(65,90))]"
+/turf/simulated/floor/exoplanet/outreach
+	name = "cracked ground"
+	icon = 'icons/turf/floors.dmi'
+	icon_state = "outreach"
 
-	// update_biome()
-	// generate_planet_image()
-	// generation_complete = TRUE
-	START_PROCESSING(SSobj, src)
+/turf/simulated/wall/natural/volcanic/outreach
+	floor_type = /turf/simulated/floor/exoplanet/outreach
 
-	// Set starting light conditions.
-	var/light = 0.1
-	if(!night)
-		light = lightlevel
-	for(var/turf/simulated/floor/exoplanet/T in block(locate(daycolumn,1,min(surface_z)),locate(daycolumn,maxy,max(surface_z))))
-		T.set_light(light, 0.1, 2)
+/turf/simulated/floor/exoplanet/outreach/Initialize()
+	. = ..()
+	update_icon()
 
-/obj/effect/overmap/visitable/sector/exoplanet/chlorine/outreach/update_daynight()
-	var/light = 0.1
-	if(!night)
-		light = lightlevel
-	for(var/turf/simulated/floor/exoplanet/T in block(locate(daycolumn,1,min(surface_z)),locate(daycolumn,maxy,max(surface_z))))
-		T.set_light(light, 0.1, 2)
-	daycolumn++
-	if(daycolumn > maxx)
-		daycolumn = 0
+/turf/simulated/floor/exoplanet/outreach/on_update_icon()
+	overlays.Cut()
+	if(prob(20))
+		overlays += image('icons/turf/flooring/decals.dmi', "asteroid[rand(0,9)]")

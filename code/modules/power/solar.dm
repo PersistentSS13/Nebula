@@ -177,8 +177,9 @@ var/list/solars_list = list()
 	// Also, many planets barely have any spots with enough clear space around
 	if(GLOB.using_map.use_overmap)
 		var/obj/effect/overmap/visitable/sector/exoplanet/E = map_sectors["[z]"]
-		if(istype(E))
-			steps = 5
+		if(istype(E) && E.get_light_for(get_turf(src)) <= 0)
+			obscured = 1
+			return
 
 	for(var/i = 1 to steps)
 		ax += GLOB.sun.dx

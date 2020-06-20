@@ -51,7 +51,13 @@ SUBSYSTEM_DEF(mining)
 
 
 	for(var/z_level in GLOB.using_map.mining_areas)
-		var/datum/random_map/automata/cave_system/with_area/generator = new(null, 1, 1, z_level, world.maxx, world.maxy, FALSE, FALSE, FALSE)
+		var/datum/random_map/automata/cave_system/with_area/generator
+
+		var/obj/effect/overmap/visitable/sector/exoplanet/E = map_sectors["[z_level]"]
+		if(istype(E))
+			generator = new(null, E.x_origin, E.y_origin, z_level, E.x_end, E.y_end, FALSE, FALSE, FALSE)
+		else
+			generator = new(null, 1, 1, z_level, world.maxx, world.maxy, FALSE, FALSE, FALSE)
 		generator.minerals_rich = generator.minerals_sparse // No rare materials.
 		generators.Add(generator)
 

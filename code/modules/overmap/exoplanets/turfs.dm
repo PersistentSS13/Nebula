@@ -1,3 +1,9 @@
+/turf
+	var/atom/movable/overlay/exo_light/exolight
+
+/atom/movable/overlay/exo_light
+	invisibility = INVISIBILITY_ABSTRACT
+
 /turf/simulated/floor/exoplanet
 	name = "space land"
 	icon = 'icons/turf/desert.dmi'
@@ -20,8 +26,6 @@
 			else
 				initial_gas = list()
 				temperature = T0C
-			//Must be done here, as light data is not fully carried over by ChangeTurf (but overlays are).
-			set_light(E.lightlevel, 0.1, 2)
 			if(E.planetary_area && istype(loc, world.area))
 				ChangeArea(src, E.planetary_area)
 	. = ..()
@@ -253,6 +257,11 @@
 	O.mouse_opacity = 2
 	O.name = "distant terrain"
 	O.desc = "You need to come over there to take a better look."
+
+/turf/simulated/planet_edge/Entered(atom/movable/A)
+	. = ..()
+	Bumped(A)
+	
 
 /turf/simulated/planet_edge/Bumped(atom/movable/A)
 	. = ..()

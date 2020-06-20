@@ -1,4 +1,9 @@
 /obj/machinery/vending/infini
+	markup = FALSE
+	vend_delay = 1 SECOND
+	active_power_usage = 0
+	idle_power_usage = 0
+
 	var/max_purchase_interval = 43200 SECONDS
 
 /obj/machinery/vending/infini/attempt_to_stock(var/obj/item/I, var/mob/user)

@@ -39,6 +39,7 @@
 /turf/simulated/floor/proc/set_flooring(var/decl/flooring/newflooring)
 	make_plating(defer_icon_update = 1)
 	flooring = newflooring
+	flooring.on_place(src)
 	update_icon(1)
 	levelupdate()
 
@@ -59,7 +60,7 @@
 	layer = PLATING_LAYER
 
 	if(flooring)
-		flooring.on_remove()
+		flooring.on_remove(src)
 		if(flooring.build_type && place_product)
 			new flooring.build_type(src)
 		flooring = null

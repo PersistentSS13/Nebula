@@ -48,18 +48,25 @@
 			total_moles = max(total_moles - part, 0)
 			i++
 
+/obj/effect/overmap/visitable/sector/exoplanet/proc/get_zones()
+	var/list/returnList = list()
+	var/list/turfs = block(locate(x_origin, y_origin, min(map_z)), locate(x_end, y_end, max(map_z)))
+	while(LAZYLEN(turfs))
+		var/turf/simulated/floor/exoplanet/T = pop(turfs)
+		if(istype(T) && TURF_HAS_VALID_ZONE(T))
+			turfs.Remove(T.zone.contents)
+			returnList.Add(T.zone)
+		CHECK_TICK
+	return returnList
+
 //Tries to 'reset' planet's surface atmos to normal values
 /obj/effect/overmap/visitable/sector/exoplanet/proc/handle_atmosphere()
 	if(!atmosphere)
 		return
-	for(var/zlevel in map_z)
-		var/zone/Z
-		for(var/i = TRANSITIONEDGE to maxx - TRANSITIONEDGE)
-			var/turf/simulated/floor/exoplanet/T = locate(i, 2, zlevel)
-			if(istype(T) && T.zone && T.zone.contents.len > (maxx*maxy*0.25)) //if it's a zone quarter of zlevel, good enough odds it's planetary main one
-				Z = T.zone
-				break
-		if(Z && !Z.fire_tiles.len && !atmosphere.compare(Z.air)) //let fire die out first if there is one
+
+	var/list/zones = get_zones()
+	for(var/zone/Z in zones)
+		if(!atmosphere.compare(Z.air))
 			var/datum/gas_mixture/daddy = new() //make a fake 'planet' zone gas
 			daddy.copy_from(atmosphere)
 			daddy.group_multiplier = Z.air.group_multiplier

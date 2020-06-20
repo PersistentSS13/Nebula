@@ -8,11 +8,13 @@
 	free_landing = TRUE
 	var/area/planetary_area
 
-	var/lightlevel = 0 		//This default makes turfs not generate light. Adjust to have exoplanents be lit.
-	var/night = TRUE
-	var/daycycle 			//How often do we change day and night
-	var/daycolumn = 0 		//Which column's light needs to be updated next?
-	var/daycycle_column_delay = 10 SECONDS
+	var/day_lightlevel = 0.5	// How bright it is during the day
+	var/night_lightlevel = 0.1	// How bright it is during the night
+	var/inner_lightrange = 0.1	// How far full brightness extends
+	var/outer_lightrange = 2	// How far until brightness falls off completely
+
+	var/daycycle_length			// How long the day/night cycle is
+	var/daycycle_progress = 0	// How far along the day/night cycle is (in turfs). It marks the start of the day.
 
 	// maximum size dimensions, if less than world's dimensions, invisible walls will be spawned
 	var/maxx
@@ -22,6 +24,8 @@
 	var/y_origin
 	var/x_size
 	var/y_size
+	var/x_end
+	var/y_end
 
 	var/landmark_type = /obj/effect/shuttle_landmark/automatic
 
@@ -73,6 +77,8 @@
 
 	var/habitability_class	// if it's above bad, atmosphere will be adjusted to be better for humans (no extreme temps / oxygen to breathe)
 
+	var/list/lighting = list()
+
 /obj/effect/overmap/visitable/sector/exoplanet/Initialize(mapload, z_level)
 	if(GLOB.using_map.use_overmap)
 		forceMove(locate(1, 1, z_level))
@@ -81,10 +87,14 @@
 /obj/effect/overmap/visitable/sector/exoplanet/proc/build_level(max_x, max_y)
 	maxx = max_x ? max_x : world.maxx
 	maxy = max_y ? max_y : world.maxy
+	
 	x_origin = TRANSITIONEDGE + 1
 	y_origin = TRANSITIONEDGE + 1
 	x_size = maxx - 2 * (TRANSITIONEDGE + 1)
 	y_size = maxy - 2 * (TRANSITIONEDGE + 1)
+	x_end = maxx - (TRANSITIONEDGE + 1)
+	y_end = maxy - (TRANSITIONEDGE + 1)
+
 	planetary_area = new planetary_area()
 	var/themes_num = min(length(possible_themes), rand(1, max_themes))
 	for(var/i = 1 to themes_num)
@@ -102,8 +112,8 @@
 	generate_features()
 	for(var/datum/exoplanet_theme/T in themes)
 		T.after_map_generation(src)
-	generate_landing(2)
 	generate_daycycle()
+	generate_landing(2)
 	generate_planet_image()
 	START_PROCESSING(SSobj, src)
 
@@ -131,22 +141,29 @@
 	if(repopulating)
 		handle_repopulation()
 
-	if(daycycle)
-		if(tick % round(daycycle / wait) == 0)
-			night = !night
-			daycolumn = 1
-		if(daycolumn && tick % round(daycycle_column_delay / wait) == 0)
+	if(daycycle_length)
+		if(tick % round(daycycle_length / (x_size + 1)) == 0)
+			daycycle_progress = (daycycle_progress + 1) % (x_size + 1)
 			update_daynight()
 
 /obj/effect/overmap/visitable/sector/exoplanet/proc/update_daynight()
-	var/light = 0.1
-	if(!night)
-		light = lightlevel
-	for(var/turf/simulated/floor/exoplanet/T in block(locate(daycolumn,1,min(map_z)),locate(daycolumn,maxy,max(map_z))))
-		T.set_light(light, 0.1, 2)
-	daycolumn++
-	if(daycolumn > maxx)
-		daycolumn = 0
+	var/night_column = (x_size / 2 + daycycle_progress) % x_size
+
+	for(var/turf/T in block(locate(x_origin + daycycle_progress, y_origin, max(map_z)), locate(x_origin + daycycle_progress, y_end, max(map_z))))
+		if(GetAbove(T) || T.is_wall())
+			continue
+		
+		if(!T.exolight)
+			T.exolight = new(T)
+		T.exolight.set_light(day_lightlevel, inner_lightrange, outer_lightrange, 2, get_atmosphere_color())
+		
+	for(var/turf/T in block(locate(x_origin + night_column, y_origin, max(map_z)), locate(x_origin + night_column, y_end, max(map_z))))
+		if(GetAbove(T) || T.is_wall())
+			continue
+		
+		if(!T.exolight)
+			T.exolight = new(T)
+		T.exolight.set_light(night_lightlevel, inner_lightrange, outer_lightrange, 2, get_atmosphere_color())
 
 /obj/effect/overmap/visitable/sector/exoplanet/proc/generate_map()
 	var/list/grasscolors = plant_colors.Copy()
@@ -181,12 +198,34 @@
 	spawned_features = seedRuins(map_z, features_budget, /area/exoplanet, possible_features, maxx, maxy)
 
 /obj/effect/overmap/visitable/sector/exoplanet/proc/generate_daycycle()
-	if(lightlevel)
-		night = FALSE //we start with a day if we have light.
+	daycycle_length = rand(10 MINUTES, 40 MINUTES)
+	daycycle_progress = rand(0, x_size)
 
-		//When you set daycycle ensure that the minimum is larger than [maxx * daycycle_column_delay].
-		//Otherwise the right side of the exoplanet can get stuck in a forever day.
-		daycycle = rand(10 MINUTES, 40 MINUTES)
+	for(var/turf/T in block(locate(x_origin, y_origin, max(map_z)), locate(x_end, y_end, max(map_z))))
+		if(GetAbove(T) || T.is_wall())
+			continue
+		
+		if(!T.exolight)
+			T.exolight = new(T)
+		T.exolight.set_light(get_light_for(T), inner_lightrange, outer_lightrange, 2, get_atmosphere_color())
+
+/obj/effect/overmap/visitable/sector/exoplanet/proc/get_light_for(var/turf/T)
+	var/X = T.x - x_origin
+	
+	if(X < 0)
+		return 0
+
+	var/night_column = (x_size / 2 + daycycle_progress) % x_size
+	if(daycycle_progress > x_size / 2)
+		if(X <= daycycle_progress && X > night_column)
+			return day_lightlevel
+		else
+			return night_lightlevel
+	else
+		if(X <= night_column && X > daycycle_progress)
+			return night_lightlevel
+		else
+			return day_lightlevel
 
 //Tries to generate num landmarks, but avoids repeats.
 /obj/effect/overmap/visitable/sector/exoplanet/proc/generate_landing(num = 1)

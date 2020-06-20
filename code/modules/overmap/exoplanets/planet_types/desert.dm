@@ -13,10 +13,12 @@
 	fauna_types = list(/mob/living/simple_animal/thinbug, /mob/living/simple_animal/tindalos, /mob/living/simple_animal/hostile/voxslug, /mob/living/simple_animal/hostile/antlion)
 	megafauna_types = list(/mob/living/simple_animal/hostile/antlion/mega)
 
-/obj/effect/overmap/visitable/sector/exoplanet/desert/generate_map()
+/obj/effect/overmap/visitable/sector/exoplanet/desert/generate_daycycle()
+	. = ..()
+	// Deserts are usually :lit:
 	if(prob(70))
-		lightlevel = rand(5,10)/10	//deserts are usually :lit:
-	..()
+		day_lightlevel = rand(0.5, 1)
+		night_lightlevel = rand(0.1, 0.25)
 
 /obj/effect/overmap/visitable/sector/exoplanet/desert/generate_atmosphere()
 	..()

@@ -39,7 +39,9 @@
 				qdel(ladder)
 		if(HasBelow(z) && (locate(/obj/structure/ladder) in GetBelow(src)))
 			var/turf/T = get_turf(src)
-			T.ReplaceWithLattice()
+			T.ChangeTurf(/turf/simulated/open)
+			new /obj/structure/lattice(T)
+
 	find_connections()
 	set_extension(src, /datum/extension/turf_hand)
 

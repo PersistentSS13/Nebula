@@ -15,17 +15,10 @@
 	megafauna_types = list(/mob/living/simple_animal/hostile/retaliate/jelly/mega)
 
 /obj/effect/overmap/visitable/sector/exoplanet/chlorine/generate_habitability()
-	return HABITABILITY_BAD
+	habitability_class = HABITABILITY_BAD
 
 /obj/effect/overmap/visitable/sector/exoplanet/chlorine/get_atmosphere_color()
 	return "#e5f2bd"
-
-/obj/effect/overmap/visitable/sector/exoplanet/chlorine/generate_map()
-	if(prob(50))
-		lightlevel = rand(7,10)/10 //It could be night.
-	else
-		lightlevel = 0.1
-	..()
 
 /obj/effect/overmap/visitable/sector/exoplanet/chlorine/generate_atmosphere()
 	..()

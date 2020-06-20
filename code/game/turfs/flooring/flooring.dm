@@ -46,7 +46,10 @@
 	var/space_smooth = SMOOTH_ALL
 	//There are no lists for spaces
 
-/decl/flooring/proc/on_remove()
+/decl/flooring/proc/on_place(var/turf/T)
+	return
+
+/decl/flooring/proc/on_remove(var/turf/T)
 	return
 
 /decl/flooring/grass
@@ -369,3 +372,21 @@
 	build_type = null
 	can_engrave = FALSE
 	footstep_type = /decl/footsteps/snow
+
+/decl/flooring/glass
+	name = "glass panel"
+	icon = 'icons/turf/flooring/glass.dmi'
+	icon_base = "glass"
+	flags = TURF_HAS_CORNERS | TURF_HAS_INNER_CORNERS | TURF_ACID_IMMUNE
+	footstep_type = /decl/footsteps/tiles
+
+	decal_layer = CATWALK_LAYER
+	floor_smooth = SMOOTH_NONE
+	wall_smooth = SMOOTH_NONE
+	space_smooth = SMOOTH_NONE
+
+/decl/flooring/glass/on_place(turf/T)
+	T.enable_zmimic(ZM_ALLOW_LIGHTING)
+	
+/decl/flooring/glass/on_remove(turf/T)
+	T.disable_zmimic()

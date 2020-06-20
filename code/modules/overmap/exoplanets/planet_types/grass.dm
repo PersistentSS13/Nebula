@@ -10,11 +10,13 @@
 	fauna_types = list(/mob/living/simple_animal/yithian, /mob/living/simple_animal/tindalos, /mob/living/simple_animal/hostile/retaliate/jelly)
 	megafauna_types = list(/mob/living/simple_animal/hostile/retaliate/parrot/space/megafauna, /mob/living/simple_animal/hostile/retaliate/goose/dire)
 
-/obj/effect/overmap/visitable/sector/exoplanet/grass/generate_map()
+/obj/effect/overmap/visitable/sector/exoplanet/grass/generate_daycycle()
+	. = ..()
+	// Give a chance of twilight jungle
 	if(prob(40))
-		lightlevel = rand(1,7)/10	//give a chance of twilight jungle
-	..()
-
+		day_lightlevel = 0.4
+		night_lightlevel = 0.2
+		
 /obj/effect/overmap/visitable/sector/exoplanet/grass/generate_atmosphere()
 	..()
 	if(atmosphere)
