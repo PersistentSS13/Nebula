@@ -26,6 +26,9 @@
 	has_gravity = A.has_gravity
 
 /datum/wrapper/area/on_deserialize()
+	. = ..()
+	if(.)
+		return
 	var/area_type = text2path(key)
 	var/area/A = new area_type()
 	A.name = name
@@ -43,4 +46,5 @@
 			return null // Invalid Z-Level
 		var/turf/T = locate(text2num(coords[1]), text2num(coords[2]), new_z)
 		A.contents.Add(T)
+	deserialized_thing = A
 	return A

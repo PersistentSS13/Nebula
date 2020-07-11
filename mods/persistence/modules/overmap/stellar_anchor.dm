@@ -1,5 +1,5 @@
 #define BASE_TURF_UPKEEP_COST 	  50
-#define MAX_SHIP_TILES		  	 300
+#define MAX_SHIP_TILES		  	 400
 #define MAX_ANCHORED_NAME_LENGTH  50
 GLOBAL_LIST_EMPTY(stellar_anchors)
 
@@ -38,6 +38,7 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 			if(z in created_sector.map_z) // Stellar anchor must be in the sector's z-level(s) to save it.
 				for(var/sector_z in created_sector.map_z)
 					SSpersistence.saved_levels |= sector_z
+			created_sector.should_save = TRUE
 		else
 			refresh_anchored_areas()
 			for(var/A in anchored_areas)
@@ -46,8 +47,9 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 /obj/machinery/network/stellar_anchor/proc/on_saving_end()
 	for(var/A in anchored_areas)
 		SSpersistence.RemoveSavedArea(A)
-	
+
 	if(created_sector)
+		created_sector.should_save = initial(created_sector.should_save) // Manually set the sector to save to ensure that sectors do not persist without an anchor.
 		for(var/sector_z in created_sector.map_z)
 			if(z in GLOB.using_map.saved_levels) // Safety check.
 				continue
@@ -70,6 +72,9 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 	if(.)
 		return
 	if(href_list["select_areas"])
+		if(created_sector)
+			to_chat(user, SPAN_WARNING("\The [src] is anchoring an entire sector, and cannot select particular areas for anchoring!"))
+			return
 		var/datum/extension/eye/anchor_eye = get_extension(src, /datum/extension/eye)
 		anchor_eye.look(user)
 		return TOPIC_REFRESH
@@ -82,7 +87,7 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 		return TOPIC_REFRESH
 	else if(href_list["launch"])
 		if(!created_sector) // Cannot launch again after the sector is created.
-			if(check_errors()) 
+			if(check_errors())
 				var/confirm = alert(user, "This will permanently register \the [gen_fluff], are you sure?", "[capitalize(gen_fluff)] finalization", "Yes", "No")
 				if(confirm == "No")
 					return TOPIC_HANDLED
@@ -118,15 +123,20 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 /obj/machinery/network/stellar_anchor/proc/add_area(var/area/area_to_add)
 	. = list()
 	if(should_launch && !created_sector)
-		. += "\the [src] must be launched before areas are anchored"
+		. += "\the [src] is set to launch, and cannot anchor areas!"
+	if(created_sector)
+		. += "\the [src] cannot anchor areas while it is anchoring an entire sector!"
 	if(!is_valid_location(FALSE))
 		. += "\the [src] is unable to function in this location"
 	if(istype(area_to_add, /area/space) || istype(area_to_add, /area/exoplanet))
 		. += "this area cannot be anchored"
 	if(area_to_add in anchored_areas)
 		. += "this area is already being anchored by \the [src]"
-	if(area_to_add in SSpersistence.saved_areas)
-		. += "this area is already being anchored by another stellar anchor"
+	else
+		for(var/obj/machinery/network/stellar_anchor/sa in GLOB.stellar_anchors)
+			if(area_to_add in sa.anchored_areas)
+				. += "this area is already being anchored by another stellar anchor!"
+				break
 
 	if(!LAZYLEN(.))
 		LAZYDISTINCTADD(anchored_areas, area_to_add)
@@ -165,8 +175,7 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 /obj/machinery/network/stellar_anchor/proc/is_paid()
 	return TRUE
 
-/obj/machinery/network/stellar_anchor/proc/launch(var/mob/user)
-
+/obj/machinery/network/stellar_anchor/proc/launch()
 	var/obj/effect/overmap/origin_sector = map_sectors["[z]"]
 	if(!origin_sector) // Safety check
 		return
@@ -174,14 +183,14 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 	var/overmap_y = origin_sector.y
 
 	INCREMENT_WORLD_Z_SIZE // Create a new z-level for the sector to correspond to.
-	
+
 	// Move the anchor to the center of the new z-level.
 	var/turf/target_turf = locate(world.maxx/2, world.maxy/2, world.maxz)
 	target_turf.ChangeTurf(/turf/simulated/floor/plating)
 	new /obj/effect/portal(get_turf(src))
 	src.forceMove(target_turf)
 	created_sector = new sector_type(target_turf, sector_name, overmap_x, overmap_y, sector_color)
-	
+
 	return TRUE
 
 // Checking for validity of launch
@@ -202,7 +211,7 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 	else if(!istype(origin_sector, /obj/effect/overmap/visitable/ship))
 		LAZYDISTINCTADD(errors, "\The [src] must be launched from a ship")
 		. = FALSE
-	
+
 	if(!LAZYLEN(errors))
 		LAZYDISTINCTADD(errors, "[capitalize(gen_fluff)] is valid for finalization")
 
@@ -222,12 +231,13 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 	sector_type = /obj/effect/overmap/visitable/ship/created
 	gen_fluff = "ship"
 
-	var/datum/shuttle/parent_shuttle
+	var/datum/shuttle/autodock/overmap/created/parent_shuttle
+	var/obj/effect/overmap/visitable/ship/landable/created/created_landable_ship
 	var/is_landable = TRUE
 
 /obj/machinery/network/stellar_anchor/ship_core/ui_data(var/mob/user, ui_key)
 	. = ..()
-	.["finalized"] = parent_shuttle
+	.["finalized"] = !!parent_shuttle
 	if(LAZYLEN(errors))
 		.["errors"] = errors
 
@@ -251,6 +261,16 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 				create_landable_ship()
 				return TOPIC_REFRESH
 
+/obj/machinery/network/stellar_anchor/ship_core/on_saving_start()
+	. = ..()
+	if(created_landable_ship)
+		created_landable_ship.should_save = TRUE
+
+/obj/machinery/network/stellar_anchor/ship_core/on_saving_end()
+	. = ..()
+	if(created_landable_ship)
+		created_landable_ship.should_save = initial(created_landable_ship)
+
 // Ship cores create ships that do not stay in one z-level, so some checks are unnecessary.
 /obj/machinery/network/stellar_anchor/ship_core/is_valid_location(var/produce_error = TRUE)
 	var/turf/T = get_turf(src)
@@ -267,7 +287,7 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 /obj/machinery/network/stellar_anchor/ship_core/check_errors()
 	LAZYCLEARLIST(errors)
 	. = TRUE
-	
+
 	if(should_launch) // Creating a non-landable ship
 		. = ..()
 		return
@@ -287,21 +307,21 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 		if(!LAZYLEN(anchored_areas))
 			LAZYDISTINCTADD(errors, "\The [src] is not anchoring any areas.")
 			return FALSE // Further checks require at least one area to be anchored.
-		
+
 		var/list/area_turfs = list()
 		for(var/area/A in anchored_areas)
 			if(LAZYLEN(area_turfs) > MAX_SHIP_TILES)
 				LAZYDISTINCTADD(errors, "\The [gen_fluff] is too large.")
 				return FALSE // If the ship is too large, skip contiguity checks.
 			for(var/turf/T in A)
-				area_turfs += T
+				area_turfs |= T
 				// Stops most tearing up the ground with the shuttle, although the landmark should not allow a hole in a planet etc. regardless.
 				if(istype(T, /turf/space) || istype(T, /turf/exterior) || istype(T, /turf/simulated/floor/asteroid))
 					LAZYDISTINCTADD(errors, "The anchored area [A] contains invalid turfs.")
 					. = FALSE
 					break
 
-		// Check to make sure all the ships areas are connected.			
+		// Check to make sure all the ships areas are connected.
 		. = min(., check_contiguity(area_turfs))
 		if(!LAZYLEN(errors))
 			LAZYDISTINCTADD(errors, "\The [gen_fluff] is valid for finalization.")
@@ -321,7 +341,7 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 			var/turf/NT = get_step(T, dir)
 			if(!isturf(NT) || !(NT in area_turfs) || (NT in pending_turfs) || (NT in checked_turfs))
 				continue
-			pending_turfs += NT	
+			pending_turfs += NT
 
 		checked_turfs += T
 
@@ -339,12 +359,16 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 		base_area = ispath(planet.planetary_area) ? planet.planetary_area : planet.planetary_area.type
 	else
 		base_area = /area/space
-	 
-	var/obj/effect/shuttle_landmark/temporary/construction/landmark = new(get_turf(src), base_area, get_base_turf(z))
-	parent_shuttle = new /datum/shuttle/autodock/overmap(sector_name, landmark, anchored_areas.Copy())
 
-	var/obj/effect/overmap/visitable/ship/landable/ship = new(get_turf(src), sector_name)
-	ship.color = sector_color
+	var/obj/effect/shuttle_landmark/temporary/construction/landmark = new(get_turf(src), base_area, get_base_turf(z))
+	parent_shuttle = new /datum/shuttle/autodock/overmap/created(sector_name, landmark, anchored_areas.Copy())
+
+	created_landable_ship = new(get_turf(src), sector_name, sector_color)
+
+/obj/machinery/network/stellar_anchor/ship_core/launch()
+	if(created_landable_ship) // Safety check.
+		return
+	. = ..()
 
 /obj/machinery/network/stellar_anchor/ship_core/refresh_anchored_areas()
 	LAZYCLEARLIST(anchored_areas)

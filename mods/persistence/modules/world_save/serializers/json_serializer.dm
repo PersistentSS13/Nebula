@@ -31,8 +31,10 @@
 				results[V] = "FLAT_OBJ#[SerializeDatum(VV)]"
 			else
 				results[V] = "OBJ#[sql.SerializeDatum(VV)]"
+	// If the object is a wrapper, keep track of the reference to the wrapped object rather than the wrapper itself.
+	var/thing_id = object_parent ? "\ref[object_parent]" : "\ref[object]"
 	object.after_save()
-	return "[object.type]|[json_encode(results)]"
+	return "[object.type]|[thing_id]|[json_encode(results)]"
 
 // Serialize a list. Returns the appropriate serialized form of the list. What's outputted depends on the serializer.
 /serializer/json/SerializeList(var/list/_list, var/list_parent)
@@ -77,7 +79,12 @@
 /serializer/json/DeserializeDatum(var/datum/persistence/load_cache/thing/object)
 	throw EXCEPTION("Do not use DeserializeDatum for the JSON Serializer. Use QueryAndDeserializeDatum.")
 
-/serializer/proc/JsonDeserializeDatum(var/datum/thing, var/list/thing_vars)
+/serializer/proc/JsonDeserializeDatum(var/thing_type, var/list/thing_vars, var/thing_id)
+	var/datum/thing = reverse_map["[thing_id]"]
+	if(!isnull(thing))
+		return thing
+	thing = new thing_type
+	
 	for(var/V in thing_vars)
 		var/encoded_value = thing_vars[V]
 		if(istext(encoded_value) && findtext(encoded_value, "OBJ#", 1, 5))
@@ -88,6 +95,7 @@
 			thing.vars[V] = DeserializeList(encoded_value)
 			continue
 		thing.vars[V] = encoded_value
+	reverse_map["[thing_id]"] = thing
 	thing.after_deserialize()
 	return thing
 
@@ -117,6 +125,6 @@
 /serializer/json/QueryAndDeserializeDatum(var/thing_json)
 	var/list/tokens = splittext(thing_json, "|")
 	var/thing_type = text2path(tokens[1])
-	var/datum/existing = new thing_type
-	var/list/vars = json_decode(jointext(tokens.Copy(2), "|"))
-	return JsonDeserializeDatum(existing, vars)
+	var/thing_id = tokens[2]
+	var/list/vars = json_decode(jointext(tokens.Copy(3), "|"))
+	return JsonDeserializeDatum(thing_type, vars, thing_id)

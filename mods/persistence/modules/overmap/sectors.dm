@@ -1,6 +1,7 @@
 /obj/effect/overmap/visitable
 	should_save = TRUE 		 // Overmap sectors move themselves from the overmap to either a z-level or an area for landable ships on save.TRUE
 					  		 // If the area or z-level is saved, the overmap effect will be saved.
+	var/atom/old_loc	 	 // Where the ship was prior to saving. Used to relocate the ship following saving, not on load.
 
 /obj/effect/overmap/visitable/Initialize()
 	. = ..()
@@ -17,8 +18,10 @@
 	start_x = x
 	start_y = y
 
+	old_loc = loc 
+
 	// Force move the sector to its z level(s) so that it can properly reinitialize.
 	forceMove(pick(get_area_turfs(locate(/area/outreach/outpost/sleeproom))))
 
 /obj/effect/overmap/visitable/proc/on_saving_end()
-	forceMove(locate(start_x, start_y, GLOB.using_map.overmap_z))
+	forceMove(old_loc)

@@ -2923,7 +2923,8 @@
 	{
 		"path":"/obj/machinery/network/stellar_anchor/ship_core",
 		"vars":[
-			"parent_shuttle"
+			"parent_shuttle",
+			"created_landable_ship"
 		]
 	},
 	{
@@ -2946,7 +2947,6 @@
 	{
 		"path":"/obj/effect/overmap/visitable",
 		"vars":[
-			"map_z",
 			"generic_waypoints",
 			"restricted_waypoints",
 			"docking_codes",
