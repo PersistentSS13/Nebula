@@ -301,13 +301,13 @@
 	M.add_chemical_effect(CE_OXYGENATED, 1)
 	holder.remove_reagent(/decl/material/gas/carbon_monoxide, 2 * removed)
 
-/decl/material/chem/sotalol
+/decl/material/chem/sotalol //you new inaprovaline
 	name = "Sotalol"   //Antiarrhythmics IRL
 	lore_text = "A Antiarrhythmic, that will do some pain. but it will inded stabilize you."
 	taste_description = "Acid"
 	color = "#c8a5dc"
 	scannable = 1
-	overdose = 40
+	overdose = 120
 	value = 1 //cheaper 
 
 /decl/material/chem/sotalol/affect_blood(var/mob/living/carbon/human/M, var/alien, var/removed, var/datum/reagents/holder)
@@ -322,16 +322,65 @@
 
 /datum/reagent/medicine/arganbalm //as the old greek medicine
 	name = "argan based balm"
-	lore_text = "cheaper alternative for the stytipic powder, not as good. and for a matter of fact might give you hallucinations"
-	taste_description = "bitterness"
+	lore_text = "cheaper alternative for the stytipic powder, not as good. and for a matter of fact might give tons of pain."
+	taste_description = "Vinager"
 	taste_mult = 3
 	reagent_state = LIQUID
 	color = "#E6666C"
 	overdose = REAGENTS_OVERDOSE
 	scannable = 0
+	overdose = 60
 
-/datum/reagent/medicine/meralyne/affect_blood(var/mob/living/carbon/M, var/alien, var/effect_multiplier)
+/datum/reagent/medicine/arganbalm/affect_blood(var/mob/living/carbon/M, var/alien, var/effect_multiplier)
 	M.heal_organ_damage(6 * removed, 0)
-	M.add_chemical_effect(CE_PAINKILLER, 10)
-	M.add_chemical_effect(CE_MIND, -1)
-	M.hallucination(20, 30)
+	M.add_chemical_effect(CE_PAINKILLER, -20 * 0.5)
+
+/datum/reagent/medicine/garamycin // 1963 medicine for burns.
+	name = "Garamycin"
+	lore_text = "cheaper alternative for the synthskin, not as good. "
+	taste_description = "slime"
+	taste_mult = 2
+	reagent_state = LIQUID
+	color = "#E6666C"
+	overdose = REAGENTS_OVERDOSE
+	scannable = 0
+	overdose = 60
+
+/datum/reagent/medicine/garamycin/affect_blood(var/mob/living/carbon/M, var/alien, var/effect_multiplier)
+	M.heal_organ_damage(1 , 6 * removed)
+	M.add_chemical_effect(CE_PAINKILLER, 5) //weak but still helps a bit. i mean you are already getting tox. and brute. lets give you some relief
+	M.add_chemical_effect(CE_TOXIN, 0.5)
+
+/datum/reagent/medicine/charcoalcalcium // Activated Charcoal-Calcium Car
+	name = "Charcoal-Calcium"
+	lore_text = "ghetto medicine for your tox. needs. will make you slugish."
+	taste_description = "burnt"
+	taste_mult = 2
+	reagent_state = LIQUID
+	color = "#E6666C"
+	overdose = REAGENTS_OVERDOSE
+	scannable = 0
+	overdose = 60
+
+/datum/reagent/medicine/charcoalcalcium/affect_blood(var/mob/living/carbon/M, var/alien, var/effect_multiplier)
+	M.add_chemical_effect(CE_TOXIN, 1 * removed)
+	M.add_chemical_effect(CE_SPEEDBOOST, 0.5 * removed) //this is bad enough as it is already speed is all 
+
+/datum/reagent/medicine/laudanum //with white wine and some herbs a primitive painkiller
+	name = "laudanum"
+	lore_text = "one of the oldest painkilers of time, might work. but will certainly get you drunk."
+	taste_description = "white whine and herbs"
+	taste_mult = 1
+	reagent_state = LIQUID
+	color = "#E6666C"
+	overdose = REAGENTS_OVERDOSE
+	scannable = 0
+	overdose = 30 //always lower than the same medicine of the same tier
+
+/datum/reagent/medicine/charcoalcalcium/affect_blood(var/mob/living/carbon/M, var/alien, var/effect_multiplier)
+	M.adjustDrowsyness(-4)
+	M.jitter(2)
+	M.hallucination(60, 30)
+	M.add_chemical_effect(CE_PAINKILLER, 40 * 0.12)
+
+Silver Sulfadiazine ///high tier do it later burn
