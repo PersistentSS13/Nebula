@@ -252,9 +252,47 @@
 	minimum_temperature = 40 CELSIUS
 	result_amount = 2
 
-/datum/chemical_reaction/Sotalol
+/datum/chemical_reaction/Sotalol //you new inaprovalin
 	result = /decl/material/chem/sotalol
-	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/sugar = 1,/decl/material/chem/iron = 1)  //easy to make just so you can stabilize those guys
+	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/nutriment/sugar = 1,/decl/material/iron = 1) 
 	result_amount = 3
 
-/datum/chemical_reaction/arganbalm
+/datum/chemical_reaction/arganbalm //as the old greek medicine based on balsamic for recipe? and causes PAIN
+	result = /decl/material/chem/arganbalm
+	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/nutriment/sugar = 1,/decl/material/iron = 1)  
+
+/datum/chemical_reaction/garamycin //1963 medicine for burns. easy tox and pk
+	result = /decl/material/chem/garamycin
+	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/nutriment/sugar = 1,/decl/material/iron = 1)  
+
+/datum/chemical_reaction/charcoalcalcium //slowdon and antitox
+	result = /decl/material/chem/charcoalcalcium
+	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/nutriment/sugar = 1,/decl/material/iron = 1)  
+/datum/chemical_reaction/laudanum //the drunk pain med
+	result = /decl/material/chem/laudanum
+	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/nutriment/sugar = 1,/decl/material/iron = 1)  
+/datum/chemical_reaction/stemcells    // blood don't forget
+	result = /decl/material/chem/stemcells
+	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/nutriment/sugar = 1,/decl/material/iron = 1)  
+
+/datum/chemical_reaction/thrombin //stypitc bs powder
+	result = /decl/material/chem/thrombin
+	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/nutriment/sugar = 1,/decl/material/iron = 1) 
+
+/datum/chemical_reaction/silversulfadiazine // that bs burn med. 
+	result = /decl/material/chem/silversulfadiazine
+	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/nutriment/sugar = 1,/decl/material/iron = 1) 
+
+/datum/chemical_reaction/ursodiol //dizzy super antitox
+	result = /decl/material/chem/ursodiol
+	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/nutriment/sugar = 1,/decl/material/iron = 1) 
+
+/datum/chemical_reaction/dexametasona //dex +
+	result = /decl/material/chem/dexametasona
+	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/nutriment/sugar = 1,/decl/material/iron = 1) 
+
+/datum/chemical_reaction/metamizol //midly painkiller
+	result = /decl/material/chem/metamizol
+	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/nutriment/sugar = 1,/decl/material/iron = 1) 
+
+//stem cells from blood later on
