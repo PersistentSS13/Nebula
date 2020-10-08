@@ -251,3 +251,10 @@
 	required_reagents = list(/decl/material/chem/presyncopics = 1, /decl/material/chem/antitoxins = 1)
 	minimum_temperature = 40 CELSIUS
 	result_amount = 2
+
+/datum/chemical_reaction/Sotalol
+	result = /decl/material/chem/sotalol
+	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/sugar = 1,/decl/material/chem/iron = 1)  //easy to make just so you can stabilize those guys
+	result_amount = 3
+
+/datum/chemical_reaction/arganbalm
