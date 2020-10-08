@@ -292,7 +292,7 @@
 	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/nutriment/sugar = 1,/decl/material/iron = 1) 
 
 /datum/chemical_reaction/metamizol //midly painkiller
-	result = /decl/material/chem/metamizol
+	result = /decl/material/chem/painkillers/metamizol
 	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/nutriment/sugar = 1,/decl/material/iron = 1) 
 
 //stem cells from blood later on
