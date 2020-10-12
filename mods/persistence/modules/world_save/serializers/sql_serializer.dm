@@ -117,7 +117,7 @@
 			if(!GD.key)
 				// Wrapper is null.
 				continue
-			VV = flattener.SerializeDatum(GD, VV)
+			VV = flattener.SerializeDatum(GD)
 		else if (istype(VV, /datum))
 			var/datum/VD = VV
 			if(!VD.should_save(object))
@@ -200,7 +200,7 @@
 			if(!GD.key)
 				// Wrapper is null.
 				continue
-			KV = flattener.SerializeDatum(GD, KV)
+			KV = flattener.SerializeDatum(GD)
 		else if(istype(key, /datum))
 			var/datum/key_d = key
 			if(!key_d.should_save(list_parent))
@@ -242,7 +242,7 @@
 				if(!GD.key)
 					// Wrapper is null.
 					continue
-				EV = flattener.SerializeDatum(GD, EV)
+				EV = flattener.SerializeDatum(GD)
 			else if (istype(EV, /datum))
 				if(should_flatten(EV))
 					ET = "FLAT_OBJ" // If we flatten an object, the var becomes json. This saves on indexes for simple objects.

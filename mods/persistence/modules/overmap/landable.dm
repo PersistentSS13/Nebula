@@ -15,7 +15,7 @@
 	// The ship has had its sector saved.
 	if(landmark)
 		if(landmark.z) // Check to make sure there isn't a floating reference to the landmark that saved it instead.
-			map_z = landmark.z
+			map_z += landmark.z
 			return
 	// Otherwise, the ship has likely landed elsewhere, and needs to reconstruct its space z-level.
 	qdel(landmark)
