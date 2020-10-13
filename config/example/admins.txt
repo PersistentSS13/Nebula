@@ -3,7 +3,10 @@
 # Case is not important for ckey.                                    #
 # Case IS important for the rank. However punctuation/spaces are not #
 # Ranks can be anything defined in admin_ranks.txt           ~Carn   #
+#                                                                    #
+# be sure to pull all files from example out of its paste            #
+# be sure to leave spaces before and after the "-"                   #
+# be sure to delete the # that comes before the Ckey          ~husk  #
 ######################################################################
 
-# Fernandos33 - Host
-# Fernandos33 - Host
+# not_a_user - Admin
