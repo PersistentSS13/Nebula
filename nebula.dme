@@ -3181,10 +3181,4 @@
 #include "maps\~unit_tests\unit_testing.dm"
 #include "mods\_modpack.dm"
 #include "~code\global_init.dm"
-#include "Code\nebula\Nebula\mods\persistence\modules\reagents\chems_compounds"
-#include "Code\nebula\Nebula\mods\persistence\modules\reagents\chems_drugs"
-#include "Code\nebula\Nebula\mods\persistence\modules\reagents\chems_medicines"
-#include "Code\nebula\Nebula\mods\persistence\modules\reagents\chems_painkillers"
-#include "Code\nebula\Nebula\mods\persistence\modules\reagents\chems_poisons"
-#include "Code\nebula\Nebula\mods\persistence\modules\reactions\reaction_drugs.dm"
 // END_INCLUDE

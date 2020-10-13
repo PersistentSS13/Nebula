@@ -88,6 +88,12 @@
 #include "modules\world_save\serializers\json_serializer.dm"
 #include "modules\world_save\serializers\sql_serializer.dm"
 #include "modules\xgm\xgm_gas_mixture.dm"
+#include "modules\reagents\chems_compounds"
+#include "modules\reagents\chems_drugs"
+#include "modules\reagents\chems_medicines"
+#include "modules\reagents\chems_painkillers"
+#include "modules\reagents\chems_poisons"
+#include "modules\reactions\reaction_drugs.dm"
 // END_INCLUDE
 #endif
 // BEGIN_INTERNALS
