@@ -1,6 +1,6 @@
 
 /decl/material/chem/amphetamines
-	name = "amphetamines"
+	name = "dextroamphetamine" // real. fucking name.
 	lore_text = "A powerful, long-lasting stimulant." 
 	taste_description = "acid"
 	color = "#ff3300"
@@ -57,7 +57,7 @@
 	M.add_chemical_effect(CE_PULSE, 2)
 
 /decl/material/chem/sedatives
-	name = "sedatives"
+	name = "chloral hydrate"
 	lore_text = "A mild sedative used to calm patients and induce sleep."
 	taste_description = "bitterness"
 	color = "#009ca8"
@@ -85,7 +85,7 @@
 	M.add_chemical_effect(CE_PULSE, -1)
 
 /decl/material/chem/psychoactives
-	name = "psychoactives"
+	name = "L. S. D."
 	lore_text = "An illegal chemical compound used as a psychoactive drug."
 	taste_description = "bitterness"
 	taste_mult = 0.4
@@ -104,7 +104,7 @@
 	M.add_chemical_effect(CE_PULSE, -1)
 
 /decl/material/chem/hallucinogenics
-	name = "hallucinogenics"
+	name = "THC"
 	lore_text = "A mix of powerful hallucinogens, they can cause fatal effects in users."
 	taste_description = "sourness"
 	color = "#b31008"

@@ -1,5 +1,5 @@
 /decl/material/chem/paralytics
-	name = "paralytics"
+	name = "Botulinum"
 	lore_text = "A powerful paralytic agent."
 	taste_description = "metallic"
 	color = "#ff337d"

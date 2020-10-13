@@ -1,9 +1,9 @@
 
 /decl/material/chem/painkillers
-	name = "painkillers"
+	name = "oxycodone"
 	lore_text = "A highly effective opioid painkiller. Do not mix with alcohol."
 	taste_description = "sourness"
-	color = "#cb68fc"
+	color = "#cb68fc91"
 	overdose = 30
 	scannable = 1
 	metabolism = 0.05
@@ -66,7 +66,7 @@
 	name = "Metamizol"
 	lore_text = "one of the oldest painkilers of time, might work. but will certainly get you drunk."
 	taste_description = "sourness"
-	color = "#b686ce"
+	color = "#b686ce80"
 	overdose = 20
 	scannable = 1
 	metabolism = 1

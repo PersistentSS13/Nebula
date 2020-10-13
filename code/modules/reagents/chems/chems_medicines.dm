@@ -1,5 +1,5 @@
 /decl/material/chem/eyedrops
-	name = "eye drops"
+	name = "polyethylene glycol"
 	lore_text = "A soothing balm that helps with minor eye damage."
 	taste_description = "a mild burn"
 	color = "#c8a5dc86"
@@ -18,7 +18,7 @@
 			E.damage = max(E.damage - 5 * removed, 0)
 
 /decl/material/chem/antirads
-	name = "antirads"
+	name = "potassium iodide"  //REAL NAMES at LEASSST
 	lore_text = "A synthetic recombinant protein, derived from entolimod, used in the treatment of radiation poisoning."
 	taste_description = "bitterness"
 	color = "#40800071"
@@ -135,7 +135,7 @@
 	M.immunity -= 0.5 //inverse effects when abused
 
 /decl/material/chem/stimulants
-	name = "stimulants"
+	name = "erythropoietin"  //yes real dopping is made with this too.
 	lore_text = "Improves the ability to concentrate."
 	taste_description = "sourness"
 	color = "#bf80bf93"
@@ -158,7 +158,7 @@
 			to_chat(M, "<span class='notice'>Your mind feels focused and undivided.</span>")
 
 /decl/material/chem/antidepressants
-	name = "antidepressants"
+	name = "fluoxetine" //another real one
 	lore_text = "Stabilizes the mind a little."
 	taste_description = "bitterness"
 	color = "#ff80ff86"
@@ -179,7 +179,7 @@
 			to_chat(M, "<span class='notice'>Your mind feels stable... a little stable.</span>")
 
 /decl/material/chem/antibiotics
-	name = "antibiotics"
+	name = "Penicillin" //lets go with the classics.. AY?
 	lore_text = "An all-purpose antibiotic agent."
 	taste_description = "bitterness"
 	color = "#c1c1c186"
