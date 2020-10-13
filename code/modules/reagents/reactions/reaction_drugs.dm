@@ -256,7 +256,7 @@
 
 /datum/chemical_reaction/Sotalol //you new inaprovalin
 	result = /decl/material/chem/sotalol
-	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/nutriment/sugar = 1,/decl/material/acetone = 1)   //old inaprov recipe carbon and sugar are easy but if you want medicine you NEED something special "acetone will do"
+	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/nutriment/sugar = 1,/decl/material/chem/acetone = 1)   //old inaprov recipe carbon and sugar are easy but if you want medicine you NEED something special "acetone will do"
 	result_amount = 3
 
 /datum/chemical_reaction/arganbalm //as the old greek medicine based on balsamic for recipe? and causes PAIN
@@ -265,7 +265,7 @@
 	result_amount = 3
 /datum/chemical_reaction/garamycin //1963 medicine for burns. easy tox and pk
 	result = /decl/material/chem/garamycin
-	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/ethanol = 1) //synthkin is already easy. this should be even cheaper. to make. 
+	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/ethanol = 1) //synthkin is already easy. this should be even cheaper. to make. 
 	result_amount = 4
 /datum/chemical_reaction/charcoalcalcium //slowdon and antitox
 	result = /decl/material/chem/charcoalcalcium
@@ -292,11 +292,11 @@
 	result_amount = 3
 /datum/chemical_reaction/ursodiol //dizzy super antitox
 	result = /decl/material/chem/ursodiol
-	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/nutriment/mercury = 1,/decl/material/chem/antitoxins)  //YES mercury. consider me kind not giving you brain damage. or eye damage
+	required_reagents = list(/decl/material/chem/carbon = 1, /decl/material/chem/mercury = 1,/decl/material/chem/antitoxins)  //YES mercury. consider me kind not giving you brain damage. or eye damage
 	result_amount = 3
 /datum/chemical_reaction/dexametasona //dex +
 	result = /decl/material/chem/dexametasona
-	required_reagents = list(/decl/material/chem/water = 1, /decl/material/chem/nutriment/oxy_meds = 1,/decl/material/chem/sotalol) 
+	required_reagents = list(/decl/material/gas/water = 1, /decl/material/chem/oxy_meds = 1,/decl/material/chem/sotalol) 
 	result_amount = 3
 /datum/chemical_reaction/metamizol //midly painkiller
 	result = /decl/material/chem/painkillers/metamizol
