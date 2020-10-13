@@ -399,7 +399,7 @@
 					I.heal_damage(20*removed)
 
 /decl/material/chem/antiseptic
-	name = "chlorocresol"
+	name = "antiseptic"
 	lore_text = "Sterilizes surfaces (or wounds) in preparation for surgery, and thoroughly removes blood."
 	taste_description = "bitterness"
 	color = "#c8a5dc"
