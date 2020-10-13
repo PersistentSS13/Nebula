@@ -2,7 +2,7 @@
 	name = "eye drops"
 	lore_text = "A soothing balm that helps with minor eye damage."
 	taste_description = "a mild burn"
-	color = "#c8a5dc"
+	color = "#c8a5dc86"
 	overdose = REAGENTS_OVERDOSE
 	scannable = 1
 	flags = IGNORE_MOB_SIZE
@@ -21,7 +21,7 @@
 	name = "antirads"
 	lore_text = "A synthetic recombinant protein, derived from entolimod, used in the treatment of radiation poisoning."
 	taste_description = "bitterness"
-	color = "#408000"
+	color = "#40800071"
 	metabolism = REM * 0.25
 	overdose = REAGENTS_OVERDOSE
 	scannable = 1
@@ -36,7 +36,7 @@
 	lore_text = "An analgesic and bleeding suppressant that helps with recovery from physical trauma. Can assist with mending arteries if injected in large amounts, but will cause complications."
 	taste_description = "bitterness"
 	taste_mult = 3
-	color = "#bf0000"
+	color = "#bf00007a"
 	overdose = REAGENTS_OVERDOSE
 	scannable = 1
 	flags = IGNORE_MOB_SIZE
@@ -59,7 +59,7 @@
 	name = "synthskin"
 	lore_text = "A synthetic sealant, disinfectant and analgesic that encourages burned tissue to recover."
 	taste_description = "bitterness"
-	color = "#ffa800"
+	color = "#ffaa0091"
 	overdose = REAGENTS_OVERDOSE
 	scannable = 1
 	flags = IGNORE_MOB_SIZE
@@ -73,7 +73,7 @@
 	name = "Adminordrazine"
 	lore_text = "It's magic. We don't have to explain it."
 	taste_description = "100% abuse"
-	color = "#c8a5dc"
+	color = "#c8a5dc80"
 	flags = AFFECTS_DEAD //This can even heal dead people.
 
 	glass_name = "liquid gold"
@@ -89,7 +89,7 @@
 	name = "antitoxins"
 	lore_text = "A mix of broad-spectrum antitoxins used to neutralize poisons before they can do significant harm."
 	taste_description = "a roll of gauze"
-	color = "#00a000"
+	color = "#00a00096"
 	scannable = 1
 	flags = IGNORE_MOB_SIZE
 	value = 1.5
@@ -119,7 +119,7 @@
 	name = "immunobooster"
 	lore_text = "A drug that helps restore the immune system. Will not replace a normal immunity."
 	taste_description = "chalky"
-	color = "#ffc0cb"
+	color = "#ffc0cb7a"
 	metabolism = REM
 	overdose = REAGENTS_OVERDOSE
 	value = 1.5
@@ -138,7 +138,7 @@
 	name = "stimulants"
 	lore_text = "Improves the ability to concentrate."
 	taste_description = "sourness"
-	color = "#bf80bf"
+	color = "#bf80bf93"
 	scannable = 1
 	metabolism = 0.01
 	value = 1.5
@@ -161,7 +161,7 @@
 	name = "antidepressants"
 	lore_text = "Stabilizes the mind a little."
 	taste_description = "bitterness"
-	color = "#ff80ff"
+	color = "#ff80ff86"
 	scannable = 1
 	metabolism = 0.01
 	value = 1.5
@@ -182,7 +182,7 @@
 	name = "antibiotics"
 	lore_text = "An all-purpose antibiotic agent."
 	taste_description = "bitterness"
-	color = "#c1c1c1"
+	color = "#c1c1c186"
 	metabolism = REM * 0.1
 	overdose = REAGENTS_OVERDOSE/2
 	scannable = 1
@@ -207,7 +207,7 @@
 	name = "retrovirals"
 	lore_text = "A combination of retroviral therapy compounds and a meta-polymerase that rapidly mends genetic damage and unwanted mutations with the power of dark science."
 	taste_description = "acid"
-	color = "#004000"
+	color = "#00400096"
 	scannable = 1
 	overdose = REAGENTS_OVERDOSE
 	value = 1.5
@@ -237,7 +237,7 @@
 	name = "adrenaline"
 	lore_text = "Adrenaline is a hormone used as a drug to treat cardiac arrest and other cardiac dysrhythmias resulting in diminished or absent cardiac output."
 	taste_description = "rush"
-	color = "#c8a5dc"
+	color = "#c8a5dc85"
 	scannable = 1
 	overdose = 20
 	metabolism = 0.1
@@ -264,7 +264,7 @@
 	name = "regenerative serum"
 	lore_text = "A broad-spectrum cellular regenerator that heals both burns and physical trauma, albeit quite slowly."
 	taste_description = "metastasis"
-	color = "#8040ff"
+	color = "#8040ff7e"
 	scannable = 1
 	flags = IGNORE_MOB_SIZE
 	value = 1.5
@@ -276,7 +276,7 @@
 	name = "neuroannealer"
 	lore_text = "A neuroplasticity-assisting compound that helps to lessen damage to neurological tissue after a injury. Can aid in healing brain tissue."
 	taste_description = "bitterness"
-	color = "#ffff66"
+	color = "#ffff668a"
 	metabolism = REM * 0.25
 	overdose = REAGENTS_OVERDOSE
 	scannable = 1
@@ -292,10 +292,10 @@
 		H.drowsyness++
 
 /decl/material/chem/oxy_meds
-	name = "oxygel"
+	name = "betametasona"
 	lore_text = "A biodegradable gel full of oxygen-laden synthetic molecules. Injected into suffocation victims to stave off the effects of oxygen deprivation."
 	taste_description = "tasteless slickness"
-	color = "#13647c"
+	color = "#13637c91"
 
 /decl/material/chem/oxy_meds/affect_blood(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
 	M.add_chemical_effect(CE_OXYGENATED, 1)
@@ -305,7 +305,7 @@
 	name = "Sotalol"   //Antiarrhythmics IRL
 	lore_text = "A Antiarrhythmic, that will do some pain. but it will inded stabilize you."
 	taste_description = "acid"
-	color = "#248f62"
+	color = "#248f6286"
 	scannable = 1
 	overdose = 120
 	value = 1 //cheaper 
@@ -325,7 +325,7 @@
 	lore_text = "cheaper alternative for the stytipic powder, not as good. and for a matter of fact might give tons of pain."
 	taste_description = "vinegar"
 	taste_mult = 3
-	color = "#571317"
+	color = "#5713177a"
 	scannable = 0
 	overdose = 60
 
@@ -338,7 +338,7 @@
 	lore_text = "cheaper alternative for the synthskin, not as good. "
 	taste_description = "slime"
 	taste_mult = 2
-	color = "#acc427"
+	color = "#adc4278c"
 	scannable = 0
 	overdose = 60
 
@@ -352,7 +352,7 @@
 	lore_text = "ghetto medicine for your tox. needs. will make you slugish."
 	taste_description = "burnt"
 	taste_mult = 2
-	color = "#000000"
+	color = "#0000007a"
 	scannable = 0
 	overdose = 60
 
@@ -365,7 +365,7 @@
 	lore_text = "one of the oldest painkilers of time, might work. but will certainly get you drunk."
 	taste_description = "white whine and herbs"
 	taste_mult = 1
-	color = "#8f6f80"
+	color = "#8f6f807e"
 	scannable = 0
 	overdose = 30 //always lower than the same medicine of the same tier
 
@@ -382,7 +382,7 @@
 	lore_text = "the ultimate healing solution,for burns and brutes."
 	taste_description = "blood"
 	taste_mult = 5
-	color = "#ff110073"
+	color = "#ff11009c"
 	scannable = 1
 	overdose = 15
 
@@ -394,7 +394,7 @@
 	lore_text = "helps the blood to create clots closing the wounds, but might thicken your blood a bit slowing the BPM" //might not be how it work IRL but. balance
 	taste_description = "blood"
 	taste_mult = 5
-	color = "#2e1b0bff"
+	color = "#2e1b0b81"
 	scannable = 1
 	overdose = 20
 
@@ -407,7 +407,7 @@
 	lore_text = "helps your body on healing burns. usualy reserved for 3rd degree burns, works as a mild painkiler, might be toxic." 
 	taste_description = "metallic"
 	taste_mult = 5
-	color = "#a7a09dff"
+	color = "#a7a09d93"
 	scannable = 1
 	overdose = 20
 
@@ -421,7 +421,7 @@
 	lore_text = "the best antitox one can get the hands on, just, too strong sometimes."
 	taste_description = "strong sour milk"
 	taste_mult = 8
-	color = "#0d681c"
+	color = "#0d681c8e"
 	scannable = 0
 	overdose = 15
 
@@ -434,7 +434,7 @@
 	name = "Dexametasona"
 	lore_text = "glucocorticoid that helps you lung to dillatate stave off the effects of oxygen deprivation."
 	taste_description = "tasteless slickness"
-	color = "#1535c5cb"
+	color = "#1535c59f"
 	scannable = 0
 	overdose = 15
 
