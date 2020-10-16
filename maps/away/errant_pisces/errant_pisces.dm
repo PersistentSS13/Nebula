@@ -1,3 +1,4 @@
+#include "../../../mods/corporate/_corporate.dme"
 #include "errant_pisces_areas.dm"
 
 /obj/effect/overmap/visitable/ship/errant_pisces
@@ -44,10 +45,10 @@
 	..()
 	var/datum/gas_mixture/environment = loc.return_air()
 	if (environment)
-		var/datum/gas_mixture/sharkmaw_phoron = new
-		sharkmaw_phoron.adjust_gas(MAT_PHORON,  10)
-		environment.merge(sharkmaw_phoron)
-		visible_message("<span class='warning'>\The [src]'s body releases some gas from the gills with a quiet fizz!</span>")
+		var/datum/gas_mixture/sharkmaw_chlorine = new
+		sharkmaw_chlorine.adjust_gas(/decl/material/gas/chlorine, 10)
+		environment.merge(sharkmaw_chlorine)
+		visible_message(SPAN_WARNING("\The [src]'s body releases some gas from the gills with a quiet fizz!"))
 
 /mob/living/simple_animal/hostile/carp/shark/AttackingTarget()
 	set waitfor = 0//to deal with sleep() possibly stalling other procs
@@ -75,9 +76,9 @@
 
 /obj/item/chems/food/snacks/sharkmeat/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/chem/nutriment/protein, 5)
-	reagents.add_reagent(/decl/material/chem/psychoactives, 1)
-	reagents.add_reagent(/decl/material/chem/toxin/phoron, 1)
+	reagents.add_reagent(/decl/material/liquid/nutriment/protein, 5)
+	reagents.add_reagent(/decl/material/liquid/psychoactives, 1)
+	reagents.add_reagent(/decl/material/gas/chlorine, 1)
 	src.bitesize = 8
 
 
@@ -114,8 +115,8 @@
 		to_chat(user, SPAN_NOTICE("A few strands of \the [src] have been severed."))
 
 /obj/structure/net/attackby(obj/item/W, mob/user)
-	if (istype(W, /obj/item/material)) //sharp objects can cut thorugh
-		var/obj/item/material/SH = W
+	if(W.sharp || W.edge)
+		var/obj/item/SH = W
 		if (!(SH.sharp) || (SH.sharp && SH.force < 10))//is not sharp enough or at all
 			to_chat(user,"<span class='warning'>You can't cut throught \the [src] with \the [W], it's too dull.</span>")
 			return
@@ -127,6 +128,8 @@
 			take_damage(20 * (1 + (SH.force-10)/10)) //the sharper the faster, every point of force above 10 adds 10 % to damage
 		new /obj/item/stack/net(src.loc)
 		qdel(src)
+		return TRUE
+	. = ..()
 
 /obj/structure/net/physically_destroyed()
 	SHOULD_CALL_PARENT(FALSE)
@@ -245,6 +248,6 @@
 	name = "Dead carp fisher"
 	uniform = /obj/item/clothing/under/color/green
 	suit = /obj/item/clothing/suit/apron/overalls
-	belt = /obj/item/material/knife/combat
+	belt = /obj/item/knife/combat
 	shoes = /obj/item/clothing/shoes/jackboots
 	head = /obj/item/clothing/head/hardhat/dblue

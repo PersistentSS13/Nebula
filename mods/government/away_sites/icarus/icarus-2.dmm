@@ -380,8 +380,8 @@
 /area/icarus/vessel)
 "bq" = (
 /obj/structure/table/rack,
-/obj/item/melee/baton,
-/obj/item/melee/baton,
+/obj/item/baton,
+/obj/item/baton,
 /turf/simulated/floor/plating,
 /area/icarus/vessel)
 "br" = (
@@ -518,7 +518,7 @@
 /area/icarus/vessel)
 "bO" = (
 /obj/structure/table/steel_reinforced,
-/obj/item/material/harpoon,
+/obj/item/harpoon,
 /turf/simulated/floor/plating,
 /area/icarus/vessel)
 "bP" = (
@@ -932,11 +932,6 @@
 /obj/structure/window/reinforced{
 	dir = 8
 	},
-/obj/item/stack/material/phoron,
-/obj/item/stack/material/phoron,
-/obj/item/stack/material/phoron,
-/obj/item/stack/material/phoron,
-/obj/item/stack/material/phoron,
 /turf/simulated/floor/tiled,
 /area/icarus/vessel)
 "cZ" = (

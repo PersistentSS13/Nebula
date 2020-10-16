@@ -34,7 +34,7 @@
 	desc = "A hilt, that when activated, creates a solid beam of pure energy in the form of a sword. \
 			Able to slice through people like butter!"
 	item_cost = 32
-	path = /obj/item/melee/energy/sword
+	path = /obj/item/energy_blade/sword
 
 /datum/uplink_item/item/visible_weapons/silenced
 	name = "Small Silenced Pistol"
@@ -127,7 +127,7 @@
 /datum/uplink_item/item/visible_weapons/harpoonbomb
 	name = "Explosive Harpoon"
 	item_cost = 12
-	path = /obj/item/material/harpoon/bomb
+	path = /obj/item/harpoon/bomb
 
 /datum/uplink_item/item/visible_weapons/incendiary_laser
 	name = "Incendiary Laser Blaster"

@@ -1,11 +1,10 @@
 /obj/item/gun/launcher/pneumatic
 	name = "pneumatic cannon"
 	desc = "A large gas-powered cannon."
-	on_mob_icon = 'icons/obj/guns/launcher/pneumatic.dmi'
 	icon = 'icons/obj/guns/launcher/pneumatic.dmi'
-	icon_state = "world"
+	icon_state = ICON_STATE_WORLD
 	origin_tech = "{'combat':4,'materials':3}"
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 	w_class = ITEM_SIZE_HUGE
 	obj_flags =  OBJ_FLAG_CONDUCTIBLE
 	fire_sound_text = "a loud whoosh of moving air"
@@ -60,7 +59,7 @@
 		to_chat(user, "There is nothing to remove in \the [src].")
 
 /obj/item/gun/launcher/pneumatic/attack_hand(mob/user)
-	if(user.get_inactive_hand() == src)
+	if(user.is_holding_offhand(src))
 		unload_hopper(user)
 	else
 		return ..()
@@ -133,7 +132,7 @@
 
 	update_held_icon()
 
-/obj/item/gun/launcher/pneumatic/experimental_mob_overlay(mob/user_mob, slot)
+/obj/item/gun/launcher/pneumatic/experimental_mob_overlay(mob/user_mob, slot, bodypart)
 	var/image/I = ..()
 	if(tank)
 		I.icon_state += "-tank" 

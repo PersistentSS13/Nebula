@@ -9,7 +9,7 @@
 
 	var/unwrenched = FALSE
 	var/initial_capacity = 1000
-	var/initial_reagent_types  // A list of reagents and their ratio relative the initial capacity. list(/decl/material/gas/water = 0.5) would fill the dispenser halfway to capacity.
+	var/initial_reagent_types  // A list of reagents and their ratio relative the initial capacity. list(/decl/material/liquid/water = 0.5) would fill the dispenser halfway to capacity.
 	var/amount_per_transfer_from_this = 10
 	var/possible_transfer_amounts = @"[10,25,50,100,500]"
 
@@ -25,10 +25,7 @@
 /obj/structure/reagent_dispensers/proc/leak()
 	var/turf/T = get_turf(src)
 	if(reagents && T)
-		var/datum/reagents/leaked = new(FLUID_PUDDLE, GLOB.temp_reagents_holder)
-		reagents.trans_to_holder(leaked, FLUID_PUDDLE)
-		T.add_reagents_as_fluid(leaked)
-		qdel(leaked)
+		reagents.trans_to_turf(T, FLUID_PUDDLE)
 
 /obj/structure/reagent_dispensers/Move()
 	. = ..()
@@ -89,8 +86,9 @@
 	if(reagents?.total_volume)
 		var/turf/T = get_turf(src)
 		if(T)
-			for(var/r in reagents.reagent_volumes)
-				T.add_fluid(REAGENT_VOLUME(reagents, r), r)
+			var/obj/effect/fluid/F = locate() in T
+			if(!F) F = new(T)
+			reagents.trans_to_holder(F.reagents, reagents.total_volume)
 	. = ..()
 
 /obj/structure/reagent_dispensers/explosion_act(severity)
@@ -113,7 +111,7 @@
 	amount_per_transfer_from_this = 10
 	possible_transfer_amounts = @"[10,25,50,100]"
 	initial_capacity = 50000
-	initial_reagent_types = list(/decl/material/gas/water = 1)
+	initial_reagent_types = list(/decl/material/liquid/water = 1)
 	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_CLIMBABLE
 
 /obj/structure/reagent_dispensers/watertank/attackby(obj/item/W, mob/user)
@@ -130,7 +128,7 @@
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "weldtank"
 	amount_per_transfer_from_this = 10
-	initial_reagent_types = list(/decl/material/chem/fuel = 1)
+	initial_reagent_types = list(/decl/material/liquid/fuel = 1)
 	atom_flags = ATOM_FLAG_CLIMBABLE
 
 	var/obj/item/assembly_holder/rig = null
@@ -167,7 +165,7 @@
 			test.Shift(EAST,6)
 			overlays += test
 		return TRUE
-	if(isflamesource(W))
+	if(W.isflamesource())
 		log_and_message_admins("triggered a fuel tank explosion with \the [W].")
 		visible_message(SPAN_DANGER("\The [user] puts \the [W] to \the [src]!"))
 		try_detonate_reagents()
@@ -200,7 +198,7 @@
 	anchored = 1
 	density = 0
 	amount_per_transfer_from_this = 45
-	initial_reagent_types = list(/decl/material/chem/capsaicin/condensed = 1)
+	initial_reagent_types = list(/decl/material/liquid/capsaicin/condensed = 1)
 
 /obj/structure/reagent_dispensers/water_cooler
 	name = "water cooler"
@@ -211,7 +209,7 @@
 	possible_transfer_amounts = null
 	anchored = 1
 	initial_capacity = 500
-	initial_reagent_types = list(/decl/material/gas/water = 1)
+	initial_reagent_types = list(/decl/material/liquid/water = 1)
 	tool_interaction_flags = (TOOL_INTERACTION_ANCHOR | TOOL_INTERACTION_DECONSTRUCT)
 	var/cups = 12
 	var/cup_type = /obj/item/chems/food/drinks/sillycup
@@ -243,7 +241,7 @@
 	icon = 'icons/obj/objects.dmi'
 	icon_state = "beertankTEMP"
 	amount_per_transfer_from_this = 10
-	initial_reagent_types = list(/decl/material/chem/ethanol/beer = 1)
+	initial_reagent_types = list(/decl/material/liquid/ethanol/beer = 1)
 	atom_flags = ATOM_FLAG_CLIMBABLE
 
 /obj/structure/reagent_dispensers/acid
@@ -253,4 +251,4 @@
 	icon_state = "acidtank"
 	amount_per_transfer_from_this = 10
 	anchored = 1
-	initial_reagent_types = list(/decl/material/chem/acid = 1)
+	initial_reagent_types = list(/decl/material/liquid/acid = 1)

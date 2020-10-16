@@ -1,8 +1,6 @@
 /obj/effect/overmap/visitable/sector/exoplanet
 	name = "exoplanet"
-	icon = 'icons/obj/overmap64.dmi'
-	bound_height = 64
-	bound_width = 64
+	icon = 'icons/obj/overmap.dmi'
 	icon_state = "globe"
 	sector_flags = OVERMAP_SECTOR_KNOWN
 	free_landing = TRUE
@@ -24,6 +22,8 @@
 	var/y_size
 
 	var/landmark_type = /obj/effect/shuttle_landmark/automatic
+	var/shuttle_size = 20  		 //'diameter' of expected shuttle in turfs
+	var/landing_points_to_place  // number of landing points to place, calculated dynamically based on planet size
 
 	var/list/rock_colors = list(COLOR_ASTEROID_ROCK)
 	var/list/plant_colors = list("RANDOM")
@@ -85,6 +85,7 @@
 	y_origin = TRANSITIONEDGE + 1
 	x_size = maxx - 2 * (TRANSITIONEDGE + 1)
 	y_size = maxy - 2 * (TRANSITIONEDGE + 1)
+	landing_points_to_place = min(round(0.1 * (x_size * y_size) / (shuttle_size * shuttle_size)), 3)
 	planetary_area = new planetary_area()
 	var/themes_num = min(length(possible_themes), rand(1, max_themes))
 	for(var/i = 1 to themes_num)
@@ -99,10 +100,10 @@
 		T.adjust_atmosphere(src)
 	generate_flora()
 	generate_map()
+	generate_landing(2)
 	generate_features()
 	for(var/datum/exoplanet_theme/T in themes)
 		T.after_map_generation(src)
-	generate_landing(2)
 	generate_daycycle()
 	generate_planet_image()
 	START_PROCESSING(SSobj, src)
@@ -126,8 +127,6 @@
 		repopulating = 1
 		max_animal_count = round(max_animal_count * 0.5)
 
-	handle_atmosphere()
-
 	if(repopulating)
 		handle_repopulation()
 
@@ -142,7 +141,7 @@
 	var/light = 0.1
 	if(!night)
 		light = lightlevel
-	for(var/turf/simulated/floor/exoplanet/T in block(locate(daycolumn,1,min(map_z)),locate(daycolumn,maxy,max(map_z))))
+	for(var/turf/exterior/T in block(locate(daycolumn,1,min(map_z)),locate(daycolumn,maxy,max(map_z))))
 		T.set_light(light, 0.1, 2)
 	daycolumn++
 	if(daycolumn > maxx)
@@ -163,7 +162,7 @@
 		edges |= block(locate(1, 1, zlevel), locate(maxx, TRANSITIONEDGE, zlevel))
 		edges |= block(locate(1, maxy-TRANSITIONEDGE, zlevel),locate(maxx, maxy, zlevel))
 		for(var/turf/T in edges)
-			T.ChangeTurf(/turf/simulated/planet_edge)
+			T.ChangeTurf(/turf/exterior/planet_edge)
 		for(var/map_type in map_generators)
 			if(ispath(map_type, /datum/random_map/noise/exoplanet))
 				new map_type(null,x_origin,y_origin,zlevel,x_size,y_size,0,1,1,planetary_area, plant_colors)
@@ -189,18 +188,21 @@
 		daycycle = rand(10 MINUTES, 40 MINUTES)
 
 //Tries to generate num landmarks, but avoids repeats.
-/obj/effect/overmap/visitable/sector/exoplanet/proc/generate_landing(num = 1)
+/obj/effect/overmap/visitable/sector/exoplanet/proc/generate_landing()
 	var/places = list()
-	var/attempts = 10*num
-	var/new_type = /obj/effect/shuttle_landmark/automatic
-	while(num)
+	var/attempts = 10*landing_points_to_place
+	var/border_padding = shuttle_size / 2 + 3
+
+	while(landing_points_to_place)
 		attempts--
-		var/turf/T = locate(rand(20, maxx-20), rand(20, maxy - 10),map_z[map_z.len])
+		var/turf/T = locate(rand(x_origin + border_padding, x_origin + x_size - border_padding), rand(y_origin + border_padding, y_origin + y_size - border_padding), map_z[1])
+
 		if(!T || (T in places)) // Two landmarks on one turf is forbidden as the landmark code doesn't work with it.
 			continue
+
 		if(attempts >= 0) // While we have the patience, try to find better spawn points. If out of patience, put them down wherever, so long as there are no repeats.
 			var/valid = 1
-			var/list/block_to_check = block(locate(T.x - 10, T.y - 10, T.z), locate(T.x + 10, T.y + 10, T.z))
+			var/list/block_to_check = block(locate(T.x - shuttle_size / 2, T.y - shuttle_size / 2, T.z), locate(T.x + shuttle_size / 2, T.y + shuttle_size / 2, T.z))
 			for(var/turf/check in block_to_check)
 				if(!istype(get_area(check), /area/exoplanet) || check.turf_flags & TURF_FLAG_NORUINS)
 					valid = 0
@@ -208,15 +210,13 @@
 			if(attempts >= 10)
 				if(check_collision(T.loc, block_to_check)) //While we have lots of patience, ensure landability
 					valid = 0
-			else //Running out of patience, but would rather not clear ruins, so switch to clearing landmarks and bypass landability check
-				new_type = /obj/effect/shuttle_landmark/automatic/clearing
 
 			if(!valid)
 				continue
 
-		num--
+		landing_points_to_place--
 		places += T
-		new new_type(T)
+		new /obj/effect/shuttle_landmark/automatic/clearing(T)
 
 /obj/effect/overmap/visitable/sector/exoplanet/get_scan_data(mob/user)
 	. = ..()
@@ -258,4 +258,4 @@
 	name = "\improper Planetary surface"
 	ambience = list('sound/effects/wind/wind_2_1.ogg','sound/effects/wind/wind_2_2.ogg','sound/effects/wind/wind_3_1.ogg','sound/effects/wind/wind_4_1.ogg','sound/effects/wind/wind_4_2.ogg','sound/effects/wind/wind_5_1.ogg')
 	always_unpowered = 1
-	area_flags = AREA_FLAG_IS_BACKGROUND
+	area_flags = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_EXTERNAL

@@ -13,7 +13,7 @@ env:
 jobs:
     include:
     - name: "DreamChecker"
-      env: SPACEMAN_DMM_VERSION=suite-1.4
+      env: SPACEMAN_DMM_VERSION=suite-1.5
       cache:
         directories: $HOME/spaceman_dmm/$SPACEMAN_DMM_VERSION
       install:
@@ -28,6 +28,10 @@ jobs:
       env: TEST=MAP MAP_PATH=tradeship
     - name: "Map - Away Sites"
       env: TEST=MAP MAP_PATH=away_sites_testing
+    - name: "Map - Modpacks"
+      env: TEST=MAP MAP_PATH=modpack_testing
+    - name: "Map - Ministation"
+      env: TEST=MAP MAP_PATH=ministation
 
 cache:
   directories:

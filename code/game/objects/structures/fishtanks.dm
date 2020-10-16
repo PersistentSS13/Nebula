@@ -36,7 +36,7 @@ GLOBAL_LIST_INIT(fishtank_cache, new)
 /obj/structure/glass_tank/aquarium
 	name = "aquarium"
 	desc = "A clear glass box for keeping specimens in. This one is full of water."
-	fill_type = /decl/material/gas/water
+	fill_type = /decl/material/liquid/water
 	fill_amt = 300
 
 /obj/structure/glass_tank/Initialize()
@@ -73,7 +73,7 @@ GLOBAL_LIST_INIT(fishtank_cache, new)
 	deleting = 1
 	var/turf/T = get_turf(src)
 	playsound(T, "shatter", 70, 1)
-	new /obj/item/material/shard(T)
+	new /obj/item/shard(T)
 	if(!silent)
 		if(contents.len || reagents.total_volume)
 			visible_message(SPAN_DANGER("\The [src] shatters, spilling its contents everywhere!"))
@@ -89,9 +89,9 @@ GLOBAL_LIST_INIT(fishtank_cache, new)
 	. = ..()
 	if(reagents && reagents.total_volume)
 		var/turf/T = get_turf(src)
-		if(T)
-			T.add_fluid(reagents.total_volume * TANK_WATER_MULTIPLIER)
-		reagents.clear_reagents()
+		var/obj/effect/fluid/F = locate() in T
+		if(!F) F = new(T)
+		reagents.trans_to_holder(F.reagents, reagents.total_volume)
 
 GLOBAL_LIST_INIT(aquarium_states_and_layers, list(
 	"b" = FLY_LAYER - 0.02,
@@ -115,7 +115,7 @@ GLOBAL_LIST_INIT(aquarium_states_and_layers, list(
 				continue
 			var/cache_key = "[c_states[i]][key_mod]-[i]"
 			if(!GLOB.fishtank_cache[cache_key])
-				var/image/I = image(icon, icon_state = "[c_states[i]][key_mod]", dir = 1 << (i-1))
+				var/image/I = image(icon, icon_state = "[c_states[i]][key_mod]", dir = 1<<(i-1))
 				if(GLOB.aquarium_states_and_layers[key_mod])
 					I.layer = GLOB.aquarium_states_and_layers[key_mod]
 				GLOB.fishtank_cache[cache_key] = I

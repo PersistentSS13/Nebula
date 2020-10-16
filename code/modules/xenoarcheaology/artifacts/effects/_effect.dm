@@ -55,7 +55,7 @@
 		var/atom/toplevelholder = holder
 		while(!istype(toplevelholder.loc, /turf))
 			toplevelholder = toplevelholder.loc
-		toplevelholder.visible_message("<span class='warning'>\icon[toplevelholder] [toplevelholder] [display_msg]</span>")
+		toplevelholder.visible_message("<span class='warning'>[html_icon(toplevelholder)] [toplevelholder] [display_msg]</span>")
 
 /datum/artifact_effect/proc/DoEffectTouch(var/mob/user)
 /datum/artifact_effect/proc/DoEffectAura(var/atom/holder)
@@ -85,8 +85,6 @@
 			. += "High frequency particles"
 		if(EFFECT_ORGANIC)
 			. += "Organically reactive exotic particles"
-		if(EFFECT_BLUESPACE)
-			. += "Interdimensional/bluespace? phasing"
 		if(EFFECT_SYNTH)
 			. += "Atomic synthesis"
 		else

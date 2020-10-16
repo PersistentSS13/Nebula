@@ -81,10 +81,6 @@
 
 		handle_medical_side_effects()
 
-		if(!client && !mind)
-			species.handle_npc(src)
-
-
 	if(!handle_some_updates())
 		return											//We go ahead and process them 5 times for HUD images and other stuff though.
 
@@ -142,7 +138,7 @@
 /mob/living/carbon/human/proc/get_pressure_weakness(pressure)
 
 	var/pressure_adjustment_coefficient = 0
-	var/list/zones = list(HEAD, UPPER_TORSO, LOWER_TORSO, LEGS, FEET, ARMS, HANDS)
+	var/list/zones = list(SLOT_HEAD, SLOT_UPPER_BODY, SLOT_LOWER_BODY, SLOT_LEGS, SLOT_FEET, SLOT_ARMS, SLOT_HANDS)
 	for(var/zone in zones)
 		var/list/covers = get_covering_equipped_items(zone)
 		var/zone_exposure = 1
@@ -207,7 +203,7 @@
 	..()
 	if(stat != DEAD)
 		if ((disabilities & COUGHING) && prob(5) && paralysis <= 1)
-			unequip_item()
+			drop_held_items()
 			spawn(0)
 				emote("cough")
 
@@ -457,7 +453,7 @@
 			adjust_hydration(-hyd_remove)
 			bodytemperature += min((body_temperature_difference / BODYTEMP_AUTORECOVERY_DIVISOR), -BODYTEMP_AUTORECOVERY_MINIMUM)
 
-	//This proc returns a number made up of the flags for body parts which you are protected on. (such as HEAD, UPPER_TORSO, LOWER_TORSO, etc. See setup.dm for the full list)
+	//This proc returns a number made up of the flags for body parts which you are protected on. (such as HEAD, SLOT_UPPER_BODY, SLOT_LOWER_BODY, etc. See setup.dm for the full list)
 /mob/living/carbon/human/proc/get_heat_protection_flags(temperature) //Temperature is the temperature you're being exposed to.
 	. = 0
 	//Handle normal clothing
@@ -499,27 +495,27 @@
 /mob/living/carbon/human/proc/get_thermal_protection(var/flags)
 	.=0
 	if(flags)
-		if(flags & HEAD)
+		if(flags & SLOT_HEAD)
 			. += THERMAL_PROTECTION_HEAD
-		if(flags & UPPER_TORSO)
+		if(flags & SLOT_UPPER_BODY)
 			. += THERMAL_PROTECTION_UPPER_TORSO
-		if(flags & LOWER_TORSO)
+		if(flags & SLOT_LOWER_BODY)
 			. += THERMAL_PROTECTION_LOWER_TORSO
-		if(flags & LEG_LEFT)
+		if(flags & SLOT_LEG_LEFT)
 			. += THERMAL_PROTECTION_LEG_LEFT
-		if(flags & LEG_RIGHT)
+		if(flags & SLOT_LEG_RIGHT)
 			. += THERMAL_PROTECTION_LEG_RIGHT
-		if(flags & FOOT_LEFT)
+		if(flags & SLOT_FOOT_LEFT)
 			. += THERMAL_PROTECTION_FOOT_LEFT
-		if(flags & FOOT_RIGHT)
+		if(flags & SLOT_FOOT_RIGHT)
 			. += THERMAL_PROTECTION_FOOT_RIGHT
-		if(flags & ARM_LEFT)
+		if(flags & SLOT_ARM_LEFT)
 			. += THERMAL_PROTECTION_ARM_LEFT
-		if(flags & ARM_RIGHT)
+		if(flags & SLOT_ARM_RIGHT)
 			. += THERMAL_PROTECTION_ARM_RIGHT
-		if(flags & HAND_LEFT)
+		if(flags & SLOT_HAND_LEFT)
 			. += THERMAL_PROTECTION_HAND_LEFT
-		if(flags & HAND_RIGHT)
+		if(flags & SLOT_HAND_RIGHT)
 			. += THERMAL_PROTECTION_HAND_RIGHT
 	return min(1,.)
 
@@ -644,11 +640,11 @@
 			gloves.germ_level += 1
 
 		if(vsc.contaminant_control.CONTAMINATION_LOSS)
-			var/total_phoronloss = 0
+			var/total_contamination= 0
 			for(var/obj/item/I in src)
 				if(I.contaminated)
-					total_phoronloss += vsc.contaminant_control.CONTAMINATION_LOSS
-			adjustToxLoss(total_phoronloss)
+					total_contamination += vsc.contaminant_control.CONTAMINATION_LOSS
+			adjustToxLoss(total_contamination)
 
 		// nutrition decrease
 		if(nutrition > 0)
@@ -1088,6 +1084,7 @@
 	shock_stage = 0
 	..()
 	adjust_stamina(100)
+	UpdateAppearance()
 
 /mob/living/carbon/human/reset_view(atom/A)
 	..()

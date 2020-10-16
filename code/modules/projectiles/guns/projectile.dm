@@ -5,7 +5,7 @@
 	icon_state = "pistol"
 	origin_tech = "{'combat':2,'materials':2}"
 	w_class = ITEM_SIZE_NORMAL
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	screen_shake = 1
 	space_recoil = 1
 	combustion = 1
@@ -222,7 +222,7 @@
 		unload_ammo(user)
 
 /obj/item/gun/projectile/attack_hand(mob/user)
-	if(user.get_inactive_hand() == src)
+	if(user.is_holding_offhand(src))
 		unload_ammo(user, allow_dump=0)
 	else
 		return ..()

@@ -10,9 +10,10 @@
 	var/build_time = 5 SECONDS
 	var/max_amount = 1 // How many instances can be queued at once
 	var/ignore_materials = list(
-		MAT_WASTE = TRUE
+		/decl/material/solid/slag = TRUE
 	)
 	var/list/required_technology
+	var/list/species_locked
 
 // Populate name and resources from the product type.
 /datum/fabricator_recipe/proc/get_product_name()

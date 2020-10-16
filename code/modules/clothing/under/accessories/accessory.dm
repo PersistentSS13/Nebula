@@ -24,7 +24,7 @@
 
 /obj/item/clothing/accessory/proc/get_inv_overlay()
 	if(!inv_overlay)
-		if(on_mob_icon)
+		if(use_single_icon)
 			inv_overlay = image(icon, "inventory")
 			inv_overlay.color = color
 		else
@@ -32,15 +32,15 @@
 			if(icon_override && ("[tmp_icon_state]_tie" in icon_states(icon_override)))
 				inv_overlay = image(icon = icon_override, icon_state = "[tmp_icon_state]_tie", dir = SOUTH)
 			else if("[tmp_icon_state]_tie" in icon_states(default_onmob_icons[slot_tie_str]))
-				inv_overlay = image(icon = default_onmob_icons[slot_tie_str], icon_state = "[tmp_icon_state]_tie", dir = SOUTH)
+				inv_overlay = image(icon = global.default_onmob_icons[slot_tie_str], icon_state = "[tmp_icon_state]_tie", dir = SOUTH)
 			else
-				inv_overlay = image(icon = default_onmob_icons[slot_tie_str], icon_state = tmp_icon_state, dir = SOUTH)
+				inv_overlay = image(icon = global.default_onmob_icons[slot_tie_str], icon_state = tmp_icon_state, dir = SOUTH)
 	inv_overlay.color = color
 	inv_overlay.appearance_flags = RESET_COLOR
 	return inv_overlay
 
-/obj/item/clothing/accessory/get_mob_overlay(mob/user_mob, slot)
-	if(!istype(loc,/obj/item/clothing) || on_mob_icon)	//don't need special handling if it's worn as normal item.
+/obj/item/clothing/accessory/get_mob_overlay(mob/user_mob, slot, bodypart)
+	if(!istype(loc,/obj/item/clothing) || use_single_icon)	//don't need special handling if it's worn as normal item.
 		return ..()
 	var/bodytype = BODYTYPE_HUMANOID
 	if(ishuman(user_mob))
@@ -109,7 +109,7 @@
 	name = "necklace"
 	desc = "A simple necklace."
 	icon_state = "necklace"
-	slot_flags = SLOT_MASK | SLOT_TIE
+	slot_flags = SLOT_FACE | SLOT_TIE
 
 //Misc
 /obj/item/clothing/accessory/kneepads

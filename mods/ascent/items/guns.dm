@@ -2,8 +2,7 @@
 	name = "particle lance"
 	desc = "A long, thick-bodied energy rifle of some kind, clad in a curious indigo polymer and lit from within by Cherenkov radiation. The grip is clearly not designed for human hands."
 	icon = 'mods/ascent/icons/particle_rifle/rifle.dmi'
-	on_mob_icon = 'mods/ascent/icons/particle_rifle/rifle.dmi'
-	icon_state = "world"
+	icon_state = ICON_STATE_WORLD
 	slot_flags = SLOT_BACK
 	force = 25 // Heavy as Hell.
 	projectile_type = /obj/item/projectile/beam/particle
@@ -30,13 +29,13 @@
 /obj/item/gun/energy/particle/small
 	name = "particle projector"
 	desc = "A smaller variant on the Ascent particle lance, usually carried by drones and alates."
-	on_mob_icon = 'mods/ascent/icons/particle_rifle/rifle_small.dmi'
+	icon = 'mods/ascent/icons/particle_rifle/rifle_small.dmi'
 	force = 12
 	max_shots = 9
 	burst = 1
 	one_hand_penalty = 0
 	w_class = ITEM_SIZE_NORMAL
-	slot_flags = SLOT_DENYPOCKET | SLOT_HOLSTER
+	slot_flags = SLOT_HOLSTER
 	projectile_type = /obj/item/projectile/beam/particle/small
 	firemodes = list(
 		list(mode_name="stun",   projectile_type = /obj/item/projectile/beam/stun),
@@ -50,7 +49,7 @@
 	var/datum/firemode/current_mode = firemodes[sel_mode]
 	overlays = list(
 		image(icon, "[get_world_inventory_state()]-[istype(current_mode) ? current_mode.name : "lethal"]"),
-		image(icon, "[get_world_inventory_state()]-charge-[Floor(power_supply.percent()/20)]")
+		image(icon, "[get_world_inventory_state()]-charge-[istype(power_supply) ? Floor(power_supply.percent()/20) : 0]")
 	)
 
 /obj/item/gun/magnetic/railgun/flechette/ascent

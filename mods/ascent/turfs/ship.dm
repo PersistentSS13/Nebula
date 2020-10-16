@@ -11,7 +11,15 @@
 /turf/simulated/wall/ascent
 	color = COLOR_PURPLE
 
+/turf/simulated/wall/ascent/on_update_icon()
+	. = ..()
+	color = COLOR_PURPLE
+
 /turf/simulated/wall/r_wall/ascent
+	color = COLOR_PURPLE
+
+/turf/simulated/wall/r_wall/ascent/on_update_icon()
+	. = ..()
 	color = COLOR_PURPLE
 
 /turf/simulated/floor/shuttle_ceiling/ascent
@@ -22,7 +30,7 @@
 /turf/simulated/floor/ascent
 	name = "mantid plating"
 	color = COLOR_GRAY20
-	initial_gas = list(MAT_METHYL_BROMIDE = MOLES_CELLSTANDARD * 0.5, GAS_OXYGEN = MOLES_CELLSTANDARD * 0.5)
+	initial_gas = list(/decl/material/gas/methyl_bromide = MOLES_CELLSTANDARD * 0.5, /decl/material/gas/oxygen = MOLES_CELLSTANDARD * 0.5)
 	icon_state = "curvy"
 	icon = 'icons/turf/flooring/alium.dmi'
 
@@ -35,5 +43,5 @@
 	icon_state = "jaggy"
 	icon = 'icons/turf/flooring/alium.dmi'
 	color = COLOR_GRAY40
-	initial_gas = list(MAT_METHYL_BROMIDE = MOLES_CELLSTANDARD * 0.5, GAS_OXYGEN = MOLES_CELLSTANDARD * 0.5)
+	initial_gas = list(/decl/material/gas/methyl_bromide = MOLES_CELLSTANDARD * 0.5, /decl/material/gas/oxygen = MOLES_CELLSTANDARD * 0.5)
 	initial_flooring = /decl/flooring/tiling_ascent

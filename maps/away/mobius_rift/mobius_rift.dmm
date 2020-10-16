@@ -6,7 +6,7 @@
 /turf/unsimulated/mineral,
 /area/mobius_rift)
 "c" = (
-/turf/unsimulated/floor/bluespace,
+/turf/unsimulated/floor/infinity,
 /area/mobius_rift)
 "d" = (
 /turf/unsimulated/beach/sand,
@@ -33,7 +33,7 @@
 /turf/simulated/floor/grass,
 /area/mobius_rift)
 "k" = (
-/turf/simulated/floor/exoplanet/water/shallow,
+/turf/exterior/water,
 /area/mobius_rift)
 "l" = (
 /obj/structure/flora/ausbushes/fullgrass,

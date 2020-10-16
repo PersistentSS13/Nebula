@@ -83,7 +83,9 @@
 /datum/species/starlight/starborn/handle_death(var/mob/living/carbon/human/H)
 	..()
 	var/turf/T = get_turf(H)
-	T.add_fluid(20, /decl/material/chem/fuel)
+	var/obj/effect/fluid/F = locate() in T
+	if(!F) F = new(T)
+	F.reagents.add_reagent(/decl/material/liquid/fuel, 20)
 	T.hotspot_expose(FLAMMABLE_GAS_MINIMUM_BURN_TEMPERATURE)
 
 /datum/species/starlight/blueforged
@@ -91,7 +93,7 @@
 	name_plural = "Blueforged"
 	icobase = 'icons/mob/human_races/species/blueforged/body.dmi'
 	deform = 'icons/mob/human_races/species/blueforged/body.dmi'
-	description = "Living chunks of Bluespace, carved out of the original dimension and given life by a being of unbelievable power."
+	description = "Living chunks of spacetime, carved out of the original dimension and given life by a being of unbelievable power."
 
 	blood_color = "#2222ff"
 	flesh_color = "#2222ff"

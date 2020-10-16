@@ -112,7 +112,7 @@
 	breath_type = pick(atmosphere.gas)
 	breath_pressure = 0.8*(atmosphere.gas[breath_type]/atmosphere.total_moles)*normal_pressure
 
-	var/list/newgases = SSmaterials.all_gasses
+	var/list/newgases = subtypesof(/decl/material/gas)
 	newgases = newgases.Copy()
 	newgases ^= atmosphere.gas
 	for(var/gas in newgases)
@@ -148,5 +148,5 @@
 	new/obj/item/implanter/translator(get_turf(src))
 	user.set_species(SPECIES_ALIEN)
 	var/decl/cultural_info/culture = user.get_cultural_value(TAG_CULTURE)
-	user.fully_replace_character_name(culture.get_random_name(user.gender))
+	user.fully_replace_character_name(culture.get_random_name(user, user.gender))
 	user.rename_self("Humanoid Alien", 1)

@@ -3,7 +3,7 @@
 	name_language = TRADER_DEFAULT_NAME
 	origin = "Toy Shop"
 	trade_flags = TRADER_GOODS|TRADER_MONEY|TRADER_WANTED_ONLY
-	possible_origins = list("Toys R Ours", "LEGS GO", "Kay-Cee Toys", "Build-a-Cat", "Magic Box", "The Positronic's Dungeon and Baseball Card Shop")
+	possible_origins = list("Toys R Ours", "LET'S GO", "Kay-Cee Toys", "Build-a-Cat", "Magic Box", "The Positronic's Dungeon and Baseball Card Shop")
 	speech = list("hail_generic"    = "Uhh... hello? Welcome to ORIGIN, I hope you have a, uhh.... good shopping trip.",
 				"hail_deny"         = "Nah, you're not allowed here. At all",
 
@@ -32,7 +32,7 @@
 								/obj/item/toy/figure                  = TRADER_SUBTYPES_ONLY,
 								/obj/item/toy/figure/ert              = TRADER_BLACKLIST,
 								/obj/item/toy/plushie                 = TRADER_SUBTYPES_ONLY,
-								/obj/item/material/sword/katana/toy                  = TRADER_THIS_TYPE,
+								/obj/item/sword/katana/toy                  = TRADER_THIS_TYPE,
 								/obj/item/toy/sword                   = TRADER_THIS_TYPE,
 								/obj/item/toy/bosunwhistle            = TRADER_THIS_TYPE,
 								/obj/item/board                = TRADER_THIS_TYPE,
@@ -124,7 +124,6 @@
 								/obj/item/clothing/under/rank             = TRADER_BLACKLIST,
 								/obj/item/clothing/under/shorts           = TRADER_BLACKLIST,
 								/obj/item/clothing/under/stripper         = TRADER_BLACKLIST_ALL,
-								/obj/item/clothing/under/swimsuit         = TRADER_BLACKLIST,
 								/obj/item/clothing/under/syndicate        = TRADER_BLACKLIST_ALL,
 								/obj/item/clothing/under/tactical         = TRADER_BLACKLIST,
 								/obj/item/clothing/under/wedding          = TRADER_BLACKLIST,
@@ -137,7 +136,6 @@
 								/obj/item/clothing/shoes/jackboots/swat/combat           = TRADER_BLACKLIST,
 								/obj/item/clothing/shoes/clown_shoes      = TRADER_BLACKLIST,
 								/obj/item/clothing/shoes/cult             = TRADER_BLACKLIST,
-								/obj/item/clothing/shoes/cyborg           = TRADER_BLACKLIST,
 								/obj/item/clothing/shoes/lightrig         = TRADER_BLACKLIST_ALL,
 								/obj/item/clothing/shoes/magboots         = TRADER_BLACKLIST_ALL,
 								/obj/item/clothing/shoes/jackboots/swat             = TRADER_BLACKLIST,
@@ -186,12 +184,11 @@ Sells devices, odds and ends, and medical stuff
 								/obj/item/binoculars                = TRADER_THIS_TYPE,
 								/obj/item/cable_painter             = TRADER_THIS_TYPE,
 								/obj/item/flash                     = TRADER_THIS_TYPE,
-								/obj/item/floor_painter             = TRADER_THIS_TYPE,
+								/obj/item/paint_sprayer             = TRADER_THIS_TYPE,
 								/obj/item/multitool                 = TRADER_THIS_TYPE,
 								/obj/item/lightreplacer             = TRADER_THIS_TYPE,
 								/obj/item/megaphone                 = TRADER_THIS_TYPE,
 								/obj/item/paicard                   = TRADER_THIS_TYPE,
-								/obj/item/pipe_painter              = TRADER_THIS_TYPE,
 								/obj/item/scanner/health            = TRADER_THIS_TYPE,
 								/obj/item/scanner/gas                  = TRADER_ALL,
 								/obj/item/scanner/spectrometer         = TRADER_ALL,
@@ -344,7 +341,7 @@ Sells devices, odds and ends, and medical stuff
 								  /obj/item/circular_saw = TRADER_THIS_TYPE,
 								  /obj/item/bonegel = TRADER_THIS_TYPE,
 								  /obj/item/bonesetter = TRADER_THIS_TYPE,
-								  /obj/item/chems/glass/bottle/adrenaline = TRADER_THIS_TYPE,
+								  /obj/item/chems/glass/bottle/stabilizer = TRADER_THIS_TYPE,
 								  /obj/item/chems/glass/bottle/sedatives = TRADER_THIS_TYPE,
 								  /obj/item/chems/glass/bottle/antitoxin = TRADER_THIS_TYPE,
 								  /obj/item/bodybag/cryobag = TRADER_THIS_TYPE,

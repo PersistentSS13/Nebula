@@ -1,10 +1,10 @@
-/datum/codex_category/recipes
+/decl/codex_category/recipes
 	name = "Recipes"
 	desc = "Recipes for a variety of different kinds of foods and condiments."
 	guide_name = "Cooking"
 	guide_strings = list("chef", "cooking", "recipes")
 
-/datum/codex_category/recipes/Initialize()
+/decl/codex_category/recipes/Initialize()
 
 	var/list/entries_to_register = list()
 
@@ -16,7 +16,7 @@
 		<ul>
 		<li>Mix an egg and some flour along with some water to make dough.</li>
 		<li>Bake that to make a bun or flatten and cut it.</li>
-		<li>Cup up a meat slab with a sharp knife to make cutlets.</li>
+		<li>Cut up a meat slab with a sharp knife to make cutlets.</li>
 		<li>Mix flour and protein (ground meat) to make meatballs.</li>
 		</ul>"}
 
@@ -44,7 +44,7 @@
 				continue
 			product_name = initial(product.name)
 			lore_text = initial(product.lore_text)
-			if(ispath(food.result, /decl/material/chem/drink) || ispath(food.result, /decl/material/chem/ethanol))
+			if(ispath(food.result, /decl/material/liquid/drink) || ispath(food.result, /decl/material/liquid/ethanol))
 				category_name = "drink recipe"
 				mechanics_text = "This recipe produces [food.result_amount]u [initial(product.name)].<br>It should be performed in a glass or shaker, and requires the following ingredients:"
 			else
@@ -115,4 +115,4 @@
 		SScodex.add_entry_by_string(entry.display_name, entry)
 		items += entry.display_name
 
-	..()
+	. = ..()

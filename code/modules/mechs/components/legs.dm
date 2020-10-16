@@ -41,3 +41,15 @@
 	if(!istype(target_loc))
 		return 0 // What are you even doing.
 	return 1
+
+/obj/item/mech_component/propulsion/get_damage_string()
+	if(!motivator || !motivator.is_functional())
+		return SPAN_DANGER("disabled")
+	return ..()
+
+/obj/item/mech_component/propulsion/return_diagnostics(mob/user)
+	..()
+	if(motivator)
+		to_chat(user, SPAN_NOTICE(" Actuator Integrity: <b>[round((((motivator.max_dam - motivator.total_dam) / motivator.max_dam)) * 100)]%</b>"))
+	else
+		to_chat(user, SPAN_WARNING(" Actuator Missing or Non-functional."))

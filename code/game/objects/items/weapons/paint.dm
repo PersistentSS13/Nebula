@@ -9,7 +9,7 @@ var/global/list/cached_icons = list()
 	icon = 'icons/obj/items/paint_bucket.dmi'
 	icon_state = "paintbucket"
 	item_state = "paintcan"
-	material = MAT_ALUMINIUM
+	material = /decl/material/solid/metal/aluminium
 	w_class = ITEM_SIZE_NORMAL
 	amount_per_transfer_from_this = 10
 	possible_transfer_amounts = @"[10,20,30,60]"
@@ -28,7 +28,7 @@ var/global/list/cached_icons = list()
 
 /obj/item/chems/glass/paint/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/chem/narcotics, reagents.maximum_volume-10)
+	reagents.add_reagent(/decl/material/liquid/narcotics, reagents.maximum_volume-10)
 	if(pigment)
 		reagents.add_reagent(pigment, reagents.maximum_volume-10)
 

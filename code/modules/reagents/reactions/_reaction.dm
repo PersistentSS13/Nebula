@@ -12,6 +12,8 @@
 	var/mix_message = "The solution begins to bubble."
 	var/reaction_sound = 'sound/effects/bubbles.ogg'
 	var/log_is_important = 0 // If this reaction should be considered important for logging. Important recipes message admins when mixed, non-important ones just log to file.
+	var/lore_text
+	var/mechanics_text
 
 /datum/chemical_reaction/proc/can_happen(var/datum/reagents/holder)
 	//check that all the required reagents are present
@@ -70,8 +72,13 @@
 /datum/chemical_reaction/proc/post_reaction(var/datum/reagents/holder)
 	var/atom/container = holder.my_atom
 	if(mix_message && container && !ismob(container))
-		container.visible_message("<span class='notice'>\icon[container] [mix_message]</span>")
-		playsound(container, reaction_sound, 80, 1)
+		var/turf/T = get_turf(container)
+		if(istype(T))
+			T.visible_message(SPAN_NOTICE("[html_icon(container)] [mix_message]"))
+		else
+			container.visible_message(SPAN_NOTICE("[html_icon(container)] [mix_message]"))
+		if(reaction_sound)
+			playsound(T || container, reaction_sound, 80, 1)
 
 //obtains any special data that will be provided to the reaction products
 //this is called just before reactants are removed.

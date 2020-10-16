@@ -1,8 +1,7 @@
-
 /datum/gear/accessory
 	sort_category = "Accessories"
 	category = /datum/gear/accessory
-	slot = slot_tie
+	slot = slot_tie_str
 
 /datum/gear/accessory/tie
 	display_name = "tie selection"
@@ -81,3 +80,7 @@
 	cost = 1
 	flags = GEAR_HAS_COLOR_SELECTION
 
+/datum/gear/accessory/tags
+	display_name = "dog tags"
+	path = /obj/item/clothing/accessory/badge/tags
+	custom_setup_proc = /obj/item/clothing/accessory/badge/tags/proc/loadout_setup

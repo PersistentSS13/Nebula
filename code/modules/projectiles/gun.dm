@@ -31,10 +31,11 @@
 /obj/item/gun
 	name = "gun"
 	desc = "Its a gun. It's pretty terrible, though."
-	icon = 'icons/obj/guns/gui.dmi'
+	icon_state = ICON_STATE_WORLD
+	icon = 'icons/obj/guns/pistol.dmi'
 	obj_flags =  OBJ_FLAG_CONDUCTIBLE
-	slot_flags = SLOT_BELT|SLOT_HOLSTER
-	material = MAT_STEEL
+	slot_flags = SLOT_LOWER_BODY|SLOT_HOLSTER
+	material = /decl/material/solid/metal/steel
 	w_class = ITEM_SIZE_NORMAL
 	throwforce = 5
 	throw_speed = 4
@@ -109,10 +110,8 @@
 	if(istype(M))
 		if(M.skill_check(SKILL_WEAPONS,SKILL_BASIC))
 			overlays += image('icons/obj/guns/gui.dmi',"safety[safety()]")
-		if (src == M.r_hand)
-			M.update_inv_r_hand()
-		else if (src == M.l_hand)
-			M.update_inv_l_hand()
+		if(src in M.get_held_items())
+			M.update_inv_hands()
 	if(safety_icon)
 		overlays +=	get_safety_indicator()
 
@@ -121,13 +120,13 @@
 /obj/item/gun/proc/get_safety_indicator()
 	return get_mutable_overlay(icon, "[get_world_inventory_state()][safety_icon][safety()]")
 
-/obj/item/gun/get_mob_overlay(mob/user_mob, slot)
+/obj/item/gun/get_mob_overlay(mob/user_mob, slot, bodypart)
 	var/image/I = ..()
 	if(wielded_item_state && user_mob.can_wield_item(src) && is_held_twohanded(user_mob))
 		I.icon_state = wielded_item_state
 	return I
 
-/obj/item/gun/experimental_mob_overlay(mob/user_mob, slot)
+/obj/item/gun/experimental_mob_overlay(mob/user_mob, slot, bodypart)
 	var/image/I = ..()
 	if(user_mob.can_wield_item(src) && is_held_twohanded(user_mob) && check_state_in_icon("[I.icon_state]-wielded", icon))
 		I.icon_state = "[I.icon_state]-wielded"
@@ -160,7 +159,7 @@
 					"<span class='danger'>\The [user] shoots \himself in the foot with \the [src]!</span>",
 					"<span class='danger'>You shoot yourself in the foot with \the [src]!</span>"
 					)
-				M.unequip_item()
+				M.unEquip(src)
 		else
 			handle_click_empty(user)
 		return 0
@@ -284,18 +283,22 @@
 		flick(fire_anim, src)
 
 	if(!silenced)
-		if(reflex)
-			user.visible_message(
-				"<span class='reflex_shoot'><b>\The [user] fires \the [src][pointblank ? " point blank at \the [target]":""] by reflex!</b></span>",
-				"<span class='reflex_shoot'>You fire \the [src] by reflex!</span>",
-				"You hear a [fire_sound_text]!"
-			)
+		var/user_message = SPAN_WARNING("You fire \the [src][pointblank ? " point blank":""] at \the [target][reflex ? " by reflex" : ""]!")
+		if (silenced)
+			to_chat(user, user_message)
 		else
 			user.visible_message(
-				"<span class='danger'>\The [user] fires \the [src][pointblank ? " point blank at \the [target]":""]!</span>",
-				"<span class='warning'>You fire \the [src]!</span>",
-				"You hear a [fire_sound_text]!"
-				)
+				SPAN_DANGER("\The [user] fires \the [src][pointblank ? " point blank":""] at \the [target][reflex ? " by reflex" : ""]!"),
+				user_message,
+				SPAN_DANGER("You hear a [fire_sound_text]!")
+			)
+
+		if (pointblank)
+			admin_attack_log(user, target,
+				"shot point blank with \a [type]",
+				"shot point blank with \a [type]",
+				"shot point blank (\a [type])"
+			)
 
 	if(one_hand_penalty)
 		if(!src.is_held_twohanded(user))
@@ -331,7 +334,7 @@
 			var/obj/item/rig/R = H.back
 			for(var/obj/item/rig_module/stealth_field/S in R.installed_modules)
 				S.deactivate()
-	
+
 	if(space_recoil)
 		if(!user.check_space_footing())
 			var/old_dir = user.dir
@@ -436,7 +439,7 @@
 		shot_sound_vol = P.fire_sound_vol
 	if(silenced)
 		shot_sound_vol = 10
-	
+
 	playsound(user, shot_sound, shot_sound_vol, 1)
 
 //Suicide handling.

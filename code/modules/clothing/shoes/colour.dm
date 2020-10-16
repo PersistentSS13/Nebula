@@ -1,13 +1,11 @@
 /obj/item/clothing/shoes/color
 	name = "white shoes"
-	icon_state = "world"
 	icon = 'icons/clothing/feet/colored_shoes.dmi'
-	on_mob_icon = 'icons/clothing/feet/colored_shoes.dmi'
 	desc = "A pair of shoes."
 
-	cold_protection = FEET
+	cold_protection = SLOT_FEET
 	min_cold_protection_temperature = SHOE_MIN_COLD_PROTECTION_TEMPERATURE
-	heat_protection = FEET
+	heat_protection = SLOT_FEET
 	max_heat_protection_temperature = SHOE_MAX_HEAT_PROTECTION_TEMPERATURE
 
 	markings_icon = "_coloring"
@@ -49,7 +47,6 @@
 /obj/item/clothing/shoes/color/hightops
 	name = "white high tops"
 	desc = "A pair of shoes that extends past the ankle. Based on a centuries-old, timeless design."
-	on_mob_icon = 'icons/clothing/feet/colored_hitops.dmi'
 
 /obj/item/clothing/shoes/color/hightops/red
 	name = "red high tops"
