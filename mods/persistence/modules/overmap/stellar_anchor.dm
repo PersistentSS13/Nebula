@@ -296,7 +296,7 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 			for(var/turf/T in A)
 				area_turfs += T
 				// Stops most tearing up the ground with the shuttle, although the landmark should not allow a hole in a planet etc. regardless.
-				if(istype(T, /turf/space) || istype(T, /turf/simulated/floor/exoplanet) || istype(T, /turf/simulated/floor/asteroid))
+				if(istype(T, /turf/space) || istype(T, /turf/exterior) || istype(T, /turf/simulated/floor/asteroid))
 					LAZYDISTINCTADD(errors, "The anchored area [A] contains invalid turfs.")
 					. = FALSE
 					break

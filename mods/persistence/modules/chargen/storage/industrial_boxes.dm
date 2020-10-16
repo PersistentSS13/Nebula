@@ -10,8 +10,8 @@
 /obj/item/storage/box/chargen/industrial/firefighter
 	name = "firefighter kit"
 	startswith = list(
-		/obj/item/clothing/suit/fire/firefighter = 1,
-		/obj/item/clothing/head/hardhat/damage_control/EMB_Ancient = 1,
+		/obj/item/clothing/suit/fire = 1,
+		/obj/item/clothing/head/hardhat/damage_control = 1,
 		/obj/item/tank/emergency/oxygen/double/red = 1,
 		/obj/item/clothing/accessory/fire_overpants = 1,
 		/obj/item/clothing/gloves/fire = 1,
@@ -64,8 +64,10 @@
 /obj/item/storage/box/chargen/industrial/ore_processor
 	name = "ore processing kit"
 	startswith = list(
-		/obj/item/stock_parts/circuitboard/mineral_processing = 1,
-		/obj/item/stock_parts/circuitboard/mining_processor = 1
+		/obj/item/stock_parts/circuitboard/mining_processor = 1,
+		/obj/item/stock_parts/circuitboard/mining_compressor = 1,
+		/obj/item/stock_parts/circuitboard/mining_unloader = 1,
+		/obj/item/stock_parts/circuitboard/mining_stacker = 1
 	)
 
 /obj/item/storage/box/chargen/industrial/power_gen

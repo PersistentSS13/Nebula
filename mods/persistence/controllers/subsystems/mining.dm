@@ -100,7 +100,7 @@ SUBSYSTEM_DEF(mining)
 	var/list/turfs = block(locate(1, 1, Z), locate(world.maxx, world.maxy, Z))
 	var/list/good_turfs = list()
 	for(var/turf/T in turfs)
-		if(istype(T, /turf/simulated/floor/exoplanet))
+		if(istype(T, /turf/exterior))
 			LAZYDISTINCTADD(good_turfs, T)
 
 	// If we can't, find the mineshaft ladder. Failing that, just eject
