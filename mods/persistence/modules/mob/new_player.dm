@@ -204,7 +204,7 @@
 					permitted = 0
 
 				if(!permitted)
-					to_chat(H, "<span class='warning'>Your current species or whitelist status does not permit you to spawn with [thing]!</span>")
+					to_chat(H, SPAN_WARNING("Your current species or whitelist status does not permit you to spawn with [thing]!"))
 					continue
 
 				if(!G.slot || (G.slot in loadout_taken_slots) || !G.spawn_on_mob(H, H.client.prefs.Gear()[G.display_name]))
