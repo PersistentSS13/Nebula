@@ -24,11 +24,20 @@
 			active_section = "origin"
 		if("choose_role")
 			active_section = "role"
-		if("choose_traits")
-			active_section = "traits"
-		if("choose_background")
-			active_section = "background"
+		// if("choose_traits")
+		// 	active_section = "traits"
+		// if("choose_background")
+		// 	active_section = "background"
 		if("submit")
+			if(user.mind.age < 16)
+				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter an age to proceed."))
+				return
+			if(isnull(user.mind.origin))
+				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter an origin to proceed."))
+				return
+			if(isnull(user.mind.role))
+				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter a role to proceed."))
+				return
 			user.mind.finished_chargen = TRUE
 		if("unsubmit")
 			user.mind.finished_chargen = FALSE

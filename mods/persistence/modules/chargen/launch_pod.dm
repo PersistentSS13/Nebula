@@ -17,3 +17,6 @@
 	. = ..()
 	to_chat(occupant, SPAN_NOTICE("The [src] beeps: Launch procedure initiated. Please wait..."))
 	addtimer(CALLBACK(src, /obj/machinery/cryopod/chargen/proc/send_to_outpost), 5 SECONDS)
+
+/obj/machinery/cryopod/chargen/Process()
+	// Do not apply stasis.

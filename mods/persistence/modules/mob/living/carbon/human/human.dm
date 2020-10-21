@@ -13,3 +13,8 @@
 	var/obj/item/organ/internal/stack/stack = (locate() in internal_organs)
 	if(stack)
 		add_language(/decl/language/cortical)
+
+/mob/living/carbon/human/should_save()
+	. = ..()
+	if(mind && !mind.finished_chargen)
+		return FALSE // We don't save characters who aren't finished CG.
