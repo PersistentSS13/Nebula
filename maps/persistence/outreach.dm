@@ -1,12 +1,17 @@
 #if !defined(USING_MAP_DATUM)
-	// Mods
+	#define DISABLE_DEBUG_CRASH
+	
+	// Mods section
 	#include "../../mods/persistence/_persistence.dme"
 	#include "../../mods/ascent/_ascent.dme"
 
-	// Lobby stuff
+	// Lobby section
 	#include "../../code/datums/music_tracks/dirtyoldfrogg.dm"
 
+	// Map defines.
 	#include "persistence_defines.dm"
+	#include "chargen/chargen_areas.dm"
+	#include "chargen/chargen.dmm"
 
 	#include "outreach_areas.dm"
 	#include "outreach_jobs.dm"
