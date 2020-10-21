@@ -2,12 +2,12 @@
 	organ_tag = BP_HEAD
 	icon_name = "head"
 	name = "head"
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 	max_damage = 75
 	min_broken_damage = 35
 	w_class = ITEM_SIZE_NORMAL
 	cavity_max_w_class = ITEM_SIZE_SMALL
-	body_part = HEAD
+	body_part = SLOT_HEAD
 	parent_organ = BP_CHEST
 	joint = "jaw"
 	amputation_point = "neck"
@@ -76,7 +76,7 @@
 /obj/item/organ/external/head/get_agony_multiplier()
 	return (owner && owner.headcheck(organ_tag)) ? 1.50 : 1
 
-/obj/item/organ/external/head/robotize(var/company, var/skip_prosthetics, var/keep_organs)
+/obj/item/organ/external/head/robotize(var/company, var/skip_prosthetics, var/keep_organs, var/apply_material = /decl/material/solid/metal/steel)
 	if(company)
 		var/datum/robolimb/R = all_robolimbs[company]
 		if(R)

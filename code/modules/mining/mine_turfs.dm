@@ -19,13 +19,12 @@ var/list/mining_floors = list()
 	base_icon = 'icons/turf/flooring/asteroid.dmi'
 	base_icon_state = "asteroid"
 	footstep_type = /decl/footsteps/asteroid
-
 	initial_flooring = null
 	initial_gas = null
 	temperature = TCMB
+
 	var/dug = 0       //0 = has not yet been dug, 1 = has already been dug
 	var/overlay_detail
-	has_resources = 1
 
 /turf/simulated/floor/asteroid/Initialize()
 	. = ..()
@@ -118,12 +117,12 @@ var/list/mining_floors = list()
 
 		if(istype(get_step(src, step_overlays[direction]), /turf/space))
 			var/image/aster_edge = image('icons/turf/flooring/asteroid.dmi', "asteroid_edges", dir = step_overlays[direction])
-			aster_edge.turf_decal_layerise()
+			aster_edge.layer = DECAL_LAYER
 			overlays += aster_edge
 
 	if(overlay_detail)
 		var/image/floor_decal = image(icon = 'icons/turf/flooring/decals.dmi', icon_state = overlay_detail)
-		floor_decal.turf_decal_layerise()
+		floor_decal.layer = DECAL_LAYER
 		overlays |= floor_decal
 
 	if(update_neighbors)

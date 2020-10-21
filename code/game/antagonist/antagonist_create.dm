@@ -35,7 +35,7 @@
 	W.access |= default_access
 	W.assignment = "[assignment]"
 	player.set_id_info(W)
-	if(equip) player.equip_to_slot_or_del(W, slot_wear_id)
+	if(equip) player.equip_to_slot_or_del(W, slot_wear_id_str)
 	return W
 
 /datum/antagonist/proc/create_radio(var/freq, var/mob/living/carbon/human/player)
@@ -50,7 +50,7 @@
 			R = new/obj/item/radio/headset(player)
 			R.set_frequency(freq)
 
-	player.equip_to_slot_or_del(R, slot_l_ear)
+	player.equip_to_slot_or_del(R, slot_l_ear_str)
 	return R
 
 /datum/antagonist/proc/create_nuke(var/atom/paper_spawn_loc, var/datum/mind/code_owner)
@@ -77,7 +77,7 @@
 			P.info = "The nuclear authorization code is: <b>[code]</b>"
 			P.SetName("nuclear bomb code")
 			if(leader && leader.current)
-				if(get_turf(P) == get_turf(leader.current) && !(leader.current.l_hand && leader.current.r_hand))
+				if(get_turf(P) == get_turf(leader.current) && leader.current.get_empty_hand_slot())
 					leader.current.put_in_hands(P)
 
 		if(!code_owner && leader)

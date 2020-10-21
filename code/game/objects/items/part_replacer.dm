@@ -13,8 +13,8 @@
 	collection_mode = 1
 	max_w_class = ITEM_SIZE_NORMAL
 	max_storage_space = 100
-	material = MAT_STEEL
-	matter = list(MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/metal/steel
+	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
 
 	var/replace_sound = 'sound/items/rped.ogg'
 	var/remote_interaction = FALSE
@@ -31,8 +31,8 @@
 		if(machine.component_attackby(src, user))
 			user.Beam(machine, icon_state = "rped_upgrade", icon = 'icons/effects/effects.dmi', time = 5)
 
-/obj/item/storage/part_replacer/bluespace
-	name = "bluespace rapid part exchange device"
+/obj/item/storage/part_replacer/advanced
+	name = "advanced rapid part exchange device"
 	desc = "A version of the RPED that allows for replacement of parts and scanning from a distance, along with higher capacity for parts."
 	icon_state = "RPED_BS"
 	w_class = ITEM_SIZE_NORMAL
@@ -40,8 +40,8 @@
 	max_storage_space = 200
 	replace_sound = 'sound/items/PSHOOM.ogg'
 	remote_interaction = TRUE
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	matter = list(
-		MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT,
-		MAT_SILVER = MATTER_AMOUNT_TRACE
+		/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/silver = MATTER_AMOUNT_TRACE
 	)

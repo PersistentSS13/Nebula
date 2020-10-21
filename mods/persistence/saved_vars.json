@@ -23,7 +23,8 @@
 			"UI",
 			"SE",
 			"b_type",
-			"real_name"
+			"real_name",
+			"lineage"
 		]
 	},
 	{
@@ -236,7 +237,6 @@
 			"maxHealth",
 			"health",
 			"last_special",
-			"t_phoron",
 			"t_oxygen",
 			"t_sl_gas",
 			"t_n2",
@@ -1490,12 +1490,6 @@
 		]
 	},
 	{
-		"path":"/obj/machinery/organ_printer",
-		"vars":[
-			"stored_matter"
-		]
-	},
-	{
 		"path":"/obj/machinery/papershredder",
 		"vars":[
 			"paperamount",
@@ -1636,7 +1630,8 @@
 			"full_shield_strength",
 			"idle_multiplier",
 			"spinup_delay",
-			"spinup_counter"
+			"spinup_counter",
+			"vessel_reverse_dir"
 		]
 	},
 	{
@@ -1795,7 +1790,7 @@
 		"path":"/obj/structure/dispenser",
 		"vars":[
 			"oxygentanks",
-			"phorontanks"
+			"hydrogentanks"
 		]
 	},
 	{
@@ -1975,7 +1970,6 @@
 			"sdisabilities",
 			"disabilities",
 			"next_move",
-			"hand",
 			"real_name",
 			"bhunger",
 			"druggy",
@@ -1996,8 +1990,6 @@
 			"timeofdeath",
 			"bodytemperature",
 			"buckled",
-			"l_hand",
-			"r_hand",
 			"back",
 			"s_active",
 			"wear_mask",
@@ -2033,7 +2025,16 @@
 			"gender",
 			"x",
 			"y",
-			"z"
+			"z",
+			"held_item_slot_selected",
+			"held_item_slots"
+		]
+	},
+	{
+		"path":"/datum/inventory_slot",
+		"vars":[
+			"slot_id",
+			"holding"
 		]
 	},
 	{
@@ -2485,7 +2486,7 @@
 		"vars":[
 			"nitrogen_retardation_factor",
 			"thermal_release_modifier",
-			"phoron_release_modifier",
+			"product_release_modifier",
 			"oxygen_release_modifier",
 			"radiation_release_modifier",
 			"reaction_power_modifier",
@@ -2988,7 +2989,9 @@
 			"descriptors",
 			"last_smelt",
 			"saved_ckey",
-			"home_spawn"
+			"home_spawn",
+			"stance_limbs",
+			"grasp_limbs"
 		]
 	},
 	{
@@ -3439,7 +3442,7 @@
 		]
 	},
 	{
-		"path":"/obj/item/material/lock_construct",
+		"path":"/obj/item/lock_construct",
 		"vars":[
 			"lock_data"
 		]
@@ -4035,6 +4038,56 @@
 		"path":"/obj/item/stock_parts/computer/charge_stick_slot",
 		"vars":[
 			"stored_stick"
+		]
+	},
+	{
+		"path":"/obj/machinery/tracking_beacon",
+		"vars":[
+			"beacon"
+		]
+	},
+	{
+		"path":"/obj/item/blackout",
+		"vars":[
+			"last_use"
+		]
+	},
+	{
+		"path":"/obj/item/spy_monitor",
+		"vars":[
+			"operating",
+			"radio",
+			"selected_camera",
+			"cameras"
+		]
+	},
+	{
+		"path":"/obj/structure/displaycase",
+		"vars":[
+			"req_access",
+			"destroyed"
+		]
+	},
+	{
+		"path":"/obj/machinery/mining/drill",
+		"vars":[
+			"generated_ore",
+			"active",
+			"harvest_speed",
+			"capacity",
+			"supports",
+			"supported"
+		]
+	},
+	{
+		"path":"/obj/machinery/power/rad_collector",
+		"vars":[
+			"health",
+			"melted",
+			"active",
+			"locked",
+			"last_rads",
+			"loaded_tank"
 		]
 	}
 ]

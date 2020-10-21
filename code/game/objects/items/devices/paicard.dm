@@ -4,10 +4,10 @@
 	icon_state = "pai"
 	item_state = "electronic"
 	w_class = ITEM_SIZE_SMALL
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 	origin_tech = "{'programming':2}"
-	material = MAT_GLASS
-	matter = list(MAT_STEEL = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/glass
+	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT)
 
 	var/current_emotion = 1
 	var/obj/item/radio/radio
@@ -47,7 +47,7 @@
 					    color:white;
 					    font-size:13px;
 					    background-image:url('uiBackground.png');
-					    background-repeat:repeat-x;
+					    background-repeat:repeat;
 					    background-color:#272727;
 						background-position:center top;
 					}

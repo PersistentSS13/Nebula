@@ -12,7 +12,7 @@
 					/obj/item/storage/firstaid/adv,
 					/obj/item/storage/firstaid/stab,
 					/obj/item/chems/glass/bottle/antitoxin,
-					/obj/item/chems/glass/bottle/adrenaline,
+					/obj/item/chems/glass/bottle/stabilizer,
 					/obj/item/chems/glass/bottle/sedatives,
 					/obj/item/storage/box/syringes,
 					/obj/item/storage/box/autoinjectors)
@@ -201,7 +201,7 @@
 					/obj/item/clothing/shoes/dress,
 					/obj/item/clothing/suit/storage/toggle/labcoat,
 					/obj/item/clothing/shoes/color/white,
-					/obj/item/material/clipboard,
+					/obj/item/clipboard,
 					/obj/item/folder/cyan,
 					/obj/item/pen)
 	cost = 15

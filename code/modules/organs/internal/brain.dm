@@ -14,7 +14,6 @@
 	attack_verb = list("attacked", "slapped", "whacked")
 	relative_size = 85
 	damage_reduction = 0
-	can_be_printed = FALSE
 
 	var/can_use_mmi = TRUE
 	var/mob/living/carbon/brain/brainmob = null
@@ -23,7 +22,7 @@
 	var/healed_threshold = 1
 	var/oxygen_reserve = 6
 
-/obj/item/organ/internal/brain/robotize()
+/obj/item/organ/internal/brain/robotize(var/company, var/skip_prosthetics, var/keep_organs, var/apply_material = /decl/material/solid/metal/steel)
 	replace_self_with(/obj/item/organ/internal/posibrain)
 
 /obj/item/organ/internal/brain/mechassist()
@@ -39,7 +38,7 @@
 		tmp_owner.internal_organs_by_name[organ_tag] = new replace_path(tmp_owner, 1)
 		tmp_owner = null
 
-/obj/item/organ/internal/brain/robotize()
+/obj/item/organ/internal/brain/robotize(var/company, var/skip_prosthetics, var/keep_organs, var/apply_material = /decl/material/solid/metal/steel)
 	. = ..()
 	icon_state = "brain-prosthetic"
 
@@ -236,9 +235,10 @@
 	if(is_bruised() && prob(1) && owner.eye_blurry <= 0)
 		to_chat(owner, "<span class='warning'>It becomes hard to see for some reason.</span>")
 		owner.eye_blurry = 10
-	if(damage >= 0.5*max_damage && prob(1) && owner.get_active_hand())
+	var/held = owner.get_active_hand()
+	if(damage >= 0.5*max_damage && prob(1) && held)
 		to_chat(owner, "<span class='danger'>Your hand won't respond properly, and you drop what you are holding!</span>")
-		owner.unequip_item()
+		owner.unEquip(held)
 	if(damage >= 0.6*max_damage)
 		owner.slurring = max(owner.slurring, 2)
 	if(is_broken())

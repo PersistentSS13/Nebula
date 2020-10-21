@@ -13,7 +13,7 @@
 	base_icon = "square" // Base icon name
 	filling_states = @"[20,40,60,80,100]"
 	volume = 30
-	material = MAT_GLASS
+	material = /decl/material/solid/glass
 
 	var/list/extras = list() // List of extras. Two extras maximum
 
@@ -51,8 +51,8 @@
 /obj/item/chems/food/drinks/glass2/proc/has_ice()
 	if(LAZYLEN(reagents.reagent_volumes))
 		var/decl/material/R = reagents.get_primary_reagent_decl()
-		if(!((R.type == /decl/material/gas/water/ice) || ("ice" in R.glass_special))) // if it's not a cup of ice, and it's not already supposed to have ice in, see if the bartender's put ice in it
-			if(reagents.has_reagent(/decl/material/gas/water/ice, reagents.total_volume / 10)) // 10% ice by volume
+		if(!((R.type == /decl/material/solid/ice) || ("ice" in R.glass_special))) // if it's not a cup of ice, and it's not already supposed to have ice in, see if the bartender's put ice in it
+			if(reagents.has_reagent(/decl/material/solid/ice, reagents.total_volume / 10)) // 10% ice by volume
 				return 1
 
 	return 0
@@ -180,7 +180,7 @@
 		side = "right"
 
 /obj/item/chems/food/drinks/glass2/attackby(obj/item/W, mob/user)
-	if(istype(W, /obj/item/material/kitchen/utensil/spoon))
+	if(istype(W, /obj/item/kitchen/utensil/spoon))
 		if(user.a_intent == I_HURT)
 			user.visible_message("<span class='warning'>[user] bashes \the [src] with a spoon, shattering it to pieces! What a rube.</span>")
 			playsound(src, "shatter", 30, 1)

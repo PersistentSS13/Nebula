@@ -94,7 +94,7 @@ var/list/all_conveyor_switches = list()
 		to_chat(user, "<span class='notice'>You remove the conveyor belt.</span>")
 		qdel(src)
 		return
-	user.unequip_item(get_turf(src))
+	user.unEquip(I, get_turf(src))
 
 // make the conveyor broken
 // also propagate inoperability to any connected conveyor with the same id_tag
@@ -233,8 +233,8 @@ var/list/all_conveyor_switches = list()
 	name = "conveyor belt assembly"
 	desc = "A conveyor belt assembly. Must be linked to a conveyor control switch assembly before placement."
 	w_class = ITEM_SIZE_HUGE
-	material = MAT_STEEL
-	matter = list(MAT_PLASTIC = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/metal/steel
+	matter = list(/decl/material/solid/plastic = MATTER_AMOUNT_REINFORCEMENT)
 	var/id_tag
 
 /obj/item/conveyor_construct/attackby(obj/item/I, mob/user, params)
@@ -266,7 +266,7 @@ var/list/all_conveyor_switches = list()
 	icon = 'icons/obj/recycling.dmi'
 	icon_state = "switch-off"
 	w_class = ITEM_SIZE_HUGE
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	var/id_tag
 
 /obj/item/conveyor_switch_construct/Initialize()
@@ -282,7 +282,7 @@ var/list/all_conveyor_switches = list()
 			found = 1
 			break
 	if(!found)
-		to_chat(user, "\icon[src]<span class=notice>The conveyor switch did not detect any linked conveyor belts in range.</span>")
+		to_chat(user, "[html_icon(src)]<span class=notice>The conveyor switch did not detect any linked conveyor belts in range.</span>")
 		return
 	var/obj/machinery/conveyor_switch/NC = new /obj/machinery/conveyor_switch(A, id_tag)
 	transfer_fingerprints_to(NC)
@@ -301,7 +301,7 @@ var/list/all_conveyor_switches = list()
 			found = 1
 			break
 	if(!found)
-		to_chat(user, "\icon[src]<span class=notice>The conveyor switch did not detect any linked conveyor belts in range.</span>")
+		to_chat(user, "[html_icon(src)]<span class=notice>The conveyor switch did not detect any linked conveyor belts in range.</span>")
 		return
 	var/obj/machinery/conveyor_switch/oneway/NC = new /obj/machinery/conveyor_switch/oneway(A, id_tag)
 	transfer_fingerprints_to(NC)

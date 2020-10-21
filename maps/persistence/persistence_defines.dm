@@ -19,9 +19,9 @@
 
 	// A list of turfs and their default turfs for serialization optimization.
 	base_turf_by_z = list(
-		"1" = /turf/simulated/floor/exoplanet/barren,
-		"2" = /turf/simulated/floor/exoplanet/barren,
-		"3" = /turf/simulated/floor/exoplanet/barren,
+		"1" = /turf/exterior/barren,
+		"2" = /turf/exterior/barren,
+		"3" = /turf/exterior/barren,
 		"4" = /turf/simulated/open
 	)
 

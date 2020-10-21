@@ -52,7 +52,7 @@
 
 	meat_type = /obj/item/chems/food/snacks/meat/chicken/game
 	meat_amount = 3
-	skin_material = MAT_SKIN_FEATHERS
+	skin_material = /decl/material/solid/skin/feathers
 
 	var/parrot_state = PARROT_WANDER //Hunt for a perch when created
 	var/parrot_sleep_max = 25 //The time the parrot sits while perched before looking around. Mosly a way to avoid the parrot's AI in life() being run every single tick.
@@ -519,8 +519,10 @@
 
 		if(iscarbon(AM))
 			var/mob/living/carbon/C = AM
-			if((C.l_hand && can_pick_up(C.l_hand)) || (C.r_hand && can_pick_up(C.r_hand)))
-				return C
+			for(var/bp in C.held_item_slots)
+				var/datum/inventory_slot/inv_slot = C.held_item_slots[bp]
+				if(inv_slot?.holding && can_pick_up(inv_slot.holding))
+					return C
 	return null
 
 /mob/living/simple_animal/hostile/retaliate/parrot/proc/search_for_perch()
@@ -546,14 +548,16 @@
 
 		if(iscarbon(AM))
 			var/mob/living/carbon/C = AM
-			if((C.l_hand && can_pick_up(C.l_hand)) || (C.r_hand && can_pick_up(C.r_hand)))
-				return C
+			for(var/bp in C.held_item_slots)
+				var/datum/inventory_slot/inv_slot = C.held_item_slots[bp]
+				if(inv_slot?.holding && can_pick_up(inv_slot.holding))
+					return C
 	return null
 
 /mob/living/simple_animal/hostile/retaliate/parrot/proc/give_up()
 	enemies = list()
 	LoseTarget()
-	visible_message("<span class='notice'>\The [src] seems to calm down.</span>")
+	visible_message(SPAN_NOTICE("\The [src] seems to calm down."))
 	relax_chance -= impatience
 
 /*
@@ -600,14 +604,11 @@
 		return 1
 
 	var/obj/item/stolen_item = null
-
 	for(var/mob/living/carbon/C in view(1,src))
-		if(C.l_hand && can_pick_up(C.l_hand))
-			stolen_item = C.l_hand
-
-		if(C.r_hand && can_pick_up(C.r_hand))
-			stolen_item = C.r_hand
-
+		for(var/obj/item/thing in C.get_held_items())
+			if(can_pick_up(thing))
+				stolen_item = thing
+				break
 		if(stolen_item && C.unEquip(stolen_item, src))
 			held_item = stolen_item
 			visible_message("[src] grabs the [held_item] out of [C]'s hand!", "<span class='warning'>You snag the [held_item] out of [C]'s hand!</span>", "You hear the sounds of wings flapping furiously.")

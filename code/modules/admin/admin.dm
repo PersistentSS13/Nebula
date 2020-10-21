@@ -739,9 +739,9 @@ var/global/floorIsLava = 0
 
 	config.aooc_allowed = !(config.aooc_allowed)
 	if (config.aooc_allowed)
-		to_world("<B>The AOOC channel has been globally enabled!</B>")
+		communicate_broadcast(/decl/communication_channel/aooc, "The AOOC channel has been globally enabled!", TRUE)
 	else
-		to_world("<B>The AOOC channel has been globally disabled!</B>")
+		communicate_broadcast(/decl/communication_channel/aooc, "The AOOC channel has been globally disabled!", TRUE)
 	log_and_message_admins("toggled AOOC.")
 	SSstatistics.add_field_details("admin_verb","TAOOC") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
@@ -1049,9 +1049,10 @@ var/global/floorIsLava = 0
 	var/types_missing_icons
 	for(var/checktype in typesof(/obj/item))
 		var/obj/item/I = checktype
-		if(!initial(I.on_mob_icon))
+		var/check_icon = initial(I.icon)
+		if(!check_state_in_icon(ICON_STATE_INV, check_icon) && !check_state_in_icon(ICON_STATE_WORLD, check_icon))
 			LAZYADD(types_missing_icons, checktype)
-	if(alert("[LAZYLEN(types_missing_icons)] item\s are missing on_mob_icon being set. Do you wish to see the full list?", "Check missing icons", "Yes", "No") == "Yes")
+	if(alert("[LAZYLEN(types_missing_icons)] item\s are missing world or inventory states. Do you wish to see the full list?", "Check missing icons", "Yes", "No") == "Yes")
 		for(var/checktype in types_missing_icons)
 			to_chat(usr, checktype)
 

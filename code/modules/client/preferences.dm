@@ -1,6 +1,6 @@
 #define SAVE_RESET -1
 
-datum/preferences
+/datum/preferences
 	//doohickeys for savefiles
 	var/path
 	var/default_slot = 1				//Holder so it doesn't default to slot 1, rather the last one used
@@ -15,7 +15,7 @@ datum/preferences
 	//game-preferences
 	var/lastchangelog = ""				//Saved changlog filesize to detect if there was a change
 
-		//Mob preview
+	//Mob preview
 	var/icon/preview_icon = null
 
 	var/client/client = null
@@ -177,7 +177,7 @@ datum/preferences
 	character.f_style = f_style
 
 	// Replace any missing limbs.
-	for(var/name in BP_ALL_LIMBS)
+	for(var/name in global.all_limb_tags)
 		var/obj/item/organ/external/O = character.organs_by_name[name]
 		if(!O && organ_data[name] != "amputated")
 			var/list/organ_data = character.species.has_limbs[name]
@@ -186,7 +186,7 @@ datum/preferences
 			O = new limb_path(character)
 
 	// Destroy/cyborgize organs and limbs. The order is important for preserving low-level choices for robolimb sprites being overridden.
-	for(var/name in BP_BY_DEPTH)
+	for(var/name in global.all_limb_tags_by_depth)
 		var/status = organ_data[name]
 		var/obj/item/organ/external/O = character.organs_by_name[name]
 		if(!O)
@@ -324,3 +324,12 @@ datum/preferences
 		panel.close()
 		panel = null
 	close_browser(user, "window=saves")
+
+/datum/preferences/proc/apply_post_login_preferences()
+	set waitfor = 0
+	if(!client)
+		return
+	if(client.get_preference_value(/datum/client_preference/chat_position) == GLOB.PREF_YES)
+		client.update_chat_position(TRUE)
+	if(client.get_preference_value(/datum/client_preference/fullscreen_mode) != GLOB.PREF_OFF)
+		client.toggle_fullscreen(client.get_preference_value(/datum/client_preference/fullscreen_mode))

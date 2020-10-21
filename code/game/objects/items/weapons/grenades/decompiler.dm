@@ -6,8 +6,7 @@
 	item_state = "flashbang"
 	origin_tech = "{'materials':3,'magnets':2,'exoticmatter':3}"
 	matter = list(
-		MAT_PHORON = MATTER_AMOUNT_REINFORCEMENT,
-		MAT_SUPERMATTER = MATTER_AMOUNT_TRACE
+		/decl/material/solid/exotic_matter = MATTER_AMOUNT_TRACE
 	)
 
 /obj/item/grenade/decompiler/detonate()

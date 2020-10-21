@@ -18,7 +18,7 @@
 	allow_quick_gather = 1
 	use_to_pickup = 1
 	use_sound = 'sound/effects/storage/pillbottle.ogg'
-	material = MAT_PLASTIC
+	material = /decl/material/solid/plastic
 
 	var/pop_sound = 'sound/effects/peelz.ogg'
 	var/wrapper_color
@@ -37,7 +37,7 @@
 			to_chat(user, SPAN_WARNING("You can't eat anything!"))
 			return TRUE
 	else
-		if(user.get_inactive_hand())
+		if(!user.get_empty_hand_slot())
 			to_chat(user, SPAN_WARNING("You need an empty hand to take something from \the [src]."))
 			return TRUE
 
@@ -54,7 +54,6 @@
 		else
 			if(user.put_in_inactive_hand(pill))
 				to_chat(user, SPAN_NOTICE("You take \the [pill] out of \the [src]."))
-				user.swap_hand()
 			else
 				pill.dropInto(loc)
 				to_chat(user, SPAN_DANGER("You fumble around with \the [src] and drop \the [pill]."))

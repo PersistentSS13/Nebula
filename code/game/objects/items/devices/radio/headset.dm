@@ -1,17 +1,18 @@
 /obj/item/radio/headset
 	name = "radio headset"
 	desc = "An updated, modular intercom that fits over the head. Takes encryption keys."
-	var/radio_desc = ""
 	icon = 'icons/obj/items/device/radio/headset.dmi'
 	icon_state = "headset"
 	item_state = "headset"
-	material = MAT_ALUMINIUM
+	material = /decl/material/solid/metal/aluminium
 	subspace_transmission = 1
 	canhear_range = 0 // can't hear headsets from very far away
 
 	slot_flags = SLOT_EARS
 	cell = null
 	power_usage = 0
+
+	var/radio_desc = ""
 	var/translate_binary = 0
 	var/list/encryption_keys = list()
 	var/max_keys = 2
@@ -351,8 +352,6 @@
 	for(var/obj/ekey in encryption_keys)
 		import_key_data(ekey)
 	for (var/ch_name in channels)
-		if(!radio_controller)
-			sleep(30) // Waiting for the radio_controller to be created.
 		if(!radio_controller)
 			src.SetName("broken radio headset")
 			return

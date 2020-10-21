@@ -16,7 +16,7 @@ var/list/stored_shock_by_ref = list()
 	if(!spritesheet && equip_adjust.len && equip_adjust[slot] && LAZYLEN(equip_adjust[slot]))
 
 		// Check the cache for previously made icons.
-		var/image_key = "[mob_icon]-[mob_state]-[color]"
+		var/image_key = "[mob_icon]-[mob_state]-[color]-[slot]"
 		if(!equip_overlays[image_key])
 
 			var/icon/final_I = new(icon_template)
@@ -37,7 +37,7 @@ var/list/stored_shock_by_ref = list()
 	return overlay_image(mob_icon, mob_state, color, RESET_COLOR)
 
 /datum/species/proc/fluid_act(var/mob/living/carbon/human/H, var/datum/reagents/fluids)
-	var/water = REAGENT_VOLUME(fluids, /decl/material/gas/water)
+	var/water = REAGENT_VOLUME(fluids, /decl/material/liquid/water)
 	if(water >= 40 && H.getHalLoss())
 		H.adjustHalLoss(-(water_soothe_amount))
 		if(prob(5))
@@ -59,7 +59,7 @@ var/list/stored_shock_by_ref = list()
 	. = TRUE
 
 /datum/species/proc/get_digestion_product()
-	return /decl/material/chem/nutriment
+	return /decl/material/liquid/nutriment
 
 /datum/species/proc/handle_post_species_pref_set(var/datum/preferences/pref)
 	return

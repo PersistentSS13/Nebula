@@ -55,7 +55,7 @@
 		experiment.multiplier = rand(1, 3)
 		experiment.attribute = pick("instability", "efficiency", "speed", "compression", "power_efficiency")
 		experiment.tech_levels = list()
-		var/tech_list = list(TECH_MATERIAL, TECH_ENGINEERING, TECH_EXOTIC_MATTER, TECH_BLUESPACE, TECH_BIO, TECH_COMBAT, TECH_MAGNET, TECH_DATA, TECH_ESOTERIC)
+		var/tech_list = list(TECH_MATERIAL, TECH_ENGINEERING, TECH_EXOTIC_MATTER, TECH_WORMHOLES, TECH_BIO, TECH_COMBAT, TECH_MAGNET, TECH_DATA, TECH_ESOTERIC)
 		for(var/i in 1 to 3)
 			experiment.tech_levels[pick_n_take(tech_list)] = 1 + rand(0, experiment.multiplier * 3)
 		experiments += weakref(experiment)

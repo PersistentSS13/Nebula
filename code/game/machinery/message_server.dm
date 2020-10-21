@@ -34,9 +34,9 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 				priority = "Undetermined"
 
 /obj/machinery/message_server
-	icon = 'icons/obj/machines/server.dmi'
-	icon_state = "server"
-	name = "Messaging Server"
+	name = "messaging server"
+	icon = 'icons/obj/machines/tcomms/message_server.dmi'
+	icon_state = "message_server"
 	density = 1
 	anchored = 1.0
 	idle_power_usage = 10
@@ -102,12 +102,12 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 				Console.icon_state = "req_comp[priority]"
 			if(priority > 1)
 				playsound(Console.loc, 'sound/machines/chime.ogg', 80, 1)
-				Console.audible_message("\icon[Console]<span class='warning'>\The [Console] announces: 'High priority message received from [sender]!'</span>", hearing_distance = 8)
+				Console.audible_message("[html_icon(Console)]<span class='warning'>\The [Console] announces: 'High priority message received from [sender]!'</span>", hearing_distance = 8)
 				Console.message_log += "<FONT color='red'>High Priority message from <A href='?src=\ref[Console];write=[sender]'>[sender]</A></FONT><BR>[authmsg]"
 			else
 				if(!Console.silent)
 					playsound(Console.loc, 'sound/machines/twobeep.ogg', 50, 1)
-					Console.audible_message("\icon[Console]<span class='notice'>\The [Console] announces: 'Message received from [sender].'</span>", hearing_distance = 5)
+					Console.audible_message("[html_icon(Console)]<span class='notice'>\The [Console] announces: 'Message received from [sender].'</span>", hearing_distance = 5)
 				Console.message_log += "<B>Message from <A href='?src=\ref[Console];write=[sender]'>[sender]</A></B><BR>[authmsg]"
 			Console.set_light(0.3, 0.1, 2)
 
@@ -131,14 +131,11 @@ var/global/list/obj/machinery/message_server/message_servers = list()
 		return ..()
 
 /obj/machinery/message_server/on_update_icon()
-	if((stat & (BROKEN|NOPOWER)))
-		icon_state = "server-nopower"
-	else if (!active)
-		icon_state = "server-off"
-	else
-		icon_state = "server-on"
-
-	return
+	icon_state = initial(icon_state)
+	if(panel_open)
+		icon_state = "[icon_state]_o"
+	if((stat & (BROKEN|NOPOWER)) || !active)
+		icon_state = "[icon_state]_off"
 
 /obj/machinery/message_server/proc/send_to_department(var/department, var/message, var/tone)
 	var/reached = 0

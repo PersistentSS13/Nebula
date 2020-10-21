@@ -30,7 +30,7 @@ MANTIDIFY(/obj/item/tank/jetpack/carbondioxide, "maneuvering pack",          "pr
 	desc = "An alien container of some sort."
 	icon = 'mods/ascent/icons/ascent_doodads.dmi'
 
-/obj/item/material/knife/kitchen/cleaver/ascent
+/obj/item/knife/kitchen/cleaver/ascent
 	name = "xenobiological flenser"
 	desc = "A mindboggingly alien tool for flensing flesh."
 	icon = 'mods/ascent/icons/ascent_doodads.dmi'
@@ -51,7 +51,7 @@ MANTIDIFY(/obj/item/tank/jetpack/carbondioxide, "maneuvering pack",          "pr
 
 /obj/item/chems/food/snacks/hydration/Initialize()
 	.=..()
-	reagents.add_reagent(/decl/material/gas/water, 10)
+	reagents.add_reagent(/decl/material/liquid/water, 10)
 
 /obj/item/storage/box/water/ascent
 	name = "box of hydration cylinders"

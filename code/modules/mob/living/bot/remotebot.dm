@@ -22,7 +22,7 @@
 /mob/living/bot/remotebot/examine(mob/user)
 	. = ..()
 	if(holding)
-		to_chat(user, "<span class='notice'>It is holding \the \icon[holding] [holding].</span>")
+		to_chat(user, "<span class='notice'>It is holding \the [html_icon(holding)] [holding].</span>")
 
 /mob/living/bot/remotebot/explode()
 	on = 0
@@ -98,7 +98,7 @@
 	desc = "Used to control something remotely. Even has a tiny screen!"
 	icon_state = "forensic1"
 	w_class = ITEM_SIZE_SMALL
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 	item_state = "electronic"
 	var/mob/living/bot/remotebot/bot
 

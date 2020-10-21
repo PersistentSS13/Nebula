@@ -164,7 +164,7 @@
 
 	// These items are preserved when the process() despawn proc occurs.
 	var/list/preserve_items = list(
-		/obj/item/integrated_circuit/manipulation/bluespace_rift,
+		/obj/item/integrated_circuit/manipulation/wormhole,
 		/obj/item/integrated_circuit/input/teleporter_locator,
 		/obj/item/card/id/captains_spare,
 		/obj/item/aicard,
@@ -212,8 +212,8 @@
 	. = ..()
 	airtank = new()
 	airtank.temperature = T0C
-	airtank.adjust_gas(MAT_OXYGEN, MOLES_O2STANDARD, 0)
-	airtank.adjust_gas(MAT_NITROGEN, MOLES_N2STANDARD)
+	airtank.adjust_gas(/decl/material/gas/oxygen, MOLES_O2STANDARD, 0)
+	airtank.adjust_gas(/decl/material/gas/nitrogen, MOLES_N2STANDARD)
 
 /obj/machinery/cryopod/lifepod/return_air()
 	return airtank

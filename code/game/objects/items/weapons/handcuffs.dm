@@ -6,13 +6,13 @@
 	icon_state = "handcuff"
 	health = 0
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 	throwforce = 5
 	w_class = ITEM_SIZE_SMALL
 	throw_speed = 2
 	throw_range = 5
 	origin_tech = "{'materials':1}"
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	var/elastic
 	var/dispenser = 0
 	var/breakouttime = 1200 //Deciseconds = 120s = 2 minutes
@@ -77,7 +77,7 @@
 	if(!istype(H))
 		return 0
 
-	if (!H.has_organ_for_slot(slot_handcuffed))
+	if (!H.has_organ_for_slot(slot_handcuffed_str))
 		to_chat(user, "<span class='danger'>\The [H] needs at least two wrists before you can cuff them together!</span>")
 		return 0
 
@@ -108,7 +108,7 @@
 	user.visible_message("<span class='danger'>\The [user] has put [cuff_type] on \the [H]!</span>")
 
 	// Apply cuffs.
-	target.equip_to_slot(cuffs,slot_handcuffed)
+	target.equip_to_slot(cuffs,slot_handcuffed_str)
 	return 1
 
 var/last_chew = 0
@@ -123,7 +123,7 @@ var/last_chew = 0
 	if (H.wear_mask) return
 	if (istype(H.wear_suit, /obj/item/clothing/suit/straight_jacket)) return
 
-	var/obj/item/organ/external/O = H.organs_by_name[(H.hand ? BP_L_HAND : BP_R_HAND)]
+	var/obj/item/organ/external/O = H.organs_by_name[H.get_active_held_item_slot()]
 	if (!O) return
 
 	H.visible_message("<span class='warning'>\The [H] chews on \his [O.name]!</span>", "<span class='warning'>You chew on your [O.name]!</span>")

@@ -1,7 +1,7 @@
 /atom/movable
 	layer = OBJ_LAYER
 	appearance_flags = TILE_BOUND
-	glide_size = 4
+	glide_size = 8
 	var/movable_flags
 	var/last_move = null
 	var/anchored = 0
@@ -64,7 +64,7 @@
 	return 0
 
 /atom/movable/hitby(var/atom/movable/AM, var/datum/thrownthing/TT)
-	. = ..()
+	..()
 	process_momentum(AM,TT)
 
 /atom/movable/proc/process_momentum(var/atom/movable/AM, var/datum/thrownthing/TT)//physic isn't an exact science
@@ -76,7 +76,7 @@
 /atom/movable/proc/momentum_power(var/atom/movable/AM, var/datum/thrownthing/TT)
 	if(anchored)
 		return 0
-	
+
 	. = (AM.get_mass()*TT.speed)/(get_mass()*min(AM.throw_speed,2))
 	if(has_gravity())
 		. *= 0.5
@@ -91,7 +91,7 @@
 			step(src, direction)
 
 		if(0.25 to 0.5)	//glancing change in direction
-			var/drift_dir	
+			var/drift_dir
 			if(direction & (NORTH|SOUTH))
 				if(inertia_dir & (NORTH|SOUTH))
 					drift_dir |= (direction & (NORTH|SOUTH)) & (inertia_dir & (NORTH|SOUTH))
@@ -215,19 +215,9 @@
 
 //called when src is thrown into hit_atom
 /atom/movable/proc/throw_impact(atom/hit_atom, var/datum/thrownthing/TT)
-	if(istype(hit_atom,/mob/living))
-		var/mob/living/M = hit_atom
-		M.hitby(src,TT)
-
-	else if(isobj(hit_atom))
-		var/obj/O = hit_atom
-		if(!O.anchored)
-			step(O, src.last_move)
-		O.hitby(src,TT)
-
-	else if(isturf(hit_atom))
-		var/turf/T = hit_atom
-		T.hitby(src,TT)
+	SHOULD_CALL_PARENT(TRUE)
+	if(istype(hit_atom) && !QDELETED(hit_atom))
+		hit_atom.hitby(src, TT)
 
 /atom/movable/proc/throw_at(atom/target, range, speed, mob/thrower, spin = TRUE, datum/callback/callback) //If this returns FALSE then callback will not be called.
 	. = TRUE

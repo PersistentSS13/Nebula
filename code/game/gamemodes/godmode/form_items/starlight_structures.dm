@@ -179,7 +179,7 @@
 /obj/structure/deity/radiant_statue/attack_hand(var/mob/living/L)
 	if(!istype(L))
 		return
-	var/obj/O = L.get_equipped_item(slot_wear_suit)
+	var/obj/O = L.get_equipped_item(slot_wear_suit_str)
 	if(O && has_extension(O,/datum/extension/deity_be_near))
 		if(activate_charging())
 			to_chat(L, "<span class='notice'>You place your hands on \the [src], feeling your master's power course through you.</span>")
@@ -205,7 +205,7 @@
 	return 1
 
 /obj/structure/deity/radiant_statue/attackby(var/obj/item/I, var/mob/user)
-	if(charging && (istype(I, /obj/item/material/knife/ritual/shadow) || istype(I, /obj/item/gun/energy/staff/beacon)) && charge_item(I, user))
+	if(charging && (istype(I, /obj/item/knife/ritual/shadow) || istype(I, /obj/item/gun/energy/staff/beacon)) && charge_item(I, user))
 		return
 	..()
 
@@ -216,8 +216,8 @@
 		if(energy.power_supply)
 			energy.power_supply.give(energy.charge_cost * energy.max_shots)
 			. = 1
-	else if(istype(I ,/obj/item/material/knife/ritual/shadow))
-		var/obj/item/material/knife/ritual/shadow/shad = I
+	else if(istype(I ,/obj/item/knife/ritual/shadow))
+		var/obj/item/knife/ritual/shadow/shad = I
 		shad.charge = initial(shad.charge)
 		. = 1
 	if(.)

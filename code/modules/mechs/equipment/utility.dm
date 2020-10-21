@@ -9,7 +9,7 @@
 	var/list/obj/carrying = list()
 
 /obj/item/mech_equipment/clamp/resolve_attackby(atom/A, mob/user, click_params)
-	if(istype(A, /obj/structure/closet) && owner)
+	if(owner)
 		return 0
 	return ..()
 
@@ -43,6 +43,55 @@
 				return
 
 			if(O.anchored)
+				//Special door handling
+				if(istype(O, /obj/machinery/door/firedoor))
+					var/obj/machinery/door/firedoor/FD = O
+					if(FD.blocked)
+						FD.visible_message(SPAN_DANGER("\The [owner] begins prying on \the [FD]!"))
+						if(do_after(owner,10 SECONDS,FD) && FD.blocked)
+							playsound(FD, 'sound/effects/meteorimpact.ogg', 100, 1)
+							playsound(FD, 'sound/machines/airlock_creaking.ogg', 100, 1)
+							FD.blocked = FALSE
+							addtimer(CALLBACK(FD, /obj/machinery/door/firedoor/.proc/open, TRUE), 0)
+							FD.visible_message(SPAN_WARNING("\The [owner] tears \the [FD] open!"))
+					else
+						FD.visible_message(SPAN_DANGER("\The [owner] begins forcing \the [FD]!"))
+						if(do_after(owner, 4 SECONDS,FD) && !FD.blocked)
+							playsound(FD, 'sound/machines/airlock_creaking.ogg', 100, 1)
+							if(FD.density)
+								FD.visible_message(SPAN_DANGER("\The [owner] forces \the [FD] open!"))
+								addtimer(CALLBACK(FD, /obj/machinery/door/firedoor/.proc/open, TRUE), 0)
+							else
+								FD.visible_message(SPAN_WARNING("\The [owner] forces \the [FD] closed!"))
+								addtimer(CALLBACK(FD, /obj/machinery/door/firedoor/.proc/close, TRUE), 0)
+					return
+				else if(istype(O, /obj/machinery/door/airlock))
+					var/obj/machinery/door/airlock/AD = O
+					if(!AD.operating && !AD.locked)
+						if(AD.welded)
+							AD.visible_message(SPAN_DANGER("\The [owner] begins prying on \the [AD]!"))
+							if(do_after(owner, 15 SECONDS,AD) && !AD.locked)
+								AD.welded = FALSE
+								AD.update_icon()
+								playsound(AD, 'sound/effects/meteorimpact.ogg', 100, 1)
+								playsound(AD, 'sound/machines/airlock_creaking.ogg', 100, 1)
+								AD.visible_message(SPAN_DANGER("\The [owner] tears \the [AD] open!"))
+								addtimer(CALLBACK(AD, /obj/machinery/door/airlock/.proc/open, TRUE), 0)
+								return
+						else
+							AD.visible_message(SPAN_DANGER("\The [owner] begins forcing \the [AD]!"))
+							if((AD.is_broken(NOPOWER) || do_after(owner, 5 SECONDS,AD)) && !(AD.operating || AD.welded || AD.locked))
+								playsound(AD, 'sound/machines/airlock_creaking.ogg', 100, 1)
+								if(AD.density)
+									addtimer(CALLBACK(AD, /obj/machinery/door/airlock/.proc/open, TRUE), 0)
+									AD.visible_message(SPAN_DANGER("\The [owner] forces \the [AD] open!"))
+								else
+									addtimer(CALLBACK(AD, /obj/machinery/door/airlock/.proc/close, TRUE), 0)
+									AD.visible_message(SPAN_DANGER("\The [owner] forces \the [AD] closed!"))
+					if(AD.locked)
+						to_chat(user, SPAN_NOTICE("The airlock's bolts prevent it from being forced."))
+					return
+
 				to_chat(user, SPAN_WARNING("\The [target] is firmly secured."))
 				return
 
@@ -257,17 +306,17 @@
 #undef CATAPULT_AREA
 
 
-/obj/item/material/drill_head
+/obj/item/drill_head
 	name = "drill head"
 	desc = "A replaceable drill head usually used in exosuit drills."
 	icon = 'icons/obj/items/tool/drill_head.dmi'
 	icon_state = "drill_head"
 	var/durability = 0
 
-/obj/item/material/drill_head/proc/get_durability_percentage()
+/obj/item/drill_head/proc/get_durability_percentage()
 	return (durability * 100) / (2 * material.integrity)
 
-/obj/item/material/drill_head/examine(mob/user, distance)
+/obj/item/drill_head/examine(mob/user, distance)
 	. = ..()
 	var/percentage = get_durability_percentage()
 	var/descriptor = "looks close to breaking"
@@ -282,7 +331,7 @@
 
 	to_chat(user, "It [descriptor].")
 
-/obj/item/material/drill_head/Initialize()
+/obj/item/drill_head/Initialize()
 	. = ..()
 	durability = 2 * material.integrity
 
@@ -295,12 +344,12 @@
 	equipment_delay = 10
 
 	//Drill can have a head
-	var/obj/item/material/drill_head/drill_head
+	var/obj/item/drill_head/drill_head
 	origin_tech = "{'materials':2,'engineering':2}"
 
 /obj/item/mech_equipment/drill/Initialize()
 	. = ..()
-	drill_head = new /obj/item/material/drill_head(src, MAT_STEEL) //You start with a basic steel head
+	drill_head = new /obj/item/drill_head(src, /decl/material/solid/metal/steel) //You start with a basic steel head
 
 /obj/item/mech_equipment/drill/attack_self(var/mob/user)
 	. = ..()
@@ -315,8 +364,8 @@
 	return
 
 /obj/item/mech_equipment/drill/attackby(obj/item/W, mob/user)
-	if(istype(W,/obj/item/material/drill_head))
-		var/obj/item/material/drill_head/DH = W
+	if(istype(W,/obj/item/drill_head))
+		var/obj/item/drill_head/DH = W
 		if(!user.unEquip(DH))
 			return
 		if(drill_head)
@@ -336,8 +385,8 @@
 			var/obj/target_obj = target
 			if(target_obj.unacidable)
 				return
-		if(istype(target,/obj/item/material/drill_head))
-			var/obj/item/material/drill_head/DH = target
+		if(istype(target,/obj/item/drill_head))
+			var/obj/item/drill_head/DH = target
 			if(drill_head)
 				owner.visible_message(SPAN_NOTICE("\The [owner] detaches the [drill_head] mounted on the [src]."))
 				drill_head.forceMove(owner.loc)
@@ -422,10 +471,8 @@
 	restricted_hardpoints = list(HARDPOINT_LEFT_HAND, HARDPOINT_RIGHT_HAND, HARDPOINT_LEFT_SHOULDER, HARDPOINT_RIGHT_SHOULDER)
 	restricted_software = list(MECH_SOFTWARE_UTILITY)
 	origin_tech = "{'materials':4,'exoticmatter':4,'engineering':6,'combat':3}"
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 
 /obj/item/gun/energy/plasmacutter/mounted/mech
 	use_external_power = TRUE
 	has_safety = FALSE
-
-

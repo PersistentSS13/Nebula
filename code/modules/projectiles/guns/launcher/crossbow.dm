@@ -41,16 +41,15 @@
 /obj/item/arrow/rod/removed(mob/user)
 	if(throwforce == 15) // The rod has been superheated - we don't want it to be useable when removed from the bow.
 		to_chat(user, "[src] shatters into a scattering of overstressed metal shards as it leaves the crossbow.")
-		var/obj/item/material/shard/shrapnel/S = new()
+		var/obj/item/shard/shrapnel/S = new()
 		S.dropInto(loc)
 		qdel(src)
 
 /obj/item/gun/launcher/crossbow
 	name = "powered crossbow"
 	desc = "A modern twist on an old classic. Pick up that can."
-	on_mob_icon = 'icons/obj/guns/launcher/crossbow.dmi'
 	icon = 'icons/obj/guns/launcher/crossbow.dmi'
-	icon_state = "world"
+	icon_state = ICON_STATE_WORLD
 	fire_sound = 'sound/weapons/punchmiss.ogg' // TODO: Decent THWOK noise.
 	fire_sound_text = "a solid thunk"
 	fire_delay = 25
@@ -220,7 +219,6 @@
 /obj/item/gun/launcher/crossbow/rapidcrossbowdevice
 	name = "rapid crossbow device"
 	desc = "A hacked RCD turns an innocent construction tool into the penultimate deconstruction tool. Flashforges bolts using matter units when the string is drawn back."
-	on_mob_icon = 'icons/obj/guns/launcher/rcd_bow.dmi'
 	icon = 'icons/obj/guns/launcher/rcd_bow.dmi'
 	slot_flags = null
 	draw_time = 10

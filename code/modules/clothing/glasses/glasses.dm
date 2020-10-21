@@ -1,8 +1,8 @@
 /obj/item/clothing/glasses
 	name = "glasses"
 	icon = 'icons/obj/clothing/obj_eyes.dmi'
-	material = MAT_STEEL
-	matter = list(MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/metal/steel
+	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
 
 	var/hud_type
 	var/prescription = FALSE
@@ -155,11 +155,11 @@
 	see_invisible = SEE_INVISIBLE_NOLIGHTING
 	siemens_coefficient = 0.6
 	electric = TRUE
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	matter = list(
-		MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT,
-		MAT_SILVER = MATTER_AMOUNT_TRACE,
-		MAT_GOLD = MATTER_AMOUNT_TRACE
+		/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/silver = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/metal/gold = MATTER_AMOUNT_TRACE
 	)
 
 /obj/item/clothing/glasses/monocle
@@ -194,8 +194,8 @@
 	icon_state = "welding-g"
 	item_state = "welding-g"
 	action_button_name = "Flip Welding Goggles"
-	material = MAT_STEEL
-	matter = list(MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/metal/steel
+	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
 	use_alt_layer = TRUE
 	var/up = FALSE
 	flash_protection = FLASH_PROTECTION_MAJOR
@@ -214,7 +214,7 @@
 		if(src.up)
 			src.up = !src.up
 			flags_inv |= HIDEEYES
-			body_parts_covered |= EYES
+			body_parts_covered |= SLOT_EYES
 			icon_state = initial(icon_state)
 			flash_protection = initial(flash_protection)
 			tint = initial(tint)
@@ -222,7 +222,7 @@
 		else
 			src.up = !src.up
 			flags_inv &= ~HIDEEYES
-			body_parts_covered &= ~EYES
+			body_parts_covered &= ~SLOT_EYES
 			icon_state = "[initial(icon_state)]up"
 			flash_protection = FLASH_PROTECTION_NONE
 			tint = TINT_NONE

@@ -2,12 +2,11 @@
 	name = "wirecutters"
 	desc = "A special pair of pliers with cutting edges. Various brackets and manipulators built into the handle allow it to repair severed wiring."
 	icon = 'icons/obj/items/tool/wirecutters.dmi'
-	on_mob_icon = 'icons/obj/items/tool/wirecutters.dmi'
-	icon_state = "world"
-	slot_flags = SLOT_BELT
+	icon_state = ICON_STATE_WORLD
+	slot_flags = SLOT_LOWER_BODY
 	w_class = ITEM_SIZE_SMALL
 	origin_tech = "{'materials':1,'engineering':1}"
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	center_of_mass = @"{'x':18,'y':10}"
 	attack_verb = list("pinched", "nipped")
 	sharp = 1

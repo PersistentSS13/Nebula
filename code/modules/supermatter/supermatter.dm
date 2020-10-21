@@ -35,12 +35,12 @@
 
 	layer = ABOVE_OBJ_LAYER
 
-	var/nitrogen_retardation_factor = 0.15	//Higher == N2 slows reaction more
-	var/thermal_release_modifier = 10000		//Higher == more heat released during reaction
-	var/phoron_release_modifier = 1500		//Higher == less phoron released by reaction
-	var/oxygen_release_modifier = 15000		//Higher == less oxygen released at high temperature/power
-	var/radiation_release_modifier = 2      //Higher == more radiation released with more power.
-	var/reaction_power_modifier =  1.1			//Higher == more overall power
+	var/nitrogen_retardation_factor = 0.15 // Higher == N2 slows reaction more
+	var/thermal_release_modifier = 10000   // Higher == more heat released during reaction
+	var/product_release_modifier = 1500     // Higher == less product gas released by reaction
+	var/oxygen_release_modifier = 15000    // Higher == less oxygen released at high temperature/power
+	var/radiation_release_modifier = 2     // Higher == more radiation released with more power.
+	var/reaction_power_modifier =  1.1     // Higher == more overall power
 
 	//Controls how much power is produced by each collector in range - this is the main parameter for tweaking SM balance, as it basically controls how the power variable relates to the rest of the game.
 	var/power_factor = 1.0
@@ -103,6 +103,13 @@
 	var/aw_emerg = FALSE
 	var/aw_delam = FALSE
 	var/aw_EPR = FALSE
+
+	var/list/threshholds = list( // List of lists defining the amber/red labeling threshholds in readouts. Numbers are minminum red and amber and maximum amber and red, in that order
+		list("name" = SUPERMATTER_DATA_EER,         "min_h" = -1, "min_l" = -1,  "max_l" = 150,  "max_h" = 300),
+		list("name" = SUPERMATTER_DATA_TEMPERATURE, "min_h" = -1, "min_l" = -1,  "max_l" = 4000, "max_h" = 5000),
+		list("name" = SUPERMATTER_DATA_PRESSURE,    "min_h" = -1, "min_l" = -1,  "max_l" = 5000, "max_h" = 10000),
+		list("name" = SUPERMATTER_DATA_EPR,         "min_h" = -1, "min_l" = 1.0, "max_l" = 2.5,  "max_h" = 4.0)
+	)
 
 /obj/machinery/power/supermatter/Initialize()
 	. = ..()
@@ -356,7 +363,7 @@
 
 		//Ok, 100% oxygen atmosphere = best reaction
 		//Maxes out at 100% oxygen pressure
-		oxygen = Clamp((removed.get_by_flag(XGM_GAS_OXIDIZER) - (removed.gas[MAT_NITROGEN] * nitrogen_retardation_factor)) / removed.total_moles, 0, 1)
+		oxygen = Clamp((removed.get_by_flag(XGM_GAS_OXIDIZER) - (removed.gas[/decl/material/gas/nitrogen] * nitrogen_retardation_factor)) / removed.total_moles, 0, 1)
 
 		//calculate power gain for oxygen reaction
 		var/temp_factor
@@ -377,8 +384,8 @@
 
 		//Release reaction gasses
 		var/heat_capacity = removed.heat_capacity()
-		removed.adjust_multi(MAT_PHORON, max(device_energy / phoron_release_modifier, 0), \
-		                     MAT_OXYGEN, max((device_energy + removed.temperature - T0C) / oxygen_release_modifier, 0))
+		removed.adjust_multi(/decl/material/solid/exotic_matter, max(device_energy / product_release_modifier, 0), \
+		                     /decl/material/gas/oxygen, max((device_energy + removed.temperature - T0C) / oxygen_release_modifier, 0))
 
 		var/thermal_power = thermal_release_modifier * device_energy
 		if (debug)
@@ -538,7 +545,7 @@
 		log_and_message_admins("WARN: Explosion near the Supermatter! New EER: [power].")
 
 /obj/machinery/power/supermatter/get_artifact_scan_data()
-	return "Superdense phoron clump - appears to have been shaped or hewn, structure is composed of matter aproximately 20 times denser than ordinary refined phoron."
+	return "Superdense crystalline structure - appears to have been shaped or hewn, lattice is approximately 20 times denser than should be possible."
 
 /obj/machinery/power/supermatter/shard //Small subtype, less efficient and more sensitive, but less boom.
 	name = "Supermatter Shard"

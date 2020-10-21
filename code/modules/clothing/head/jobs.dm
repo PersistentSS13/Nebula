@@ -3,57 +3,59 @@
 /obj/item/clothing/head/chefhat
 	name = "chef's hat"
 	desc = "It's a hat used by chefs to keep hair out of your food. Judging by the food in the mess, they don't work."
-	icon_state = "chefhat"
-	item_state = "chefhat"
+
+	icon = 'icons/clothing/head/chef.dmi'
 
 //Captain
 /obj/item/clothing/head/caphat
 	name = "captain's hat"
-	icon_state = "captain"
+
+	icon = 'icons/clothing/head/captain.dmi'
 	desc = "It's good being the king."
-	item_state_slots = list(
-		slot_l_hand_str = "caphat",
-		slot_r_hand_str = "caphat",
-		)
 	body_parts_covered = 0
 
 /obj/item/clothing/head/caphat/cap
 	name = "captain's cap"
 	desc = "You fear to wear it for the negligence it brings."
+
+	icon = 'icons/clothing/head/captain_cap.dmi'
 	icon_state = "capcap"
 
 /obj/item/clothing/head/caphat/formal
 	name = "parade hat"
 	desc = "No one in a commanding position should be without a perfect, white hat of ultimate authority."
-	icon_state = "officercap"
 
+	icon = 'icons/clothing/head/officer_cap.dmi'
 //HOP
 /obj/item/clothing/head/caphat/hop
 	name = "crew resource's hat"
 	desc = "A stylish hat that both protects you from enraged former-crewmembers and gives you a false sense of authority."
-	icon_state = "hopcap"
 
+	icon = 'icons/clothing/head/hop.dmi'
 //Chaplain
 /obj/item/clothing/head/chaplain_hood
 	name = "chaplain's hood"
 	desc = "It's hood that covers the head. It keeps you warm during the space winters."
-	icon_state = "chaplain_hood"
+
+	icon = 'icons/clothing/head/chaplain.dmi'
 	flags_inv = BLOCKHAIR
-	body_parts_covered = HEAD
+	body_parts_covered = SLOT_HEAD
 
 //Chaplain
 /obj/item/clothing/head/nun_hood
 	name = "nun hood"
 	desc = "Maximum piety in this star system."
-	icon_state = "nun_hood"
+
+	icon = 'icons/clothing/head/nun.dmi'
 	flags_inv = BLOCKHAIR
-	body_parts_covered = HEAD
+	body_parts_covered = SLOT_HEAD
 
 //Medical
 /obj/item/clothing/head/surgery
 	name = "surgical cap"
 	desc = "A cap surgeons wear during operations. Keeps their hair from tickling your internal organs."
-	icon_state = "surgcap"
+
+	icon = 'icons/clothing/head/surgery_cap.dmi'
 	flags_inv = BLOCKHEADHAIR
 
 /obj/item/clothing/head/surgery/purple
@@ -92,15 +94,17 @@
 /obj/item/clothing/head/beret
 	name = "beret"
 	desc = "A beret, an artists favorite headwear."
-	icon_state = "beret"
+
+	icon = 'icons/clothing/head/beret.dmi'
+	color = COLOR_NT_RED
 	body_parts_covered = 0
 
 /obj/item/clothing/head/beret/purple
 	name = "purple beret"
 	desc = "A stylish, if purple, beret. For personnel that are more inclined towards style than safety."
-	icon_state = "beret_purple"
+	color = COLOR_PURPLE
 
 /obj/item/clothing/head/beret/plaincolor
 	name = "beret"
 	desc = "A simple, solid color beret. This one has no emblems or insignia on it."
-	icon_state = "beret_white"
+	color = COLOR_WHITE

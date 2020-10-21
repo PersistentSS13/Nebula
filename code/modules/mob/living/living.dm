@@ -94,11 +94,7 @@ default behaviour is:
 						to_chat(src, "<span class='danger'>You fail to push [tmob]'s fat ass out of the way.</span>")
 						now_pushing = 0
 						return
-				if(tmob.r_hand && istype(tmob.r_hand, /obj/item/shield/riot))
-					if(prob(99))
-						now_pushing = 0
-						return
-				if(tmob.l_hand && istype(tmob.l_hand, /obj/item/shield/riot))
+				for(var/obj/item/shield/riot/shield in tmob.get_held_items())
 					if(prob(99))
 						now_pushing = 0
 						return
@@ -350,7 +346,7 @@ default behaviour is:
 	var/t = shooter.zone_sel?.selecting
 	if ((t in list( BP_EYES, BP_MOUTH )))
 		t = BP_HEAD
-	var/obj/item/organ/external/def_zone = ran_zone(t)
+	var/obj/item/organ/external/def_zone = ran_zone(t, target = src)
 	return def_zone
 
 

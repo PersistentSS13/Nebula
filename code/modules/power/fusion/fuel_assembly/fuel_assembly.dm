@@ -44,16 +44,13 @@
 
 // Mapper shorthand.
 /obj/item/fuel_assembly/deuterium
-	material = MAT_DEUTERIUM
+	material = /decl/material/gas/hydrogen/deuterium
 
 /obj/item/fuel_assembly/tritium
-	material = MAT_TRITIUM
-
-/obj/item/fuel_assembly/phoron
-	material = MAT_PHORON
-
+	material = /decl/material/gas/hydrogen/tritium
+	
 /obj/item/fuel_assembly/supermatter
-	material = MAT_SUPERMATTER
+	material = /decl/material/solid/exotic_matter
 
 /obj/item/fuel_assembly/hydrogen
-	material = MAT_HYDROGEN
+	material = /decl/material/gas/hydrogen

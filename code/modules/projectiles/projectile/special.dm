@@ -168,7 +168,7 @@
 	. = ..()
 	var/mob/living/L = target
 	if(L.reagents)
-		L.reagents.add_reagent(/decl/material/chem/toxin/venom, 5)
+		L.reagents.add_reagent(/decl/material/liquid/venom, 5)
 
 /obj/item/missile
 	icon = 'icons/obj/grenade.dmi'
@@ -177,12 +177,10 @@
 	throwforce = 15
 
 /obj/item/missile/throw_impact(atom/hit_atom)
+	..()
 	if(primed)
 		explosion(hit_atom, 0, 1, 2, 4)
 		qdel(src)
-	else
-		..()
-	return
 
 /obj/item/projectile/hotgas
 	name = "gas vent"

@@ -17,7 +17,7 @@
 	name = "mounted flash"
 	desc = "You are the law."
 	icon_state = "flash"
-	
+
 	selectable = 0
 	toggleable = 1
 	activates_on_touch = 1
@@ -35,10 +35,10 @@
 	device = /obj/item/flash
 
 	origin_tech = "{'combat':2,'magnets':3,'engineering':5}"
-	material = MAT_PLASTIC
+	material = /decl/material/solid/plastic
 	matter = list(
-		MAT_STEEL = MATTER_AMOUNT_REINFORCEMENT,
-		MAT_GLASS = MATTER_AMOUNT_TRACE
+		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/glass = MATTER_AMOUNT_TRACE
 	)
 
 /obj/item/rig_module/device/flash/advanced
@@ -263,12 +263,12 @@
 	interface_name = "mounted energy gun"
 	interface_desc = "A shoulder-mounted suit-powered energy gun."
 	origin_tech = "{'powerstorage':6,'combat':6,'engineering':6}"
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	matter = list(
-		MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT,
-		MAT_PLASTIC = MATTER_AMOUNT_TRACE,
-		MAT_GOLD = MATTER_AMOUNT_TRACE,
-		MAT_SILVER = MATTER_AMOUNT_TRACE
+		/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/plastic = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/metal/gold = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/metal/silver = MATTER_AMOUNT_TRACE
 	)
 
 	gun = /obj/item/gun/energy/gun/mounted
@@ -285,11 +285,11 @@
 	interface_name = "mounted electrolaser"
 	interface_desc = "A shoulder-mounted, cell-powered electrolaser."
 	origin_tech = "{'powerstorage':5,'combat':5,'engineering':6}"
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	matter = list(
-		MAT_PLASTIC = MATTER_AMOUNT_REINFORCEMENT,
-		MAT_GLASS = MATTER_AMOUNT_TRACE,
-		MAT_GOLD = MATTER_AMOUNT_TRACE
+		/decl/material/solid/plastic = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/glass = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/metal/gold = MATTER_AMOUNT_TRACE
 	)
 	gun = /obj/item/gun/energy/taser/mounted
 
@@ -307,12 +307,12 @@
 	origin_tech = "{'materials':5,'exoticmatter':4,'engineering':7,'combat':5}"
 
 	gun = /obj/item/gun/energy/plasmacutter/mounted
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	matter = list(
-		MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT,
-		MAT_PLASTIC = MATTER_AMOUNT_TRACE,
-		MAT_GOLD = MATTER_AMOUNT_TRACE,
-		MAT_PHORON = MATTER_AMOUNT_TRACE
+		/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/plastic = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/metal/gold = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/metal/uranium = MATTER_AMOUNT_TRACE
 	)
 	
 /obj/item/rig_module/mounted/plasmacutter/engage(atom/target)
@@ -347,7 +347,7 @@
 	selectable = 1
 	toggleable = 1
 	use_power_cost = 10 KILOWATTS
-	active_power_cost = 500
+	active_power_cost = 0.5 KILOWATTS
 	passive_power_cost = 0
 
 	gun = /obj/item/gun/energy/crossbow/ninja/mounted
@@ -355,27 +355,26 @@
 /obj/item/rig_module/mounted/energy_blade/Process()
 
 	if(holder && holder.wearer)
-		if(!(locate(/obj/item/melee/energy/blade) in holder.wearer))
+		if(!(locate(/obj/item/energy_blade/blade) in holder.wearer))
 			deactivate()
 			return 0
 
 	return ..()
 
 /obj/item/rig_module/mounted/energy_blade/activate()
-
-	if(!..() || !gun)
-		return 0
-
 	var/mob/living/M = holder.wearer
 
-	if(M.l_hand && M.r_hand)
-		to_chat(M, "<span class='danger'>Your hands are full.</span>")
+	if(!M.get_empty_hand_slot())
+		to_chat(M, SPAN_WARNING("Your hands are full."))
 		deactivate()
 		return
 
-	var/obj/item/melee/energy/blade/blade = new(M)
+	var/obj/item/energy_blade/blade/blade = new(M)
 	blade.creator = M
 	M.put_in_hands(blade)
+
+	if(!..() || !gun)
+		return 0
 
 /obj/item/rig_module/mounted/energy_blade/deactivate()
 
@@ -386,7 +385,7 @@
 	if(!M)
 		return
 
-	for(var/obj/item/melee/energy/blade/blade in M.contents)
+	for(var/obj/item/energy_blade/blade/blade in M.contents)
 		qdel(blade)
 
 /obj/item/rig_module/fabricator
@@ -403,7 +402,7 @@
 	interface_name = "death blossom launcher"
 	interface_desc = "An integrated microfactory that produces poisoned throwing stars from thin air and electricity."
 
-	var/fabrication_type = /obj/item/material/star/ninja
+	var/fabrication_type = /obj/item/star/ninja
 	var/fire_force = 30
 	var/fire_distance = 10
 
@@ -417,11 +416,11 @@
 	if(target)
 		var/obj/item/firing = new fabrication_type()
 		firing.dropInto(loc)
-		H.visible_message("<span class='danger'>[H] launches \a [firing]!</span>")
+		H.visible_message(SPAN_DANGER("\The [H] launches \a [firing]!"))
 		firing.throw_at(target,fire_force,fire_distance)
 	else
-		if(H.l_hand && H.r_hand)
-			to_chat(H, "<span class='danger'>Your hands are full.</span>")
+		if(!H.get_empty_hand_slot())
+			to_chat(H, SPAN_WARNING("Your hands are full."))
 		else
 			var/obj/item/new_weapon = new fabrication_type()
 			new_weapon.forceMove(H)
