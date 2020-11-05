@@ -286,10 +286,6 @@
 			return
 		T.ChangeTurf(thing.thing_type)
 		existing = T
-		// Try to QDEL contents list just to be safe.
-		try
-			QDEL_NULL_LIST(T.contents)
-		catch
 	else
 		// default creation
 		existing = new thing.thing_type()

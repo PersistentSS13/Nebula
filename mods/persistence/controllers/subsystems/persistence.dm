@@ -27,6 +27,10 @@ SUBSYSTEM_DEF(persistence)
 	// Collect the z-levels we're saving and get the turfs!
 	to_world_log("Saving [LAZYLEN(SSpersistence.saved_levels)] z-levels. World size max ([world.maxx],[world.maxy])")
 	var/start = world.timeofday
+	
+	// Launch events
+
+	GLOB.world_saving_start_event.raise_event(src)
 	try
 		//
 		// 	PREPARATION SECTIONS
@@ -52,9 +56,6 @@ SUBSYSTEM_DEF(persistence)
 
 		// Wipe the previous save.
 		serializer.WipeSave()
-
-		// Launch events
-		GLOB.world_saving_event.raise_event(src)
 
 		//
 		// 	ACTUAL SAVING SECTION
@@ -125,16 +126,12 @@ SUBSYSTEM_DEF(persistence)
 
 		// This will save all the turfs/world.
 		var/index = 1
-		var/list/areas_to_save = list()
 		for(var/z in saved_levels)
 			var/default_turf = get_base_turf(z)
 			for(var/x in 1 to world.maxx)
 				for(var/y in 1 to world.maxy)
 					// Get the thing to serialize and serialize it.
 					var/turf/T = locate(x,y,z)
-					var/area/A = get_area(T)
-					if("\ref[A]" in areas_to_save)
-						areas_to_save["\ref[A]"] = A
 					// This if statement, while complex, checks to see if we should save this turf.
 					// Turfs not saved become their default_turf after deserialization.
 					if(!istype(T) || istype(T, default_turf))
@@ -142,7 +139,7 @@ SUBSYSTEM_DEF(persistence)
 							continue
 						var/should_skip = TRUE
 						for(var/atom/movable/AM in T.contents)
-							if(AM.simulated && AM.should_save)
+							if(AM.simulated && AM.should_save())
 								should_skip = FALSE
 								break // We found a thing that's worth saving.
 						if(should_skip)
@@ -161,13 +158,37 @@ SUBSYSTEM_DEF(persistence)
 					CHECK_TICK
 			serializer.Commit() // cleanup leftovers.
 
-		for(var/AK in areas_to_save)
-			var/area/A = areas_to_save[AK]
-			var/z
+		index = 1
+
+		// Repeat much of the above code in order to save areas marked to be saved that are not in a saved z-level.
+		for(var/area/A in saved_areas)
 			for(var/turf/T in A)
-				z = T.z
-				break
-			serializer.Serialize(A, null, z)
+				if(T.z in saved_levels)
+					continue
+				var/turf/default_turf = get_base_turf(T.z)
+				if(!istype(T) || istype(T, default_turf))
+					if(!istype(T) || !T.contents || !length(T.contents))
+						continue
+					var/should_skip = TRUE
+					for(var/atom/movable/AM in T.contents)
+						if(AM.simulated && AM.should_save())
+							should_skip = FALSE
+							break // We found a thing that's worth saving.
+					if(should_skip)
+						continue // Skip this tile. Not worth saving.
+				serializer.Serialize(T, null, T.z)
+
+				// Don't save every single tile.
+				// Batch them up to save time.
+				if(index % 128 == 0)
+					serializer.Commit()
+					index = 1
+				else
+					index++
+
+				// Prevent the whole game from locking up.
+				CHECK_TICK
+			serializer.Commit() // cleanup leftovers.
 
 		// Insert our z-level remaps.
 		var/list/z_inserts = list()
@@ -199,6 +220,9 @@ SUBSYSTEM_DEF(persistence)
 	catch (var/exception/e)
 		to_world_log("Save failed on line [e.line], file [e.file] with message: '[e]'.")
 	to_world("Save complete! Took [(world.timeofday-start)/10]s to save world.")
+	
+	// Launch event for anything that needs to do cleanup post save.
+	GLOB.world_saving_finish_event.raise_event(src)
 
 /datum/controller/subsystem/persistence/proc/LoadWorld()
 	try
@@ -251,7 +275,6 @@ SUBSYSTEM_DEF(persistence)
 			turfs_loaded++
 			CHECK_TICK
 		to_world_log("Load complete! Took [(world.timeofday-start)/10]s to load [length(serializer.resolver.things)] things. Loaded [turfs_loaded] turfs.")
-
 		in_loaded_world = turfs_loaded > 0
 
 		// Cleanup the cache. It uses a *lot* of memory.
