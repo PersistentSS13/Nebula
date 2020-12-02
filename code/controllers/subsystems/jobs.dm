@@ -141,6 +141,12 @@ SUBSYSTEM_DEF(jobs)
 	RETURN_TYPE(/datum/job)
 	return types_to_datums[path]
 
+/datum/controller/subsystem/jobs/proc/get_by_paths(var/paths)
+	RETURN_TYPE(/list)
+	. = list()
+	for(var/path in paths)
+		. += types_to_datums[path]
+
 /datum/controller/subsystem/jobs/proc/check_general_join_blockers(var/mob/new_player/joining, var/datum/job/job)
 	if(!istype(joining) || !joining.client || !joining.client.prefs)
 		return FALSE
@@ -567,6 +573,9 @@ SUBSYSTEM_DEF(jobs)
 /proc/show_location_blurb(client/C, duration)
 	set waitfor = 0
 
+	if(!C)
+		return
+
 	var/style = "font-family: 'Fixedsys'; -dm-text-outline: 1 black; font-size: 11px;"
 	var/area/A = get_area(C.mob)
 	var/text = "[stationdate2text()], [stationtime2text()]\n[station_name()], [A.name]"
@@ -585,7 +594,7 @@ SUBSYSTEM_DEF(jobs)
 	for(var/i = 1 to length(text)+1)
 		T.maptext = "<span style=\"[style]\">[copytext(text,1,i)] </span>"
 		sleep(1)
-	
+
 	addtimer(CALLBACK(GLOBAL_PROC, .proc/fade_location_blurb, C, T), duration)
 
 /proc/fade_location_blurb(client/C, obj/T)
