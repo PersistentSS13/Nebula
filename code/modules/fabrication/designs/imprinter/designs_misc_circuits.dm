@@ -56,9 +56,6 @@
 /datum/fabricator_recipe/imprinter/circuit/bioprinter
 	path = /obj/item/stock_parts/circuitboard/bioprinter
 
-/datum/fabricator_recipe/imprinter/circuit/roboprinter
-	path = /obj/item/stock_parts/circuitboard/roboprinter
-
 /datum/fabricator_recipe/imprinter/circuit/teleconsole
 	path = /obj/item/stock_parts/circuitboard/teleporter
 
@@ -119,11 +116,11 @@
 /datum/fabricator_recipe/imprinter/circuit/autobinder
 	path = /obj/item/stock_parts/circuitboard/autolathe/book
 
-/datum/fabricator_recipe/imprinter/circuit/mining_console
-	path = /obj/item/stock_parts/circuitboard/mineral_processing
-
 /datum/fabricator_recipe/imprinter/circuit/mining_processor
 	path = /obj/item/stock_parts/circuitboard/mining_processor
+
+/datum/fabricator_recipe/imprinter/circuit/mining_compressor
+	path = /obj/item/stock_parts/circuitboard/mining_compressor
 
 /datum/fabricator_recipe/imprinter/circuit/mining_unloader
 	path = /obj/item/stock_parts/circuitboard/mining_unloader
@@ -260,6 +257,9 @@
 /datum/fabricator_recipe/imprinter/circuit/engine
 	path = /obj/item/stock_parts/circuitboard/engine
 
+/datum/fabricator_recipe/imprinter/circuit/ion_engine
+	path = /obj/item/stock_parts/circuitboard/engine/ion
+
 /datum/fabricator_recipe/imprinter/circuit/shuttle
 	path = /obj/item/stock_parts/circuitboard/shuttle_console
 
@@ -323,8 +323,8 @@
 /datum/fabricator_recipe/imprinter/circuit/tcom_receiver
 	path = /obj/item/stock_parts/circuitboard/telecomms/receiver
 
-/datum/fabricator_recipe/imprinter/circuit/bluespace_relay
-	path = /obj/item/stock_parts/circuitboard/bluespacerelay
+/datum/fabricator_recipe/imprinter/circuit/comms_relay
+	path = /obj/item/stock_parts/circuitboard/commsrelay
 
 /datum/fabricator_recipe/imprinter/circuit/shield_generator
 	path = /obj/item/stock_parts/circuitboard/shield_generator

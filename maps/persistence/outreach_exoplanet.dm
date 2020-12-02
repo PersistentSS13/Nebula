@@ -9,8 +9,8 @@
 	daycolumn = 1
 	var/list/surface_z = list(3, 4)
 
-/obj/effect/overmap/visitable/sector/exoplanet/chlorine/outreach/Initialize()
-	. = ..()
+/obj/effect/overmap/visitable/sector/exoplanet/chlorine/outreach/Initialize(var/mapload, var/z_level)
+	. = ..(mapload, GLOB.using_map.station_levels[4])
 	map_z = GLOB.using_map.station_levels
 	register_z_levels() // This makes external calls to update global z level information.
 
@@ -33,14 +33,14 @@
 	var/light = 0.1
 	if(!night)
 		light = lightlevel
-	for(var/turf/simulated/floor/exoplanet/T in block(locate(daycolumn,1,min(surface_z)),locate(daycolumn,maxy,max(surface_z))))
+	for(var/turf/exterior/T in block(locate(daycolumn,1,min(surface_z)),locate(daycolumn,maxy,max(surface_z))))
 		T.set_light(light, 0.1, 2)
 
 /obj/effect/overmap/visitable/sector/exoplanet/chlorine/outreach/update_daynight()
 	var/light = 0.1
 	if(!night)
 		light = lightlevel
-	for(var/turf/simulated/floor/exoplanet/T in block(locate(daycolumn,1,min(surface_z)),locate(daycolumn,maxy,max(surface_z))))
+	for(var/turf/exterior/T in block(locate(daycolumn,1,min(surface_z)),locate(daycolumn,maxy,max(surface_z))))
 		T.set_light(light, 0.1, 2)
 	daycolumn++
 	if(daycolumn > maxx)

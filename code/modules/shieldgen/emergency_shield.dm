@@ -81,31 +81,27 @@
 				qdel(src)
 
 /obj/machinery/shield/hitby(AM, var/datum/thrownthing/TT)
+	..()
 	//Let everyone know we've been hit!
-	visible_message("<span class='notice'><B>\[src] was hit by [AM].</B></span>")
-
+	visible_message(SPAN_DANGER("\The [src] was hit by \the [AM]."))
 	//Super realistic, resource-intensive, real-time damage calculations.
 	var/tforce = 0
-
 	if(ismob(AM)) // All mobs have a multiplier and a size according to mob_defines.dm
 		var/mob/I = AM
 		tforce = I.mob_size * (TT.speed/THROWFORCE_SPEED_DIVISOR)
 	else
 		var/obj/O = AM
 		tforce = O.throwforce * (TT.speed/THROWFORCE_SPEED_DIVISOR)
-
 	src.health -= tforce
-
 	//This seemed to be the best sound for hitting a force field.
 	playsound(src.loc, 'sound/effects/EMPulse.ogg', 100, 1)
-
 	check_failure()
-
 	//The shield becomes dense to absorb the blow.. purely asthetic.
 	set_opacity(1)
-	spawn(20) if(!QDELETED(src)) set_opacity(0)
+	spawn(20)
+		if(!QDELETED(src))
+			set_opacity(0)
 
-	..()
 /obj/machinery/shieldgen
 	name = "Emergency shield projector"
 	desc = "Used to seal minor hull breaches."
@@ -250,14 +246,14 @@
 		return TRUE
 
 	if (src.active)
-		user.visible_message("<span class='notice'>\icon[src] [user] deactivated the shield generator.</span>", \
-			"<span class='notice'>\icon[src] You deactivate the shield generator.</span>", \
+		user.visible_message("<span class='notice'>[html_icon(src)] [user] deactivated the shield generator.</span>", \
+			"<span class='notice'>[html_icon(src)] You deactivate the shield generator.</span>", \
 			"You hear heavy droning fade out.")
 		src.shields_down()
 	else
 		if(anchored)
-			user.visible_message("<span class='notice'>\icon[src] [user] activated the shield generator.</span>", \
-				"<span class='notice'>\icon[src] You activate the shield generator.</span>", \
+			user.visible_message("<span class='notice'>[html_icon(src)] [user] activated the shield generator.</span>", \
+				"<span class='notice'>[html_icon(src)] You activate the shield generator.</span>", \
 				"You hear heavy droning.")
 			src.shields_up()
 		else

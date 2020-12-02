@@ -7,8 +7,9 @@
 	w_class = ITEM_SIZE_TINY
 	throwforce = 4
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 	attack_verb = list("burnt", "singed")
+	lit_heat = 1500
 	var/max_fuel = 5
 	var/random_colour = FALSE
 	var/available_colors = list(COLOR_WHITE, COLOR_BLUE_GRAY, COLOR_GREEN_GRAY, COLOR_BOTTLE_GREEN, COLOR_DARK_GRAY, COLOR_RED_GRAY, COLOR_GUNMETAL, COLOR_RED, COLOR_YELLOW, COLOR_CYAN, COLOR_GREEN, COLOR_VIOLET, COLOR_NAVY_BLUE, COLOR_PINK)
@@ -16,7 +17,7 @@
 /obj/item/flame/lighter/Initialize()
 	. = ..()
 	create_reagents(max_fuel)
-	reagents.add_reagent(/decl/material/chem/fuel, max_fuel)
+	reagents.add_reagent(/decl/material/liquid/fuel, max_fuel)
 	set_extension(src, /datum/extension/base_icon_state, icon_state)
 	if(random_colour)
 		color = pick(available_colors)
@@ -37,10 +38,11 @@
 		user.visible_message("<span class='notice'>After a few attempts, [user] manages to light the [src].</span>")
 	else
 		to_chat(user, "<span class='warning'>You burn yourself while lighting the lighter.</span>")
-		if (user.l_hand == src)
-			user.apply_damage(2,BURN,BP_L_HAND)
-		else
-			user.apply_damage(2,BURN,BP_R_HAND)
+		for(var/bp in user.held_item_slots)
+			var/datum/inventory_slot/inv_slot = user.held_item_slots[bp]
+			if(inv_slot.holding == src)
+				user.apply_damage(2, BURN, bp)
+				break
 		user.visible_message("<span class='notice'>After a few attempts, [user] manages to light the [src], burning their finger in the process.</span>")
 	playsound(src.loc, "light_bic", 100, 1, -4)
 
@@ -58,7 +60,7 @@
 
 /obj/item/flame/lighter/attack_self(mob/living/user)
 	if(!lit)
-		if(reagents.has_reagent(/decl/material/chem/fuel))
+		if(reagents.has_reagent(/decl/material/liquid/fuel))
 			light(user)
 		else
 			to_chat(user, "<span class='warning'>\The [src] won't ignite - it must be out of fuel.</span>")
@@ -91,12 +93,12 @@
 	..()
 
 /obj/item/flame/lighter/Process()
-	if(!submerged() && reagents.has_reagent(/decl/material/chem/fuel))
-		if(ismob(loc) && prob(10) && REAGENT_VOLUME(reagents, /decl/material/chem/fuel) < 1)
+	if(!submerged() && reagents.has_reagent(/decl/material/liquid/fuel))
+		if(ismob(loc) && prob(10) && REAGENT_VOLUME(reagents, /decl/material/liquid/fuel) < 1)
 			to_chat(loc, "<span class='warning'>\The [src]'s flame flickers.</span>")
 			set_light(0)
 			addtimer(CALLBACK(src, .atom/proc/set_light, 0.6, 0.5, 2), 4)
-		reagents.remove_reagent(/decl/material/chem/fuel, 0.05)
+		reagents.remove_reagent(/decl/material/liquid/fuel, 0.05)
 	else
 		extinguish()
 		return

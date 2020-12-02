@@ -2,7 +2,7 @@
 	name = "glasses"
 	icon = 'icons/obj/clothing/obj_eyes.dmi'
 	w_class = ITEM_SIZE_SMALL
-	body_parts_covered = EYES
+	body_parts_covered = SLOT_EYES
 	slot_flags = SLOT_EYES
 	var/vision_flags = 0
 	var/darkness_view = 0//Base human is 2
@@ -10,7 +10,7 @@
 	var/light_protection = 0
 
 /obj/item/clothing/glasses/get_icon_state(mob/user_mob, slot)
-	if(item_state_slots && item_state_slots[slot])
+	if(slot in item_state_slots)
 		return item_state_slots[slot]
 	else
 		return icon_state

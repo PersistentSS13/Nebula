@@ -5,9 +5,11 @@
 	return (..() && !(silent && emote_type == AUDIBLE_MESSAGE))
 
 /mob/proc/emote(var/act, var/m_type, var/message)
+	set waitfor = FALSE
 	// s-s-snowflake
 	if(src.stat == DEAD && act != "deathgasp")
 		return
+
 	if(usr == src) //client-called emote
 		if (client && (client.prefs.muted & MUTE_IC))
 			to_chat(src, "<span class='warning'>You cannot send IC messages (muted).</span>")
@@ -135,6 +137,7 @@
 	if (message)
 		log_emote("[name]/[key] : [message]")
 	//do not show NPC animal emotes to ghosts, it turns into hellscape
+	message = filter_modify_message(message)
 	var/check_ghosts = client ? /datum/client_preference/ghost_sight : null
 	if(m_type == VISIBLE_MESSAGE)
 		visible_message(message, checkghosts = check_ghosts)

@@ -170,7 +170,7 @@
 			id.registered_name = H.real_name
 			id.assignment = "Captain"
 			id.SetName("[id.registered_name]'s ID Card ([id.assignment])")
-			H.equip_to_slot_or_del(id, slot_wear_id)
+			H.equip_to_slot_or_del(id, slot_wear_id_str)
 			H.update_inv_wear_id()
 	else
 		alert("Invalid mob")
@@ -355,13 +355,10 @@
 
 	for(var/obj/machinery/power/rad_collector/Rad in world)
 		if(Rad.anchored)
-			if(!Rad.P)
-				var/obj/item/tank/phoron/Phoron = new/obj/item/tank/phoron(Rad)
-				Phoron.air_contents.gas[MAT_PHORON] = 70
+			if(!Rad.loaded_tank)
+				Rad.loaded_tank = new /obj/item/tank/hydrogen(Rad)
+				Rad.loaded_tank.air_contents.gas[/decl/material/gas/hydrogen] = 70
 				Rad.drainratio = 0
-				Rad.P = Phoron
-				Phoron.forceMove(Rad)
-
 			if(!Rad.active)
 				Rad.toggle_power()
 
@@ -492,3 +489,13 @@
 		return
 	var/decl/material/M = decls_repository.get_decl(material)
 	new M.stack_type(get_turf(mob), 50, M)
+
+/client/proc/force_ghost_trap_trigger()
+	set category = "Debug"
+	set name = "Force Ghost Trap Trigger"
+	if(!check_rights(R_DEBUG)) return
+	var/decl/ghosttrap/trap = input("Select a ghost trap.", "Force Ghost Trap Trigger") as null|anything in typesof(/decl/ghosttrap)
+	if(!trap)
+		return
+	trap = decls_repository.get_decl(trap)
+	trap.forced(mob)

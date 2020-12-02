@@ -75,6 +75,8 @@
 	var/mechanics_text
 	var/antag_text
 
+	var/affect_blood_on_ingest = TRUE
+
 	var/narcosis = 0 // Not a great word for it. Constant for causing mild confusion when ingested.
 	var/toxicity = 0 // Organ damage from ingestion.
 	var/toxicity_targets_organ // Bypass liver/kidneys when ingested, harm this organ directly (using BP_FOO defines).
@@ -87,9 +89,12 @@
 	var/destruction_desc = "breaks apart" // Fancy string for barricades/tables/objects exploding.
 
 	// Icons
-	var/icon_base = "metal"                              // Wall and table base icon tag. See header.
+	var/icon_base = 'icons/turf/walls/solid.dmi'
+	var/icon_stripe = 'icons/turf/walls/stripes.dmi'
+	var/icon_base_natural = 'icons/turf/walls/natural.dmi'
+	var/icon_reinf = 'icons/turf/walls/reinforced_metal.dmi'
+
 	var/door_icon_base = "metal"                         // Door base icon tag. See header.
-	var/icon_reinf = "reinf_metal"                       // Overlay used
 	var/table_icon_base = "metal"
 	var/table_reinf = "reinf_metal"
 	var/list/stack_origin_tech = "{'materials':1}" // Research level for stacks.
@@ -99,6 +104,7 @@
 	var/radioactivity            // Radiation var. Used in wall and object processing to irradiate surroundings.
 	var/ignition_point           // K, point at which the material catches on fire.
 	var/melting_point = 1800     // K, walls will take damage if they're next to a fire hotter than this
+	var/boiling_point = 3000     // K, point that material will become a gas.
 	var/brute_armor = 2	 		 // Brute damage to a wall is divided by this value if the wall is reinforced by this material.
 	var/burn_armor				 // Same as above, but for Burn damage type. If blank brute_armor's value is used.
 	var/integrity = 150          // General-use HP value for products.
@@ -106,7 +112,6 @@
 	var/explosion_resistance = 5 // Only used by walls currently.
 	var/conductive = 1           // Objects with this var add CONDUCTS to flags on spawn.
 	var/luminescence
-	var/list/alloy_materials     // If set, material can be produced via alloying these materials in these amounts.
 	var/wall_support_value = 30
 	var/sparse_material_weight
 	var/rich_material_weight
@@ -142,14 +147,16 @@
 	var/ore_spread_chance
 	var/ore_scan_icon
 	var/ore_icon_overlay
+	var/ore_type_value
+	var/ore_data_value
+
 	var/value = 1
 
 	// Xenoarch behavior.
-	var/xarch_source_mineral = /decl/material/iron
+	var/xarch_source_mineral = /decl/material/solid/metal/iron
 
 	// Gas behavior.
 	var/gas_overlay_limit
-	var/gas_burn_product
 	var/gas_specific_heat
 	var/gas_molar_mass
 	var/gas_symbol_html
@@ -170,11 +177,11 @@
 	var/touch_met = 0
 	var/overdose = 0
 	var/scannable = 0 // Shows up on health analyzers.
-	var/color = "#000000"
+	var/color = COLOR_BEIGE
 	var/color_weight = 1
-	var/alpha = 255
 	var/cocktail_ingredient
 	var/defoliant
+	var/fruit_descriptor // String added to fruit desc if this chemical is present.
 
 	var/dirtiness = DIRTINESS_NEUTRAL // How dirty turfs are after being exposed to this material. Negative values cause a cleaning/sterilizing effect.
 	var/solvent_power = MAT_SOLVENT_NONE
@@ -199,13 +206,15 @@
 	var/chilling_message = "crackles and freezes!"
 	var/chilling_sound = 'sound/effects/bubbles.ogg'
 	var/list/chilling_products
+	var/bypass_cooling_products_for_root_type
 
-	var/list/heating_products
 	var/heating_point
 	var/heating_message = "begins to boil!"
 	var/heating_sound = 'sound/effects/bubbles.ogg'
+	var/list/heating_products
+	var/bypass_heating_products_for_root_type
 	var/fuel_value = 0
-
+	var/burn_product
 	var/list/vapor_products // If splashed, releases these gasses in these proportions. // TODO add to unit test after solvent PR is merged
 
 	var/scent //refer to _scent.dm
@@ -255,6 +264,7 @@
 		shard_icon = shard_type
 	if(!burn_armor)
 		burn_armor = brute_armor
+
 	generate_armor_values()
 	var/list/cocktails = decls_repository.get_decls_of_subtype(/decl/cocktail)
 	for(var/ctype in cocktails)
@@ -268,9 +278,6 @@
 	var/list/temp_matter = list()
 	temp_matter[type] = SHEET_MATERIAL_AMOUNT
 	return temp_matter
-
-/decl/material/proc/is_a_gas()
-	. = !isnull(gas_specific_heat) && !isnull(gas_molar_mass) // Arbitrary but good enough.
 
 // Weapons handle applying a divisor for this value locally.
 /decl/material/proc/get_blunt_damage()
@@ -316,7 +323,7 @@
 // As above.
 /decl/material/proc/place_shard(var/turf/target)
 	if(shard_type)
-		return new /obj/item/material/shard(target, type)
+		return new /obj/item/shard(target, type)
 
 // Used by walls and weapons to determine if they break or not.
 /decl/material/proc/is_brittle()
@@ -332,9 +339,10 @@
 /decl/material/proc/on_leaving_metabolism(var/mob/parent, var/metabolism_class)
 	return
 
+#define ACID_MELT_DOSE 10
 /decl/material/proc/touch_obj(var/obj/O, var/amount, var/datum/reagents/holder) // Acid melting, cleaner cleaning, etc
 
-	if(solvent_power > MAT_SOLVENT_MILD)
+	if(solvent_power >= MAT_SOLVENT_MILD)
 		if(istype(O, /obj/item/paper))
 			var/obj/item/paper/paperaffected = O
 			paperaffected.clearpaper()
@@ -485,7 +493,8 @@
 		M.adjust_drugged(euphoriant, euphoriant_max)
 
 /decl/material/proc/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
-	affect_blood(M, alien, removed * 0.5, holder)
+	if(affect_blood_on_ingest)
+		affect_blood(M, alien, removed * 0.5, holder)
 
 /decl/material/proc/affect_touch(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
 
@@ -503,10 +512,8 @@
 		M.was_bloodied = null
 
 	if(dirtiness <= DIRTINESS_CLEAN)
-		if(M.r_hand)
-			M.r_hand.clean_blood()
-		if(M.l_hand)
-			M.l_hand.clean_blood()
+		for(var/obj/item/thing in M.get_held_items())
+			thing.clean_blood()
 		if(M.wear_mask)
 			if(M.wear_mask.clean_blood())
 				M.update_inv_wear_mask(0)
@@ -586,5 +593,5 @@
 			if(cocktail.matches(prop))
 				return cocktail.get_presentation_name(prop)
 
-	if(prop.reagents.has_reagent(/decl/material/gas/water/ice))
+	if(prop.reagents.has_reagent(/decl/material/solid/ice))
 		. = "iced [.]"

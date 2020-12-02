@@ -35,6 +35,8 @@
 
 	var/tmp/changing_turf
 
+	var/prev_type // Previous type of the turf, prior to turf translation.
+
 /turf/Initialize(mapload, ...)
 	. = ..()
 	if(dynamic_lighting)
@@ -47,6 +49,8 @@
 	if (z_flags & ZM_MIMIC_BELOW)
 		setup_zmimic(mapload)
 	update_starlight()
+	if(flooded && !density)
+		fluid_update(FALSE)
 
 /turf/on_update_icon()
 	update_flood_overlay()
@@ -60,6 +64,7 @@
 		QDEL_NULL(flood_object)
 
 /turf/Destroy()
+
 	if (!changing_turf)
 		crash_with("Improper turf qdel. Do not qdel turfs directly.")
 
@@ -256,7 +261,8 @@ var/const/enterloopsanity = 100
 
 //expects an atom containing the reagents used to clean the turf
 /turf/proc/clean(atom/source, mob/user = null, var/time = null, var/message = null)
-	if(source.reagents.has_reagent(/decl/material/gas/water, 1) || source.reagents.has_reagent(/decl/material/chem/cleaner, 1))
+	set waitfor = FALSE
+	if(source.reagents.has_reagent(/decl/material/liquid/water, 1) || source.reagents.has_reagent(/decl/material/liquid/cleaner, 1))
 		if(user && time && !do_after(user, time, src))
 			return
 		clean_blood()
@@ -269,7 +275,7 @@ var/const/enterloopsanity = 100
 
 /turf/proc/remove_cleanables()
 	for(var/obj/effect/O in src)
-		if(istype(O,/obj/effect/rune) || istype(O,/obj/effect/decal/cleanable) || istype(O,/obj/effect/overlay))
+		if(istype(O,/obj/effect/rune) || istype(O,/obj/effect/decal/cleanable))
 			qdel(O)
 
 /turf/proc/update_blood_overlays()
@@ -282,7 +288,8 @@ var/const/enterloopsanity = 100
 
 // Called when turf is hit by a thrown object
 /turf/hitby(atom/movable/AM, var/datum/thrownthing/TT)
-	if(src.density)
+	..()
+	if(density)
 		if(isliving(AM))
 			var/mob/living/M = AM
 			M.turf_collision(src, TT.speed)
@@ -359,3 +366,6 @@ var/const/enterloopsanity = 100
 			set_light(min(0.1*config.starlight, 1), 1, 3, l_color = SSskybox.background_color)
 			return
 	set_light(0)
+
+/turf/proc/get_footstep_sound(var/mob/caller)
+	return

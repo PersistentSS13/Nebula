@@ -88,7 +88,7 @@
 	. = ..()
 
 /obj/machinery/door/firedoor/get_material()
-	return decls_repository.get_decl(MAT_STEEL)
+	return decls_repository.get_decl(/decl/material/solid/metal/steel)
 
 /obj/machinery/door/firedoor/examine(mob/user, distance)
 	. = ..()
@@ -134,11 +134,11 @@
 		return ..()
 	return 0
 
-/obj/machinery/door/firedoor/attack_hand(mob/user)
-	add_fingerprint(user)
+/obj/machinery/door/firedoor/physical_attack_hand(mob/user)
 	if(operating)
-		return//Already doing something.
+		return FALSE//Already doing something.
 
+	. = TRUE
 	if(blocked)
 		to_chat(user, "<span class='warning'>\The [src] is welded solid!</span>")
 		return
@@ -205,25 +205,25 @@
 				"You hear something being welded.")
 				playsound(src, 'sound/items/Welder.ogg', 100, 1)
 				update_icon()
-				return
+				return TRUE
 			else
 				to_chat(user, SPAN_WARNING("You must remain still to complete this task."))
-				return
+				return TRUE
 
-	if(!blocked && (isCrowbar(C) || istype(C,/obj/item/material/twohanded/fireaxe)))
+	if(blocked && isCrowbar(C))
+		user.visible_message("<span class='danger'>\The [user] pries at \the [src] with \a [C], but \the [src] is welded in place!</span>",\
+		"You try to pry \the [src] [density ? "open" : "closed"], but it is welded in place!",\
+		"You hear someone struggle and metal straining.")
+		return TRUE
+
+	if(!blocked && (isCrowbar(C) || istype(C,/obj/item/twohanded/fireaxe)))
 		if(operating)
-			return
+			return ..()
 
-		if(isCrowbar(C))
-			user.visible_message("<span class='danger'>\The [user] pries at \the [src] with \a [C], but \the [src] is welded in place!</span>",\
-			"You try to pry \the [src] [density ? "open" : "closed"], but it is welded in place!",\
-			"You hear someone struggle and metal straining.")
-			return
-
-		if(istype(C,/obj/item/material/twohanded/fireaxe))
-			var/obj/item/material/twohanded/fireaxe/F = C
+		if(istype(C,/obj/item/twohanded/fireaxe))
+			var/obj/item/twohanded/fireaxe/F = C
 			if(!F.wielded)
-				return
+				return ..()
 
 		user.visible_message("<span class='danger'>\The [user] starts to force \the [src] [density ? "open" : "closed"] with \a [C]!</span>",\
 				"You start forcing \the [src] [density ? "open" : "closed"] with \the [C]!",\
@@ -244,6 +244,8 @@
 				close()
 		else
 			to_chat(user, "<span class='notice'>You must remain still to interact with \the [src].</span>")
+		return TRUE
+
 	return ..()
 
 /obj/machinery/door/firedoor/dismantle(var/moved = FALSE)

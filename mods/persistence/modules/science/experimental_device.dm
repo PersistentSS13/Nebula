@@ -1,7 +1,7 @@
 /obj/item/experiment
 	name = "experimental device"
 	icon = 'icons/obj/assemblies/electronic_setups.dmi'
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	var/max_components = 3
 	var/list/components = list()
 	var/wired = FALSE

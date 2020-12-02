@@ -89,7 +89,7 @@ proc/get_radio_key_from_channel(var/channel)
 	. = ispath(default_language, /decl/language) && decls_repository.get_decl(default_language)
 
 /mob/proc/is_muzzled()
-	return istype(wear_mask, /obj/item/clothing/mask/muzzle)
+	return istype(wear_mask, /obj/item/clothing/mask/muzzle) || istype(wear_mask, /obj/item/clothing/sealant)
 
 //Takes a list of the form list(message, verb, whispering) and modifies it as needed
 //Returns 1 if a speech problem was applied, 0 otherwise
@@ -153,6 +153,7 @@ proc/get_radio_key_from_channel(var/channel)
 	return html_encode(message)
 
 /mob/living/say(var/message, var/decl/language/speaking = null, var/verb="says", var/alt_name="", whispering)
+	set waitfor = FALSE
 	if(client)
 		if(client.prefs.muted & MUTE_IC)
 			to_chat(src, "<span class='warning'>You cannot speak in IC (Muted).</span>")
@@ -163,10 +164,10 @@ proc/get_radio_key_from_channel(var/channel)
 			return say_dead(message)
 		return
 
-	var/prefix = copytext(message,1,2)
-	if(prefix == get_prefix_key(/decl/prefix/custom_emote))
+	if(findlasttextEx(message, get_prefix_key(/decl/prefix/custom_emote)) == 1)
 		return emote(copytext(message,2))
-	if(prefix == get_prefix_key(/decl/prefix/visible_emote))
+
+	if(findlasttextEx(message, get_prefix_key(/decl/prefix/visible_emote)) == 1)
 		return custom_emote(1, copytext(message,2))
 
 	//parse the radio code and consume it
@@ -223,7 +224,7 @@ proc/get_radio_key_from_channel(var/channel)
 	if(handle_message_mode(message_mode, message, verb, speaking, used_radios, alt_name))
 		return 1
 
-	var/list/handle_v = handle_speech_sound()
+	var/list/handle_v = (istype(speaking) && speaking.get_spoken_sound()) || handle_speech_sound()
 	var/sound/speech_sound = handle_v[1]
 	var/sound_vol = handle_v[2]
 
@@ -322,6 +323,7 @@ proc/get_radio_key_from_channel(var/channel)
 	return 1
 
 /mob/living/proc/say_signlang(var/message, var/verb="gestures", var/decl/language/language)
+	message = filter_modify_message(message)
 	for (var/mob/O in viewers(src, null))
 		O.hear_signlang(message, verb, language, src)
 	return 1

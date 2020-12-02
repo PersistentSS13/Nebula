@@ -1,10 +1,8 @@
 /turf/simulated
 	name = "station"
-	initial_gas = list(MAT_OXYGEN = MOLES_O2STANDARD, MAT_NITROGEN = MOLES_N2STANDARD)
+	initial_gas = list(/decl/material/gas/oxygen = MOLES_O2STANDARD, /decl/material/gas/nitrogen = MOLES_N2STANDARD)
 	var/wet = 0
 	var/image/wet_overlay = null
-	var/has_resources //Mining resources (for the large drills).
-	var/list/resources
 	var/to_be_destroyed = 0 //Used for fire, if a melting temperature was reached, it will be destroyed
 	var/max_fire_temperature_sustained = 0 //The max temperature of the fire which it was subjected to
 	var/dirt = 0
@@ -64,64 +62,70 @@
 
 /turf/simulated/Entered(atom/A, atom/OL)
 	. = ..()
-	if (istype(A,/mob/living))
-		var/mob/living/M = A
+	if (istype(A))
+		A.OnSimulatedTurfEntered(src)
 
-		// Dirt overlays.
-		update_dirt()
+/atom/proc/OnSimulatedTurfEntered(turf/simulated/T)
+	set waitfor = FALSE
+	return
 
-		if(istype(M, /mob/living/carbon/human))
-			var/mob/living/carbon/human/H = M
-			// Tracking blood
-			var/list/bloodDNA = null
-			var/bloodcolor=""
-			if(H.shoes)
-				var/obj/item/clothing/shoes/S = H.shoes
-				if(istype(S))
-					S.handle_movement(src, MOVING_QUICKLY(H))
-					if(S.track_blood && S.blood_DNA)
-						bloodDNA = S.blood_DNA
-						bloodcolor = S.blood_color
-						S.track_blood--
-			else
-				if(H.track_blood && H.feet_blood_DNA)
-					bloodDNA = H.feet_blood_DNA
-					bloodcolor = H.feet_blood_color
-					H.track_blood--
+/mob/living/OnSimulatedTurfEntered(turf/simulated/T)
+	T.update_dirt()
 
-			if (bloodDNA && H.species.get_move_trail(H))
-				src.AddTracks(H.species.get_move_trail(H),bloodDNA,H.dir,0,bloodcolor) // Coming
-				var/turf/simulated/from = get_step(H, GLOB.reverse_dir[H.dir])
-				if(istype(from) && from)
-					from.AddTracks(H.species.get_move_trail(H),bloodDNA,0,H.dir,bloodcolor) // Going
+	HandleBloodTrail(T)
 
-				bloodDNA = null
+	if(lying || !T.wet)
+		return
 
-		if(M.lying)
-			return
+	if(buckled || (MOVING_DELIBERATELY(src) && prob(min(100, 100/(T.wet/10)))))
+		return
 
-		if(src.wet)
+	// skillcheck for slipping
+	if(!prob(min(100, skill_fail_chance(SKILL_HAULING, 100, SKILL_MAX+1)/(3/T.wet))))
+		return
 
-			if(M.buckled || (MOVING_DELIBERATELY(M) && prob(min(100, 100/(wet/10))) ) )
-				return
+	var/slip_dist = 1
+	var/slip_stun = 6
+	var/floor_type = "wet"
 
-			// skillcheck for slipping
-			if(!prob(min(100, M.skill_fail_chance(SKILL_HAULING, 100, SKILL_MAX+1)/(3/wet))))
-				return
+	if(2 <= T.wet) // Lube
+		floor_type = "slippery"
+		slip_dist = 4
+		slip_stun = 10
 
-			var/slip_dist = 1
-			var/slip_stun = 6
-			var/floor_type = "wet"
+	if(slip("the [floor_type] floor", slip_stun))
+		for(var/i = 1 to slip_dist)
+			step(src, dir)
+			sleep(1)
 
-			if(2 <= src.wet) // Lube
-				floor_type = "slippery"
-				slip_dist = 4
-				slip_stun = 10
+/mob/living/proc/HandleBloodTrail(turf/simulated/T)
+	return
 
-			if(M.slip("the [floor_type] floor", slip_stun))
-				for(var/i = 1 to slip_dist)
-					step(M, M.dir)
-					sleep(1)
+/mob/living/carbon/human/HandleBloodTrail(turf/simulated/T)
+	// Tracking blood
+	var/list/bloodDNA = null
+	var/bloodcolor = ""
+	if(shoes)
+		var/obj/item/clothing/shoes/S = shoes
+		if(istype(S))
+			S.handle_movement(src, MOVING_QUICKLY(src))
+			if(S.track_blood && S.blood_DNA)
+				bloodDNA = S.blood_DNA
+				bloodcolor = S.blood_color
+				S.track_blood--
+	else
+		if(track_blood && feet_blood_DNA)
+			bloodDNA = feet_blood_DNA
+			bloodcolor = feet_blood_color
+			track_blood--
+
+	if (bloodDNA && species.get_move_trail(src))
+		T.AddTracks(species.get_move_trail(src),bloodDNA, dir, 0, bloodcolor) // Coming
+		var/turf/simulated/from = get_step(src, GLOB.reverse_dir[dir])
+		if(istype(from))
+			from.AddTracks(species.get_move_trail(src), bloodDNA, 0, dir, bloodcolor) // Going
+
+		bloodDNA = null
 
 //returns 1 if made bloody, returns 0 otherwise
 /turf/simulated/add_blood(mob/living/carbon/human/M)

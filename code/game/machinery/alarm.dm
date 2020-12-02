@@ -1,18 +1,19 @@
 /decl/environment_data
 	var/list/important_gasses = list(
-		MAT_OXYGEN =         TRUE,
-		MAT_NITROGEN =       TRUE,
-		MAT_CO2 = TRUE
+		/decl/material/gas/oxygen =         TRUE,
+		/decl/material/gas/nitrogen =       TRUE,
+		/decl/material/gas/carbon_dioxide = TRUE
 	)
 	var/list/dangerous_gasses = list(
-		MAT_CO2 = TRUE
+		/decl/material/gas/carbon_dioxide = TRUE,
+		/decl/material/gas/chlorine = TRUE
 	)
 	var/list/filter_gasses = list(
-		MAT_OXYGEN,
-		MAT_NITROGEN,
-		MAT_CO2,
-		MAT_N2O,
-		MAT_PHORON
+		/decl/material/gas/oxygen,
+		/decl/material/gas/nitrogen,
+		/decl/material/gas/carbon_dioxide,
+		/decl/material/gas/nitrous_oxide,
+		/decl/material/gas/chlorine
 	)
 
 ////////////////////////////////////////
@@ -109,8 +110,8 @@
 
 /decl/environment_data/finnish/Initialize()
 	. = ..()
-	important_gasses[MAT_WATER] = TRUE
-	dangerous_gasses -= MAT_WATER
+	important_gasses[/decl/material/liquid/water] = TRUE
+	dangerous_gasses -= /decl/material/liquid/water
 
 /obj/machinery/alarm/warm
 	target_temperature = T0C+75
@@ -145,15 +146,14 @@
 		SetName("[alarm_area.name] Air Alarm")
 
 	// breathable air according to human/Life()
-	TLV[MAT_OXYGEN] =			list(16, 19, 135, 140) // Partial pressure, kpa
-	TLV[MAT_CO2] = list(-1.0, -1.0, 5, 10) // Partial pressure, kpa
+	TLV[/decl/material/gas/oxygen] =			list(16, 19, 135, 140) // Partial pressure, kpa
+	TLV[/decl/material/gas/carbon_dioxide] = list(-1.0, -1.0, 5, 10) // Partial pressure, kpa
 	TLV["other"] =			list(-1.0, -1.0, 0.2, 0.5) // Partial pressure, kpa
 	TLV["pressure"] =		list(ONE_ATMOSPHERE*0.80,ONE_ATMOSPHERE*0.90,ONE_ATMOSPHERE*1.10,ONE_ATMOSPHERE*1.20) /* kpa */
 	TLV["temperature"] =	list(T0C-26, T0C, T0C+40, T0C+66) // K
 
-
 	var/decl/environment_data/env_info = decls_repository.get_decl(environment_type)
-	for(var/g in SSmaterials.all_gasses)
+	for(var/g in subtypesof(/decl/material/gas))
 		if(!env_info.important_gasses[g])
 			trace_gas += g
 
@@ -263,8 +263,8 @@
 		other_moles += environment.gas[g] //this is only going to be used in a partial pressure calc, so we don't need to worry about group_multiplier here.
 
 	pressure_dangerlevel = get_danger_level(environment_pressure, TLV["pressure"])
-	oxygen_dangerlevel = get_danger_level(environment.gas[MAT_OXYGEN]*partial_pressure, TLV[MAT_OXYGEN])
-	co2_dangerlevel = get_danger_level(environment.gas[MAT_CO2]*partial_pressure, TLV[MAT_CO2])
+	oxygen_dangerlevel = get_danger_level(environment.gas[/decl/material/gas/oxygen]*partial_pressure, TLV[/decl/material/gas/oxygen])
+	co2_dangerlevel = get_danger_level(environment.gas[/decl/material/gas/carbon_dioxide]*partial_pressure, TLV[/decl/material/gas/carbon_dioxide])
 	temperature_dangerlevel = get_danger_level(environment.temperature, TLV["temperature"])
 	other_dangerlevel = get_danger_level(other_moles*partial_pressure, TLV["other"])
 
@@ -413,7 +413,7 @@
 	switch(mode)
 		if(AALARM_MODE_SCRUBBING)
 			for(var/device_id in alarm_area.air_scrub_names)
-				send_signal(device_id, list("set_power"= 1, "set_scrub_gas" = list(MAT_CO2 = 1), "set_scrubbing"= SCRUBBER_SCRUB, "panic_siphon"= 0) )
+				send_signal(device_id, list("set_power"= 1, "set_scrub_gas" = list(/decl/material/gas/carbon_dioxide = 1), "set_scrubbing"= SCRUBBER_SCRUB, "panic_siphon"= 0) )
 			for(var/device_id in alarm_area.air_vent_names)
 				send_signal(device_id, list("set_power"= 1, "set_checks"= "default", "set_external_pressure"= "default") )
 
@@ -510,7 +510,7 @@
 		environment_data[++environment_data.len] = list("name" = "Pressure", "value" = pressure, "unit" = "kPa", "danger_level" = pressure_dangerlevel)
 		var/decl/environment_data/env_info = decls_repository.get_decl(environment_type)
 		for(var/gas_id in env_info.important_gasses)
-			var/decl/material/mat = decls_repository.get_decl(gas_id)	
+			var/decl/material/mat = decls_repository.get_decl(gas_id)
 			environment_data[++environment_data.len] = list(
 				"name" =  capitalize(mat.gas_name),
 				"value" = environment.gas[gas_id] / total * 100,
@@ -591,8 +591,8 @@
 			var/thresholds[0]
 
 			var/list/gas_names = list(
-				MAT_OXYGEN         = "O<sub>2</sub>",
-				MAT_CO2 = "CO<sub>2</sub>",
+				/decl/material/gas/oxygen         = "O<sub>2</sub>",
+				/decl/material/gas/carbon_dioxide = "CO<sub>2</sub>",
 				"other"          = "Other")
 			for (var/g in gas_names)
 				thresholds[++thresholds.len] = list("name" = gas_names[g], "settings" = list())
@@ -791,6 +791,7 @@ FIRE ALARM
 	desc = "<i>\"Pull this in case of emergency\"</i>. Thus, keep pulling it forever."
 	icon = 'icons/obj/firealarm.dmi'
 	icon_state = "casing"
+	required_interaction_dexterity = DEXTERITY_SIMPLE_MACHINES
 	var/detecting = 1.0
 	var/working = 1.0
 	var/time = 10.0
@@ -812,8 +813,9 @@ FIRE ALARM
 
 /obj/machinery/firealarm/examine(mob/user)
 	. = ..()
-	var/decl/security_state/security_state = decls_repository.get_decl(GLOB.using_map.security_state)
-	to_chat(user, "The current alert level is [security_state.current_security_level.name].")
+	if(loc.z in GLOB.using_map.contact_levels)
+		var/decl/security_state/security_state = decls_repository.get_decl(GLOB.using_map.security_state)
+		to_chat(user, "The current alert level is [security_state.current_security_level.name].")
 
 /obj/machinery/firealarm/proc/get_cached_overlay(key)
 	if(!LAZYACCESS(overlays_cache, key))
@@ -864,12 +866,13 @@ FIRE ALARM
 			overlays += get_cached_overlay("fire1")
 			set_light(0.25, 0.1, 1, 2, COLOR_RED)
 		else if(z in GLOB.using_map.contact_levels)
-			overlays += get_cached_overlay("fire0")
 			var/decl/security_state/security_state = decls_repository.get_decl(GLOB.using_map.security_state)
 			var/decl/security_level/sl = security_state.current_security_level
 
 			set_light(sl.light_max_bright, sl.light_inner_range, sl.light_outer_range, 2, sl.light_color_alarm)
 			overlays += image(sl.icon, sl.overlay_alarm)
+		else
+			overlays += get_cached_overlay("fire0")
 
 /obj/machinery/firealarm/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
 	if(src.detecting)

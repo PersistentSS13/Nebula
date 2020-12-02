@@ -49,23 +49,22 @@
 			mob.hotkey_drop()
 
 /mob/proc/hotkey_drop()
-	to_chat(src, "<span class='warning'>This mob type cannot drop items.</span>")
+	. = has_extension(src, /datum/extension/hattable)
 
 /mob/living/hotkey_drop()
-	if(length(get_active_grabs()))
+	if(length(get_active_grabs()) || ..())
 		drop_item()
 
 /mob/living/carbon/hotkey_drop()
 	var/obj/item/hand = get_active_hand()
-	if(!hand)
-		to_chat(src, "<span class='warning'>You have nothing to drop in your hand.</span>")
-	else if(hand.can_be_dropped_by_client(src))
+	if(hand?.can_be_dropped_by_client(src) || ..())
 		drop_item()
 
 /client/verb/swap_hand()
 	set hidden = 1
 	if(istype(mob, /mob/living/carbon))
-		mob:swap_hand()
+		var/mob/M = mob
+		M.swap_hand()
 	if(istype(mob,/mob/living/silicon/robot))
 		var/mob/living/silicon/robot/R = mob
 		R.cycle_modules()

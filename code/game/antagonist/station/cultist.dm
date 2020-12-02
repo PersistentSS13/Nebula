@@ -76,11 +76,11 @@ GLOBAL_DATUM_INIT(cult, /datum/antagonist/cultist, new)
 
 	var/obj/item/book/tome/T = new(get_turf(player))
 	var/list/slots = list (
-		"backpack" = slot_in_backpack,
-		"left pocket" = slot_l_store,
-		"right pocket" = slot_r_store,
-		"left hand" = slot_l_hand,
-		"right hand" = slot_r_hand,
+		"backpack" = slot_in_backpack_str,
+		"left pocket" = slot_l_store_str,
+		"right pocket" = slot_r_store_str,
+		"left hand" =    BP_L_HAND,
+		"right hand" =   BP_R_HAND,
 	)
 	for(var/slot in slots)
 		player.equip_to_slot(T, slot)

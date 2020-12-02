@@ -23,7 +23,8 @@
 			"UI",
 			"SE",
 			"b_type",
-			"real_name"
+			"real_name",
+			"lineage"
 		]
 	},
 	{
@@ -157,7 +158,20 @@
 	{
 		"path":"/datum/shuttle",
 		"vars":[
-			"name"
+			"name",
+			"shuttle_area",
+			"current_location",
+			"moving_status",
+			"flags"
+		]
+	},
+	{
+		"path":"/datum/shuttle/autodock",
+		"vars":[
+			"current_dock_target",
+			"dock_target",
+			"docking_codes",
+			"next_location"
 		]
 	},
 	{
@@ -236,7 +250,6 @@
 			"maxHealth",
 			"health",
 			"last_special",
-			"t_phoron",
 			"t_oxygen",
 			"t_sl_gas",
 			"t_n2",
@@ -1277,6 +1290,13 @@
 		]
 	},
 	{
+		"path":"/obj/machinery/computer/shuttle_control",
+		"vars":[
+			"hacked",
+			"shuttle_tag"
+		]
+	},
+	{
 		"path":"/obj/machinery/conveyor",
 		"vars":[
 			"forwards",
@@ -1490,12 +1510,6 @@
 		]
 	},
 	{
-		"path":"/obj/machinery/organ_printer",
-		"vars":[
-			"stored_matter"
-		]
-	},
-	{
 		"path":"/obj/machinery/papershredder",
 		"vars":[
 			"paperamount",
@@ -1636,7 +1650,8 @@
 			"full_shield_strength",
 			"idle_multiplier",
 			"spinup_delay",
-			"spinup_counter"
+			"spinup_counter",
+			"vessel_reverse_dir"
 		]
 	},
 	{
@@ -1795,7 +1810,7 @@
 		"path":"/obj/structure/dispenser",
 		"vars":[
 			"oxygentanks",
-			"phorontanks"
+			"hydrogentanks"
 		]
 	},
 	{
@@ -1975,7 +1990,6 @@
 			"sdisabilities",
 			"disabilities",
 			"next_move",
-			"hand",
 			"real_name",
 			"bhunger",
 			"druggy",
@@ -1996,8 +2010,6 @@
 			"timeofdeath",
 			"bodytemperature",
 			"buckled",
-			"l_hand",
-			"r_hand",
 			"back",
 			"s_active",
 			"wear_mask",
@@ -2033,7 +2045,16 @@
 			"gender",
 			"x",
 			"y",
-			"z"
+			"z",
+			"held_item_slot_selected",
+			"held_item_slots"
+		]
+	},
+	{
+		"path":"/datum/inventory_slot",
+		"vars":[
+			"slot_id",
+			"holding"
 		]
 	},
 	{
@@ -2485,7 +2506,7 @@
 		"vars":[
 			"nitrogen_retardation_factor",
 			"thermal_release_modifier",
-			"phoron_release_modifier",
+			"product_release_modifier",
 			"oxygen_release_modifier",
 			"radiation_release_modifier",
 			"reaction_power_modifier",
@@ -2813,9 +2834,19 @@
 		"path":"/obj/effect/overmap/visitable/ship/landable",
 		"vars":[
 			"tag_shuttle_mech_sensor",
+			"shuttle",
 			"landmark",
 			"multiz",
-			"status"
+			"status",
+			"saved_shuttle"
+		]
+	},
+	{
+		"path":"/obj/effect/shuttle_landmark",
+		"vars":[
+			"base_area",
+			"base_turf",
+			"shuttle_restricted"
 		]
 	},
 	{
@@ -2823,6 +2854,12 @@
 		"vars":[
 			"shuttle_name",
 			"visitors"
+		]
+	},
+	{
+		"path":"/obj/effect/shuttle_landmark/visiting_shuttle",
+		"vars":[
+			"core_landmark"
 		]
 	},
 	{
@@ -2875,6 +2912,22 @@
 		]
 	},
 	{
+		"path":"/obj/machinery/network/stellar_anchor",
+		"vars":[
+			"anchored_areas",
+			"should_launch",
+			"sector_name",
+			"created_sector"
+		]
+	},
+	{
+		"path":"/obj/machinery/network/stellar_anchor/ship_core",
+		"vars":[
+			"parent_shuttle",
+			"created_landable_ship"
+		]
+	},
+	{
 		"path":"/datum/shuttle/autodock/overmap",
 		"vars":[
 			"range",
@@ -2894,16 +2947,16 @@
 	{
 		"path":"/obj/effect/overmap/visitable",
 		"vars":[
-			"map_z",
 			"generic_waypoints",
 			"restricted_waypoints",
 			"docking_codes",
 			"start_x",
 			"start_y",
 			"base",
-			"in_space",
+			"sector_flags",
 			"hide_from_reports",
-			"has_distress_beacon"
+			"has_distress_beacon",
+			"free_landing"
 		]
 	},
 	{
@@ -2988,7 +3041,9 @@
 			"descriptors",
 			"last_smelt",
 			"saved_ckey",
-			"home_spawn"
+			"home_spawn",
+			"stance_limbs",
+			"grasp_limbs"
 		]
 	},
 	{
@@ -3439,7 +3494,7 @@
 		]
 	},
 	{
-		"path":"/obj/item/material/lock_construct",
+		"path":"/obj/item/lock_construct",
 		"vars":[
 			"lock_data"
 		]
@@ -4035,6 +4090,56 @@
 		"path":"/obj/item/stock_parts/computer/charge_stick_slot",
 		"vars":[
 			"stored_stick"
+		]
+	},
+	{
+		"path":"/obj/machinery/tracking_beacon",
+		"vars":[
+			"beacon"
+		]
+	},
+	{
+		"path":"/obj/item/blackout",
+		"vars":[
+			"last_use"
+		]
+	},
+	{
+		"path":"/obj/item/spy_monitor",
+		"vars":[
+			"operating",
+			"radio",
+			"selected_camera",
+			"cameras"
+		]
+	},
+	{
+		"path":"/obj/structure/displaycase",
+		"vars":[
+			"req_access",
+			"destroyed"
+		]
+	},
+	{
+		"path":"/obj/machinery/mining/drill",
+		"vars":[
+			"generated_ore",
+			"active",
+			"harvest_speed",
+			"capacity",
+			"supports",
+			"supported"
+		]
+	},
+	{
+		"path":"/obj/machinery/power/rad_collector",
+		"vars":[
+			"health",
+			"melted",
+			"active",
+			"locked",
+			"last_rads",
+			"loaded_tank"
 		]
 	}
 ]

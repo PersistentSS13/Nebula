@@ -188,6 +188,7 @@ What is the naming convention for planes or layers?
 	#define HUD_BASE_LAYER               2
 	#define HUD_ITEM_LAYER               3
 	#define HUD_ABOVE_ITEM_LAYER         4
+	#define HUD_ABOVE_HUD_LAYER          5
 
 
 //This is difference between planes used for atoms and effects
@@ -195,14 +196,6 @@ What is the naming convention for planes or layers?
 
 /atom
 	plane = DEFAULT_PLANE
-
-/image/proc/plating_decal_layerise()
-	plane = DEFAULT_PLANE
-	layer = DECAL_PLATING_LAYER
-
-/image/proc/turf_decal_layerise()
-	plane =  DEFAULT_PLANE
-	layer = DECAL_LAYER
 
 /atom/proc/hud_layerise()
 	plane = HUD_PLANE

@@ -67,7 +67,7 @@
 
 /obj/effect/fluid/proc/remove_fuel(var/amt)
 	for(var/rtype in reagents.reagent_volumes)
-		var/decl/material/chem/fuel = decls_repository.get_decl(rtype)
+		var/decl/material/liquid/fuel = decls_repository.get_decl(rtype)
 		if(fuel.fuel_value)
 			var/removing = min(amt, reagents.reagent_volumes[rtype])
 			reagents.remove_reagent(rtype, removing)
@@ -78,7 +78,7 @@
 /obj/effect/fluid/proc/get_fuel_amount()
 	. = 0
 	for(var/rtype in reagents?.reagent_volumes)
-		var/decl/material/chem/fuel = decls_repository.get_decl(rtype)
+		var/decl/material/liquid/fuel = decls_repository.get_decl(rtype)
 		if(fuel.fuel_value)
 			. += REAGENT_VOLUME(reagents, rtype) * fuel.fuel_value
 
@@ -96,7 +96,7 @@
 	if(!isturf(loc))
 		return
 
-	reagents.touch_turf(loc)
+	loc.fluid_act(reagents)
 	var/pushing = (world.time >= next_fluid_act && reagents.total_volume > FLUID_SHALLOW && last_flow_strength >= 10)
 	for(var/thing in loc.contents)
 		if(thing == src)
@@ -162,7 +162,7 @@
 	icon_state = "shallow_still"
 	color = COLOR_OCEAN
 
-	var/fluid_type = /decl/material/gas/water
+	var/fluid_type = /decl/material/liquid/water
 	var/fluid_initial = FLUID_MAX_DEPTH
 
 /obj/effect/fluid_mapped/Initialize()
@@ -176,7 +176,7 @@
 
 /obj/effect/fluid_mapped/fuel
 	name = "spilled fuel"
-	fluid_type = /decl/material/chem/fuel
+	fluid_type = /decl/material/liquid/fuel
 	fluid_initial = 10
 
 // Permaflood overlay.

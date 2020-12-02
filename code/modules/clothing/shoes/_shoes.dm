@@ -1,10 +1,13 @@
 /obj/item/clothing/shoes
 	name = "shoes"
-	icon = 'icons/obj/clothing/obj_feet.dmi'
 	desc = "Comfortable-looking shoes."
+	icon_state = ICON_STATE_WORLD
+	icon = 'icons/clothing/feet/generic_shoes.dmi'
 	gender = PLURAL
 	siemens_coefficient = 0.9
-	body_parts_covered = FEET
+	cold_protection = SLOT_FEET
+	body_parts_covered = SLOT_FEET
+	heat_protection = SLOT_FEET
 	slot_flags = SLOT_FEET
 	permeability_coefficient = 0.50
 	force = 2
@@ -62,7 +65,8 @@
 			return
 		user.visible_message(SPAN_ITALIC("\The [user] attaches \the [cuffs] to \the [src]."), range = 2)
 		verbs |= /obj/item/clothing/shoes/proc/remove_cuffs
-		slowdown_per_slot[slot_shoes] += cuffs.elastic ? 10 : 15
+		LAZYINITLIST(slowdown_per_slot[slot_shoes_str])
+		slowdown_per_slot[slot_shoes_str] += cuffs.elastic ? 10 : 15
 		attached_cuffs = cuffs
 
 /obj/item/clothing/shoes/proc/remove_cuffs(var/mob/user)
@@ -84,7 +88,8 @@
 			return
 		user.visible_message(SPAN_ITALIC("\The [user] removes \the [attached_cuffs] from \the [src]."), range = 2)
 		attached_cuffs.add_fingerprint(user)
-		slowdown_per_slot[slot_shoes] -= attached_cuffs.elastic ? 10 : 15
+		LAZYINITLIST(slowdown_per_slot[slot_shoes_str])
+		slowdown_per_slot[slot_shoes_str] -= attached_cuffs.elastic ? 10 : 15
 		verbs -= /obj/item/clothing/shoes/proc/remove_cuffs
 		attached_cuffs = null
 
@@ -95,7 +100,7 @@
 	if (hidden_item)
 		to_chat(user, SPAN_WARNING("\The [src] already holds \an [hidden_item]."))
 		return
-	if (!(I.item_flags & ITEM_FLAG_CAN_HIDE_IN_SHOES) || (I.slot_flags & SLOT_DENYPOCKET))
+	if (!(I.item_flags & ITEM_FLAG_CAN_HIDE_IN_SHOES))
 		to_chat(user, SPAN_WARNING("\The [src] can't hold the [I]."))
 		return
 	if (I.w_class > hidden_item_max_w_class)
@@ -140,7 +145,8 @@
 			if (attached_cuffs.health < 1)
 				visible_message(SPAN_WARNING("\The [attached_cuffs] attached to \the [src] snap and fall away!"), range = 1)
 				verbs -= /obj/item/clothing/shoes/proc/remove_cuffs
-				slowdown_per_slot[slot_shoes] -= attached_cuffs.elastic ? 10 : 15
+				LAZYINITLIST(slowdown_per_slot[slot_shoes_str])
+				slowdown_per_slot[slot_shoes_str] -= attached_cuffs.elastic ? 10 : 15
 				QDEL_NULL(attached_cuffs)
 	return
 

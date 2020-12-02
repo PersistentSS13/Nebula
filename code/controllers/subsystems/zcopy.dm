@@ -151,30 +151,26 @@ SUBSYSTEM_DEF(zcopy)
 		if (T.below.z_flags & ZM_FIX_BIGTURF)
 			T.z_flags |= ZM_FIX_BIGTURF	// this flag is infectious
 
-		// There's no point creating TOs for space, it'll draw under the Z-turf anyways.
-		if (!T.below.z_eventually_space || (T.z_flags & ZM_MIMIC_OVERWRITE))
-			if (T.z_flags & ZM_MIMIC_OVERWRITE)
-				// This openturf doesn't care about its icon, so we can just overwrite it.
-				if (T.below.bound_overlay)
-					QDEL_NULL(T.below.bound_overlay)
-				T.appearance = T.below
-				T.name = initial(T.name)
-				T.desc = initial(T.desc)
-				T.gender = initial(T.gender)
-				T.opacity = FALSE
-				T.plane = t_target
-			else
-				// Some openturfs have icons, so we can't overwrite their appearance.
-				if (!T.below.bound_overlay)
-					T.below.bound_overlay = new(T)
-				var/atom/movable/openspace/turf_overlay/TO = T.below.bound_overlay
-				TO.appearance = T.below
-				TO.name = T.name
-				TO.gender = T.gender	// Need to grab this too so PLURAL works properly in examine.
-				TO.opacity = FALSE
-				TO.plane = t_target
-		else if (T.below.bound_overlay)
-			QDEL_NULL(T.below.bound_overlay)
+		if (T.z_flags & ZM_MIMIC_OVERWRITE)
+			// This openturf doesn't care about its icon, so we can just overwrite it.
+			if (T.below.bound_overlay)
+				QDEL_NULL(T.below.bound_overlay)
+			T.appearance = T.below
+			T.name = initial(T.name)
+			T.desc = initial(T.desc)
+			T.gender = initial(T.gender)
+			T.opacity = FALSE
+			T.plane = t_target
+		else
+			// Some openturfs have icons, so we can't overwrite their appearance.
+			if (!T.below.bound_overlay)
+				T.below.bound_overlay = new(T)
+			var/atom/movable/openspace/turf_overlay/TO = T.below.bound_overlay
+			TO.appearance = T.below
+			TO.name = T.name
+			TO.gender = T.gender	// Need to grab this too so PLURAL works properly in examine.
+			TO.opacity = FALSE
+			TO.plane = t_target
 
 		T.queue_ao()	// TODO: non-rebuild updates seem to break pixel offsets, but should work in theory if that's fixed?
 
@@ -206,6 +202,12 @@ SUBSYSTEM_DEF(zcopy)
 						// This isn't enabled on other turfs that can layer normally as it breaks atom/shadower layer order (causing them to be lighter than intended.)
 						if (T.z_flags & ZM_FIX_BIGTURF)
 							override_depth = min((zstack_maximums[T.z] - object.z) + 1, OPENTURF_MAX_DEPTH)
+
+					if (/atom/movable/openspace/turf_overlay)
+						// If we're a turf overlay (the mimic for a non-OVERWRITE turf), we need to make sure copies of us respect space parallax too
+						if (T.z_eventually_space)
+							// Yes, this is an awful hack; I don't want to add yet another override_* var.
+							override_depth = OPENTURF_MAX_PLANE - SPACE_PLANE
 
 				var/atom/movable/openspace/overlay/OO = object.bound_overlay
 
@@ -314,14 +316,14 @@ SUBSYSTEM_DEF(zcopy)
 		if (istype(A, /atom/movable/openspace/overlay))
 			var/atom/movable/openspace/overlay/OO = A
 			var/atom/movable/AA = OO.associated_atom
-			out += "<li>\icon[A] plane [A.plane], layer [A.layer], depth [OO.depth], associated Z-level [AA.z] - [OO.type] copying [AA] ([AA.type], eventually [OO.mimiced_type])</li>"
+			out += "<li>[html_icon(A)] plane [A.plane], layer [A.layer], depth [OO.depth], associated Z-level [AA.z] - [OO.type] copying [AA] ([AA.type], eventually [OO.mimiced_type])</li>"
 		else if (isturf(A))
 			if (A == T)
-				out += "<li>\icon[A] plane [A.plane], layer [A.layer], depth [A:z_depth], Z-level [A.z] - [A] ([A.type]) - <font color='green'>SELF</font></li>"
+				out += "<li>[html_icon(A)] plane [A.plane], layer [A.layer], depth [A:z_depth], Z-level [A.z] - [A] ([A.type]) - <font color='green'>SELF</font></li>"
 			else	// foreign turfs - not visible here, but good for figuring out layering
-				out += "<li>\icon[A] plane [A.plane], layer [A.layer], depth [A:z_depth], Z-level [A.z] - [A] ([A.type]) - <font color='red'>FOREIGN</font></li>"
+				out += "<li>[html_icon(A)] plane [A.plane], layer [A.layer], depth [A:z_depth], Z-level [A.z] - [A] ([A.type]) - <font color='red'>FOREIGN</font></li>"
 		else
-			out += "<li>\icon[A] plane [A.plane], layer [A.layer], Z-level [A.z] - [A] ([A.type])</li>"
+			out += "<li>[html_icon(A)] plane [A.plane], layer [A.layer], Z-level [A.z] - [A] ([A.type])</li>"
 
 	out += "</ul>"
 

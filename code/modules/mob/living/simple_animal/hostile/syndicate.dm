@@ -41,7 +41,7 @@
 /mob/living/simple_animal/hostile/syndicate/melee
 	icon_state = "syndicatemelee"
 	icon_living = "syndicatemelee"
-	natural_weapon = /obj/item/melee/energy/sword/red/activated
+	natural_weapon = /obj/item/energy_blade/sword/red/activated
 	weapon2 = /obj/item/shield/energy
 	status_flags = 0
 
@@ -55,7 +55,6 @@
 			visible_message("<span class='danger'>\The [src] has been attacked with \the [O] by \the [user].</span>")
 		else
 			visible_message("<span class='danger'>\The [src] blocks the [O] with its shield!</span>")
-		//user.do_attack_animation(src)
 	else
 		to_chat(usr, "<span class='warning'>This weapon is ineffective, it does no damage.</span>")
 		visible_message("<span class='warning'>\The [user] gently taps \the [src] with \the [O].</span>")
@@ -115,6 +114,8 @@
 	min_gas = null
 	max_gas = null
 	minbodytemp = 0
+
+	bleed_colour = SYNTH_BLOOD_COLOUR
 
 	meat_type =     null
 	meat_amount =   0

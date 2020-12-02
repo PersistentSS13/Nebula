@@ -90,7 +90,7 @@ var/list/airlock_overlays = list()
 	var/emag_file = 'icons/obj/doors/station/emag.dmi'
 
 /obj/machinery/door/airlock/get_material()
-	return decls_repository.get_decl(mineral ? mineral : MAT_STEEL)
+	return decls_repository.get_decl(mineral ? mineral : /decl/material/solid/metal/steel)
 
 /obj/machinery/door/airlock/get_codex_value()
 	return "airlock"
@@ -540,6 +540,7 @@ About the new airlock wires panel:
 		if(src.isElectrified())
 			if(src.shock(user, 100))
 				return TRUE
+	. = ..()
 
 /obj/machinery/door/airlock/CanUseTopic(var/mob/user)
 	if(operating < 0) //emagged
@@ -634,7 +635,7 @@ About the new airlock wires panel:
 		cut_verb = "cutting"
 		cut_sound = 'sound/items/Welder.ogg'
 		cut_delay *= 0.66
-	else if(istype(item,/obj/item/melee/energy/blade) || istype(item,/obj/item/melee/energy/sword))
+	else if(istype(item,/obj/item/energy_blade/blade) || istype(item,/obj/item/energy_blade/sword))
 		cut_verb = "slicing"
 		cut_sound = "sparks"
 		cut_delay *= 0.66
@@ -643,11 +644,11 @@ About the new airlock wires panel:
 		cut_sound = 'sound/weapons/circsawhit.ogg'
 		cut_delay *= 1.5
 
-	else if(istype(item,/obj/item/material/twohanded/fireaxe))
+	else if(istype(item,/obj/item/twohanded/fireaxe))
 		//special case - zero delay, different message
 		if (src.lock_cut_state == BOLTS_EXPOSED)
 			return 0 //can't actually cut the bolts, go back to regular smashing
-		var/obj/item/material/twohanded/fireaxe/F = item
+		var/obj/item/twohanded/fireaxe/F = item
 		if (!F.wielded)
 			return 0
 		user.visible_message(
@@ -728,7 +729,7 @@ About the new airlock wires panel:
 		var/obj/item/weldingtool/W = C
 		if(!W.remove_fuel(0,user))
 			to_chat(user, SPAN_NOTICE("Your [W.name] doesn't have enough fuel."))
-			return
+			return TRUE
 		playsound(src, 'sound/items/Welder.ogg', 50, 1)
 		user.visible_message(SPAN_WARNING("\The [user] begins welding \the [src] [welded ? "open" : "closed"]!"),
 							SPAN_NOTICE("You begin welding \the [src] [welded ? "open" : "closed"]."))
@@ -737,10 +738,10 @@ About the new airlock wires panel:
 				playsound(src, 'sound/items/Welder2.ogg', 50, 1)
 				welded = !welded
 				update_icon()
-				return
+				return TRUE
 		else
 			to_chat(user, SPAN_NOTICE("You must remain still to complete this task."))
-			return
+			return TRUE
 
 	else if(isWirecutter(C) || isMultitool(C) || istype(C, /obj/item/assembly/signaler))
 		return wires.Interact(user)
@@ -757,9 +758,10 @@ About the new airlock wires panel:
 				open(1)
 			else
 				close(1)
+		return TRUE
 
-	if(istype(C, /obj/item/material/twohanded/fireaxe) && !arePowerSystemsOn() && !(user.a_intent == I_HURT))
-		var/obj/item/material/twohanded/fireaxe/F = C
+	if(istype(C, /obj/item/twohanded/fireaxe) && !arePowerSystemsOn() && !(user.a_intent == I_HURT))
+		var/obj/item/twohanded/fireaxe/F = C
 		if(F.is_held_twohanded(user))
 			if(locked)
 				to_chat(user, SPAN_WARNING("The airlock's bolts prevent it from being forced."))
@@ -774,6 +776,7 @@ About the new airlock wires panel:
 				to_chat(user, SPAN_WARNING("You need to be holding \the [C] in both hands to do that!"))
 			else
 				to_chat(user, SPAN_WARNING("You are too small to lever \the [src] open with \the [C]!"))
+		return TRUE
 
 
 	else if((stat & (BROKEN|NOPOWER)) && istype(user, /mob/living/simple_animal))
@@ -788,14 +791,14 @@ About the new airlock wires panel:
 				close(1)
 		else
 			visible_message(SPAN_NOTICE("\The [A] strains fruitlessly to force \the [src] [density ? "open" : "closed"]."))
-		return
+		return TRUE
 	else
 		return ..()
 
 /obj/machinery/door/airlock/bash(obj/item/I, mob/user)
 			//if door is unbroken, hit with fire axe using harm intent
-	if (istype(I, /obj/item/material/twohanded/fireaxe) && !(stat & BROKEN) && user.a_intent == I_HURT)
-		var/obj/item/material/twohanded/fireaxe/F = I
+	if (istype(I, /obj/item/twohanded/fireaxe) && !(stat & BROKEN) && user.a_intent == I_HURT)
+		var/obj/item/twohanded/fireaxe/F = I
 		if (F.wielded)
 			playsound(src, 'sound/weapons/smash.ogg', 100, 1)
 			health -= F.force_wielded * 2

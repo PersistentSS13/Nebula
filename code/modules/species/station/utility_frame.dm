@@ -1,5 +1,3 @@
-#define SPECIES_FRAME "Utility Frame"
-
 /datum/species/utility_frame
 	name =                  SPECIES_FRAME
 	name_plural =           "Utility Frames"
@@ -7,6 +5,7 @@
 	icobase =               'icons/mob/human_races/cyberlimbs/utility/body.dmi'
 	deform =                'icons/mob/human_races/cyberlimbs/utility/body.dmi'
 	limb_blend =            ICON_MULTIPLY
+	cyborg_noun = null
 
 	min_age =               1
 	max_age =               20
@@ -44,7 +43,7 @@
 		PLURAL
 	)
 	available_cultural_info = list(
-		TAG_CULTURE = list(CULTURE_OTHER)
+		TAG_CULTURE = list(CULTURE_SYNTHETIC)
 	)
 	has_organ = list(
 		BP_POSIBRAIN = /obj/item/organ/internal/posibrain,
@@ -54,7 +53,7 @@
 /datum/species/utility_frame/post_organ_rejuvenate(obj/item/organ/org, mob/living/carbon/human/H)
 	var/obj/item/organ/external/E = org
 	if(istype(E) && !BP_IS_PROSTHETIC(E))
-		E.robotize(SPECIES_FRAME)
+		E.robotize("Utility Frame")
 	var/obj/item/organ/external/head/head = H.organs_by_name[BP_HEAD]
 	if(istype(head))
 		head.glowing_eyes = TRUE
@@ -77,14 +76,6 @@
 
 /datum/species/utility_frame/disfigure_msg(var/mob/living/carbon/human/H)
 	. = SPAN_DANGER("The faceplate is dented and cracked!\n")
-
-/datum/robolimb/utility_frame
-	company = SPECIES_FRAME
-	desc = "This limb is extremely cheap and simplistic, with a raw steel frame and plastic casing."
-	icon = 'icons/mob/human_races/cyberlimbs/utility/body.dmi'
-	skintone = TRUE
-	species_restricted = list(SPECIES_FRAME)
-	limb_blend = ICON_MULTIPLY
 
 /datum/sprite_accessory/marking/frame
 	name = "Frame Department Stripe"

@@ -105,11 +105,16 @@
 	transition_to_game()
 	var/turf/spawn_turf
 
-	// Temporary, until spawning mechanics can be finalized.
-	for(var/obj/machinery/cryopod/C in SSmachines.machinery)
-		spawn_turf = locate(C.x, C.y, C.z)
-	if(!spawn_turf)
-		spawn_turf = locate(100,100,1)
+	var/used_chargen = FALSE
+	if(chargen_spawns && length(chargen_spawns))
+		spawn_turf = SSchargen.get_spawn_turf()
+		used_chargen = TRUE
+	else
+		for(var/turf/T in GLOB.latejoin_cryo)
+			if(locate(/mob) in T)
+				continue
+			spawn_turf = T
+
 	var/mob/living/carbon/human/new_character
 	var/datum/species/chosen_species
 	if(client.prefs.species)
@@ -126,6 +131,8 @@
 
 	if(!new_character)
 		new_character = new(spawn_turf)
+		if(used_chargen)
+			SSchargen.assign_spawn_pod(new_character, spawn_turf)
 
 	new_character.lastarea = get_area(spawn_turf)
 	client.prefs.copy_to(new_character)
@@ -204,10 +211,10 @@
 					permitted = 0
 
 				if(!permitted)
-					to_chat(H, "<span class='warning'>Your current species or whitelist status does not permit you to spawn with [thing]!</span>")
+					to_chat(H, SPAN_WARNING("Your current species or whitelist status does not permit you to spawn with [thing]!"))
 					continue
 
-				if(!G.slot || G.slot == slot_tie || (G.slot in loadout_taken_slots) || !G.spawn_on_mob(H, H.client.prefs.Gear()[G.display_name]))
+				if(!G.slot || (G.slot in loadout_taken_slots) || !G.spawn_on_mob(H, H.client.prefs.Gear()[G.display_name]))
 					spawn_in_storage.Add(G)
 				else
 					loadout_taken_slots.Add(G.slot)

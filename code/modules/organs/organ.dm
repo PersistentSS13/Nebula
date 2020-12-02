@@ -1,11 +1,10 @@
-var/list/organ_cache = list()
-
 /obj/item/organ
 	name = "organ"
 	icon = 'icons/obj/surgery.dmi'
 	germ_level = 0
 	w_class = ITEM_SIZE_TINY
 	default_action_type = /datum/action/item_action/organ
+	material = /decl/material/solid/meat
 
 	// Strings.
 	var/organ_tag = "organ"           // Unique identifier.
@@ -25,12 +24,7 @@ var/list/organ_cache = list()
 	var/min_broken_damage = 30        // Damage before becoming broken
 	var/max_damage = 30               // Damage cap
 	var/rejecting                     // Is this organ already being rejected?
-
 	var/death_time
-
-	// Bioprinter stats
-	var/can_be_printed = TRUE
-	var/print_cost
 
 /obj/item/organ/Destroy()
 	owner = null
@@ -74,7 +68,7 @@ var/list/organ_cache = list()
 	species.resize_organ(src)
 
 	create_reagents(5 * (w_class-1)**2)
-	reagents.add_reagent(/decl/material/chem/nutriment/protein, reagents.maximum_volume)
+	reagents.add_reagent(/decl/material/liquid/nutriment/protein, reagents.maximum_volume)
 
 	update_icon()
 
@@ -115,7 +109,7 @@ var/list/organ_cache = list()
 
 	if(!owner && reagents)
 		if(prob(40) && reagents.total_volume >= 0.1)
-			if(reagents.has_reagent(/decl/material/chem/blood))
+			if(reagents.has_reagent(/decl/material/liquid/blood))
 				blood_splatter(get_turf(src), src, 1)
 			reagents.remove_any(0.1)
 		if(config.organs_decay)
@@ -154,7 +148,7 @@ var/list/organ_cache = list()
 /obj/item/organ/proc/handle_germ_effects()
 	//** Handle the effects of infections
 	var/germ_immunity = owner.get_immunity() //reduces the amount of times we need to call this proc
-	var/antibiotics = REAGENT_VOLUME(owner.reagents, /decl/material/chem/antibiotics)
+	var/antibiotics = REAGENT_VOLUME(owner.reagents, /decl/material/liquid/antibiotics)
 
 	if (germ_level > 0 && germ_level < INFECTION_LEVEL_ONE/2 && prob(germ_immunity*0.3))
 		germ_level--
@@ -203,7 +197,7 @@ var/list/organ_cache = list()
 						germ_level += rand(2,3)
 					if(501 to INFINITY)
 						germ_level += rand(3,5)
-						owner.reagents.add_reagent(/decl/material/chem/toxin, rand(1,2))
+						owner.reagents.add_reagent(/decl/material/liquid/coagulated_blood, rand(1,2))
 
 /obj/item/organ/proc/receive_chem(chemical)
 	return 0
@@ -249,10 +243,12 @@ var/list/organ_cache = list()
 	if (can_recover())
 		damage = between(0, damage - round(amount, 0.1), max_damage)
 
-
-/obj/item/organ/proc/robotize() //Being used to make robutt hearts, etc
+/obj/item/organ/proc/robotize(var/company, var/skip_prosthetics = 0, var/keep_organs = 0, var/apply_material = /decl/material/solid/metal/steel)
 	status = ORGAN_PROSTHETIC
 	reagents?.clear_reagents()
+	material = decls_repository.get_decl(apply_material)
+	matter = null
+	create_matter()
 
 /obj/item/organ/proc/mechassist() //Used to add things like pacemakers, etc
 	status = ORGAN_ASSISTED
@@ -280,11 +276,12 @@ var/list/organ_cache = list()
 	if(!BP_IS_PROSTHETIC(src) && species && reagents?.total_volume < 5)
 		owner.vessel.trans_to(src, 5 - reagents.total_volume, 1, 1)
 
-	if(owner && vital)
+	if(vital)
 		if(user)
 			admin_attack_log(user, owner, "Removed a vital organ ([src]).", "Had a vital organ ([src]) removed.", "removed a vital organ ([src]) from")
 		owner.death()
-
+	screen_loc = null
+	owner.client?.screen -= src
 	owner = null
 
 /obj/item/organ/proc/replaced(var/mob/living/carbon/human/target, var/obj/item/organ/external/affected)

@@ -54,41 +54,14 @@
 		TAG_FACTION =   FACTION_OTHER
 	)
 
-	var/list/no_touchie = list(/obj/item/mirror,
-							   /obj/item/storage/mirror)
+	ai = /datum/ai/monkey
 
 /datum/species/monkey/New()
 	equip_adjust = list(
-		slot_l_hand_str = list("[NORTH]" = list("x" = 1, "y" = 3), "[EAST]" = list("x" = -3, "y" = 2), "[SOUTH]" = list("x" = -1, "y" = 3), "[WEST]" = list("x" = 3, "y" = 2)),
-		slot_r_hand_str = list("[NORTH]" = list("x" = -1, "y" = 3), "[EAST]" = list("x" = 3, "y" = 2), "[SOUTH]" = list("x" = 1, "y" = 3), "[WEST]" = list("x" = -3, "y" = 2)),
+		BP_L_HAND = list("[NORTH]" = list("x" = 1, "y" = 3), "[EAST]" = list("x" = -3, "y" = 2), "[SOUTH]" = list("x" = -1, "y" = 3), "[WEST]" = list("x" = 3, "y" = 2)),
+		BP_R_HAND = list("[NORTH]" = list("x" = -1, "y" = 3), "[EAST]" = list("x" = 3, "y" = 2), "[SOUTH]" = list("x" = 1, "y" = 3), "[WEST]" = list("x" = -3, "y" = 2)),
 		slot_shoes_str = list("[NORTH]" = list("x" = 0, "y" = 7), "[EAST]" = list("x" = -1, "y" = 7), "[SOUTH]" = list("x" = 0, "y" = 7), "[WEST]" = list("x" = 1, "y" = 7)),
 		slot_head_str = list("[NORTH]" = list("x" = 0, "y" = 0), "[EAST]" = list("x" = -2, "y" = 0), "[SOUTH]" = list("x" = 0, "y" = 0), "[WEST]" = list("x" = 2, "y" = 0)),
 		slot_wear_mask_str = list("[NORTH]" = list("x" = 0, "y" = 0), "[EAST]" = list("x" = -1, "y" = 0), "[SOUTH]" = list("x" = 0, "y" = 0), "[WEST]" = list("x" = 1, "y" = 0))
 	)
 	..()
-
-/datum/species/monkey/handle_npc(var/mob/living/carbon/human/H)
-	if(H.stat != CONSCIOUS)
-		return
-	if(prob(33) && isturf(H.loc) && !LAZYLEN(H.grabbed_by)) //won't move if being pulled
-		H.SelfMove(pick(GLOB.cardinal))
-
-	var/obj/held = H.get_active_hand()
-	if(held && prob(1))
-		var/turf/T = get_random_turf_in_range(H, 7, 2)
-		if(T)
-			if(istype(held, /obj/item/gun) && prob(80))
-				var/obj/item/gun/G = held
-				G.Fire(T, H)
-			else
-				H.throw_item(T)
-		else
-			H.unequip_item()
-	if(!held && !H.restrained() && prob(5))
-		var/list/touchables = list()
-		for(var/obj/O in range(1,get_turf(H)))
-			if(O.simulated && O.Adjacent(H) && !is_type_in_list(O, no_touchie))
-				touchables += O
-		if(touchables.len)
-			var/obj/touchy = pick(touchables)
-			touchy.attack_hand(H)

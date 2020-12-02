@@ -10,8 +10,8 @@
 	equipment = list(
 		/obj/item/storage/plants,
 		/obj/item/wirecutters/clippers,
-		/obj/item/material/minihoe/unbreakable,
-		/obj/item/material/hatchet/unbreakable,
+		/obj/item/minihoe/unbreakable,
+		/obj/item/hatchet/unbreakable,
 		/obj/item/chems/glass/bucket,
 		/obj/item/scalpel/laser1,
 		/obj/item/circular_saw,
@@ -20,7 +20,7 @@
 		/obj/item/scanner/plant,
 		/obj/item/robot_harvester
 	)
-	emag = /obj/item/melee/energy/machete
+	emag = /obj/item/energy_blade/machete
 	skills = list(
 		SKILL_LITERACY  = SKILL_ADEPT,
 		SKILL_BOTANY    = SKILL_MAX,

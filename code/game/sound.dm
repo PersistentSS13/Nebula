@@ -36,8 +36,11 @@ var/const/FALLOFF_SOUNDS = 0.5
 		volume *= M.get_sound_volume_multiplier()
 
 	var/turf/T = get_turf(listener)
-	var/datum/gas_mixture/hearer_env = T.return_air()
-	var/datum/gas_mixture/source_env = turf_source.return_air()
+	var/datum/gas_mixture/hearer_env = T?.return_air()
+	var/datum/gas_mixture/source_env = turf_source?.return_air()
+
+	if(!hearer_env || !source_env)
+		return 0
 
 	var/pressure_factor = 1.0
 	if (hearer_env && source_env)
@@ -77,7 +80,8 @@ var/const/FALLOFF_SOUNDS = 0.5
 			S.frequency = get_rand_frequency()
 
 	var/turf/T = get_turf(src)
-	S.volume = adjust_volume_for_hearer(S.volume, turf_source, src)
+	if(!is_global)
+		S.volume = adjust_volume_for_hearer(S.volume, turf_source, src)
 	// 3D sounds, the technology is here!
 
 	if(isturf(turf_source))

@@ -21,6 +21,7 @@
 	base_type = /obj/machinery/button/buildable
 	construct_state = /decl/machine_construction/wall_frame/panel_closed/simple
 	frame_type = /obj/item/frame/button
+	required_interaction_dexterity = DEXTERITY_SIMPLE_MACHINES
 
 	var/active = FALSE
 	var/operating = FALSE
@@ -117,7 +118,7 @@
 
 //alternate button with the same functionality, except has a door control sprite instead
 /obj/machinery/button/alternate
-	icon = 'icons/obj/stationobjs.dmi'
+	icon = 'icons/obj/machines/button_door.dmi'
 	icon_state = "doorctrl"
 
 /obj/machinery/button/alternate/on_update_icon()
@@ -145,7 +146,7 @@
 
 //alternate button with the same toggle functionality, except has a door control sprite instead
 /obj/machinery/button/toggle/alternate
-	icon = 'icons/obj/stationobjs.dmi'
+	icon = 'icons/obj/machines/button_door.dmi'
 	icon_state = "doorctrl"
 
 /obj/machinery/button/toggle/alternate/on_update_icon()
@@ -166,7 +167,7 @@
 //-------------------------------
 
 /obj/machinery/button/alternate/door
-	icon = 'icons/obj/stationobjs.dmi'
+	icon = 'icons/obj/machines/button_door.dmi'
 	icon_state = "doorctrl"
 	stock_part_presets = list(/decl/stock_part_preset/radio/basic_transmitter/button/door)
 

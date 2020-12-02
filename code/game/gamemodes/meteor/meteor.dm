@@ -5,7 +5,7 @@
 /datum/game_mode/meteor
 	name = "Meteor"
 	round_description = "You are about to enter an asteroid belt!"
-	extended_round_description = "We are on an unavoidable collision course with an asteroid field. You have only a moment to prepare before you are barraged by dust and meteors. As if it was not enough, all kinds of negative events seem to happen more frequently. Good Luck."
+	extended_round_description = "We are on an unavoidable collision course with an asteroid field. You have only a moment to prepare before you are barraged by dust and meteors. As if it was not enough, all kinds of negative events seem to happen more frequently. Good luck."
 	config_tag = "meteor"
 	required_players = 15				// Definitely not good for low-pop
 	votable = 1
@@ -63,7 +63,7 @@
 	if(GLOB.using_map.use_overmap)
 		var/area/map = locate(/area/overmap)
 		for(var/turf/T in map)
-			T.overlays += image('icons/obj/overmap.dmi', "meteor[rand(1,4)]")
+			T.add_overlay(image('icons/obj/overmap.dmi', "meteor[rand(1,4)]"))
 	next_wave = round_duration_in_ticks + meteor_wave_delay
 
 /datum/game_mode/meteor/process()

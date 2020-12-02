@@ -1,5 +1,6 @@
 /obj/machinery/network
 	name = "base network machine"
+	icon = 'icons/obj/machines/tcomms/bus.dmi'
 	icon_state = "bus"
 	density = 1
 
@@ -27,10 +28,11 @@
 			return TRUE
 
 /obj/machinery/network/on_update_icon()
-	if(operable())
-		icon_state = panel_open ? "bus_o" : "bus"
-	else
-		icon_state = panel_open ? "bus_o_off" : "bus_off"
+	icon_state = initial(icon_state)
+	if(panel_open)
+		icon_state = "[icon_state]_o" 
+	if(!operable())
+		icon_state = "[icon_state]_off"
 
 /obj/machinery/network/proc/produce_heat()
 	if (!produces_heat || !use_power || !operable())

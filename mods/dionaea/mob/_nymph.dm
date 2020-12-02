@@ -3,6 +3,13 @@
 #define DIONA_SCREEN_LOC_INTENT "EAST-2,SOUTH:5"
 #define DIONA_SCREEN_LOC_HEALTH ui_alien_health
 
+/datum/extension/hattable/diona_nymph/wear_hat(mob/wearer, obj/item/clothing/head/new_hat)
+	var/mob/living/carbon/alien/diona/doona = wearer
+	if(istype(doona) && (!doona.holding_item || doona.holding_item != new_hat))
+		. = ..()
+	if(.)
+		hat?.screen_loc = DIONA_SCREEN_LOC_HAT
+
 /mob/living/carbon/alien/diona
 	name = "diona nymph"
 	desc = "It's a little skittery critter. Chirp."
@@ -31,9 +38,8 @@
 	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_NO_REACT
 	hud_type = /datum/hud/diona_nymph
 
-	var/emote_prob = 1
-	var/wander_prob = 33
-	var/obj/item/hat
+	ai = /datum/ai/nymph
+
 	var/obj/item/holding_item
 	var/mob/living/carbon/alien/diona/next_nymph
 	var/mob/living/carbon/alien/diona/previous_nymph
@@ -50,14 +56,13 @@
 		if(holding_item)
 			holding_item.screen_loc = DIONA_SCREEN_LOC_HELD
 			client.screen |= holding_item
-		if(hat)
-			hat.screen_loc = DIONA_SCREEN_LOC_HAT
-			client.screen |= hat
+		var/datum/extension/hattable/hattable = get_extension(src, /datum/extension/hattable)
+		if(hattable?.hat)
+			hattable.hat.screen_loc = DIONA_SCREEN_LOC_HAT
+			client.screen |= hattable.hat
 
 /mob/living/carbon/alien/diona/sterile
 	name = "sterile nymph"
-	emote_prob =  0
-	wander_prob = 0
 
 /mob/living/carbon/alien/diona/sterile/Initialize(var/mapload)
 	. = ..(mapload, 0)
@@ -66,6 +71,8 @@
 
 	add_language(/decl/language/diona)
 	add_language(/decl/language/human/common, 0)
+
+	set_extension(src, /datum/extension/hattable/diona_nymph, 0, -8)
 
 	eyes = image(icon = icon, icon_state = "eyes_[icon_state]")
 	eyes.layer = EYE_GLOW_LAYER
@@ -84,17 +91,10 @@
 /mob/living/carbon/alien/diona/examine(mob/user)
 	. = ..()
 	if(holding_item)
-		to_chat(user, "<span class='notice'>It is holding \icon[holding_item] \a [holding_item].</span>")
-	if(hat)
-		to_chat(user, "<span class='notice'>It is wearing \icon[hat] \a [hat].</span>")
+		to_chat(user, SPAN_NOTICE("It is holding [html_icon(holding_item)] \a [holding_item]."))
+	var/datum/extension/hattable/hattable = get_extension(src, /datum/extension/hattable)
+	if(hattable?.hat)
+		to_chat(user, SPAN_NOTICE("It is wearing [html_icon(hattable.hat)] \a [hattable.hat]."))
 
 /mob/living/carbon/alien/diona/has_dexterity()
 	return FALSE
-
-/mob/living/carbon/alien/diona/proc/handle_npc(var/mob/living/carbon/alien/diona/D)
-	if(D.stat != CONSCIOUS)
-		return
-	if(prob(wander_prob) && !LAZYLEN(grabbed_by) && isturf(D.loc)) //won't move if being pulled
-		SelfMove(pick(GLOB.cardinal))
-	if(prob(emote_prob))
-		D.emote(pick("scratch","jump","chirp","tail"))

@@ -36,7 +36,7 @@
 
 /obj/machinery/door/window/proc/shatter(var/display_message = 1)
 	frame_type = null
-	new /obj/item/material/shard(loc)
+	new /obj/item/shard(loc)
 	playsound(src, "shatter", 70, 1)
 	if(display_message)
 		visible_message("[src] shatters!")
@@ -95,6 +95,7 @@
 	if (!src.operating) //in case of emag
 		src.operating = 1
 
+	icon_state = "[src.base_state]open"
 	flick("[src.base_state]opening", src)
 	playsound(src.loc, 'sound/machines/windowdoor.ogg', 100, 1)
 	sleep(10)
@@ -137,6 +138,7 @@
 			visible_message("<span class='danger'>[user] smashes against the [src.name].</span>", 1)
 			take_damage(25)
 			return TRUE
+	return ..()
 
 /obj/machinery/door/window/emag_act(var/remaining_charges, var/mob/user)
 	if (density && operable())
@@ -175,7 +177,7 @@
 
 /obj/machinery/door/window/bash(obj/item/I, mob/user)
 	//Emags and ninja swords? You may pass.
-	if (istype(I, /obj/item/melee/energy/blade))
+	if (istype(I, /obj/item/energy_blade/blade))
 		if(emag_act(10, user))
 			var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
 			spark_system.set_up(5, 0, src.loc)

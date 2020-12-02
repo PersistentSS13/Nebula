@@ -49,7 +49,7 @@
 		return 100
 	return round((oxygen_deprivation/species.total_health)*100)
 
-/obj/item/organ/internal/lungs/robotize()
+/obj/item/organ/internal/lungs/robotize(var/company, var/skip_prosthetics, var/keep_organs, var/apply_material = /decl/material/solid/metal/steel)
 	. = ..()
 	icon_state = "lungs-prosthetic"
 
@@ -67,9 +67,9 @@
  */
 /obj/item/organ/internal/lungs/proc/sync_breath_types()
 	min_breath_pressure = species.breath_pressure
-	breath_type = species.breath_type ? species.breath_type : MAT_OXYGEN
-	poison_types = species.poison_types ? species.poison_types : list(MAT_PHORON = TRUE)
-	exhale_type = species.exhale_type ? species.exhale_type : MAT_CO2
+	breath_type = species.breath_type ? species.breath_type : /decl/material/gas/oxygen
+	poison_types = species.poison_types ? species.poison_types : list(/decl/material/gas/chlorine = TRUE)
+	exhale_type = species.exhale_type ? species.exhale_type : /decl/material/gas/carbon_dioxide
 
 /obj/item/organ/internal/lungs/Process()
 	..()
@@ -105,7 +105,7 @@
 			else
 				to_chat(owner, "<span class='danger'>You're having trouble getting enough [breath_type]!</span>")
 
-			owner.losebreath += round(damage/2)
+			owner.losebreath = max(3, owner.losebreath)
 
 /obj/item/organ/internal/lungs/proc/rupture()
 	var/obj/item/organ/external/parent = owner.get_organ(parent_organ)
@@ -153,7 +153,10 @@
 	safe_pressure_min *= 1 + rand(1,4) * damage/max_damage
 
 	if(!forced && owner.chem_effects[CE_BREATHLOSS] && !owner.chem_effects[CE_STABLE]) //opiates are bad mmkay
-		safe_pressure_min *= 1 + rand(1,4) * owner.chem_effects[CE_BREATHLOSS]
+		safe_pressure_min *= 1 + owner.chem_effects[CE_BREATHLOSS]
+	
+	if(owner.lying)
+		safe_pressure_min *= 0.8
 
 	var/failed_inhale = 0
 	var/failed_exhale = 0

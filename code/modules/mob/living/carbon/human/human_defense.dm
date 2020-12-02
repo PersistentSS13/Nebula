@@ -9,7 +9,7 @@ meteor_act
 
 /mob/living/carbon/human/bullet_act(var/obj/item/projectile/P, var/def_zone)
 
-	def_zone = check_zone(def_zone)
+	def_zone = check_zone(def_zone, src)
 	if(!has_organ(def_zone))
 		return PROJECTILE_FORCE_MISS //if they don't have the organ in question then the projectile just passes by.
 
@@ -29,7 +29,7 @@ meteor_act
 	return blocked
 
 /mob/living/carbon/human/stun_effect_act(var/stun_amount, var/agony_amount, var/def_zone)
-	var/obj/item/organ/external/affected = get_organ(check_zone(def_zone))
+	var/obj/item/organ/external/affected = get_organ(def_zone)
 	if(!affected)
 		return
 
@@ -59,13 +59,14 @@ meteor_act
 	return ..()
 
 /mob/living/carbon/human/get_armors_by_zone(obj/item/organ/external/def_zone, damage_type, damage_flags)
-	. = ..()
 	if(!def_zone)
 		def_zone = ran_zone()
 	if(!istype(def_zone))
-		def_zone = get_organ(check_zone(def_zone))
+		def_zone = get_organ(def_zone)
 	if(!def_zone)
-		return
+		return ..()
+
+	. = list()
 	var/list/protective_gear = list(head, wear_mask, wear_suit, w_uniform, gloves, shoes)
 	for(var/obj/item/clothing/gear in protective_gear)
 		if(gear.accessories.len)
@@ -78,6 +79,9 @@ meteor_act
 			var/armor = get_extension(gear, /datum/extension/armor)
 			if(armor)
 				. += armor
+
+	// Add inherent armor to the end of list so that protective equipment is checked first
+	. += ..()
 
 //this proc returns the Siemens coefficient of electrical resistivity for a particular external organ.
 /mob/living/carbon/human/proc/get_siemens_coefficient_organ(var/obj/item/organ/external/def_zone)
@@ -100,7 +104,7 @@ meteor_act
 		if(!bp)	continue
 		if(bp && istype(bp ,/obj/item/clothing))
 			var/obj/item/clothing/C = bp
-			if(C.body_parts_covered & HEAD)
+			if(C.body_parts_covered & SLOT_HEAD)
 				return 1
 	return 0
 
@@ -108,16 +112,16 @@ meteor_act
 /mob/living/carbon/human/check_mouth_coverage()
 	var/list/protective_gear = list(head, wear_mask, wear_suit, w_uniform)
 	for(var/obj/item/gear in protective_gear)
-		if(istype(gear) && (gear.body_parts_covered & FACE) && !(gear.item_flags & ITEM_FLAG_FLEXIBLEMATERIAL))
+		if(istype(gear) && (gear.body_parts_covered & SLOT_FACE) && !(gear.item_flags & ITEM_FLAG_FLEXIBLEMATERIAL))
 			return gear
-	return null
 
 /mob/living/carbon/human/proc/check_shields(var/damage = 0, var/atom/damage_source = null, var/mob/attacker = null, var/def_zone = null, var/attack_text = "the attack")
-	for(var/obj/item/shield in list(l_hand, r_hand, wear_suit))
-		if(!shield) continue
-		. = shield.handle_shield(src, damage, damage_source, attacker, def_zone, attack_text)
-		if(.) return
-	return 0
+	var/list/checking_slots = get_held_items()
+	LAZYDISTINCTADD(checking_slots, wear_suit)
+	for(var/obj/item/shield in checking_slots)
+		if(shield.handle_shield(src, damage, damage_source, attacker, def_zone, attack_text))
+			return TRUE
+	return FALSE
 
 /mob/living/carbon/human/resolve_item_attack(obj/item/I, mob/living/user, var/target_zone)
 
@@ -307,7 +311,7 @@ meteor_act
 
 		var/zone = BP_CHEST
 		if (TT.target_zone)
-			zone = check_zone(TT.target_zone)
+			zone = check_zone(TT.target_zone, src)
 		else
 			zone = ran_zone()	//Hits a random part of the body, -was already geared towards the chest
 
@@ -322,15 +326,13 @@ meteor_act
 			else if(shield_check)
 				return
 
-		if(!zone)
-			visible_message("<span class='notice'>\The [O] misses [src] narrowly!</span>")
+		var/obj/item/organ/external/affecting = (zone && get_organ(zone))
+		if(!affecting)
+			visible_message(SPAN_NOTICE("\The [O] misses \the [src] narrowly!"))
 			return
 
-		var/obj/item/organ/external/affecting = get_organ(zone)
-		var/hit_area = affecting.name
 		var/datum/wound/created_wound
-
-		src.visible_message("<span class='warning'>\The [src] has been hit in the [hit_area] by \the [O].</span>")
+		visible_message(SPAN_DANGER("\The [src] has been hit in \the [affecting.name] by \the [O]."))
 		created_wound = apply_damage(throw_damage, dtype, zone, O.damage_flags(), O, O.armor_penetration)
 
 		if(TT.thrower)
@@ -369,7 +371,7 @@ meteor_act
 		affecting.embed(O, supplied_wound = supplied_wound)
 
 /mob/living/carbon/human/proc/bloody_hands(var/mob/living/source, var/amount = 2)
-	var/obj/item/clothing/gloves/gloves = get_equipped_item(slot_gloves)
+	var/obj/item/clothing/gloves/gloves = get_equipped_item(slot_gloves_str)
 	if(istype(gloves))
 		gloves.add_blood(source)
 		gloves.transfer_blood = amount
@@ -420,19 +422,19 @@ meteor_act
 	for(var/obj/item/clothing/C in src.get_equipped_items())
 		if(C.permeability_coefficient == 1 || !C.body_parts_covered)
 			continue
-		if(C.body_parts_covered & HEAD)
+		if(C.body_parts_covered & SLOT_HEAD)
 			perm_by_part["head"] *= C.permeability_coefficient
-		if(C.body_parts_covered & UPPER_TORSO)
+		if(C.body_parts_covered & SLOT_UPPER_BODY)
 			perm_by_part["upper_torso"] *= C.permeability_coefficient
-		if(C.body_parts_covered & LOWER_TORSO)
+		if(C.body_parts_covered & SLOT_LOWER_BODY)
 			perm_by_part["lower_torso"] *= C.permeability_coefficient
-		if(C.body_parts_covered & LEGS)
+		if(C.body_parts_covered & SLOT_LEGS)
 			perm_by_part["legs"] *= C.permeability_coefficient
-		if(C.body_parts_covered & FEET)
+		if(C.body_parts_covered & SLOT_FEET)
 			perm_by_part["feet"] *= C.permeability_coefficient
-		if(C.body_parts_covered & ARMS)
+		if(C.body_parts_covered & SLOT_ARMS)
 			perm_by_part["arms"] *= C.permeability_coefficient
-		if(C.body_parts_covered & HANDS)
+		if(C.body_parts_covered & SLOT_HANDS)
 			perm_by_part["hands"] *= C.permeability_coefficient
 
 	for(var/part in perm_by_part)

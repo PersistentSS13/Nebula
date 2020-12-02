@@ -39,7 +39,7 @@
 		T = gender_datums[PLURAL]
 	else
 		if(icon)
-			msg += "\icon[icon] " //fucking BYOND: this should stop dreamseeker crashing if we -somehow- examine somebody before their icon is generated
+			msg += "[html_icon(icon)] " //fucking BYOND: this should stop dreamseeker crashing if we -somehow- examine somebody before their icon is generated
 
 	if(!T)
 		// Just in case someone VVs the gender to something strange. It'll runtime anyway when it hits usages, better to CRASH() now with a helpful message.
@@ -81,13 +81,12 @@
 	if(back)
 		msg += "[T.He] [T.has] [back.get_examine_line()] on [T.his] back.\n"
 
-	//left hand
-	if(l_hand)
-		msg += "[T.He] [T.is] holding [l_hand.get_examine_line()] in [T.his] left hand.\n"
-
-	//right hand
-	if(r_hand)
-		msg += "[T.He] [T.is] holding [r_hand.get_examine_line()] in [T.his] right hand.\n"
+	//held items
+	for(var/bp in held_item_slots)
+		var/datum/inventory_slot/inv_slot = LAZYACCESS(held_item_slots, bp)
+		var/obj/item/organ/external/E = organs_by_name[bp]
+		if(inv_slot?.holding)
+			msg += "[T.He] [T.is] holding [inv_slot.holding.get_examine_line()] in [T.his] [E.name].\n"
 
 	//gloves
 	if(gloves && !skipgloves)
@@ -128,13 +127,13 @@
 	//handcuffed?
 	if(handcuffed)
 		if(istype(handcuffed, /obj/item/handcuffs/cable))
-			msg += "<span class='warning'>[T.He] [T.is] \icon[handcuffed] restrained with cable!</span>\n"
+			msg += "<span class='warning'>[T.He] [T.is] [html_icon(handcuffed)] restrained with cable!</span>\n"
 		else
-			msg += "<span class='warning'>[T.He] [T.is] \icon[handcuffed] handcuffed!</span>\n"
+			msg += "<span class='warning'>[T.He] [T.is] [html_icon(handcuffed)] handcuffed!</span>\n"
 
 	//buckled
 	if(buckled)
-		msg += "<span class='warning'>[T.He] [T.is] \icon[buckled] buckled to [buckled]!</span>\n"
+		msg += "<span class='warning'>[T.He] [T.is] [html_icon(buckled)] buckled to [buckled]!</span>\n"
 
 	//Jitters
 	if(is_jittery)
@@ -176,8 +175,11 @@
 					else
 						to_chat(user, "<span class='deadsay'>[T.He] [T.has] a pulse!</span>")
 
-	if(fire_stacks)
-		msg += "[T.He] looks flammable.\n"
+	if(fire_stacks > 0)
+		msg += "[T.He] is covered in flammable liquid!\n"
+	else if(fire_stacks < 0)
+		msg += "[T.He] [T.is] soaking wet.\n"
+
 	if(on_fire)
 		msg += "<span class='warning'>[T.He] [T.is] on fire!.</span>\n"
 

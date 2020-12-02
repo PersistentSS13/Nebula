@@ -1,7 +1,7 @@
 /obj/structure/noticeboard
 	name = "notice board"
 	desc = "A board for pinning important notices upon."
-	icon = 'icons/obj/stationobjs.dmi'
+	icon = 'icons/obj/structures/noticeboard.dmi'
 	icon_state = "nboard00"
 	density = 0
 	anchored = 1
@@ -165,9 +165,7 @@
 		var/obj/item/P = locate(href_list["write"])
 		if(!P)
 			return
-		var/obj/item/pen/pen = user.r_hand
-		if(!istype(pen))
-			pen = user.l_hand
+		var/obj/item/pen/pen = locate() in user.get_held_items()
 		if(istype(pen))
 			add_fingerprint(user)
 			P.attackby(pen, user)

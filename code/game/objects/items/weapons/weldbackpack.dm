@@ -10,7 +10,7 @@
 
 /obj/item/weldpack/Initialize()
 	create_reagents(max_fuel)
-	reagents.add_reagent(/decl/material/chem/fuel, max_fuel)
+	reagents.add_reagent(/decl/material/liquid/fuel, max_fuel)
 
 	. = ..()
 
@@ -61,7 +61,7 @@
 		return
 
 /obj/item/weldpack/attack_hand(mob/user)
-	if(welder && user.get_inactive_hand() == src)
+	if(welder && user.is_holding_offhand(src))
 		user.put_in_hands(welder)
 		user.visible_message("[user] removes \the [welder] from \the [src].", "You remove \the [welder] from \the [src].")
 		welder = null
@@ -80,7 +80,7 @@
 
 /obj/item/weldpack/examine(mob/user)
 	. = ..()
-	to_chat(user, text("\icon[] [] units of fuel left!", src, src.reagents.total_volume))
+	to_chat(user, "[html_icon(src)] [reagents.total_volume] unit\s of fuel left!")
 
 	if(welder)
 		to_chat(user, "\The [welder] is attached.")

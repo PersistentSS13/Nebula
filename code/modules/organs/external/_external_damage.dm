@@ -10,6 +10,10 @@ obj/item/organ/external/take_general_damage(var/amount, var/silent = FALSE)
 	take_external_damage(amount)
 
 /obj/item/organ/external/proc/take_external_damage(brute, burn, damage_flags, used_weapon = null)
+	
+	if(!owner)
+		return
+
 	brute = round(brute * get_brute_mod(damage_flags), 0.1)
 	burn = round(burn * get_burn_mod(damage_flags), 0.1)
 
@@ -282,26 +286,23 @@ obj/item/organ/external/take_general_damage(var/amount, var/silent = FALSE)
 	if(agony_amount && owner && can_feel_pain())
 		agony_amount -= (owner.chem_effects[CE_PAINKILLER]/2)//painkillers does wonders!
 		agony_amount += get_pain()
-		if(agony_amount < 5) return
+		if(agony_amount < 5) 
+			return
 
-		if(limb_flags & ORGAN_FLAG_CAN_GRASP)
-			if(prob((agony_amount/max_damage)*100))
-				owner.grasp_damage_disarm(src)
-				return 1
+		if(check_pain_disarm())
+			return TRUE
 
-		else if((limb_flags & ORGAN_FLAG_CAN_STAND))
+		if(limb_flags & ORGAN_FLAG_CAN_STAND)
 			if(prob((agony_amount/max_damage)*100))
 				owner.stance_damage_prone(src)
-				return 1
+				return TRUE
 
 		else if(agony_amount > 0.5 * max_damage)
-			owner.visible_message("<span class='warning'>[owner] reels in pain!</span>")
+			owner.visible_message(SPAN_WARNING("\The [owner] reels in pain!"))
 			if(has_genitals() || agony_amount > max_damage)
 				owner.Weaken(4)
 			else
 				owner.Stun(4)
-				owner.drop_l_hand()
-				owner.drop_r_hand()
 			return 1
 
 /obj/item/organ/external/proc/get_agony_multiplier()

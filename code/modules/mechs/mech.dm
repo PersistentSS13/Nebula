@@ -12,7 +12,8 @@
 	status_flags = PASSEMOTES
 	a_intent =     I_HURT
 	mob_size =     MOB_SIZE_LARGE
-	
+	atom_flags = ATOM_FLAG_SHIELD_CONTENTS | ATOM_FLAG_NO_TEMP_CHANGE
+
 	meat_type = null
 	meat_amount = 0
 	skin_material = null
@@ -66,9 +67,9 @@
 	// Interface stuff.
 	var/list/hud_elements = list()
 	var/list/hardpoint_hud_elements = list()
-	var/obj/screen/movable/exosuit/health/hud_health
-	var/obj/screen/movable/exosuit/toggle/hatch_open/hud_open
-	var/obj/screen/movable/exosuit/power/hud_power
+	var/obj/screen/exosuit/health/hud_health
+	var/obj/screen/exosuit/toggle/hatch_open/hud_open
+	var/obj/screen/exosuit/power/hud_power
 
 /mob/living/exosuit/is_flooded(lying_mob, absolute)
 	. = (body && body.pilot_coverage >= 100 && hatch_closed) ? FALSE : ..()
@@ -151,7 +152,7 @@
 	QDEL_NULL(body)
 
 	for(var/hardpoint in hardpoint_hud_elements)
-		var/obj/screen/movable/exosuit/hardpoint/H = hardpoint_hud_elements[hardpoint]
+		var/obj/screen/exosuit/hardpoint/H = hardpoint_hud_elements[hardpoint]
 		H.owner = null
 		H.holding = null
 		qdel(H)
@@ -174,16 +175,8 @@
 	for(var/obj/item/mech_component/thing in list(arms, legs, head, body))
 		if(!thing)
 			continue
-		var/damage_string = "destroyed"
-		switch(thing.damage_state)
-			if(MECH_COMPONENT_DAMAGE_UNDAMAGED)
-				damage_string = "undamaged"
-			if(MECH_COMPONENT_DAMAGE_DAMAGED)
-				damage_string = "damaged"
-			if(MECH_COMPONENT_DAMAGE_DAMAGED_BAD)
-				damage_string = "badly damaged"
-			if(MECH_COMPONENT_DAMAGE_DAMAGED_TOTAL)
-				damage_string = "almost destroyed"
+
+		var/damage_string = thing.get_damage_string()
 		to_chat(user, "Its [thing.name] [thing.gender == PLURAL ? "are" : "is"] [damage_string].")
 
 	to_chat(user, "It menaces with reinforcements of [material].")
@@ -199,6 +192,8 @@
 	if(.)
 		update_pilots()
 
-		
+/mob/living/exosuit/increaseBodyTemp(value)
+	bodytemperature += value
+	return bodytemperature
 
 

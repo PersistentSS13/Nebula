@@ -5,6 +5,11 @@
 	var/age = 0// How old the mob's mind is in years.
 	var/philotic_damage = 0
 
+	var/datum/skillset/chargen_skillset 		// Temporary skillset used for character generation.
+	var/finished_chargen = FALSE				// Whether or not this character finished character generation.
+	var/decl/hierarchy/chargen/origin/origin 	// The origin chosen for this character at chargen.
+	var/decl/hierarchy/chargen/role/role		// The role chosen for this character at chargen.
+
 /datum/mind/New()
 	. = ..()
 	unique_id = "[sequential_id("/datum/mind")]"

@@ -110,22 +110,21 @@ var/list/global/organ_rel_size = list(
 	BP_R_FOOT = 10,
 )
 
-/proc/check_zone(zone)
-	if(!zone)	return BP_CHEST
-	switch(zone)
-		if(BP_EYES)
-			zone = BP_HEAD
-		if(BP_MOUTH)
-			zone = BP_HEAD
-	return zone
+/proc/check_zone(zone, mob/target, var/base_zone_only)
+	. = zone || BP_CHEST
+	if(. == BP_EYES || . == BP_MOUTH)
+		. = BP_HEAD
+	if(ishuman(target) && !base_zone_only)
+		var/mob/living/carbon/human/H = target
+		. = H.species.get_limb_from_zone(.)
 
 // Returns zone with a certain probability. If the probability fails, or no zone is specified, then a random body part is chosen.
 // Do not use this if someone is intentionally trying to hit a specific body part.
 // Use get_zone_with_miss_chance() for that.
-/proc/ran_zone(zone, probability)
-	if (zone)
-		zone = check_zone(zone)
-		if (prob(probability))
+/proc/ran_zone(zone, probability, target)
+	if(zone)
+		zone = check_zone(zone, target)
+		if(prob(probability))
 			return zone
 
 	var/ran_zone = zone
@@ -150,7 +149,7 @@ var/list/global/organ_rel_size = list(
 // May return null if missed
 // miss_chance_mod may be negative.
 /proc/get_zone_with_miss_chance(zone, var/mob/target, var/miss_chance_mod = 0, var/ranged_attack=0)
-	zone = check_zone(zone)
+	zone = check_zone(zone, target)
 
 	if(!ranged_attack)
 		// target isn't trying to fight
@@ -324,10 +323,12 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 	sleep(TICKS_PER_RECOIL_ANIM)
 	if(steps)
 		for(var/i = 1 to steps)
-			animate(M.client, pixel_x = rand(-(strength), strength), pixel_y = rand(-(strength), strength), time = TICKS_PER_RECOIL_ANIM)
+			animate(M.client, pixel_x = (M.client?.default_pixel_x || 0) + rand(-(strength), strength), pixel_y = (M.client?.default_pixel_y || 0) + rand(-(strength), strength), time = TICKS_PER_RECOIL_ANIM)
 			sleep(TICKS_PER_RECOIL_ANIM)
-	M?.shakecamera = FALSE
-	animate(M.client, pixel_x = 0, pixel_y = 0, time = TICKS_PER_RECOIL_ANIM)
+	if(M)
+		if(M.client)
+			animate(M.client, pixel_x = (M.client.default_pixel_x || 0), pixel_y = (M.client.default_pixel_y || 0), time = TICKS_PER_RECOIL_ANIM)
+		M.shakecamera = FALSE
 
 #undef TICKS_PER_RECOIL_ANIM
 #undef PIXELS_PER_STRENGTH_VAL
@@ -340,13 +341,12 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 
 
 /mob/proc/abiotic(var/full_body = FALSE)
-	if(full_body && ((src.l_hand && src.l_hand.simulated) || (src.r_hand && src.r_hand.simulated) || (src.back || src.wear_mask)))
+	. = FALSE
+	for(var/obj/item/thing in get_held_items())
+		if(thing.simulated)
+			return TRUE
+	if(full_body && (back || wear_mask))
 		return TRUE
-
-	if((src.l_hand && src.l_hand.simulated) || (src.r_hand && src.r_hand.simulated))
-		return TRUE
-
-	return FALSE
 
 //converts intent-strings into numbers and back
 var/list/intents = list(I_HELP,I_DISARM,I_GRAB,I_HURT)
@@ -414,7 +414,7 @@ var/list/intents = list(I_HELP,I_DISARM,I_GRAB,I_HURT)
 	var/turf/sourceturf = get_turf(broadcast_source)
 	for(var/mob/M in targets)
 		if(!sourceturf || (get_z(M) in GetConnectedZlevels(sourceturf.z)))
-			M.show_message("<span class='info'>\icon[icon] [message]</span>", 1)
+			M.show_message("<span class='info'>[html_icon(icon)] [message]</span>", 1)
 
 /proc/mobs_in_area(var/area/A)
 	var/list/mobs = new
@@ -441,6 +441,8 @@ var/list/intents = list(I_HELP,I_DISARM,I_GRAB,I_HURT)
 			C = M.original.client
 
 	if(C)
+		if(C.get_preference_value(/datum/client_preference/anon_say) == GLOB.PREF_YES)
+			return
 		var/name
 		if(C.mob)
 			var/mob/M = C.mob
@@ -515,13 +517,11 @@ var/list/intents = list(I_HELP,I_DISARM,I_GRAB,I_HURT)
 		threatcount += 4
 
 	if(auth_weapons && !access_obj.allowed(src))
-		if(istype(l_hand, /obj/item/gun) || istype(l_hand, /obj/item/melee))
-			threatcount += 4
+		for(var/thing in get_held_items())
+			if(istype(thing, /obj/item/gun) || istype(thing, /obj/item/energy_blade) || istype(thing, /obj/item/baton))
+				threatcount += 4
 
-		if(istype(r_hand, /obj/item/gun) || istype(r_hand, /obj/item/melee))
-			threatcount += 4
-
-		if(istype(belt, /obj/item/gun) || istype(belt, /obj/item/melee))
+		if(istype(belt, /obj/item/gun) || istype(belt, /obj/item/energy_blade) || istype(belt, /obj/item/baton))
 			threatcount += 2
 
 		if(species.name != GLOB.using_map.default_species)
@@ -567,12 +567,6 @@ var/list/intents = list(I_HELP,I_DISARM,I_GRAB,I_HURT)
 
 /mob/living/silicon/ai/get_multitool()
 	return ..(aiMulti)
-
-/proc/get_both_hands(mob/living/carbon/M)
-	if(!istype(M))
-		return
-	var/list/hands = list(M.l_hand, M.r_hand)
-	return hands
 
 /mob/proc/refresh_client_images()
 	if(client)

@@ -1,54 +1,24 @@
 {{if data.network}}
 	<div class="item">
-		<div class="itemLabel"
-			Connected to local network.
-		</div>
 		<div class="itemContent">
 			{{:helper.link(data.network, null, { 'settings': 1 }, null)}}
 		</div>
 	</div>
 {{/if}}
-<div class="item">
-	<div class="itemLabel">
-		Anchored Areas:
-	</div>
-	<div class="statusDisplay" style="min-height: 120px;">
-		<div class="item">
-			<div class="itemContent" style="width: 100%;">
-				{{for data.anchored_areas}}
-					{{:value}}<br>
-				{{/for}}
-			</div>
-		</div>
-	</div>
-</div>
-<div class="item">
-	<div class="itemContent">
-		{{:helper.link('Select Areas', null, { 'select_areas' : 1})}}
-	</div>
-</div>
-{{if data.created_sector || data.finalized}}
+{{if !data.created_sector && !data.finalized}}
+	<h3>Ship Options</h3>
 	<div class="item">
 		<div class="itemLabel">
 			Ship name:
 		</div>
 		<div class="itemContent">
-			{{:data.sector_name}}
+			{{if data.created_sector || data.finalized}}
+				{{:data.sector_name}}
+			{{else}}
+				{{:helper.link(data.sector_name ? data.sector_name : 'No name!', 'pencil', {'change_sector_name' : '1'}, null , null)}}
+			{{/if}}
 		</div>
 	</div>
-{{else}}
-	<h3>Ship Options</h3>
-	<div class="item">
-			<div class="itemLabel">
-				Ship name:
-			</div>
-			<div class="itemContent">
-				{{if data.created_sector || data.finalized}}
-					{{:data.sector_name}}
-				{{else}}
-					{{:helper.link(data.sector_name ? data.sector_name : 'No name!', 'pencil', {'change_sector_name' : '1'}, null , null)}}
-				{{/if}}
-			</div>
 	<div class="item">
 		<div class="itemLabel">
 			Ship Color:
@@ -59,18 +29,33 @@
 	</div>
 	<div class="item">
 		<div class="itemLabel">
-			Ship Size:
+			Ship Class:
 		</div>
 		<div class="itemContent">
 			{{:helper.link(data.should_launch ? 'Non-landable' : 'Landable', null, { 'should_launch' : 1}, null, null)}}
 		</div>
 	</div>
-	{{if data.should_launch}}
-		<i>Choosing to create a non-landable ship will launch the ship core into a new registered sector. The ship will not be able to land.</i><br>
-		<div class="statusDisplay" style="min-height: 120px;">
-			<div class="item">
-				<div class="itemContent" style="width: 100%;">
-					{{for data.errors}}
+	<div class="item">
+		<div class="itemLabel">
+				Errors:
+		</div>
+		<div class="itemContent" style="width: 100%;">
+			<div class="statusDisplay" style="min-height: 120px;">
+				{{for data.errors}}
+						{{:value}}<br>
+				{{/for}}
+			</div>
+		</div>
+	</div>
+	{{if !data.should_launch}}
+		<i>Choosing to create a landable ship will create the ship in place. The ship will be able to land in valid areas.</i><br>
+		<div class="item">
+			<div class="itemLabel">
+				Ship Areas:
+			</div>
+			<div class="itemContent" style="width: 100%">
+				<div class="statusDisplay" style="min-height: 120px;">
+					{{for data.anchored_areas}}
 						{{:value}}<br>
 					{{/for}}
 				</div>
@@ -78,21 +63,7 @@
 		</div>
 		<div class="item">
 			<div class="itemContent">
-				{{:helper.link('Launch Ship Core', 'arrowthickstop-1-e', {'launch' : '1'}, null , null)}}
-			</div>
-			<div class="itemContent">
-				{{:helper.link('Check launching validity', 'gear', {'check_errors' : '1'}, null , null)}}
-			</div>
-		</div>
-	{{else}}
-		<i>Choosing to create a landable ship will create the ship in place. The ship will be able to land in valid areas.</i><br>
-		<div class="statusDisplay" style="min-height: 120px;">
-			<div class="item">
-				<div class="itemContent" style="width: 100%;">
-					{{for data.errors}}
-						{{:value}}<br>
-					{{/for}}
-				</div>
+				{{:helper.link('Select Areas', null, {'select_areas' : 1})}}
 			</div>
 		</div>
 		<div class="item">
@@ -103,7 +74,34 @@
 				{{:helper.link('Check landable ship validity', 'gear', {'check_errors' : '1'}, null , null)}}
 			</div>
 		</div>
+	{{else}}
+		<i>Choosing to create a non-landable ship will launch the ship core into a new registered sector. The ship will not be able to land.</i><br>
+		<div class="item">
+			<div class="itemContent">
+				{{:helper.link('Launch Ship Core', 'arrowthickstop-1-e', {'launch' : '1'}, null , null)}}
+			</div>
+			<div class="itemContent">
+				{{:helper.link('Check launching validity', 'gear', {'check_errors' : '1'}, null , null)}}
+			</div>
+		</div>
 	{{/if}}
+{{else}}
+	<div class="item">
+		<div class="itemLabel">
+			Ship name:
+		</div>
+		<div class="itemContent">
+			{{:data.sector_name}}
+		</div>
+	</div>
+	<div class="item">
+		<div class="itemLabel">
+			Ship class:
+		</div>
+		<div class="itemContent">
+			{{:data.finalized ? 'Landable' : 'Non-landable'}}
+		</div>
+	</div>
 {{/if}}
 <hr>
 <i>EXONET Firmware v110.04.4h Copyright EXONETWORKS INC</i>

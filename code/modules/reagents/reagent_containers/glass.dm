@@ -102,8 +102,7 @@
 	name = "bucket"
 	desc = "It's a bucket."
 	icon = 'icons/obj/items/bucket.dmi'
-	on_mob_icon = 'icons/obj/items/bucket.dmi'
-	icon_state = "world"
+	icon_state = ICON_STATE_WORLD
 	center_of_mass = @"{'x':16,'y':9}"
 	w_class = ITEM_SIZE_NORMAL
 	amount_per_transfer_from_this = 20
@@ -111,16 +110,15 @@
 	volume = 180
 	atom_flags = ATOM_FLAG_OPEN_CONTAINER | ATOM_FLAG_SHOW_REAGENT_NAME
 	unacidable = 0
-	material = MAT_PLASTIC
+	material = /decl/material/solid/plastic
 	material_force_multiplier = 0.2
 	slot_flags = SLOT_HEAD
 
 /obj/item/chems/glass/bucket/wood
 	desc = "It's a wooden bucket. How rustic."
 	icon = 'icons/obj/items/wooden_bucket.dmi'
-	on_mob_icon = 'icons/obj/items/wooden_bucket.dmi'
 	volume = 200
-	material = MAT_WOOD
+	material = /decl/material/solid/wood
 
 /obj/item/chems/glass/bucket/attackby(var/obj/D, mob/user)
 	if(istype(D, /obj/item/mop))

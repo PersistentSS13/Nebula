@@ -22,9 +22,10 @@
 	var/kitchen_tag                // Used by the reagent grinder.
 	var/trash_type                 // Garbage item produced when eaten.
 	var/splat_type = /obj/effect/decal/cleanable/fruit_smudge // Graffiti decal.
-	var/has_mob_product
+	var/product_type = /obj/item/chems/food/snacks/grown
 	var/force_layer
 	var/req_CO2_moles    = 1.0// Moles of CO2 required for photosynthesis.
+	var/hydrotray_only
 
 /datum/seed/New()
 
@@ -40,7 +41,7 @@
 	set_trait(TRAIT_SPREAD,               0)            // 0 limits plant to tray, 1 = creepers, 2 = vines.
 	set_trait(TRAIT_MATURATION,           0)            // Time taken before the plant is mature.
 	set_trait(TRAIT_PRODUCTION,           0)            // Time before harvesting can be undertaken again.
-	set_trait(TRAIT_TELEPORTING,          0)            // Uses the bluespace tomato effect.
+	set_trait(TRAIT_TELEPORTING,          0)            // Uses the teleport tomato effect.
 	set_trait(TRAIT_BIOLUM,               0)            // Plant is bioluminescent.
 	set_trait(TRAIT_ALTER_TEMP,           0)            // If set, the plant will periodically alter local temp by this amount.
 	set_trait(TRAIT_PRODUCT_ICON,         0)            // Icon to use for fruit coming from this plant.
@@ -119,11 +120,8 @@
 			qdel(target)
 		return
 
-
-	if(!target_limb) target_limb = pick(BP_ALL_LIMBS)
-	var/obj/item/organ/external/affecting = target.get_organ(target_limb)
-
-	if((target.species && target.species.species_flags & (SPECIES_FLAG_NO_EMBED|SPECIES_FLAG_NO_MINOR_CUT)))
+	var/obj/item/organ/external/affecting = target_limb ? target.get_organ(target_limb) : pick(target.organs)
+	if(affecting?.species?.species_flags & (SPECIES_FLAG_NO_EMBED|SPECIES_FLAG_NO_MINOR_CUT))
 		to_chat(target, "<span class='danger'>\The [fruit]'s thorns scratch against the armour on your [affecting.name]!</span>")
 		return
 
@@ -182,9 +180,9 @@
 		return
 	if(!(light_supplied) || !(get_trait(TRAIT_REQUIRES_WATER)))
 		return
-	if(environment.get_gas(MAT_CO2) >= req_CO2_moles)
-		environment.adjust_gas(MAT_CO2, -req_CO2_moles, 1)
-		environment.adjust_gas(MAT_OXYGEN, req_CO2_moles, 1)
+	if(environment.get_gas(/decl/material/gas/carbon_dioxide) >= req_CO2_moles)
+		environment.adjust_gas(/decl/material/gas/carbon_dioxide, -req_CO2_moles, 1)
+		environment.adjust_gas(/decl/material/gas/oxygen, req_CO2_moles, 1)
 
 //Splatter a turf.
 /datum/seed/proc/splatter(var/turf/T,var/obj/item/thrown)
@@ -205,9 +203,10 @@
 		for(var/mob/living/M in T.contents)
 			if(!M.reagents)
 				continue
-			var/body_coverage = HEAD|FACE|EYES|UPPER_TORSO|LOWER_TORSO|LEGS|FEET|ARMS|HANDS
+			var/body_coverage = SLOT_HEAD|SLOT_FACE|SLOT_EYES|SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_FEET|SLOT_ARMS|SLOT_HANDS
+			var/held_items = M.get_held_items()
 			for(var/obj/item/clothing/clothes in M)
-				if(M.l_hand == clothes || M.r_hand == clothes)
+				if(clothes in held_items)
 					continue
 				body_coverage &= ~(clothes.body_parts_covered)
 			if(!body_coverage)
@@ -336,7 +335,7 @@
 			health_change += rand(1,3) * HYDRO_SPEED_MULTIPLIER
 
 	for(var/obj/effect/effect/smoke/chem/smoke in range(1, current_turf))
-		if(smoke.reagents.has_reagent(/decl/material/chem/toxin/plantbgone))
+		if(smoke.reagents.has_reagent(/decl/material/liquid/weedkiller))
 			return 100
 
 	// Pressure and temperature are needed as much as water and light.
@@ -353,7 +352,7 @@
 	do_sting(target,thrown)
 	do_thorns(target,thrown)
 
-	// Bluespace tomato code copied over from grown.dm.
+	// Teleport tomato code copied over from grown.dm.
 	if(get_trait(TRAIT_TELEPORTING))
 
 		//Plant potency determines radius of teleport.
@@ -409,7 +408,7 @@
 	if(prefix)
 		name = "[prefix] [name]"
 	seed_name = name
-	display_name = name
+	display_name = "[name] plant"
 
 //Creates a random seed. MAKE SURE THE LINE HAS DIVERGED BEFORE THIS IS CALLED.
 /datum/seed/proc/randomize()
@@ -447,33 +446,37 @@
 
 	if(prob(5))
 		consume_gasses = list()
-		var/gas = pick(MAT_OXYGEN,MAT_NITROGEN,MAT_PHORON,MAT_CO2)
+		var/gas = pick(subtypesof(/decl/material/gas))
 		consume_gasses[gas] = rand(3,9)
 
 	if(prob(5))
 		exude_gasses = list()
-		var/gas = pick(MAT_OXYGEN,MAT_NITROGEN,MAT_PHORON,MAT_CO2)
+		var/gas = pick(subtypesof(/decl/material/gas))
 		exude_gasses[gas] = rand(3,9)
 
 	chems = list()
 	if(prob(80))
-		chems[/decl/material/chem/nutriment] = list(rand(1,10),rand(10,20))
+		chems[/decl/material/liquid/nutriment] = list(rand(1,10),rand(10,20))
 
 	var/additional_chems = rand(0,5)
 
 	if(additional_chems)
 		var/list/banned_chems = list(
-			/decl/material/chem/adminordrazine,
-			/decl/material/chem/nutriment,
-			/decl/material/chem/toxin/plantbgone
+			/decl/material/liquid/adminordrazine,
+			/decl/material/liquid/nutriment,
+			/decl/material/liquid/weedkiller
 			)
-		banned_chems += subtypesof(/decl/material/chem/ethanol)
-		banned_chems += subtypesof(/decl/material/chem/tobacco)
-		banned_chems += typesof(/decl/material/chem/drink)
-		banned_chems += typesof(/decl/material/chem/nutriment)
-		banned_chems += typesof(/decl/material/chem/toxin/fertilizer)
+		banned_chems += subtypesof(/decl/material/liquid/ethanol)
+		banned_chems += subtypesof(/decl/material/solid/tobacco)
+		banned_chems += typesof(/decl/material/liquid/drink)
+		banned_chems += typesof(/decl/material/liquid/nutriment)
+		banned_chems += typesof(/decl/material/liquid/fertilizer)
 
-		if(prob(30))	banned_chems |= typesof(/decl/material/chem/toxin)
+		if(prob(30))
+			for(var/R in subtypesof(/decl/material))
+				var/decl/material/mat = decls_repository.get_decl(R)
+				if(mat.toxicity)
+					banned_chems |= R
 
 		for(var/x=1;x<=additional_chems;x++)
 			var/new_chem = pick(subtypesof(/decl/material))
@@ -658,8 +661,8 @@
 			consume_gasses |= new_gasses
 			gene.values["[TRAIT_CONSUME_GASSES]"] = null
 		if(GENE_METABOLISM)
-			has_mob_product = gene.values["mob_product"]
-			gene.values["mob_product"] = null
+			product_type = gene.values["product_type"]
+			gene.values["product_type"] = null
 
 	for(var/trait in gene.values)
 		set_trait(trait,gene.values["[trait]"])
@@ -688,7 +691,7 @@
 		if(GENE_HARDINESS)
 			traits_to_copy = list(TRAIT_TOXINS_TOLERANCE,TRAIT_PEST_TOLERANCE,TRAIT_WEED_TOLERANCE,TRAIT_ENDURANCE)
 		if(GENE_METABOLISM)
-			P.values["mob_product"] = has_mob_product
+			P.values["product_type"] = product_type
 			traits_to_copy = list(TRAIT_REQUIRES_NUTRIENTS,TRAIT_REQUIRES_WATER,TRAIT_ALTER_TEMP)
 		if(GENE_VIGOUR)
 			traits_to_copy = list(TRAIT_PRODUCTION,TRAIT_MATURATION,TRAIT_YIELD,TRAIT_SPREAD)
@@ -746,19 +749,14 @@
 
 		. = list()
 		for(var/i = 0;i<total_yield;i++)
-			var/obj/item/product
-			if(has_mob_product)
-				product = new has_mob_product(get_turf(user),name)
-			else
-				product = new /obj/item/chems/food/snacks/grown(get_turf(user),name)
+			var/obj/item/product = new product_type(get_turf(user),name)
 			. += product
 
 			if(get_trait(TRAIT_PRODUCT_COLOUR))
-				if(!istype(product, /mob))
-					product.color = get_trait(TRAIT_PRODUCT_COLOUR)
-					if(istype(product,/obj/item/chems/food))
-						var/obj/item/chems/food/food = product
-						food.filling_color = get_trait(TRAIT_PRODUCT_COLOUR)
+				if(istype(product, /obj/item/chems/food))
+					var/obj/item/chems/food/food = product
+					food.color = get_trait(TRAIT_PRODUCT_COLOUR)
+					food.filling_color = get_trait(TRAIT_PRODUCT_COLOUR)
 
 			if(mysterious)
 				product.name += "?"
@@ -793,7 +791,7 @@
 	new_seed.can_self_harvest = can_self_harvest
 	new_seed.kitchen_tag =      kitchen_tag
 	new_seed.trash_type =       trash_type
-	new_seed.has_mob_product =  has_mob_product
+	new_seed.product_type =     product_type
 	//Copy over everything else.
 	if(mutants)        new_seed.mutants = mutants.Copy()
 	if(chems)          new_seed.chems = chems.Copy()

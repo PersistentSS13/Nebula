@@ -1,11 +1,8 @@
 /obj/item/clothing/head
 	name = "head"
-	icon = 'icons/obj/clothing/obj_head.dmi'
-	item_icons = list(
-		slot_l_hand_str = 'icons/mob/onmob/items/lefthand_hats.dmi',
-		slot_r_hand_str = 'icons/mob/onmob/items/righthand_hats.dmi',
-		)
-	body_parts_covered = HEAD
+	icon_state = ICON_STATE_WORLD
+	icon = 'icons/clothing/head/softcap.dmi'
+	body_parts_covered = SLOT_HEAD
 	slot_flags = SLOT_HEAD
 	w_class = ITEM_SIZE_SMALL
 	blood_overlay_type = "helmetblood"
@@ -20,7 +17,7 @@
 	light_overlay_image = null
 	..(user, slot)
 
-/obj/item/clothing/head/get_mob_overlay(mob/user_mob, slot)
+/obj/item/clothing/head/get_mob_overlay(mob/user_mob, slot, bodypart)
 	var/image/ret = ..()
 	if(light_overlay_image)
 		ret.overlays -= light_overlay_image
@@ -70,29 +67,18 @@
 		return ..()
 
 /obj/item/clothing/head/proc/mob_wear_hat(var/mob/user)
-	if(!Adjacent(user))
-		return 0
-	if(!is_drone(user))
-		return 0
-	var/success
-	var/mob/living/silicon/robot/drone/D = user
-	if(D.hat)
-		success = 2
-	else
-		D.wear_hat(src)
-		success = 1
-
-	if(!success)
-		return 0
-	else if(success == 2)
-		to_chat(user, "<span class='warning'>You are already wearing a hat.</span>")
-	else if(success == 1)
-		to_chat(user, "<span class='notice'>You crawl under \the [src].</span>")
-	return 1
+	var/datum/extension/hattable/hattable = get_extension(user, /datum/extension/hattable)
+	if(Adjacent(user) && hattable)
+		if(hattable.hat)
+			to_chat(user, SPAN_WARNING("You are already wearing a hat."))
+			return TRUE
+		if(hattable.wear_hat(user, src))
+			to_chat(user, SPAN_NOTICE("You are now wearing \the [src]."))
+			return TRUE
+	return FALSE
 
 /obj/item/clothing/head/on_update_icon(var/mob/user)
-
-	overlays.Cut()
+	..()
 	if(on)
 		add_light_overlay()
 	if(istype(user,/mob/living/carbon/human))
@@ -100,9 +86,27 @@
 		H.update_inv_head()
 
 /obj/item/clothing/head/proc/add_light_overlay()
+	if(use_single_icon)
+		var/cache_key = "[icon]-[get_world_inventory_state()]_icon"
+		if(!light_overlay_cache[cache_key])
+			light_overlay_cache[cache_key] = image(icon, "[get_world_inventory_state()]_light")
+		overlays |= light_overlay_cache[cache_key]
+		return
+
 	if(!light_overlay_cache["[light_overlay]_icon"])
 		light_overlay_cache["[light_overlay]_icon"] = image("icon" = 'icons/obj/light_overlays.dmi', "icon_state" = "[light_overlay]")
 	overlays |= light_overlay_cache["[light_overlay]_icon"]
+
+/obj/item/clothing/head/apply_overlays(var/mob/user_mob, var/bodytype, var/image/overlay, var/slot)
+	var/image/ret = ..()
+	if(on && check_state_in_icon("[ret.icon_state]_light", ret.icon))
+		var/image/light_overlay = image(ret.icon, "[ret.icon_state]_light")
+		if(ishuman(user_mob))
+			var/mob/living/carbon/human/H = user_mob
+			if(H.species.get_bodytype(H) != bodytype)
+				light_overlay = H.species.get_offset_overlay_image(FALSE, light_overlay.icon, light_overlay.icon_state, null, slot)
+		ret.overlays += light_overlay
+	return ret
 
 /obj/item/clothing/head/update_clothing_icon()
 	if (ismob(src.loc))

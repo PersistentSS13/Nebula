@@ -307,8 +307,8 @@ atom/proc/temperature_expose(datum/gas_mixture/air, exposed_temperature, exposed
 		var/datum/gas_mixture/burned_fuel = remove_by_flag(XGM_GAS_FUEL, used_gas_fuel)
 		for(var/g in burned_fuel.gas)
 			var/decl/material/mat = decls_repository.get_decl(g)
-			if(mat.gas_burn_product)
-				adjust_gas(mat.gas_burn_product, burned_fuel.gas[g])
+			if(mat.burn_product)
+				adjust_gas(mat.burn_product, burned_fuel.gas[g])
 
 		if(zone)
 			zone.remove_liquidfuel(used_liquid_fuel, !check_combustibility())
@@ -378,7 +378,7 @@ datum/gas_mixture/proc/check_recombustibility(list/fuel_objs)
 	var/total_combustibles = (total_fuel + total_oxidizers)
 	var/active_combustibles = (FIRE_REACTION_OXIDIZER_AMOUNT/FIRE_REACTION_FUEL_AMOUNT + 1)*reaction_limit
 
-	if(total_combustibles > 0)
+	if(total_combustibles > 0 && total_moles > 0 && group_multiplier > 0)
 		//slows down the burning when the concentration of the reactants is low
 		var/damping_multiplier = min(1, active_combustibles / (total_moles/group_multiplier))
 
@@ -418,20 +418,21 @@ datum/gas_mixture/proc/check_recombustibility(list/fuel_objs)
 
 	//Get heat transfer coefficients for clothing.
 
+	var/holding = get_held_items()
 	for(var/obj/item/clothing/C in src)
-		if(l_hand == C || r_hand == C)
+		if(C in holding)
 			continue
 
 		if( C.max_heat_protection_temperature >= last_temperature )
-			if(C.body_parts_covered & HEAD)
+			if(C.body_parts_covered & SLOT_HEAD)
 				head_exposure = 0
-			if(C.body_parts_covered & UPPER_TORSO)
+			if(C.body_parts_covered & SLOT_UPPER_BODY)
 				chest_exposure = 0
-			if(C.body_parts_covered & LOWER_TORSO)
+			if(C.body_parts_covered & SLOT_LOWER_BODY)
 				groin_exposure = 0
-			if(C.body_parts_covered & LEGS)
+			if(C.body_parts_covered & SLOT_LEGS)
 				legs_exposure = 0
-			if(C.body_parts_covered & ARMS)
+			if(C.body_parts_covered & SLOT_ARMS)
 				arms_exposure = 0
 	//minimize this for low-pressure enviroments
 	var/mx = 5 * firelevel/vsc.fire_firelevel_multiplier * min(pressure / ONE_ATMOSPHERE, 1)
