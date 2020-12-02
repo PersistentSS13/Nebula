@@ -13,14 +13,14 @@
 	desc = "This is used to lie in, sleep in or strap on."
 	icon = 'icons/obj/furniture.dmi'
 	icon_state = "bed"
-	anchored = 1
-	can_buckle = 1
+	anchored = TRUE
+	can_buckle = TRUE
 	buckle_dir = SOUTH
-	buckle_lying = 1
+	buckle_lying = TRUE
+	buckle_sound = 'sound/effects/buckle.ogg'
 	material = DEFAULT_FURNITURE_MATERIAL
 	material_alteration = MAT_FLAG_ALTERATION_ALL
 	tool_interaction_flags = TOOL_INTERACTION_DECONSTRUCT
-	var/buckling_sound = 'sound/effects/buckle.ogg'
 
 /obj/structure/bed/update_material_name()
 	if(reinf_material)
@@ -32,7 +32,7 @@
 
 /obj/structure/bed/update_material_desc()
 	if(reinf_material)
-		desc = "[initial(desc)] It's made of [material.use_name] and covered with [reinf_material.use_name]." 
+		desc = "[initial(desc)] It's made of [material.use_name] and covered with [reinf_material.use_name]."
 	else
 		desc = "[initial(desc)] It's made of [material.use_name]."
 
@@ -44,7 +44,7 @@
 		var/image/I = image(icon, "[icon_state]_padding")
 		if(material_alteration & MAT_FLAG_ALTERATION_COLOR)
 			I.appearance_flags |= RESET_COLOR
-			I.color = reinf_material.icon_colour
+			I.color = reinf_material.color
 		LAZYADD(new_overlays, I)
 	overlays = new_overlays
 
@@ -72,7 +72,7 @@
 				return
 			var/padding_type //This is awful but it needs to be like this until tiles are given a material var.
 			if(istype(W,/obj/item/stack/tile/carpet))
-				padding_type = MAT_CARPET
+				padding_type = /decl/material/solid/carpet
 			else if(istype(W,/obj/item/stack/material))
 				var/obj/item/stack/material/M = W
 				if(M.material && (M.material.flags & MAT_FLAG_PADDING))
@@ -104,11 +104,6 @@
 					if(user_buckle_mob(affecting, user))
 						qdel(W)
 
-/obj/structure/bed/buckle_mob(mob/living/M)
-	. = ..()
-	if(. && buckling_sound)
-		playsound(src, buckling_sound, 20)
-
 /obj/structure/bed/Move()
 	. = ..()
 	if(buckled_mob)
@@ -138,12 +133,12 @@
 	icon_state = "psychbed"
 
 /obj/structure/bed/psych
-	material = MAT_WALNUT
-	reinf_material = MAT_LEATHER_GENERIC
+	material = /decl/material/solid/wood/walnut
+	reinf_material = /decl/material/solid/leather
 
 /obj/structure/bed/padded
-	material = MAT_ALUMINIUM
-	reinf_material = MAT_CLOTH
+	material = /decl/material/solid/metal/aluminium
+	reinf_material = /decl/material/solid/cloth
 
 /*
  * Roller beds

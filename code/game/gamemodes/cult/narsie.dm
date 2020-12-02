@@ -347,10 +347,11 @@ var/global/list/narsie_list = list()
 	grav_pull = 0
 
 /obj/singularity/narsie/wizard/eat()
-	for (var/turf/T in trange(consume_range, src))
+	for (var/turf/T in RANGE_TURFS(src, consume_range))
 		consume(T)
 
 /obj/singularity/narsie/proc/narsie_spawn_animation()
+	set waitfor = FALSE
 	icon = 'icons/obj/narsie_spawn_anim.dmi'
 	set_dir(SOUTH)
 	move_self = 0

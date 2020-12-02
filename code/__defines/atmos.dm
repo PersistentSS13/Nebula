@@ -72,7 +72,6 @@
 #define XGM_GAS_FUEL        1
 #define XGM_GAS_OXIDIZER    2
 #define XGM_GAS_CONTAMINANT 4
-#define XGM_GAS_FUSION_FUEL 8
 
 #define TANK_LEAK_PRESSURE     (30 * ONE_ATMOSPHERE) // Tank starts leaking.
 #define TANK_RUPTURE_PRESSURE  (40 * ONE_ATMOSPHERE) // Tank spills all contents into atmosphere.
@@ -91,8 +90,6 @@
 #define ATMOSTANK_NITROGEN      90000 // A lot of N2 is needed to produce air mix, that's why we keep 90MPa of it
 #define ATMOSTANK_OXYGEN        50000 // O2 is also important for airmix, but not as much as N2 as it's only 21% of it.
 #define ATMOSTANK_CO2           60000 // CO2 is used for smaller vessels as the primary fuel propellant, and we need lots to stick around.
-#define ATMOSTANK_PHORON        25000
-#define ATMOSTANK_PHORON_FUEL	15000
 #define ATMOSTANK_HYDROGEN      50000
 #define ATMOSTANK_HYDROGEN_FUEL 25000
 #define ATMOSTANK_NITROUSOXIDE  10000 // N2O doesn't have a real useful use, i guess it's on station just to allow refilling of sec's riot control canisters?

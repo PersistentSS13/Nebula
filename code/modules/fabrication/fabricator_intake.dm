@@ -39,7 +39,7 @@
 		if(taking_material <= 0)
 			continue
 		if(!mat_colour)
-			mat_colour = material_def.icon_colour
+			mat_colour = material_def.color
 		stored_material[material_def.type] += taking_material
 		stacks_used = max(stacks_used, ceil(taking_material/SHEET_MATERIAL_AMOUNT))
 		if(storage_capacity[material_def.type] == stored_material[material_def.type])
@@ -137,10 +137,5 @@
 	if((fab_status_flags & FAB_DISABLED) && !panel_open)
 		to_chat(user, SPAN_WARNING("\The [src] is disabled!"))
 		return TRUE
-	interact(user)
+	ui_interact(user)
 	return TRUE
-
-#undef SUBSTANCE_TAKEN_FULL
-#undef SUBSTANCE_TAKEN_NONE
-#undef SUBSTANCE_TAKEN_SOME
-#undef SUBSTANCE_TAKEN_ALL

@@ -1,6 +1,16 @@
 /****************
  true human verbs
 ****************/
+/mob/living/carbon/human/verb/sniff_verb()
+	set name = "Sniff"
+	set desc = "Smell the local area."
+	set category = "IC"
+	set src = usr
+	if(!incapacitated())
+		if(species.sniff_message_3p && species.sniff_message_1p)
+			visible_message(SPAN_NOTICE("\The [src] [species.sniff_message_3p]."), SPAN_NOTICE(species.sniff_message_1p))
+		LAZYCLEARLIST(smell_cooldown)
+
 /mob/living/carbon/human/proc/tie_hair()
 	set name = "Tie Hair"
 	set desc = "Style your hair."
@@ -90,5 +100,5 @@
 	set name = "Change Colour"
 	set desc = "Choose the colour of your skin."
 
-	var/new_skin = input(usr, "Choose your new skin colour: ", "Change Colour", rgb(r_skin, g_skin, b_skin)) as color|null
-	change_skin_color(hex2num(copytext(new_skin, 2, 4)), hex2num(copytext(new_skin, 4, 6)), hex2num(copytext(new_skin, 6, 8)))
+	var/new_skin = input(usr, "Choose your new skin colour: ", "Change Colour", skin_colour) as color|null
+	change_skin_color(new_skin)

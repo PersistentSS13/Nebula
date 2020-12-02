@@ -172,13 +172,13 @@
 
 /obj/structure/table/proc/update_desc()
 	if(material)
-		name = "[material.name] table"
+		name = "[material.solid_name] table"
 	else
 		name = "table frame"
 
 	if(reinf_material)
 		name = "reinforced [name]"
-		desc = "[initial(desc)] This one seems to be reinforced with [reinf_material.name]."
+		desc = "[initial(desc)] This one seems to be reinforced with [reinf_material.solid_name]."
 	else
 		desc = initial(desc)
 
@@ -191,11 +191,11 @@
 
 	if(manipulating) return M
 	manipulating = 1
-	to_chat(user, "<span class='notice'>You begin [verb]ing \the [src] with [M.name].</span>")
+	to_chat(user, "<span class='notice'>You begin [verb]ing \the [src] with [M.solid_name].</span>")
 	if(!do_after(user, 20, src) || !S.use(1))
 		manipulating = 0
 		return null
-	user.visible_message("<span class='notice'>\The [user] [verb]es \the [src] with [M.name].</span>", "<span class='notice'>You finish [verb]ing \the [src].</span>")
+	user.visible_message("<span class='notice'>\The [user] [verb]es \the [src] with [M.solid_name].</span>", "<span class='notice'>You finish [verb]ing \the [src].</span>")
 	manipulating = 0
 	return M
 
@@ -207,15 +207,15 @@
 
 	if(manipulating) return M
 	manipulating = 1
-	user.visible_message("<span class='notice'>\The [user] begins removing the [type_holding] holding \the [src]'s [M.name] [what] in place.</span>",
-	                              "<span class='notice'>You begin removing the [type_holding] holding \the [src]'s [M.name] [what] in place.</span>")
+	user.visible_message("<span class='notice'>\The [user] begins removing the [type_holding] holding \the [src]'s [M.solid_name] [what] in place.</span>",
+	                              "<span class='notice'>You begin removing the [type_holding] holding \the [src]'s [M.solid_name] [what] in place.</span>")
 	if(sound)
 		playsound(src.loc, sound, 50, 1)
 	if(!do_after(user, 40, src))
 		manipulating = 0
 		return M
-	user.visible_message("<span class='notice'>\The [user] removes the [M.name] [what] from \the [src].</span>",
-	                              "<span class='notice'>You remove the [M.name] [what] from \the [src].</span>")
+	user.visible_message("<span class='notice'>\The [user] removes the [M.solid_name] [what] from \the [src].</span>",
+	                              "<span class='notice'>You remove the [M.solid_name] [what] from \the [src].</span>")
 	M.place_sheet(src.loc)
 	manipulating = 0
 	return null
@@ -226,7 +226,7 @@
 /obj/structure/table/proc/remove_material(obj/item/wrench/W, mob/user)
 	material = common_material_remove(user, material, 20, "plating", "bolts", 'sound/items/Ratchet.ogg')
 
-// Returns a list of /obj/item/material/shard objects that were created as a result of this table's breakage.
+// Returns a list of /obj/item/shard objects that were created as a result of this table's breakage.
 // Used for !fun! things such as embedding shards in the faces of tableslammed people.
 
 // The repeated
@@ -237,7 +237,7 @@
 /obj/structure/table/proc/break_to_parts(full_return = 0)
 	reset_mobs_offset()
 	var/list/shards = list()
-	var/obj/item/material/shard/S = null
+	var/obj/item/shard/S = null
 	if(reinf_material)
 		if(reinf_material.stack_type && (full_return || prob(20)))
 			reinf_material.place_sheet(loc)
@@ -255,7 +255,7 @@
 	if(full_return || prob(20))
 		new /obj/item/stack/material/steel(src.loc)
 	else
-		var/decl/material/M = decls_repository.get_decl(MAT_STEEL)
+		var/decl/material/M = decls_repository.get_decl(/decl/material/solid/metal/steel)
 		S = M.place_shard(loc)
 		if(S) shards += S
 	qdel(src)
@@ -277,14 +277,14 @@
 		if(istype(material))
 			for(var/i = 1 to 4)
 				I = image(icon, "[material.table_icon_base]_[connections ? connections[i] : "0"]", dir = 1<<(i-1))
-				if(material.icon_colour) I.color = material.icon_colour
+				if(material.color) I.color = material.color
 				I.alpha = 255 * material.opacity
 				overlays += I
 		// Reinforcements
 		if(istype(reinf_material))
 			for(var/i = 1 to 4)
 				I = image(icon, "[reinf_material.table_reinf]_[connections ? connections[i] : "0"]", dir = 1<<(i-1))
-				I.color = reinf_material.icon_colour
+				I.color = reinf_material.color
 				I.alpha = 255 * reinf_material.opacity
 				overlays += I
 		if(carpeted)
@@ -310,15 +310,15 @@
 		icon_state = "flip[type]"
 		if(istype(material))
 			var/image/I = image(icon, "[material.table_icon_base]_flip[type]")
-			I.color = material.icon_colour
+			I.color = material.color
 			I.alpha = 255 * material.opacity
 			overlays += I
-			name = "[material.name] table"
+			name = "[material.solid_name] table"
 		else
 			name = "table frame"
 		if(istype(reinf_material))
 			var/image/I = image(icon, "[reinf_material.table_reinf]_flip[type]")
-			I.color = reinf_material.icon_colour
+			I.color = reinf_material.color
 			I.alpha = 255 * reinf_material.opacity
 			overlays += I
 		if(carpeted)

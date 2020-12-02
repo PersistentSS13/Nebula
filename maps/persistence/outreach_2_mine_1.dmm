@@ -1,6 +1,6 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
 "a" = (
-/turf/simulated/mineral,
+/turf/simulated/wall/natural/random,
 /area/outreach/mines/depth_1)
 "b" = (
 /turf/simulated/floor/exoplanet/barren,

@@ -12,7 +12,6 @@
 
 /turf
 	var/is_on_fire = FALSE
-	var/list/saved_decals
 
 /obj/fire
 	should_save = FALSE
@@ -34,6 +33,9 @@
 
 /atom/movable/openspace/multiplier
 	should_save = FALSE
+
+/obj/effect/shuttle_landmark
+	should_save = TRUE
 
 /obj/effect/floor_decal
 	should_save = TRUE
@@ -57,21 +59,6 @@
 	..()
 	if(saved_memory)
 		program.memory = saved_memory
-
-/turf/unsimulated/map
-	should_save = FALSE
-
-/obj/effect/overmap/
-	should_save = FALSE
-
-/obj/effect/overmap/visitable/before_save()
-	should_save = FALSE
-	for(var/z in map_z)
-		if(z in SSpersistence.saved_levels)
-			should_save = TRUE
-	start_x = x
-	start_y = x
-	..()
 
 /datum/computer_file/report/after_deserialize()
 	..()

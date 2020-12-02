@@ -8,9 +8,8 @@
 
 /obj/item/rig
 	name = "hardsuit control module"
-	icon_state = "world"
+	icon_state = ICON_STATE_WORLD
 	icon = 'icons/clothing/spacesuit/rig/eva.dmi'
-	on_mob_icon = 'icons/clothing/spacesuit/rig/eva.dmi'
 	desc = "A back-mounted hardsuit deployment and control mechanism."
 	slot_flags = SLOT_BACK
 	w_class = ITEM_SIZE_HUGE
@@ -113,7 +112,7 @@
 		for(var/obj/item/piece in list(helmet,gloves,chest,boots))
 			if(!piece || piece.loc != wearer)
 				continue
-			to_chat(user, "\icon[piece] \The [piece] [piece.gender == PLURAL ? "are" : "is"] deployed.")
+			to_chat(user, "[html_icon(piece)] \The [piece] [piece.gender == PLURAL ? "are" : "is"] deployed.")
 
 	if(src.loc == user)
 		to_chat(user, "The access panel is [locked? "locked" : "unlocked"].")
@@ -170,7 +169,7 @@
 		piece.SetName("[suit_type] [initial(piece.name)]")
 		piece.desc = "It seems to be part of a [src.name]."
 		piece.icon = icon
-		piece.on_mob_icon = on_mob_icon
+		piece.use_single_icon = use_single_icon
 		piece.sprite_sheets = sprite_sheets
 		piece.min_cold_protection_temperature = min_cold_protection_temperature
 		piece.max_heat_protection_temperature = max_heat_protection_temperature
@@ -198,7 +197,7 @@
 
 /obj/item/rig/proc/set_slowdown_and_vision(var/active)
 	if(chest)
-		chest.slowdown_per_slot[slot_wear_suit] = (active? online_slowdown : offline_slowdown)
+		LAZYSET(chest.slowdown_per_slot, slot_wear_suit_str, (active? online_slowdown : offline_slowdown))
 	if(helmet)
 		helmet.tint = (active? vision_restriction : offline_vision_restriction)
 		helmet.update_vision()
@@ -565,7 +564,7 @@
 		wearer.update_inv_back()
 	return
 
-/obj/item/rig/get_mob_overlay(mob/user_mob, slot)
+/obj/item/rig/get_mob_overlay(mob/user_mob, slot, bodypart)
 	var/image/ret = ..()
 	if(slot != slot_back_str || offline)
 		return ret
@@ -690,19 +689,19 @@
 
 	switch(piece)
 		if("helmet")
-			equip_to = slot_head
+			equip_to = slot_head_str
 			use_obj = helmet
 			check_slot = wearer.head
 		if("gauntlets")
-			equip_to = slot_gloves
+			equip_to = slot_gloves_str
 			use_obj = gloves
 			check_slot = wearer.gloves
 		if("boots")
-			equip_to = slot_shoes
+			equip_to = slot_shoes_str
 			use_obj = boots
 			check_slot = wearer.shoes
 		if("chest")
-			equip_to = slot_wear_suit
+			equip_to = slot_wear_suit_str
 			use_obj = chest
 			check_slot = wearer.wear_suit
 

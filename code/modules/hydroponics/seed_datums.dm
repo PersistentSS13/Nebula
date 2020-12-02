@@ -3,7 +3,7 @@
 	name = "chili"
 	seed_name = "chili"
 	display_name = "chili plants"
-	chems = list(/decl/material/chem/capsaicin = list(3,5), /decl/material/chem/nutriment = list(1,25))
+	chems = list(/decl/material/liquid/capsaicin = list(3,5), /decl/material/liquid/nutriment = list(1,25))
 	mutants = list("icechili")
 	kitchen_tag = "chili"
 
@@ -23,9 +23,9 @@
 /datum/seed/chili/ice
 	name = "icechili"
 	seed_name = "chilly pepper"
-	display_name = "chilly pepper plants"
+	display_name = "chilly pepper plant"
 	mutants = null
-	chems = list(/decl/material/chem/frostoil = list(3,5), /decl/material/chem/nutriment = list(1,50))
+	chems = list(/decl/material/liquid/frostoil = list(3,5), /decl/material/liquid/nutriment = list(1,50))
 	kitchen_tag = "icechili"
 
 /datum/seed/chili/ice/New()
@@ -40,7 +40,7 @@
 	seed_name = "berry"
 	display_name = "berry bush"
 	mutants = list("glowberries","poisonberries","blueberries")
-	chems = list(/decl/material/chem/nutriment = list(1,10), /decl/material/chem/drink/juice/berry = list(10,10))
+	chems = list(/decl/material/liquid/nutriment = list(1,10), /decl/material/liquid/drink/juice/berry = list(10,10))
 	kitchen_tag = "berries"
 
 /datum/seed/berry/New()
@@ -62,7 +62,7 @@
 	seed_name = "blueberry"
 	display_name = "blueberry bush"
 	mutants = list("berries","poisonberries","glowberries")
-	chems = list(/decl/material/chem/nutriment = list(1,10), /decl/material/chem/drink/juice/berry = list(10,10))
+	chems = list(/decl/material/liquid/nutriment = list(1,10), /decl/material/liquid/drink/juice/berry = list(10,10))
 	kitchen_tag = "blueberries"
 
 /datum/seed/berry/blue/New()
@@ -80,7 +80,7 @@
 	seed_name = "glowberry"
 	display_name = "glowberry bush"
 	mutants = null
-	chems = list(/decl/material/chem/nutriment = list(1,10), /decl/material/uranium = list(3,5))
+	chems = list(/decl/material/liquid/nutriment = list(1,10), /decl/material/solid/metal/uranium = list(3,5))
 
 /datum/seed/berry/glow/New()
 	..()
@@ -100,7 +100,11 @@
 	seed_name = "poison berry"
 	display_name = "poison berry bush"
 	mutants = list("deathberries")
-	chems = list(/decl/material/chem/nutriment = list(1), /decl/material/chem/toxin = list(3,5), /decl/material/chem/toxin/poisonberryjuice = list(10,5))
+	chems = list(
+		/decl/material/liquid/nutriment = list(1), 
+		/decl/material/liquid/bromide = list(3,5), 
+		/decl/material/liquid/poisonberryjuice = list(10,5)
+	)
 
 /datum/seed/berry/poison/New()
 	..()
@@ -113,7 +117,11 @@
 	seed_name = "death berry"
 	display_name = "death berry bush"
 	mutants = null
-	chems = list(/decl/material/chem/nutriment = list(1), /decl/material/chem/toxin = list(3,3), /decl/material/gas/carbon_monoxide = list(1,5))
+	chems = list(
+		/decl/material/liquid/nutriment = list(1), 
+		/decl/material/liquid/bromide = list(3,3), 
+		/decl/material/gas/carbon_monoxide = list(1,5)
+	)
 
 /datum/seed/berry/poison/death/New()
 	..()
@@ -126,9 +134,9 @@
 /datum/seed/nettle
 	name = "nettle"
 	seed_name = "nettle"
-	display_name = "nettles"
+	display_name = "nettle patch"
 	mutants = list("deathnettle")
-	chems = list(/decl/material/chem/nutriment = list(1,50), /decl/material/chem/acid = list(0,1))
+	chems = list(/decl/material/liquid/nutriment = list(1,50), /decl/material/liquid/acid = list(0,1))
 	kitchen_tag = "nettle"
 	kitchen_tag = "nettle"
 
@@ -147,9 +155,9 @@
 /datum/seed/nettle/death
 	name = "deathnettle"
 	seed_name = "death nettle"
-	display_name = "death nettles"
+	display_name = "death nettle patch"
 	mutants = null
-	chems = list(/decl/material/chem/nutriment = list(1,50), /decl/material/chem/acid/polyacid = list(0,1))
+	chems = list(/decl/material/liquid/nutriment = list(1,50), /decl/material/liquid/acid/polyacid = list(0,1))
 	kitchen_tag = "deathnettle"
 
 /datum/seed/nettle/death/New()
@@ -165,7 +173,7 @@
 	seed_name = "tomato"
 	display_name = "tomato plant"
 	mutants = list("bluetomato","bloodtomato")
-	chems = list(/decl/material/chem/nutriment = list(1,10), /decl/material/chem/drink/juice/tomato = list(10,10))
+	chems = list(/decl/material/liquid/nutriment = list(1,10), /decl/material/liquid/drink/juice/tomato = list(10,10))
 	kitchen_tag = "tomato"
 
 /datum/seed/tomato/New()
@@ -188,7 +196,7 @@
 	seed_name = "blood tomato"
 	display_name = "blood tomato plant"
 	mutants = list("killer")
-	chems = list(/decl/material/chem/nutriment = list(1,10), /decl/material/chem/blood = list(1,5))
+	chems = list(/decl/material/liquid/nutriment = list(1,10), /decl/material/liquid/blood = list(1,5))
 	splat_type = /obj/effect/decal/cleanable/blood/splatter
 
 /datum/seed/tomato/blood/New()
@@ -202,7 +210,7 @@
 	display_name = "killer tomato plant"
 	mutants = null
 	can_self_harvest = 1
-	has_mob_product = /mob/living/simple_animal/tomato
+	product_type = /mob/living/simple_animal/tomato
 
 /datum/seed/tomato/killer/New()
 	..()
@@ -213,8 +221,8 @@
 	name = "bluetomato"
 	seed_name = "blue tomato"
 	display_name = "blue tomato plant"
-	mutants = list("bluespacetomato")
-	chems = list(/decl/material/chem/nutriment = list(1,20), /decl/material/chem/lube = list(1,5))
+	mutants = list("quantumato")
+	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/lube = list(1,5))
 
 /datum/seed/tomato/blue/New()
 	..()
@@ -222,13 +230,13 @@
 	set_trait(TRAIT_PLANT_COLOUR,"#070aad")
 
 /datum/seed/tomato/blue/teleport
-	name = "bluespacetomato"
-	seed_name = "bluespace tomato"
-	display_name = "bluespace tomato plant"
+	name = "quantumato"
+	seed_name = "quantumato"
+	display_name = "quantumato plant"
 	mutants = null
 	chems = list(
-		/decl/material/chem/nutriment = list(1,20), 
-		/decl/material/chem/ethanol/bluecuracao = list(10,5)
+		/decl/material/liquid/nutriment = list(1,20), 
+		/decl/material/liquid/ethanol/bluecuracao = list(10,5)
 	)
 
 /datum/seed/tomato/blue/teleport/New()
@@ -242,9 +250,9 @@
 /datum/seed/eggplant
 	name = "eggplant"
 	seed_name = "eggplant"
-	display_name = "eggplants"
+	display_name = "eggplant vine"
 	mutants = list("realeggplant")
-	chems = list(/decl/material/chem/nutriment = list(1,10))
+	chems = list(/decl/material/liquid/nutriment = list(1,10))
 	kitchen_tag = "eggplant"
 
 /datum/seed/eggplant/New()
@@ -266,7 +274,7 @@
 	seed_name = "apple"
 	display_name = "apple tree"
 	mutants = list("poisonapple","goldapple")
-	chems = list(/decl/material/chem/nutriment = list(1,10), /decl/material/chem/drink/juice/apple = list(10,10))
+	chems = list(/decl/material/liquid/nutriment = list(1,10), /decl/material/liquid/drink/juice/apple = list(10,10))
 	kitchen_tag = "apple"
 
 /datum/seed/apple/New()
@@ -286,14 +294,14 @@
 /datum/seed/apple/poison
 	name = "poisonapple"
 	mutants = null
-	chems = list(/decl/material/chem/toxin/cyanide = list(1,5))
+	chems = list(/decl/material/liquid/cyanide = list(1,5))
 
 /datum/seed/apple/gold
 	name = "goldapple"
 	seed_name = "golden apple"
 	display_name = "gold apple tree"
 	mutants = null
-	chems = list(/decl/material/chem/nutriment = list(1,10), /decl/material/gold = list(1,5))
+	chems = list(/decl/material/liquid/nutriment = list(1,10), /decl/material/solid/metal/gold = list(1,5))
 	kitchen_tag = "goldapple"
 
 /datum/seed/apple/gold/New()
@@ -308,9 +316,15 @@
 /datum/seed/ambrosia
 	name = "biteleaf"
 	seed_name = "biteleaf"
-	display_name = "biteleaf"
+	display_name = "biteleaf patch"
 	mutants = list("biteleafdeus")
-	chems = list(/decl/material/chem/nutriment = list(1), /decl/material/chem/psychoactives = list(1,8), /decl/material/chem/burn_meds = list(1,8,1), /decl/material/chem/brute_meds = list(1,10,1), /decl/material/chem/toxin = list(1,10))
+	chems = list(
+		/decl/material/liquid/nutriment = list(1), 
+		/decl/material/liquid/psychoactives = list(1,8), 
+		/decl/material/liquid/burn_meds = list(1,8,1), 
+		/decl/material/liquid/brute_meds = list(1,10,1), 
+		/decl/material/liquid/bromide = list(1,10)
+	)
 	kitchen_tag = "biteleaf"
 
 /datum/seed/ambrosia/New()
@@ -328,15 +342,15 @@
 /datum/seed/ambrosia/deus
 	name = "biteleafdeus"
 	seed_name = "biteleaf deus"
-	display_name = "biteleaf deus"
+	display_name = "biteleaf deus patch"
 	mutants = null
 	chems = list(
-		/decl/material/chem/nutriment = list(1), 
-		/decl/material/chem/brute_meds = list(1,8), 
-		/decl/material/chem/antidepressants = list(1,8,1), 
-		/decl/material/chem/stimulants = list(1,8,1), 
-		/decl/material/chem/amphetamines = list(1,10,1), 
-		/decl/material/chem/psychoactives = list(1,10)
+		/decl/material/liquid/nutriment = list(1), 
+		/decl/material/liquid/brute_meds = list(1,8), 
+		/decl/material/liquid/antidepressants = list(1,8,1), 
+		/decl/material/liquid/stimulants = list(1,8,1), 
+		/decl/material/liquid/amphetamines = list(1,10,1), 
+		/decl/material/liquid/psychoactives = list(1,10)
 	)
 	kitchen_tag = "biteleafdeus"
 
@@ -350,9 +364,9 @@
 	name = "mushrooms"
 	seed_name = "chanterelle"
 	seed_noun = SEED_NOUN_SPORES
-	display_name = "chanterelle mushrooms"
+	display_name = "chanterelle mushroom patch"
 	mutants = list("reishi","amanita","plumphelmet")
-	chems = list(/decl/material/chem/nutriment = list(1,25))
+	chems = list(/decl/material/liquid/nutriment = list(1,25))
 	splat_type = /obj/effect/vine
 	kitchen_tag = "mushroom"
 
@@ -373,7 +387,7 @@
 /datum/seed/mushroom/mold
 	name = "mold"
 	seed_name = "brown mold"
-	display_name = "brown mold"
+	display_name = "brown mold patch"
 	mutants = null
 
 /datum/seed/mushroom/mold/New()
@@ -389,9 +403,9 @@
 /datum/seed/mushroom/plump
 	name = "plumphelmet"
 	seed_name = "plump helmet"
-	display_name = "plump helmet mushrooms"
+	display_name = "plump helmet mushroom patch"
 	mutants = list("walkingmushroom","corkwood")
-	chems = list(/decl/material/chem/nutriment = list(2,10))
+	chems = list(/decl/material/liquid/nutriment = list(2,10))
 	kitchen_tag = "plumphelmet"
 
 /datum/seed/mushroom/plump/New()
@@ -409,10 +423,10 @@
 /datum/seed/mushroom/plump/walking
 	name = "walkingmushroom"
 	seed_name = "walking mushroom"
-	display_name = "walking mushrooms"
+	display_name = "walking mushroom patch"
 	mutants = null
 	can_self_harvest = 1
-	has_mob_product = /mob/living/simple_animal/mushroom
+	product_type = /mob/living/simple_animal/mushroom
 
 /datum/seed/mushroom/plump/walking/New()
 	..()
@@ -424,9 +438,9 @@
 /datum/seed/mushroom/hallucinogenic
 	name = "reishi"
 	seed_name = "reishi"
-	display_name = "reishi"
+	display_name = "reishi patch"
 	mutants = list("libertycap","glowbell")
-	chems = list(/decl/material/chem/nutriment = list(1,50), /decl/material/chem/psychotropics = list(3,5))
+	chems = list(/decl/material/liquid/nutriment = list(1,50), /decl/material/liquid/psychotropics = list(3,5))
 
 /datum/seed/mushroom/hallucinogenic/New()
 	..()
@@ -442,9 +456,9 @@
 /datum/seed/mushroom/hallucinogenic/strong
 	name = "libertycap"
 	seed_name = "liberty cap"
-	display_name = "liberty cap mushrooms"
+	display_name = "liberty cap mushroom patch"
 	mutants = null
-	chems = list(/decl/material/chem/nutriment = list(1), /decl/material/chem/sedatives = list(3,3), /decl/material/chem/psychoactives = list(1,25))
+	chems = list(/decl/material/liquid/nutriment = list(1), /decl/material/liquid/sedatives = list(3,3), /decl/material/liquid/psychoactives = list(1,25))
 
 /datum/seed/mushroom/hallucinogenic/strong/New()
 	..()
@@ -458,9 +472,9 @@
 /datum/seed/mushroom/poison
 	name = "amanita"
 	seed_name = "fly amanita"
-	display_name = "fly amanita mushrooms"
+	display_name = "fly amanita mushroom patch"
 	mutants = list("destroyingangel","plastic")
-	chems = list(/decl/material/chem/nutriment = list(1), /decl/material/chem/toxin/amatoxin = list(3,3), /decl/material/chem/psychotropics = list(1,25))
+	chems = list(/decl/material/liquid/nutriment = list(1), /decl/material/liquid/amatoxin = list(3,3), /decl/material/liquid/psychotropics = list(1,25))
 
 /datum/seed/mushroom/poison/New()
 	..()
@@ -476,9 +490,9 @@
 /datum/seed/mushroom/poison/death
 	name = "destroyingangel"
 	seed_name = "destroying angel"
-	display_name = "destroying angel mushrooms"
+	display_name = "destroying angel mushroom patch"
 	mutants = null
-	chems = list(/decl/material/chem/nutriment = list(1,50), /decl/material/chem/toxin/amatoxin = list(13,3), /decl/material/chem/psychotropics = list(1,25))
+	chems = list(/decl/material/liquid/nutriment = list(1,50), /decl/material/liquid/amatoxin = list(13,3), /decl/material/liquid/psychotropics = list(1,25))
 
 /datum/seed/mushroom/poison/death/New()
 	..()
@@ -493,8 +507,8 @@
 /datum/seed/mushroom/corkwood
 	name = "corkwood"
 	seed_name = "corkwood"
-	display_name = "corkwood stalks"
-	chems = list(/decl/material/wood = list(10,1))
+	display_name = "corkwood thicket"
+	chems = list(/decl/material/solid/wood = list(10,1))
 	mutants = null
 
 /datum/seed/mushroom/corkwood/New()
@@ -508,9 +522,9 @@
 /datum/seed/mushroom/glowbell
 	name = "glowbell"
 	seed_name = "glowbell"
-	display_name = "glowbells"
+	display_name = "glowbell patch"
 	mutants = list("weepingmoon", "caverncandle")
-	chems = list(/decl/material/chem/glowsap = list(1,20))
+	chems = list(/decl/material/liquid/glowsap = list(1,20))
 
 /datum/seed/mushroom/glowbell/New()
 	..()
@@ -528,9 +542,9 @@
 /datum/seed/mushroom/weepingmoon
 	name = "weepingmoon"
 	seed_name = "weepingmoon"
-	display_name = "weeping moons"
+	display_name = "weeping moon patch"
 	mutants = null
-	chems = list(/decl/material/chem/glowsap = list(1,20))
+	chems = list(/decl/material/liquid/glowsap = list(1,20))
 
 /datum/seed/mushroom/weepingmoon/New()
 	..()
@@ -548,9 +562,9 @@
 /datum/seed/mushroom/caverncandle
 	name = "caverncandle"
 	seed_name = "caverncandle"
-	display_name = "cavern candles"
+	display_name = "cavern candle patch"
 	mutants = null
-	chems = list(/decl/material/chem/glowsap = list(1,20))
+	chems = list(/decl/material/liquid/glowsap = list(1,20))
 
 /datum/seed/mushroom/caverncandle/New()
 	..()
@@ -568,9 +582,9 @@
 /datum/seed/mushroom/plastic
 	name = "plastic"
 	seed_name = "plastellium"
-	display_name = "plastellium"
+	display_name = "plastellium patch"
 	mutants = null
-	chems = list(/decl/material/chem/toxin/plasticide = list(1,10))
+	chems = list(/decl/material/liquid/plasticide = list(1,10))
 
 /datum/seed/mushroom/plastic/New()
 	..()
@@ -587,8 +601,8 @@
 /datum/seed/flower
 	name = "harebells"
 	seed_name = "harebell"
-	display_name = "harebells"
-	chems = list(/decl/material/chem/nutriment = list(1,20))
+	display_name = "harebell patch"
+	chems = list(/decl/material/liquid/nutriment = list(1,20))
 
 /datum/seed/flower/New()
 	..()
@@ -604,8 +618,8 @@
 /datum/seed/flower/poppy
 	name = "poppies"
 	seed_name = "poppy"
-	display_name = "poppies"
-	chems = list(/decl/material/chem/nutriment = list(1,20), /decl/material/chem/painkillers = list(1,10))
+	display_name = "poppy patch"
+	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/painkillers = list(1,10))
 	kitchen_tag = "poppy"
 
 /datum/seed/flower/poppy/New()
@@ -624,7 +638,7 @@
 /datum/seed/flower/sunflower
 	name = "sunflowers"
 	seed_name = "sunflower"
-	display_name = "sunflowers"
+	display_name = "sunflower patch"
 
 /datum/seed/flower/sunflower/New()
 	..()
@@ -639,8 +653,8 @@
 /datum/seed/flower/lavender
 	name = "lavender"
 	seed_name = "lavender"
-	display_name = "lavender"
-	chems = list(/decl/material/chem/nutriment = list(1,20), /decl/material/chem/brute_meds = list(1,10))
+	display_name = "lavender patch"
+	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/brute_meds = list(1,10))
 
 /datum/seed/flower/lavender/New()
 	..()
@@ -659,9 +673,9 @@
 /datum/seed/grapes
 	name = "grapes"
 	seed_name = "grape"
-	display_name = "grapevines"
+	display_name = "grapevine"
 	mutants = list("greengrapes")
-	chems = list(/decl/material/chem/nutriment = list(1,10), /decl/material/chem/nutriment/sugar = list(1,5), /decl/material/chem/drink/juice/grape = list(10,10))
+	chems = list(/decl/material/liquid/nutriment = list(1,10), /decl/material/liquid/nutriment/sugar = list(1,5), /decl/material/liquid/drink/juice/grape = list(10,10))
 
 /datum/seed/grapes/New()
 	..()
@@ -680,9 +694,9 @@
 /datum/seed/grapes/green
 	name = "greengrapes"
 	seed_name = "green grape"
-	display_name = "green grapevines"
+	display_name = "green grapevine"
 	mutants = null
-	chems = list(/decl/material/chem/nutriment = list(1,10), /decl/material/chem/burn_meds = list(3,5), /decl/material/chem/drink/juice/grape = list(10,10))
+	chems = list(/decl/material/liquid/nutriment = list(1,10), /decl/material/liquid/burn_meds = list(3,5), /decl/material/liquid/drink/juice/grape = list(10,10))
 
 /datum/seed/grapes/green/New()
 	..()
@@ -692,8 +706,8 @@
 /datum/seed/peanuts
 	name = "peanut"
 	seed_name = "peanut"
-	display_name = "peanut vines"
-	chems = list(/decl/material/chem/nutriment = list(1,10))
+	display_name = "peanut vine"
+	chems = list(/decl/material/liquid/nutriment = list(1,10))
 
 /datum/seed/peanuts/New()
 	..()
@@ -710,8 +724,8 @@
 /datum/seed/peppercorn
 	name = "peppercorn"
 	seed_name = "peppercorn"
-	display_name = "black pepper"
-	chems = list(/decl/material/chem/blackpepper = list(10,10))
+	display_name = "black pepper plant"
+	chems = list(/decl/material/solid/blackpepper = list(10,10))
 
 /datum/seed/peppercorn/New()
 	..()
@@ -728,8 +742,8 @@
 /datum/seed/cabbage
 	name = "cabbage"
 	seed_name = "cabbage"
-	display_name = "cabbages"
-	chems = list(/decl/material/chem/nutriment = list(1,10))
+	display_name = "cabbage patch"
+	chems = list(/decl/material/liquid/nutriment = list(1,10))
 	kitchen_tag = "cabbage"
 
 /datum/seed/cabbage/New()
@@ -751,7 +765,7 @@
 	name = "banana"
 	seed_name = "banana"
 	display_name = "banana tree"
-	chems = list(/decl/material/chem/drink/juice/banana = list(10,10), /decl/material/chem/potassium = list(2,3))
+	chems = list(/decl/material/liquid/drink/juice/banana = list(10,10), /decl/material/solid/potassium = list(2,3))
 	trash_type = /obj/item/bananapeel
 	kitchen_tag = "banana"
 
@@ -774,7 +788,7 @@
 	name = "corn"
 	seed_name = "corn"
 	display_name = "ears of corn"
-	chems = list(/decl/material/chem/nutriment = list(1,10), /decl/material/chem/nutriment/cornoil = list(1,10))
+	chems = list(/decl/material/liquid/nutriment = list(1,10), /decl/material/liquid/nutriment/cornoil = list(1,10))
 	kitchen_tag = "corn"
 	trash_type = /obj/item/corncob
 
@@ -795,8 +809,8 @@
 /datum/seed/potato
 	name = "potato"
 	seed_name = "potato"
-	display_name = "potatoes"
-	chems = list(/decl/material/chem/nutriment = list(1,10), /decl/material/chem/drink/juice/potato = list(10,10))
+	display_name = "potato patch"
+	chems = list(/decl/material/liquid/nutriment = list(1,10), /decl/material/liquid/drink/juice/potato = list(10,10))
 	kitchen_tag = "potato"
 
 /datum/seed/potato/New()
@@ -814,8 +828,8 @@
 /datum/seed/garlic
 	name = "garlic"
 	seed_name = "garlic"
-	display_name = "garlic"
-	chems = list(/decl/material/chem/nutriment = list(1,10), /decl/material/chem/drink/juice/garlic = list(10,10))
+	display_name = "garlic plant"
+	chems = list(/decl/material/liquid/nutriment = list(1,10), /decl/material/liquid/drink/juice/garlic = list(10,10))
 	kitchen_tag = "garlic"
 
 /datum/seed/garlic/New()
@@ -832,8 +846,8 @@
 /datum/seed/onion
 	name = "onion"
 	seed_name = "onion"
-	display_name = "onions"
-	chems = list(/decl/material/chem/nutriment = list(1,10), /decl/material/chem/drink/juice/onion = list(10,10))
+	display_name = "onion patch"
+	chems = list(/decl/material/liquid/nutriment = list(1,10), /decl/material/liquid/drink/juice/onion = list(10,10))
 	kitchen_tag = "onion"
 
 /datum/seed/onion/New()
@@ -850,8 +864,8 @@
 /datum/seed/soybean
 	name = "soybean"
 	seed_name = "soybean"
-	display_name = "soybeans"
-	chems = list(/decl/material/chem/nutriment = list(1,20), /decl/material/chem/drink/milk/soymilk = list(10,20))
+	display_name = "soybean patch"
+	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/drink/milk/soymilk = list(10,20))
 	kitchen_tag = "soybeans"
 
 /datum/seed/soybean/New()
@@ -868,8 +882,8 @@
 /datum/seed/wheat
 	name = "wheat"
 	seed_name = "wheat"
-	display_name = "wheat stalks"
-	chems = list(/decl/material/chem/nutriment = list(1,25), /decl/material/chem/nutriment/flour = list(15,15))
+	display_name = "wheat patch"
+	chems = list(/decl/material/liquid/nutriment = list(1,25), /decl/material/liquid/nutriment/flour = list(15,15))
 	kitchen_tag = "wheat"
 
 /datum/seed/wheat/New()
@@ -888,8 +902,8 @@
 /datum/seed/rice
 	name = "rice"
 	seed_name = "rice"
-	display_name = "rice stalks"
-	chems = list(/decl/material/chem/nutriment = list(1,25), /decl/material/chem/nutriment/rice = list(10,15))
+	display_name = "rice paddy"
+	chems = list(/decl/material/liquid/nutriment = list(1,25), /decl/material/liquid/nutriment/rice = list(10,15))
 	kitchen_tag = "rice"
 
 /datum/seed/rice/New()
@@ -908,8 +922,8 @@
 /datum/seed/carrots
 	name = "carrot"
 	seed_name = "carrot"
-	display_name = "carrots"
-	chems = list(/decl/material/chem/nutriment = list(1,20), /decl/material/chem/eyedrops = list(3,5), /decl/material/chem/drink/juice/carrot = list(10,20))
+	display_name = "carrot patch"
+	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/eyedrops = list(3,5), /decl/material/liquid/drink/juice/carrot = list(10,20))
 	kitchen_tag = "carrot"
 
 /datum/seed/carrots/New()
@@ -943,8 +957,8 @@
 /datum/seed/whitebeets
 	name = "whitebeet"
 	seed_name = "white-beet"
-	display_name = "white-beets"
-	chems = list(/decl/material/chem/nutriment = list(0,20), /decl/material/chem/nutriment/sugar = list(1,5))
+	display_name = "white-beet patch"
+	chems = list(/decl/material/liquid/nutriment = list(0,20), /decl/material/liquid/nutriment/sugar = list(1,5))
 	kitchen_tag = "whitebeet"
 
 /datum/seed/whitebeets/New()
@@ -962,8 +976,8 @@
 /datum/seed/sugarcane
 	name = "sugarcane"
 	seed_name = "sugarcane"
-	display_name = "sugarcanes"
-	chems = list(/decl/material/chem/nutriment/sugar = list(4,5))
+	display_name = "sugarcane patch"
+	chems = list(/decl/material/liquid/nutriment/sugar = list(4,5))
 
 /datum/seed/sugarcane/New()
 	..()
@@ -982,7 +996,7 @@
 	name = "watermelon"
 	seed_name = "watermelon"
 	display_name = "watermelon vine"
-	chems = list(/decl/material/chem/nutriment = list(1,6), /decl/material/chem/drink/juice/watermelon = list(10,6))
+	chems = list(/decl/material/liquid/nutriment = list(1,6), /decl/material/liquid/drink/juice/watermelon = list(10,6))
 
 /datum/seed/watermelon/New()
 	..()
@@ -1005,7 +1019,7 @@
 	name = "pumpkin"
 	seed_name = "pumpkin"
 	display_name = "pumpkin vine"
-	chems = list(/decl/material/chem/nutriment = list(1,6))
+	chems = list(/decl/material/liquid/nutriment = list(1,6))
 	kitchen_tag = "pumpkin"
 
 /datum/seed/pumpkin/New()
@@ -1024,8 +1038,8 @@
 /datum/seed/citrus
 	name = "lime"
 	seed_name = "lime"
-	display_name = "lime trees"
-	chems = list(/decl/material/chem/nutriment = list(1,20), /decl/material/chem/drink/juice/lime = list(10,20))
+	display_name = "lime tree"
+	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/drink/juice/lime = list(10,20))
 	kitchen_tag = "lime"
 
 /datum/seed/citrus/New()
@@ -1045,8 +1059,8 @@
 /datum/seed/citrus/lemon
 	name = "lemon"
 	seed_name = "lemon"
-	display_name = "lemon trees"
-	chems = list(/decl/material/chem/nutriment = list(1,20), /decl/material/chem/drink/juice/lemon = list(10,20))
+	display_name = "lemon tree"
+	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/drink/juice/lemon = list(10,20))
 	kitchen_tag = "lemon"
 
 /datum/seed/citrus/lemon/New()
@@ -1060,9 +1074,9 @@
 /datum/seed/citrus/orange
 	name = "orange"
 	seed_name = "orange"
-	display_name = "orange trees"
+	display_name = "orange tree"
 	kitchen_tag = "orange"
-	chems = list(/decl/material/chem/nutriment = list(1,20), /decl/material/chem/drink/juice/orange = list(10,20))
+	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/drink/juice/orange = list(10,20))
 
 /datum/seed/citrus/orange/New()
 	..()
@@ -1073,8 +1087,8 @@
 /datum/seed/grass
 	name = "grass"
 	seed_name = "grass"
-	display_name = "grass"
-	chems = list(/decl/material/chem/nutriment = list(1,20))
+	display_name = "grass patch"
+	chems = list(/decl/material/liquid/nutriment = list(1,20))
 	kitchen_tag = "grass"
 
 /datum/seed/grass/New()
@@ -1095,7 +1109,7 @@
 	name = "cocoa"
 	seed_name = "cacao"
 	display_name = "cacao tree"
-	chems = list(/decl/material/chem/nutriment = list(1,10), /decl/material/chem/nutriment/coco = list(4,5))
+	chems = list(/decl/material/liquid/nutriment = list(1,10), /decl/material/liquid/nutriment/coco = list(4,5))
 
 /datum/seed/cocoa/New()
 	..()
@@ -1116,7 +1130,7 @@
 	seed_name = "cherry"
 	seed_noun = SEED_NOUN_PITS
 	display_name = "cherry tree"
-	chems = list(/decl/material/chem/nutriment = list(1,15), /decl/material/chem/nutriment/sugar = list(1,15), /decl/material/chem/nutriment/cherryjelly = list(10,15))
+	chems = list(/decl/material/liquid/nutriment = list(1,15), /decl/material/liquid/nutriment/sugar = list(1,15), /decl/material/liquid/nutriment/cherryjelly = list(10,15))
 	kitchen_tag = "cherries"
 
 /datum/seed/cherries/New()
@@ -1136,8 +1150,8 @@
 /datum/seed/kudzu
 	name = "kudzu"
 	seed_name = "kudzu"
-	display_name = "kudzu vines"
-	chems = list(/decl/material/chem/nutriment = list(1,50), /decl/material/chem/antitoxins = list(1,25))
+	display_name = "kudzu vine"
+	chems = list(/decl/material/liquid/nutriment = list(1,50), /decl/material/liquid/antitoxins = list(1,25))
 
 /datum/seed/kudzu/New()
 	..()
@@ -1155,8 +1169,8 @@
 /datum/seed/shand
 	name = "shand"
 	seed_name = "S'randar's hand"
-	display_name = "S'randar's hand leaves"
-	chems = list(/decl/material/chem/brute_meds = list(0,10))
+	display_name = "S'randar's hand patch"
+	chems = list(/decl/material/liquid/brute_meds = list(0,10))
 	kitchen_tag = "shand"
 
 /datum/seed/shand/New()
@@ -1175,8 +1189,8 @@
 /datum/seed/mtear
 	name = "mtear"
 	seed_name = "Messa's tear"
-	display_name = "Messa's tear leaves"
-	chems = list(/decl/material/chem/nutriment/honey = list(1,10), /decl/material/chem/burn_meds = list(3,5))
+	display_name = "Messa's tear patch"
+	chems = list(/decl/material/liquid/nutriment/honey = list(1,10), /decl/material/liquid/burn_meds = list(3,5))
 	kitchen_tag = "mtear"
 
 /datum/seed/mtear/New()
@@ -1195,9 +1209,9 @@
 /datum/seed/tobacco
 	name = "tobacco"
 	seed_name = "tobacco"
-	display_name = "tobacco leaves"
+	display_name = "tobacco plant"
 	mutants = list("finetobacco", "puretobacco", "badtobacco")
-	chems = list(/decl/material/chem/tobacco = list(1,10))
+	chems = list(/decl/material/solid/tobacco = list(1,10))
 
 /datum/seed/tobacco/New()
 	..()
@@ -1216,8 +1230,8 @@
 /datum/seed/tobacco/finetobacco
 	name = "finetobacco"
 	seed_name = "fine tobacco"
-	display_name = "fine tobacco leaves"
-	chems = list(/decl/material/chem/tobacco/fine = list(1,10))
+	display_name = "fine tobacco plant"
+	chems = list(/decl/material/solid/tobacco/fine = list(1,10))
 
 /datum/seed/tobacco/finetobacco/New()
 	..()
@@ -1229,8 +1243,8 @@
 /datum/seed/tobacco/puretobacco //provides the pure nicotine reagent
 	name = "puretobacco"
 	seed_name = "succulent tobacco"
-	display_name = "succulent tobacco leaves"
-	chems = list(/decl/material/chem/nicotine = list(1,10))
+	display_name = "succulent tobacco plant"
+	chems = list(/decl/material/liquid/nicotine = list(1,10))
 
 /datum/seed/tobacco/puretobacco/New()
 	..()
@@ -1243,20 +1257,20 @@
 /datum/seed/tobacco/bad
 	name = "badtobacco"
 	seed_name = "low-grade tobacco"
-	display_name = "low-grade tobacco leaves"
+	display_name = "low-grade tobacco plant"
 	mutants = list("tobacco")
-	chems = list(/decl/material/chem/tobacco/bad = list(1,10))
+	chems = list(/decl/material/solid/tobacco/bad = list(1,10))
 
 /datum/seed/algae
 	name = "algae"
 	seed_name = "algae"
-	display_name = "algae"
+	display_name = "algae patch"
 	chems = list(
-		/decl/material/chem/nutriment = list(2,12),
-		/decl/material/chem/toxin/bromide = list(3,8)
+		/decl/material/liquid/nutriment = list(2,12),
+		/decl/material/liquid/bromide = list(3,8)
 	)
 	kitchen_tag = "algae"
-	exude_gasses = list(MAT_METHYL_BROMIDE = 3)
+	exude_gasses = list(/decl/material/gas/methyl_bromide = 3)
 
 /datum/seed/algae/New()
 	..()
@@ -1276,8 +1290,8 @@
 /datum/seed/algae/bruisegrass
 	name = "bruisegrass"
 	seed_name = "bruisegrass"
-	display_name = "bruisegrass"
-	chems = list(/decl/material/chem/nutriment = list(1,20), /decl/material/chem/painkillers = list(1,10))
+	display_name = "bruisegrass patch"
+	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/painkillers = list(1,10))
 	kitchen_tag = "bruisegrass"
 	exude_gasses = null
 
@@ -1289,8 +1303,8 @@
 /datum/seed/bamboo
 	name = "bamboo"
 	seed_name = "bamboo"
-	display_name = "bamboo"
-	chems = list(/decl/material/wood/bamboo = list(6,1))
+	display_name = "bamboo thicket"
+	chems = list(/decl/material/solid/wood/bamboo = list(6,1))
 	mutants = null
 
 /datum/seed/bamboo/New()

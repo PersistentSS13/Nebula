@@ -12,6 +12,24 @@
 	var/z_index = -1
 	var/nongreedy_serialize = TRUE // Only serialize objects whitelist by z_map.
 
+	var/list/wrappers // Wrappers used for encapsulating more complex serialized objects.
+
+/serializer/New()
+	discover_wrappers()
+
+/serializer/proc/discover_wrappers()
+	wrappers = list()
+	for(var/W in subtypesof(/datum/wrapper))
+		var/datum/wrapper/Wd = W
+		if(!initial(Wd.wrapper_for))
+			continue
+		wrappers[initial(Wd.wrapper_for)] = W
+
+/serializer/proc/get_wrapper(var/D)
+	for(var/wrapper_type in wrappers)	
+		if(istype(D, wrapper_type))
+			return wrappers[wrapper_type]
+
 // Serializes an object. Returns the appropriate serialized form of the object. What's outputted depends on the serializer.
 // object: A thing to serialize.
 // object_parent: That object's parent. Could be a container or other. Optional.
@@ -52,7 +70,6 @@
 
 /serializer/proc/Clear()
 	z_index = -1
-	z_levels.Cut(1)
 	thing_map.Cut(1)
 	reverse_map.Cut(1)
 	list_map.Cut(1)

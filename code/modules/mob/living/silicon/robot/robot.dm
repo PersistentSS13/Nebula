@@ -38,6 +38,7 @@
 	var/obj/screen/inv1 = null
 	var/obj/screen/inv2 = null
 	var/obj/screen/inv3 = null
+	var/obj/screen/robot_drop_grab/ui_drop_grab
 
 	var/shown_robot_modules = 0 //Used to determine whether they have the module menu shown or not
 	var/obj/screen/robot_modules_background
@@ -79,7 +80,7 @@
 	var/lower_mod = 0
 	var/jetpack = 0
 	var/datum/effect/effect/system/ion_trail_follow/ion_trail = null
-	var/datum/effect/effect/system/spark_spread/spark_system//So they can initialize sparks whenever/N
+	var/datum/effect/effect/system/spark_spread/spark_system
 	var/jeton = 0
 	var/killswitch = 0
 	var/killswitch_time = 60
@@ -106,6 +107,7 @@
 	spark_system.attach(src)
 
 	add_language(/decl/language/binary, 1)
+	add_language(/decl/language/machine, 1)
 	add_language(/decl/language/human/common, 1)
 
 	wires = new(src)
@@ -477,14 +479,14 @@
 
 /mob/living/silicon/robot/bullet_act(var/obj/item/projectile/Proj)
 	..(Proj)
-	if(prob(75) && Proj.damage > 0) spark_system.start()
+	if(prob(75) && Proj.damage > 0) 
+		spark_system.start()
 	return 2
 
 /mob/living/silicon/robot/attackby(obj/item/W, mob/user)
 
-	if(istype(W, /obj/item/inducer)) return // inducer.dm afterattack handles this
-	if (istype(W, /obj/item/handcuffs)) // fuck i don't even know why isrobot() in handcuff code isn't working so this will have to do
-		return
+	if(istype(W, /obj/item/inducer) || istype(W, /obj/item/handcuffs))
+		return TRUE
 
 	if(opened) // Are they trying to insert something?
 		for(var/V in components)
@@ -652,7 +654,7 @@
 				update_icon()
 			else
 				to_chat(user, "<span class='warning'>Access denied.</span>")
-	else if(istype(W, /obj/item/borg/upgrade/))
+	else if(istype(W, /obj/item/borg/upgrade))
 		var/obj/item/borg/upgrade/U = W
 		if(!opened)
 			to_chat(usr, "You must access the borgs internals!")
@@ -670,7 +672,7 @@
 				to_chat(usr, "Upgrade error!")
 
 	else
-		if( !(istype(W, /obj/item/robotanalyzer) || istype(W, /obj/item/scanner/health)) )
+		if(!(istype(W, /obj/item/robotanalyzer) || istype(W, /obj/item/scanner/health)) && W.force && user.a_intent != I_HELP)
 			spark_system.start()
 		return ..()
 

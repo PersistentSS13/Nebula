@@ -36,9 +36,6 @@
 /datum/random_map/noise/exoplanet/proc/noise2value(var/value)
 	return min(9,max(0,round((value/cell_range)*10)))
 
-/datum/random_map/noise/exoplanet/proc/is_edge_turf(turf/T)
-	return T.x <= TRANSITIONEDGE || T.x >= (limit_x - TRANSITIONEDGE + 1) || T.y <= TRANSITIONEDGE || T.y >= (limit_y - TRANSITIONEDGE + 1)
-
 /datum/random_map/noise/exoplanet/get_map_char(var/value)
 	if(water_type && noise2value(value) < water_level)
 		return "~"
@@ -51,8 +48,6 @@
 		return land_type
 
 /datum/random_map/noise/exoplanet/get_additional_spawns(var/value, var/turf/T)
-	if(is_edge_turf(T))
-		return
 	if(T.is_wall())
 		return
 	var/parsed_value = noise2value(value)
@@ -93,7 +88,7 @@
 /datum/random_map/noise/exoplanet/proc/spawn_flora(var/turf/T, var/big)
 	if(big)
 		new /obj/effect/landmark/exoplanet_spawn/large_plant(T)
-		for(var/turf/neighbor in trange(1,T))
+		for(var/turf/neighbor in RANGE_TURFS(T, 1))
 			spawn_grass(neighbor)
 	else
 		new /obj/effect/landmark/exoplanet_spawn/plant(T)

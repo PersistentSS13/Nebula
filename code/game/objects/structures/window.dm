@@ -10,7 +10,7 @@
 	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_CHECKS_BORDER
 	obj_flags = OBJ_FLAG_ROTATABLE
 	alpha = 180
-	material = MAT_GLASS
+	material = /decl/material/solid/glass
 	rad_resistance_modifier = 0.5
 	atmos_canpass = CANPASS_PROC
 	handle_generic_blending = TRUE
@@ -36,8 +36,8 @@
 
 /obj/structure/window/update_materials(var/keep_health)
 	. = ..()
-	name = "[reinf_material ? "reinforced " : ""][material.name] window"
-	desc = "A window pane made from [material.name]."
+	name = "[reinf_material ? "reinforced " : ""][material.solid_name] window"
+	desc = "A window pane made from [material.solid_name]."
 
 /obj/structure/window/Initialize(var/ml, var/dir_to_set, var/anchored, var/_mat, var/_reinf_mat)
 	. = ..(ml, _mat, _reinf_mat)
@@ -98,8 +98,8 @@
 	take_damage(proj_damage)
 
 /obj/structure/window/explosion_act(severity)
-	. = ..()
-	if(. && !QDELETED(src) && (severity != 3 || prob(50)))
+	..()
+	if(!QDELETED(src) && (severity != 3 || prob(50)))
 		physically_destroyed()
 
 /obj/structure/window/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
@@ -264,8 +264,8 @@
 	if (!G.force_danger())
 		to_chat(G.assailant, SPAN_DANGER("You need a better grip to do that!"))
 		return TRUE
-	var/def_zone = ran_zone(BP_HEAD, 20)
 	var/mob/affecting_mob = G.get_affecting_mob()
+	var/def_zone = ran_zone(BP_HEAD, 20, affecting_mob)
 	if(!affecting_mob)
 		attackby(G.affecting, G.assailant)
 		return TRUE
@@ -315,8 +315,8 @@
 /obj/structure/window/examine(mob/user)
 	. = ..(user)
 	if(reinf_material)
-		to_chat(user, SPAN_NOTICE("It is reinforced with the [reinf_material.name] lattice."))
-		
+		to_chat(user, SPAN_NOTICE("It is reinforced with the [reinf_material.solid_name] lattice."))
+
 /obj/structure/window/proc/set_anchored(var/new_anchored)
 	if(anchored == new_anchored)
 		return
@@ -341,9 +341,8 @@
 /obj/structure/window/on_update_icon()
 	//A little cludge here, since I don't know how it will work with slim windows. Most likely VERY wrong.
 	//this way it will only update full-tile ones
-	if(istype(material))
-		color =  material.icon_colour
-	if(istype(reinf_material))
+	color =  material.color
+	if(reinf_material)
 		basestate = reinf_basestate
 	else
 		basestate = initial(basestate)
@@ -395,7 +394,7 @@
 /obj/structure/window/borosilicate
 	name = "borosilicate window"
 	color = GLASS_COLOR_SILICATE
-	material = MAT_BOROSILICATE_GLASS
+	material = /decl/material/solid/glass/borosilicate
 
 /obj/structure/window/borosilicate/full
 	dir = NORTHEAST
@@ -403,10 +402,10 @@
 
 /obj/structure/window/borosilicate_reinforced
 	name = "reinforced borosilicate window"
-	icon_state = "phoronrwindow"
+	icon_state = "rwindow"
 	color = GLASS_COLOR_SILICATE
-	material = MAT_BOROSILICATE_GLASS
-	reinf_material = MAT_STEEL
+	material = /decl/material/solid/glass/borosilicate
+	reinf_material = /decl/material/solid/metal/steel
 
 /obj/structure/window/borosilicate_reinforced/full
 	dir = NORTHEAST
@@ -415,8 +414,8 @@
 /obj/structure/window/reinforced
 	name = "reinforced window"
 	icon_state = "rwindow"
-	material = MAT_GLASS
-	reinf_material = MAT_STEEL
+	material = /decl/material/solid/glass
+	reinf_material = /decl/material/solid/metal/steel
 
 /obj/structure/window/reinforced/full
 	dir = NORTHEAST
@@ -453,7 +452,7 @@
 	if(!polarized)
 		return
 	if(opacity)
-		animate(src, color=material.icon_colour, time=5)
+		animate(src, color=material.color, time=5)
 		set_opacity(0)
 	else
 		animate(src, color=GLASS_COLOR_TINTED, time=5)
@@ -520,6 +519,7 @@
 	return
 
 /obj/structure/window/reinforced/crescent/hitby()
+	SHOULD_CALL_PARENT(FALSE)
 	return
 
 /obj/structure/window/reinforced/crescent/take_damage()

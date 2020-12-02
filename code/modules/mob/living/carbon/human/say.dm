@@ -1,4 +1,8 @@
 /mob/living/carbon/human/say(var/message, var/decl/language/speaking = null, whispering)
+	set waitfor = FALSE
+	var/prefix = copytext(message,1,2)
+	if(prefix == get_prefix_key(/decl/prefix/custom_emote) || prefix == get_prefix_key(/decl/prefix/visible_emote) || prefix == get_prefix_key(/decl/prefix/audible_emote))
+		return ..(message, null, null)
 	if(name != GetVoice())
 		if(get_id_name("Unknown") == GetVoice())
 			SetName(get_id_name("Unknown"))
@@ -35,6 +39,10 @@
 			whisper_say(length(message) > 5 ? stars(message) : message, speaking)
 		else if(L.breath_fail_ratio > 0.4 && length(message) > 10)
 			whisper_say(message, speaking)
+		else if(L.breath_fail_ratio > 0.2 && length(message) > 30)
+			whisper_say(message, speaking)
+		else
+			return ..(message, speaking = speaking, whispering = whispering)
 	else
 		return ..(message, speaking = speaking, whispering = whispering)
 
@@ -177,8 +185,9 @@
 			if(r_ear && istype(r_ear,/obj/item/radio))
 				R = r_ear
 				has_radio = 1
-			if(r_hand && istype(r_hand, /obj/item/radio))
-				R = r_hand
+			var/datum/inventory_slot/inv_slot = LAZYACCESS(held_item_slots, BP_R_HAND)
+			if(istype(inv_slot?.holding, /obj/item/radio))
+				R = inv_slot.holding
 				has_radio = 1
 			if(has_radio)
 				R.talk_into(src,message,null,verb,speaking)
@@ -189,8 +198,9 @@
 			if(l_ear && istype(l_ear,/obj/item/radio))
 				R = l_ear
 				has_radio = 1
-			if(l_hand && istype(l_hand,/obj/item/radio))
-				R = l_hand
+			var/datum/inventory_slot/inv_slot = LAZYACCESS(held_item_slots, BP_L_HAND)
+			if(istype(inv_slot?.holding, /obj/item/radio))
+				R = inv_slot.holding
 				has_radio = 1
 			if(has_radio)
 				R.talk_into(src,message,null,verb,speaking)

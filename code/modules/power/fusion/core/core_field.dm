@@ -91,7 +91,7 @@
 	var/added_particles = FALSE
 	var/datum/gas_mixture/uptake_gas = owned_core.loc.return_air()
 	if(uptake_gas)
-		uptake_gas = uptake_gas.remove_by_flag(XGM_GAS_FUSION_FUEL, rand(50,100))
+		uptake_gas = uptake_gas.remove_by_flag(MAT_FLAG_FUSION_FUEL, rand(50,100), TRUE)
 	if(uptake_gas && uptake_gas.total_moles)
 		for(var/gasname in uptake_gas.gas)
 			if(uptake_gas.gas[gasname]*10 > reactants[gasname])
@@ -207,6 +207,7 @@
 	return plasma_temperature < 1000
 
 /obj/effect/fusion_em_field/proc/Rupture()
+	set waitfor = FALSE
 	visible_message("<span class='danger'>\The [src] shudders like a dying animal before flaring to eye-searing brightness and rupturing!</span>")
 	set_light(1, 0.1, 15, 2, "#ccccff")
 	empulse(get_turf(src), ceil(plasma_temperature/1000), ceil(plasma_temperature/300))
@@ -333,6 +334,7 @@
 
 //the !!fun!! part
 /obj/effect/fusion_em_field/proc/React()
+	set waitfor = FALSE
 	//loop through the reactants in random order
 	var/list/react_pool = reactants.Copy()
 

@@ -4,14 +4,14 @@
 	icon = 'icons/obj/items/device/depth_scanner.dmi'
 	icon_state = "crap"
 	item_state = "analyzer"
-	origin_tech = "{'magnets':2,'engineering':2,'bluespace':2}"
-	material = MAT_STEEL
+	origin_tech = "{'magnets':2,'engineering':2,'wormholes':2}"
+	material = /decl/material/solid/metal/steel
 	matter = list(
-		MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT,
-		MAT_ALUMINIUM = MATTER_AMOUNT_TRACE
+		/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
 	)
 	w_class = ITEM_SIZE_SMALL
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 	var/list/positive_locations = list()
 	var/datum/depth_scan/current
 
@@ -27,8 +27,8 @@
 /obj/item/depth_scanner/proc/scan_atom(var/mob/user, var/atom/A)
 	user.visible_message("<span class='notice'>\The [user] scans \the [A], the air around them humming gently.</span>")
 
-	if(istype(A, /turf/simulated/mineral))
-		var/turf/simulated/mineral/M = A
+	if(istype(A, /turf/simulated/wall/natural))
+		var/turf/simulated/wall/natural/M = A
 		if((M.finds && M.finds.len) || M.artifact_find)
 
 			//create a new scanlog entry
@@ -36,7 +36,7 @@
 			D.coords = "[M.x]:[M.y]:[M.z]"
 			D.time = stationtime2text()
 			D.record_index = positive_locations.len + 1
-			D.material = M.mineral ? M.mineral.ore_name : "Rock"
+			D.material = M.reinf_material?.ore_name || "Rock"
 
 			//find the first artifact and store it
 			if(M.finds.len)
@@ -47,7 +47,7 @@
 
 			positive_locations.Add(D)
 
-			to_chat(user, "<span class='notice'>\icon[src] [src] pings.</span>")
+			to_chat(user, "<span class='notice'>[html_icon(src)] [src] pings.</span>")
 
 	else if(istype(A, /obj/structure/boulder))
 		var/obj/structure/boulder/B = A
@@ -65,7 +65,7 @@
 
 			positive_locations.Add(D)
 
-			to_chat(user, "<span class='notice'>\icon[src] [src] pings [pick("madly","wildly","excitedly","crazily")]!</span>")
+			to_chat(user, "<span class='notice'>[html_icon(src)] [src] pings [pick("madly","wildly","excitedly","crazily")]!</span>")
 
 /obj/item/depth_scanner/attack_self(var/mob/living/user)
 	interact(user)

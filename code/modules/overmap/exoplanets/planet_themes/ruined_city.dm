@@ -57,17 +57,27 @@
 		blocks_y += blocks_x[i] + block_size + 1
 	blocks_x += limit_x - 1
 	blocks_y += limit_y - 1
+
 	//Draw roads
 	for(var/x in blocks_x)
+		if(x > limit_x)
+			continue
 		for(var/y = 1 to limit_y)
-			map[TRANSLATE_COORD(x-1,y)] = ROAD_VALUE
+			if(x > 1)
+				map[TRANSLATE_COORD(x-1,y)] = ROAD_VALUE
 			map[TRANSLATE_COORD(x,y)] = ROAD_VALUE
-			map[TRANSLATE_COORD(x+1,y)] = ROAD_VALUE
+			if(x < limit_x)
+				map[TRANSLATE_COORD(x+1,y)] = ROAD_VALUE
+
 	for(var/y in blocks_y)
+		if(y > limit_y)
+			continue
 		for(var/x = 1 to limit_x)
-			map[TRANSLATE_COORD(x,y-1)] = ROAD_VALUE
+			if(y > 1)
+				map[TRANSLATE_COORD(x,y-1)] = ROAD_VALUE
 			map[TRANSLATE_COORD(x,y)] = ROAD_VALUE
-			map[TRANSLATE_COORD(x,y+1)] = ROAD_VALUE
+			if(y < limit_y)
+				map[TRANSLATE_COORD(x,y+1)] = ROAD_VALUE
 
 	//Place buildings
 	for(var/i = 1 to blocks_x.len - 1)
@@ -89,7 +99,7 @@
 
 /datum/random_map/city/get_appropriate_path(var/value)
 	if(value == ROAD_VALUE)
-		return /turf/simulated/floor/exoplanet/concrete/reinforced/road
+		return /turf/exterior/concrete/reinforced/road
 
 /datum/random_map/city/apply_to_map()
 	..()
@@ -97,11 +107,15 @@
 		building.apply_to_map()
 
 // Buildings
+/turf/simulated/wall/concrete
+	icon_state = "stone"
+	floor_type = null
+	material = /decl/material/solid/stone/concrete
 
 //Generic ruin
 /datum/random_map/maze/concrete
 	wall_type =  /turf/simulated/wall/concrete
-	floor_type = /turf/simulated/floor/exoplanet/concrete/reinforced
+	floor_type = /turf/exterior/concrete/reinforced
 	preserve_map = 0
 
 /datum/random_map/maze/concrete/get_appropriate_path(var/value)
@@ -109,7 +123,7 @@
 		if(prob(80))
 			return /turf/simulated/wall/concrete
 		else
-			return /turf/simulated/floor/exoplanet/concrete/reinforced/damaged
+			return /turf/exterior/concrete/reinforced/damaged
 	return ..()
 
 /datum/random_map/maze/concrete/get_additional_spawns(var/value, var/turf/simulated/floor/T)
@@ -128,7 +142,7 @@
 	floor_type = /turf/simulated/floor/fixed/alium/airless
 
 /turf/simulated/wall/containment/Initialize(var/ml)
-	. = ..(ml, MAT_CONCRETE, MAT_ALIENALLOY)
+	. = ..(ml, /decl/material/solid/stone/concrete, /decl/material/solid/metal/aliumium)
 
 /datum/random_map/maze/lab
 	wall_type =  /turf/simulated/wall/containment

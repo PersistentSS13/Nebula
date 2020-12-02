@@ -13,7 +13,7 @@
 			seed.set_trait(TRAIT_STINGS, 1)
 			seed.set_trait(TRAIT_CARNIVOROUS,2)
 
-			seed.display_name = "strange plants" //more thematic for the vine infestation event
+			seed.display_name = "strange plant" //more thematic for the vine infestation event
 
 			//make vine zero start off fully matured
 			new /obj/effect/vine(T, seed, null, 1)
@@ -127,7 +127,7 @@
 		layer = (seed && seed.force_layer) ? seed.force_layer : ABOVE_OBJ_LAYER
 		if(growth_type in list(GROWTH_VINES,GROWTH_BIOMASS))
 			set_opacity(1)
-		if(islist(seed.chems) && !isnull(seed.chems[/decl/material/wood]))
+		if(islist(seed.chems) && !isnull(seed.chems[/decl/material/solid/wood]))
 			set_density(1)
 			set_opacity(1)
 

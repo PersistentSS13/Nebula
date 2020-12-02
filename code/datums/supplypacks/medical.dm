@@ -12,7 +12,7 @@
 					/obj/item/storage/firstaid/adv,
 					/obj/item/storage/firstaid/stab,
 					/obj/item/chems/glass/bottle/antitoxin,
-					/obj/item/chems/glass/bottle/adrenaline,
+					/obj/item/chems/glass/bottle/stabilizer,
 					/obj/item/chems/glass/bottle/sedatives,
 					/obj/item/storage/box/syringes,
 					/obj/item/storage/box/autoinjectors)
@@ -198,10 +198,10 @@
 	contains = list(/obj/item/clothing/under/rank/psych,
 					/obj/item/radio/headset/headset_med,
 					/obj/item/clothing/under/rank/psych/turtleneck,
-					/obj/item/clothing/shoes/laceup,
+					/obj/item/clothing/shoes/dress,
 					/obj/item/clothing/suit/storage/toggle/labcoat,
 					/obj/item/clothing/shoes/color/white,
-					/obj/item/material/clipboard,
+					/obj/item/clipboard,
 					/obj/item/folder/cyan,
 					/obj/item/pen)
 	cost = 15

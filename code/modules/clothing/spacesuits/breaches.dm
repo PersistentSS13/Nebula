@@ -25,7 +25,6 @@
 		)
 
 /obj/item/clothing/suit/space
-
 	var/can_breach = 1                      // Set to 0 to disregard all breaching.
 	var/list/breaches = list()              // Breach datum container.
 	var/resilience = 0.2                    // Multiplier that turns damage into breach class. 1 is 100% of damage to breach, 0.1 is 10%. 0.2 -> 50 brute/burn damage to cause 10 breach damage
@@ -180,9 +179,9 @@
 	if(istype(W,/obj/item/stack/material))
 		var/repair_power = 0
 		switch(W.get_material_type())
-			if(MAT_STEEL)
+			if(/decl/material/solid/metal/steel)
 				repair_power = 2
-			if(MAT_PLASTIC)
+			if(/decl/material/solid/plastic)
 				repair_power = 1
 
 		if(!repair_power)

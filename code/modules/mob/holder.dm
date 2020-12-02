@@ -9,9 +9,9 @@ var/list/holder_mob_icon_cache = list()
 
 	origin_tech = null
 	item_icons = list(
-		slot_l_hand_str = 'icons/mob/onmob/items/lefthand_holder.dmi',
-		slot_r_hand_str = 'icons/mob/onmob/items/righthand_holder.dmi',
-		)
+		BP_L_HAND = 'icons/mob/onmob/items/lefthand_holder.dmi',
+		BP_R_HAND = 'icons/mob/onmob/items/righthand_holder.dmi'
+	)
 	pixel_y = 8
 
 	var/last_holder
@@ -40,7 +40,7 @@ var/list/holder_mob_icon_cache = list()
 	update_state(1)
 
 /obj/item/holder/throw_impact(atom/hit_atom, datum/thrownthing/TT)
-	. = ..()
+	..()
 	update_state(1)
 
 /obj/item/holder/proc/update_state(var/delay)
@@ -135,7 +135,6 @@ var/list/holder_mob_icon_cache = list()
 /mob/living/var/holder_type
 
 /mob/living/proc/get_scooped(var/mob/living/carbon/human/grabber, var/self_grab)
-
 	if(!holder_type || buckled || pinned.len)
 		return
 
@@ -147,7 +146,7 @@ var/list/holder_mob_icon_cache = list()
 	var/obj/item/holder/H = new holder_type(get_turf(src))
 
 	if(self_grab)
-		if(!grabber.equip_to_slot_if_possible(H, slot_back, del_on_fail=0, disable_warning=1))
+		if(!grabber.equip_to_slot_if_possible(H, slot_back_str, del_on_fail=0, disable_warning=1))
 			to_chat(src, "<span class='warning'>You can't climb onto [grabber]!</span>")
 			return
 
@@ -168,11 +167,22 @@ var/list/holder_mob_icon_cache = list()
 	return H
 
 /mob/living/attack_hand(mob/user)
+
+	var/datum/extension/hattable/hattable = get_extension(src, /datum/extension/hattable)
+	if(hattable && hattable.hat)
+		hattable.hat.forceMove(get_turf(src))
+		user.put_in_hands(hattable.hat)
+		user.visible_message(SPAN_DANGER("\The [user] removes \the [src]'s [hattable.hat]!"))
+		hattable.hat = null
+		update_icons()
+		return TRUE
+
 	if(ishuman(user))
 		var/mob/living/carbon/H = user
 		if(H.a_intent == I_GRAB && scoop_check(user))
 			get_scooped(user, FALSE)
 			return TRUE
+
 	. = ..()
 
 /mob/living/proc/scoop_check(var/mob/living/scooper)
@@ -185,16 +195,16 @@ var/list/holder_mob_icon_cache = list()
 	icon = 'icons/mob/holder_complex.dmi'
 	var/mob_blend_mode = ICON_ADD
 	slot_flags = SLOT_BACK
-	var/list/generate_for_slots = list(slot_l_hand_str, slot_r_hand_str, slot_back_str)
+	var/list/generate_for_slots = list(BP_L_HAND, BP_R_HAND, slot_back_str)
 
 /obj/item/holder/human/sync(var/mob/living/M)
 	// Generate appropriate on-mob icons.
 	var/mob/living/carbon/human/owner = M
 	if(istype(owner) && owner.species && LAZYLEN(generate_for_slots))
 
-		var/skin_colour = rgb(owner.r_skin, owner.g_skin, owner.b_skin)
-		var/hair_colour = rgb(owner.r_hair, owner.g_hair, owner.b_hair)
-		var/eye_colour =  rgb(owner.r_eyes, owner.g_eyes, owner.b_eyes)
+		var/skin_colour = owner.skin_colour
+		var/hair_colour = owner.hair_colour
+		var/eye_colour =  owner.eye_colour
 		var/species_name = lowertext(owner.species.get_bodytype(owner))
 
 		for(var/cache_entry in generate_for_slots)

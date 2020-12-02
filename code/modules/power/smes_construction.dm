@@ -15,12 +15,12 @@
 	origin_tech = "{'materials':7,'powerstorage':7,'engineering':5}"
 	base_type = /obj/item/stock_parts/smes_coil
 	part_flags = PART_FLAG_HAND_REMOVE
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	matter = list(
-		MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT,
-		MAT_GOLD = MATTER_AMOUNT_TRACE,
-		MAT_SILVER = MATTER_AMOUNT_TRACE,
-		MAT_ALUMINIUM = MATTER_AMOUNT_TRACE
+		/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/gold = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/metal/silver = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
 	)
 
 	var/ChargeCapacity = 50 KILOWATTS
@@ -145,7 +145,7 @@
 	// SMESs store very large amount of power. If someone screws up (ie: Disables safeties and attempts to modify the SMES) very bad things happen.
 	// Bad things are based on charge percentage.
 	// Possible effects:
-	// Sparks - Lets out few sparks, mostly fire hazard if phoron present. Otherwise purely aesthetic.
+	// Sparks - Lets out few sparks, mostly fire hazard if flammable gas present. Otherwise purely aesthetic.
 	// Shock - Depending on intensity harms the user. Insultated Gloves protect against weaker shocks, but strong shock bypasses them.
 	// EMP Pulse - Lets out EMP pulse discharge which screws up nearby electronics.
 	// Light Overload - X% chance to overload each lighting circuit in connected powernet. APC based.
@@ -183,7 +183,7 @@
 				to_chat(h_user, SPAN_WARNING("Small electrical arc almost burns your hand. Luckily you had your gloves on!"))
 			else
 				to_chat(h_user, SPAN_DANGER("Small electrical arc sparks and burns your hand as you touch the [src]!"))
-				h_user.electrocute_act(rand(5,20), src, def_zone = h_user.hand ? BP_L_HAND : BP_R_HAND)//corrected to counter act armor and stuff
+				h_user.electrocute_act(rand(5,20), src, def_zone = h_user.get_active_held_item_slot())//corrected to counter act armor and stuff
 			charge = 0
 
 		if (16 to 35)
@@ -195,7 +195,7 @@
 				to_chat(h_user, SPAN_WARNING("Medium electrical arc sparks and almost burns your hand. Luckily you had your gloves on!"))
 			else
 				to_chat(h_user, SPAN_DANGER("Medium electrical sparks as you touch the [src], severely burning your hand!"))
-				h_user.electrocute_act(rand(15,35), src, def_zone = h_user.hand ? BP_L_HAND : BP_R_HAND)
+				h_user.electrocute_act(rand(15,35), src, def_zone = h_user.get_active_held_item_slot())
 			spawn(0)
 				empulse(src.loc, 2, 4)
 			apcs_overload(0, 5, 10)
@@ -208,7 +208,7 @@
 			s.start()
 			if (user_protected)
 				to_chat(h_user, SPAN_DANGER("Strong electrical arc sparks between you and [src], ignoring your gloves and burning your hand!"))
-				h_user.electrocute_act(rand(30,60), src, def_zone = h_user.hand ? BP_L_HAND : BP_R_HAND)
+				h_user.electrocute_act(rand(30,60), src, def_zone = h_user.get_active_held_item_slot())
 				h_user.Paralyse(3)
 			else
 				to_chat(h_user, SPAN_DANGER("Strong electrical arc sparks between you and [src], knocking you out for a while!"))

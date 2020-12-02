@@ -34,23 +34,15 @@
 	lore_text = "Good hide is hard to come by in certain regions of the galaxy. When they can't come across it, most TSCs will outfit their crews with toolbelts made of synthesized leather."
 	antag_text = "Only amateurs skip grabbing a tool-belt."
 
-/datum/codex_entry/toolbelt/crystal
-	associated_paths = list(/obj/item/storage/belt/utility/crystal)
-	lore_text = "While some Vigil units have tools integrated directly into their bodies, less specialized units simply use toolbelts."
-
-/datum/codex_entry/toolbox/crystal
-	associated_paths = list(/obj/item/storage/toolbox/crystal)
-	lore_text = "The most basic of Vigil units may sometimes use toolboxes like these, which are surprisingly similar in design to ones of human origin. On occasion, some units have been known to harbor a slight preference for these archaic designs over something more streamlined, for whatever reason."
-	
 /datum/codex_entry/cable_painter
 	associated_paths = list(/obj/item/cable_painter)
 	mechanics_text = "Use this device to select a preferred cable color. Apply it to a bundle of cables on your person, or use it on installed cabling on the floor to paint it in your chosen color."
 	lore_text = "A device often used by spacefaring engineers to color-code their electrical systems. An experienced technician can identify traditional installations by color alone."
 
-/datum/codex_entry/floor_painter
-	associated_paths = list(/obj/item/floor_painter)
-	mechanics_text = "Use this item in your hand to access a menu in which you may change the type of decal, applied direction, and color. Click any accessible tile on the floor to apply your choice."
-	lore_text = "This ubiquitous maintenance-grade paintgun isn't as fancy or convenient as modern consumer models, but with an internal synthesizer it never runs out of pigment!"
+/datum/codex_entry/paint_sprayer
+	associated_paths = list(/obj/item/paint_sprayer)
+	mechanics_text = "Use the paint sprayer to set decal, color and direction used for painting or to switch into the color picking mode. Ctrl+Click for quickly switching modes and Alt+Click for quickly selecting a preset color."
+	lore_text = "This ubiquitous maintenance-grade paint sprayer isn't as fancy or convenient as modern consumer models, but with an internal synthesizer it never runs out of pigment!"
 	antag_text = "This thing would be perfect for vandalism. Could you write your name in the halls?"
 
 /datum/codex_entry/geiger_counter
@@ -69,11 +61,6 @@
 	mechanics_text = "Multitools are incredibly versatile and can be used on a wide variety of machines. The most common use for this is to trip a device's wires without having to cut them. Simply click on an object with exposed wiring to use it. There might be other uses, as well..."
 	lore_text = "The common, every day multitool is descended from certain electrical tools from Earth's early space age. Though none too cheap, they are incredibly handy, and can be found in any self-respecting technician's toolbox."
 	antag_text = "This handy little tool can get you through doors, turn off power, and anything else you might need."
-
-/datum/codex_entry/pipe_painter
-	associated_paths = list(/obj/item/pipe_painter)
-	mechanics_text = "Use the pipe painter to specify which color you'd like to apply to pipes. Click on exposed piping to alter its hue."
-	lore_text = "Though by no means a modern miracle, synthesized pigments have revolutionized the electrical engineering industry, making time-consuming painting and color coding jobs an effortless non-issue."
 
 /datum/codex_entry/t_scanner
 	associated_paths = list(/obj/item/t_scanner)

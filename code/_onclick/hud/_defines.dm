@@ -39,7 +39,7 @@
 #define ui_inv3 "CENTER+1,BOTTOM:5"			//borgs
 #define ui_borg_store "CENTER+2,BOTTOM:5"	//borgs
 #define ui_borg_inventory "CENTER-2,BOTTOM:5"//borgs
-
+#define ui_borg_drop_grab "CENTER-3,BOTTOM:5"//borgs
 #define ui_monkey_mask "LEFT+4:14,BOTTOM:5"	//monkey
 #define ui_monkey_back "LEFT+5:14,BOTTOM:5"	//monkey
 
@@ -156,3 +156,10 @@
 // AI: Crew
 #define ui_ai_crew_mon "RIGHT-1:30,TOP:0"
 #define ui_ai_crew_rec "RIGHT-2:30, TOP:0"
+
+// pAI
+#define ui_pai_software "TOP,LEFT:6"
+#define ui_pai_subsystems "TOP,LEFT+1:6"
+#define ui_pai_shell "TOP,LEFT+2:6"
+#define ui_pai_light "TOP,LEFT+3:6"
+#define ui_pai_rest "TOP,LEFT+4:6"

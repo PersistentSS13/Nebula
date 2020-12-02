@@ -34,6 +34,9 @@
 			. += "<li>INCOMPLETE FINGERPRINT ([F.completeness]%)"
 	return jointext(., "<br>")
 
+/datum/forensics/fingerprints/spot_message(mob/detective, atom/location)
+	to_chat(detective, SPAN_NOTICE("You notice a partial print on \the [location]."))
+	
 // Single (possibly partial) fingerprint
 /datum/fingerprint
 	var/full_print
@@ -59,7 +62,7 @@
 		ignore_gloves = 1
 
 	if(!ignore_gloves)
-		var/obj/item/cover = M.get_covering_equipped_item(M.hand ? HAND_LEFT : HAND_RIGHT)
+		var/obj/item/cover = M.get_covering_equipped_item(M.get_active_held_item_slot())
 		if(cover)
 			cover.add_fingerprint(M, 1)
 			return
@@ -91,6 +94,6 @@
 	if(!..())
 		return FALSE
 
-	var/obj/item/organ/external/E = organs_by_name[hand ? BP_L_HAND : BP_R_HAND]
+	var/obj/item/organ/external/E = organs_by_name[get_active_held_item_slot()]
 	if(E)
 		return E.get_fingerprint()

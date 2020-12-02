@@ -23,7 +23,8 @@
 			"UI",
 			"SE",
 			"b_type",
-			"real_name"
+			"real_name",
+			"lineage"
 		]
 	},
 	{
@@ -69,11 +70,9 @@
 			"role_alt_title",
 			"assigned_job",
 			"objectives",
-			"special_verbs",
 			"has_been_rev",
 			"faction",
 			"changeling",
-			"rev_cooldown",
 			"brigged_since",
 			"initial_account",
 			"philotic_damage",
@@ -159,7 +158,20 @@
 	{
 		"path":"/datum/shuttle",
 		"vars":[
-			"name"
+			"name",
+			"shuttle_area",
+			"current_location",
+			"moving_status",
+			"flags"
+		]
+	},
+	{
+		"path":"/datum/shuttle/autodock",
+		"vars":[
+			"current_dock_target",
+			"dock_target",
+			"docking_codes",
+			"next_location"
 		]
 	},
 	{
@@ -238,7 +250,6 @@
 			"maxHealth",
 			"health",
 			"last_special",
-			"t_phoron",
 			"t_oxygen",
 			"t_sl_gas",
 			"t_n2",
@@ -534,7 +545,6 @@
 			"bleed_ticks",
 			"can_bleed",
 			"in_stasis",
-			"ability_cooldown",
 			"time_last_used_ability",
 			"return_damage_min",
 			"return_damage_max"
@@ -670,7 +680,6 @@
 			"secured",
 			"attached_overlays",
 			"holder",
-			"cooldown",
 			"wires"
 		]
 	},
@@ -745,11 +754,10 @@
 			"body_part",
 			"icon_position",
 			"model",
-			"s_tone",
-			"s_base",
-			"s_col",
-			"s_col_blend",
-			"h_col",
+			"skin_tone",
+			"skin_base",
+			"skin_cololour",
+			"hair_colour",
 			"body_hair",
 			"markings",
 			"wound_update_accuracy",
@@ -788,7 +796,6 @@
 			"dna",
 			"damage",
 			"min_broken_damage",
-			"max_damage",
 			"rejecting",
 			"death_time"
 		]
@@ -1283,6 +1290,13 @@
 		]
 	},
 	{
+		"path":"/obj/machinery/computer/shuttle_control",
+		"vars":[
+			"hacked",
+			"shuttle_tag"
+		]
+	},
+	{
 		"path":"/obj/machinery/conveyor",
 		"vars":[
 			"forwards",
@@ -1496,12 +1510,6 @@
 		]
 	},
 	{
-		"path":"/obj/machinery/organ_printer",
-		"vars":[
-			"stored_matter"
-		]
-	},
-	{
 		"path":"/obj/machinery/papershredder",
 		"vars":[
 			"paperamount",
@@ -1642,7 +1650,8 @@
 			"full_shield_strength",
 			"idle_multiplier",
 			"spinup_delay",
-			"spinup_counter"
+			"spinup_counter",
+			"vessel_reverse_dir"
 		]
 	},
 	{
@@ -1801,7 +1810,7 @@
 		"path":"/obj/structure/dispenser",
 		"vars":[
 			"oxygentanks",
-			"phorontanks"
+			"hydrogentanks"
 		]
 	},
 	{
@@ -1821,9 +1830,13 @@
 	{
 		"path":"/obj/structure/door_assembly",
 		"vars":[
-			"panel_icon",
-			"fill_icon",
-			"glass_icon"
+			"state",
+			"glass",
+			"glass_material",
+			"door_color",
+			"stripe_color",
+			"symbol_color",
+			"electronics"
 		]
 	},
 	{
@@ -1917,6 +1930,12 @@
 		]
 	},
 	{
+		"path":"/turf/simulated",
+		"vars":[
+			"decals"
+		]
+	},
+	{
 		"path":"/turf/simulated/wall",
 		"vars":[
 			"floor_type",
@@ -1948,13 +1967,11 @@
 			"contents",
 			"density",
 			"icon_state",
-			"name",
 			"pixel_x",
 			"pixel_y",
 			"dir",
 			"air",
-			"is_on_fire",
-			"saved_decals"
+			"is_on_fire"
 		]
 	},
 	{
@@ -1973,7 +1990,6 @@
 			"sdisabilities",
 			"disabilities",
 			"next_move",
-			"hand",
 			"real_name",
 			"bhunger",
 			"druggy",
@@ -1982,7 +1998,6 @@
 			"resting",
 			"lying",
 			"lying_prev",
-			"radio_interrupt_cooldown",
 			"unacidable",
 			"pinned",
 			"embedded",
@@ -1995,8 +2010,6 @@
 			"timeofdeath",
 			"bodytemperature",
 			"buckled",
-			"l_hand",
-			"r_hand",
 			"back",
 			"s_active",
 			"wear_mask",
@@ -2032,7 +2045,16 @@
 			"gender",
 			"x",
 			"y",
-			"z"
+			"z",
+			"held_item_slot_selected",
+			"held_item_slots"
+		]
+	},
+	{
+		"path":"/datum/inventory_slot",
+		"vars":[
+			"slot_id",
+			"holding"
 		]
 	},
 	{
@@ -2068,7 +2090,6 @@
 		"vars":[
 			"visibility",
 			"contents",
-			"density",
 			"dir",
 			"icon",
 			"icon_state",
@@ -2077,14 +2098,8 @@
 			"pixel_x",
 			"pixel_y",
 			"loc",
-			"w_class",
-			"unacidable",
-			"throwforce",
 			"sharp",
 			"edge",
-			"in_use",
-			"damtype",
-			"armor_penetration",
 			"anchor_fall",
 			"holographic",
 			"req_access"
@@ -2093,13 +2108,11 @@
 	{
 		"path":"/datum/robot_component",
 		"vars":[
-			"name",
 			"installed",
 			"powered",
 			"toggled",
 			"brute_damage",
 			"electronics_damage",
-			"max_damage",
 			"external_type",
 			"wrapped"
 		]
@@ -2452,33 +2465,14 @@
 		]
 	},
 	{
-		"path":"/image",
+		"path":"/datum/wrapper/image",
 		"vars":[
 			"color",
-			"icon",
 			"icon_state",
-			"appearance_flags",
-			"plane",
 			"alpha",
 			"layer",
 			"dir",
-			"visibility"
-		]
-	},
-	{
-		"path":"/datum/wrapper/area",
-		"vars":[
-			"area_type",
-			"name",
-			"turfs",
-			"has_gravity",
-			"apc"
-		]
-	},
-	{
-		"path":"/datum/wrapper/multiz",
-		"vars":[
-			"saved_z_levels"
+			"appearance_flags"
 		],
 		"flatten":true
 	},
@@ -2512,7 +2506,7 @@
 		"vars":[
 			"nitrogen_retardation_factor",
 			"thermal_release_modifier",
-			"phoron_release_modifier",
+			"product_release_modifier",
 			"oxygen_release_modifier",
 			"radiation_release_modifier",
 			"reaction_power_modifier",
@@ -2699,7 +2693,6 @@
 			"icon_state_open_broken",
 			"icon_state_closed_broken",
 			"begins_closed",
-			"min_force",
 			"maxhealth",
 			"block_air_zones",
 			"explosion_resistance",
@@ -2841,9 +2834,19 @@
 		"path":"/obj/effect/overmap/visitable/ship/landable",
 		"vars":[
 			"tag_shuttle_mech_sensor",
+			"shuttle",
 			"landmark",
 			"multiz",
-			"status"
+			"status",
+			"saved_shuttle"
+		]
+	},
+	{
+		"path":"/obj/effect/shuttle_landmark",
+		"vars":[
+			"base_area",
+			"base_turf",
+			"shuttle_restricted"
 		]
 	},
 	{
@@ -2851,6 +2854,12 @@
 		"vars":[
 			"shuttle_name",
 			"visitors"
+		]
+	},
+	{
+		"path":"/obj/effect/shuttle_landmark/visiting_shuttle",
+		"vars":[
+			"core_landmark"
 		]
 	},
 	{
@@ -2903,6 +2912,22 @@
 		]
 	},
 	{
+		"path":"/obj/machinery/network/stellar_anchor",
+		"vars":[
+			"anchored_areas",
+			"should_launch",
+			"sector_name",
+			"created_sector"
+		]
+	},
+	{
+		"path":"/obj/machinery/network/stellar_anchor/ship_core",
+		"vars":[
+			"parent_shuttle",
+			"created_landable_ship"
+		]
+	},
+	{
 		"path":"/datum/shuttle/autodock/overmap",
 		"vars":[
 			"range",
@@ -2922,16 +2947,16 @@
 	{
 		"path":"/obj/effect/overmap/visitable",
 		"vars":[
-			"map_z",
 			"generic_waypoints",
 			"restricted_waypoints",
 			"docking_codes",
 			"start_x",
 			"start_y",
 			"base",
-			"in_space",
+			"sector_flags",
 			"hide_from_reports",
-			"has_distress_beacon"
+			"has_distress_beacon",
+			"free_landing"
 		]
 	},
 	{
@@ -2957,22 +2982,14 @@
 			"temperature_alert",
 			"heartbeat",
 			"stamina",
-			"r_hair",
-			"g_hair",
-			"b_hair",
+			"hair_color",
 			"h_style",
-			"r_facial",
-			"g_facial",
-			"b_facial",
 			"f_style",
-			"r_eyes",
-			"g_eyes",
-			"b_eyes",
-			"s_tone",
-			"s_base",
-			"r_skin",
-			"g_skin",
-			"b_skin",
+			"eye_colour",
+			"facial_hair_colour",
+			"skin_tone",
+			"skin_base",
+			"skin_color",
 			"size_multiplier",
 			"damage_multiplier",
 			"lip_style",
@@ -3024,7 +3041,9 @@
 			"descriptors",
 			"last_smelt",
 			"saved_ckey",
-			"home_spawn"
+			"home_spawn",
+			"stance_limbs",
+			"grasp_limbs"
 		]
 	},
 	{
@@ -3091,10 +3110,7 @@
 			"no_attack_log",
 			"master",
 			"origin_tech",
-			"attack_verb",
 			"lock_picking_level",
-			"force",
-			"attack_cooldown",
 			"melee_accuracy_bonus",
 			"heat_protection",
 			"cold_protection",
@@ -3145,7 +3161,6 @@
 			"maxhealth",
 			"health",
 			"destroy_hits",
-			"min_force",
 			"pry_mod",
 			"repairing",
 			"block_air_zones",
@@ -3296,10 +3311,7 @@
 	{
 		"path":"/obj/item/organ/external/groin/insectoid/mantid",
 		"vars":[
-			"existing_webs",
-			"max_webs",
-			"web_weave_time",
-			"cooldown"
+			"existing_webs"
 		]
 	},
 	{
@@ -3372,10 +3384,8 @@
 			"total_damage",
 			"brute_damage",
 			"burn_damage",
-			"max_damage",
 			"damage_state",
 			"has_hardpoints",
-			"decal",
 			"power_use"
 		]
 	},
@@ -3484,7 +3494,7 @@
 		]
 	},
 	{
-		"path":"/obj/item/material/lock_construct",
+		"path":"/obj/item/lock_construct",
 		"vars":[
 			"lock_data"
 		]
@@ -3539,8 +3549,6 @@
 			"activators",
 			"complexity",
 			"size",
-			"cooldown_per_use",
-			"ext_cooldown",
 			"power_draw_per_use",
 			"power_draw_idle",
 			"spawn_flags",
@@ -3858,25 +3866,6 @@
 		]
 	},
 	{
-		"path":"/datum/wrapper/decal",
-		"vars":[
-			"icon",
-			"icon_state",
-			"appearance_flags",
-			"color",
-			"dir",
-			"plane",
-			"layer",
-			"alpha",
-			"detail_overlay",
-			"detail_color",
-			"x",
-			"y",
-			"z"
-		],
-		"flatten":true
-	},
-	{
 		"path":"/datum/computer_file/report/crew_record",
 		"vars":[
 			"grants",
@@ -3918,13 +3907,6 @@
 		"vars":[
 			"materials"
 		]
-	},
-	{
-		"path":"/datum/wrapper/game_data",
-		"vars":[
-			"key"
-		],
-		"flatten":true
 	},
 	{
 		"path":"/obj/machinery/power/terminal",
@@ -4049,6 +4031,115 @@
 		"path":"/obj/item/screwdriver",
 		"vars":[
 			"handle_color"
+		]
+	},
+	{
+		"path":"/obj/item/wrench",
+		"vars":[
+			"handle_color"
+		]
+	},
+	{
+		"path":"/datum/wrapper",
+		"vars":[
+			"key"
+		],
+		"flatten":true
+	},
+	{
+		"path":"/datum/wrapper/area",
+		"vars":[
+			"name",
+			"turfs",
+			"has_gravity",
+			"apc"
+		],
+		"flatten":true
+	},
+	{
+		"path":"/obj/effect/decal/cleanable",
+		"vars":[
+			"age"
+		]
+	},
+	{
+		"path":"/datum/extension/lockable",
+		"vars":[
+			"locked",
+			"code",
+			"l_code",
+			"l_set",
+			"l_setshort",
+			"l_hacking",
+			"emagged",
+			"is_digital_lock",
+			"open",
+			"error"
+		]
+	},
+	{
+		"path":"/obj/item/charge_stick",
+		"vars":[
+			"creator",
+			"id",
+			"currency",
+			"loaded_worth"
+		]
+	},
+	{
+		"path":"/obj/item/stock_parts/computer/charge_stick_slot",
+		"vars":[
+			"stored_stick"
+		]
+	},
+	{
+		"path":"/obj/machinery/tracking_beacon",
+		"vars":[
+			"beacon"
+		]
+	},
+	{
+		"path":"/obj/item/blackout",
+		"vars":[
+			"last_use"
+		]
+	},
+	{
+		"path":"/obj/item/spy_monitor",
+		"vars":[
+			"operating",
+			"radio",
+			"selected_camera",
+			"cameras"
+		]
+	},
+	{
+		"path":"/obj/structure/displaycase",
+		"vars":[
+			"req_access",
+			"destroyed"
+		]
+	},
+	{
+		"path":"/obj/machinery/mining/drill",
+		"vars":[
+			"generated_ore",
+			"active",
+			"harvest_speed",
+			"capacity",
+			"supports",
+			"supported"
+		]
+	},
+	{
+		"path":"/obj/machinery/power/rad_collector",
+		"vars":[
+			"health",
+			"melted",
+			"active",
+			"locked",
+			"last_rads",
+			"loaded_tank"
 		]
 	}
 ]

@@ -1,7 +1,7 @@
 /obj/item/chems
 	name = "Container"
 	desc = "..."
-	icon = 'icons/obj/items/chem/beaker.dmi'
+	icon = 'icons/obj/items/chem/container.dmi'
 	icon_state = null
 	w_class = ITEM_SIZE_SMALL
 
@@ -153,13 +153,7 @@
 
 
 		else
-			var/mob/living/carbon/H = target
-			if(!H.check_has_mouth())
-				to_chat(user, "Where do you intend to put \the [src]? \The [H] doesn't have a mouth!")
-				return
-			var/obj/item/blocked = H.check_mouth_coverage()
-			if(blocked)
-				to_chat(user, "<span class='warning'>\The [blocked] is in the way!</span>")
+			if(!user.can_force_feed(target, src))
 				return
 
 			other_feed_message_start(user, target)

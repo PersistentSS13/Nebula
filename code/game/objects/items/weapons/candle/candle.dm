@@ -39,12 +39,12 @@
 
 /obj/item/flame/candle/attackby(obj/item/W, mob/user)
 	..()
-	if(isflamesource(W) || is_hot(W))
+	if(W.isflamesource() || W.get_heat() > T100C)
 		light(user)
 
 /obj/item/flame/candle/resolve_attackby(var/atom/A, mob/user)
 	. = ..()
-	if(istype(A, /obj/item/flame/candle/) && is_hot(src))
+	if(istype(A, /obj/item/flame/candle) && lit)
 		var/obj/item/flame/candle/other_candle = A
 		other_candle.light()
 
@@ -85,6 +85,6 @@
 	w_class = ITEM_SIZE_SMALL
 	max_w_class = ITEM_SIZE_TINY
 	max_storage_space = 7
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 
 	startswith = list(/obj/item/flame/candle = 7)

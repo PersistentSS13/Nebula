@@ -1,7 +1,7 @@
 /obj/item/on_update_icon()
 	overlays.Cut()
 	if(applies_material_colour && material)
-		color = material.icon_colour
+		color = material.color
 		alpha = 100 + material.opacity * 255
 
 /obj/item/apply_hit_effect(mob/living/target, mob/living/user, var/hit_zone)
@@ -71,7 +71,7 @@
 			obj_flags &= (~OBJ_FLAG_CONDUCTIBLE)
 		update_force()
 		if(applies_material_name)
-			SetName("[material.name] [initial(name)]")
+			SetName("[material.solid_name] [initial(name)]")
 		if(material_armor_multiplier)
 			armor = material.get_armor(material_armor_multiplier)
 			armor_degradation_speed = material.armor_degradation_speed

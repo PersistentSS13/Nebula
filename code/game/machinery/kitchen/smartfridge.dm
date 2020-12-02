@@ -11,7 +11,10 @@
 	idle_power_usage = 5
 	active_power_usage = 100
 	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_NO_REACT
+	obj_flags = OBJ_FLAG_ANCHORABLE | OBJ_FLAG_ROTATABLE
 	atmos_canpass = CANPASS_NEVER
+	required_interaction_dexterity = DEXTERITY_SIMPLE_MACHINES
+
 	var/global/max_n_of_items = 999 // Sorry but the BYOND infinite loop detector doesn't look things over 1000.
 	var/icon_base = "fridge_sci"
 	var/icon_contents = "chem"
@@ -118,7 +121,7 @@
 	icon_contents = "food"
 
 /obj/machinery/smartfridge/foods/accept_check(var/obj/item/O)
-	if(istype(O,/obj/item/chems/food/snacks) || istype(O,/obj/item/material/kitchen/utensil))
+	if(istype(O,/obj/item/chems/food/snacks) || istype(O,/obj/item/kitchen/utensil))
 		return 1
 
 /obj/machinery/smartfridge/drying_rack
@@ -131,9 +134,7 @@
 		var/obj/item/chems/food/snacks/S = O
 		return S.dried_type
 	else if(istype(O, /obj/item/stack/material))
-		var/obj/item/stack/material/mat = O
-		var/decl/material/skin/skin_mat = mat.material
-		return istype(skin_mat)
+		return istype(O.material, /decl/material/solid/skin)
 	return 0
 
 /obj/machinery/smartfridge/drying_rack/Process()
@@ -180,9 +181,9 @@
 
 			else if(istype(thing, /obj/item/stack/material))
 				var/obj/item/stack/material/skin = thing
-				if(!istype(skin.material, /decl/material/skin))
+				if(!istype(skin.material, /decl/material/solid/skin))
 					continue
-				var/decl/material/skin/skin_mat = skin.material
+				var/decl/material/solid/skin/skin_mat = skin.material
 				if(!skin_mat.tans_to)
 					continue
 				var/decl/material/leather_mat = decls_repository.get_decl(skin_mat.tans_to)
@@ -281,7 +282,9 @@
 			user.visible_message("<span class='notice'>\The [user] loads \the [src] with the contents of \the [P].</span>", "<span class='notice'>You load \the [src] with the contents of \the [P].</span>")
 			if(P.contents.len > 0)
 				to_chat(user, "<span class='notice'>Some items were refused.</span>")
-
+	else if ((obj_flags & OBJ_FLAG_ANCHORABLE) && isWrench(O))
+		wrench_floor_bolts(user)
+		power_change()
 	else
 		to_chat(user, "<span class='notice'>\The [src] smartly refuses [O].</span>")
 	return 1

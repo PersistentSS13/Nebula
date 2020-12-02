@@ -70,7 +70,7 @@ var/list/ship_engines = list()
 	var/exhaust_dir = GLOB.reverse_dir[M.dir]
 	var/turf/A = get_step(src, exhaust_dir)
 	var/turf/B = A
-	while(isturf(A) && !(isspace(A) || isopenspace(A)))
+	while(isturf(A) && !(isspaceturf(A) || isopenspace(A)))
 		if((B.c_airblock(A)) & AIR_BLOCKED)
 			blockage = TRUE
 			break
@@ -95,3 +95,4 @@ var/list/ship_engines = list()
 			M.power_change()
 		if(is_on())//if everything is in working order, start booting!
 			next_on = world.time + boot_time
+	M.update_icon()

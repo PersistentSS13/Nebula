@@ -119,32 +119,25 @@ note dizziness decrements automatically in the mob's Life() proc.
 	//reset the pixel offsets to zero
 	is_floating = 0
 
-/atom/movable/proc/do_attack_animation(atom/A)
+/atom/movable/proc/do_attack_animation(atom/A, atom/movable/weapon)
 
 	var/pixel_x_diff = 0
 	var/pixel_y_diff = 0
+	var/turn_dir = 1
+
 	var/direction = get_dir(src, A)
-	switch(direction)
-		if(NORTH)
-			pixel_y_diff = 8
-		if(SOUTH)
-			pixel_y_diff = -8
-		if(EAST)
-			pixel_x_diff = 8
-		if(WEST)
-			pixel_x_diff = -8
-		if(NORTHEAST)
-			pixel_x_diff = 8
-			pixel_y_diff = 8
-		if(NORTHWEST)
-			pixel_x_diff = -8
-			pixel_y_diff = 8
-		if(SOUTHEAST)
-			pixel_x_diff = 8
-			pixel_y_diff = -8
-		if(SOUTHWEST)
-			pixel_x_diff = -8
-			pixel_y_diff = -8
+	if(direction & NORTH)
+		pixel_y_diff = 8
+		turn_dir = rand(50) ? -1 : 1
+	else if(direction & SOUTH)
+		pixel_y_diff = -8
+		turn_dir = rand(50) ? -1 : 1
+
+	if(direction & EAST)
+		pixel_x_diff = 8
+	else if(direction & WEST)
+		pixel_x_diff = -8
+		turn_dir = -1
 
 	var/default_pixel_x = initial(pixel_x)
 	var/default_pixel_y = initial(pixel_y)
@@ -153,26 +146,37 @@ note dizziness decrements automatically in the mob's Life() proc.
 		default_pixel_x = mob.default_pixel_x
 		default_pixel_y = mob.default_pixel_y
 
-	animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff, time = 2)
-	animate(pixel_x = default_pixel_x, pixel_y = default_pixel_y, time = 2)
+	var/matrix/initial_transform = matrix(transform)
+	var/matrix/rotated_transform = transform.Turn(15 * turn_dir)
 
-/mob/do_attack_animation(atom/A)
+	animate(src, pixel_x = pixel_x + pixel_x_diff, pixel_y = pixel_y + pixel_y_diff, transform = rotated_transform, time = 2, easing = BACK_EASING | EASE_IN)
+	animate(pixel_x = default_pixel_x, pixel_y = default_pixel_y, transform = initial_transform, time = 2, easing = SINE_EASING)
+
+/mob/do_attack_animation(atom/A, atom/movable/weapon)
 	..()
 	is_floating = 0 // If we were without gravity, the bouncing animation got stopped, so we make sure we restart the bouncing after the next movement.
 
-	// What icon do we use for the attack?
-	var/image/I
-	if(hand && l_hand) // Attacked with item in left hand.
-		I = image(l_hand.icon, A, l_hand.icon_state, A.layer + 1)
-	else if (!hand && r_hand) // Attacked with item in right hand.
-		I = image(r_hand.icon, A, r_hand.icon_state, A.layer + 1)
-	else // Attacked with a fist?
-		return
+	// What are we attacking with?
+	if(!weapon)
+		weapon = get_active_hand()
+		if(!weapon)
+			return
+
+	// Create an image to show to viewers.
+	// Reset plane and layer so that it doesn't inherit the UI settings from equipped items.
+	var/image/I = new(loc = A)
+	I.appearance = weapon
+	I.plane = DEFAULT_PLANE
+	I.layer = A.layer + 0.1
+	I.pixel_x = 0
+	I.pixel_y = 0
+	I.pixel_z = 0
+	I.pixel_w = 0
 
 	// Who can see the attack?
 	var/list/viewing = list()
-	for (var/mob/M in viewers(A))
-		if (M.client)
+	for(var/mob/M in viewers(A))
+		if(M.client)
 			viewing |= M.client
 	flick_overlay(I, viewing, 5) // 5 ticks/half a second
 
@@ -247,7 +251,7 @@ note dizziness decrements automatically in the mob's Life() proc.
 		next_x = default_pixel_x + pixel_shift["x"]
 		next_y = default_pixel_y + pixel_shift["y"]
 		next_z = default_pixel_z + pixel_shift["z"]
-	
+
 	if(pixel_x != next_x || pixel_y != next_y || pixel_z != next_z)
 		animate(src, pixel_x = next_x, pixel_y = next_y, pixel_z = next_z, 2, 1, SINE_EASING)
 

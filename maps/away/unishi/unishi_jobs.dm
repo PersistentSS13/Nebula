@@ -22,7 +22,7 @@
 /decl/hierarchy/outfit/job/unishi
 	hierarchy_type = /decl/hierarchy/outfit/job/unishi
 	pda_type = /obj/item/modular_computer/pda
-	pda_slot = slot_l_store
+	pda_slot = slot_l_store_str
 	l_ear = null
 	r_ear = null
 
@@ -35,10 +35,10 @@
 /decl/hierarchy/outfit/job/unishi/researcher
 	name = UNISHI_OUTFIT_JOB_NAME("Researcher")
 	uniform = /obj/item/clothing/under/rank/engineer
-	suit = /obj/item/clothing/suit/storage/toggle/hoodie/cti
+	suit = /obj/item/clothing/suit/storage/toggle/hoodie
 	shoes = /obj/item/clothing/shoes/color/black
 	r_pocket = /obj/item/radio
-	l_pocket = /obj/item/crowbar/prybar
+	l_pocket = /obj/item/crowbar
 
 /obj/effect/submap_landmark/spawnpoint/unishi_crew
 	name = "Unishi Crew"

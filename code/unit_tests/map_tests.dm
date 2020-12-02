@@ -261,33 +261,33 @@
 
 //=======================================================================================
 
-datum/unit_test/correct_allowed_spawn_test
-	name = "MAP: All allowed_spawns entries should have spawnpoints on map."
+// datum/unit_test/correct_allowed_spawn_test
+// 	name = "MAP: All allowed_spawns entries should have spawnpoints on map."
 
-datum/unit_test/correct_allowed_spawn_test/start_test()
-	var/failed = FALSE
+// datum/unit_test/correct_allowed_spawn_test/start_test()
+// 	var/failed = FALSE
 
-	for(var/spawn_name in GLOB.using_map.allowed_spawns)
-		var/datum/spawnpoint/spawnpoint = spawntypes()[spawn_name]
-		if(!spawnpoint)
-			log_unit_test("Map allows spawning in [spawn_name], but [spawn_name] is null!")
-			failed = TRUE
-		else if(!length(spawnpoint.turfs))
-			log_unit_test("Map allows spawning in [spawn_name], but [spawn_name] has no associated spawn turfs.")
-			failed = TRUE
+// 	for(var/spawn_name in GLOB.using_map.allowed_spawns)
+// 		var/datum/spawnpoint/spawnpoint = spawntypes()[spawn_name]
+// 		if(!spawnpoint)
+// 			log_unit_test("Map allows spawning in [spawn_name], but [spawn_name] is null!")
+// 			failed = TRUE
+// 		else if(!length(spawnpoint.turfs))
+// 			log_unit_test("Map allows spawning in [spawn_name], but [spawn_name] has no associated spawn turfs.")
+// 			failed = TRUE
 
-	if(failed)
-		log_unit_test("Following spawn points exist:")
-		for(var/spawnpoint in spawntypes())
-			log_unit_test("\t[spawnpoint] ([any2ref(spawnpoint)])")
-		log_unit_test("Following spawn points are allowed:")
-		for(var/spawnpoint in GLOB.using_map.allowed_spawns)
-			log_unit_test("\t[spawnpoint] ([any2ref(spawnpoint)])")
-		fail("Some of the entries in allowed_spawns have no spawnpoint turfs.")
-	else
-		pass("All entries in allowed_spawns have spawnpoints.")
+// 	if(failed)
+// 		log_unit_test("Following spawn points exist:")
+// 		for(var/spawnpoint in spawntypes())
+// 			log_unit_test("\t[spawnpoint] ([any2ref(spawnpoint)])")
+// 		log_unit_test("Following spawn points are allowed:")
+// 		for(var/spawnpoint in GLOB.using_map.allowed_spawns)
+// 			log_unit_test("\t[spawnpoint] ([any2ref(spawnpoint)])")
+// 		fail("Some of the entries in allowed_spawns have no spawnpoint turfs.")
+// 	else
+// 		pass("All entries in allowed_spawns have spawnpoints.")
 
-	return 1
+// 	return 1
 
 //=======================================================================================
 

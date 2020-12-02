@@ -69,11 +69,6 @@ GLOBAL_LIST_INIT(surgery_tool_exception_cache, new)
 	if(istype(target) && target_zone)
 		var/obj/item/organ/external/affected = target.get_organ(target_zone)
 		if(affected)
-			// Check if clothing is blocking access
-			var/obj/item/I = target.get_covering_equipped_item_by_zone(target_zone)
-			if(I && (I.item_flags & ITEM_FLAG_THICKMATERIAL))
-				to_chat(user,SPAN_NOTICE("The material covering this area is too thick for you to do surgery through!"))
-				return FALSE
 			// Check various conditional flags.
 			if(((surgery_candidate_flags & SURGERY_NO_ROBOTIC) && BP_IS_PROSTHETIC(affected)) || \
 			 ((surgery_candidate_flags & SURGERY_NO_CRYSTAL) && BP_IS_CRYSTAL(affected))   || \
@@ -98,6 +93,11 @@ GLOBAL_LIST_INIT(surgery_tool_exception_cache, new)
 				if(open_threshold && ((strict_access_requirement && affected.how_open() != open_threshold) || \
 				 affected.how_open() < open_threshold))
 					return FALSE
+			// Check if clothing is blocking access
+			var/obj/item/I = target.get_covering_equipped_item_by_zone(target_zone)
+			if(I && (I.item_flags & ITEM_FLAG_THICKMATERIAL))
+				to_chat(user,SPAN_NOTICE("The material covering this area is too thick for you to do surgery through!"))
+				return FALSE
 			return affected
 	return FALSE
 
@@ -179,6 +179,13 @@ GLOBAL_LIST_INIT(surgery_tool_exception_cache, new)
 
 	// Check for multi-surgery drifting.
 	var/zone = user.zone_sel.selecting
+	if(ishuman(M))
+		var/mob/living/carbon/human/H = M
+		if(length(LAZYACCESS(H.species.limb_mapping, zone)) > 1)
+			zone = input("Which bodypart do you wish to operate on?", "Non-standard surgery") as null|anything in H.species.limb_mapping[zone]
+			if(!zone)
+				return FALSE
+
 	if(LAZYACCESS(M.surgeries_in_progress, zone))
 		to_chat(user, SPAN_WARNING("You can't operate on this area while surgery is already in progress."))
 		return TRUE
@@ -189,15 +196,20 @@ GLOBAL_LIST_INIT(surgery_tool_exception_cache, new)
 	for(var/decl in all_surgeries)
 		var/decl/surgery_step/S = all_surgeries[decl]
 		if(S.name && S.tool_quality(src) && S.can_use(user, M, zone, src))
-			LAZYSET(possible_surgeries, S, TRUE)
+
+			var/image/radial_button = image(icon = icon, icon_state = icon_state)
+			radial_button.name = S.name
+			LAZYSET(possible_surgeries, S, radial_button)
 
 	// Which surgery, if any, do we actually want to do?
 	var/decl/surgery_step/S
 	if(LAZYLEN(possible_surgeries) == 1)
 		S = possible_surgeries[1]
 	else if(LAZYLEN(possible_surgeries) >= 1)
-		if(user.client) // In case of future autodocs.
-			S = input(user, "Which surgery would you like to perform?", "Surgery") as null|anything in possible_surgeries
+		if(!user.client) // In case of future autodocs.
+			S = possible_surgeries[1]
+		else
+			S = show_radial_menu(user, M, possible_surgeries, radius = 42, use_labels = TRUE, require_near = TRUE, check_locs = list(src))
 		if(S && !user.skill_check_multiple(S.get_skill_reqs(user, M, src, zone)))
 			S = pick(possible_surgeries)
 
@@ -261,13 +273,11 @@ GLOBAL_LIST_INIT(surgery_tool_exception_cache, new)
 		. = TRUE
 
 	if(M == user)
-		var/hitzone = check_zone(user.zone_sel.selecting)
+		var/hitzone = check_zone(user.zone_sel.selecting, M)
 		var/list/badzones = list(BP_HEAD)
-		if(user.hand)
-			badzones += BP_L_ARM
-			badzones += BP_L_HAND
-		else
-			badzones += BP_R_ARM
-			badzones += BP_R_HAND
+		var/obj/item/organ/external/E = M.get_organ(M.get_active_held_item_slot())
+		if(E)
+			badzones |= E.organ_tag
+			badzones |= E.parent_organ
 		if(hitzone in badzones)
 			return FALSE

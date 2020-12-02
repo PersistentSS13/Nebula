@@ -15,7 +15,7 @@
 
 /obj/item/stool/padded
 	icon_state = "stool_padded_preview" //set for the map
-	padding_material = MAT_CARPET
+	padding_material = /decl/material/solid/carpet
 
 /obj/item/stool/Initialize()
 	. = ..()
@@ -27,7 +27,7 @@
 	update_icon()
 
 /obj/item/stool/padded
-	padding_material = MAT_CARPET
+	padding_material = /decl/material/solid/carpet
 
 /obj/item/stool/bar
 	name = "bar stool"
@@ -37,7 +37,7 @@
 
 /obj/item/stool/bar/padded
 	icon_state = "bar_stool_padded_preview"
-	padding_material = MAT_CARPET
+	padding_material = /decl/material/solid/carpet
 
 /obj/item/stool/on_update_icon()
 	// Prep icon.
@@ -45,20 +45,20 @@
 	// Base icon.
 	var/list/noverlays = list()
 	var/image/I = image(icon, "[base_icon]_base")
-	I.color = material.icon_colour
+	I.color = material.color
 	noverlays |= I
 	// Padding overlay.
 	if(padding_material)
 		I =  image(icon, "[base_icon]_padding")
-		I.color = padding_material.icon_colour
+		I.color = padding_material.color
 		noverlays += I
 	overlays = noverlays
 	// Strings.
 	if(padding_material)
-		SetName("[padding_material.name] [initial(name)]") //this is not perfect but it will do for now.
+		SetName("[padding_material.solid_name] [initial(name)]") //this is not perfect but it will do for now.
 		desc = "A padded stool. Apply butt. It's made of [material.use_name] and covered with [padding_material.use_name]."
 	else
-		SetName("[material.name] [initial(name)]")
+		SetName("[material.solid_name] [initial(name)]")
 		desc = "A stool. Apply butt with care. It's made of [material.use_name]."
 
 /obj/item/stool/proc/add_padding(var/padding_type)
@@ -112,7 +112,7 @@
 			return
 		var/padding_type //This is awful but it needs to be like this until tiles are given a material var.
 		if(istype(W,/obj/item/stack/tile/carpet))
-			padding_type = MAT_CARPET
+			padding_type = /decl/material/solid/carpet
 		else if(istype(W,/obj/item/stack/material))
 			var/obj/item/stack/material/M = W
 			if(M.material && (M.material.flags & MAT_FLAG_PADDING))
@@ -139,4 +139,4 @@
 
 //Generated subtypes for mapping porpoises
 /obj/item/stool/wood
-	material = MAT_WOOD
+	material = /decl/material/solid/wood

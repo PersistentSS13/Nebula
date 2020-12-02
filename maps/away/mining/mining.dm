@@ -212,7 +212,7 @@
 /obj/structure/totem
 	name = "totem"
 	desc = "Some kind of post, pillar, plinth, column, or totem."
-	icon = 'icons/obj/stationobjs.dmi'
+	icon = 'icons/obj/structures/totem.dmi'
 	icon_state = "totem"
 	density = 1
 	anchored = 1
@@ -229,7 +229,7 @@
 
 
 /obj/item/stool/stone/Initialize(mapload)
-	. = ..(mapload, MAT_SANDSTONE)
+	. = ..(mapload, /decl/material/solid/stone/sandstone)
 
 /turf/simulated/floor/airless/stone
 	name = "temple floor"

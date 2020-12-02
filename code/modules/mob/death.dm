@@ -1,6 +1,7 @@
 //This is the proc for gibbing a mob. Cannot gib ghosts.
 //added different sort of gibs and animations. N
 /mob/proc/gib(anim="gibbed-m",do_gibs)
+	set waitfor = FALSE
 	death(1)
 	ADD_TRANSFORMATION_MOVEMENT_HANDLER(src)
 	icon = null
@@ -65,8 +66,12 @@
 	set_see_in_dark(8)
 	set_see_invisible(SEE_INVISIBLE_LEVEL_TWO)
 
-	drop_r_hand()
-	drop_l_hand()
+	drop_held_items()
+
+	var/datum/extension/hattable/hattable = get_extension(src, /datum/extension/hattable)
+	if(hattable?.hat)
+		hattable.hat.dropInto(get_turf(src))
+		hattable.hat = null
 
 	SSstatistics.report_death(src)
 

@@ -12,7 +12,7 @@
 		if(possible_target != owner && ishuman(possible_target.current) && (possible_target.current.stat != DEAD) && (!possible_target.special_role))
 			possible_targets += possible_target
 			if(length(roles))
-				for(var/datum/job/role in SSjobs.get_by_path(roles))
+				for(var/datum/job/role in SSjobs.get_by_paths(roles))
 					if(possible_target.assigned_role == role.title)
 						priority_targets += possible_target
 						continue
@@ -67,33 +67,18 @@
 	explanation_text = "It's a buyer's market out here. Steal [loot] for resale."
 
 /datum/objective/heist/salvage/choose_target()
-	switch(rand(1,8))
-		if(1)
-			target = MAT_STEEL
-			target_amount = 300
-		if(2)
-			target = MAT_GLASS
-			target_amount = 200
-		if(3)
-			target = MAT_PLASTEEL
-			target_amount = 100
-		if(4)
-			target = MAT_PHORON
-			target_amount = 100
-		if(5)
-			target = MAT_SILVER
-			target_amount = 50
-		if(6)
-			target = MAT_GOLD
-			target_amount = 20
-		if(7)
-			target = MAT_URANIUM
-			target_amount = 20
-		if(8)
-			target = MAT_DIAMOND
-			target_amount = 20
+	var/list/loot = list(
+		/decl/material/solid/metal/steel = 300,
+		/decl/material/solid/glass = 200,
+		/decl/material/solid/metal/plasteel = 100,
+		/decl/material/solid/metal/silver = 50,
+		/decl/material/solid/metal/gold = 20,
+		/decl/material/solid/metal/uranium = 20,
+		/decl/material/solid/gemstone/diamond = 20
+	)
 
-	explanation_text = "Ransack the [station_name()] and escape with [target_amount] [target]."
+	var/decl/material/mat = decls_repository.get_decl(pick(loot))
+	explanation_text = "Ransack the [station_name()] and escape with [loot[mat.type]] unit\s of [mat.solid_name]."
 
 /datum/objective/heist/preserve_crew
 	explanation_text = "Do not leave anyone behind, alive or dead."

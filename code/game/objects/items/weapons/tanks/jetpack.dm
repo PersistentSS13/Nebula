@@ -13,6 +13,9 @@
 	var/stabilization_on = 0
 	var/volume_rate = 500              //Needed for borg jetpack transfer
 	action_button_name = "Toggle Jetpack"
+	material = /decl/material/solid/metal/steel
+	matter = list(/decl/material/solid/metal/aluminium = MATTER_AMOUNT_REINFORCEMENT)
+	origin_tech = "{'materials':1,'engineering':3}"
 
 /obj/item/tank/jetpack/Initialize()
 	. = ..()
@@ -76,14 +79,14 @@
 	desc = "It works well in a void."
 	icon_state = "jetpack-void"
 	item_state =  "jetpack-void"
-	starting_pressure = list(MAT_OXYGEN = 6*ONE_ATMOSPHERE)
+	starting_pressure = list(/decl/material/gas/oxygen = 6*ONE_ATMOSPHERE)
 
 /obj/item/tank/jetpack/oxygen
 	name = "jetpack (oxygen)"
 	desc = "A tank of compressed oxygen for use as propulsion in zero-gravity areas. Use with caution."
 	icon_state = "jetpack"
 	item_state = "jetpack"
-	starting_pressure = list(MAT_OXYGEN = 6*ONE_ATMOSPHERE)
+	starting_pressure = list(/decl/material/gas/oxygen = 6*ONE_ATMOSPHERE)
 
 /obj/item/tank/jetpack/carbondioxide
 	name = "jetpack (carbon dioxide)"
@@ -91,7 +94,7 @@
 	distribute_pressure = 0
 	icon_state = "jetpack-black"
 	item_state =  "jetpack-black"
-	starting_pressure = list(MAT_CO2 = 6*ONE_ATMOSPHERE)
+	starting_pressure = list(/decl/material/gas/carbon_dioxide = 6*ONE_ATMOSPHERE)
 
 /obj/item/tank/jetpack/rig
 	name = "jetpack"

@@ -130,6 +130,8 @@
 	icon = 'icons/mob/screen1.dmi'
 	screen_loc = ui_entire_screen
 	icon_state = "druggy"
+	alpha = 127
+	blend_mode = BLEND_MULTIPLY
 
 /obj/screen/fullscreen/noise
 	icon = 'icons/effects/static.dmi'
@@ -164,3 +166,10 @@
 /obj/screen/fullscreen/pain
 	icon_state = "brutedamageoverlay6"
 	alpha = 0
+
+/obj/screen/fullscreen/blueprints
+	icon = 'icons/effects/blueprints.dmi'
+	icon_state = "base"
+	screen_loc = ui_entire_screen
+	alpha = 100
+	layer = FULLSCREEN_LAYER

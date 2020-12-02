@@ -16,7 +16,7 @@
 // Some on_mob_life() procs check for alien races.
 #define IS_SLIME   1
 
-#define CE_STABLE        "stable"       // Adrenaline effect
+#define CE_STABLE        "stable"       // Stabilizing brain, pulse and breathing
 #define CE_ANTIBIOTIC    "antibiotic"   // Spaceacilin
 #define CE_BLOODRESTORE  "bloodrestore" // Iron/nutriment
 #define CE_PAINKILLER    "painkiller"
@@ -42,14 +42,26 @@
 #define CE_GLOWINGEYES   "eyeglow"      // Causes eyes to glow.
 
 //reagent flags
-#define IGNORE_MOB_SIZE 0x1
-#define AFFECTS_DEAD    0x2
+#define IGNORE_MOB_SIZE BITFLAG(0)
+#define AFFECTS_DEAD    BITFLAG(1)
 
 #define HANDLE_REACTIONS(_reagents)  SSmaterials.active_holders[_reagents] = TRUE
 #define UNQUEUE_REACTIONS(_reagents) SSmaterials.active_holders -= _reagents
 
 #define REAGENT_LIST(R) (R.reagents?.get_reagents() || "No reagent holder")
 
-#define REAGENTS_FREE_SPACE(R) (R.maximum_volume - R.total_volume)
+#define REAGENTS_FREE_SPACE(R) (R?.maximum_volume - R?.total_volume)
 #define REAGENT_VOLUME(REAGENT_HOLDER, REAGENT_TYPE) (REAGENT_HOLDER?.reagent_volumes && REAGENT_HOLDER.reagent_volumes[REAGENT_TYPE])
 #define REAGENT_DATA(REAGENT_HOLDER, REAGENT_TYPE)   (REAGENT_HOLDER?.reagent_data    && REAGENT_HOLDER.reagent_data[REAGENT_TYPE])
+
+#define MAT_SOLVENT_NONE     0
+#define MAT_SOLVENT_MILD     1
+#define MAT_SOLVENT_MODERATE 2
+#define MAT_SOLVENT_STRONG   3
+
+#define DIRTINESS_STERILE -2
+#define DIRTINESS_CLEAN   -1
+#define DIRTINESS_NEUTRAL  0
+
+#define DEFAULT_GAS_ACCELERANT /decl/material/gas/hydrogen
+#define DEFAULT_GAS_OXIDIZER   /decl/material/gas/oxygen

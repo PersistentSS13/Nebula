@@ -5,7 +5,7 @@
 	icon_state = "pistolcasing"
 	randpixel = 10
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
-	slot_flags = SLOT_BELT | SLOT_EARS
+	slot_flags = SLOT_LOWER_BODY | SLOT_EARS
 	throwforce = 1
 	w_class = ITEM_SIZE_TINY
 
@@ -46,16 +46,14 @@
 	var/obj/item/gun/G = get_holder_of_type(src, /obj/item/gun)
 	put_residue_on(G)
 	if(H)
-		var/zone
-		if(H.l_hand == G)
-			zone = BP_L_HAND
-		else if(H.r_hand == G)
-			zone = BP_R_HAND
-		if(zone)
-			var/target = H.get_covering_equipped_item_by_zone(zone)
-			if(!target)
-				target = H.get_organ(zone)
-			put_residue_on(target)
+		for(var/bp in H.held_item_slots)
+			var/datum/inventory_slot/inv_slot = H.held_item_slots[bp]
+			if(G == inv_slot?.holding)
+				var/target = H.get_covering_equipped_item_by_zone(bp)
+				if(!target)
+					target = H.get_organ(bp)
+				put_residue_on(target)
+				break
 	if(prob(30))
 		put_residue_on(get_turf(src))
 
@@ -83,7 +81,7 @@
 	else ..()
 
 /obj/item/ammo_casing/on_update_icon()
-	if(on_mob_icon)
+	if(use_single_icon)
 		cut_overlays()
 		if(BB)
 			var/image/I = overlay_image(icon, "[icon_state]-bullet", bullet_color, flags=RESET_COLOR)
@@ -110,9 +108,9 @@
 	icon_state = "357"
 	icon = 'icons/obj/ammo.dmi'
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 	item_state = "syringe_kit"
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	throwforce = 5
 	w_class = ITEM_SIZE_SMALL
 	throw_speed = 4
@@ -180,7 +178,7 @@
 
 
 /obj/item/ammo_magazine/attack_hand(mob/user)
-	if(user.get_inactive_hand() == src)
+	if(user.is_holding_offhand(src))
 		if(!stored_ammo.len)
 			to_chat(user, "<span class='notice'>[src] is already empty!</span>")
 		else

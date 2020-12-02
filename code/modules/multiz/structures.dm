@@ -11,7 +11,7 @@
 	opacity =  FALSE
 	anchored = TRUE
 	obj_flags = OBJ_FLAG_NOFALL
-	material = MAT_ALUMINIUM
+	material = /decl/material/solid/metal/aluminium
 	tool_interaction_flags = TOOL_INTERACTION_DECONSTRUCT | TOOL_INTERACTION_ANCHOR
 	material_alteration = MAT_FLAG_ALTERATION_COLOR | MAT_FLAG_ALTERATION_NAME
 
@@ -106,14 +106,14 @@
 		climb(user, I)
 
 /turf/hitby(atom/movable/AM)
+	..()
 	if(isobj(AM))
 		var/obj/structure/ladder/L = locate() in contents
 		if(L)
 			L.hitby(AM)
-			return
-	..()
 
 /obj/structure/ladder/hitby(obj/item/I)
+	..()
 	if(!target_down)
 		return
 	if(!has_gravity())

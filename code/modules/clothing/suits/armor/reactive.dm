@@ -3,14 +3,15 @@
 /obj/item/clothing/suit/armor/reactive
 	name = "reactive teleport armor"
 	desc = "Someone separated our Chief Science Officer from their own head!"
-	var/active = 0.0
-	icon_state = "reactiveoff"
+	icon_state = ICON_STATE_WORLD
+	icon = 'icons/clothing/suit/armor/reactive.dmi'
 	blood_overlay_type = "armor"
 	armor = null
+	var/active = 0
 
 /obj/item/clothing/suit/armor/reactive/Initialize()
 	. = ..()
-	slowdown_per_slot[slot_wear_suit] = 1
+	LAZYSET(slowdown_per_slot, slot_wear_suit_str, 1)
 
 /obj/item/clothing/suit/armor/reactive/handle_shield(mob/user, var/damage, atom/damage_source = null, mob/attacker = null, var/def_zone = null, var/attack_text = "the attack")
 	if(prob(50))
@@ -36,20 +37,23 @@
 	return 0
 
 /obj/item/clothing/suit/armor/reactive/attack_self(mob/user)
-	src.active = !( src.active )
-	if (src.active)
-		to_chat(user, "<span class='notice'>The reactive armor is now active.</span>")
-		src.icon_state = "reactive"
-		src.item_state = "reactive"
-	else
-		to_chat(user, "<span class='notice'>The reactive armor is now inactive.</span>")
-		src.icon_state = "reactiveoff"
-		src.item_state = "reactiveoff"
-		src.add_fingerprint(user)
-	return
+	..()
+	active = !active
+	to_chat(user, SPAN_NOTICE("The reactive armor is now [active ? "" : "in"]active."))
+	update_icon()
 
 /obj/item/clothing/suit/armor/reactive/emp_act(severity)
 	active = 0
-	src.icon_state = "reactiveoff"
-	src.item_state = "reactiveoff"
+	update_icon()
 	..()
+
+/obj/item/clothing/suit/armor/reactive/on_update_icon()
+	. = ..()
+	icon_state = "[get_world_inventory_state()][active ? "_on" : ""]"
+
+/obj/item/clothing/suit/armor/reactive/experimental_mob_overlay(mob/user_mob, slot)
+	var/image/ret = ..()
+	if(active && check_state_in_icon("[ret.icon_state]_on", icon))
+		ret.icon_state = "[ret.icon_state]_on"
+	return ret
+	

@@ -8,7 +8,7 @@
 	var/obj/item/chems/ecig_cartridge/ec_cartridge
 	var/cell_type = /obj/item/cell/device/standard
 	w_class = ITEM_SIZE_TINY
-	slot_flags = SLOT_EARS | SLOT_MASK
+	slot_flags = SLOT_EARS | SLOT_FACE
 	attack_verb = list("attacked", "poked", "battered")
 	body_parts_covered = 0
 	var/brightness_on = 1
@@ -144,8 +144,7 @@ obj/item/clothing/mask/smokable/ecig/util/examine(mob/user)
 	if(ismob(loc))
 		var/mob/living/M = loc
 		M.update_inv_wear_mask(0)
-		M.update_inv_l_hand(0)
-		M.update_inv_r_hand(1)
+		M.update_inv_hands()
 
 
 /obj/item/clothing/mask/smokable/ecig/attackby(var/obj/item/I, var/mob/user)
@@ -200,13 +199,12 @@ obj/item/clothing/mask/smokable/ecig/util/examine(mob/user)
 			to_chat(user, "<span class='warning'>\The [src] does not have a battery installed.</span>")
 
 /obj/item/clothing/mask/smokable/ecig/attack_hand(mob/user)//eject cartridge
-	if(user.get_inactive_hand() == src)//if being hold
-		if (ec_cartridge)
-			active=0
-			user.put_in_hands(ec_cartridge)
-			to_chat(user, "<span class='notice'>You remove \the [ec_cartridge] from \the [src].</span> ")
-			ec_cartridge = null
-			update_icon()
+	if(user.is_holding_offhand(src) && ec_cartridge)
+		active=FALSE
+		user.put_in_hands(ec_cartridge)
+		to_chat(user, SPAN_NOTICE("You remove \the [ec_cartridge] from \the [src]."))
+		ec_cartridge = null
+		update_icon()
 	else
 		..()
 
@@ -216,8 +214,8 @@ obj/item/clothing/mask/smokable/ecig/util/examine(mob/user)
 	w_class = ITEM_SIZE_TINY
 	icon = 'icons/obj/items/ecig.dmi'
 	icon_state = "ecartridge"
-	material = MAT_ALUMINIUM
-	matter = list(MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/metal/aluminium
+	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
 	volume = 20
 	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_OPEN_CONTAINER
 
@@ -236,8 +234,8 @@ obj/item/clothing/mask/smokable/ecig/util/examine(mob/user)
 
 /obj/item/chems/ecig_cartridge/blanknico/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/chem/tobacco/liquid, 5)
-	reagents.add_reagent(/decl/material/gas/water, 10)
+	reagents.add_reagent(/decl/material/solid/tobacco/liquid, 5)
+	reagents.add_reagent(/decl/material/liquid/water, 10)
 
 /obj/item/chems/ecig_cartridge/med_nicotine
 	name = "tobacco flavour cartridge"
@@ -245,8 +243,8 @@ obj/item/clothing/mask/smokable/ecig/util/examine(mob/user)
 
 /obj/item/chems/ecig_cartridge/med_nicotine/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/chem/tobacco, 5)
-	reagents.add_reagent(/decl/material/gas/water, 15)
+	reagents.add_reagent(/decl/material/solid/tobacco, 5)
+	reagents.add_reagent(/decl/material/liquid/water, 15)
 
 /obj/item/chems/ecig_cartridge/high_nicotine
 	name = "high nicotine tobacco flavour cartridge"
@@ -254,8 +252,8 @@ obj/item/clothing/mask/smokable/ecig/util/examine(mob/user)
 
 /obj/item/chems/ecig_cartridge/high_nicotine/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/chem/tobacco, 10)
-	reagents.add_reagent(/decl/material/gas/water, 10)
+	reagents.add_reagent(/decl/material/solid/tobacco, 10)
+	reagents.add_reagent(/decl/material/liquid/water, 10)
 
 /obj/item/chems/ecig_cartridge/orange
 	name = "orange flavour cartridge"
@@ -263,9 +261,9 @@ obj/item/clothing/mask/smokable/ecig/util/examine(mob/user)
 
 /obj/item/chems/ecig_cartridge/orange/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/chem/tobacco/liquid, 5)
-	reagents.add_reagent(/decl/material/gas/water, 10)
-	reagents.add_reagent(/decl/material/chem/drink/juice/orange, 5)
+	reagents.add_reagent(/decl/material/solid/tobacco/liquid, 5)
+	reagents.add_reagent(/decl/material/liquid/water, 10)
+	reagents.add_reagent(/decl/material/liquid/drink/juice/orange, 5)
 
 /obj/item/chems/ecig_cartridge/mint
 	name = "mint flavour cartridge"
@@ -273,9 +271,9 @@ obj/item/clothing/mask/smokable/ecig/util/examine(mob/user)
 
 /obj/item/chems/ecig_cartridge/mint/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/chem/tobacco/liquid, 5)
-	reagents.add_reagent(/decl/material/gas/water, 10)
-	reagents.add_reagent(/decl/material/chem/menthol, 5)
+	reagents.add_reagent(/decl/material/solid/tobacco/liquid, 5)
+	reagents.add_reagent(/decl/material/liquid/water, 10)
+	reagents.add_reagent(/decl/material/liquid/menthol, 5)
 
 /obj/item/chems/ecig_cartridge/watermelon
 	name = "watermelon flavour cartridge"
@@ -283,9 +281,9 @@ obj/item/clothing/mask/smokable/ecig/util/examine(mob/user)
 
 /obj/item/chems/ecig_cartridge/watermelon/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/chem/tobacco/liquid, 5)
-	reagents.add_reagent(/decl/material/gas/water, 10)
-	reagents.add_reagent(/decl/material/chem/drink/juice/watermelon, 5)
+	reagents.add_reagent(/decl/material/solid/tobacco/liquid, 5)
+	reagents.add_reagent(/decl/material/liquid/water, 10)
+	reagents.add_reagent(/decl/material/liquid/drink/juice/watermelon, 5)
 
 /obj/item/chems/ecig_cartridge/grape
 	name = "grape flavour cartridge"
@@ -293,9 +291,9 @@ obj/item/clothing/mask/smokable/ecig/util/examine(mob/user)
 
 /obj/item/chems/ecig_cartridge/grape/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/chem/tobacco/liquid, 5)
-	reagents.add_reagent(/decl/material/gas/water, 10)
-	reagents.add_reagent(/decl/material/chem/drink/juice/grape, 5)
+	reagents.add_reagent(/decl/material/solid/tobacco/liquid, 5)
+	reagents.add_reagent(/decl/material/liquid/water, 10)
+	reagents.add_reagent(/decl/material/liquid/drink/juice/grape, 5)
 
 /obj/item/chems/ecig_cartridge/lemonlime
 	name = "lemon-lime flavour cartridge"
@@ -303,9 +301,9 @@ obj/item/clothing/mask/smokable/ecig/util/examine(mob/user)
 
 /obj/item/chems/ecig_cartridge/lemonlime/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/chem/tobacco/liquid, 5)
-	reagents.add_reagent(/decl/material/gas/water, 10)
-	reagents.add_reagent(/decl/material/chem/drink/lemon_lime, 5)
+	reagents.add_reagent(/decl/material/solid/tobacco/liquid, 5)
+	reagents.add_reagent(/decl/material/liquid/water, 10)
+	reagents.add_reagent(/decl/material/liquid/drink/lemon_lime, 5)
 
 /obj/item/chems/ecig_cartridge/coffee
 	name = "coffee flavour cartridge"
@@ -313,6 +311,6 @@ obj/item/clothing/mask/smokable/ecig/util/examine(mob/user)
 
 /obj/item/chems/ecig_cartridge/coffee/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/chem/tobacco/liquid, 5)
-	reagents.add_reagent(/decl/material/gas/water, 10)
-	reagents.add_reagent(/decl/material/chem/drink/coffee, 5)
+	reagents.add_reagent(/decl/material/solid/tobacco/liquid, 5)
+	reagents.add_reagent(/decl/material/liquid/water, 10)
+	reagents.add_reagent(/decl/material/liquid/drink/coffee, 5)

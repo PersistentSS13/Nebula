@@ -63,7 +63,7 @@
 	var/miss_sounds
 	var/ricochet_sounds
 	var/list/impact_sounds	//for different categories, IMPACT_MEAT etc
-	var/shrapnel_type = /obj/item/material/shard/shrapnel
+	var/shrapnel_type = /obj/item/shard/shrapnel
 
 	var/vacuum_traversal = 1 //Determines if the projectile can exist in vacuum, if false, the projectile will be deleted if it enters vacuum.
 
@@ -397,7 +397,7 @@
 		return
 
 	if(ispath(muzzle_type))
-		var/obj/effect/projectile/M = new muzzle_type(get_turf(src))
+		var/obj/effect/projectile/M = new muzzle_type(get_turf(src), src)
 
 		if(istype(M))
 			M.set_transform(T)
@@ -410,7 +410,7 @@
 
 /obj/item/projectile/proc/tracer_effect(var/matrix/M)
 	if(ispath(tracer_type))
-		var/obj/effect/projectile/P = new tracer_type(location.loc)
+		var/obj/effect/projectile/P = new tracer_type(location.loc, src)
 
 		if(istype(P))
 			P.set_transform(M)
@@ -423,7 +423,7 @@
 
 /obj/item/projectile/proc/impact_effect(var/matrix/M)
 	if(ispath(impact_type))
-		var/obj/effect/projectile/P = new impact_type(location ? location.loc : get_turf(src))
+		var/obj/effect/projectile/P = new impact_type(location ? location.loc : get_turf(src), src)
 
 		if(istype(P) && location)
 			P.set_transform(M)

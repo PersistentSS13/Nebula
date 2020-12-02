@@ -32,7 +32,7 @@
 	var/cstr = "[corner]"
 	var/key = "[cstr]-[i]-[px]/[py]/[pz]/[pw]"
 
-	var/image/I = image('icons/turf/flooring/shadows.dmi', cstr, dir = 1 << (i-1))
+	var/image/I = image('icons/turf/flooring/shadows.dmi', cstr, dir = 1<<(i-1))
 	I.alpha = WALL_AO_ALPHA
 	I.blend_mode = BLEND_OVERLAY
 	I.appearance_flags = RESET_ALPHA|RESET_COLOR|TILE_BOUND
@@ -56,13 +56,13 @@
 
 #define PROCESS_AO_CORNER(AO_LIST, NEIGHBORS, CORNER_INDEX, CDIR) \
 	corner = 0; \
-	if (NEIGHBORS & (1 << CDIR)) { \
+	if (NEIGHBORS & (1<<(CDIR))) { \
 		corner |= 2; \
 	} \
-	if (NEIGHBORS & (1 << turn(CDIR, 45))) { \
+	if (NEIGHBORS & (1<<(turn(CDIR, 45)))) { \
 		corner |= 1; \
 	} \
-	if (NEIGHBORS & (1 << turn(CDIR, -45))) { \
+	if (NEIGHBORS & (1<<(turn(CDIR, -45)))) { \
 		corner |= 4; \
 	} \
 	if (corner != 7) {	/* 7 is the 'no shadows' state, no reason to add overlays for it. */ \
@@ -75,7 +75,7 @@
 
 #define CUT_AO(TARGET, AO_LIST) \
 	if (AO_LIST) { \
-		TARGET.overlays -= AO_LIST; \
+		TARGET.cut_overlay(AO_LIST, TRUE); \
 		AO_LIST.Cut(); \
 	}
 
@@ -89,7 +89,7 @@
 	} \
 	UNSETEMPTY(AO_LIST); \
 	if (AO_LIST) { \
-		TARGET.overlays |= AO_LIST; \
+		TARGET.add_overlay(AO_LIST, TRUE); \
 	}
 
 /turf/proc/update_ao()

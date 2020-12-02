@@ -65,6 +65,14 @@
 	air_contents.volume = ATMOS_DEFAULT_VOLUME_FILTER
 	icon = null
 
+/obj/machinery/atmospherics/unary/vent_scrubber/Destroy()
+	var/area/A = get_area(src)
+	if(A)
+		GLOB.name_set_event.unregister(A, src, .proc/change_area_name)
+		A.air_scrub_info -= id_tag
+		A.air_scrub_names -= id_tag
+	. = ..()
+
 /obj/machinery/atmospherics/unary/vent_scrubber/on_update_icon(var/safety = 0)
 	if(!check_icon_cache())
 		return
@@ -106,15 +114,23 @@
 		id_tag = "[sequential_id("obj/machinery")]"
 	if(!scrubbing_gas)
 		scrubbing_gas = list()
-		for(var/g in SSmaterials.all_gasses)
-			if(g != MAT_OXYGEN && g != MAT_NITROGEN)
+		for(var/g in subtypesof(/decl/material/gas))
+			if(g != /decl/material/gas/oxygen && g != /decl/material/gas/nitrogen)
 				scrubbing_gas += g
 	var/area/A = get_area(src)
 	if(A && !A.air_scrub_names[id_tag])
 		var/new_name = "[A.name] Vent Scrubber #[A.air_scrub_names.len+1]"
 		A.air_scrub_names[id_tag] = new_name
 		SetName(new_name)
+		GLOB.name_set_event.register(A, src, .proc/change_area_name)
 	. = ..()
+
+/obj/machinery/atmospherics/unary/vent_scrubber/proc/change_area_name(var/area/A, var/old_area_name, var/new_area_name)
+	if(get_area(src) != A)
+		return
+	var/new_name = replacetext(A.air_scrub_names[id_tag], old_area_name, new_area_name)
+	SetName(new_name)
+	A.air_scrub_names[id_tag] = new_name
 
 /obj/machinery/atmospherics/unary/vent_scrubber/RefreshParts()
 	. = ..()
@@ -241,7 +257,7 @@
 
 /obj/machinery/atmospherics/unary/vent_scrubber/on/sauna/Initialize()
 	. = ..()
-	scrubbing_gas -= MAT_STEAM
+	scrubbing_gas -= /decl/material/liquid/water
 
 /decl/public_access/public_variable/scrubbing
 	expected_type = /obj/machinery/atmospherics/unary/vent_scrubber

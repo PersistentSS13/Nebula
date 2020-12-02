@@ -27,7 +27,7 @@ datum/preferences
 	to_file(S["name_is_always_random"],   pref.be_random_name)
 
 /datum/category_item/player_setup_item/physical/basic/sanitize_character()
-	var/datum/species/S = get_species_by_key(pref.species || GLOB.using_map.default_species)
+	var/datum/species/S =   get_species_by_key(pref.species) || get_species_by_key(GLOB.using_map.default_species)
 	pref.age                = sanitize_integer(pref.age, S.min_age, S.max_age, initial(pref.age))
 	pref.gender             = sanitize_inlist(pref.gender, S.genders, pick(S.genders))
 	pref.spawnpoint         = sanitize_inlist(pref.spawnpoint, spawntypes(), initial(pref.spawnpoint))
@@ -64,6 +64,9 @@ datum/preferences
 
 			var/decl/cultural_info/check = SSlore.get_culture(pref.cultural_info[TAG_CULTURE])
 			var/new_name = check.sanitize_name(raw_name, pref.species)
+			if(filter_block_message(user, new_name))
+				return TOPIC_NOACTION
+
 			if(new_name)
 				pref.real_name = new_name
 				return TOPIC_REFRESH

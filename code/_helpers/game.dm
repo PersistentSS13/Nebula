@@ -109,14 +109,6 @@
 	//turfs += centerturf
 	return atoms
 
-/proc/trange(rad = 0, turf/centre = null) //alternative to range (ONLY processes turfs and thus less intensive)
-	if(!centre)
-		return
-
-	var/turf/x1y1 = locate(((centre.x-rad)<1 ? 1 : centre.x-rad),((centre.y-rad)<1 ? 1 : centre.y-rad),centre.z)
-	var/turf/x2y2 = locate(((centre.x+rad)>world.maxx ? world.maxx : centre.x+rad),((centre.y+rad)>world.maxy ? world.maxy : centre.y+rad),centre.z)
-	return block(x1y1,x2y2)
-
 /proc/get_dist_euclidian(atom/Loc1, atom/Loc2)
 	var/dx = Loc1.x - Loc2.x
 	var/dy = Loc1.y - Loc2.y
@@ -421,22 +413,6 @@ datum/projectile_data
 
 	return new /datum/projectile_data(src_x, src_y, time, distance, power_x, power_y, dest_x, dest_y)
 
-/proc/GetRedPart(const/hexa)
-	return hex2num(copytext(hexa,2,4))
-
-/proc/GetGreenPart(const/hexa)
-	return hex2num(copytext(hexa,4,6))
-
-/proc/GetBluePart(const/hexa)
-	return hex2num(copytext(hexa,6,8))
-
-/proc/GetHexColors(const/hexa)
-	return list(
-			GetRedPart(hexa),
-			GetGreenPart(hexa),
-			GetBluePart(hexa)
-		)
-
 /proc/MixColors(const/list/colors)
 	var/list/reds = list()
 	var/list/blues = list()
@@ -444,9 +420,9 @@ datum/projectile_data
 	var/list/weights = list()
 
 	for (var/i = 0, ++i <= colors.len)
-		reds.Add(GetRedPart(colors[i]))
-		blues.Add(GetBluePart(colors[i]))
-		greens.Add(GetGreenPart(colors[i]))
+		reds.Add(HEX_RED(colors[i]))
+		blues.Add(HEX_BLUE(colors[i]))
+		greens.Add(HEX_GREEN(colors[i]))
 		weights.Add(1)
 
 	var/r = mixOneColor(weights, reds)

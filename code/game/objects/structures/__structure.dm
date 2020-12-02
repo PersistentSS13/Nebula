@@ -5,7 +5,7 @@
 
 	var/last_damage_message
 	var/health = 0
-	var/maxhealth = -1
+	var/maxhealth = 50
 	var/hitsound = 'sound/weapons/smash.ogg'
 	var/breakable
 	var/parts_type
@@ -97,6 +97,9 @@
 	set waitfor = FALSE
 	return FALSE
 
+/obj/structure/proc/is_pressurized_fluid_source()
+	return FALSE
+
 /obj/structure/proc/take_damage(var/damage)
 	if(health == -1) // This object does not take damage.
 		return
@@ -135,7 +138,7 @@
 /obj/structure/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
 	. = ..()
 	var/dmg = 100
-	if(material)
+	if(istype(material))
 		dmg = round(dmg * material.combustion_effect(get_turf(src),temperature, 0.3))
 	if(dmg)
 		take_damage(dmg)
@@ -195,7 +198,7 @@
 		else
 			playsound(loc, 'sound/weapons/tablehit1.ogg', 50, 1)
 		var/list/L = take_damage(rand(1,5))
-		for(var/obj/item/material/shard/S in L)
+		for(var/obj/item/shard/S in L)
 			if(S.sharp && prob(50))
 				affecting_mob.visible_message(SPAN_DANGER("\The [S] slices into [affecting_mob]'s face!"), SPAN_DANGER("\The [S] slices into your face!"))
 				affecting_mob.standard_weapon_hit_effects(S, G.assailant, S.force*2, BP_HEAD)
@@ -214,7 +217,7 @@
 
 /obj/structure/explosion_act(severity)
 	..()
-	if(QDELETED(src))
+	if(!QDELETED(src))
 		if(severity == 1)
 			physically_destroyed()
 		else if(severity == 2)

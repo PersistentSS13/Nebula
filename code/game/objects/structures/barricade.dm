@@ -18,12 +18,12 @@
 
 /obj/structure/barricade/spike/Initialize()
 	if(!reinf_material)
-		reinf_material = MAT_WOOD
+		reinf_material = /decl/material/solid/wood
 	. = ..()
 
 /obj/structure/barricade/Initialize()
 	if(!material)
-		material = MAT_WOOD
+		material = /decl/material/solid/wood
 	. = ..()
 	if(!istype(material))
 		return INITIALIZE_HINT_QDEL
@@ -37,15 +37,15 @@
 
 /obj/structure/barricade/update_material_desc()
 	if(reinf_material)
-		desc = "A rather simple [material.name] barrier. It menaces with spikes of [reinf_material.name]."
+		desc = "A rather simple [material.solid_name] barrier. It menaces with spikes of [reinf_material.solid_name]."
 	else
-		desc = "A heavy, solid barrier made of [material.name]."
+		desc = "A heavy, solid barrier made of [material.solid_name]."
 
 /obj/structure/barricade/on_update_icon()
 	..()
 	if(reinf_material)
 		icon_state = "cheval"
-		overlays = overlay_image(icon, "cheval_spikes", color = reinf_material.icon_colour, flags = RESET_COLOR)
+		overlays = overlay_image(icon, "cheval_spikes", color = reinf_material.color, flags = RESET_COLOR)
 	else
 		icon_state = "barricade"
 	

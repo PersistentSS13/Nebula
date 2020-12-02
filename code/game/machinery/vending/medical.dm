@@ -6,14 +6,15 @@
 	icon_deny = "med-deny"
 	icon_vend = "med-vend"
 	vend_delay = 18
+	markup = 0
 	base_type = /obj/machinery/vending/medical
 	product_ads = "Go save some lives!;The best stuff for your medbay.;Only the finest tools.;Natural chemicals!;This stuff saves lives.;Don't you want some?;Ping!"
 	initial_access = list(access_medical_equip)
 	products = list(
 		/obj/item/chems/glass/bottle/antitoxin = 4,
-		/obj/item/chems/glass/bottle/adrenaline = 4,
+		/obj/item/chems/glass/bottle/stabilizer = 4,
 		/obj/item/chems/glass/bottle/sedatives = 4,
-		/obj/item/chems/glass/bottle/toxin = 4,
+		/obj/item/chems/glass/bottle/bromide = 4,
 		/obj/item/chems/syringe/antibiotic = 4,
 		/obj/item/chems/syringe = 12,
 		/obj/item/scanner/health = 5,
@@ -26,7 +27,7 @@
 	)
 	contraband = list(
 		/obj/item/clothing/mask/chewable/candy/lolli/meds = 8,
-		/obj/item/chems/pill/tox = 3,
+		/obj/item/chems/pill/bromide = 3,
 		/obj/item/chems/pill/stox = 4,
 		/obj/item/chems/pill/antitox = 6
 	)
@@ -50,7 +51,7 @@
 		/obj/item/storage/med_pouch/oxyloss,
 		/obj/item/storage/med_pouch/toxin
 	)
-	contraband = list(/obj/item/chems/syringe/antitoxin = 4,/obj/item/chems/syringe/antibiotic = 4,/obj/item/chems/pill/tox = 1)
+	contraband = list(/obj/item/chems/syringe/antitoxin = 4,/obj/item/chems/syringe/antibiotic = 4,/obj/item/chems/pill/bromide = 1)
 
 /obj/machinery/vending/wallmed2
 	name = "NanoMed Mini"
@@ -71,4 +72,4 @@
 		/obj/item/storage/med_pouch/toxin,
 		/obj/item/storage/med_pouch/radiation
 	)
-	contraband = list(/obj/item/chems/pill/tox = 3, /obj/item/chems/hypospray/autoinjector/pain = 2)
+	contraband = list(/obj/item/chems/pill/bromide = 3, /obj/item/chems/hypospray/autoinjector/pain = 2)

@@ -6,8 +6,8 @@
 	item_state = "analyzer"
 	w_class = ITEM_SIZE_SMALL
 
-	material = MAT_ALUMINIUM
-	matter = list(MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/metal/aluminium
+	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
 
 	var/emagged = 0.0
 	var/recording = 0.0
@@ -18,7 +18,7 @@
 	var/datum/wires/taperecorder/wires = null // Wires datum
 	var/maintenance = 0
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 	throwforce = 2
 	throw_speed = 4
 	throw_range = 20
@@ -70,10 +70,9 @@
 
 
 /obj/item/taperecorder/attack_hand(mob/user)
-	if(user.get_inactive_hand() == src)
-		if(mytape)
-			eject()
-			return
+	if(user.is_holding_offhand(src) && mytape)
+		eject()
+		return
 	..()
 
 
@@ -387,10 +386,10 @@
 	icon_state = "tape_white"
 	item_state = "analyzer"
 	w_class = ITEM_SIZE_TINY
-	material = MAT_PLASTIC
+	material = /decl/material/solid/plastic
 	matter = list(
-		MAT_STEEL = MATTER_AMOUNT_REINFORCEMENT,
-		MAT_GLASS = MATTER_AMOUNT_TRACE
+		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/glass = MATTER_AMOUNT_TRACE
 	)
 	force = 1
 	throwforce = 0

@@ -100,9 +100,7 @@
 	return silent
 
 /mob/living/proc/handle_drugged()
-	if(druggy)
-		druggy = max(druggy-1, 0)
-	return druggy
+	return adjust_drugged(-1)
 
 /mob/living/proc/handle_slurring()
 	if(slurring)
@@ -165,7 +163,7 @@
 		clear_fullscreen("blind")
 		set_fullscreen(disabilities & NEARSIGHTED, "impaired", /obj/screen/fullscreen/impaired, 1)
 		set_fullscreen(eye_blurry, "blurry", /obj/screen/fullscreen/blurry)
-		set_fullscreen(druggy, "high", /obj/screen/fullscreen/high)
+		set_fullscreen(drugged, "high", /obj/screen/fullscreen/high)
 
 	set_fullscreen(stat == UNCONSCIOUS, "blackout", /obj/screen/fullscreen/blackout)
 
@@ -178,8 +176,9 @@
 	else if(eyeobj)
 		if(eyeobj.owner != src)
 			reset_view(null)
-	else if(z_eye) return
-	else if(!client.adminobs)
+	else if(z_eye) 
+		return
+	else if(client && !client.adminobs)
 		reset_view(null)
 
 /mob/living/proc/update_sight()

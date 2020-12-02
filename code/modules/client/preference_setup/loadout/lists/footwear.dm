@@ -1,7 +1,7 @@
 
 /datum/gear/shoes
 	sort_category = "Shoes and Footwear"
-	slot = slot_shoes
+	slot = slot_shoes_str
 	category = /datum/gear/shoes
 
 /datum/gear/shoes/athletic
@@ -36,10 +36,10 @@
 		/obj/item/clothing/shoes/color/black,
 		/obj/item/clothing/shoes/color/blue,
 		/obj/item/clothing/shoes/color/brown,
-		/obj/item/clothing/shoes/laceup,
+		/obj/item/clothing/shoes/dress,
 		/obj/item/clothing/shoes/dress/white,
 		/obj/item/clothing/shoes/color/green,
-		/obj/item/clothing/shoes/leather,
+		/obj/item/clothing/shoes/craftable,
 		/obj/item/clothing/shoes/color/orange,
 		/obj/item/clothing/shoes/color/purple,
 		/obj/item/clothing/shoes/rainbow,
