@@ -76,6 +76,9 @@ var/list/gamemode_cache = list()
 	var/character_slots = 10				// The number of available character slots
 	var/loadout_slots = 3					// The number of loadout slots per character
 
+	var/autosave_interval = 120				// The number in minutes that an autosave should take place.
+	var/autosave_auto_reset = 0				// Is above 0, after how many autosaves should the server reset?
+
 	var/max_maint_drones = 5				//This many drones can spawn,
 	var/allow_drone_spawn = 1				//assuming the admin allow them to.
 	var/drone_build_time = 1200				//A drone will become available every X ticks since last drone spawn. Default is 2 minutes.
@@ -663,6 +666,12 @@ var/list/gamemode_cache = list()
 
 				if("loadout_slots")
 					config.loadout_slots = text2num(value)
+
+				if("autosave_interval")
+					config.autosave_interval = text2num(value)
+
+				if("autosave_auto_reset")
+					config.autosave_auto_reset = text2num(value)
 
 				if("allow_drone_spawn")
 					config.allow_drone_spawn = text2num(value)
