@@ -6,7 +6,6 @@
 	name = "crimson hardsuit control module"
 	desc = "A blood-red hardsuit module with heavy armour plates."
 	icon = 'icons/clothing/spacesuit/rig/merc.dmi'
-	on_mob_icon = 'icons/clothing/spacesuit/rig/merc.dmi'
 	suit_type = "crimson hardsuit"
 	armor = list(
 		melee = ARMOR_MELEE_VERY_HIGH,
@@ -23,7 +22,7 @@
 
 	helm_type = /obj/item/clothing/head/helmet/space/rig/merc
 	glove_type = /obj/item/clothing/gloves/rig/merc
-	allowed = list(/obj/item/flashlight,/obj/item/tank,/obj/item/suit_cooling_unit,/obj/item/gun,/obj/item/ammo_magazine,/obj/item/ammo_casing,/obj/item/melee/baton,/obj/item/melee/energy/sword,/obj/item/handcuffs)
+	allowed = list(/obj/item/flashlight,/obj/item/tank,/obj/item/suit_cooling_unit,/obj/item/gun,/obj/item/ammo_magazine,/obj/item/ammo_casing,/obj/item/baton,/obj/item/energy_blade/sword,/obj/item/handcuffs)
 
 	initial_modules = list(
 		/obj/item/rig_module/mounted/lcannon,
@@ -49,8 +48,8 @@
 /obj/item/rig/merc/heavy
 	name = "crimson EOD hardsuit control module"
 	desc = "A blood-red hardsuit with heavy armoured plates. Judging by the abnormally thick plates, this one is for working with explosives."
+	icon = 'icons/clothing/spacesuit/rig/merc_heavy.dmi'
 	icon_state = "merc_rig_heavy"
-	on_mob_icon = 'icons/clothing/spacesuit/rig/merc_heavy.dmi'
 	armor = list(
 		melee = ARMOR_MELEE_VERY_HIGH,
 		bullet = ARMOR_BALLISTIC_AP,

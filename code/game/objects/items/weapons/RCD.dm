@@ -9,14 +9,14 @@
 	density = 0
 	anchored = 0.0
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
-	slot_flags = SLOT_BELT|SLOT_HOLSTER
+	slot_flags = SLOT_LOWER_BODY|SLOT_HOLSTER
 	force = 10.0
 	throwforce = 10.0
 	throw_speed = 1
 	throw_range = 5
 	w_class = ITEM_SIZE_NORMAL
 	origin_tech = "{'engineering':4,'materials':2}"
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	var/datum/effect/effect/system/spark_spread/spark_system
 	var/stored_matter = 0
 	var/max_stored_matter = 120
@@ -130,8 +130,8 @@
 	item_state = "rcdammo"
 	w_class = ITEM_SIZE_SMALL
 	origin_tech = "{'materials':2}"
-	material = MAT_STEEL
-	matter = list(MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/metal/steel
+	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
 	var/remaining = 30
 
 /obj/item/rcd_ammo/examine(mob/user, distance)
@@ -143,8 +143,8 @@
 	name = "high-capacity matter cartridge"
 	desc = "Do not ingest."
 	icon_state = "rcdlarge"
-	material = MAT_STEEL
-	matter = list(MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/metal/steel
+	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
 	remaining = 120
 	origin_tech = "{'materials':4}"
 
@@ -270,7 +270,7 @@
 	work_type = /turf/simulated/floor/airless
 
 /decl/hierarchy/rcd_mode/floor_and_walls/base_turf/can_handle_work(var/rcd, var/turf/target)
-	return istype(target) && (isspace(target) || istype(target, get_base_turf_by_area(target)))
+	return istype(target) && (isspaceturf(target) || istype(target, get_base_turf_by_area(target)))
 
 /decl/hierarchy/rcd_mode/floor_and_walls/floor_turf
 	cost = 3

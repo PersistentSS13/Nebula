@@ -4,12 +4,12 @@
 	icon = 'icons/obj/bureaucracy.dmi'
 	icon_state = "pen"
 	item_state = "pen"
-	slot_flags = SLOT_BELT | SLOT_EARS
+	slot_flags = SLOT_LOWER_BODY | SLOT_EARS
 	throwforce = 0
 	w_class = ITEM_SIZE_TINY
 	throw_speed = 7
 	throw_range = 15
-	material = MAT_PLASTIC
+	material = /decl/material/solid/plastic
 	var/colour = "black"	//what colour the ink is!
 	var/color_description = "black ink"
 

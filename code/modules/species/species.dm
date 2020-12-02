@@ -38,6 +38,7 @@
 	var/tail_animation                        // If set, the icon to obtain tail animation states from.
 	var/tail_blend = ICON_ADD
 	var/tail_hair
+	var/tail_icon = 'icons/effects/species.dmi'
 
 	var/list/hair_styles
 	var/list/facial_hair_styles
@@ -99,9 +100,9 @@
 	// Death vars.
 	var/meat_type =     /obj/item/chems/food/snacks/meat/human
 	var/meat_amount =   3
-	var/skin_material = MAT_SKIN_GENERIC
+	var/skin_material = /decl/material/solid/skin
 	var/skin_amount =   3
-	var/bone_material = MAT_BONE_GENERIC
+	var/bone_material = /decl/material/solid/bone
 	var/bone_amount =   3
 	var/remains_type =  /obj/item/remains/xeno
 	var/gibbed_anim =   "gibbed-h"
@@ -113,15 +114,18 @@
 	var/halloss_message = "slumps over, too weak to continue fighting..."
 	var/halloss_message_self = "The pain is too severe for you to keep going..."
 
+	var/sniff_message_3p = "sniffs the air."
+	var/sniff_message_1p = "You sniff the air."
+
 	var/limbs_are_nonsolid
 	var/spawns_with_stack = 0
 	// Environment tolerance/life processes vars.
 	var/reagent_tag                                             // Used for metabolizing reagents.
 	var/breath_pressure = 16                                    // Minimum partial pressure safe for breathing, kPa
-	var/breath_type = MAT_OXYGEN                                  // Non-oxygen gas breathed, if any.
-	var/poison_types = list(MAT_PHORON = TRUE, MAT_CHLORINE = TRUE) // Noticeably poisonous air - ie. updates the toxins indicator on the HUD.
-	var/exhale_type = MAT_CO2                          // Exhaled gas type.
-	var/blood_reagent = /decl/material/chem/blood
+	var/breath_type = /decl/material/gas/oxygen                                  // Non-oxygen gas breathed, if any.
+	var/poison_types = list(/decl/material/gas/chlorine = TRUE) // Noticeably poisonous air - ie. updates the toxins indicator on the HUD.
+	var/exhale_type = /decl/material/gas/carbon_dioxide                          // Exhaled gas type.
+	var/blood_reagent = /decl/material/liquid/blood
 
 	var/max_pressure_diff = 60                                  // Maximum pressure difference that is safe for lungs
 	var/cold_level_1 = 243                                      // Cold damage level 1 below this point. -30 Celsium degrees
@@ -197,6 +201,11 @@
 
 	var/list/skin_overlays = list()
 
+	// An associative list of target zones (ex. BP_CHEST, BP_MOUTH) mapped to all possible keys associated
+	// with the zone. Unused on vanilla Nebula at time of commit, will be used by hands and inventory 
+	// rewrite and for species with body layouts that do not map directly to the standard humanoid body.
+	var/list/limb_mapping 
+
 	var/list/has_limbs = list(
 		BP_CHEST =  list("path" = /obj/item/organ/external/chest),
 		BP_GROIN =  list("path" = /obj/item/organ/external/groin),
@@ -209,7 +218,7 @@
 		BP_R_HAND = list("path" = /obj/item/organ/external/hand/right),
 		BP_L_FOOT = list("path" = /obj/item/organ/external/foot),
 		BP_R_FOOT = list("path" = /obj/item/organ/external/foot/right)
-		)
+	)
 
 	var/list/override_limb_types // Used for species that only need to change one or two entries in has_limbs.
 
@@ -262,6 +271,8 @@
 	)
 
 	var/manual_dexterity = DEXTERITY_FULL
+
+	var/datum/ai/ai						// Type abused. Define with path and will automagically create. Determines behaviour for clientless mobs. This will override mob AIs.
 
 /*
 These are all the things that can be adjusted for equipping stuff and
@@ -344,14 +355,18 @@ The slots that you can use are found in items_clothing.dm and are the inventory 
 		var/list/organ_data = has_limbs[limb_type]
 		var/obj/item/organ/limb_path = organ_data["path"]
 		organ_data["descriptor"] = initial(limb_path.name)
-
+	
 /datum/species/proc/equip_survival_gear(var/mob/living/carbon/human/H,var/extendedtank = 1)
-	if(istype(H.get_equipped_item(slot_back), /obj/item/storage/backpack))
-		if (extendedtank)	H.equip_to_slot_or_del(new /obj/item/storage/box/engineer(H.back), slot_in_backpack)
-		else	H.equip_to_slot_or_del(new /obj/item/storage/box/survival(H.back), slot_in_backpack)
+	if(istype(H.get_equipped_item(slot_back_str), /obj/item/storage/backpack))
+		if (extendedtank)
+			H.equip_to_slot_or_del(new /obj/item/storage/box/engineer(H.back), slot_in_backpack_str)
+		else
+			H.equip_to_slot_or_del(new /obj/item/storage/box/survival(H.back), slot_in_backpack_str)
 	else
-		if (extendedtank)	H.equip_to_slot_or_del(new /obj/item/storage/box/engineer(H), slot_r_hand)
-		else	H.equip_to_slot_or_del(new /obj/item/storage/box/survival(H), slot_r_hand)
+		if (extendedtank)
+			H.put_in_hands_or_del(new /obj/item/storage/box/engineer(H))
+		else
+			H.put_in_hands_or_del(new /obj/item/storage/box/survival(H))
 
 /datum/species/proc/get_manual_dexterity(var/mob/living/carbon/human/H)
 	. = manual_dexterity
@@ -515,10 +530,6 @@ The slots that you can use are found in items_clothing.dm and are the inventory 
 			return 1
 	return 0
 
-// Called in life() when the mob has no client.
-/datum/species/proc/handle_npc(var/mob/living/carbon/human/H)
-	return
-
 /datum/species/proc/handle_vision(var/mob/living/carbon/human/H)
 	var/list/vision = H.get_accumulated_vision_handlers()
 	H.update_sight()
@@ -528,7 +539,7 @@ The slots that you can use are found in items_clothing.dm and are the inventory 
 	if(H.stat == DEAD)
 		return 1
 
-	if(!H.druggy)
+	if(!H.drugged)
 		H.set_see_in_dark((H.sight == (SEE_TURFS|SEE_MOBS|SEE_OBJS)) ? 8 : min(H.getDarkvisionRange() + H.equipment_darkness_modifier, 8))
 		if(H.equipment_see_invis)
 			H.set_see_invisible(max(min(H.see_invisible, H.equipment_see_invis), vision[2]))
@@ -547,7 +558,11 @@ The slots that you can use are found in items_clothing.dm and are the inventory 
 	var/how_nearsighted = get_how_nearsighted(H)
 	H.set_fullscreen(how_nearsighted, "nearsighted", /obj/screen/fullscreen/oxy, how_nearsighted)
 	H.set_fullscreen(H.eye_blurry, "blurry", /obj/screen/fullscreen/blurry)
-	H.set_fullscreen(H.druggy, "high", /obj/screen/fullscreen/high)
+	H.set_fullscreen(H.drugged, "high", /obj/screen/fullscreen/high)
+	if(H.drugged)
+		H.add_client_color(/datum/client_color/oversaturated)
+	else
+		H.remove_client_color(/datum/client_color/oversaturated)
 
 	for(var/overlay in H.equipment_overlays)
 		H.client.screen |= overlay
@@ -606,8 +621,8 @@ The slots that you can use are found in items_clothing.dm and are the inventory 
 /datum/species/proc/get_move_trail(var/mob/living/carbon/human/H)
 	if(H.lying)
 		return /obj/effect/decal/cleanable/blood/tracks/body
-	if(H.shoes || (H.wear_suit && (H.wear_suit.body_parts_covered & FEET)))
-		var/obj/item/clothing/shoes = (H.wear_suit && (H.wear_suit.body_parts_covered & FEET)) ? H.wear_suit : H.shoes // suits take priority over shoes
+	if(H.shoes || (H.wear_suit && (H.wear_suit.body_parts_covered & SLOT_FEET)))
+		var/obj/item/clothing/shoes = (H.wear_suit && (H.wear_suit.body_parts_covered & SLOT_FEET)) ? H.wear_suit : H.shoes // suits take priority over shoes
 		return shoes.move_trail
 	else
 		return move_trail
@@ -620,9 +635,11 @@ The slots that you can use are found in items_clothing.dm and are the inventory 
 
 	if(target.w_uniform)
 		target.w_uniform.add_fingerprint(attacker)
-	var/obj/item/organ/external/affecting = target.get_organ(ran_zone(attacker.zone_sel.selecting))
+	var/obj/item/organ/external/affecting = target.get_organ(ran_zone(attacker.zone_sel.selecting, target = target))
 
-	var/list/holding = list(target.get_active_hand() = 60, target.get_inactive_hand() = 30)
+	var/list/holding = list(target.get_active_hand() = 60)
+	for(var/thing in target.get_inactive_held_items())
+		holding[thing] = 30
 
 	var/skill_mod = 10 * attacker.get_skill_difference(SKILL_COMBAT, target)
 	var/state_mod = attacker.melee_accuracy_mods() - target.melee_accuracy_mods()
@@ -779,15 +796,15 @@ The slots that you can use are found in items_clothing.dm and are the inventory 
 					dat += "</br><b>Resistant to [kind].</b>"
 			if(breath_type)
 				var/decl/material/mat = decls_repository.get_decl(breath_type)
-				dat += "</br><b>They breathe [mat.name].</b>"
+				dat += "</br><b>They breathe [mat.gas_name].</b>"
 			if(exhale_type)
 				var/decl/material/mat = decls_repository.get_decl(exhale_type)
-				dat += "</br><b>They exhale [mat.name].</b>"
+				dat += "</br><b>They exhale [mat.gas_name].</b>"
 			if(LAZYLEN(poison_types))
 				var/list/poison_names = list()
 				for(var/g in poison_types)
 					var/decl/material/mat = decls_repository.get_decl(exhale_type)
-					poison_names |= mat.name
+					poison_names |= mat.gas_name
 				dat += "</br><b>[capitalize(english_list(poison_names))] [LAZYLEN(poison_names) == 1 ? "is" : "are"] poisonous to them.</b>"
 			dat += "</small>"
 		dat += "</td>"

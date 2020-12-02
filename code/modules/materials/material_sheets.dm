@@ -42,7 +42,7 @@
 	..() 
 
 /obj/item/stack/material/get_codex_value()
-	return (material && !material.hidden_from_codex) ? "[lowertext(material.name)] (material)" : ..()
+	return (material && !material.hidden_from_codex) ? "[lowertext(material.solid_name)] (material)" : ..()
 
 /obj/item/stack/material/get_material()
 	return material
@@ -111,10 +111,7 @@
 		update_icon()
 
 /obj/item/stack/material/attackby(var/obj/item/W, var/mob/user)
-	if(isCoil(W))
-		material.build_wired_product(user, W, src)
-		return
-	else if(istype(W, /obj/item/stack/material))
+	if(istype(W, /obj/item/stack/material))
 		if(is_same(W))
 			..()
 		else if(!reinf_material)
@@ -131,7 +128,7 @@
 
 /obj/item/stack/material/on_update_icon()
 	if(material_flags & USE_MATERIAL_COLOR)
-		color = material.icon_colour
+		color = material.color
 		alpha = 100 + max(1, amount/25)*(material.opacity * 255)
 	if(max_icon_state && amount == max_amount)
 		icon_state = max_icon_state
@@ -145,21 +142,21 @@
 	icon_state = "ingot"
 	plural_icon_state = "ingot-mult"
 	max_icon_state = "ingot-max"
-	material = MAT_IRON
+	material = /decl/material/solid/metal/iron
 
 /obj/item/stack/material/sandstone
 	name = "sandstone brick"
 	icon_state = "brick"
 	plural_icon_state = "brick-mult"
 	max_icon_state = "brick-max"
-	material = MAT_SANDSTONE
+	material = /decl/material/solid/stone/sandstone
 
 /obj/item/stack/material/marble
 	name = "marble brick"
 	icon_state = "brick"
 	plural_icon_state = "brick-mult"
 	max_icon_state = "brick-max"
-	material = MAT_MARBLE
+	material = /decl/material/solid/stone/marble
 
 /obj/item/stack/material/marble/ten
 	amount = 10
@@ -172,7 +169,7 @@
 	icon_state = "diamond"
 	plural_icon_state = "diamond-mult"
 	max_icon_state = "diamond-max"
-	material = MAT_DIAMOND
+	material = /decl/material/solid/gemstone/diamond
 
 /obj/item/stack/material/diamond/ten
 	amount = 10
@@ -182,32 +179,18 @@
 	icon_state = "sheet-faery-uranium"
 	plural_icon_state = "sheet-faery-uranium-mult"
 	max_icon_state = "sheet-faery-uranium-max"
-	material = MAT_URANIUM
+	material = /decl/material/solid/metal/uranium
 	material_flags = USE_MATERIAL_SINGULAR_NAME|USE_MATERIAL_PLURAL_NAME
 
 /obj/item/stack/material/uranium/ten
 	amount = 10
-
-/obj/item/stack/material/phoron
-	name = "solid phoron"
-	icon_state = "sheet-phoron"
-	plural_icon_state = "sheet-phoron-mult"
-	max_icon_state = "sheet-phoron-max"
-	material = MAT_PHORON
-	material_flags = USE_MATERIAL_SINGULAR_NAME|USE_MATERIAL_PLURAL_NAME
-
-/obj/item/stack/material/phoron/ten
-	amount = 10
-
-/obj/item/stack/material/phoron/fifty
-	amount = 50
 
 /obj/item/stack/material/plastic
 	name = "plastic"
 	icon_state = "sheet-plastic"
 	plural_icon_state = "sheet-plastic-mult"
 	max_icon_state = "sheet-plastic-max"
-	material = MAT_PLASTIC
+	material = /decl/material/solid/plastic
 
 /obj/item/stack/material/plastic/ten
 	amount = 10
@@ -220,7 +203,7 @@
 	icon_state = "ingot"
 	plural_icon_state = "ingot-mult"
 	max_icon_state = "ingot-max"
-	material = MAT_GOLD
+	material = /decl/material/solid/metal/gold
 
 /obj/item/stack/material/gold/ten
 	amount = 10
@@ -230,7 +213,7 @@
 	icon_state = "ingot"
 	plural_icon_state = "ingot-mult"
 	max_icon_state = "ingot-max"
-	material = MAT_SILVER
+	material = /decl/material/solid/metal/silver
 
 /obj/item/stack/material/silver/ten
 	amount = 10
@@ -241,7 +224,7 @@
 	icon_state = "ingot"
 	plural_icon_state = "ingot-mult"
 	max_icon_state = "ingot-max"
-	material = MAT_PLATINUM
+	material = /decl/material/solid/metal/platinum
 
 /obj/item/stack/material/platinum/ten
 	amount = 10
@@ -250,7 +233,7 @@
 /obj/item/stack/material/mhydrogen
 	name = "metallic hydrogen"
 	icon_state = "sheet-mythril"
-	material = MAT_METALLIC_HYDROGEN
+	material = /decl/material/solid/metallic_hydrogen
 	material_flags = USE_MATERIAL_SINGULAR_NAME|USE_MATERIAL_PLURAL_NAME
 
 /obj/item/stack/material/mhydrogen/ten
@@ -262,7 +245,7 @@
 	icon_state = "puck"
 	plural_icon_state = "puck-mult"
 	max_icon_state = "puck-max"
-	material = MAT_TRITIUM
+	material = /decl/material/gas/hydrogen/tritium
 
 /obj/item/stack/material/tritium/ten
 	amount = 10
@@ -275,7 +258,7 @@
 	icon_state = "ingot"
 	plural_icon_state = "ingot-mult"
 	max_icon_state = "ingot-max"
-	material = MAT_OSMIUM
+	material = /decl/material/solid/metal/osmium
 
 /obj/item/stack/material/osmium/ten
 	amount = 10
@@ -286,7 +269,7 @@
 	item_state = "sheet-metal"
 	plural_icon_state = "sheet-reinf-mult"
 	max_icon_state = "sheet-reinf-max"
-	material = MAT_OSMIUM_CARBIDE_PLASTEEL
+	material = /decl/material/solid/metal/plasteel/ocp
 
 /obj/item/stack/material/ocp/ten
 	amount = 10
@@ -300,7 +283,7 @@
 	icon_state = "puck"
 	plural_icon_state = "puck-mult"
 	max_icon_state = "puck-max"
-	material = MAT_DEUTERIUM
+	material = /decl/material/gas/hydrogen/deuterium
 
 /obj/item/stack/material/deuterium/fifty
 	amount = 50
@@ -310,7 +293,7 @@
 	icon_state = "sheet"
 	plural_icon_state = "sheet-mult"
 	max_icon_state = "sheet-max"
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 
 /obj/item/stack/material/steel/ten
 	amount = 10
@@ -324,7 +307,7 @@
 	item_state = "sheet-shiny"
 	plural_icon_state = "sheet-sheen-mult"
 	max_icon_state = "sheet-sheen-max"
-	material = MAT_ALUMINIUM
+	material = /decl/material/solid/metal/aluminium
 
 /obj/item/stack/material/aluminium/ten
 	amount = 10
@@ -336,7 +319,7 @@
 	name = "titanium"
 	icon_state = "sheet"
 	plural_icon_state = "sheet-mult"
-	material = MAT_TITANIUM
+	material = /decl/material/solid/metal/plasteel/titanium
 
 /obj/item/stack/material/titanium/ten
 	amount = 10
@@ -350,7 +333,7 @@
 	item_state = "sheet-metal"
 	plural_icon_state = "sheet-reinf-mult"
 	max_icon_state = "sheet-reinf-max"
-	material = MAT_PLASTEEL
+	material = /decl/material/solid/metal/plasteel
 
 /obj/item/stack/material/plasteel/ten
 	amount = 10
@@ -363,7 +346,7 @@
 	icon_state = "sheet-wood"
 	plural_icon_state = "sheet-wood-mult"
 	max_icon_state = "sheet-wood-max"
-	material = MAT_WOOD
+	material = /decl/material/solid/wood
 
 /obj/item/stack/material/wood/ten
 	amount = 10
@@ -373,7 +356,7 @@
 
 /obj/item/stack/material/wood/mahogany
 	name = "mahogany plank"
-	material = MAT_MAHOGANY
+	material = /decl/material/solid/wood/mahogany
 
 /obj/item/stack/material/wood/mahogany/ten
 	amount = 10
@@ -383,7 +366,7 @@
 
 /obj/item/stack/material/wood/maple
 	name = "maple plank"
-	material = MAT_MAPLE
+	material = /decl/material/solid/wood/maple
 
 /obj/item/stack/material/wood/maple/ten
 	amount = 10
@@ -393,7 +376,7 @@
 
 /obj/item/stack/material/wood/ebony
 	name = "ebony plank"
-	material = MAT_EBONY
+	material = /decl/material/solid/wood/ebony
 
 /obj/item/stack/material/wood/ebony/ten
 	amount = 10
@@ -403,7 +386,7 @@
 
 /obj/item/stack/material/wood/walnut
 	name = "walnut plank"
-	material = MAT_WALNUT
+	material = /decl/material/solid/wood/walnut
 
 /obj/item/stack/material/wood/walnut/ten
 	amount = 10
@@ -413,7 +396,7 @@
 
 /obj/item/stack/material/wood/bamboo
 	name = "bamboo plank"
-	material = MAT_BAMBOO
+	material = /decl/material/solid/wood/bamboo
 
 /obj/item/stack/material/wood/bamboo/ten
 	amount = 10
@@ -423,7 +406,7 @@
 
 /obj/item/stack/material/wood/yew
 	name = "yew plank"
-	material = MAT_YEW
+	material = /decl/material/solid/wood/yew
 
 /obj/item/stack/material/wood/yew/ten
 	amount = 10
@@ -434,14 +417,14 @@
 /obj/item/stack/material/cloth
 	name = "cloth"
 	icon_state = "sheet-cloth"
-	material = MAT_CLOTH
+	material = /decl/material/solid/cloth
 
 /obj/item/stack/material/cardboard
 	name = "cardboard"
 	icon_state = "sheet-card"
 	plural_icon_state = "sheet-card-mult"
 	max_icon_state = "sheet-card-max"
-	material = MAT_CARDBOARD
+	material = /decl/material/solid/cardboard
 	material_flags = USE_MATERIAL_SINGULAR_NAME|USE_MATERIAL_PLURAL_NAME
 
 /obj/item/stack/material/cardboard/ten
@@ -454,7 +437,7 @@
 	name = "leather"
 	desc = "The by-product of mob grinding."
 	icon_state = "sheet-leather"
-	material = MAT_LEATHER_GENERIC
+	material = /decl/material/solid/leather
 	material_flags = USE_MATERIAL_SINGULAR_NAME|USE_MATERIAL_PLURAL_NAME
 
 /obj/item/stack/material/glass
@@ -462,7 +445,7 @@
 	icon_state = "sheet-clear"
 	plural_icon_state = "sheet-clear-mult"
 	max_icon_state = "sheet-clear-max"
-	material = MAT_GLASS
+	material = /decl/material/solid/glass
 
 /obj/item/stack/material/glass/on_update_icon()
 	if(reinf_material) 
@@ -488,8 +471,8 @@
 	icon_state = "sheet-reinf"
 	plural_icon_state = "sheet-reinf-mult"
 	max_icon_state = "sheet-reinf-max"
-	material = MAT_GLASS
-	reinf_material = MAT_STEEL
+	material = /decl/material/solid/glass
+	reinf_material = /decl/material/solid/metal/steel
 
 /obj/item/stack/material/glass/reinforced/ten
 	amount = 10
@@ -499,12 +482,12 @@
 
 /obj/item/stack/material/glass/borosilicate
 	name = "borosilicate glass"
-	material = MAT_BOROSILICATE_GLASS
+	material = /decl/material/solid/glass/borosilicate
 
 /obj/item/stack/material/glass/reinforced_borosilicate
 	name = "reinforced borosilicate glass"
-	material = MAT_BOROSILICATE_GLASS
-	reinf_material = MAT_STEEL
+	material = /decl/material/solid/glass/borosilicate
+	reinf_material = /decl/material/solid/metal/steel
 
 /obj/item/stack/material/glass/reinforced_borosilicate/ten
 	amount = 10
@@ -514,7 +497,7 @@
 	icon_state = "sheet"
 	plural_icon_state = "sheet-mult"
 	max_icon_state = "sheet-max"
-	material = MAT_ALIENALLOY
+	material = /decl/material/solid/metal/aliumium
 
 /obj/item/stack/material/aliumium/ten
 	amount = 10
@@ -526,7 +509,7 @@
 
 /obj/item/stack/material/generic/Initialize()
 	. = ..()
-	if(material) color = material.icon_colour
+	if(material) color = material.color
 
 /obj/item/stack/material/generic/skin
 	icon_state = "skin"

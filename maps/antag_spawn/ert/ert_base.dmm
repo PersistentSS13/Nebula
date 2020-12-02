@@ -159,8 +159,8 @@
 /area/map_template/rescue_base/base)
 "az" = (
 /obj/structure/table/steel_reinforced,
-/obj/item/material/twohanded/baseballbat/aluminium,
-/obj/item/material/hatchet,
+/obj/item/twohanded/baseballbat/aluminium,
+/obj/item/hatchet,
 /turf/unsimulated/floor{
 	icon_state = "dark"
 	},
@@ -722,8 +722,7 @@
 /obj/machinery/door/blast/regular{
 	icon_state = "pdoor1";
 	id_tag = "heavyrescue";
-	name = "Restricted Equipment";
-	p_open = 0
+	name = "Restricted Equipment"
 	},
 /turf/unsimulated/floor{
 	icon_state = "vault";
@@ -855,8 +854,7 @@
 /obj/machinery/door/blast/regular{
 	icon_state = "pdoor1";
 	id_tag = "standardrescue";
-	name = "Heavy Equipment";
-	p_open = 0
+	name = "Heavy Equipment"
 	},
 /turf/unsimulated/floor{
 	icon_state = "vault";
@@ -953,12 +951,12 @@
 /obj/item/storage/box/flashbangs,
 /obj/item/flash,
 /obj/item/flash,
-/obj/item/melee/baton/loaded,
-/obj/item/melee/baton/loaded,
+/obj/item/baton/loaded,
+/obj/item/baton/loaded,
 /obj/item/chems/spray/pepper,
 /obj/item/chems/spray/pepper,
-/obj/item/melee/telebaton,
-/obj/item/melee/telebaton,
+/obj/item/telebaton,
+/obj/item/telebaton,
 /obj/machinery/recharger/wallcharger{
 	pixel_x = 4;
 	pixel_y = 32
@@ -1069,8 +1067,8 @@
 /obj/structure/table/rack,
 /obj/item/flash,
 /obj/item/flash,
-/obj/item/melee/baton/loaded,
-/obj/item/melee/baton/loaded,
+/obj/item/baton/loaded,
+/obj/item/baton/loaded,
 /obj/item/storage/box/syringes,
 /obj/item/storage/box/syringes,
 /obj/item/storage/box/autoinjectors,
@@ -1101,9 +1099,9 @@
 /obj/item/chems/hypospray,
 /obj/item/chems/hypospray,
 /obj/item/chems/glass/beaker/large,
-/obj/item/chems/glass/bottle/adrenaline,
-/obj/item/chems/glass/bottle/adrenaline,
-/obj/item/chems/glass/bottle/adrenaline,
+/obj/item/chems/glass/bottle/stabilizer,
+/obj/item/chems/glass/bottle/stabilizer,
+/obj/item/chems/glass/bottle/stabilizer,
 /turf/unsimulated/floor{
 	icon_state = "vault";
 	dir = 1
@@ -1685,8 +1683,7 @@
 /obj/machinery/door/blast/regular{
 	icon_state = "pdoor1";
 	id_tag = "standardrescue";
-	name = "EVA";
-	p_open = 0
+	name = "EVA"
 	},
 /turf/unsimulated/floor{
 	icon_state = "vault";
@@ -1990,8 +1987,7 @@
 /obj/machinery/door/blast/regular{
 	icon_state = "pdoor1";
 	id_tag = "standardrescue";
-	name = "Garage";
-	p_open = 0
+	name = "Garage"
 	},
 /turf/unsimulated/floor{
 	icon_state = "vault";
@@ -2115,7 +2111,7 @@
 /obj/item/storage/box/flashbangs,
 /obj/item/storage/box/teargas,
 /obj/item/storage/box/handcuffs,
-/obj/item/melee/baton/loaded,
+/obj/item/baton/loaded,
 /turf/unsimulated/floor{
 	icon_state = "vault";
 	dir = 1
@@ -2174,8 +2170,7 @@
 /obj/machinery/door/blast/regular{
 	icon_state = "pdoor1";
 	id_tag = "rescuegarage";
-	name = "Garage Exit";
-	p_open = 0
+	name = "Garage Exit"
 	},
 /turf/unsimulated/floor{
 	icon_state = "vault";
@@ -2283,8 +2278,8 @@
 /obj/structure/table/rack,
 /obj/item/flash,
 /obj/item/flash,
-/obj/item/melee/baton/loaded,
-/obj/item/melee/baton/loaded,
+/obj/item/baton/loaded,
+/obj/item/baton/loaded,
 /obj/item/grenade/chem_grenade/metalfoam,
 /obj/item/grenade/chem_grenade/metalfoam,
 /obj/item/grenade/chem_grenade/metalfoam,
@@ -2484,7 +2479,7 @@
 /obj/structure/table/woodentable{
 	dir = 5
 	},
-/obj/item/material/ashtray/bronze,
+/obj/item/ashtray,
 /obj/item/trash/cigbutt/cigarbutt,
 /turf/unsimulated/floor{
 	name = "plating";
@@ -2517,8 +2512,7 @@
 /obj/machinery/door/blast/regular{
 	icon_state = "pdoor1";
 	id_tag = "heavyrescue";
-	name = "Combat Exosuit";
-	p_open = 0
+	name = "Combat Exosuit"
 	},
 /turf/unsimulated/floor{
 	icon_state = "vault";
@@ -2719,7 +2713,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/map_template/rescue_base/start)
 "fj" = (
-/obj/structure/handrai{
+/obj/structure/handrail{
 	icon_state = "handrail";
 	dir = 4
 	},
@@ -2737,7 +2731,7 @@
 	pixel_x = 24;
 	pixel_y = -4
 	},
-/obj/structure/handrai{
+/obj/structure/handrail{
 	icon_state = "handrail";
 	dir = 8
 	},
@@ -2767,7 +2761,7 @@
 	pixel_x = 22;
 	pixel_y = 0
 	},
-/obj/structure/handrai{
+/obj/structure/handrail{
 	icon_state = "handrail";
 	dir = 8
 	},
@@ -2982,7 +2976,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/map_template/rescue_base/start)
 "fR" = (
-/obj/structure/handrai{
+/obj/structure/handrail{
 	icon_state = "handrail";
 	dir = 1
 	},
@@ -3079,7 +3073,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/map_template/rescue_base/start)
 "ge" = (
-/obj/structure/handrai,
+/obj/structure/handrail,
 /turf/simulated/floor/tiled/dark,
 /area/map_template/rescue_base/start)
 "gf" = (
@@ -3213,7 +3207,7 @@
 	pixel_x = -4;
 	pixel_y = 8
 	},
-/obj/item/chems/glass/bottle/adrenaline{
+/obj/item/chems/glass/bottle/stabilizer{
 	pixel_x = 4;
 	pixel_y = 7
 	},

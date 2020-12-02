@@ -94,11 +94,7 @@ default behaviour is:
 						to_chat(src, "<span class='danger'>You fail to push [tmob]'s fat ass out of the way.</span>")
 						now_pushing = 0
 						return
-				if(tmob.r_hand && istype(tmob.r_hand, /obj/item/shield/riot))
-					if(prob(99))
-						now_pushing = 0
-						return
-				if(tmob.l_hand && istype(tmob.l_hand, /obj/item/shield/riot))
+				for(var/obj/item/shield/riot/shield in tmob.get_held_items())
 					if(prob(99))
 						now_pushing = 0
 						return
@@ -200,6 +196,9 @@ default behaviour is:
 //sort of a legacy burn method for /electrocute, /shock, and the e_chair
 /mob/living/proc/burn_skin(burn_amount)
 	take_overall_damage(0, burn_amount)
+
+/mob/living/proc/increaseBodyTemp(value)
+	return 0
 
 /mob/living/proc/adjustBodyTemp(actual, desired, incrementboost)
 	var/btemperature = actual
@@ -350,7 +349,7 @@ default behaviour is:
 	var/t = shooter.zone_sel?.selecting
 	if ((t in list( BP_EYES, BP_MOUTH )))
 		t = BP_HEAD
-	var/obj/item/organ/external/def_zone = ran_zone(t)
+	var/obj/item/organ/external/def_zone = ran_zone(t, target = src)
 	return def_zone
 
 
@@ -425,7 +424,7 @@ default behaviour is:
 	ear_deaf = 0
 	ear_damage = 0
 	drowsyness = 0
-	druggy = 0
+	drugged = 0
 	jitteriness = 0
 	confused = 0
 

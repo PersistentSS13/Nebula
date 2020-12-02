@@ -10,7 +10,7 @@
 	storage_slots = 7
 	item_flags = ITEM_FLAG_IS_BELT
 	max_w_class = ITEM_SIZE_NORMAL
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 	var/overlay_flags
 	attack_verb = list("whipped", "lashed", "disciplined")
 
@@ -29,19 +29,25 @@
 	overlays.Cut()
 	if(overlay_flags & BELT_OVERLAY_ITEMS)
 		for(var/obj/item/I in contents)
-			overlays += image('icons/obj/clothing/obj_belt_overlays.dmi', "[I.icon_state]")
+			if(I.use_single_icon)
+				overlays += I.get_on_belt_overlay()
+			else
+				overlays += image('icons/obj/clothing/obj_belt_overlays.dmi', "[I.icon_state]")
 
-/obj/item/storage/belt/get_mob_overlay(mob/user_mob, slot)
+/obj/item/storage/belt/get_mob_overlay(mob/user_mob, slot, bodypart)
 	var/image/ret = ..()
 	if(slot == slot_belt_str && contents.len)
 		var/list/ret_overlays = list()
 		for(var/obj/item/I in contents)
-			var/use_state = (I.item_state ? I.item_state : I.icon_state)
-			if(ishuman(user_mob))
-				var/mob/living/carbon/human/H = user_mob
-				ret_overlays += H.species.get_offset_overlay_image(FALSE, 'icons/mob/onmob/onmob_belt.dmi', use_state, I.color, slot)
+			if(I.use_single_icon)
+				ret_overlays += I.get_mob_overlay(user_mob, slot, bodypart)
 			else
-				ret_overlays += overlay_image('icons/mob/onmob/onmob_belt.dmi', use_state, I.color, RESET_COLOR)
+				var/use_state = (I.item_state ? I.item_state : I.icon_state)
+				if(ishuman(user_mob))
+					var/mob/living/carbon/human/H = user_mob
+					ret_overlays += H.species.get_offset_overlay_image(FALSE, 'icons/mob/onmob/onmob_belt.dmi', use_state, I.color, slot)
+				else
+					ret_overlays += overlay_image('icons/mob/onmob/onmob_belt.dmi', use_state, I.color, RESET_COLOR)
 			ret.overlays += ret_overlays
 	return ret
 
@@ -56,8 +62,8 @@
 	var/sound_in = 'sound/effects/holster/holsterin.ogg'
 	var/sound_out = 'sound/effects/holster/holsterout.ogg'
 	can_hold = list(
-		/obj/item/melee/baton,
-		/obj/item/melee/telebaton
+		/obj/item/baton,
+		/obj/item/telebaton
 		)
 
 /obj/item/storage/belt/holster/Initialize()
@@ -119,8 +125,8 @@
 		/obj/item/taperoll/engineering,
 		/obj/item/inducer/,
 		/obj/item/robotanalyzer,
-		/obj/item/material/minihoe,
-		/obj/item/material/hatchet,
+		/obj/item/minihoe,
+		/obj/item/hatchet,
 		/obj/item/scanner/plant,
 		/obj/item/taperoll,
 		/obj/item/extinguisher/mini,
@@ -207,15 +213,16 @@
 		/obj/item/ammo_casing/shotgun,
 		/obj/item/ammo_magazine,
 		/obj/item/chems/food/snacks/donut/,
-		/obj/item/melee/baton,
-		/obj/item/melee/telebaton,
+		/obj/item/baton,
+		/obj/item/telebaton,
 		/obj/item/flame/lighter,
 		/obj/item/flashlight,
 		/obj/item/modular_computer/pda,
 		/obj/item/radio/headset,
 		/obj/item/hailer,
 		/obj/item/megaphone,
-		/obj/item/melee,
+		/obj/item/energy_blade,
+		/obj/item/baton,
 		/obj/item/taperoll,
 		/obj/item/holowarrant,
 		/obj/item/magnetic_ammo,
@@ -239,15 +246,16 @@
 		/obj/item/ammo_casing/shotgun,
 		/obj/item/ammo_magazine,
 		/obj/item/chems/food/snacks/donut/,
-		/obj/item/melee/baton,
-		/obj/item/melee/telebaton,
+		/obj/item/baton,
+		/obj/item/telebaton,
 		/obj/item/flame/lighter,
 		/obj/item/flashlight,
 		/obj/item/modular_computer/pda,
 		/obj/item/radio/headset,
 		/obj/item/hailer,
 		/obj/item/megaphone,
-		/obj/item/melee,
+		/obj/item/energy_blade,
+		/obj/item/baton,
 		/obj/item/taperoll,
 		/obj/item/holowarrant,
 		/obj/item/magnetic_ammo,
@@ -263,11 +271,11 @@
 	overlay_flags = BELT_OVERLAY_ITEMS
 	can_hold = list(
 		/obj/item/flash,
-		/obj/item/melee/telebaton,
+		/obj/item/telebaton,
 		/obj/item/taperecorder,
 		/obj/item/folder,
 		/obj/item/paper,
-		/obj/item/material/clipboard,
+		/obj/item/clipboard,
 		/obj/item/modular_computer/tablet,
 		/obj/item/flashlight,
 		/obj/item/modular_computer/pda,
@@ -289,7 +297,7 @@
 		/obj/item/clothing/head/soft,
 		/obj/item/hand_labeler,
 		/obj/item/clothing/gloves,
-		/obj/item/crowbar/prybar
+		/obj/item/crowbar
 		)
 
 /obj/item/storage/belt/janitor
@@ -306,8 +314,8 @@
 		/obj/item/holosign_creator,
 		/obj/item/clothing/gloves,
 		/obj/item/assembly/mousetrap,
-		/obj/item/crowbar/prybar,
-		/obj/item/clothing/mask/plunger
+		/obj/item/crowbar,
+		/obj/item/plunger
 		)
 
 /obj/item/storage/belt/holster/general
@@ -319,11 +327,11 @@
 	overlay_flags = BELT_OVERLAY_ITEMS|BELT_OVERLAY_HOLSTER
 	can_hold = list(
 		/obj/item/flash,
-		/obj/item/melee/telebaton,
+		/obj/item/telebaton,
 		/obj/item/taperecorder,
 		/obj/item/folder,
 		/obj/item/paper,
-		/obj/item/material/clipboard,
+		/obj/item/clipboard,
 		/obj/item/modular_computer/tablet,
 		/obj/item/flash,
 		/obj/item/flashlight,
@@ -345,7 +353,7 @@
 		/obj/item/clothing/head/soft,
 		/obj/item/hand_labeler,
 		/obj/item/clothing/gloves,
-		/obj/item/crowbar/prybar
+		/obj/item/crowbar
 		)
 
 /obj/item/storage/belt/holster/forensic
@@ -402,7 +410,7 @@
 		/obj/item/tape,
 		/obj/item/scanner/gas
 		)
-	can_holster = list(/obj/item/material/hatchet/machete)
+	can_holster = list(/obj/item/hatchet/machete)
 	sound_in = 'sound/effects/holster/sheathin.ogg'
 	sound_out = 'sound/effects/holster/sheathout.ogg'
 
@@ -446,7 +454,7 @@
 
 /obj/item/storage/belt/holster/security/tactical/Initialize()
 	.=..()
-	slowdown_per_slot[slot_belt] = 1
+	LAZYSET(slowdown_per_slot, slot_belt_str, 1)
 
 /obj/item/storage/belt/waistpack
 	name = "waist pack"
@@ -456,7 +464,7 @@
 	storage_slots = null
 	max_w_class = ITEM_SIZE_SMALL
 	max_storage_space = ITEM_SIZE_SMALL * 4
-	slot_flags = SLOT_BELT | SLOT_BACK
+	slot_flags = SLOT_LOWER_BODY | SLOT_BACK
 
 /obj/item/storage/belt/waistpack/big
 	name = "large waist pack"
@@ -469,7 +477,7 @@
 
 /obj/item/storage/belt/waistpack/big/Initialize()
 	.=..()
-	slowdown_per_slot[slot_belt] = 1
+	LAZYSET(slowdown_per_slot, slot_belt_str, 1)
 
 /obj/item/storage/belt/fire_belt
 	name = "firefighting equipment belt"
@@ -480,7 +488,6 @@
 	overlay_flags = BELT_OVERLAY_ITEMS
 	can_hold = list(
 		/obj/item/grenade/chem_grenade/water,
-		/obj/item/crowbar/emergency_forcing_tool,
 		/obj/item/extinguisher/mini,
 		/obj/item/inflatable/door
 		)
@@ -489,7 +496,6 @@
 /obj/item/storage/belt/fire_belt/full
 	startswith = list(
 		/obj/item/inflatable/door,
-		/obj/item/crowbar/emergency_forcing_tool,
 		/obj/item/extinguisher/mini,
 		/obj/item/grenade/chem_grenade/water = 2
 	)

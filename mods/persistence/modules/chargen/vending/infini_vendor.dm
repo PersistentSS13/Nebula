@@ -11,11 +11,8 @@
 		var/paid = 0
 		var/handled = 0
 
-		if (I) //for IDs and PDAs and wallets with IDs
-			paid = pay_with_card(I,W)
-			handled = 1
-		else if (istype(W, /obj/item/charge_card))
-			var/obj/item/charge_card/C = W
+		if (istype(W, /obj/item/charge_stick))
+			var/obj/item/charge_stick/C = W
 			paid = pay_with_charge_card(C)
 			handled = 1
 		else if (istype(W, /obj/item/cash))

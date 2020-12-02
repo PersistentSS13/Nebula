@@ -9,7 +9,7 @@
 
 /decl/material/nullglass
 	
-	icon_colour = COLOR_NULLGLASS
+	color = COLOR_NULLGLASS
 	conductive = 1
 	stack_type = /obj/item/stack/material/nullglass
 	flags = MAT_FLAG_BRITTLE
@@ -27,7 +27,7 @@
 	. = ..()
 	. += new /datum/stack_recipe/tile/nullglass(src)
 
-/obj/item/material/shard/nullglass
+/obj/item/shard/nullglass
 	material = MAT_NULLGLASS
 /datum/stack_recipe/tile/nullglass
 	title = "nullglass floor tile"

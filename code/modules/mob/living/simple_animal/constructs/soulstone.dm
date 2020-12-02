@@ -5,8 +5,8 @@
 	item_state = "electronic"
 	desc = "A strange, ridged chunk of some glassy red material. Achingly cold to the touch."
 	w_class = ITEM_SIZE_SMALL
-	slot_flags = SLOT_BELT
-	origin_tech = "{'bluespace':4,'materials':4}"
+	slot_flags = SLOT_LOWER_BODY
+	origin_tech = "{'wormholes':4,'materials':4}"
 
 	var/full = SOULSTONE_EMPTY
 	var/is_evil = 1
@@ -87,7 +87,7 @@
 	if(!shade.key) // No key = hasn't been used
 		to_chat(user, "<span class='notice'>You cut your finger and let the blood drip on \the [src].</span>")
 		user.remove_blood_simple(1)
-		var/datum/ghosttrap/cult/shade/S = get_ghost_trap("soul stone")
+		var/decl/ghosttrap/S = decls_repository.get_decl(/decl/ghosttrap/cult_shade)
 		S.request_player(shade, "The soul stone shade summon ritual has been performed. ")
 	else if(!shade.client) // Has a key but no client - shade logged out
 		to_chat(user, "<span class='notice'>\The [shade] in \the [src] is dormant.</span>")

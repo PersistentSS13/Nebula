@@ -84,20 +84,20 @@
 		to_chat(src, SPAN_NOTICE("Wait until the round starts to join."))
 		return
 	if(!config.enter_allowed)
-		to_chat(usr, "<span class='notice'>There is an administrative lock on entering the game!</span>")
+		to_chat(usr, SPAN_NOTICE("There is an administrative lock on entering the game!"))
 		return
 	if(spawning)
 		return
-	for(var/mob/M in SSmobs.mob_list)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
+	for(var/mob/M in GLOB.living_mob_list_)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
 		if(M.loc && !istype(M, /mob/new_player) && (M.saved_ckey == ckey || M.saved_ckey == "@[ckey]"))
 			transition_to_game()
 			to_chat(src, SPAN_NOTICE("A character is already in game."))
 			spawning = TRUE
 			M.key = key
+			qdel(src)
 			return
 
 	create_character()	// Creating a new character based off the player's preferences.
-
 	qdel(src)
 
 /mob/new_player/create_character()
@@ -105,11 +105,16 @@
 	transition_to_game()
 	var/turf/spawn_turf
 
-	// Temporary, until spawning mechanics can be finalized.
-	for(var/obj/machinery/cryopod/C in SSmachines.machinery)
-		spawn_turf = locate(C.x, C.y, C.z)
-	if(!spawn_turf)
-		spawn_turf = locate(100,100,1)
+	var/used_chargen = FALSE
+	if(chargen_spawns && length(chargen_spawns))
+		spawn_turf = SSchargen.get_spawn_turf()
+		used_chargen = TRUE
+	else
+		for(var/turf/T in GLOB.latejoin_cryo)
+			if(locate(/mob) in T)
+				continue
+			spawn_turf = T
+
 	var/mob/living/carbon/human/new_character
 	var/datum/species/chosen_species
 	if(client.prefs.species)
@@ -126,6 +131,8 @@
 
 	if(!new_character)
 		new_character = new(spawn_turf)
+		if(used_chargen)
+			SSchargen.assign_spawn_pod(new_character, spawn_turf)
 
 	new_character.lastarea = get_area(spawn_turf)
 	client.prefs.copy_to(new_character)
@@ -204,10 +211,10 @@
 					permitted = 0
 
 				if(!permitted)
-					to_chat(H, "<span class='warning'>Your current species or whitelist status does not permit you to spawn with [thing]!</span>")
+					to_chat(H, SPAN_WARNING("Your current species or whitelist status does not permit you to spawn with [thing]!"))
 					continue
 
-				if(!G.slot || G.slot == slot_tie || (G.slot in loadout_taken_slots) || !G.spawn_on_mob(H, H.client.prefs.Gear()[G.display_name]))
+				if(!G.slot || (G.slot in loadout_taken_slots) || !G.spawn_on_mob(H, H.client.prefs.Gear()[G.display_name]))
 					spawn_in_storage.Add(G)
 				else
 					loadout_taken_slots.Add(G.slot)

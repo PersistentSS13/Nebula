@@ -27,7 +27,6 @@
 	glove_type = /obj/item/clothing/gloves/rig/mantid
 	update_visible_name = TRUE
 	icon = 'mods/ascent/icons/rig/inventory.dmi'
-	on_mob_icon = 'mods/ascent/icons/rig/inventory.dmi'
 	sprite_sheets = list(
 		BODYTYPE_MANTID_LARGE = 'mods/ascent/icons/rig/gyne.dmi',
 		BODYTYPE_MANTID_SMALL = 'mods/ascent/icons/rig/alate.dmi',
@@ -147,7 +146,7 @@
 	volume = 180
 
 /obj/item/tank/mantid/methyl_bromide
-	starting_pressure = list(MAT_METHYL_BROMIDE = 6 * ONE_ATMOSPHERE)
+	starting_pressure = list(/decl/material/gas/methyl_bromide = 6 * ONE_ATMOSPHERE)
 
 /obj/item/tank/mantid/oxygen
 	name = "mantid oxygen tank"
@@ -163,7 +162,7 @@
 		BODYTYPE_SNAKE =        'mods/ascent/icons/species/serpentid/onmob_back_serpentid.dmi'
 	)
 	icon_state = "maneuvering_pack"
-	var/refill_gas_type = MAT_METHYL_BROMIDE
+	var/refill_gas_type = /decl/material/gas/methyl_bromide
 	var/gas_regen_amount = 0.03
 	var/gas_regen_cap = 30
 
@@ -180,7 +179,7 @@
 	name = "mantid gas reactor"
 	desc = "A mantid gas processing plant that continuously synthesises 'breathable' atmosphere."
 	var/charge_cost = 12
-	var/refill_gas_type = MAT_METHYL_BROMIDE
+	var/refill_gas_type = /decl/material/gas/methyl_bromide
 	var/gas_regen_amount = 0.05
 	var/gas_regen_cap = 50
 
@@ -190,7 +189,7 @@
 
 /obj/item/tank/mantid/reactor/oxygen
 	name = "serpentid gas reactor"
-	refill_gas_type = MAT_OXYGEN
+	refill_gas_type = /decl/material/gas/oxygen
 	distribute_pressure = 31
 
 /obj/item/tank/mantid/reactor/Process()
@@ -208,10 +207,10 @@
 	icon = 'mods/ascent/icons/ascent.dmi'
 	icon_state = "injector"
 	charges = list(
-		list("bromide",             "bromide",             /decl/material/chem/toxin/bromide, 80),
-		list("crystallizing agent", "crystallizing agent", /decl/material/chem/crystal_agent,       80),
-		list("antibiotics",         "antibiotics",         /decl/material/chem/antibiotics,   80),
-		list("painkillers",         "painkillers",         /decl/material/chem/painkillers,   80)
+		list("bromide",             "bromide",             /decl/material/liquid/bromide, 80),
+		list("crystallizing agent", "crystallizing agent", /decl/material/liquid/crystal_agent,       80),
+		list("antibiotics",         "antibiotics",         /decl/material/liquid/antibiotics,   80),
+		list("painkillers",         "painkillers",         /decl/material/liquid/painkillers,   80)
 	)
 
 // Rig definitions.
@@ -251,11 +250,11 @@
 	boot_type =  null
 
 /obj/item/clothing/suit/space/rig/mantid/serpentid
-	body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|FEET
+	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_FEET
 
 /obj/item/rig/mantid/mob_can_equip(var/mob/M, var/slot)
 	. = ..()
-	if(. && slot == slot_back)
+	if(. && slot == slot_back_str)
 		var/mob/living/carbon/human/H = M
 		if(!istype(H) || H.species.get_root_species_name(H) != mantid_caste)
 			to_chat(H, "<span class='danger'>Your species cannot wear \the [src].</span>")

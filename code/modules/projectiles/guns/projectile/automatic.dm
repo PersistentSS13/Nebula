@@ -1,14 +1,13 @@
 /obj/item/gun/projectile/automatic/smg
 	name = "submachine gun"
 	desc = "The WT-550 Saber is a cheap self-defense weapon, mass-produced for paramilitary and private use."
-	on_mob_icon = 'icons/obj/guns/sec_smg.dmi'
 	icon = 'icons/obj/guns/sec_smg.dmi'
-	icon_state = "world"
+	icon_state = ICON_STATE_WORLD
 	safety_icon = "safety"
 	w_class = ITEM_SIZE_NORMAL
 	caliber = CALIBER_PISTOL_SMALL
 	origin_tech = "{'combat':5,'materials':2}"
-	slot_flags = SLOT_BELT|SLOT_BACK
+	slot_flags = SLOT_LOWER_BODY|SLOT_BACK
 	ammo_type = /obj/item/ammo_casing/pistol/small
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/smg/rubber
@@ -19,10 +18,10 @@
 	fire_sound = 'sound/weapons/gunshot/gunshot_smg.ogg'
 	auto_eject = 1
 	auto_eject_sound = 'sound/weapons/smg_empty_alarm.ogg'
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	matter = list(
-		MAT_SILVER = MATTER_AMOUNT_REINFORCEMENT,
-		MAT_DIAMOND = MATTER_AMOUNT_TRACE
+		/decl/material/solid/metal/silver = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_TRACE
 	)
 	ammo_indicator = TRUE
 
@@ -41,7 +40,6 @@
 /obj/item/gun/projectile/automatic/assault_rifle
 	name = "assault rifle"
 	desc = "The Z8 Bulldog is an older model bullpup carbine. Makes you feel like a space marine when you hold it."
-	on_mob_icon = 'icons/obj/guns/bullpup_rifle.dmi'
 	icon = 'icons/obj/guns/bullpup_rifle.dmi'
 	w_class = ITEM_SIZE_HUGE
 	force = 10
@@ -61,10 +59,10 @@
 	burst_delay = 1
 	mag_insert_sound = 'sound/weapons/guns/interaction/batrifle_magin.ogg'
 	mag_remove_sound = 'sound/weapons/guns/interaction/batrifle_magout.ogg'
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	matter = list(
-		MAT_SILVER = MATTER_AMOUNT_REINFORCEMENT,
-		MAT_DIAMOND = MATTER_AMOUNT_TRACE
+		/decl/material/solid/metal/silver = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_TRACE
 	)
 	firemodes = list(
 		list(mode_name="semi auto",      burst=1,    fire_delay=null, use_launcher=null, one_hand_penalty=8,  burst_accuracy=null,          dispersion=null),
@@ -86,7 +84,7 @@
 		..()
 
 /obj/item/gun/projectile/automatic/assault_rifle/attack_hand(mob/user)
-	if(user.get_inactive_hand() == src && use_launcher)
+	if(user.is_holding_offhand(src) && use_launcher)
 		launcher.unload(user)
 	else
 		..()

@@ -74,7 +74,7 @@
 						if(ran_zone() == BP_HEAD)
 							blinding = TRUE
 							for(var/obj/item/I in list(H.head, H.glasses, H.wear_mask))
-								if(I && (I.body_parts_covered & EYES))
+								if(I && (I.body_parts_covered & SLOT_EYES))
 									blinding = FALSE
 									break
 						if(blinding)
@@ -146,7 +146,7 @@
 		return
 	var/injected_data = REAGENT_DATA(donor, species.blood_reagent)
 	if(blood_incompatible(LAZYACCESS(injected_data, "blood_type"), LAZYACCESS(injected_data, "species")))
-		reagents.add_reagent(/decl/material/chem/toxin, amount * 0.5)
+		reagents.add_reagent(/decl/material/liquid/coagulated_blood, amount * 0.5)
 	else
 		vessel.add_reagent(species.blood_reagent, amount, injected_data)
 	..()
@@ -230,7 +230,7 @@ proc/blood_splatter(var/target, var/source, var/large, var/spray_dir)
 		blood_data = REAGENT_DATA(donor.vessel, donor.species.blood_reagent)
 	else if(isatom(source))
 		var/atom/donor = source
-		blood_data = REAGENT_DATA(donor.reagents, /decl/material/chem/blood)
+		blood_data = REAGENT_DATA(donor.reagents, /decl/material/liquid/blood)
 	if(!islist(blood_data))
 		return splatter
 
@@ -285,6 +285,9 @@ proc/blood_splatter(var/target, var/source, var/large, var/spray_dir)
 			if(PULSE_2FAST, PULSE_THREADY)
 				pulse_mod *= 1.25
 	blood_volume *= pulse_mod
+
+	if(lying)
+		blood_volume *= 1.25
 
 	var/min_efficiency = recent_pump ? 0.5 : 0.3
 	blood_volume *= max(min_efficiency, (1-(heart.damage / heart.max_damage)))

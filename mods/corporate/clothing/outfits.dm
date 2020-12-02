@@ -1,19 +1,19 @@
 /decl/hierarchy/outfit/nanotrasen
 	hierarchy_type = /decl/hierarchy/outfit/nanotrasen
 	uniform = /obj/item/clothing/under/rank/centcom
-	shoes = /obj/item/clothing/shoes/laceup
+	shoes = /obj/item/clothing/shoes/dress
 	gloves = /obj/item/clothing/gloves/color/white
 	l_ear = /obj/item/radio/headset/heads/hop
 	glasses = /obj/item/clothing/glasses/sunglasses
 
-	id_slot = slot_wear_id
+	id_slot = slot_wear_id_str
 	id_type = /obj/item/card/id/centcom/station
-	pda_slot = slot_r_store
+	pda_slot = slot_r_store_str
 	pda_type = /obj/item/modular_computer/pda/heads
 
 /decl/hierarchy/outfit/nanotrasen/representative
 	name = "Corporate Representative"
-	belt = /obj/item/material/clipboard
+	belt = /obj/item/clipboard
 	id_pda_assignment = "Corporate Representative"
 
 /decl/hierarchy/outfit/nanotrasen/officer

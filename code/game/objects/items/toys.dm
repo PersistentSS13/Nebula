@@ -39,22 +39,20 @@
 	icon = 'icons/obj/toy.dmi'
 	icon_state = "waterballoon-e"
 	item_state = "balloon-empty"
+	force = 0
 
 /obj/item/toy/water_balloon/Initialize()
 	. = ..()
 	create_reagents(10)
+	item_flags |= ITEM_FLAG_NO_BLUDGEON
 
-/obj/item/toy/water_balloon/attack(mob/living/carbon/human/M, mob/user)
-	return
+/obj/item/toy/water_balloon/resolve_attackby(obj/structure/O, mob/user, click_params)
+	. = (istype(O) && fill_from_pressurized_fluid_source(O, user)) || ..()
 
-/obj/item/toy/water_balloon/afterattack(atom/A, mob/user, proximity)
-	if(!proximity) return
-	if (istype(A, /obj/structure/reagent_dispensers/watertank) && get_dist(src,A) <= 1)
-		A.reagents.trans_to_obj(src, 10)
-		to_chat(user, "<span class='notice'>You fill the balloon with the contents of [A].</span>")
-		src.desc = "A translucent balloon with some form of liquid sloshing around in it."
-		src.update_icon()
-	return
+/obj/item/toy/water_balloon/fill_from_pressurized_fluid_source(obj/source, mob/user)
+	. = ..()
+	desc = . ? "A translucent balloon with some form of liquid sloshing around in it." : initial(desc)
+	update_icon()
 
 /obj/item/toy/water_balloon/attackby(obj/O, mob/user)
 	if(istype(O, /obj/item/chems/glass))
@@ -62,7 +60,7 @@
 			if(O.reagents.total_volume < 1)
 				to_chat(user, "The [O] is empty.")
 			else if(O.reagents.total_volume >= 1)
-				if(O.reagents.has_reagent(/decl/material/chem/acid/polyacid, 1))
+				if(O.reagents.has_reagent(/decl/material/liquid/acid/polyacid, 1))
 					to_chat(user, "The acid chews through the balloon!")
 					O.reagents.splash(user, reagents.total_volume)
 					qdel(src)
@@ -74,16 +72,13 @@
 	return
 
 /obj/item/toy/water_balloon/throw_impact(atom/hit_atom)
+	..()
 	if(reagents && reagents.total_volume >= 1)
-		src.visible_message("<span class='warning'>\The [src] bursts!</span>","You hear a pop and a splash.")
-		src.reagents.touch_turf(get_turf(hit_atom))
-		for(var/atom/A in get_turf(hit_atom))
-			src.reagents.touch(A)
-		src.icon_state = "burst"
-		spawn(5)
-			if(src)
-				qdel(src)
-	return
+		visible_message(SPAN_WARNING("\The [src] bursts!"),"You hear a pop and a splash.")
+		reagents.trans_to_turf(get_turf(hit_atom), reagents.total_volume)
+		if(!QDELETED(src))
+			icon_state = "burst"
+			qdel(src)
 
 /obj/item/toy/water_balloon/on_update_icon()
 	if(src.reagents.total_volume >= 1)
@@ -135,8 +130,8 @@
 /obj/item/toy/crossbow
 	name = "foam dart crossbow"
 	desc = "A weapon favored by many overactive children. Ages 8 and up."
-	on_mob_icon = 'icons/obj/guns/energy_crossbow.dmi'
-	icon_state = "world"
+	icon = 'icons/obj/guns/energy_crossbow.dmi'
+	icon_state = ICON_STATE_WORLD
 	w_class = ITEM_SIZE_SMALL
 	attack_verb = list("attacked", "struck", "hit")
 	var/bullets = 5
@@ -277,10 +272,10 @@
 		src.add_fingerprint(user)
 		return
 
-/obj/item/material/sword/katana/toy
+/obj/item/sword/katana/toy
 	name = "toy katana"
 	desc = "Woefully underpowered in D20."
-	material = MAT_PLASTIC
+	material = /decl/material/solid/plastic
 
 /*
  * Snap pops
@@ -292,15 +287,15 @@
 	icon_state = "snappop"
 	w_class = ITEM_SIZE_TINY
 
-	throw_impact(atom/hit_atom)
-		..()
-		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-		s.set_up(3, 1, src)
-		s.start()
-		new /obj/effect/decal/cleanable/ash(src.loc)
-		src.visible_message("<span class='warning'>The [src.name] explodes!</span>","<span class='warning'>You hear a snap!</span>")
-		playsound(src, 'sound/effects/snap.ogg', 50, 1)
-		qdel(src)
+/obj/item/toy/snappop/throw_impact(atom/hit_atom)
+	..()
+	var/datum/effect/effect/system/spark_spread/s = new
+	s.set_up(3, 1, src)
+	s.start()
+	new /obj/effect/decal/cleanable/ash(src.loc)
+	visible_message(SPAN_WARNING("The [src.name] explodes!"),SPAN_WARNING("You hear a snap!"))
+	playsound(src, 'sound/effects/snap.ogg', 50, 1)
+	qdel(src)
 
 /obj/item/toy/snappop/Crossed(H)
 	if((ishuman(H))) //i guess carp and shit shouldn't set them off
@@ -725,8 +720,8 @@
 		user.visible_message("<span class='notice'><b>\The [user]</b> pokes the [src].</span>","<span class='notice'>You poke the [src].</span>")
 
 /obj/item/toy/plushie/mouse
-	name = "snaprat plush"
-	desc = "A plushie of a snaprat! What was once considered a vile rodent is now your very best friend."
+	name = "mouse plush"
+	desc = "A plushie of a mouse! What was once considered a vile rodent is now your very best friend."
 	icon_state = "mouseplushie"
 
 /obj/item/toy/plushie/kitten
@@ -745,11 +740,11 @@
 	icon_state = "spiderplushie"
 
 //Toy cult sword
-/obj/item/material/sword/cult_toy
+/obj/item/sword/cult_toy
 	name = "foam sword"
 	desc = "An arcane weapon (made of foam) wielded by the followers of the hit Saturday morning cartoon \"King Nursee and the Acolytes of Heroism\"."
-	on_mob_icon = 'icons/obj/items/weapon/swords/cult.dmi'
-	material = MAT_PLASTIC
+	icon = 'icons/obj/items/weapon/swords/cult.dmi'
+	material = /decl/material/solid/plastic
 	edge = 0
 	sharp = 0
 
@@ -759,7 +754,7 @@
 	icon_state = "inflatable"
 	item_state = "inflatable"
 	icon = 'icons/obj/clothing/obj_belt.dmi'
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 
 /obj/item/marshalling_wand
 	name = "marshalling wand"
@@ -771,7 +766,7 @@
 		icon_l_hand = 'icons/mob/onmob/items/lefthand.dmi',
 		icon_r_hand = 'icons/mob/onmob/items/righthand.dmi',
 		)
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 	w_class = ITEM_SIZE_SMALL
 	force = 1
 	attack_verb = list("attacked", "whacked", "jabbed", "poked", "marshalled")
@@ -789,12 +784,15 @@
 		user.visible_message("<span class='notice'>[user] holds \the [src] above their head, signalling a stop.</span>",
 							"<span class='notice'>You hold \the [src] above your head, signalling a stop.</span>")
 	else if (user.a_intent == I_GRAB)
-		var/WAND_TURN_DIRECTION
-		if (user.l_hand == src) WAND_TURN_DIRECTION = "left"
-		else if (user.r_hand == src) WAND_TURN_DIRECTION = "right"
-		else return //how can you not be holding it in either hand?? black magic
-		user.visible_message("<span class='notice'>[user] waves \the [src] to the [WAND_TURN_DIRECTION], signalling a turn.</span>",
-							"<span class='notice'>You wave \the [src] to the [WAND_TURN_DIRECTION], signalling a turn.</span>")
+		var/wand_dir
+		if(user.get_equipped_item(BP_L_HAND) == src) 
+			wand_dir = "left"
+		else if (user.get_equipped_item(BP_R_HAND) == src) 
+			wand_dir = "right"
+		else
+			wand_dir = pick("left", "right")
+		user.visible_message("<span class='notice'>[user] waves \the [src] to the [wand_dir], signalling a turn.</span>",
+							"<span class='notice'>You wave \the [src] to the [wand_dir], signalling a turn.</span>")
 	else if (user.a_intent == I_HURT)
 		user.visible_message("<span class='warning'>[user] frantically waves \the [src] above their head!</span>",
 							"<span class='warning'>You frantically wave \the [src] above your head!</span>")

@@ -69,9 +69,9 @@
 	to_chat(user, "<span class='notice'>You fold [src] flat.</span>")
 	if(ispath(foldable, /obj/item/stack))
 		var/stack_amt = max(2**(w_class - 3), 1)
-		new foldable(get_turf(src), stack_amt, MAT_CARDBOARD)
+		new foldable(get_turf(src), stack_amt, /decl/material/solid/cardboard)
 	else
-		new foldable(get_turf(src), MAT_CARDBOARD)
+		new foldable(get_turf(src), /decl/material/solid/cardboard)
 	qdel(src)
 
 /obj/item/storage/box/make_exact_fit()
@@ -89,7 +89,7 @@
 					/obj/item/flashlight/flare/glowstick = 1,
 					/obj/item/chems/food/snacks/candy/proteinbar = 1,
 					/obj/item/oxycandle = 1,
-					/obj/item/crowbar/prybar/cheap = 1)
+					/obj/item/crowbar/cheap = 1)
 
 /obj/item/storage/box/vox/
 	name = "vox survival kit"
@@ -243,6 +243,12 @@
 	icon_state = "radbox"
 	startswith = list(/obj/item/grenade/supermatter = 5)
 
+/obj/item/storage/box/decompilers
+	name = "box of decompiler grenades"
+	desc = "A box containing 5 experimental decompiler grenades."
+	icon_state = "flashbang"
+	startswith = list(/obj/item/grenade/decompiler = 5)
+
 /obj/item/storage/box/trackimp
 	name = "boxed tracking implant kit"
 	desc = "Box full of scum-bag tracking utensils."
@@ -357,7 +363,7 @@
 	icon_state = "matchbox"
 	item_state = "zippo"
 	w_class = ITEM_SIZE_TINY
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 	can_hold = list(/obj/item/flame/match)
 	startswith = list(/obj/item/flame/match = 10)
 

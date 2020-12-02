@@ -22,7 +22,7 @@
 	var/turf/simulated/open/O = GetAbove(src)
 	var/atom/climb_target
 	if(istype(O))
-		for(var/turf/T in trange(1,O))
+		for(var/turf/T in RANGE_TURFS(O, 1))
 			if(!isopenspace(T) && T.is_floor())
 				climb_target = T
 			else
@@ -72,7 +72,7 @@
 		return 1
 
 	if(Check_Shoegrip())	//scaling hull with magboots
-		for(var/turf/simulated/T in trange(1,src))
+		for(var/turf/simulated/T in RANGE_TURFS(src, 1))
 			if(T.density)
 				return 1
 
@@ -80,7 +80,7 @@
 	if(Process_Spacemove()) //Checks for active jetpack
 		return 1
 
-	for(var/turf/simulated/T in trange(1,src)) //Robots get "magboots"
+	for(var/turf/simulated/T in RANGE_TURFS(src, 1)) //Robots get "magboots"
 		if(T.density)
 			return 1
 
@@ -116,11 +116,14 @@
 	addtimer(CALLBACK(src, /atom/movable/proc/fall_callback, below), 0)
 
 /atom/movable/proc/fall_callback(var/turf/below)
-	var/mob/M = src
-	var/is_client_moving = (ismob(M) && M.moving)
-	if(is_client_moving) M.moving = 1
-	handle_fall(below)
-	if(is_client_moving) M.moving = 0
+	if(!QDELETED(src))
+		handle_fall(below)
+
+/mob/fall_callback(var/turf/below)
+	var/was_moving = moving
+	..()
+	if(was_moving)
+		moving = FALSE
 
 //For children to override
 /atom/movable/proc/can_fall(var/anchor_bypass = FALSE, var/turf/location_override = loc)

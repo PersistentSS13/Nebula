@@ -2,18 +2,18 @@
 
 /datum/stack_recipe/baseball_bat
 	title = "baseball bat"
-	result_type = /obj/item/material/twohanded/baseballbat
+	result_type = /obj/item/twohanded/baseballbat
 	time = 20
 	difficulty = 2
 
 /datum/stack_recipe/bell
 	title = "bell"
-	result_type = /obj/item/material/bell
+	result_type = /obj/item/bell
 	time = 20
 
 /datum/stack_recipe/ashtray
 	title = "ashtray"
-	result_type = /obj/item/material/ashtray
+	result_type = /obj/item/ashtray
 	one_per_turf = 1
 
 /datum/stack_recipe/improvised_armour
@@ -32,31 +32,31 @@
 
 /datum/stack_recipe/lock
 	title = "lock"
-	result_type = /obj/item/material/lock_construct
+	result_type = /obj/item/lock_construct
 	time = 20
 
 /datum/stack_recipe/fork
 	title = "fork"
-	result_type = /obj/item/material/kitchen/utensil/fork/plastic
+	result_type = /obj/item/kitchen/utensil/fork/plastic
 
 /datum/stack_recipe/knife
 	title = "table knife"
-	result_type = /obj/item/material/knife/table
+	result_type = /obj/item/knife/table
 	difficulty = 2
 
 /datum/stack_recipe/spoon
 	title = "spoon"
-	result_type = /obj/item/material/kitchen/utensil/spoon/plastic
+	result_type = /obj/item/kitchen/utensil/spoon/plastic
 
 /datum/stack_recipe/blade
 	title = "knife"
-	result_type = /obj/item/material/butterflyblade
+	result_type = /obj/item/butterflyblade
 	time = 20
 	difficulty = 1
 
 /datum/stack_recipe/grip
 	title = "knife grip"
-	result_type = /obj/item/material/butterflyhandle
+	result_type = /obj/item/butterflyhandle
 	time = 20
 	on_floor = 1
 	difficulty = 1
@@ -173,7 +173,7 @@
 
 /datum/stack_recipe/stick
 	title = "stick"
-	result_type = /obj/item/material/stick
+	result_type = /obj/item/stick
 	difficulty = 0
 
 /datum/stack_recipe/crossbowframe
@@ -207,54 +207,64 @@
 
 /datum/stack_recipe/clipboard
 	title = "clipboard"
-	result_type = /obj/item/material/clipboard
+	result_type = /obj/item/clipboard
 
 /datum/stack_recipe/urn
 	title = "urn"
-	result_type = /obj/item/material/urn
+	result_type = /obj/item/urn
 
 /datum/stack_recipe/drill_head
 	title = "drill head"
-	result_type = /obj/item/material/drill_head
+	result_type = /obj/item/drill_head
 	difficulty = 0
 
 /datum/stack_recipe/cross
 	title = "cross"
-	result_type = /obj/item/material/cross
+	result_type = /obj/item/cross
 	on_floor = 1
 
-/datum/stack_recipe/wooden_prosthetic
-	title = "left arm"
-	result_type = /obj/item/organ/external/arm/wooden
+/datum/stack_recipe/prosthetic
 	difficulty = 0
+	var/prosthetic_model = "wooden prosthesis"
 
-/datum/stack_recipe/wooden_prosthetic/right_arm
+/datum/stack_recipe/prosthetic/spawn_result(mob/user, location, amount)
+	var/obj/item/organ/external/limb = ..()
+	if(limb)
+		limb.species = get_species_by_key(SPECIES_HUMAN)
+		limb.robotize(prosthetic_model, apply_material = use_material)
+	return limb
+
+/datum/stack_recipe/prosthetic/left_arm
+	title = "left arm"
+	result_type = /obj/item/organ/external/arm
+
+/datum/stack_recipe/prosthetic/right_arm
 	title = "right arm"
-	result_type = /obj/item/organ/external/arm/right/wooden
+	result_type = /obj/item/organ/external/arm/right
 
-/datum/stack_recipe/wooden_prosthetic/left_leg
+/datum/stack_recipe/prosthetic/left_leg
 	title = "left leg"
-	result_type = /obj/item/organ/external/leg/wooden
+	result_type = /obj/item/organ/external/leg
 
-/datum/stack_recipe/wooden_prosthetic/right_leg
+/datum/stack_recipe/prosthetic/right_leg
 	title = "right leg"
-	result_type = /obj/item/organ/external/leg/right/wooden
+	result_type = /obj/item/organ/external/leg/right
 
-/datum/stack_recipe/wooden_prosthetic/left_hand
+/datum/stack_recipe/prosthetic/left_hand
 	title = "left hand"
-	result_type = /obj/item/organ/external/hand/wooden
+	result_type = /obj/item/organ/external/hand
 
-/datum/stack_recipe/wooden_prosthetic/right_hand
+/datum/stack_recipe/prosthetic/right_hand
 	title = "right hand"
-	result_type = /obj/item/organ/external/hand/right/wooden
+	result_type = /obj/item/organ/external/hand/right
 
-/datum/stack_recipe/wooden_prosthetic/left_foot
+/datum/stack_recipe/prosthetic/left_foot
 	title = "left foot"
-	result_type = /obj/item/organ/external/foot/wooden
+	result_type = /obj/item/organ/external/foot
 
-/datum/stack_recipe/wooden_prosthetic/right_foot
+/datum/stack_recipe/prosthetic/right_foot
 	title = "right foot"
-	result_type = /obj/item/organ/external/foot/right/wooden
+	result_type = /obj/item/organ/external/foot/right
 
 /datum/stack_recipe/cloak
 	title = "cloak"
@@ -267,3 +277,15 @@
 /datum/stack_recipe/boots
 	title = "boots"
 	result_type = /obj/item/clothing/shoes/craftable/boots
+
+/datum/stack_recipe/armguards
+	title = "arm guards"
+	result_type = /obj/item/clothing/accessory/armguards/craftable
+
+/datum/stack_recipe/legguards
+	title = "leg guards"
+	result_type = /obj/item/clothing/accessory/legguards/craftable
+
+/datum/stack_recipe/gauntlets
+	title = "gauntlets"
+	result_type = /obj/item/clothing/gloves/thick/craftable

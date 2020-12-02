@@ -11,9 +11,9 @@
 
 	meat_type = /obj/item/chems/food/snacks/meat
 	meat_amount = 3
-	bone_material = MAT_BONE_GENERIC
+	bone_material = /decl/material/solid/bone
 	bone_amount = 5
-	skin_material = MAT_SKIN_GENERIC 
+	skin_material = /decl/material/solid/skin 
 	skin_amount = 5
 
 	var/show_stat_health = 1	//does the percentage health show in the stat panel for the mob
@@ -47,9 +47,12 @@
 	var/cold_damage_per_tick = 2	//same as heat_damage_per_tick, only if the bodytemperature it's lower than minbodytemp
 	var/fire_alert = 0
 
-	//Atmos effect - Yes, you can make creatures that require phoron or co2 to survive. N2O is a trace gas and handled separately, hence why it isn't here. It'd be hard to add it. Hard and me don't mix (Yes, yes make all the dick jokes you want with that.) - Errorage
-	var/list/min_gas = list(MAT_OXYGEN = 5)
-	var/list/max_gas = list(MAT_PHORON = 1, MAT_CO2 = 5)
+	//Atmos effect - Yes, you can make creatures that require arbitrary gasses to survive. N2O is a trace gas and handled separately, hence why it isn't here. It'd be hard to add it. Hard and me don't mix (Yes, yes make all the dick jokes you want with that.) - Errorage
+	var/list/min_gas = list(/decl/material/gas/oxygen = 5)
+	var/list/max_gas = list(
+		/decl/material/gas/chlorine = 1, 
+		/decl/material/gas/carbon_dioxide = 5
+	)
 
 	var/unsuitable_atmos_damage = 2	//This damage is taken when atmos doesn't fit all the requirements above
 	var/speed = 0 //LETS SEE IF I CAN SET SPEEDS FOR SIMPLE MOBS WITHOUT DESTROYING EVERYTHING. Higher speed is slower, negative speed is faster
@@ -309,7 +312,7 @@
 			return
 
 	if(meat_type && (stat == DEAD) && meat_amount)
-		if(istype(O, /obj/item/material/knife/kitchen/cleaver))
+		if(istype(O, /obj/item/knife/kitchen/cleaver))
 			var/victim_turf = get_turf(src)
 			if(!locate(/obj/structure/table, victim_turf))
 				to_chat(user, SPAN_NOTICE("You need to place \the [src] on a table to butcher it."))
@@ -333,7 +336,7 @@
 		if(!O.force)
 			visible_message("<span class='notice'>[user] gently taps [src] with \the [O].</span>")
 		else
-			O.attack(src, user, user.zone_sel.selecting)
+			O.attack(src, user, user.zone_sel?.selecting || ran_zone())
 
 /mob/living/simple_animal/hit_with_weapon(obj/item/O, mob/living/user, var/effective_force, var/hit_zone)
 
@@ -499,7 +502,7 @@
 	drip.update_icon()
 
 /mob/living/simple_animal/get_digestion_product()
-	return /decl/material/chem/nutriment
+	return /decl/material/liquid/nutriment
 
 /mob/living/simple_animal/eyecheck()
 	switch(flash_vulnerability)
@@ -514,12 +517,7 @@
 
 /mob/living/simple_animal/proc/reflect_unarmed_damage(var/mob/living/carbon/human/attacker, var/damage_type, var/description)
 	if(attacker.a_intent == I_HURT)
-		var/hand_hurtie
-		if(attacker.hand)
-			hand_hurtie = BP_L_HAND
-		else
-			hand_hurtie = BP_R_HAND
-		attacker.apply_damage(rand(return_damage_min, return_damage_max), damage_type, hand_hurtie, used_weapon = description)
+		attacker.apply_damage(rand(return_damage_min, return_damage_max), damage_type, attacker.get_active_held_item_slot(), used_weapon = description)
 		if(rand(25))
 			to_chat(attacker, SPAN_WARNING("Your attack has no obvious effect on \the [src]'s [description]!"))
 

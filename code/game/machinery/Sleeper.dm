@@ -26,14 +26,14 @@
 	var/list/loaded_canisters
 	var/max_canister_capacity = 5
 	var/global/list/banned_chem_types = list(
-		/decl/material/chem/toxin,
-		/decl/material/chem/mutagenics,
-		/decl/material/chem/acid
+		/decl/material/liquid/bromide,
+		/decl/material/liquid/mutagenics,
+		/decl/material/liquid/acid
 	)
 
 /obj/machinery/sleeper/standard/Initialize(mapload, d, populate_parts)
 	. = ..()
-	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/adrenaline()) 
+	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/stabilizer()) 
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/sedatives())
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/painkillers())
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/antitoxins())

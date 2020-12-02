@@ -61,6 +61,7 @@
 	var/vars_cached = 0
 	var/lists_cached = 0
 	var/things_cached = 0
+	var/z_levels_cached = 0
 
 	var/failed_vars = 0
 
@@ -77,7 +78,7 @@
 		things[items["id"]] = T
 		things_cached++
 		CHECK_TICK
-	to_world_log("Took [(world.timeofday - start) / 10]s to cache all things.")
+	to_world_log("Took [(world.timeofday - start) / 10]s to cache [things_cached] things.")
 
 	// Deserialize vars
 	start = world.timeofday
@@ -93,7 +94,7 @@
 		else
 			failed_vars++
 		CHECK_TICK
-	to_world_log("Took [(world.timeofday - start) / 10]s to cache all thing vars.")
+	to_world_log("Took [(world.timeofday - start) / 10]s to cache [vars_cached] thing vars.")
 
 	// Deserialized lists
 	start = world.timeofday
@@ -105,7 +106,7 @@
 		LAZYADD(lists["[items["list_id"]]"], element)
 		lists_cached++
 		CHECK_TICK
-	to_world_log("Took [(world.timeofday - start) / 10]s to cache all lists")
+	to_world_log("Took [(world.timeofday - start) / 10]s to cache [lists_cached] lists")
 
 	// Deserialized levels
 	start = world.timeofday
@@ -115,8 +116,9 @@
 		var/items = query.GetRowData()
 		var/datum/persistence/load_cache/z_level/z_level = new(items)
 		z_levels += z_level
+		z_levels_cached++
 		CHECK_TICK
-	to_world_log("Took [(world.timeofday - start) / 10]s to cache all z_levels")
+	to_world_log("Took [(world.timeofday - start) / 10]s to cache [z_levels_cached] z_levels")
 
 	// Done!
 	to_world_log("Cached [things_cached] things, [vars_cached + failed_vars] vars, [lists_cached] lists. [failed_vars] failed to cache due to missing thing references.")
@@ -124,8 +126,10 @@
 /datum/persistence/load_cache/resolver/proc/clear_cache()
 	things.Cut(1)
 	lists.Cut(1)
+	z_levels.Cut(1)
 
 	vars_cached = 0
 	lists_cached = 0
 	things_cached = 0
 	failed_vars = 0
+	z_levels_cached = 0

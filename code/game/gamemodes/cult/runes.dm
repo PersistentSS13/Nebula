@@ -58,7 +58,7 @@
 	if(!iscultist(user))
 		to_chat(user, "You can't mouth the arcane scratchings without fumbling over them.")
 		return
-	if(istype(user.wear_mask, /obj/item/clothing/mask/muzzle) || user.silent)
+	if(user.is_muzzled() || user.silent)
 		to_chat(user, "You are unable to speak the words of the rune.")
 		return
 	if(GLOB.cult.powerless)
@@ -396,26 +396,26 @@
 	speak_incantation(user, "N'ath reth sh'yro eth d[pick("'","`")]raggathnor!")
 	visible_message("<span class='warning'>\The [src] disappears with a flash of red light, and a set of armor appears on \the [user].</span>", "<span class='warning'>You are blinded by the flash of red light. After you're able to see again, you see that you are now wearing a set of armor.</span>")
 
-	var/obj/O = user.get_equipped_item(slot_head) // This will most likely kill you if you are wearing a spacesuit, and it's 100% intended
+	var/obj/O = user.get_equipped_item(slot_head_str) // This will most likely kill you if you are wearing a spacesuit, and it's 100% intended
 	if(O && !istype(O, /obj/item/clothing/head/culthood) && user.unEquip(O))
-		user.equip_to_slot_or_del(new /obj/item/clothing/head/culthood/alt(user), slot_head)
-	O = user.get_equipped_item(slot_wear_suit)
+		user.equip_to_slot_or_del(new /obj/item/clothing/head/culthood/alt(user), slot_head_str)
+	O = user.get_equipped_item(slot_wear_suit_str)
 	if(O && !istype(O, /obj/item/clothing/suit/cultrobes) && user.unEquip(O))
-		user.equip_to_slot_or_del(new /obj/item/clothing/suit/cultrobes/alt(user), slot_wear_suit)
-	O = user.get_equipped_item(slot_shoes)
+		user.equip_to_slot_or_del(new /obj/item/clothing/suit/cultrobes/alt(user), slot_wear_suit_str)
+	O = user.get_equipped_item(slot_shoes_str)
 	if(O && !istype(O, /obj/item/clothing/shoes/cult) && user.unEquip(O))
-		user.equip_to_slot_or_del(new /obj/item/clothing/shoes/cult(user), slot_shoes)
+		user.equip_to_slot_or_del(new /obj/item/clothing/shoes/cult(user), slot_shoes_str)
 
-	O = user.get_equipped_item(slot_back)
+	O = user.get_equipped_item(slot_back_str)
 	if(istype(O, /obj/item/storage) && !istype(O, /obj/item/storage/backpack/cultpack) && user.unEquip(O)) // We don't want to make the vox drop their nitrogen tank, though
 		var/obj/item/storage/backpack/cultpack/C = new /obj/item/storage/backpack/cultpack(user)
-		user.equip_to_slot_or_del(C, slot_back)
+		user.equip_to_slot_or_del(C, slot_back_str)
 		if(C)
 			for(var/obj/item/I in O)
 				I.forceMove(C)
 	else if(!O)
 		var/obj/item/storage/backpack/cultpack/C = new /obj/item/storage/backpack/cultpack(user)
-		user.equip_to_slot_or_del(C, slot_back)
+		user.equip_to_slot_or_del(C, slot_back_str)
 
 	user.update_icons()
 
@@ -613,7 +613,7 @@
 	strokes = 4
 
 /obj/effect/rune/weapon/cast(var/mob/living/user)
-	if(!istype(user.get_equipped_item(slot_head), /obj/item/clothing/head/culthood) || !istype(user.get_equipped_item(slot_wear_suit), /obj/item/clothing/suit/cultrobes) || !istype(user.get_equipped_item(slot_shoes), /obj/item/clothing/shoes/cult))
+	if(!istype(user.get_equipped_item(slot_head_str), /obj/item/clothing/head/culthood) || !istype(user.get_equipped_item(slot_wear_suit_str), /obj/item/clothing/suit/cultrobes) || !istype(user.get_equipped_item(slot_shoes_str), /obj/item/clothing/shoes/cult))
 		to_chat(user, "<span class='warning'>You need to be wearing your robes to use this rune.</span>")
 		return fizzle(user)
 	var/turf/T = get_turf(src)
@@ -621,7 +621,7 @@
 		to_chat(user, "<span class='warning'>This rune needs to be placed on the defiled ground.</span>")
 		return fizzle(user)
 	speak_incantation(user, "N'ath reth sh'yro eth d[pick("'","`")]raggathnor!")
-	user.put_in_hands(new /obj/item/material/sword/cultblade(user))
+	user.put_in_hands(new /obj/item/sword/cultblade(user))
 	qdel(src)
 
 /obj/effect/rune/shell
@@ -755,11 +755,11 @@
 		return fizzle()
 	for(var/mob/living/M in cultists)
 		M.say("Tok-lyr rqa'nap g[pick("'","`")]lt-ulotf!")
-		to_chat(M, "<span class='cult'>You are staring to tear the reality to bring Him back... stay around the rune!</span>")
+		to_chat(M, "<span class='cult'>You are starting to tear through the veil, opening the way to bring Him back... stay around the rune!</span>")
 	log_and_message_admins_many(cultists, "started summoning Nar-sie.")
 
 	var/area/A = get_area(src)
-	command_announcement.Announce("High levels of bluespace interference detected at \the [A]. Suspected wormhole forming. Investigate it immediately.")
+	command_announcement.Announce("High levels of gravitational disruption detected at \the [A]. Suspected wormhole forming. Investigate it immediately.")
 	while(cultists.len > 4 || the_end_comes)
 		cultists = get_cultists()
 		if(cultists.len > 8)
@@ -782,7 +782,7 @@
 	if(the_end_comes >= the_time_has_come)
 		HECOMES = new /obj/singularity/narsie/large(get_turf(src))
 	else
-		command_announcement.Announce("Bluespace anomaly has ceased.")
+		command_announcement.Announce("Gravitational anomaly has ceased.")
 		qdel(src)
 
 /obj/effect/rune/tearreality/attack_hand(var/mob/living/user)

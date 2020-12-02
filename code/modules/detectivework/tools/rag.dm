@@ -50,7 +50,7 @@
 		remove_contents(user)
 
 /obj/item/chems/glass/rag/attackby(obj/item/W, mob/user)
-	if(isflamesource(W))
+	if(W.isflamesource())
 		if(on_fire)
 			to_chat(user, SPAN_WARNING("\The [src] is already blazing merrily!"))
 			return
@@ -117,11 +117,11 @@
 		var/mob/living/M = target
 		if(on_fire)
 			user.visible_message("<span class='danger'>\The [user] hits [target] with [src]!</span>",)
-			user.do_attack_animation(src)
+			user.do_attack_animation(target)
 			M.IgniteMob()
 		else if(reagents.total_volume)
 			if(user.zone_sel.selecting == BP_MOUTH)
-				user.do_attack_animation(src)
+				user.do_attack_animation(target)
 				user.visible_message(
 					"<span class='danger'>\The [user] smothers [target] with [src]!</span>",
 					"<span class='warning'>You smother [target] with [src]!</span>",
@@ -182,16 +182,6 @@
 		return
 	if(!can_ignite())
 		return
-
-	//also copied from matches
-	if(REAGENT_VOLUME(reagents, /decl/material/chem/toxin/phoron)) // the phoron explodes when exposed to fire
-		visible_message(SPAN_DANGER("\The [src] explodes!"))
-		var/datum/effect/effect/system/reagents_explosion/e = new()
-		e.set_up(round(REAGENT_VOLUME(reagents, /decl/material/chem/toxin/phoron) / 2.5, 1), get_turf(src), 0, 0)
-		e.start()
-		qdel(src)
-		return
-
 	START_PROCESSING(SSobj, src)
 	set_light(0.5, 0.1, 2, 2, "#e38f46")
 	on_fire = 1
@@ -231,6 +221,6 @@
 		qdel(src)
 		return
 
-	reagents.remove_reagent(/decl/material/chem/fuel, reagents.maximum_volume/25)
+	reagents.remove_reagent(/decl/material/liquid/fuel, reagents.maximum_volume/25)
 	update_name()
 	burn_time--

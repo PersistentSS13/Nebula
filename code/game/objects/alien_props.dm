@@ -73,8 +73,8 @@
 
 /obj/machinery/door/airlock/alien/Initialize()
 	. = ..()
-	var/decl/material/A = decls_repository.get_decl(MAT_ALIENALLOY)
+	var/decl/material/A = decls_repository.get_decl(/decl/material/solid/metal/aliumium)
 	if(A)
-		door_color = A.icon_colour
+		door_color = A.color
 	stripe_color = get_random_colour(FALSE, 0, 255)
 	update_icon()

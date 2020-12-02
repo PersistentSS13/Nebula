@@ -12,6 +12,7 @@
 	fetched_decl_subtypes = list()
 
 /repository/decls/proc/get_decl(var/decl_type)
+	ASSERT(ispath(decl_type))
 	. = fetched_decls[decl_type]
 	if(!.)
 		. = new decl_type()
@@ -45,6 +46,7 @@
 
 /decl/proc/Initialize()
 	SHOULD_CALL_PARENT(TRUE)
+	SHOULD_NOT_SLEEP(TRUE)
 	return
 
 /decl/Destroy()

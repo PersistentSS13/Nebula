@@ -50,7 +50,7 @@ proc/random_name(gender, species)
 		if(current_species)
 			var/decl/cultural_info/current_culture = SSlore.get_culture(current_species.default_cultural_info[TAG_CULTURE])
 			if(current_culture)
-				return current_culture.get_random_name(gender)
+				return current_culture.get_random_name(null, gender)
 	return capitalize(pick(gender == FEMALE ? GLOB.first_names_female : GLOB.first_names_male)) + " " + capitalize(pick(GLOB.last_names))
 
 proc/random_skin_tone(var/datum/species/current_species)
@@ -322,34 +322,34 @@ GLOBAL_LIST_INIT(bodypart_coverage_cache, new)
 	var/key = "[checking_flags]"
 	if(isnull(GLOB.bodypart_coverage_cache[key]))
 		var/coverage = 0
-		if(checking_flags & FULL_BODY)
+		if(checking_flags & SLOT_FULL_BODY)
 			coverage = 1
 		else
-			if(checking_flags & HEAD)
+			if(checking_flags & SLOT_HEAD)
 				coverage += 0.1
-			if(checking_flags & FACE)
+			if(checking_flags & SLOT_FACE)
 				coverage += 0.05
-			if(checking_flags & EYES)
+			if(checking_flags & SLOT_EYES)
 				coverage += 0.05
-			if(checking_flags & UPPER_TORSO)
+			if(checking_flags & SLOT_UPPER_BODY)
 				coverage += 0.15
-			if(checking_flags & LOWER_TORSO)
+			if(checking_flags & SLOT_LOWER_BODY)
 				coverage += 0.15
-			if(checking_flags & LEG_LEFT)
+			if(checking_flags & SLOT_LEG_LEFT)
 				coverage += 0.075
-			if(checking_flags & LEG_RIGHT)
+			if(checking_flags & SLOT_LEG_RIGHT)
 				coverage += 0.075
-			if(checking_flags & FOOT_LEFT)
+			if(checking_flags & SLOT_FOOT_LEFT)
 				coverage += 0.05
-			if(checking_flags & FOOT_RIGHT)
+			if(checking_flags & SLOT_FOOT_RIGHT)
 				coverage += 0.05
-			if(checking_flags & ARM_LEFT)
+			if(checking_flags & SLOT_ARM_LEFT)
 				coverage += 0.075
-			if(checking_flags & ARM_RIGHT)
+			if(checking_flags & SLOT_ARM_RIGHT)
 				coverage += 0.075
-			if(checking_flags & HAND_LEFT)
+			if(checking_flags & SLOT_HAND_LEFT)
 				coverage += 0.05
-			if(checking_flags & HAND_RIGHT)
+			if(checking_flags & SLOT_HAND_RIGHT)
 				coverage += 0.05
 		GLOB.bodypart_coverage_cache[key] = coverage
 	. = GLOB.bodypart_coverage_cache[key]

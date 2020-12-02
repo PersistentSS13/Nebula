@@ -8,7 +8,7 @@
 	w_class = ITEM_SIZE_NORMAL
 	layer = LATTICE_LAYER
 	color = COLOR_STEEL
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	obj_flags = OBJ_FLAG_NOFALL
 	material_alteration = MAT_FLAG_ALTERATION_ALL
 
@@ -28,9 +28,9 @@
 
 /obj/structure/lattice/update_material_desc()
 	if(material)
-		desc = "A lightweight support [material.name] lattice."
+		desc = "A lightweight support [material.solid_name] lattice."
 	else
-		desc = "A lightweight support [material.name] lattice."
+		desc = "A lightweight support [material.solid_name] lattice."
 
 /obj/structure/lattice/Destroy()
 	var/turf/old_loc = get_turf(src)

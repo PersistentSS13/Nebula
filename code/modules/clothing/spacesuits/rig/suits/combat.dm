@@ -1,7 +1,6 @@
 /obj/item/rig/combat
 	name = "combat hardsuit control module"
 	desc = "A sleek and dangerous hardsuit for active combat."
-	on_mob_icon = 'icons/clothing/spacesuit/rig/security.dmi'
 	suit_type = "combat hardsuit"
 	armor = list(
 		melee = ARMOR_MELEE_VERY_HIGH,
@@ -17,7 +16,7 @@
 	offline_vision_restriction = TINT_HEAVY
 	allowed = list(/obj/item/flashlight, /obj/item/tank,/obj/item/ammo_magazine,/obj/item/ammo_casing,/obj/item/handcuffs,/obj/item/t_scanner, /obj/item/rcd, /obj/item/crowbar, \
 	/obj/item/screwdriver, /obj/item/weldingtool, /obj/item/wirecutters, /obj/item/wrench, /obj/item/multitool, \
-	/obj/item/radio, /obj/item/scanner/gas,/obj/item/storage/briefcase/inflatable, /obj/item/melee/baton, /obj/item/gun, \
+	/obj/item/radio, /obj/item/scanner/gas,/obj/item/storage/briefcase/inflatable, /obj/item/baton, /obj/item/gun, \
 	/obj/item/storage/firstaid, /obj/item/chems/hypospray, /obj/item/roller, /obj/item/suit_cooling_unit)
 
 	chest_type = /obj/item/clothing/suit/space/rig/combat
@@ -52,7 +51,7 @@
 /obj/item/rig/military
 	name = "military hardsuit control module"
 	desc = "An austere hardsuit used by paramilitary groups and real soldiers alike."
-	on_mob_icon = 'icons/clothing/spacesuit/rig/military.dmi'
+	icon = 'icons/clothing/spacesuit/rig/military.dmi'
 	suit_type = "military hardsuit"
 	armor = list(
 		melee = ARMOR_MELEE_VERY_HIGH,
@@ -68,7 +67,7 @@
 	offline_vision_restriction = TINT_HEAVY
 	allowed = list(/obj/item/flashlight, /obj/item/tank,/obj/item/ammo_magazine,/obj/item/ammo_casing,/obj/item/handcuffs,/obj/item/t_scanner, /obj/item/rcd, /obj/item/crowbar, \
 	/obj/item/screwdriver, /obj/item/weldingtool, /obj/item/wirecutters, /obj/item/wrench, /obj/item/multitool, \
-	/obj/item/radio, /obj/item/scanner/gas,/obj/item/storage/briefcase/inflatable, /obj/item/melee/baton, /obj/item/gun, \
+	/obj/item/radio, /obj/item/scanner/gas,/obj/item/storage/briefcase/inflatable, /obj/item/baton, /obj/item/gun, \
 	/obj/item/storage/firstaid, /obj/item/chems/hypospray, /obj/item/roller, /obj/item/suit_cooling_unit)
 
 	chest_type = /obj/item/clothing/suit/space/rig/military

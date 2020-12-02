@@ -1,22 +1,22 @@
 version: "3.7"
 services:
   db:
+    image: persistent-db
     build: ./sql
-    image: bs12-db:latest
-    networks:
-      - internal
+    ports:
+        - "3306:3306"
     volumes:
-      - "./sql/test_db:/var/lib/mysql"
-  game:
+        - "./sql/test_db:/var/lib/mysql"
+  ss13:
     build:
       context: .
-      target: spacestation
-    image: bs12:latest
+      target: ss13
+    image: persistent:latest
     depends_on:
-      - db
-    networks:
-      - internal
+        - db
     ports:
-      - "8000:8000"
-networks:
-  internal:
+        - "8000:8000"
+    volumes:
+        - "./config:/persistent/config"
+        - "./data:/persistent/data"
+

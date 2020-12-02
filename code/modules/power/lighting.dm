@@ -111,13 +111,14 @@
 
 	// Update icon state
 	overlays.Cut()
-	switch(construct_state.type) //Never use the initial state. That'll just reset it to the mapping icon.
-		if(/decl/machine_construction/wall_frame/no_wires/simple)
-			icon_state = "[base_state]-construct-stage1"
-			return
-		if(/decl/machine_construction/wall_frame/panel_open/simple)
-			icon_state = "[base_state]-construct-stage2"
-			return
+	if(istype(construct_state))
+		switch(construct_state.type) //Never use the initial state. That'll just reset it to the mapping icon.
+			if(/decl/machine_construction/wall_frame/no_wires/simple)
+				icon_state = "[base_state]-construct-stage1"
+				return
+			if(/decl/machine_construction/wall_frame/panel_open/simple)
+				icon_state = "[base_state]-construct-stage2"
+				return
 
 	icon_state = "[base_state]_empty"
 
@@ -335,9 +336,9 @@
 		else if(istype(user) && user.is_telekinetic())
 			to_chat(user, "You telekinetically remove the [get_fitting_name()].")
 		else if(user.a_intent != I_HELP)
-			var/obj/item/organ/external/hand = H.organs_by_name[user.hand ? BP_L_HAND : BP_R_HAND]
+			var/obj/item/organ/external/hand = H.organs_by_name[user.get_active_held_item_slot()]
 			if(hand && hand.is_usable() && !hand.can_feel_pain())
-				user.apply_damage(3, BURN, user.hand ? BP_L_HAND : BP_R_HAND, used_weapon = src)
+				user.apply_damage(3, BURN, hand.organ_tag, used_weapon = src)
 				user.visible_message(SPAN_WARNING("\The [user]'s [hand] burns and sizzles as \he touches the hot [get_fitting_name()]."), SPAN_WARNING("Your [hand] burns and sizzles as you remove the hot [get_fitting_name()]."))
 		else
 			to_chat(user, "You try to remove the [get_fitting_name()], but it's too hot and you don't want to burn your hand.")
@@ -427,7 +428,7 @@
 /obj/machinery/light/navigation/on_update_icon()
 	. = ..() // this will handle pixel offsets
 	overlays.Cut()
-	icon_state = "[delay][!!(lightbulb && on)]"	
+	icon_state = "nav[delay][!!(lightbulb && on)]"
 
 /obj/machinery/light/navigation/attackby(obj/item/W, mob/user)
 	. = ..()
@@ -467,7 +468,7 @@
 	var/status = 0		// LIGHT_OK, LIGHT_BURNED or LIGHT_BROKEN
 	var/base_state
 	var/switchcount = 0	// number of times switched
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	var/rigged = 0		// true if rigged to explode
 	var/broken_chance = 2
 
@@ -485,8 +486,8 @@
 	icon_state = "ltube"
 	base_state = "ltube"
 	item_state = "c_tube"
-	material = MAT_GLASS
-	matter = list(MAT_ALUMINIUM = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/glass
+	matter = list(/decl/material/solid/metal/aluminium = MATTER_AMOUNT_REINFORCEMENT)
 
 	b_outer_range = 5
 	b_colour = "#fffee0"
@@ -518,7 +519,7 @@
 	base_state = "lbulb"
 	item_state = "contvapour"
 	broken_chance = 3
-	material = MAT_GLASS
+	material = /decl/material/solid/glass
 
 	b_max_bright = 0.6
 	b_inner_range = 0.1
@@ -548,7 +549,7 @@
 	icon_state = "fbulb"
 	base_state = "fbulb"
 	item_state = "egg4"
-	material = MAT_GLASS
+	material = /decl/material/solid/glass
 
 // update the icon state and description of the light
 /obj/item/light/on_update_icon()
@@ -574,13 +575,13 @@
 	update_icon()
 
 // attack bulb/tube with object
-// if a syringe, can inject phoron to make it explode
+// if a syringe, can inject flammable liquids to make it explode
 /obj/item/light/attackby(var/obj/item/I, var/mob/user)
 	..()
 	if(istype(I, /obj/item/chems/syringe) && I.reagents?.total_volume)
 		var/obj/item/chems/syringe/S = I
-		to_chat(user, "You inject the solution into the [src].")
-		for(var/rtype in S.reagents)
+		to_chat(user, "You inject the solution into \the [src].")
+		for(var/rtype in S.reagents?.reagent_volumes)
 			var/decl/material/R = decls_repository.get_decl(rtype)
 			if(R.fuel_value)
 				rigged = TRUE

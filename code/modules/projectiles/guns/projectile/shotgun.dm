@@ -1,9 +1,8 @@
 /obj/item/gun/projectile/shotgun/pump
 	name = "shotgun"
 	desc = "The mass-produced W-T Remmington 29x shotgun is a favourite of police and security forces on many worlds. Useful for sweeping alleys."
-	on_mob_icon = 'icons/obj/guns/shotgun/pump.dmi'
 	icon = 'icons/obj/guns/shotgun/pump.dmi'
-	icon_state = "world"
+	icon_state = ICON_STATE_WORLD
 	max_shells = 4
 	w_class = ITEM_SIZE_HUGE
 	force = 10
@@ -54,7 +53,7 @@
 /obj/item/gun/projectile/shotgun/doublebarrel
 	name = "double-barreled shotgun"
 	desc = "A true classic."
-	on_mob_icon = 'icons/obj/guns/shotgun/doublebarrel.dmi'
+	icon = 'icons/obj/guns/shotgun/doublebarrel.dmi'
 	//SPEEDLOADER because rapid unloading.
 	//In principle someone could make a speedloader for it, so it makes sense.
 	load_method = SINGLE_CASING|SPEEDLOADER
@@ -80,7 +79,7 @@
 
 //this is largely hacky and bad :(	-Pete
 /obj/item/gun/projectile/shotgun/doublebarrel/attackby(var/obj/item/A, mob/user)
-	if(w_class > ITEM_SIZE_NORMAL && (istype(A, /obj/item/circular_saw) || istype(A, /obj/item/melee/energy) || istype(A, /obj/item/gun/energy/plasmacutter)))
+	if(w_class > ITEM_SIZE_NORMAL && (istype(A, /obj/item/circular_saw) || istype(A, /obj/item/energy_blade) || istype(A, /obj/item/gun/energy/plasmacutter)))
 		if(istype(A, /obj/item/gun/energy/plasmacutter))
 			var/obj/item/gun/energy/plasmacutter/cutter = A
 			if(!cutter.slice(user))
@@ -103,8 +102,8 @@
 /obj/item/gun/projectile/shotgun/doublebarrel/sawn
 	name = "sawn-off shotgun"
 	desc = "Omar's coming!"
-	on_mob_icon = 'icons/obj/guns/shotgun/sawnoff.dmi'
-	slot_flags = SLOT_BELT|SLOT_HOLSTER
+	icon = 'icons/obj/guns/shotgun/sawnoff.dmi'
+	slot_flags = SLOT_LOWER_BODY|SLOT_HOLSTER
 	ammo_type = /obj/item/ammo_casing/shotgun/pellet
 	w_class = ITEM_SIZE_NORMAL
 	force = 5

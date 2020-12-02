@@ -74,7 +74,7 @@
 /obj/machinery/oxygen_pump/proc/attach_mask(var/mob/living/carbon/C)
 	if(C && istype(C))
 		contained.dropInto(C.loc)
-		C.equip_to_slot(contained, slot_wear_mask)
+		C.equip_to_slot(contained, slot_wear_mask_str)
 		if(tank)
 			tank.forceMove(C)
 		breather = C
@@ -111,7 +111,7 @@
 	if(target.wear_mask && target != breather)
 		to_chat(user, "<span class='warning'>\The [target] is already wearing a mask.</span>")
 		return
-	if(target.head && (target.head.body_parts_covered & FACE))
+	if(target.head && (target.head.body_parts_covered & SLOT_FACE))
 		to_chat(user, "<span class='warning'>Remove their [target.head] first.</span>")
 		return
 	if(!tank)

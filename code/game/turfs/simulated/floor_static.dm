@@ -36,10 +36,10 @@
 
 /turf/simulated/floor/fixed/alium/Initialize()
 	. = ..()
-	var/decl/material/A = decls_repository.get_decl(MAT_ALIENALLOY)
+	var/decl/material/A = decls_repository.get_decl(/decl/material/solid/metal/aliumium)
 	if(!A)
 		return
-	color = A.icon_colour
+	color = A.color
 	var/style = A.hardness % 2 ? "curvy" : "jaggy"
 	icon_state = "[style][(x*y) % 7]"
 
@@ -49,7 +49,7 @@
 
 /turf/simulated/floor/fixed/alium/explosion_act(severity)
 	SHOULD_CALL_PARENT(FALSE)
-	var/decl/material/A = decls_repository.get_decl(MAT_ALIENALLOY)
+	var/decl/material/A = decls_repository.get_decl(/decl/material/solid/metal/aliumium)
 	if(prob(A.explosion_resistance))
 		return
 	if(severity == 1)

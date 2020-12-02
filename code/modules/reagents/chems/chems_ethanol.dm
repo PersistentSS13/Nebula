@@ -1,18 +1,33 @@
-/decl/material/chem/ethanol
+/decl/material/liquid/ethanol
 	name = "ethanol" //Parent class for all alcoholic reagents.
 	lore_text = "A well-known alcohol with a variety of applications."
 	taste_description = "pure alcohol"
 	color = "#404030"
 	touch_met = 5
 	fuel_value = 0.75
-	hidden_from_codex = TRUE // They don't need to generate a codex entry, their recipes will do that.
+	solvent_power = MAT_SOLVENT_MODERATE
+
+	heating_message = "boils away its water content, leaving pure ethanol."
+	heating_point = T100C + 10
+	heating_products = list(
+		/decl/material/liquid/ethanol = 0.75,
+		/decl/material/liquid/water =   0.25
+	)
+	bypass_heating_products_for_root_type = /decl/material/liquid/ethanol
+
+	chilling_message = "separates as its water content freezes, leaving pure ethanol."
+	chilling_point = T0C - 10
+	chilling_products = list(
+		/decl/material/liquid/ethanol = 0.75,
+		/decl/material/liquid/water =   0.25
+	)
+	bypass_cooling_products_for_root_type = /decl/material/liquid/ethanol
+	affect_blood_on_ingest = FALSE // prevents automatic toxins/inebriation as though injected
 
 	var/nutriment_factor = 0
 	var/hydration_factor = 0
 	var/strength = 10 // This is, essentially, units between stages - the lower, the stronger. Less fine tuning, more clarity.
-	var/toxicity = 1
-
-	var/druggy = 0
+	var/alcohol_toxicity = 1
 	var/adj_temp = 0
 	var/targ_temp = 310
 	var/halluci = 0
@@ -21,15 +36,19 @@
 	glass_desc = "A well-known alcohol with a variety of applications."
 	value = 1.2
 
-/decl/material/chem/ethanol/affect_blood(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
-	M.adjustToxLoss(removed * 2 * toxicity)
+/decl/material/liquid/ethanol/affect_blood(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
+	..()
+	M.adjustToxLoss(removed * 2 * alcohol_toxicity)
+	M.add_chemical_effect(CE_ALCOHOL_TOXIC, alcohol_toxicity)
 
-/decl/material/chem/ethanol/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/ethanol/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
+
+	..()
 	M.adjust_nutrition(nutriment_factor * removed)
 	M.adjust_hydration(hydration_factor * removed)
-	var/strength_mod = 1
 	M.add_chemical_effect(CE_ALCOHOL, 1)
-	var/effective_dose = M.chem_doses[type] * strength_mod * (1 + REAGENT_VOLUME(holder, type)/60) //drinking a LOT will make you go down faster
+
+	var/effective_dose = M.chem_doses[type] * (1 + REAGENT_VOLUME(holder, type)/60) //drinking a LOT will make you go down faster
 	if(effective_dose >= strength) // Early warning
 		M.make_dizzy(6) // It is decreased at the speed of 3 per tick
 	if(effective_dose >= strength * 2) // Slurring
@@ -45,13 +64,13 @@
 		M.add_chemical_effect(CE_PAINKILLER, 150/strength)
 		M.drowsyness = max(M.drowsyness, 20)
 	if(effective_dose >= strength * 6) // Toxic dose
-		M.add_chemical_effect(CE_ALCOHOL_TOXIC, toxicity)
+		M.add_chemical_effect(CE_ALCOHOL_TOXIC, alcohol_toxicity)
 	if(effective_dose >= strength * 7) // Pass out
 		M.Paralyse(20)
 		M.Sleeping(30)
 
-	if(druggy != 0)
-		M.druggy = max(M.druggy, druggy)
+	if(euphoriant)
+		M.adjust_drugged(euphoriant, euphoriant_max)
 
 	if(adj_temp > 0 && M.bodytemperature < targ_temp) // 310 is the normal bodytemp. 310.055
 		M.bodytemperature = min(targ_temp, M.bodytemperature + (adj_temp * TEMPERATURE_DAMAGE_COEFFICIENT))
@@ -61,23 +80,7 @@
 	if(halluci)
 		M.adjust_hallucination(halluci, halluci)
 
-/decl/material/chem/ethanol/touch_obj(var/obj/O, var/amount, var/datum/reagents/holder)
-	if(istype(O, /obj/item/paper))
-		var/obj/item/paper/paperaffected = O
-		paperaffected.clearpaper()
-		to_chat(usr, "The solution dissolves the ink on the paper.")
-		return
-	if(istype(O, /obj/item/book))
-		if(REAGENT_VOLUME(holder, type) < 5)
-			return
-		if(istype(O, /obj/item/book/tome))
-			to_chat(usr, "<span class='notice'>The solution does nothing. Whatever this is, it isn't normal ink.</span>")
-			return
-		var/obj/item/book/affectedbook = O
-		affectedbook.dat = null
-		to_chat(usr, "<span class='notice'>The solution dissolves the ink on the book.</span>")
-
-/decl/material/chem/ethanol/absinthe
+/decl/material/liquid/ethanol/absinthe
 	name = "absinthe"
 	lore_text = "Watch out that the Green Fairy doesn't come for you!"
 	taste_description = "death and licorice"
@@ -88,7 +91,7 @@
 	glass_name = "absinthe"
 	glass_desc = "Wormwood, anise, oh my."
 
-/decl/material/chem/ethanol/ale
+/decl/material/liquid/ethanol/ale
 	name = "ale"
 	lore_text = "A dark alchoholic beverage made by malted barley and yeast."
 	taste_description = "hearty barley ale"
@@ -98,7 +101,7 @@
 	glass_name = "ale"
 	glass_desc = "A freezing container of delicious ale"
 
-/decl/material/chem/ethanol/beer
+/decl/material/liquid/ethanol/beer
 	name = "beer"
 	lore_text = "An alcoholic beverage made from malted grains, hops, yeast, and water."
 	taste_description = "piss water"
@@ -109,14 +112,14 @@
 	glass_name = "beer"
 	glass_desc = "A freezing container of beer"
 
-/decl/material/chem/ethanol/beer/good
+/decl/material/liquid/ethanol/beer/good
 	taste_description = "beer"
 
-/decl/material/chem/ethanol/beer/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/ethanol/beer/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
 	..()
 	M.jitteriness = max(M.jitteriness - 3, 0)
 
-/decl/material/chem/ethanol/bluecuracao
+/decl/material/liquid/ethanol/bluecuracao
 	name = "blue curacao"
 	lore_text = "Exotically blue, fruity drink, distilled from oranges."
 	taste_description = "oranges"
@@ -127,7 +130,7 @@
 	glass_name = "blue curacao"
 	glass_desc = "Exotically blue, fruity drink, distilled from oranges."
 
-/decl/material/chem/ethanol/cognac
+/decl/material/liquid/ethanol/cognac
 	name = "cognac"
 	lore_text = "A sweet and strongly alchoholic drink, made after numerous distillations and years of maturing. Classy as fornication."
 	taste_description = "rich and smooth alcohol"
@@ -138,7 +141,7 @@
 	glass_name = "cognac"
 	glass_desc = "Damn, you feel like some kind of French aristocrat just by holding this."
 
-/decl/material/chem/ethanol/gin
+/decl/material/liquid/ethanol/gin
 	name = "gin"
 	lore_text = "It's gin. In space. I say, good sir."
 	taste_description = "an alcoholic christmas tree"
@@ -149,10 +152,10 @@
 	glass_desc = "A crystal clear glass of Griffeater gin."
 
 //Base type for alchoholic drinks containing coffee
-/decl/material/chem/ethanol/coffee
+/decl/material/liquid/ethanol/coffee
 	overdose = 45
 
-/decl/material/chem/ethanol/coffee/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/ethanol/coffee/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
 	..()
 	M.dizziness = max(0, M.dizziness - 5)
 	M.drowsyness = max(0, M.drowsyness - 3)
@@ -160,10 +163,10 @@
 	if(M.bodytemperature > 310)
 		M.bodytemperature = max(310, M.bodytemperature - (5 * TEMPERATURE_DAMAGE_COEFFICIENT))
 
-/decl/material/chem/ethanol/coffee/affect_overdose(var/mob/living/carbon/M, var/alien, var/datum/reagents/holder)
+/decl/material/liquid/ethanol/coffee/affect_overdose(var/mob/living/carbon/M, var/alien, var/datum/reagents/holder)
 	M.make_jittery(5)
 
-/decl/material/chem/ethanol/coffee/kahlua
+/decl/material/liquid/ethanol/coffee/kahlua
 	name = "coffee liqueur"
 	lore_text = "A widely known, Mexican coffee-flavoured liqueur. In production since 1936!"
 	taste_description = "spiked coffee"
@@ -174,7 +177,7 @@
 	glass_name = "RR coffee liquor"
 	glass_desc = "DAMN, THIS THING LOOKS ROBUST"
 
-/decl/material/chem/ethanol/melonliquor
+/decl/material/liquid/ethanol/melonliquor
 	name = "melon liqueur"
 	lore_text = "A relatively sweet and fruity 46 proof liqueur."
 	taste_description = "fruity alcohol"
@@ -184,7 +187,7 @@
 	glass_name = "melon liqueur"
 	glass_desc = "A relatively sweet and fruity 46 proof liquor."
 
-/decl/material/chem/ethanol/rum
+/decl/material/liquid/ethanol/rum
 	name = "rum"
 	lore_text = "Yohoho and all that."
 	taste_description = "spiked butterscotch"
@@ -195,7 +198,7 @@
 	glass_name = "rum"
 	glass_desc = "Now you want to Pray for a pirate suit, don't you?"
 
-/decl/material/chem/ethanol/sake
+/decl/material/liquid/ethanol/sake
 	name = "sake"
 	lore_text = "Anime's favorite drink."
 	taste_description = "dry alcohol"
@@ -205,7 +208,7 @@
 	glass_name = "sake"
 	glass_desc = "A glass of sake."
 
-/decl/material/chem/ethanol/tequilla
+/decl/material/liquid/ethanol/tequilla
 	name = "tequila"
 	lore_text = "A strong and mildly flavoured, mexican produced spirit. Feeling thirsty hombre?"
 	taste_description = "paint stripper"
@@ -215,7 +218,7 @@
 	glass_name = "tequilla"
 	glass_desc = "Now all that's missing is the weird colored shades!"
 
-/decl/material/chem/ethanol/thirteenloko
+/decl/material/liquid/ethanol/thirteenloko
 	name = "Thirteen Loko"
 	lore_text = "A potent mixture of caffeine and alcohol."
 	taste_description = "jitters and death"
@@ -226,7 +229,7 @@
 	glass_name = "Thirteen Loko"
 	glass_desc = "This is a glass of Thirteen Loko, it appears to be of the highest quality. The drink, not the glass."
 
-/decl/material/chem/ethanol/thirteenloko/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/ethanol/thirteenloko/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
 	..()
 	M.drowsyness = max(0, M.drowsyness - 7)
 	if (M.bodytemperature > 310)
@@ -234,7 +237,7 @@
 	M.make_jittery(5)
 	M.add_chemical_effect(CE_PULSE, 2)
 
-/decl/material/chem/ethanol/vermouth
+/decl/material/liquid/ethanol/vermouth
 	name = "vermouth"
 	lore_text = "You suddenly feel a craving for a martini..."
 	taste_description = "dry alcohol"
@@ -245,7 +248,7 @@
 	glass_name = "vermouth"
 	glass_desc = "You wonder why you're even drinking this straight."
 
-/decl/material/chem/ethanol/vodka
+/decl/material/liquid/ethanol/vodka
 	name = "vodka"
 	lore_text = "Number one drink AND fueling choice for Independents around the galaxy."
 	taste_description = "grain alcohol"
@@ -255,14 +258,14 @@
 	glass_name = "vodka"
 	glass_desc = "The glass contain wodka. Xynta."
 
-/decl/material/chem/ethanol/vodka/premium
+/decl/material/liquid/ethanol/vodka/premium
 	name = "premium vodka"
 	lore_text = "Premium distilled vodka imported directly from the Gilgamesh Colonial Confederation."
 	taste_description = "clear kvass"
 	color = "#aaddff" // rgb: 170, 221, 255 - very light blue.
 	strength = 10
 
-/decl/material/chem/ethanol/whiskey
+/decl/material/liquid/ethanol/whiskey
 	name = "whiskey"
 	lore_text = "A superb and well-aged single-malt whiskey. Damn."
 	taste_description = "molasses"
@@ -272,7 +275,7 @@
 	glass_name = "whiskey"
 	glass_desc = "The silky, smokey whiskey goodness inside the glass makes the drink look very classy."
 
-/decl/material/chem/ethanol/wine
+/decl/material/liquid/ethanol/wine
 	name = "wine"
 	lore_text = "An premium alchoholic beverage made from distilled grape juice."
 	taste_description = "bitter sweetness"
@@ -282,14 +285,14 @@
 	glass_name = "wine"
 	glass_desc = "A very classy looking drink."
 
-/decl/material/chem/ethanol/wine/premium
+/decl/material/liquid/ethanol/wine/premium
 	name = "white wine"
 	lore_text = "An exceptionally expensive alchoholic beverage made from distilled white grapes."
 	taste_description = "white velvet"
 	color = "#ffddaa" // rgb: 255, 221, 170 - a light cream
 	strength = 20
 
-/decl/material/chem/ethanol/herbal
+/decl/material/liquid/ethanol/herbal
 	name = "herbal liquor"
 	lore_text = "A complex blend of herbs, spices and roots mingle in this old Earth classic."
 	taste_description = "a sweet summer garden"
@@ -299,18 +302,18 @@
 	glass_name = "herbal liquor"
 	glass_desc = "It's definitely green. Or is it yellow?"
 
-/decl/material/chem/ethanol/hooch
+/decl/material/liquid/ethanol/hooch
 	name = "hooch"
 	lore_text = "Either someone's failure at cocktail making or attempt in alchohol production. In any case, do you really want to drink that?"
 	taste_description = "pure resignation"
 	color = "#4c3100"
 	strength = 25
-	toxicity = 2
+	alcohol_toxicity = 2
 
 	glass_name = "Hooch"
 	glass_desc = "You've really hit rock bottom now... your liver packed its bags and left last night."
 
-/decl/material/chem/ethanol/irish_cream
+/decl/material/liquid/ethanol/irish_cream
 	name = "Irish cream"
 	lore_text = "Whiskey-imbued cream."
 	taste_description = "creamy alcohol"
@@ -320,7 +323,7 @@
 	glass_name = "Irish cream"
 	glass_desc = "It's cream, mixed with whiskey."
 
-/decl/material/chem/ethanol/mead
+/decl/material/liquid/ethanol/mead
 	name = "mead"
 	lore_text = "A Viking's drink, though a cheap one."
 	taste_description = "sweet, sweet alcohol"
@@ -331,7 +334,7 @@
 	glass_name = "mead"
 	glass_desc = "A Viking's beverage, though a cheap one."
 
-/decl/material/chem/ethanol/moonshine
+/decl/material/liquid/ethanol/moonshine
 	name = "moonshine"
 	lore_text = "You've really hit rock bottom now... your liver packed its bags and left last night."
 	taste_description = "bitterness"
@@ -342,18 +345,19 @@
 	glass_name = "moonshine"
 	glass_desc = "You've really hit rock bottom now... your liver packed its bags and left last night."
 
-/decl/material/chem/ethanol/pwine
+/decl/material/liquid/ethanol/pwine
 	name = "poison wine"
 	lore_text = "Is this even wine? Toxic! Hallucinogenic! Probably consumed in boatloads by your superiors!"
 	taste_description = "purified alcoholic death"
 	color = "#000000"
 	strength = 10
-	druggy = 50
 	halluci = 10
 	glass_name = "???"
 	glass_desc = "A black ichor with an oily purple sheer on top. Are you sure you should drink this?"
+	euphoriant = 50
+	euphoriant_max = 50
 
-/decl/material/chem/ethanol/pwine/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/ethanol/pwine/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
 	..()
 	if(M.chem_doses[type] > 30)
 		M.adjustToxLoss(2 * removed)
@@ -366,7 +370,7 @@
 			else
 				L.take_internal_damage(100, 0)
 
-/decl/material/chem/ethanol/aged_whiskey // I have no idea what this is and where it comes from.  //It comes from Dinnlan now 
+/decl/material/liquid/ethanol/aged_whiskey // I have no idea what this is and where it comes from.  //It comes from Dinnlan now 
 	name = "aged whiskey"
 	lore_text = "A well-aged whiskey of high quality. Probably imported. Just a sip'll do it, but that burn will leave you wanting more."
 	color = "#523600"
@@ -375,7 +379,7 @@
 	glass_name = "aged whiskey"
 	glass_desc = "A well-aged whiskey of high quality. Probably imported."
 
-/decl/material/chem/ethanol/applecider
+/decl/material/liquid/ethanol/applecider
 	name = "apple cider"
 	lore_text = "A refreshing glass of apple cider."
 	taste_description = "cool apple cider"
@@ -385,7 +389,7 @@
 	glass_name = "apple cider"
 	glass_desc = "A refreshing glass of apple cider."
 
-/decl/material/chem/ethanol/champagne
+/decl/material/liquid/ethanol/champagne
 	name = "champagne"
 	lore_text = "Smooth sparkling wine, produced in the same region of France as it has for centuries."
 	taste_description = "a superior taste of sparkling wine"
@@ -395,7 +399,7 @@
 	glass_name = "champagne"
 	glass_desc = "Smooth sparkling wine, produced in the same region of France as it has for centuries."
 
-/decl/material/chem/ethanol/jagermeister
+/decl/material/liquid/ethanol/jagermeister
 	name = "Jagermeister"
 	lore_text = "A special blend of alcohol, herbs, and spices. It has remained a popular Earther drink."
 	taste_description = "herbs, spices, and alcohol"
@@ -405,7 +409,7 @@
 	glass_name = "jagermeister"
 	glass_desc = "A special blend of alcohol, herbs, and spices. It has remained a popular Earther drink."
 
-/decl/material/chem/ethanol/kvass
+/decl/material/liquid/ethanol/kvass
 	name = "kvass"
 	lore_text = "An alcoholic drink commonly made from bread."
 	taste_description = "vkusnyy kvas, ypa!"

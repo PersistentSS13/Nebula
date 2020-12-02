@@ -3,8 +3,7 @@
 
 /decl/hierarchy/supply_pack/nonessent/painters
 	name = "Art - Painting Supplies"
-	contains = list(/obj/item/pipe_painter = 2,
-					/obj/item/floor_painter = 2,
+	contains = list(/obj/item/paint_sprayer = 2,
 					/obj/item/cable_painter = 2)
 	cost = 10
 	containername = "painting supplies crate"
@@ -135,7 +134,7 @@
 					/obj/item/clothing/under/lawyer/purpsuit,
 					/obj/item/clothing/shoes/color/black,
 					/obj/item/clothing/shoes/color/black,
-					/obj/item/clothing/shoes/leather,
+					/obj/item/clothing/shoes/craftable,
 					/obj/item/clothing/accessory/wcoat/black)
 	name = "Costume - Formalwear"
 	cost = 30
@@ -151,7 +150,6 @@
 					/obj/item/clothing/head/collectable/captain,
 					/obj/item/clothing/head/collectable/beret,
 					/obj/item/clothing/head/collectable/welding,
-					/obj/item/clothing/head/collectable/flatcap,
 					/obj/item/clothing/head/collectable/pirate,
 					/obj/item/clothing/head/collectable/kitty,
 					/obj/item/clothing/head/collectable/rabbitears,
@@ -183,7 +181,6 @@
 /decl/hierarchy/supply_pack/nonessent/costume_hats
 	name = "Costume - Regular hats"
 	contains = list(/obj/item/clothing/head/redcoat,
-					/obj/item/clothing/head/mailman,
 					/obj/item/clothing/head/plaguedoctorhat,
 					/obj/item/clothing/head/pirate,
 					/obj/item/clothing/head/hasturhood,

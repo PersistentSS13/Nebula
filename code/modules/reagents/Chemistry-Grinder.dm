@@ -100,10 +100,9 @@
 		return
 
 	if(istype(O,/obj/item/stack/material))
-		var/obj/item/stack/material/stack = O
-		var/decl/material/material = stack.get_material()
-		if(!LAZYLEN(material.chemical_makeup))
-			to_chat(user, SPAN_NOTICE("\The [material.name] cannot be ground down to any usable reagents."))
+		var/decl/material/material = O.get_material()
+		if(!material)
+			to_chat(user, SPAN_NOTICE("\The [material.solid_name] cannot be ground down to any usable reagents."))
 			return TRUE
 
 	else if(!O.reagents?.total_volume)
@@ -206,29 +205,21 @@
 		var/obj/item/stack/material/stack = O
 		if(istype(stack))
 			var/decl/material/material = stack.get_material()
-			if(!LAZYLEN(material.chemical_makeup))
+			if(!material)
 				break
 
-			var/sheet_volume = 0
-			for(var/chem in material.chemical_makeup)
-				sheet_volume += material.chemical_makeup[chem] * REAGENT_UNITS_PER_MATERIAL_SHEET
-
-			var/amount_to_take = max(0,min(stack.amount,round(remaining_volume/sheet_volume)))
+			var/amount_to_take = max(0,min(stack.amount, Floor(remaining_volume / REAGENT_UNITS_PER_MATERIAL_SHEET)))
 			if(amount_to_take)
 				stack.use(amount_to_take)
 				if(QDELETED(stack))
 					holdingitems -= stack
-				for(var/chem in material.chemical_makeup)
-					beaker.reagents.add_reagent(chem, (amount_to_take * material.chemical_makeup[chem] * REAGENT_UNITS_PER_MATERIAL_SHEET * skill_factor))
+				beaker.reagents.add_reagent(material.type, (amount_to_take * REAGENT_UNITS_PER_MATERIAL_SHEET * skill_factor))
 				continue
 
-		if(O.reagents)
+		else if(O.reagents)
 			O.reagents.trans_to(beaker, O.reagents.total_volume, skill_factor)
-			if(O.reagents.total_volume == 0)
-				holdingitems -= O
-				qdel(O)
-			if (beaker.reagents.total_volume >= beaker.reagents.maximum_volume)
-				break
+			holdingitems -= O
+			qdel(O)
 
 /obj/machinery/reagentgrinder/proc/end_grind(mob/user)
 	inuse = FALSE
@@ -247,7 +238,7 @@
 	user.visible_message(SPAN_DANGER("\The [user]'s hand gets caught in \the [src]!"), SPAN_DANGER("Your hand gets caught in \the [src]!"))
 	user.apply_damage(dam, BRUTE, hand, damage_flags = DAM_SHARP, used_weapon = "grinder")
 	if(BP_IS_PROSTHETIC(hand_organ))
-		beaker.reagents.add_reagent(/decl/material/iron, dam)
+		beaker.reagents.add_reagent(/decl/material/solid/metal/iron, dam)
 	else
 		user.take_blood(beaker, dam)
 	user.Stun(2)

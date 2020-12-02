@@ -20,12 +20,13 @@
 	playsound(E.loc, 'sound/machines/thruster.ogg', 100 * thrust_limit * partial, 0, world.view * 4, 0.1)
 	if(E.network)
 		E.network.update = 1
+	E.update_icon()
 
 	var/exhaust_dir = GLOB.reverse_dir[E.dir]
 	var/turf/T = get_step(holder, exhaust_dir)
 	if(T)
 		T.assume_air(removed)
-		new/obj/effect/engine_exhaust(T, exhaust_dir, removed.check_combustibility() && removed.temperature >= FLAMMABLE_GAS_MINIMUM_BURN_TEMPERATURE)
+		new/obj/effect/engine_exhaust(T, E.dir)
 
 /datum/extension/ship_engine/gas/proc/get_propellant(var/sample_only = TRUE, var/partial = 1)
 	var/obj/machinery/atmospherics/unary/engine/E = holder
@@ -111,5 +112,5 @@
 
 	var/exit_pressure = get_nozzle_exit_pressure()
 	.+= exit_pressure ? "Nozzle exit pressure: [exit_pressure] kPA" : "Nozzle exit pressure: VACUUM"
-	
+
 	return jointext(.,"<br>")

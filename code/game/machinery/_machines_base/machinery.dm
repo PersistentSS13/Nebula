@@ -78,7 +78,6 @@ Class Procs:
 
 /obj/machinery
 	name = "machinery"
-	icon = 'icons/obj/stationobjs.dmi'
 	w_class = ITEM_SIZE_STRUCTURE
 	layer = STRUCTURE_LAYER // Layer under items
 	throw_speed = 1
@@ -113,6 +112,7 @@ Class Procs:
 	var/base_type           // For mapped buildable types, set this to be the base type actually buildable.
 	var/id_tag              // This generic variable is to be used by mappers to give related machines a string key. In principle used by radio stock parts.
 	var/frame_type = /obj/machinery/constructable_frame/machine_frame/deconstruct // what is created when the machine is dismantled.
+	var/required_interaction_dexterity = DEXTERITY_KEYBOARDS
 
 	var/list/processing_parts // Component parts queued for processing by the machine. Expected type: /obj/item/stock_parts
 	var/processing_flags         // What is being processed
@@ -270,8 +270,7 @@ Class Procs:
 		return
 	if(!CanPhysicallyInteract(user))
 		return FALSE // The interactions below all assume physical access to the machine. If this is not the case, we let the machine take further action.
-	if(!user.check_dexterity(DEXTERITY_KEYBOARDS))
-		to_chat(user, "<span class='warning'>You don't have the dexterity to do this!</span>")
+	if(!user.check_dexterity(required_interaction_dexterity))
 		return TRUE
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
@@ -312,8 +311,7 @@ Class Procs:
 	set_broken(!!missing, MACHINE_BROKEN_NO_PARTS)
 
 /obj/machinery/proc/state(var/msg)
-	for(var/mob/O in hearers(src, null))
-		O.show_message("\icon[src] <span class = 'notice'>[msg]</span>", 2)
+	audible_message(SPAN_NOTICE("[html_icon(src)] [msg]"), null, 2)
 
 /obj/machinery/proc/ping(text=null)
 	if (!text)
@@ -350,7 +348,7 @@ Class Procs:
 	var/obj/frame
 	if(ispath(frame_type, /obj/item/pipe) || ispath(frame_type, /obj/structure/disposalconstruct))
 		frame = new frame_type(get_turf(src), src)
-	else
+	else if(frame_type)
 		frame = new frame_type(get_turf(src), dir)
 
 	var/list/expelled_components = list()
@@ -359,15 +357,16 @@ Class Procs:
 	while(LAZYLEN(uncreated_component_parts))
 		var/path = uncreated_component_parts[1]
 		expelled_components += uninstall_component(path, refresh_parts = FALSE)
-	var/datum/extension/parts_stash/stash = get_extension(frame, /datum/extension/parts_stash)
-	if(stash)
-		stash.stash(expelled_components)
+	if(frame)
+		var/datum/extension/parts_stash/stash = get_extension(frame, /datum/extension/parts_stash)
+		if(stash)
+			stash.stash(expelled_components)
 
 	for(var/obj/O in src)
 		O.dropInto(loc)
 
 	qdel(src)
-	return 1
+	return frame
 
 /obj/machinery/InsertedContents()
 	return (contents - component_parts)

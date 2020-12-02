@@ -1,6 +1,6 @@
 #define SAVE_RESET -1
 
-datum/preferences
+/datum/preferences
 	//doohickeys for savefiles
 	var/path
 	var/default_slot = 1				//Holder so it doesn't default to slot 1, rather the last one used
@@ -15,7 +15,7 @@ datum/preferences
 	//game-preferences
 	var/lastchangelog = ""				//Saved changlog filesize to detect if there was a change
 
-		//Mob preview
+	//Mob preview
 	var/icon/preview_icon = null
 
 	var/client/client = null
@@ -160,32 +160,24 @@ datum/preferences
 	character.age = age
 	character.b_type = b_type
 
-	character.r_eyes = r_eyes
-	character.g_eyes = g_eyes
-	character.b_eyes = b_eyes
+	character.eye_colour = eye_colour
 
 	character.h_style = h_style
-	character.r_hair = r_hair
-	character.g_hair = g_hair
-	character.b_hair = b_hair
+	character.hair_colour = hair_colour
 
 	character.f_style = f_style
-	character.r_facial = r_facial
-	character.g_facial = g_facial
-	character.b_facial = b_facial
+	character.facial_hair_colour = facial_hair_colour
 
-	character.r_skin = r_skin
-	character.g_skin = g_skin
-	character.b_skin = b_skin
+	character.skin_colour = skin_colour
 
-	character.s_tone = s_tone
-	character.s_base = s_base
+	character.skin_tone = skin_tone
+	character.skin_base = skin_base
 
 	character.h_style = h_style
 	character.f_style = f_style
 
 	// Replace any missing limbs.
-	for(var/name in BP_ALL_LIMBS)
+	for(var/name in global.all_limb_tags)
 		var/obj/item/organ/external/O = character.organs_by_name[name]
 		if(!O && organ_data[name] != "amputated")
 			var/list/organ_data = character.species.has_limbs[name]
@@ -194,7 +186,7 @@ datum/preferences
 			O = new limb_path(character)
 
 	// Destroy/cyborgize organs and limbs. The order is important for preserving low-level choices for robolimb sprites being overridden.
-	for(var/name in BP_BY_DEPTH)
+	for(var/name in global.all_limb_tags_by_depth)
 		var/status = organ_data[name]
 		var/obj/item/organ/external/O = character.organs_by_name[name]
 		if(!O)
@@ -243,7 +235,7 @@ datum/preferences
 			var/underwear_item_name = all_underwear[underwear_category_name]
 			var/datum/category_item/underwear/UWD = underwear_category.items_by_name[underwear_item_name]
 			var/metadata = all_underwear_metadata[underwear_category_name]
-			var/obj/item/underwear/UW = UWD.create_underwear(metadata)
+			var/obj/item/underwear/UW = UWD.create_underwear(character, metadata)
 			if(UW)
 				UW.ForceEquipUnderwear(character, FALSE)
 		else
@@ -332,3 +324,12 @@ datum/preferences
 		panel.close()
 		panel = null
 	close_browser(user, "window=saves")
+
+/datum/preferences/proc/apply_post_login_preferences()
+	set waitfor = 0
+	if(!client)
+		return
+	if(client.get_preference_value(/datum/client_preference/chat_position) == GLOB.PREF_YES)
+		client.update_chat_position(TRUE)
+	if(client.get_preference_value(/datum/client_preference/fullscreen_mode) != GLOB.PREF_OFF)
+		client.toggle_fullscreen(client.get_preference_value(/datum/client_preference/fullscreen_mode))

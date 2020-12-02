@@ -10,8 +10,8 @@
 	throw_range = 10
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
 	origin_tech = "{'magnets':2,'combat':1}"
-	material = MAT_STEEL
-	matter = list(MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/metal/steel
+	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
 
 	var/times_used = 0 //Number of times it's been used.
 	var/broken = 0     //Is the flash burnt out?
@@ -22,7 +22,7 @@
 /obj/item/flash/proc/clown_check(var/mob/user)
 	if(user && (MUTATION_CLUMSY in user.mutations) && prob(50))
 		to_chat(user, "<span class='warning'>\The [src] slips out of your hand.</span>")
-		user.unequip_item()
+		user.unEquip(src)
 		return 0
 	return 1
 
@@ -86,8 +86,7 @@
 					M.eye_blurry += flash_strength
 					M.confused += (flash_strength + 2)
 					if(flash_strength > 3)
-						M.drop_l_hand()
-						M.drop_r_hand()
+						M.drop_held_items()
 					if(flash_strength > 5)
 						M.Weaken(2)
 			else
@@ -216,8 +215,8 @@
 	origin_tech = "{'combat':2,'magnets':2}"
 	str_min = 3
 	str_max = 8
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	matter = list(
-		MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT,
-		MAT_SILVER = MATTER_AMOUNT_TRACE
+		/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/silver = MATTER_AMOUNT_TRACE
 	)
