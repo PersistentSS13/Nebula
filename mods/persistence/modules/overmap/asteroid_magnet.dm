@@ -82,8 +82,8 @@
 
 	var/decl/asteroid_class/class = decls_repository.get_decl(asteroid.class)
 
-	var/turf/list/outer_types = class?.outer_types // Rocks etc.
-	var/turf/list/inner_types = class?.inner_types // Minerals, open turfs etc.
+	var/list/outer_types = class?.outer_types // Rocks etc.
+	var/list/inner_types = class?.inner_types // Minerals, open turfs etc.
 	var/list/object_types = class?.object_types
 	var/list/mob_types = class?.mob_types
 
@@ -97,7 +97,7 @@
 		// Don't be standing where the asteroid is about to be.
 		M.throw_at(get_random_edge_turf(GLOB.reverse_dir[dir],TRANSITIONEDGE + 2, z), 250, 5)
 
-	var/turf/list/target_turfs = RANGE_TURFS(center_turf, ASTEROID_SIZE)
+	var/list/target_turfs = RANGE_TURFS(center_turf, ASTEROID_SIZE)
 
 	var/num_objs = 0
 	var/num_mobs = 0

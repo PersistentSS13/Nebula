@@ -32,7 +32,7 @@
 /obj/effect/overmap/event/meteor/Initialize()
 	. = ..()
 	if(!class)
-		var/list/classes = decls_repository.get_decls_of_subtype(/decl/asteroid_class/).Copy()
+		var/list/classes = decls_repository.get_decls_of_subtype(/decl/asteroid_class/)
 		var/list/weighted_classes = list()
 		for(var/c_type in classes)
 			var/decl/asteroid_class/C = decls_repository.get_decl(c_type)

@@ -1,7 +1,8 @@
 /decl/strata/asteroid
 	name = "spaceborne sedimentary rock"
 	base_materials = list(/decl/material/stone/asteroid)
-	ores_sparse = list(						// More rare materials, less common ones
+	// More rare materials, less common ones
+	ores_sparse = list(
 		/decl/material/solid/metal/gold = 5,
 		/decl/material/solid/metal/silver = 15,
 		/decl/material/solid/metal/platinum = 10,
