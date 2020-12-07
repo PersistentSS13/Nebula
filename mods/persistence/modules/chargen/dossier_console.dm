@@ -79,7 +79,8 @@
 		user.mind.chargen_skillset = new(user)
 		for(var/decl/hierarchy/skill in GLOB.skills)
 			user.mind.chargen_skillset.skill_list[skill.type] = 1
-		user.mind.chargen_skillset.skill_list[/decl/hierarchy/skill/organizational/literacy] = 2
+		user.mind.chargen_skillset.skill_list[SKILL_HAULING] = SKILL_BASIC
+		user.mind.chargen_skillset.skill_list[SKILL_LITERACY] = SKILL_BASIC
 	. = user.mind.chargen_skillset.get_nano_data(FALSE)
 
 	.["active"] = active_section
