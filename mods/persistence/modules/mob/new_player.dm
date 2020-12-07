@@ -144,7 +144,7 @@
 			mind.StoreMemory(client.prefs.memory)
 		mind.transfer_to(new_character)					//won't transfer key since the mind is not active
 
-	var/datum/job/job = SSjobs.get_by_title("Outreach Colonist") // Hacky way to get players equipped with a basic uniform and their accounts set up.
+	var/datum/job/job = SSjobs.get_by_path(/datum/job/colonist) // Hacky way to get players equipped with a basic uniform and their accounts set up.
 	job.setup_account(new_character)
 	job.equip(new_character)
 

@@ -1,4 +1,4 @@
-#define SS_PRIORITY_SKILLS     10
+#define SS_PRIORITY_SKILLS     100
 
 SUBSYSTEM_DEF(skills)
 	name = "Skills"

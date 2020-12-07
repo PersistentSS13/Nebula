@@ -1,5 +1,5 @@
 #define MAX_TEXTBOOK_SKILLS   2
-#define TEXTBOOK_COOLDOWN     1 DAY
+#define TEXTBOOK_COOLDOWN    20 HOURS
 
 /obj/item/book/skill/verb/study()
 	set name = "Study Intently"
