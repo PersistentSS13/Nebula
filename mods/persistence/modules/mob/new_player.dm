@@ -144,9 +144,12 @@
 			mind.StoreMemory(client.prefs.memory)
 		mind.transfer_to(new_character)					//won't transfer key since the mind is not active
 
+	var/datum/job/job = SSjobs.get_by_path(/datum/job/colonist) // Hacky way to get players equipped with a basic uniform and their accounts set up.
+	job.setup_account(new_character)
+	job.equip(new_character)
+
 	var/datum/skillset/SS = new_character.skillset 	// Populate the skill_list of the player's skillset so that they can be properly adjusted during gameplay.
 	SS.set_skillset_min()
-	SS.time_skills_set = world.realtime
 
 	new_character.dna.ready_dna(new_character)
 	new_character.dna.b_type = client.prefs.b_type
@@ -162,8 +165,8 @@
 	new_character.regenerate_icons()
 
 	new_character.key = key		//Manually transfer the key to log them in
-	apply_custom_loadout(new_character)
 
+	
 /mob/new_player/Move()
 	return 0
 

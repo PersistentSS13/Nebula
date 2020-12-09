@@ -77,7 +77,8 @@
 			"initial_account",
 			"philotic_damage",
 			"age",
-			"unique_id"
+			"unique_id",
+			"finished_chargen"
 		]
 	},
 	{
@@ -2751,7 +2752,11 @@
 			"owner",
 			"skill_buffs",
 			"points_remaining",
-			"time_skills_set"
+			"time_active",
+			"total_points_added",
+			"min_skill_level",
+			"textbook_skills",
+			"last_read_time"
 		]
 	},
 	{
