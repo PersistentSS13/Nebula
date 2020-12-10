@@ -11,7 +11,6 @@
 	// Map defines.
 	#include "persistence_defines.dm"
 	#include "chargen/chargen_areas.dm"
-	#include "chargen/chargen.dmm"
 
 	#include "outreach_areas.dm"
 	#include "outreach_jobs.dm"

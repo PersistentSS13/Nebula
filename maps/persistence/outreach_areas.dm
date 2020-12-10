@@ -1,3 +1,6 @@
+/area/exoplanet/outreach
+	name = "Outreach"
+
 /area/outreach/outpost
 	//safe_zone = TRUE
 
@@ -65,3 +68,6 @@
 /area/outreach/mines/depth_2
 	do_autogenerate = TRUE
 	icon_state = "MD2"
+
+/area/outreach/mines/exits
+	icon_state = "ME"

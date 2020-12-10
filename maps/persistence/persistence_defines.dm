@@ -11,10 +11,10 @@
 
 	// Hotloading module
 	default_levels = list(
-		"1" = 'maps/persistence/outreach_1_mine_2.dmm',
-		"2" = 'maps/persistence/outreach_2_mine_1.dmm',
-		"3" = 'maps/persistence/outreach_3_ground.dmm',
-		"4" = 'maps/persistence/outreach_4_sky.dmm'
+		"1" = 'maps/persistence/outreach-1.dmm',
+		"2" = 'maps/persistence/outreach-2.dmm',
+		"3" = 'maps/persistence/outreach-3.dmm',
+		"4" = 'maps/persistence/outreach-4.dmm'
 	)
 
 	// A list of turfs and their default turfs for serialization optimization.
