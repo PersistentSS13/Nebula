@@ -1,9 +1,10 @@
+name: Wiki Sync
 on:
     push:
         branches:
             - dev
-              - 
-name: Wiki Sync
+    workflow_dispatch:
+    
 jobs:
     update-wiki:
         runs-on: ubuntu-latest
