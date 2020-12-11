@@ -11,7 +11,7 @@ jobs:
         steps:
           - uses: actions/checkout@dev
           - name: Sync Wiki
-            uses: joeizzard/action-wiki-sync@dev
+            uses: joeizzard/action-wiki-sync@master
             with:
                 username: PersistentSS13
                 access_token: ${{ secrets.GITHUB_TOKEN }}
