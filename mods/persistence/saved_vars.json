@@ -24,7 +24,8 @@
 			"SE",
 			"b_type",
 			"real_name",
-			"lineage"
+			"lineage",
+			"species"
 		]
 	},
 	{
@@ -3048,7 +3049,8 @@
 			"saved_ckey",
 			"home_spawn",
 			"stance_limbs",
-			"grasp_limbs"
+			"grasp_limbs",
+			"saved_species"
 		]
 	},
 	{
