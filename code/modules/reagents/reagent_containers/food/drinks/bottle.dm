@@ -74,7 +74,7 @@
 					T.hotspot_expose(700, 5)
 					for(var/mob/living/M in T.contents)
 						M.IgniteMob()
-				if(HasBelow(T.z) && istype(T, /turf/simulated/open))
+				if(HasBelow(T.z) && T.is_open())
 					T = GetBelow(T)
 				else
 					T = null
@@ -505,7 +505,7 @@
 	. = ..()
 	reagents.add_reagent(/decl/material/liquid/ethanol/wine/premium, 100)
 	var/namepick = pick("Calumont","Sciacchemont","Recioto","Torcalota")
-	var/agedyear = rand(game_year-150,game_year)
+	var/agedyear = rand(GLOB.using_map.game_year - 150, GLOB.using_map.game_year)
 	name = "Chateau [namepick] De Blanc"
 	desc += " This bottle is marked as [agedyear] Vintage."
 
