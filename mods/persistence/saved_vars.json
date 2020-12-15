@@ -24,7 +24,8 @@
 			"SE",
 			"b_type",
 			"real_name",
-			"lineage"
+			"lineage",
+			"species"
 		]
 	},
 	{
@@ -275,7 +276,14 @@
 			"job",
 			"maxHealth",
 			"health",
-			"last_special"
+			"last_special",
+			"meat_type",
+			"meat_amount",
+			"skin_material",
+			"skin_amount",
+			"bone_material",
+			"bone_amount",
+			"available_maneuvers"
 		]
 	},
 	{
@@ -3048,7 +3056,8 @@
 			"saved_ckey",
 			"home_spawn",
 			"stance_limbs",
-			"grasp_limbs"
+			"grasp_limbs",
+			"saved_species"
 		]
 	},
 	{
