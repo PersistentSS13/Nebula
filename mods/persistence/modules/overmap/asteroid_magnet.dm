@@ -148,7 +148,7 @@
 	var/found_spent = FALSE // Let players know that the asteroid field has been spent.
 	for(var/obj/effect/overmap/event/meteor/M in overmap_event_handler.hazard_by_turf[get_turf(curr_sector)])
 		if(!M.spent)
-			return M // Return the first unspent asteroid field found in the same tile as the ship/station that the 
+			return M // Return the first unspent asteroid field found in the same tile as the ship/station that the asteroid magnet is attached to.
 		else
 			found_spent = TRUE
 

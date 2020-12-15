@@ -27,7 +27,7 @@
 	var/spent = FALSE			  // Whether or not the asteroid field has been harvested yet.
 
 /obj/effect/overmap/event/meteor/get_scan_data(mob/user)
-	return desc + class ? "<br> You detect \a [class.name] inside the asteroid field." : "" 
+	return desc + (class ? "<br> You detect \a [class.name] inside the asteroid field." : "") 
 
 /obj/effect/overmap/event/meteor/Initialize()
 	. = ..()
