@@ -40,7 +40,7 @@ SUBSYSTEM_DEF(autosave)
 
 		if(reset_after_save)
 			to_world("<font size=4 color='red'>Server is going down NOW!</font>")
-			shutdown()
+			world.Reboot()
 
 /datum/controller/subsystem/autosave/proc/AnnounceSave()
 	var/minutes = (next_fire - world.time) / (1 MINUTE)

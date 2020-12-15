@@ -21,6 +21,9 @@ SUBSYSTEM_DEF(chargen)
 		report_progress("Created chargen away site at [M.bounds[3]].")
 		for(var/x in 1 to Floor(world.maxx / width))
 			for(var/y in 1 to Floor(world.maxy / height))
+				// We already loaded the first one at (1, 1) so skip it 
+				if(x == 1 && y == 1)
+					continue
 				M = maploader.load_map(file('maps/persistence/chargen/chargen.dmm'), ((x - 1) * width) + 1, ((y - 1) * height) + 1, map_z, no_changeturf = TRUE)
 				atoms_to_initialise += M.atoms_to_initialise
 				CHECK_TICK

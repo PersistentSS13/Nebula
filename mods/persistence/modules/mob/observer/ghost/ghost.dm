@@ -2,8 +2,8 @@
 	. = ..()
 	verbs -= /mob/living/verb/ghost
 
-/mob/ghostize(var/can_reenter_corpse = CORPSE_CAN_REENTER, var/is_admin_ghost = FALSE)
-	if(is_admin_ghost && key && check_rights(R_ADMIN, 0, src)) // Allow admins to ghost.
+/mob/ghostize(var/can_reenter_corpse = FALSE)
+	if(can_reenter_corpse && key && check_rights(R_ADMIN, 0, src)) // Allow admins to ghost.
 		hide_fullscreens()
 		var/mob/observer/ghost/ghost = new(src)	//Transfer safety to observer spawning proc.
 		ghost.can_reenter_corpse = can_reenter_corpse

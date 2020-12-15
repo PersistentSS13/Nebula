@@ -2,6 +2,7 @@
 	if(!SSpersistence.in_loaded_world)
 		return ..()
 
+	material = ispath(material) ? decls_repository.get_decl(material) : material
 	set_anchored(anchored)
 	set_dir(dir)
 	if(is_fulltile())
