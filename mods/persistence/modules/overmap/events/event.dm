@@ -21,3 +21,20 @@
 			new type(event_turf)
 
 		qdel(datum_spawn)
+
+/obj/effect/overmap/event/meteor
+	var/decl/asteroid_class/class // Determines material make up of asteroid when using the asteroid magnet.
+	var/spent = FALSE			  // Whether or not the asteroid field has been harvested yet.
+
+/obj/effect/overmap/event/meteor/get_scan_data(mob/user)
+	return desc + (class ? "<br> You detect \a [class.name] inside the asteroid field." : "") 
+
+/obj/effect/overmap/event/meteor/Initialize()
+	. = ..()
+	if(!class)
+		var/list/classes = decls_repository.get_decls_of_subtype(/decl/asteroid_class/)
+		var/list/weighted_classes = list()
+		for(var/c_type in classes)
+			var/decl/asteroid_class/C = decls_repository.get_decl(c_type)
+			weighted_classes[c_type] = C.weight
+		class = pickweight(weighted_classes)
