@@ -78,6 +78,7 @@
 #include "modules\mob\observer\ghost\say.dm"
 #include "modules\mob\skills\persistence_adjust_skills.dm"
 #include "modules\modular_computers\file_system\programs\cloning.dm"
+#include "modules\modular_computers\networking\device_types\mainframe.dm"
 #include "modules\modular_computers\networking\machines\_network_machine.dm"
 #include "modules\modular_computers\networking\machines\router.dm"
 #include "modules\organs\internal\brain.dm"

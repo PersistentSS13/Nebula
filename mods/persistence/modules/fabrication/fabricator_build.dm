@@ -3,6 +3,8 @@
 	var/instability = 0
 	var/last_instability_check
 
+	var/build_time // Blueprints use different build time calculations, so we need to keep track of the initial build time.
+
 /obj/machinery/fabricator/update_current_build(var/spend_time)
 	if(!istype(currently_building) || !is_functioning())
 		return ..()
@@ -22,22 +24,27 @@
 			var/datum/effect/effect/system/spark_spread/sparks = new /datum/effect/effect/system/spark_spread()
 			sparks.set_up(3, 0, loc)
 			sparks.start()
+		
+	. = ..()
 
 /obj/machinery/fabricator/start_building()
 	. = ..()
 	currently_building.last_instability_check = world.timeofday
 	if(currently_building.power_usage)
-		update_use_power(currently_building.power_usage)
+		change_power_consumption(currently_building.power_usage, POWER_USE_ACTIVE)
 
 /obj/machinery/fabricator/try_queue_build(var/datum/design, var/multiplier)
 	if(istype(design, /datum/fabricator_recipe))
+		var/datum/fabricator_recipe/R = design
+		if(!(fabricator_class in R.fabricator_types))
+			return // Safety check.
 		return try_queue_build_design(design, multiplier)
 	var/datum/computer_file/data/blueprint/blueprint = design
 	// Do some basic sanity checking.
 	if(!is_functioning() || !istype(blueprint))
 		return
 	multiplier = sanitize_integer(multiplier, 1, 100, 1)
-	if(!ispath(blueprint.recipe, /obj/item/stack) && multiplier > 1)
+	if(!ispath(blueprint.created_path, /obj/item/stack) && multiplier > 1)
 		multiplier = 1
 
 	// Check if sufficient resources exist.
@@ -48,8 +55,9 @@
 
 	// Generate and track a new order.
 	var/datum/fabricator_build_order/order = new
-	order.remaining_time = blueprint.get_build_time()
-	order.target_recipe =  blueprint.recipe
+	order.build_time = blueprint.get_build_time()
+	order.remaining_time = order.build_time
+	order.target_recipe =  blueprint.get_recipe()
 	order.multiplier =     multiplier
 	order.power_usage =    ceil(initial(active_power_usage) / blueprint.power_efficiency)
 	order.instability =    blueprint.instability
@@ -81,7 +89,8 @@
 
 	// Generate and track a new order.
 	var/datum/fabricator_build_order/order = new
-	order.remaining_time = recipe.build_time
+	order.build_time = recipe.build_time
+	order.remaining_time = order.remaining_time
 	order.target_recipe =  recipe
 	order.multiplier =     multiplier
 	queued_orders +=       order

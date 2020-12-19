@@ -8,26 +8,28 @@
 	var/power_efficiency	= BASE_BLUEPRINT_POWER			// Power usage while making this item is divided by this.
 	var/complexity			= 0								// The number of experiments done on this file.
 
-	var/datum/fabricator_recipe/recipe
+	var/atom/created_path
 	var/list/experiments	= list()						// A list of possible experiments. Do not save this. This is meant to be wiped every server restart.
+	var/cloned = FALSE										// Blueprints can be copied, but copies of blueprints cannot. Copied blueprints cannot be experimented on.
 
-/datum/computer_file/data/blueprint/New(var/list/md = null, var/_recipe = null)
-	set_recipe(_recipe)
+/datum/computer_file/data/blueprint/New(var/list/md = null, var/_created_path = null)
+	set_path(_created_path)
+	. = ..()
 
-/datum/computer_file/data/blueprint/proc/set_recipe(var/datum/fabricator_recipe/_recipe)
-	if(!istype(_recipe))
+/datum/computer_file/data/blueprint/proc/set_path(var/_created_path)
+	if(!_created_path)
 		return
-	recipe = _recipe
-	filename = sanitize("[_recipe.name]")
+	created_path = _created_path
+	filename = sanitize("[initial(created_path.name)] - [sequential_id("datum/computer_file/data/blueprint")]")
 	for(var/badchar in list("/","\\",":","*","?","\"","<",">","|","#", ".", " ", ")"))
 		filename = replacetext(filename, badchar, "")
 	filename = replacetext(filename, "(", "-")
-	to_world("created blueprint file [filename]")
 	size = calculate_size()
 	return TRUE
 
 /datum/computer_file/data/blueprint/calculate_size()
 	var/size = ceil(max(1, efficiency + speed + power_efficiency - (instability / 100)) / compression)
+	var/datum/fabricator_recipe/recipe = get_recipe()
 	if(!recipe)
 		return size
 	for(var/tech in recipe.required_technology)
@@ -36,6 +38,7 @@
 
 /datum/computer_file/data/blueprint/proc/get_resources()
 	var/list/resources = list()
+	var/datum/fabricator_recipe/recipe = get_recipe()
 	var/list/building_cost = atom_info_repository.get_matter_for(recipe.path)
 	for(var/mat in building_cost)
 		if(!recipe.ignore_materials[mat])
@@ -43,10 +46,13 @@
 	return resources
 
 /datum/computer_file/data/blueprint/proc/get_build_time()
+	var/datum/fabricator_recipe/recipe = get_recipe()
 	return ceil(recipe.build_time / speed)
 
 /datum/computer_file/data/blueprint/proc/generate_experiments(var/mob/user)
 	var/experiments_to_generate = max(0, user.get_skill_value(SKILL_SCIENCE) - length(experiments))
+	if(cloned)
+		return
 	while((length(experiments) < experiments_to_generate))
 		if(!holder.can_store_file(3)) // Out of disk space.
 			break
@@ -65,7 +71,7 @@
 
 /datum/computer_file/data/blueprint/proc/get_stats()
 	. = list()
-	.+= "Produces: [recipe.name]"
+	.+= "Produces: [initial(created_path.name)]"
 	.+= "Instability: [instability]%"
 	.+= "Material Efficiency: rating [efficiency] ([100 / efficiency]% of normal cost)"
 	.+= "Speed: rating [speed] ([get_build_time() / 10] seconds)"
@@ -80,3 +86,22 @@
 	.+= "Materials: [english_list(materials)]"
 
 	. = jointext(.,"<br>")
+
+/datum/computer_file/data/blueprint/proc/get_recipe()
+	if(!created_path)
+		return
+	return SSfabrication.recipes_by_product_type[created_path]
+
+/datum/computer_file/data/blueprint/clone()
+	var/datum/computer_file/data/blueprint/temp = ..()
+	if(cloned)
+		temp.filename = "COPY FAILED - Copyright denied"
+		return temp
+	temp.created_path = created_path
+	temp.efficiency = efficiency
+	temp.speed = speed
+	temp.compression = compression
+	temp.power_efficiency = power_efficiency
+	temp.complexity = complexity
+	temp.cloned = TRUE
+	return temp

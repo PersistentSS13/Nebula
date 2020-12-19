@@ -83,14 +83,14 @@
 
 		if(!welded)
 			to_chat(user, "You begin welding [src] together...")
-			if(WT.remove_fuel(25) && do_after(usr, 7))
+			if(WT.remove_fuel(5) && do_after(usr, 7))
 				to_chat(user, "You finish [src].")
 				welded = TRUE
 				update_icon()
 			return TRUE
 		else
 			to_chat(user, "You begin disassembling [src]...")
-			if(WT.remove_fuel(25) && do_after(usr, 7))
+			if(WT.remove_fuel(5) && do_after(usr, 7))
 				to_chat(user, "You disassemble [src].")
 				welded = FALSE
 				update_icon()
@@ -154,23 +154,23 @@
 				tech_levels[item_level] = item_levels[item_level]
 	return tech_levels
 
-
-
 /datum/fabricator_recipe/experimental_device
 	name = "experimental device"
 	path = /obj/item/experiment
 	disabled = TRUE
 	var/experiment_id
 	var/experiment_name
+	fabricator_types = list(FABRICATOR_CLASS_PROTOLATHE)
 
 /datum/fabricator_recipe/experimental_device/New(var/_id, var/_name)
 	experiment_id = _id
 	experiment_name = _name
 
 /datum/fabricator_recipe/experimental_device/build(var/turf/location, var/amount = 1)
-	var/obj/item/experiment/experiment = ..()
+	var/list/products = ..()
+	var/obj/item/experiment/experiment = products[1]
 	if(experiment_id)
 		experiment.experiment_id = experiment_id
 	if(experiment_name)
 		experiment.name = "experimental device ([experiment_name])"
-	return experiment
+	return products

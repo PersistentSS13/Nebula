@@ -24,7 +24,7 @@
 	return multiplier ** 2
 
 /datum/computer_file/data/experiment/should_save()
-	return in_progress // Experiments in progress are saved.
+	return FALSE // Experiments are not saved.
 
 /datum/computer_file/data/experiment/proc/experiment_meets_prereqs(var/obj/item/experiment/E)
 	var/list/e_levels = E.get_tech_levels()

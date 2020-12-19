@@ -114,16 +114,16 @@
 			to_chat(user, SPAN_NOTICE("Unable to find experiment [href_list["PRG_beginexperiment"]]."))
 			return
 		var/datum/fabricator_recipe/experimental_device/ED = new(experiment.id, experiment.filename)
-		if(!protolathe.try_queue_build(ED, 1))
-			to_chat(user, SPAN_WARNING("Unable to start experiment. A technical error has occured with the protolathe."))
-			QDEL_NULL(ED)
-			return
+		protolathe.try_queue_build(ED, 1)
 		experiment.begin()
 
 	if(href_list["PRG_generate_experiments"])
 		if(!istype(open_file))
 			return
 		. = TOPIC_REFRESH
+		if(open_file.cloned)
+			to_chat(user, SPAN_WARNING("Unable to generate experiment. Cloned blueprints cannot be experimented on."))
+			return
 		open_file.generate_experiments(user)
 
 	if(href_list["PRG_change_protolathe"])
@@ -159,7 +159,8 @@
 	data["current_protolathe"] = current_protolathe ? current_protolathe : "Not set"
 
 	var/datum/computer_network/network = computer.get_network()
-	data["blueprint"] = uppertext(open_file ? open_file.recipe.name : "Not set")
+	var/datum/fabricator_recipe/open_recipe = open_file?.get_recipe()
+	data["blueprint"] = uppertext(open_file ? open_recipe.name : "Not set")
 	if(istype(open_file) && network)
 		data["blueprint_stats"] = open_file.get_stats()
 
