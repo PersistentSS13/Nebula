@@ -13,7 +13,7 @@
 	desc = "A silicate dense remnant of a would-be planet. Rich in metals and other materials of industrial use."
 	outer_types = list(/turf/simulated/wall/natural/asteroid)
 	inner_types = list(/turf/simulated/wall/natural/random/asteroid)
-	mob_types = list(/mob/living/simple_animal/hostile/voxslug)
+	mob_types = list(/mob/living/simple_animal/hostile/slug)
 
 /decl/asteroid_class/comet
 	name = "Comet"
