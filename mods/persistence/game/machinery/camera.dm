@@ -503,13 +503,13 @@
 	if(usr.incapacitated())
 		return
 	if(!mymem)
-		to_chat(usr, "<span class='notice'>There's no tape!</span>")
+		to_chat(usr, "<span class='notice'>There's no memory!</span>")
 		return
 	if(mymem.ruined || emagged)
-		audible_message("<span class='warning'>The tape recorder makes a scratchy noise.</span>")
+		audible_message("<span class='warning'>You hear a scratchy noise.</span>")
 		return
 	if(!canprint)
-		to_chat(usr, "<span class='notice'>The recorder can't print that fast!</span>")
+		to_chat(usr, "<span class='notice'>Can't print that fast!</span>")
 		return
 	if(recording || playing)
 		to_chat(usr, "<span class='notice'>You can't print the transcript while playing or recording!</span>")
@@ -529,10 +529,10 @@
 
 /obj/machinery/camera/verb/play(mob/user)
 	if(!mymem)
-		to_chat(user, "<span class='notice'>There's no tape!</span>")
+		to_chat(user, "<span class='notice'>There's no memory!</span>")
 		return
 	if(mymem.ruined)
-		audible_message("<span class='warning'>The tape recorder makes a scratchy noise.</span>")
+		audible_message("<span class='warning'>You hear a scratchy noise.</span>")
 		return
 	if(recording)
 		to_chat(user, "<span class='notice'>You can't playback when recording!</span>")
@@ -553,13 +553,13 @@
 		var/playedmessage = mymem.storedinfo[i]
 		if(findtextEx(playedmessage,"*",1,2)) //remove marker for action sounds
 			playedmessage = copytext(playedmessage,2)
-		T.audible_message("<font color=Maroon><B>Tape Recorder</B>: [playedmessage]</font>")
+		T.audible_message("<font color=Maroon><B>Playback</B>: [playedmessage]</font>")
 
 		if(mymem.storedinfo.len < i+1)
 			playsleepseconds = 1
 			sleep(10)
 			T = get_turf(src)
-			T.audible_message("<font color=Maroon><B>Tape Recorder</B>: End of recording.</font>")
+			T.audible_message("<font color=Maroon><B>Playback</B>: End of recording.</font>")
 			playsound(src, 'sound/machines/click.ogg', 10, 1)
 			break
 		else
@@ -568,7 +568,7 @@
 		if(playsleepseconds > 14)
 			sleep(10)
 			T = get_turf(src)
-			T.audible_message("<font color=Maroon><B>Tape Recorder</B>: Skipping [playsleepseconds] seconds of silence</font>")
+			T.audible_message("<font color=Maroon><B>Playback</B>: Skipping [playsleepseconds] seconds of silence</font>")
 			playsleepseconds = 1
 		sleep(10 * playsleepseconds)
 
@@ -636,12 +636,12 @@
 			if(mymem.used_capacity >= mymem.max_capacity)
 				if(ismob(loc))
 					var/mob/M = loc
-					to_chat(M, "<span class='notice'>The tape is full.</span>")
+					to_chat(M, "<span class='notice'>The memory is full.</span>")
 				stop_recording()
 
 		return
 	else
-		to_chat(usr, "<span class='notice'>The tape is full.</span>")
+		to_chat(usr, "<span class='notice'>The memory is full.</span>")
 
 /obj/machinery/camera/verb/stop_recording()
 	//Sanity checks skipped, should not be called unless actually recording
@@ -682,6 +682,7 @@
 		return
 	if(!recording)
 		src.record()
+	mymem.record_speech("[enterer] entered at [enterer.x],[enterer.y]")
 //	src.captureimage(enterer)
 //:WARNING: captureimage() is extremely inefficient because it calls generateimage which is exspensive
 /obj/machinery/camera/proc/on_visibility_change(var/list/old_turfs, var/list/new_turfs)
