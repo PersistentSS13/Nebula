@@ -1,0 +1,1 @@
+GLOBAL_LIST_EMPTY(protected_areas) // Associative list of areas -> area_control server
