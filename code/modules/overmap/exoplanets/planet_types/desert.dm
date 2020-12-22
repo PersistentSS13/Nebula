@@ -10,7 +10,7 @@
 	water_color = null
 	has_trees = FALSE
 	flora_diversity = 4
-	fauna_types = list(/mob/living/simple_animal/thinbug, /mob/living/simple_animal/tindalos, /mob/living/simple_animal/hostile/voxslug, /mob/living/simple_animal/hostile/antlion)
+	fauna_types = list(/mob/living/simple_animal/thinbug, /mob/living/simple_animal/tindalos, /mob/living/simple_animal/hostile/slug, /mob/living/simple_animal/hostile/antlion)
 	megafauna_types = list(/mob/living/simple_animal/hostile/antlion/mega)
 
 /obj/effect/overmap/visitable/sector/exoplanet/desert/generate_map()
@@ -23,7 +23,7 @@
 	if(atmosphere)
 		var/limit = 1000
 		if(habitability_class <= HABITABILITY_OKAY)
-			var/datum/species/human/H = /datum/species/human
+			var/decl/species/human/H = /decl/species/human
 			limit = initial(H.heat_level_1) - rand(1,10)
 		atmosphere.temperature = min(T20C + rand(20, 100), limit)
 		atmosphere.update_values()

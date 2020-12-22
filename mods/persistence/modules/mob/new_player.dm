@@ -116,7 +116,7 @@
 			spawn_turf = T
 
 	var/mob/living/carbon/human/new_character
-	var/datum/species/chosen_species
+	var/decl/species/chosen_species
 	if(client.prefs.species)
 		chosen_species = all_species[client.prefs.species]
 
@@ -171,7 +171,7 @@
 	return 0
 
 /mob/new_player/get_species()
-	var/datum/species/chosen_species
+	var/decl/species/chosen_species
 	if(client.prefs.species)
 		chosen_species = all_species[client.prefs.species]
 
