@@ -267,3 +267,9 @@
 		/obj/item/flame/lighter/random)
 	cost = 15
 	containername = "aromatherapy crate"
+
+/decl/hierarchy/supply_pack/nonessent/canvases
+	name = "Rec - Canvases"
+	contains = list(/obj/item/frame/canvas = 10)
+	cost = 15
+	containername = "canvases crate"
