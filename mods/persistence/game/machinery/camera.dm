@@ -8,7 +8,7 @@
 	active_power_usage = 10
 	layer = CAMERA_LAYER
 	var/network = list()
-	var/network2
+	var/comp_network
 	var/c_tag = null
 	var/c_tag_order = 999
 	var/number = 0 //camera number in area
@@ -50,7 +50,7 @@
 
 /obj/machinery/camera/proc/getnid()
 	var/datum/extension/network_device/D = get_extension(src, /datum/extension/network_device)
-	src.network2 = D.network_id
+	src.comp_network = D.network_id
 	return D.network_id
 
 /obj/machinery/camera/examine(mob/user)
@@ -106,11 +106,11 @@
 		if(C != src && C.c_tag == src.c_tag && tempnetwork.len)
 			to_world_log("[src.c_tag] [src.x] [src.y] [src.z] conflicts with [C.c_tag] [C.x] [C.y] [C.z]")
 	*/
-	if(!src.network2)
+	if(!src.comp_network)
 		if(loc)
-			error("[src.name] in [get_area(src)] (x:[src.x] y:[src.y] z:[src.z] has errored. [src.network2?"Empty network list":"Null network list"]")
+			error("[src.name] in [get_area(src)] (x:[src.x] y:[src.y] z:[src.z] has errored. [src.comp_network?"Empty network list":"Null network list"]")
 		else
-			error("[src.name] in [get_area(src)]has errored. [src.network2?"Empty network list":"Null network list"]")
+			error("[src.name] in [get_area(src)]has errored. [src.comp_network?"Empty network list":"Null network list"]")
 		ASSERT(src.network)
 
 
@@ -443,7 +443,7 @@
 	var/network_added
 	network_added = 0
 	for(var/network_name in networks)
-		if(!(network_name in src.network2))
+		if(!(network_name in src.comp_network))
 			network += network_name
 			network_added = 1
 
@@ -454,7 +454,7 @@
 	var/network_removed
 	network_removed = 0
 	for(var/network_name in networks)
-		if(network_name in src.network2)
+		if(network_name in src.comp_network)
 			network -= network_name
 			network_removed = 1
 
