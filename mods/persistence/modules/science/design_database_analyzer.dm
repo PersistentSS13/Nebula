@@ -51,11 +51,11 @@
 		if(!istype(recipe))
 			to_chat(user, SPAN_WARNING("Unable to analyze \the [loaded_item]. Recipe corrupted."))
 			return
-		var/datum/computer_file/data/blueprint/BP = new(null, recipe)
+		var/datum/computer_file/data/blueprint/BP = new(null, recipe.path)
 		// for(var/datum/extension/network_device/mainframe/MF in network.get_mainframes_by_role(MF_ROLE_DESIGN, user))
 		if(file_source.store_file(BP))
 			analyze_successful = TRUE
-			to_chat(user, SPAN_NOTICE("\The [src] pings and reports that through invention it managed to produce a blueprint for [BP.recipe.name]."))
+			to_chat(user, SPAN_NOTICE("\The [src] pings and reports that through invention it managed to produce a blueprint for [initial(BP.created_path.name)]."))
 		else
 			to_chat(user, SPAN_WARNING("Insufficient disk space to store blueprint. Need at least [BP.size] GQ."))
 		if(!analyze_successful)
@@ -69,24 +69,21 @@
 	addtimer(CALLBACK(src, .proc/refresh_busy, 2 SECONDS))
 
 /obj/machinery/destructive_analyzer/proc/process_experiment(var/obj/item/experiment/E, var/mob/user, var/datum/file_storage/file_source)
-	var/datum/extension/network_device/device = get_extension(src, /datum/extension/network_device)
-	var/datum/computer_network/network = device.get_network()
 	if(E.experiment_id)
 		// This was a proper experiment.
 		// Find the experiment first.
-		var/datum/computer_file/data/experiment/experiment = file_source.get_file(E.experiment_id)
-		if(!istype(experiment))
-			for(var/datum/computer_file/data/experiment/e_file in network.get_all_files_of_type(/datum/computer_file/data/experiment, MF_ROLE_DESIGN, user))
-				if(e_file.id != E.experiment_id)
-					continue
-				experiment = e_file
-				break
+		var/datum/computer_file/data/experiment/experiment
+		for(var/datum/computer_file/data/experiment/e_file in file_source.get_all_files())
+			if(e_file.id != E.experiment_id)
+				continue
+			experiment = e_file
+			break
 		if(istype(experiment))
 			// This is the matching file.
 			if(!experiment.experiment_meets_prereqs(E))
 				to_chat(user, SPAN_WARNING("Experiment does not meet prerequisites to complete research."))
 				return FALSE
-			return experiment.finish(E)
+			return experiment.finish(E, user)
 		// We didn't find the matching file.
 		to_chat(user, SPAN_WARNING("Unable to find corresponding experiment. Was the file moved or deleted?"))
 		return FALSE
@@ -96,17 +93,18 @@
 		var/list/possible_recipes = list()
 		for(var/fab_type in SSfabrication.all_recipes)
 			for(var/datum/fabricator_recipe/recipe in SSfabrication.all_recipes[fab_type])
-				for(var/req_tech in recipe.required_technology)
-					if(!(req_tech in invention_technology))
+				var/tech_delta = 5 // Used to weight recipes depending on how close they are to the actual tech values of the recipe.
+				// Must be some correspondance between invention technology and required technology.
+				for(var/inv_tech in invention_technology)
+					if(!(inv_tech in recipe.required_technology))
 						continue
-					if(invention_technology[req_tech] < recipe.required_technology[req_tech])
-						continue
-					possible_recipes |= recipe
-		var/datum/fabricator_recipe/acquired_recipe = pick(possible_recipes)
+					tech_delta += recipe.required_technology[inv_tech]
+					possible_recipes[recipe] = tech_delta
+		var/datum/fabricator_recipe/acquired_recipe = pickweight(possible_recipes)
 		if(!istype(acquired_recipe))
 			to_chat(user, SPAN_NOTICE("\The [src] beeps and reports that no viable design was able to be made from the experiment."))
 			return TRUE // No matching recipes found
-		var/datum/computer_file/data/blueprint/BP = new(null, acquired_recipe)
+		var/datum/computer_file/data/blueprint/BP = new(null, acquired_recipe.path)
 		if(file_source.store_file(BP))
 			to_chat(user, SPAN_NOTICE("\The [src] pings and reports that through invention it managed to produce a blueprint for [acquired_recipe.name]."))
 			return TRUE
