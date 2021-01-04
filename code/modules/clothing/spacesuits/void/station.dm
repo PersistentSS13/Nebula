@@ -339,6 +339,7 @@
 		)
 	max_heat_protection_temperature = FIRE_HELMET_MAX_HEAT_PROTECTION_TEMPERATURE
 	max_pressure_protection = FIRESUIT_MAX_PRESSURE
+	allowed = list(/obj/item/flashlight,/obj/item/tank,/obj/item/suit_cooling_unit,/obj/item/storage/toolbox,/obj/item/storage/briefcase/inflatable,/obj/item/t_scanner,/obj/item/rcd)
 
 /obj/item/clothing/suit/space/void/atmos/alt/prepared
 	helmet = /obj/item/clothing/head/helmet/space/void/atmos/alt
