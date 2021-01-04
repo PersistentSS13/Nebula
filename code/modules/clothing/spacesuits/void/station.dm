@@ -314,11 +314,31 @@
 	name = "heavy duty atmospherics voidsuit helmet"
 	desc = "A voidsuit helmet plated with an expensive heat and radiation resistant ceramic."
 	icon = 'icons/clothing/spacesuit/void/atmos_alt/helmet.dmi'
+	armor = list(
+		melee = ARMOR_MELEE_RESISTANT,
+		bullet = ARMOR_BALLISTIC_SMALL,
+		laser = ARMOR_LASER_MINOR,
+		bomb = ARMOR_BOMB_PADDED,
+		bio = ARMOR_BIO_SHIELDED,
+		rad = ARMOR_RAD_RESISTANT
+		)
+	max_heat_protection_temperature = FIRE_HELMET_MAX_HEAT_PROTECTION_TEMPERATURE
+	max_pressure_protection = FIRESUIT_MAX_PRESSURE
 
 /obj/item/clothing/suit/space/void/atmos/alt
 	name = "heavy duty atmos voidsuit"
 	desc = "An expensive voidsuit, rated to withstand extreme heat and even minor radiation without exceeding room temperature within."
 	icon = 'icons/clothing/spacesuit/void/atmos_alt/suit.dmi'
+	armor = list(
+		melee = ARMOR_MELEE_RESISTANT,
+		bullet = ARMOR_BALLISTIC_SMALL,
+		laser = ARMOR_LASER_MINOR,
+		bomb = ARMOR_BOMB_PADDED,
+		bio = ARMOR_BIO_SHIELDED,
+		rad = ARMOR_RAD_RESISTANT
+		)
+	max_heat_protection_temperature = FIRE_HELMET_MAX_HEAT_PROTECTION_TEMPERATURE
+	max_pressure_protection = FIRESUIT_MAX_PRESSURE
 
 /obj/item/clothing/suit/space/void/atmos/alt/prepared
 	helmet = /obj/item/clothing/head/helmet/space/void/atmos/alt
