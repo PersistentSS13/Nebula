@@ -11,6 +11,9 @@
 	body_parts_covered = 0
 	bodytype_restricted = null
 	allowed = list (/obj/item/chems/spray/plantbgone,/obj/item/scanner/plant,/obj/item/seeds,/obj/item/chems/glass/bottle,/obj/item/minihoe)
+	matter = MAT_CLOTH
+	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	origin_tech = "{'materials':1,'engineering':1}"
 
 //Captain
 /obj/item/clothing/suit/captunic
@@ -19,6 +22,9 @@
 	icon = 'icons/clothing/suit/cap_tunic.dmi'
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_ARMS
 	flags_inv = HIDEJUMPSUIT
+	matter = MAT_CLOTH
+	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/captunic/capjacket
 	name = "captain's uniform jacket"
@@ -26,6 +32,9 @@
 	icon = 'icons/clothing/suit/cap_jacket.dmi'
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_ARMS
 	flags_inv = 0
+	matter = MAT_CLOTH
+	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	origin_tech = "{'materials':1,'engineering':1}"
 
 //Chaplain
 /obj/item/clothing/suit/chaplain_hoodie
@@ -33,6 +42,9 @@
 	desc = "This suit says to you 'hush'!"
 	icon = 'icons/clothing/suit/chaplain.dmi'
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_ARMS
+	matter = MAT_CLOTH
+	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	origin_tech = "{'materials':1,'engineering':1}"
 
 //Chaplain
 /obj/item/clothing/suit/nun
@@ -41,6 +53,9 @@
 	icon = 'icons/clothing/suit/nun.dmi'
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_ARMS
 	flags_inv = HIDESHOES|HIDEJUMPSUIT
+	matter = MAT_CLOTH
+	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	origin_tech = "{'materials':1,'engineering':1}"
 
 //Chef
 /obj/item/clothing/suit/chef
@@ -51,6 +66,9 @@
 	permeability_coefficient = 0.50
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_ARMS
 	allowed = list (/obj/item/knife)
+	matter = MAT_CLOTH
+	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	origin_tech = "{'materials':1,'engineering':1}"
 
 //Chef
 /obj/item/clothing/suit/chef/classic
@@ -60,6 +78,9 @@
 	bodytype_restricted = null
 	blood_overlay_type = "armor"
 	body_parts_covered = 0
+	matter = MAT_CLOTH
+	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	origin_tech = "{'materials':1,'engineering':1}"
 
 //Detective
 /obj/item/clothing/suit/storage/det_trench
@@ -76,6 +97,12 @@
 		laser = ARMOR_LASER_SMALL,
 		energy = ARMOR_ENERGY_MINOR
 		)
+	origin_tech = "{'materials':2, 'engineering':2}"
+	material = MAT_CLOTH
+	matter = list(
+		MAT_STEEL = MATTER_AMOUNT_REINFORCEMENT,
+		MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT
+	)
 
 /obj/item/clothing/suit/storage/det_trench/ft/
 	desc = "A rugged canvas trenchcoat, designed and created by TX Fabrication Corp. This one wouldn't block much of anything."
@@ -98,6 +125,12 @@
 		laser = ARMOR_LASER_MINOR,
 		energy = ARMOR_ENERGY_MINOR
 		)
+	origin_tech = "{'materials':2, 'engineering':2}"
+	material = MAT_CLOTH
+	matter = list(
+		MAT_SILVER = MATTER_AMOUNT_REINFORCEMENT,
+		MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT
+	)
 
 /obj/item/clothing/suit/storage/forensics/red
 	name = "red jacket"
@@ -120,6 +153,11 @@
 	/obj/item/crowbar, /obj/item/screwdriver, /obj/item/weldingtool, /obj/item/wirecutters, /obj/item/wrench, /obj/item/tank/emergency, \
 	/obj/item/clothing/mask/gas, /obj/item/taperoll/engineering)
 	body_parts_covered = SLOT_UPPER_BODY
+	origin_tech = "{'materials':1, 'engineering':1}"
+	material = MAT_CLOTH
+	matter = list(
+		MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT
+	)
 
 /obj/item/clothing/suit/storage/hazardvest/green
 	name = "green hazard vest"
@@ -155,6 +193,11 @@
 	allowed = list(/obj/item/stack/medical, /obj/item/chems/dropper, /obj/item/chems/hypospray, /obj/item/chems/syringe, \
 	/obj/item/scanner/health, /obj/item/flashlight, /obj/item/radio, /obj/item/tank/emergency, /obj/item/chems/ivbag)
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_ARMS
+	origin_tech = "{'materials':1, 'engineering':1}"
+	material = MAT_CLOTH
+	matter = list(
+		MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT
+	)
 
 /obj/item/clothing/suit/storage/toggle/fr_jacket/ems
 	name = "\improper EMS jacket"
@@ -169,6 +212,11 @@
 	allowed = list(/obj/item/stack/medical, /obj/item/chems/dropper, /obj/item/chems/hypospray, /obj/item/chems/syringe, \
 	/obj/item/scanner/health, /obj/item/flashlight, /obj/item/radio, /obj/item/tank/emergency, /obj/item/chems/ivbag,/obj/item/clothing/head/hardhat/EMS)
 	body_parts_covered = SLOT_UPPER_BODY
+	origin_tech = "{'materials':1, 'engineering':1}"
+	material = MAT_CLOTH
+	matter = list(
+		MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT
+	)
 
 /obj/item/clothing/suit/surgicalapron
 	name = "surgical apron"
@@ -179,3 +227,8 @@
 	allowed = list(/obj/item/stack/medical, /obj/item/chems/dropper, /obj/item/chems/hypospray, /obj/item/chems/syringe, \
 	/obj/item/scanner/health, /obj/item/flashlight, /obj/item/radio, /obj/item/tank/emergency,/obj/item/scalpel,/obj/item/retractor,/obj/item/hemostat, \
 	/obj/item/cautery,/obj/item/bonegel,/obj/item/sutures)
+	origin_tech = "{'materials':1, 'engineering':1}"
+	material = MAT_CLOTH
+	matter = list(
+		MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT
+	)

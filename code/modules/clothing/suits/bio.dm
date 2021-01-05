@@ -12,6 +12,13 @@
 	item_flags = ITEM_FLAG_THICKMATERIAL
 	body_parts_covered = SLOT_HEAD|SLOT_FACE|SLOT_EYES
 	siemens_coefficient = 0.9
+	origin_tech = "{'materials':3, 'engineering':3}"
+	material = MAT_CLOTH
+	matter = list(
+		MAT_PLASTIC = MATTER_AMOUNT_REINFORCEMENT,
+		MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT,
+		MAT_SILVER = MATTER_AMOUNT_REINFORCEMENT
+	)
 
 /obj/item/clothing/suit/bio_suit
 	name = "bio suit"
@@ -29,6 +36,14 @@
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT|HIDETAIL
 	item_flags = ITEM_FLAG_THICKMATERIAL
 	siemens_coefficient = 0.9
+	origin_tech = "{'materials':3, 'engineering':3}"
+	material = MAT_CLOTH
+	matter = list(
+		MAT_PLASTIC = MATTER_AMOUNT_REINFORCEMENT,
+		MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT,
+		MAT_SILVER = MATTER_AMOUNT_REINFORCEMENT
+	)
+
 
 /obj/item/clothing/suit/bio_suit/Initialize()
 	. = ..()
@@ -79,3 +94,9 @@
 	desc = "It protected doctors from the Black Death, back then. You bet your arse it's gonna help you against space plague."
 	icon = 'icons/clothing/suit/biosuit/plague.dmi'
 	flags_inv = HIDEGLOVES|HIDEJUMPSUIT|HIDETAIL
+	origin_tech = "{'materials':2, 'engineering':2}"
+	material = MAT_CLOTH
+	matter = list(
+		MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT,
+		MAT_SILVER = MATTER_AMOUNT_REINFORCEMENT
+	)
