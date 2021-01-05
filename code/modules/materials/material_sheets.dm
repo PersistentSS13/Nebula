@@ -446,6 +446,9 @@
 	material = /decl/material/solid/leather
 	material_flags = USE_MATERIAL_SINGULAR_NAME|USE_MATERIAL_PLURAL_NAME
 
+/obj/item/stack/material/leather/ten
+	amount = 10
+
 /obj/item/stack/material/glass
 	name = "glass"
 	icon_state = "sheet-clear"
