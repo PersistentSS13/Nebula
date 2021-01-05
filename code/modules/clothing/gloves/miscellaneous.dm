@@ -3,6 +3,7 @@
 	name = "captain's gloves"
 	icon_state = "captain"
 	item_state = "egloves"
+	material = /decl/material/solid/cloth
 
 /obj/item/clothing/gloves/insulated
 	desc = "These gloves will protect the wearer from electric shocks."

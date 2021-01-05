@@ -11,59 +11,58 @@
 	valid_accessory_slots = list(ACCESSORY_SLOT_ARMBAND)
 	restricted_accessory_slots = list(ACCESSORY_SLOT_ARMBAND)
 	markings_icon = "_marking"
-	matter = MAT_CLOTH
-	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/cloth
+	matter = list(/decl/material/solid/silver = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/storage/toggle/labcoat/cmo
 	name = "chief medical officer's labcoat"
 	color = COLOR_BABY_BLUE
-	matter = MAT_CLOTH
-	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/cloth
+	matter = list(/decl/material/solid/silver = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/storage/toggle/labcoat/cmoalt
 	name = "chief medical officer labcoat"
 	desc = "A labcoat with command blue highlights."
 	icon = 'icons/clothing/suit/labcoat/cmo.dmi'
-	matter = MAT_CLOTH
-	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/cloth
+	matter = list(/decl/material/solid/silver = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/storage/toggle/labcoat/mad
 	name = "The Mad's labcoat"
 	desc = "It makes you look capable of konking someone on the noggin and shooting them into space."
 	color = COLOR_GREEN
-	matter = MAT_CLOTH
-	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/cloth
+	matter = list(/decl/material/solid/silver = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/storage/toggle/labcoat/chemist
 	name = "pharmacist labcoat"
 	markings_color  = COLOR_SEDONA
-	matter = MAT_CLOTH
-	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/cloth
+	matter = list(/decl/material/solid/silver = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/storage/toggle/labcoat/genetics
 	name = "geneticist labcoat"
 	markings_color  = COLOR_BLUE_LIGHT
-	matter = MAT_CLOTH
-	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/cloth
+	matter = list(/decl/material/solid/silver = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/storage/toggle/labcoat/virologist
 	name = "virologist labcoat"
 	markings_color  = COLOR_GREEN
-	matter = MAT_CLOTH
-	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/cloth
+	matter = list(/decl/material/solid/silver = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/storage/toggle/labcoat/blue
 	name = "blue-edged labcoat"
 	icon = 'icons/clothing/suit/labcoat/blue_edge.dmi'
-	matter = MAT_CLOTH
-	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/cloth
 	origin_tech = "{'materials':1,'engineering':1}"
 
 
@@ -71,16 +70,14 @@
 	name = "coat"
 	desc = "A cozy overcoat."
 	color = "#292929"
-	matter = MAT_CLOTH
-	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/cloth
 	origin_tech = "{'materials':1,'engineering':1}"
 
 
 /obj/item/clothing/suit/storage/toggle/labcoat/science
 	name = "researcher labcoat"
 	markings_color = COLOR_BOTTLE_GREEN
-	matter = MAT_CLOTH
-	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/cloth
 	origin_tech = "{'materials':1,'engineering':1}"
 
 
@@ -91,8 +88,7 @@
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_ARMS
 	markings_color = COLOR_BOTTLE_GREEN
 	markings_icon = "_marking"
-	matter = MAT_CLOTH
-	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/cloth
 	origin_tech = "{'materials':1,'engineering':1}"
 
 	

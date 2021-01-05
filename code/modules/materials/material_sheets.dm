@@ -419,6 +419,12 @@
 	icon_state = "sheet-cloth"
 	material = /decl/material/solid/cloth
 
+/obj/item/stack/material/cloth/ten
+	name = "cloth"
+	icon_state = "sheet-cloth"
+	material = /decl/material/solid/cloth
+	amount = 10 
+
 /obj/item/stack/material/cardboard
 	name = "cardboard"
 	icon_state = "sheet-card"
