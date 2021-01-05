@@ -35,7 +35,7 @@
 	desc = "It makes you look capable of konking someone on the noggin and shooting them into space."
 	color = COLOR_GREEN
 	material = /decl/material/solid/cloth
-	matter = list(/decl/material/solid/silver = MATTER_AMOUNT_TRACE)
+	matter = list(/decl/material/solid/metal/silver = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/storage/toggle/labcoat/chemist

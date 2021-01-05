@@ -391,8 +391,7 @@
 	max_pressure_protection = FIRESUIT_MAX_PRESSURE
 	min_pressure_protection = 0
 	material = /decl/material/solid/cloth
-	matter list(/decl/material/solid/metal/gold = MATTER_AMOUNT_TRACE)
-	origin_tech = "{'materials':1,'engineering':1}"
+	matter = list(/decl/material/solid/metal/gold = MATTER_AMOUNT_TRACE)
 
 /obj/item/clothing/suit/santa
 	name = "Santa's suit"

@@ -144,7 +144,7 @@
 	body_parts_covered = SLOT_HEAD
 	siemens_coefficient = 0.9
 	material = /decl/material/solid/cloth
-	matter = list(/decl/material/solid/steel = MATTER_AMOUNT_REINFORCEMENT)
+	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT)
 	origin_tech = "{'materials':2,'engineering':2}"
 
 /obj/item/clothing/suit/chem_suit
