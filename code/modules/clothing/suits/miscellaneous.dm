@@ -276,7 +276,7 @@
 	icon = 'icons/clothing/suit/hoodie.dmi'
 	min_cold_protection_temperature = T0C - 20
 	cold_protection = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_ARMS
-	matter = /decl/material/solid/cloth
+	material = /decl/material/solid/cloth
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/storage/toggle/hoodie/black

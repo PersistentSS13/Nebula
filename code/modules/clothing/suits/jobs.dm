@@ -30,7 +30,7 @@
 	icon = 'icons/clothing/suit/cap_jacket.dmi'
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_ARMS
 	flags_inv = 0
-	matter = /decl/material/solid/cloth
+	material = /decl/material/solid/cloth
 	origin_tech = "{'materials':1,'engineering':1}"
 
 //Chaplain
