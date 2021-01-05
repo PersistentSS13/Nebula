@@ -30,8 +30,7 @@
 	icon = 'icons/clothing/suit/cap_jacket.dmi'
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_ARMS
 	flags_inv = 0
-	matter = MAT_CLOTH
-	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT)
+	matter = /decl/material/solid/cloth
 	origin_tech = "{'materials':1,'engineering':1}"
 
 //Chaplain
@@ -93,9 +92,7 @@
 		)
 	origin_tech = "{'materials':2, 'engineering':2}"
 	material = /decl/material/solid/cloth
-	matter = list(
-		/decl/material/solid/steel = MATTER_AMOUNT_REINFORCEMENT,
-	)
+	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT)
 
 /obj/item/clothing/suit/storage/det_trench/ft/
 	desc = "A rugged canvas trenchcoat, designed and created by TX Fabrication Corp. This one wouldn't block much of anything."
@@ -120,9 +117,7 @@
 		)
 	origin_tech = "{'materials':2, 'engineering':2}"
 	material = /decl/material/solid/cloth
-	matter = list(
-		/decl/material/solid/silver = MATTER_AMOUNT_REINFORCEMENT,
-	)
+	matter = list(/decl/material/solid/metal/silver = MATTER_AMOUNT_REINFORCEMENT)
 
 /obj/item/clothing/suit/storage/forensics/red
 	name = "red jacket"

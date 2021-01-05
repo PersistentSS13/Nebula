@@ -12,14 +12,14 @@
 	restricted_accessory_slots = list(ACCESSORY_SLOT_ARMBAND)
 	markings_icon = "_marking"
 	material = /decl/material/solid/cloth
-	matter = list(/decl/material/solid/silver = MATTER_AMOUNT_TRACE)
+	matter = list(/decl/material/solid/metal/silver = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/storage/toggle/labcoat/cmo
 	name = "chief medical officer's labcoat"
 	color = COLOR_BABY_BLUE
 	material = /decl/material/solid/cloth
-	matter = list(/decl/material/solid/silver = MATTER_AMOUNT_TRACE)
+	matter = list(/decl/material/solid/metal/silver = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/storage/toggle/labcoat/cmoalt
@@ -27,7 +27,7 @@
 	desc = "A labcoat with command blue highlights."
 	icon = 'icons/clothing/suit/labcoat/cmo.dmi'
 	material = /decl/material/solid/cloth
-	matter = list(/decl/material/solid/silver = MATTER_AMOUNT_TRACE)
+	matter = list(/decl/material/solid/metal/silver = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/storage/toggle/labcoat/mad
@@ -42,21 +42,21 @@
 	name = "pharmacist labcoat"
 	markings_color  = COLOR_SEDONA
 	material = /decl/material/solid/cloth
-	matter = list(/decl/material/solid/silver = MATTER_AMOUNT_TRACE)
+	matter = list(/decl/material/solid/metal/silver = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/storage/toggle/labcoat/genetics
 	name = "geneticist labcoat"
 	markings_color  = COLOR_BLUE_LIGHT
 	material = /decl/material/solid/cloth
-	matter = list(/decl/material/solid/silver = MATTER_AMOUNT_TRACE)
+	matter = list(/decl/material/solid/metal/silver = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/storage/toggle/labcoat/virologist
 	name = "virologist labcoat"
 	markings_color  = COLOR_GREEN
 	material = /decl/material/solid/cloth
-	matter = list(/decl/material/solid/silver = MATTER_AMOUNT_TRACE)
+	matter = list(/decl/material/solid/metal/silver = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/storage/toggle/labcoat/blue

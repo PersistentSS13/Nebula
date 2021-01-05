@@ -151,7 +151,7 @@
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_FEET|SLOT_ARMS|SLOT_HANDS
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT|HIDETAIL
 	material = /decl/material/solid/cloth
-	matter = list(/decl/material/solid/steel = MATTER_AMOUNT_TRACE)
+	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/straight_jacket/equipped(var/mob/user, var/slot)
@@ -391,7 +391,7 @@
 	max_pressure_protection = FIRESUIT_MAX_PRESSURE
 	min_pressure_protection = 0
 	material = /decl/material/solid/cloth
-	matter list(/decl/material/solid/gold = MATTER_AMOUNT_TRACE)
+	matter list(/decl/material/solid/metal/gold = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/santa
@@ -402,5 +402,5 @@
 	max_pressure_protection = FIRESUIT_MAX_PRESSURE
 	min_pressure_protection = 0
 	material = /decl/material/solid/cloth
-	matter = list(/decl/material/solid/gold = MATTER_AMOUNT_TRACE)
+	matter = list(/decl/material/solid/metal/gold = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1}"

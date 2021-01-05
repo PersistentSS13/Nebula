@@ -14,8 +14,7 @@
 	siemens_coefficient = 0.9
 	origin_tech = "{'materials':3, 'engineering':3}"
 	material = /decl/material/solid/cloth
-	matter = list(
-		/decl/material/solid/silver = MATTER_AMOUNT_REINFORCEMENT)
+	matter = list(/decl/material/solid/metal/silver = MATTER_AMOUNT_REINFORCEMENT)
 
 /obj/item/clothing/suit/bio_suit
 	name = "bio suit"
@@ -35,7 +34,7 @@
 	siemens_coefficient = 0.9
 	origin_tech = "{'materials':3, 'engineering':3}"
 	material = /decl/material/solid/cloth
-	matter = list(/decl/material/solid/silver = MATTER_AMOUNT_REINFORCEMENT)
+	matter = list(/decl/material/solid/metal/silver = MATTER_AMOUNT_REINFORCEMENT)
 
 
 /obj/item/clothing/suit/bio_suit/Initialize()
@@ -89,5 +88,4 @@
 	flags_inv = HIDEGLOVES|HIDEJUMPSUIT|HIDETAIL
 	origin_tech = "{'materials':2, 'engineering':2}"
 	material = /decl/material/solid/cloth
-	matter = list(
-		/decl/material/solid/silver = MATTER_AMOUNT_REINFORCEMENT)
+	matter = list(/decl/material/solid/metal/silver = MATTER_AMOUNT_REINFORCEMENT)

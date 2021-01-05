@@ -29,7 +29,7 @@
 	max_pressure_protection = FIRESUIT_MAX_PRESSURE
 	max_heat_protection_temperature = FIRESUIT_MAX_HEAT_PROTECTION_TEMPERATURE
 	material = /decl/material/solid/cloth
-	matter = list(/decl/material/solid/steel)
+	matter = list(/decl/material/solid/metal/steel)
 	origin_tech = "{'materials':2,'engineering':2}"
 
 /obj/item/clothing/suit/fire/Initialize()
@@ -100,8 +100,8 @@
 		bio = ARMOR_BIO_RESISTANT, 
 		rad = ARMOR_RAD_SHIELDED
 		)
-	matter = /decl/material/solid/cloth
-	matter = list(/decl/material/solid/steel = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/cloth
+	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT)
 	origin_tech = "{'materials':2,'engineering':2}"
 
 /obj/item/clothing/suit/radiation
@@ -118,8 +118,8 @@
 		rad = ARMOR_RAD_SHIELDED
 		)
 	flags_inv = HIDEJUMPSUIT|HIDETAIL|HIDEGLOVES|HIDESHOES
-	matter = /decl/material/solid/cloth
-	matter = list(/decl/material/solid/steel = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/cloth
+	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT)
 	origin_tech = "{'materials':2,'engineering':2}"
 
 /obj/item/clothing/suit/radiation/Initialize()
@@ -143,9 +143,8 @@
 	item_flags = ITEM_FLAG_THICKMATERIAL
 	body_parts_covered = SLOT_HEAD
 	siemens_coefficient = 0.9
-	matter = MAT_PLASTIC
-	matter = list(MAT_CLOTH = MATTER_AMOUNT_REINFORCEMENT,
-	MAT_STEEL = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/cloth
+	matter = list(/decl/material/solid/steel = MATTER_AMOUNT_REINFORCEMENT)
 	origin_tech = "{'materials':2,'engineering':2}"
 
 /obj/item/clothing/suit/chem_suit
@@ -164,7 +163,6 @@
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT|HIDETAIL
 	item_flags = ITEM_FLAG_THICKMATERIAL
 	siemens_coefficient = 0.9
-	matter = /decl/material/solid/cloth
-	matter = list(/decl/material/solid/steel = MATTER_AMOUNT_REINFORCEMENT,
-	MAT_STEEL = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/cloth
+	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT)
 	origin_tech = "{'materials':2,'engineering':2}"
