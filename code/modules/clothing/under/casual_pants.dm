@@ -42,8 +42,7 @@
 	name = "young folks jeans"
 	desc = "For those tired of boring old jeans. Relive the passion of your youth!"
 	icon_state = "jeansyoungfolks"
-	material = /decl/material/solid/cloth)
-	origin_tech = "{'materials':1,'engineering':1}"
+	material = /decl/material/solid/cloth
 
 /obj/item/clothing/under/casual_pants/track
 	name = "track pants"
