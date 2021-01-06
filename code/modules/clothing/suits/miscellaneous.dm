@@ -115,7 +115,7 @@
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_ARMS|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_FEET|SLOT_HANDS
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT
 	siemens_coefficient = 2.0
-	material = /decl/material/solid/leather/fur
+	material = /decl/material/solid/leather
 	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/holidaypriest
