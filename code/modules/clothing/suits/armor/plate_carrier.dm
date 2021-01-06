@@ -19,6 +19,22 @@
 
 /obj/item/clothing/suit/armor/pcarrier/blue
 	color = COLOR_BABY_BLUE
+	material = /decl/material/solid/leather
 
 /obj/item/clothing/suit/armor/pcarrier/tan
 	color = COLOR_TAN
+	material = /decl/material/solid/leather
+
+// No ACC variants cause no thats not fair
+
+/obj/item/clothing/suit/armor/pcarrier/light/noacc
+	material = /decl/material/solid/leather
+
+/obj/item/clothing/suit/armor/pcarrier/light/press/noacc
+	color = COLOR_BABY_BLUE
+	starting_accessories = list(/obj/item/clothing/accessory/armor/tag/press)
+	material = /decl/material/solid/leather
+
+/obj/item/clothing/suit/armor/pcarrier/medium/noacc
+	starting_accessories = list(/obj/item/clothing/accessory/storage/pouches)
+	material = /decl/material/solid/leather

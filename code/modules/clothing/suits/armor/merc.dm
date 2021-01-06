@@ -14,6 +14,8 @@
 		bomb = ARMOR_BOMB_PADDED
 		)
 	slowdown = 0.5
+	material = /decl/material/solid/metal/titanium
+	matter = list(/decl/material/solid/metal/diamond = MATTER_AMOUNT_REINFORCEMENT)
 	
 /obj/item/clothing/accessory/armguards/merc
 	name = "heavy arm guards"
@@ -27,6 +29,7 @@
 		bomb = ARMOR_BOMB_PADDED
 		)
 	color = null
+	material = /decl/material/solid/metal/titanium
 	
 /obj/item/clothing/accessory/legguards/merc
 	name = "heavy leg guards"
@@ -40,3 +43,4 @@
 		energy = ARMOR_ENERGY_RESISTANT,
 		bomb = ARMOR_BOMB_PADDED
 		)
+	material = /decl/material/solid/metal/titanium

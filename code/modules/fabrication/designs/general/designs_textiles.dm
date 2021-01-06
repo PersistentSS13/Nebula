@@ -324,3 +324,74 @@
 /datum/fabricator_recipe/textiles/pants/jean/camo
 	path = /obj/item/clothing/under/casual_pants/camo
 
+/datum/fabricator_recipe/textiles/mantle
+	path = /obj/item/clothing/suit/fated
+
+/datum/fabricator_recipe/textiles/suit/robe
+	path = /obj/item/clothing/suit/robe
+
+/datum/fabricator_recipe/textiles/xeno
+	path = /obj/item/clothing/head/xeno/scarf
+
+/datum/fabricator_recipe/textiles/cape
+	path = /obj/item/clothing/accessory/shouldercape
+
+/datum/fabricator_recipe/textiles/cape/grunt
+	path = /obj/item/clothing/accessory/shouldercape/grunt
+
+/datum/fabricator_recipe/textiles/cape/officer
+	path = /obj/item/clothing/accessory/shouldercape/officer
+
+/datum/fabricator_recipe/textiles/cape/command
+	path = /obj/item/clothing/accessory/shouldercape/command
+
+/datum/fabricator_recipe/textiles/cape/general
+	path = /obj/item/clothing/accessory/shouldercape/general
+
+/datum/fabricator_recipe/textiles/armor/merc/armguards
+	path = /obj/item/clothing/accessory/armguards/merc
+
+/datum/fabricator_recipe/textiles/armor/merc/legguards
+	path = /obj/item/clothing/accessory/legguards/merc
+
+/datum/fabricator_recipe/textiles/armor/merc/plates
+	path = /obj/item/clothing/accessory/armorplate/merc
+
+/datum/fabricator_recipe/textiles/armor/bullet/carrier
+	path = /obj/item/clothing/suit/armor/bulletproof/noacc
+
+/datum/fabricator_recipe/textiles/armor/bullet/armguards
+	path = /obj/item/clothing/accessory/armguards/ballistic
+
+/datum/fabricator_recipe/textiles/armor/bullet/legguards
+	path = /obj/item/clothing/accessory/legguards/ballistic
+
+/datum/fabricator_recipe/textiles/armor/merc/plates
+	path = /obj/item/clothing/accessory/armorplate/merc
+
+/datum/fabricator_recipe/textiles/armor/bullet/carrier
+	path = /obj/item/clothing/suit/armor/bulletproof/noacc
+
+/datum/fabricator_recipe/textiles/armor/carrier/blue
+	path = /obj/item/clothing/suit/armor/pcarrier/blue
+
+/datum/fabricator_recipe/textiles/armor/carrier/tan
+	path = /obj/item/clothing/suit/armor/pcarrier/tan
+
+/datum/fabricator_recipe/textiles/armor/carrier/light
+	path = /obj/item/clothing/suit/armor/pcarrier/light/noacc
+
+/datum/fabricator_recipe/textiles/armor/carrier/press
+	path = /obj/item/clothing/suit/armor/pcarrier/light/press/noacc
+
+/datum/fabricator_recipe/textiles/armor/carrier/medium
+	path = /obj/item/clothing/suit/armor/pcarrier/medium/noacc
+
+/datum/fabricator_recipe/textiles/armor/carrier/press
+	path = /obj/item/clothing/suit/armor/pcarrier/light/press/noacc
+
+/datum/fabricator_recipe/textiles/armor/carrier/warden
+	path = /obj/item/clothing/suit/armor/warden
+
+/datum/fabricator_recipe/textiles/armor/carrier/detective
+	path = /obj/item/clothing/suit/armor/pcarrier/detective/noacc
