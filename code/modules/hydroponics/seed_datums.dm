@@ -13,7 +13,7 @@
 	set_trait(TRAIT_YIELD,6)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"wheat")
-	set_trait(TRAIT_PRODUCT_COLOUR, "#E6E0B1")
+	set_trait(TRAIT_PRODUCT_COLOUR, "#ffffff")
 	set_trait(TRAIT_PLANT_ICON,"bush2")
 	set_trait(TRAIT_IDEAL_LIGHT, 6)
 
