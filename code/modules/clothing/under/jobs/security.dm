@@ -18,6 +18,7 @@
 		melee = ARMOR_MELEE_SMALL
 		)
 	siemens_coefficient = 0.9
+	material = /decl/material/solid/metal/steel
 
 /obj/item/clothing/head/warden
 	name = "warden's hat"
@@ -35,6 +36,7 @@
 		melee = ARMOR_MELEE_SMALL
 		)
 	siemens_coefficient = 0.9
+	material = /decl/material/solid/metal/steel
 
 /obj/item/clothing/under/rank/dispatch
 	name = "dispatcher's uniform"
@@ -46,6 +48,7 @@
 		)
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS
 	siemens_coefficient = 0.9
+	material = /decl/material/solid/metal/steel
 
 /obj/item/clothing/under/rank/security2
 	name = "security officer's uniform"
@@ -57,6 +60,7 @@
 		melee = ARMOR_MELEE_SMALL
 		)
 	siemens_coefficient = 0.9
+	material = /decl/material/solid/metal/steel
 
 /obj/item/clothing/under/tactical
 	name = "tactical jumpsuit"
@@ -68,6 +72,7 @@
 		melee = ARMOR_MELEE_SMALL
 		)
 	siemens_coefficient = 0.9
+	material = /decl/material/solid/metal/steel
 
 /*
  * Detective
@@ -84,6 +89,8 @@
 		)
 	siemens_coefficient = 0.9
 	starting_accessories = list(/obj/item/clothing/accessory/blue_clip)
+	material = /decl/material/solid/leather
+	matter = list(/decl/material/solid/metal/steel = MATERIAL_AMOUNT_TRACE)
 
 /obj/item/clothing/under/det/grey
 	icon_state = "detective2"
@@ -91,6 +98,8 @@
 	gender_icons = 1
 	desc = "A serious-looking tan dress shirt paired with freshly-pressed black slacks."
 	starting_accessories = list(/obj/item/clothing/accessory/red_long)
+	material = /decl/material/solid/leather
+	matter = list(/decl/material/solid/metal/steel = MATERIAL_AMOUNT_TRACE)
 
 /obj/item/clothing/under/det/black
 	icon_state = "detective3"
@@ -99,6 +108,8 @@
 	gender_icons = 1
 	desc = "An immaculate white dress shirt, paired with a pair of dark grey dress pants, a red tie, and a charcoal vest."
 	starting_accessories = list(/obj/item/clothing/accessory/red_long, /obj/item/clothing/accessory/toggleable/vest)
+	material = /decl/material/solid/leather
+	matter = list(/decl/material/solid/metal/steel = MATERIAL_AMOUNT_TRACE)
 
 /obj/item/clothing/head/det
 	name = "fedora"
@@ -114,6 +125,8 @@
 	flags_inv = BLOCKHEADHAIR
 	markings_icon = "band"
 	markings_color = "#b2977c"
+	material = /decl/material/solid/leather
+	matter = list(/decl/material/solid/metal/steel = MATERIAL_AMOUNT_REINFORCEMENT)
 
 /obj/item/clothing/head/det/attack_self(mob/user)
 	flags_inv ^= BLOCKHEADHAIR
@@ -124,11 +137,13 @@
 	color = COLOR_GRAY40
 	markings_color = COLOR_SILVER
 	desc = "A grey fedora - either the cornerstone of a detective's style or a poor attempt at looking cool, depending on the person wearing it."
+	material = /decl/material/solid/leather
 
 /obj/item/clothing/head/det/wack
 	color = COLOR_VIOLET
 	markings_color = COLOR_YELLOW
 	desc = "A colorful fedora - either the cornerstone of a detective's style or a poor attempt at looking disco, depending on the person wearing it."
+	material = /decl/material/solid/leather
 
 /*
  * Head of Security
@@ -143,6 +158,8 @@
 		melee = ARMOR_MELEE_SMALL
 		)
 	siemens_coefficient = 0.8
+	material = /decl/material/solid/leather
+	matter = list(/decl/material/solid/metal/steel = MATERIAL_AMOUNT_TRACE)
 
 /obj/item/clothing/head/HoS
 	name = "Head of Security Hat"
@@ -150,6 +167,7 @@
 	icon = 'icons/clothing/head/hos.dmi'
 	body_parts_covered = 0
 	siemens_coefficient = 0.8
+	material = /decl/material/solid/leather
 
 /obj/item/clothing/suit/armor/hos
 	name = "armored coat"
@@ -165,6 +183,9 @@
 		)
 	flags_inv = HIDEJUMPSUIT
 	siemens_coefficient = 0.6
+	material = /decl/material/solid/titanium
+	matter = list(/decl/material/solid/metal/steel = MATERIAL_AMOUNT_REINFORCEMENT,
+	/decl/material/solid/gemstone/diamond = MATERIAL_AMOUNT_REINFORCEMENT)
 
 //Jensen cosplay gear
 /obj/item/clothing/under/rank/head_of_security/jensen
@@ -174,6 +195,7 @@
 	item_state = "jensen"
 	worn_state = "jensen"
 	siemens_coefficient = 0.6
+	material = /decl/material/solid/metal/steel
 
 /obj/item/clothing/suit/armor/hos/jensen
 	name = "armored trenchcoat"
@@ -181,3 +203,6 @@
 	icon = 'icons/clothing/suit/jensen.dmi'
 	flags_inv = 0
 	siemens_coefficient = 0.6
+	material = /decl/material/solid/titanium
+	matter = list(/decl/material/solid/metal/steel = MATERIAL_AMOUNT_REINFORCEMENT,
+	/decl/material/solid/gemstone/diamond = MATERIAL_AMOUNT_REINFORCEMENT)

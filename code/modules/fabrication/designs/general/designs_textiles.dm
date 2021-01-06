@@ -413,3 +413,55 @@
 
 /datum/fabricator_recipe/textiles/shirts/syndicate/tactical
 	path = /obj/item/clothing/under/syndicate/tacticool
+
+// sec gear spliting it so its easier to find for myself
+
+/datum/fabricator_recipe/textiles/suit/security/warden
+	path = /obj/item/clothing/under/rank/warden
+
+/datum/fabricator_recipe/textiles/suit/security/securityofficer
+	path = /obj/item/clothing/under/rank/security
+
+/datum/fabricator_recipe/textiles/suit/security/dispatch
+	path = /obj/item/clothing/under/rank/dispatch
+
+/datum/fabricator_recipe/textiles/suit/security/securityalt
+	path = /obj/item/clothing/under/rank/security2
+
+/datum/fabricator_recipe/textiles/suit/security/tacticalofficer
+	path = /obj/item/clothing/under/tactical
+
+/datum/fabricator_recipe/textiles/suit/detective/baseline
+	path = /obj/item/clothing/under/det
+
+/datum/fabricator_recipe/textiles/suit/detective/grey
+	path = /obj/item/clothing/under/det/grey
+
+/datum/fabricator_recipe/textiles/suit/detective/black
+	path = /obj/item/clothing/under/det/black
+	
+/datum/fabricator_recipe/textiles/hat/detective/base
+	path = /obj/item/clothing/head/det
+
+/datum/fabricator_recipe/textiles/hat/detective/grey
+	path = /obj/item/clothing/head/det/grey
+
+/datum/fabricator_recipe/textiles/hat/detective/wack
+	path = /obj/item/clothing/head/det/wack
+
+// actual armor
+
+/datum/fabricator_recipe/textiles/armor/hos
+	path = /obj/item/clothing/suit/armor/hos
+
+/datum/fabricator_recipe/textiles/hat/security/hos
+	path = /obj/item/clothing/head/HoS
+
+/datum/fabricator_recipe/textiles/suit/security/hos
+	path = /obj/item/clothing/under/rank/head_of_security
+
+/datum/fabricator_recipe/textiles/hat/security/jensen
+	path = /obj/item/clothing/under/rank/head_of_security/jensen
+
+/datum/fabricator_recipe/textiles/suit/security/jensencoat
+	path = /obj/item/clothing/suit/armor/hos/jensen
