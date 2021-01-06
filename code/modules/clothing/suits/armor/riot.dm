@@ -32,6 +32,8 @@
 		)
 	siemens_coefficient = 0.5
 	slowdown = 1
+	material = /decl/material/solid/metal/steel
+	matter = list(/decl/material/solid/metal/titanium)
 	
 /obj/item/clothing/accessory/armguards/riot
 	name = "riot arm guards"
@@ -46,3 +48,25 @@
 		)
 	color = null
 	siemens_coefficient = 0.5
+	material = /decl/material/solid/metal/steel
+	matter = list(/decl/material/solid/metal/titanium)
+
+// no accessory
+	/obj/item/clothing/suit/armor/riot
+	name = "riot vest"
+	desc = "An armored vest with heavy padding to protect against melee attacks."
+	icon_state = ICON_STATE_WORLD
+	icon = 'icons/clothing/suit/armor/riot.dmi'
+	valid_accessory_slots = list(ACCESSORY_SLOT_INSIGNIA, ACCESSORY_SLOT_ARMOR_A, ACCESSORY_SLOT_ARMOR_L)
+	restricted_accessory_slots = list(ACCESSORY_SLOT_INSIGNIA, ACCESSORY_SLOT_ARMOR_A, ACCESSORY_SLOT_ARMOR_L)
+	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY
+	armor = list(
+		melee = ARMOR_MELEE_VERY_HIGH,
+		bullet = ARMOR_BALLISTIC_SMALL,
+		laser = ARMOR_LASER_SMALL,
+		energy = ARMOR_ENERGY_MINOR,
+		bomb = ARMOR_BOMB_PADDED
+		)
+	siemens_coefficient = 0.5
+	material = /decl/material/solid/metal/steel
+	matter = list(/decl/material/solid/metal/titanium)	

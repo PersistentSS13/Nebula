@@ -395,3 +395,12 @@
 
 /datum/fabricator_recipe/textiles/armor/carrier/detective
 	path = /obj/item/clothing/suit/armor/pcarrier/detective/noacc
+
+/datum/fabricator_recipe/textiles/armor/riot/legguards
+	path = /obj/item/clothing/accessory/legguards/riot
+
+/datum/fabricator_recipe/textiles/armor/riot/armguards
+	path = /obj/item/clothing/accessory/armguards/riot
+
+/datum/fabricator_recipe/textiles/armor/riot/vest
+	path = /obj/item/clothing/suit/armor/riot

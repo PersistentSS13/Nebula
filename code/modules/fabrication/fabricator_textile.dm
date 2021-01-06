@@ -20,5 +20,6 @@
 		/decl/material/solid/cloth = SHEET_MATERIAL_AMOUNT * 100,
 		/decl/material/solid/leather = SHEET_MATERIAL_AMOUNT * 100,
 		/decl/material/solid/cardboard = SHEET_MATERIAL_AMOUNT * 100,
+		/decl/material/solid/metal/titanium =      SHEET_MATERIAL_AMOUNT * 100,
 		/decl/material/solid/leather/fur = SHEET_MATERIAL_AMOUNT * 100
 	)
