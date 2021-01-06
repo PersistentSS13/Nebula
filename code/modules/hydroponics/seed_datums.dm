@@ -4,7 +4,6 @@
 	name = "cotton"
 	seed_name = "cotton"
 	display_name = "cotton"
-	fruit_price = 3
 
 /datum/seed/cotton/New()
 	..()

@@ -279,6 +279,9 @@
 /obj/item/chems/food/snacks/grown/mushroom/libertycap
 	plantname = "libertycap"
 
+/obj/item/stack/material/cloth
+	plantname = "cotton"
+
 /obj/item/chems/food/snacks/grown/ambrosiavulgaris
 	plantname = "biteleaf"
 
