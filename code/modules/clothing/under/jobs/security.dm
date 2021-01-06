@@ -183,7 +183,7 @@
 		)
 	flags_inv = HIDEJUMPSUIT
 	siemens_coefficient = 0.6
-	material = /decl/material/solid/titanium
+	material = /decl/material/solid/metal/titanium
 	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT,
 	/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_REINFORCEMENT)
 
@@ -203,6 +203,6 @@
 	icon = 'icons/clothing/suit/jensen.dmi'
 	flags_inv = 0
 	siemens_coefficient = 0.6
-	material = /decl/material/solid/titanium
+	material = /decl/material/solid/metal/titanium
 	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT,
 	/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_REINFORCEMENT)
