@@ -32,7 +32,7 @@
 		bomb = ARMOR_BOMB_PADDED
 		)
 	siemens_coefficient = 0.7
-	material = /decl/material/solid/metal/diamond
+	material = /decl/material/solid/gemstone/diamond
 	matter = list(/decl/material/solid/metal/titanium = MATTER_AMOUNT_REINFORCEMENT,
 	/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT)
 
