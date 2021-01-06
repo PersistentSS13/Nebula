@@ -126,7 +126,7 @@
 	markings_icon = "band"
 	markings_color = "#b2977c"
 	material = /decl/material/solid/leather
-	matter = list(/decl/material/solid/metal/steel = MATERIAL_AMOUNT_REINFORCEMENT)
+	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT)
 
 /obj/item/clothing/head/det/attack_self(mob/user)
 	flags_inv ^= BLOCKHEADHAIR
@@ -184,8 +184,8 @@
 	flags_inv = HIDEJUMPSUIT
 	siemens_coefficient = 0.6
 	material = /decl/material/solid/titanium
-	matter = list(/decl/material/solid/metal/steel = MATERIAL_AMOUNT_REINFORCEMENT,
-	/decl/material/solid/gemstone/diamond = MATERIAL_AMOUNT_REINFORCEMENT)
+	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT,
+	/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_REINFORCEMENT)
 
 //Jensen cosplay gear
 /obj/item/clothing/under/rank/head_of_security/jensen
@@ -204,5 +204,5 @@
 	flags_inv = 0
 	siemens_coefficient = 0.6
 	material = /decl/material/solid/titanium
-	matter = list(/decl/material/solid/metal/steel = MATERIAL_AMOUNT_REINFORCEMENT,
-	/decl/material/solid/gemstone/diamond = MATERIAL_AMOUNT_REINFORCEMENT)
+	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT,
+	/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_REINFORCEMENT)
