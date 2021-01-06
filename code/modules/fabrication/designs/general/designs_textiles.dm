@@ -404,3 +404,12 @@
 
 /datum/fabricator_recipe/textiles/armor/riot/vest
 	path = /obj/item/clothing/suit/armor/riot
+
+/datum/fabricator_recipe/textiles/shirts/syndicate/general
+	path = /obj/item/clothing/under/syndicate
+
+/datum/fabricator_recipe/textiles/shirts/syndicate/combat
+	path = /obj/item/clothing/under/syndicate/combat
+
+/datum/fabricator_recipe/textiles/shirts/syndicate/tactical
+	path = /obj/item/clothing/under/syndicate/tacticool
