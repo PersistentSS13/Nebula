@@ -90,7 +90,7 @@
 	siemens_coefficient = 0.9
 	starting_accessories = list(/obj/item/clothing/accessory/blue_clip)
 	material = /decl/material/solid/leather
-	matter = list(/decl/material/solid/metal/steel = MATERIAL_AMOUNT_TRACE)
+	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_TRACE)
 
 /obj/item/clothing/under/det/grey
 	icon_state = "detective2"
@@ -99,7 +99,7 @@
 	desc = "A serious-looking tan dress shirt paired with freshly-pressed black slacks."
 	starting_accessories = list(/obj/item/clothing/accessory/red_long)
 	material = /decl/material/solid/leather
-	matter = list(/decl/material/solid/metal/steel = MATERIAL_AMOUNT_TRACE)
+	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_TRACE)
 
 /obj/item/clothing/under/det/black
 	icon_state = "detective3"
@@ -109,7 +109,7 @@
 	desc = "An immaculate white dress shirt, paired with a pair of dark grey dress pants, a red tie, and a charcoal vest."
 	starting_accessories = list(/obj/item/clothing/accessory/red_long, /obj/item/clothing/accessory/toggleable/vest)
 	material = /decl/material/solid/leather
-	matter = list(/decl/material/solid/metal/steel = MATERIAL_AMOUNT_TRACE)
+	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_TRACE)
 
 /obj/item/clothing/head/det
 	name = "fedora"
@@ -159,7 +159,7 @@
 		)
 	siemens_coefficient = 0.8
 	material = /decl/material/solid/leather
-	matter = list(/decl/material/solid/metal/steel = MATERIAL_AMOUNT_TRACE)
+	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_TRACE)
 
 /obj/item/clothing/head/HoS
 	name = "Head of Security Hat"
