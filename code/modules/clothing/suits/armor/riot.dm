@@ -52,6 +52,7 @@
 	matter = list(/decl/material/solid/metal/titanium)
 
 // no accessory
+
 /obj/item/clothing/suit/armor/riot
 	name = "riot vest"
 	desc = "An armored vest with heavy padding to protect against melee attacks."
