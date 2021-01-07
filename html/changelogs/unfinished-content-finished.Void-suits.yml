@@ -26,7 +26,7 @@
 author: The Stalker
 
 # Optional: Remove this file after generating master changelog.  Useful for PR changelogs that won't get used again.
-delete-after: True
+delete-after: false
 
 # Any changes you've made.  See valid prefix list above.
 # INDENT WITH TWO SPACES.  NOT TABS.  SPACES.
@@ -35,3 +35,4 @@ delete-after: True
 # Please surround your changes in  double quotes ("), as certain characters otherwise screws up compiling. The quotes will not show up in the changelog.
 changes: 
   - rscadd: "Finished up some unused void suits. So they have stats (finally)"
+  - rscadd: "Added new materials to vender and recipes. Will be doing a part two i gues. Will eventually look into finishing the cotton plant or make a mega edition pack of new weapons"
