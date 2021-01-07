@@ -33,7 +33,7 @@
 		)
 	siemens_coefficient = 0.7
 	material = /decl/material/solid/metal/plasteel
-	/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT)
+	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT)
 	origin_tech = "{'materials':3,'engineering':1, 'combat':2}"
 
 /obj/item/clothing/accessory/armguards/ballistic
