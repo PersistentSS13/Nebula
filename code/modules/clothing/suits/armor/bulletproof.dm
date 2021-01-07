@@ -32,8 +32,7 @@
 		bomb = ARMOR_BOMB_PADDED
 		)
 	siemens_coefficient = 0.7
-	material = /decl/material/solid/gemstone/plasteel
-	matter = list(/decl/material/solid/metal/titanium = MATTER_AMOUNT_REINFORCEMENT,
+	material = /decl/material/solid/metal/plasteel
 	/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT)
 	origin_tech = "{'materials':3,'engineering':1, 'combat':2}"
 
