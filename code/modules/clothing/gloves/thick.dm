@@ -33,9 +33,9 @@
 	permeability_coefficient = 0.05
 	material = /decl/material/solid/cloth
 	matter = list(
-		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT
+		/decl/material/solid/metal/steel = MATTER_AMOUNT_PRIMARY,
 	)
-	origin_tech = "{'materials':1,'engineering':1}"
+	origin_tech = "{'materials':2,'engineering':2}"
 
 /obj/item/clothing/gloves/thick/botany
 	desc = "These work gloves protect against thorns, barbs, prickles, spikes and other harmful objects of floral origin."
@@ -61,6 +61,7 @@
 	desc = "These brown duty gloves are made from a durable synthetic."
 	color = COLOR_BEASTY_BROWN
 	material = /decl/material/solid/leather
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/gloves/thick/craftable
 	name = "gauntlets"

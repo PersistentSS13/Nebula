@@ -19,12 +19,14 @@
 		)
 	siemens_coefficient = 0.9
 	material = /decl/material/solid/metal/steel
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/head/warden
 	name = "warden's hat"
 	desc = "It's a special helmet issued to the Warden of a securiy force."
 	icon = 'icons/clothing/head/warden.dmi'
 	body_parts_covered = 0
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/under/rank/security
 	name = "security officer's jumpsuit"
@@ -37,6 +39,7 @@
 		)
 	siemens_coefficient = 0.9
 	material = /decl/material/solid/metal/steel
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/under/rank/dispatch
 	name = "dispatcher's uniform"
@@ -61,6 +64,7 @@
 		)
 	siemens_coefficient = 0.9
 	material = /decl/material/solid/metal/steel
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/under/tactical
 	name = "tactical jumpsuit"
@@ -73,6 +77,7 @@
 		)
 	siemens_coefficient = 0.9
 	material = /decl/material/solid/metal/steel
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /*
  * Detective
@@ -91,6 +96,7 @@
 	starting_accessories = list(/obj/item/clothing/accessory/blue_clip)
 	material = /decl/material/solid/leather
 	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_TRACE)
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/under/det/grey
 	icon_state = "detective2"
@@ -100,6 +106,7 @@
 	starting_accessories = list(/obj/item/clothing/accessory/red_long)
 	material = /decl/material/solid/leather
 	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_TRACE)
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/under/det/black
 	icon_state = "detective3"
@@ -110,6 +117,7 @@
 	starting_accessories = list(/obj/item/clothing/accessory/red_long, /obj/item/clothing/accessory/toggleable/vest)
 	material = /decl/material/solid/leather
 	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_TRACE)
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/head/det
 	name = "fedora"
@@ -127,6 +135,7 @@
 	markings_color = "#b2977c"
 	material = /decl/material/solid/leather
 	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT)
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/head/det/attack_self(mob/user)
 	flags_inv ^= BLOCKHEADHAIR
@@ -138,12 +147,14 @@
 	markings_color = COLOR_SILVER
 	desc = "A grey fedora - either the cornerstone of a detective's style or a poor attempt at looking cool, depending on the person wearing it."
 	material = /decl/material/solid/leather
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/head/det/wack
 	color = COLOR_VIOLET
 	markings_color = COLOR_YELLOW
 	desc = "A colorful fedora - either the cornerstone of a detective's style or a poor attempt at looking disco, depending on the person wearing it."
 	material = /decl/material/solid/leather
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /*
  * Head of Security
@@ -160,6 +171,7 @@
 	siemens_coefficient = 0.8
 	material = /decl/material/solid/leather
 	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_TRACE)
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/head/HoS
 	name = "Head of Security Hat"
@@ -168,6 +180,7 @@
 	body_parts_covered = 0
 	siemens_coefficient = 0.8
 	material = /decl/material/solid/leather
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/armor/hos
 	name = "armored coat"
@@ -186,6 +199,7 @@
 	material = /decl/material/solid/metal/titanium
 	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT,
 	/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_REINFORCEMENT)
+	origin_tech = "{'materials':3,'engineering':1, 'combat':2}"
 
 //Jensen cosplay gear
 /obj/item/clothing/under/rank/head_of_security/jensen
@@ -196,6 +210,7 @@
 	worn_state = "jensen"
 	siemens_coefficient = 0.6
 	material = /decl/material/solid/metal/steel
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/suit/armor/hos/jensen
 	name = "armored trenchcoat"
@@ -206,3 +221,4 @@
 	material = /decl/material/solid/metal/titanium
 	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT,
 	/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_REINFORCEMENT)
+	origin_tech = "{'materials':1,'engineering':1}"

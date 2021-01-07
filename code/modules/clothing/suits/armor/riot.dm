@@ -53,7 +53,7 @@
 
 // no accessory
 
-/obj/item/clothing/suit/armor/riot
+/obj/item/clothing/suit/armor/riot/noacc
 	name = "riot vest"
 	desc = "An armored vest with heavy padding to protect against melee attacks."
 	icon_state = ICON_STATE_WORLD
@@ -70,4 +70,5 @@
 		)
 	siemens_coefficient = 0.5
 	material = /decl/material/solid/metal/steel
-	matter = list(/decl/material/solid/metal/titanium)	
+	matter = list(/decl/material/solid/metal/titanium = MATTER_AMOUNT_PRIMARY)	
+	origin_tech = "{'materials':1,'engineering':1}"

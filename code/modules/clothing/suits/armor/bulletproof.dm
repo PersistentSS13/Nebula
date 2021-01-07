@@ -32,9 +32,10 @@
 		bomb = ARMOR_BOMB_PADDED
 		)
 	siemens_coefficient = 0.7
-	material = /decl/material/solid/gemstone/diamond
+	material = /decl/material/solid/gemstone/plasteel
 	matter = list(/decl/material/solid/metal/titanium = MATTER_AMOUNT_REINFORCEMENT,
 	/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT)
+	origin_tech = "{'materials':3,'engineering':1, 'combat':2}"
 
 /obj/item/clothing/accessory/armguards/ballistic
 	name = "ballistic arm guards"
@@ -51,6 +52,7 @@
 	siemens_coefficient = 0.7
 	material = /decl/material/solid/metal/steel
 	matter = list(/decl/material/solid/metal/titanium = MATTER_AMOUNT_REINFORCEMENT)
+	origin_tech = "{'materials':2,'engineering':1, 'combat':2}"
 	
 /obj/item/clothing/accessory/legguards/ballistic
 	name = "ballistic leg guards"
@@ -68,3 +70,4 @@
 	slowdown = 1
 	material = /decl/material/solid/metal/steel
 	matter = list(/decl/material/solid/metal/titanium = MATTER_AMOUNT_REINFORCEMENT)
+	origin_tech = "{'materials':2,'engineering':1, 'combat':2}"
