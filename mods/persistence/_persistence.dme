@@ -24,6 +24,7 @@
 #include "game\gamemodes\persistence.dm"
 #include "game\machinery\cryopod.dm"
 #include "game\machinery\machinery.dm"
+#include "game\machinery\mantrap.dm"
 #include "game\machinery\resleever.dm"
 #include "game\machinery\doors\multi_tile.dm"
 #include "game\machinery\kitchen\gibber.dm"

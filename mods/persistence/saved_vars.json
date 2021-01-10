@@ -4158,5 +4158,12 @@
 			"last_rads",
 			"loaded_tank"
 		]
+	},
+	{
+		"path":"/obj/machinery/mantrap",
+		"vars":[
+			"occupant",
+			"entrance_dir"
+		]
 	}
 ]
