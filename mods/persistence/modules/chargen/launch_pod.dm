@@ -21,6 +21,16 @@
 		to_chat(occupant, SPAN_NOTICE("You have brought with you a textbook related to your specialty. It can increase your skills temporarily by reading it, or permanently through dedicated study. It's highly valuable, so don't lose it!"))
 		occupant.equip_to_slot_or_store_or_drop(new starter_book(occupant), slot_in_backpack_str)
 
+	// Find the Outreach network, and create the crew record for convenience.
+	var/datum/computer_file/report/crew_record/CR = new()
+	GLOB.all_crew_records.Add(CR)
+	CR.load_from_mob(occupant)
+	for(var/network_id in SSnetworking.networks)
+		var/datum/computer_network/network = SSnetworking.networks[network_id]
+		if(network.network_id == "outreach")
+			network.store_file(CR, MF_ROLE_CREW_RECORDS)
+			break
+
 	for(var/turf/T in GLOB.latejoin_cryo)
 		if(locate(/mob) in T)
 			continue

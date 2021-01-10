@@ -12,6 +12,7 @@
 	#include "persistence_defines.dm"
 	#include "chargen/chargen_areas.dm"
 
+	#include "outreach_access.dm"
 	#include "outreach_areas.dm"
 	#include "outreach_jobs.dm"
 	#include "outreach_exoplanet.dm"
