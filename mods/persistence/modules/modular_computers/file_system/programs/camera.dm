@@ -2,7 +2,6 @@
 	var/datum/computer_network/network
 
 /datum/nano_module/program/camera_monitor/ui_interact(mob/user, ui_key = "main", datum/nanoui/ui = null, force_open = 1, state = GLOB.default_state)
-	. = ..()
 	var/list/data = host.initial_data()
 	var/list/all_networks[0]
 	network = get_network()
@@ -26,7 +25,7 @@
 
 	ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if (!ui)
-		ui = new(user, src, ui_key, "sec_camera.tmpl", "Camera Monitoring", 900, 800, state = state)
+		ui = new(user, src, ui_key, "sec_camera(mod).tmpl", "Camera Monitoring", 900, 800, state = state)
 
 		ui.add_template("mapContent", "sec_camera_map_content.tmpl")
 		ui.add_template("mapHeader", "sec_camera_map_header.tmpl")
