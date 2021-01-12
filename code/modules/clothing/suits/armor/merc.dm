@@ -31,7 +31,7 @@
 		)
 	color = null
 	material = /decl/material/solid/metal/titanium
-	origin_tech = "{'materials':1,'engineering':1, 'combat':2}"
+	origin_tech = "{'materials':1,'engineering':1, 'combat':1}"
 	
 /obj/item/clothing/accessory/legguards/merc
 	name = "heavy leg guards"
@@ -46,4 +46,4 @@
 		bomb = ARMOR_BOMB_PADDED
 		)
 	material = /decl/material/solid/metal/titanium
-	origin_tech = "{'materials':1,'engineering':1, 'combat':2}"
+	origin_tech = "{'materials':1,'engineering':1, 'combat':1}"

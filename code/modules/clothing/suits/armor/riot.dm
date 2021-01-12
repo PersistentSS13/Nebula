@@ -34,6 +34,7 @@
 	slowdown = 1
 	material = /decl/material/solid/metal/steel
 	matter = list(/decl/material/solid/metal/titanium)
+	origin_tech = "{'materials':2,'engineering':1, 'combat':2}"
 	
 /obj/item/clothing/accessory/armguards/riot
 	name = "riot arm guards"
@@ -50,6 +51,7 @@
 	siemens_coefficient = 0.5
 	material = /decl/material/solid/metal/steel
 	matter = list(/decl/material/solid/metal/titanium)
+	origin_tech = "{'materials':2,'engineering':1, 'combat':2}"
 
 // no accessory
 
