@@ -34,17 +34,5 @@
 		{{:helper.link(value.name, '', {'switch_camera' : value.camera, 'mapZLevel' : value.z})}}
 	{{/if}}
 {{/for}}
-<!-- Uncommented in sec_camera(mod).tmpl,  rename this to unmodded and rename former to sec_camera.tmpl
-<div class='item'>
-	<div class='itemLabel'>Request:</div>
-</div>
-{{for data.cameras}}
-	{{if data.current_camera && value.name == data.current_camera.name}}	
-		{{:helper.link('Record', '', {'record' : value.camera}, '')}}
-		{{:helper.link('Print', '', {'print' : value.camera}, '')}}
-		{{:helper.link('Capture', '', {'capture' : value.camera}, '')}}
-	{{/if}}
-{{/for}}-->
-
 
 
