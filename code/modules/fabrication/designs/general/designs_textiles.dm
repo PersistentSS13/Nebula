@@ -92,25 +92,25 @@
 /datum/fabricator_recipe/textiles/chef
 	path = /obj/item/clothing/suit/chef
 
-/datum/fabricator_recipe/textiles/chef/alt
+/datum/fabricator_recipe/textiles/chefalt
 	path = /obj/item/clothing/suit/chef/classic
 
-/datum/fabricator_recipe/textiles/security/forensics
+/datum/fabricator_recipe/textiles/securityforensics
 	path = /obj/item/clothing/suit/storage/forensics
 
-/datum/fabricator_recipe/textiles/suit/security/det
+/datum/fabricator_recipe/textiles/securitydet
 	path = /obj/item/clothing/suit/storage/det_trench
 
-/datum/fabricator_recipe/textiles/suit/medical/responder
+/datum/fabricator_recipe/textiles/suitmedicalresponder
 	path = /obj/item/clothing/suit/storage/toggle/fr_jacket
 
-/datum/fabricator_recipe/textiles/engineer/hazardvest
+/datum/fabricator_recipe/textiles/engineerhazardvest
 	path = /obj/item/clothing/suit/storage/hazardvest
 
-/datum/fabricator_recipe/textiles/medical/chestrig
+/datum/fabricator_recipe/textiles/medicalchestrig
 	path = /obj/item/clothing/suit/storage/medical_chest_rig
 
-/datum/fabricator_recipe/textiles/medical/surgeryapron
+/datum/fabricator_recipe/textiles/medicalsurgeryapron
 	path = /obj/item/clothing/suit/surgicalapron
 
 /datum/fabricator_recipe/textiles/genericlab
@@ -207,7 +207,7 @@
 /datum/fabricator_recipe/textiles/coathoodie
 	path = /obj/item/clothing/suit/storage/toggle/hoodie
 
-/datum/fabricator_recipe/textiles/hoodie/alt
+/datum/fabricator_recipe/textiles/hoodiealt
 	path = /obj/item/clothing/suit/storage/toggle/hoodie/black
 
 /datum/fabricator_recipe/textiles/trackstandard
