@@ -33,9 +33,9 @@
 	permeability_coefficient = 0.05
 	material = /decl/material/solid/cloth
 	matter = list(
-		/decl/material/solid/metal/steel = MATTER_AMOUNT_PRIMARY,
+		/decl/material/solid/metal/gold = MATTER_AMOUNT_PRIMARY,
 	)
-	origin_tech = "{'materials':2,'engineering':2}"
+	origin_tech = "{'materials':1,'engineering':1}"
 
 /obj/item/clothing/gloves/thick/botany
 	desc = "These work gloves protect against thorns, barbs, prickles, spikes and other harmful objects of floral origin."
