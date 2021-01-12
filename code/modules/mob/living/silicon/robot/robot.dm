@@ -912,8 +912,8 @@
 	lockcharge = 0
 	scrambledcodes = 1
 	//Disconnect it's camera so it's not so easily tracked.
-/*	if(src.camera)
-		src.camera.clear_all_networks()*/
+	if(src.camera)
+		src.camera.clear_all_networks()
 
 
 /mob/living/silicon/robot/proc/ResetSecurityCodes()
