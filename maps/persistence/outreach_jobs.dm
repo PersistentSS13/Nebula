@@ -10,6 +10,7 @@
 
 /decl/hierarchy/outfit/job/outreach/
 	name = OUTFIT_JOB_NAME("Outreach Colonist")
+	id_type = /obj/item/card/id/network
 	pda_type = null
 	pda_slot = null
 	l_ear = null

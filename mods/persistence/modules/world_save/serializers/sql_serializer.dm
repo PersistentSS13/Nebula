@@ -357,7 +357,7 @@
 			switch(LE.value_type)
 				if("NULL")
 					// This is how lists are made. Everything else is a dict.
-					existing.Add(key_value)
+					existing += list(key_value)
 				if("TEXT")
 					existing[key_value] = LE.value
 				if("NUM")

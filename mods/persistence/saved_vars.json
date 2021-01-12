@@ -1773,7 +1773,8 @@
 			"uid",
 			"panel_open",
 			"power_components",
-			"anchored"
+			"anchored",
+			"initial_access"
 		]
 	},
 	{
@@ -3891,8 +3892,7 @@
 		"vars":[
 			"grants",
 			"user_id"
-		],
-		"flatten":true
+		]
 	},
 	{
 		"path":"/datum/report_field",
@@ -4157,6 +4157,15 @@
 			"locked",
 			"last_rads",
 			"loaded_tank"
+		]
+	},
+	{
+		"path":"/obj/item/stock_parts/network_lock",
+		"vars":[
+			"grants",
+			"initial_network_id",
+			"initial_network_key",
+			"emagged"
 		]
 	}
 ]
