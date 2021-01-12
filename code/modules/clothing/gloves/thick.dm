@@ -33,7 +33,7 @@
 	permeability_coefficient = 0.05
 	material = /decl/material/solid/cloth
 	matter = list(
-		/decl/material/solid/metal/gold = MATTER_AMOUNT_PRIMARY,
+		/decl/material/solid/metal/steel = MATTER_AMOUNT_PRIMARY,
 	)
 	origin_tech = "{'materials':1,'engineering':1}"
 
