@@ -21,10 +21,6 @@
 		<div class="itemContent">
 			{{:helper.link('Perform Scan', null, {'scan' : 1}, data.check_scanning ? null : 'disabled')}}
 			{{:helper.link('Save Scan', null, {'save' : 1}, data.can_save_scan ? null : 'disabled')}}
-			{{if data.can_view_scan}}
-			<!--	{{:helper.link('Playback', null, {'play' : 1}, data.can_save_scan ? null : 'disabled')}}
-			Uncommented in scanner(mod).tmpl,  rename this to unmodded and rename former to scanner.tmpl-->
-			{{/if}}
 		</div>
 	</div>
 	{{if data.can_view_scan}}
