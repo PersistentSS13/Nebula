@@ -1,4 +1,4 @@
-/mob/living/carbon/Move(NewLoc, direct)
+/mob/living/carbon/human/handle_exertion()
 	if((!nutrition || !hydration) && (!InStasis()))
 		add_chemical_effect(CE_TOXIN, 1)
 		adjustToxLoss(DEFAULT_HUNGER_FACTOR/1000)
