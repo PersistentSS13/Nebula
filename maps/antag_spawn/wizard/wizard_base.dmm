@@ -1,6 +1,6 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
 "aa" = (
-/turf/space/bluespace,
+/turf/space/infinity,
 /area/space)
 "ab" = (
 /turf/unsimulated/wall,
@@ -270,7 +270,6 @@
 /area/map_template/wizard_station)
 "aL" = (
 /obj/structure/closet,
-/obj/item/chems/food/drinks/bottle/bottleofnothing,
 /obj/item/chems/food/drinks/bottle/pwine,
 /obj/item/chems/food/drinks/bottle/agedwhiskey,
 /obj/item/chems/food/drinks/bottle/cognac,
@@ -579,7 +578,7 @@
 /area/map_template/wizard_station)
 "bx" = (
 /obj/structure/cult/talisman,
-/obj/item/material/knife/ritual,
+/obj/item/knife/ritual,
 /turf/unsimulated/floor{
 	name = "plating";
 	icon_state = "cult"

@@ -1,15 +1,15 @@
-/material
+/decl/material
 	var/is_psionic_nullifier
 
-/material/proc/is_psi_null()
+/decl/material/proc/is_psi_null()
 	return is_psionic_nullifier
 
-/material/nullglass
+/decl/material/nullglass
 	is_psionic_nullifier = TRUE
 
-/material/nullglass
+/decl/material/nullglass
 	
-	icon_colour = COLOR_NULLGLASS
+	color = COLOR_NULLGLASS
 	conductive = 1
 	stack_type = /obj/item/stack/material/nullglass
 	flags = MAT_FLAG_BRITTLE
@@ -23,11 +23,11 @@
 	destruction_desc = "shatters"
 	hitsound = 'sound/effects/Glasshit.ogg'
 
-/material/nullglass/generate_recipes()
+/decl/material/nullglass/generate_recipes()
 	. = ..()
 	. += new /datum/stack_recipe/tile/nullglass(src)
 
-/obj/item/material/shard/nullglass
+/obj/item/shard/nullglass
 	material = MAT_NULLGLASS
 /datum/stack_recipe/tile/nullglass
 	title = "nullglass floor tile"

@@ -4,18 +4,17 @@
 
 //To do: Allow corpses to appear mangled, bloody, etc. Allow customizing the bodies appearance (they're all bald and white right now).
 
-#define CORPSE_SPAWNER_RANDOM_NAME       0x0001
-#define CORPSE_SPAWNER_CUT_SURVIVAL      0x0002
-#define CORPSE_SPAWNER_CUT_ID_PDA        0x0003
-#define CORPSE_SPAWNER_PLAIN_HEADSET     0x0004
-
-#define CORPSE_SPAWNER_RANDOM_SKIN_TONE    0x0008
-#define CORPSE_SPAWNER_RANDOM_SKIN_COLOR   0x0010
-#define CORPSE_SPAWNER_RANDOM_HAIR_COLOR   0x0020
-#define CORPSE_SPAWNER_RANDOM_HAIR_STYLE   0x0040
-#define CORPSE_SPAWNER_RANDOM_FACIAL_STYLE 0x0080
-#define CORPSE_SPAWNER_RANDOM_EYE_COLOR    0x0100
-#define CORPSE_SPAWNER_RANDOM_GENDER       0x0200
+#define CORPSE_SPAWNER_RANDOM_NAME         BITFLAG(0)
+#define CORPSE_SPAWNER_CUT_SURVIVAL        BITFLAG(1)
+#define CORPSE_SPAWNER_CUT_ID_PDA          BITFLAG(2)
+#define CORPSE_SPAWNER_PLAIN_HEADSET       BITFLAG(3)
+#define CORPSE_SPAWNER_RANDOM_SKIN_TONE    BITFLAG(4)
+#define CORPSE_SPAWNER_RANDOM_SKIN_COLOR   BITFLAG(5)
+#define CORPSE_SPAWNER_RANDOM_HAIR_COLOR   BITFLAG(6)
+#define CORPSE_SPAWNER_RANDOM_HAIR_STYLE   BITFLAG(7)
+#define CORPSE_SPAWNER_RANDOM_FACIAL_STYLE BITFLAG(8)
+#define CORPSE_SPAWNER_RANDOM_EYE_COLOR    BITFLAG(9)
+#define CORPSE_SPAWNER_RANDOM_GENDER       BITFLAG(10)
 
 #define CORPSE_SPAWNER_NO_RANDOMIZATION ~(CORPSE_SPAWNER_RANDOM_NAME|CORPSE_SPAWNER_RANDOM_SKIN_TONE|CORPSE_SPAWNER_RANDOM_SKIN_COLOR|CORPSE_SPAWNER_RANDOM_HAIR_COLOR|CORPSE_SPAWNER_RANDOM_HAIR_STYLE|CORPSE_SPAWNER_RANDOM_FACIAL_STYLE|CORPSE_SPAWNER_RANDOM_EYE_COLOR)
 
@@ -38,10 +37,9 @@
 	..()
 	if(!species) species = GLOB.using_map.default_species
 	var/species_choice = islist(species) ? pickweight(species) : species 
-	new/mob/living/carbon/human/corpse (loc, species_choice, src)
+	new /mob/living/carbon/human/corpse(loc, species_choice, src)
 	return INITIALIZE_HINT_QDEL
 
-#define HEX_COLOR_TO_RGB_ARGS(X) arglist(GetHexColors(X))
 /obj/effect/landmark/corpse/proc/randomize_appearance(var/mob/living/carbon/human/M, species_choice)
 	if((spawn_flags & CORPSE_SPAWNER_RANDOM_GENDER))
 		if(species_choice in genders_per_species)
@@ -57,16 +55,16 @@
 
 	if((spawn_flags & CORPSE_SPAWNER_RANDOM_SKIN_COLOR))
 		if(species_choice in skin_colors_per_species)
-			M.change_skin_color(HEX_COLOR_TO_RGB_ARGS(pick(skin_colors_per_species[species_choice])))
+			M.change_skin_color(pick(skin_colors_per_species[species_choice]))
 		else
-			M.s_tone = random_skin_tone(M.species)
+			M.skin_tone = random_skin_tone(M.species)
 
 	if((spawn_flags & CORPSE_SPAWNER_RANDOM_HAIR_COLOR))
 		if(species_choice in hair_colors_per_species)
-			M.change_hair_color(HEX_COLOR_TO_RGB_ARGS(pick(hair_colors_per_species[species_choice])))
+			M.change_hair_color(pick(hair_colors_per_species[species_choice]))
 		else
 			M.randomize_hair_color()
-		M.change_facial_hair_color(M.r_hair, M.g_hair, M.b_hair)
+		M.change_facial_hair_color(M.hair_colour)
 
 	if((spawn_flags & CORPSE_SPAWNER_RANDOM_HAIR_STYLE))
 		if(species_choice in hair_styles_per_species)
@@ -82,18 +80,16 @@
 
 	if((spawn_flags & CORPSE_SPAWNER_RANDOM_EYE_COLOR))
 		if(species_choice in eye_colors_per_species)
-			M.change_eye_color(HEX_COLOR_TO_RGB_ARGS(pick(eye_colors_per_species[species_choice])))
+			M.change_eye_color(pick(eye_colors_per_species[species_choice]))
 		else
 			M.randomize_eye_color()
 
 	var/decl/cultural_info/culture = M.get_cultural_value(TAG_CULTURE)
 	if(culture && CORPSE_SPAWNER_RANDOM_NAME & spawn_flags)
-		M.SetName(culture.get_random_name(M.gender))
+		M.SetName(M, culture.get_random_name(M.gender))
 	else
 		M.SetName(name)
 	M.real_name = M.name
-
-#undef HEX_COLOR_TO_RGB_ARGS
 
 /obj/effect/landmark/corpse/proc/equip_outfit(var/mob/living/carbon/human/M)
 	var/adjustments = 0

@@ -10,31 +10,6 @@ var/datum/robolimb/basic_robolimb
 		if(!R.unavailable_at_chargen)
 			chargen_robolimbs[R.company] = R
 
-#define DEFINE_ROBOLIMB_DESIGNS(MODEL_PATH, MODEL_ID, MODEL_NAME)         \
-/datum/fabricator_recipe/robotics/prosthetic/model_##MODEL_ID {           \
-	category = MODEL_NAME + " Prosthetics";                               \
-	path = /obj/item/organ/external/leg;                                  \
-	model = MODEL_PATH;                                                   \
-}                                                                         \
-/datum/fabricator_recipe/robotics/prosthetic/model_##MODEL_ID/right_leg { \
-	path = /obj/item/organ/external/leg/right;                            \
-}                                                                         \
-/datum/fabricator_recipe/robotics/prosthetic/model_##MODEL_ID/left_arm {  \
-	path = /obj/item/organ/external/arm;                                  \
-}                                                                         \
-/datum/fabricator_recipe/robotics/prosthetic/model_##MODEL_ID/right_arm { \
-	path = /obj/item/organ/external/arm/right;                            \
-}                                                                         \
-/datum/fabricator_recipe/robotics/prosthetic/model_##MODEL_ID/head {      \
-	path = /obj/item/organ/external/head;                                 \
-}                                                                         \
-/datum/fabricator_recipe/robotics/prosthetic/model_##MODEL_ID/chest {     \
-	path = /obj/item/organ/external/chest;                                \
-}                                                                         \
-/datum/fabricator_recipe/robotics/prosthetic/model_##MODEL_ID/groin {     \
-	path = /obj/item/organ/external/groin;                                \
-}
-
 /datum/robolimb
 	var/company = "Unbranded"                                 // Shown when selecting the limb.
 	var/desc = "A generic unbranded robotic prosthesis."      // Seen when examining a limb.
@@ -44,8 +19,9 @@ var/datum/robolimb/basic_robolimb
 	var/has_eyes = TRUE
 	var/can_feel_pain
 	var/skintone
+	var/limb_blend
 	var/list/bodytypes_cannot_use = list()
-	var/list/restricted_to = list()
+	var/list/species_restricted
 	var/list/applies_to_part = list() //TODO.
 	var/list/allowed_bodytypes = list(BODYTYPE_HUMANOID)
 	var/modifier_string = "robotic"

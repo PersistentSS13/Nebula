@@ -13,7 +13,7 @@
 	base_icon = "square" // Base icon name
 	filling_states = @"[20,40,60,80,100]"
 	volume = 30
-	material = MAT_GLASS
+	material = /decl/material/solid/glass
 
 	var/list/extras = list() // List of extras. Two extras maximum
 
@@ -50,21 +50,21 @@
 
 /obj/item/chems/food/drinks/glass2/proc/has_ice()
 	if(LAZYLEN(reagents.reagent_volumes))
-		var/decl/reagent/R = reagents.get_primary_reagent_decl()
-		if(!((R.type == /decl/reagent/drink/ice) || ("ice" in R.glass_special))) // if it's not a cup of ice, and it's not already supposed to have ice in, see if the bartender's put ice in it
-			if(reagents.has_reagent(/decl/reagent/drink/ice, reagents.total_volume / 10)) // 10% ice by volume
+		var/decl/material/R = reagents.get_primary_reagent_decl()
+		if(!((R.type == /decl/material/solid/ice) || ("ice" in R.glass_special))) // if it's not a cup of ice, and it's not already supposed to have ice in, see if the bartender's put ice in it
+			if(reagents.has_reagent(/decl/material/solid/ice, reagents.total_volume / 10)) // 10% ice by volume
 				return 1
 
 	return 0
 
 /obj/item/chems/food/drinks/glass2/proc/has_fizz()
 	if(LAZYLEN(reagents.reagent_volumes))
-		var/decl/reagent/R = reagents.get_primary_reagent_decl()
+		var/decl/material/R = reagents.get_primary_reagent_decl()
 		if(("fizz" in R.glass_special))
 			return 1
 		var/totalfizzy = 0
 		for(var/rtype in reagents.reagent_volumes)
-			var/decl/reagent/re = decls_repository.get_decl(rtype)
+			var/decl/material/re = decls_repository.get_decl(rtype)
 			if("fizz" in re.glass_special)
 				totalfizzy += REAGENT_VOLUME(reagents, rtype)
 		if(totalfizzy >= reagents.total_volume / 5) // 20% fizzy by volume
@@ -75,11 +75,11 @@
 	if(LAZYLEN(reagents.reagent_volumes) > 0)
 		if(temperature > T0C + 40)
 			return 1
-		var/decl/reagent/R = reagents.get_primary_reagent_decl()
+		var/decl/material/R = reagents.get_primary_reagent_decl()
 		if(!("vapor" in R.glass_special))
 			var/totalvape = 0
 			for(var/rtype in reagents.reagent_volumes)
-				var/decl/reagent/re = decls_repository.get_decl(rtype)
+				var/decl/material/re = decls_repository.get_decl(rtype)
 				if("vapor" in re.glass_special)
 					totalvape += REAGENT_VOLUME(reagents, type)
 			if(totalvape >= volume * 0.6) // 60% vapor by container volume
@@ -97,7 +97,7 @@
 /obj/item/chems/food/drinks/glass2/on_reagent_change()
 	temperature_coefficient = 4 / max(1, reagents.total_volume)
 	..()
-	var/decl/reagent/R = reagents.get_primary_reagent_decl()
+	var/decl/material/R = reagents.get_primary_reagent_decl()
 	desc = R?.glass_desc || custom_desc || initial(desc)
 
 /obj/item/chems/food/drinks/glass2/proc/can_add_extra(obj/item/glass_extra/GE)
@@ -124,7 +124,7 @@
 	overlays.Cut()
 
 	if (LAZYLEN(reagents?.reagent_volumes) > 0)
-		var/decl/reagent/R = reagents.get_primary_reagent_decl()
+		var/decl/material/R = reagents.get_primary_reagent_decl()
 		var/list/under_liquid = list()
 		var/list/over_liquid = list()
 
@@ -180,7 +180,7 @@
 		side = "right"
 
 /obj/item/chems/food/drinks/glass2/attackby(obj/item/W, mob/user)
-	if(istype(W, /obj/item/material/kitchen/utensil/spoon))
+	if(istype(W, /obj/item/kitchen/utensil/spoon))
 		if(user.a_intent == I_HURT)
 			user.visible_message("<span class='warning'>[user] bashes \the [src] with a spoon, shattering it to pieces! What a rube.</span>")
 			playsound(src, "shatter", 30, 1)

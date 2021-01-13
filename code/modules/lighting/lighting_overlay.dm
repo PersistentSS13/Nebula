@@ -97,8 +97,8 @@
 	var/set_luminosity = max > 1e-6
 	#endif
 
-	if((rr & gr & br & ar) && (rg + gg + bg + ag + rb + gb + bb + ab == 8))
-	//anything that passes the first case is very likely to pass the second, and addition is a little faster in this case
+	// If all channels are full lum, there's no point showing the overlay.
+	if(rr + rg + rb + gr + gg + gb + br + bg + bb + ar + ag + ab >= 12)
 		icon_state = "transparent"
 		color = null
 	else if(!set_luminosity)
@@ -119,7 +119,8 @@
 	// 	T.above.shadower.copy_lighting(src)
 
 // Variety of overrides so the overlays don't get affected by weird things.
-/atom/movable/lighting_overlay/ex_act()
+/atom/movable/lighting_overlay/explosion_act()
+	SHOULD_CALL_PARENT(FALSE)
 	return
 
 /atom/movable/lighting_overlay/singularity_pull()

@@ -22,7 +22,7 @@
 			material_data["stored"] =      "[stored_material[material]][SHEET_UNIT]"
 			material_data["max"] =         storage_capacity[material]
 			material_data["eject_key"] =   stored_substances_to_names[material]
-			material_data["eject_label"] = ispath(material, /material) ? "Eject" : "Flush"
+			material_data["eject_label"] = ispath(material, /decl/material) ? "Eject" : "Flush"
 			data["material_storage"] +=    list(material_data)
 
 		var/list/current_build = list()
@@ -30,7 +30,7 @@
 		if(currently_building)
 			current_build["name"] =       currently_building.target_recipe.name
 			current_build["multiplier"] = currently_building.multiplier
-			current_build["progress"] =   "[100-round((currently_building.remaining_time/currently_building.target_recipe.build_time)*100)]%"
+			current_build["progress"] =   "[100-round((currently_building.remaining_time/currently_building.build_time)*100)]%"
 		else
 			current_build["name"] =       "Nothing."
 			current_build["multiplier"] = "-"
@@ -52,36 +52,49 @@
 
 		data["build_options"] = list()
 
+		var/list/designs = design_cache.Copy()
 		if(istype(network))
-			for(var/datum/computer_file/data/blueprint/BP in network.get_all_files_of_type(/datum/computer_file/data/blueprint, MF_ROLE_DESIGN, user))
-				if(show_category != "All" && show_category != BP.recipe.category)
-					continue
-				var/list/build_option = list()
-				var/max_sheets = 0
-				build_option["name"] =      BP.recipe.name
-				build_option["reference"] = "\ref[BP]"
-				build_option["illegal"] =   BP.recipe.hidden
-				var/list/resources = BP.get_resources()
-				if(!length(resources))
-					build_option["cost"] = "No resources required."
-					max_sheets = 100
-				else
-					//Make sure it's buildable and list required resources.
-					var/list/material_components = list()
-					for(var/material in resources)
-						var/sheets = round(stored_material[material]/round(resources[material]*mat_efficiency))
-						if(isnull(max_sheets) || max_sheets > sheets)
-							max_sheets = sheets
-						if(stored_material[material] < round(resources[material]*mat_efficiency))
-							build_option["unavailable"] = 1
-						material_components += "[round(resources[material] * mat_efficiency)][SHEET_UNIT] [stored_substances_to_names[material]]"
-					build_option["cost"] = "[capitalize(jointext(material_components, ", "))]."
-				if(BP.recipe.max_amount >= PRINT_MULTIPLIER_DIVISOR && max_sheets >= PRINT_MULTIPLIER_DIVISOR)
-					build_option["multiplier"] = list()
-					for(var/i = 1 to Floor(min(BP.recipe.max_amount, max_sheets)/PRINT_MULTIPLIER_DIVISOR))
-						var/mult = i * PRINT_MULTIPLIER_DIVISOR
-						build_option["multiplier"] += list(list("label" = "x[mult]", "multiplier" = mult))
-				data["build_options"] += list(build_option)
+			// Add the blueprints to the designs list.
+			designs |= network.get_all_files_of_type(/datum/computer_file/data/blueprint, MF_ROLE_DESIGN, user)
+
+		for(var/design in designs)
+			var/datum/fabricator_recipe/recipe
+			var/datum/computer_file/data/blueprint/BP
+			if(istype(design, /datum/computer_file/data/blueprint))
+				BP = design
+				recipe = BP.get_recipe()
+			else
+				recipe = design
+			if(!istype(recipe)) // Sanity check
+				continue
+			if(show_category != "All" && show_category != recipe.category || !(fabricator_class in recipe.fabricator_types))
+				continue
+			var/list/build_option = list()
+			var/max_sheets = 0
+			build_option["name"] =      recipe.name
+			build_option["reference"] = "\ref[design]"
+			build_option["illegal"] =   recipe.hidden
+			var/list/resources = BP ? BP.get_resources() : recipe.resources
+			if(!length(resources))
+				build_option["cost"] = "No resources required."
+				max_sheets = 100
+			else
+				//Make sure it's buildable and list required resources.
+				var/list/material_components = list()
+				for(var/material in resources)
+					var/sheets = round(stored_material[material]/round(resources[material]*mat_efficiency))
+					if(isnull(max_sheets) || max_sheets > sheets)
+						max_sheets = sheets
+					if(stored_material[material] < round(resources[material]*mat_efficiency))
+						build_option["unavailable"] = 1
+					material_components += "[round(resources[material] * mat_efficiency)][SHEET_UNIT] [stored_substances_to_names[material]]"
+				build_option["cost"] = "[capitalize(jointext(material_components, ", "))]."
+			if(recipe.max_amount >= PRINT_MULTIPLIER_DIVISOR && max_sheets >= PRINT_MULTIPLIER_DIVISOR)
+				build_option["multiplier"] = list()
+				for(var/i = 1 to Floor(min(recipe.max_amount, max_sheets)/PRINT_MULTIPLIER_DIVISOR))
+					var/mult = i * PRINT_MULTIPLIER_DIVISOR
+					build_option["multiplier"] += list(list("label" = "x[mult]", "multiplier" = mult))
+			data["build_options"] += list(build_option)
 
 	ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if (!ui)

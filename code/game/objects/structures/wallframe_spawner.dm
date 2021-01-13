@@ -40,13 +40,6 @@
 	if(locate(win_path) in loc)
 		warning("Frame Spawner: A window structure already exists at [loc.x]-[loc.y]-[loc.z]")
 
-	if(grille_path)
-		if(locate(grille_path) in loc)
-			warning("Frame Spawner: A grille already exists at [loc.x]-[loc.y]-[loc.z]")
-		else
-			var/obj/structure/grille/G = new grille_path (loc)
-			handle_grille_spawn(G)
-
 	var/list/neighbours = list()
 	if(fulltile)
 		var/obj/structure/window/new_win = new win_path(loc)
@@ -68,6 +61,14 @@
 					handle_window_spawn(new_win)
 			else
 				neighbours |= other
+
+	if(grille_path)
+		if(locate(grille_path) in loc)
+			warning("Frame Spawner: A grille already exists at [loc.x]-[loc.y]-[loc.z]")
+		else
+			var/obj/structure/grille/G = new grille_path (loc)
+			handle_grille_spawn(G)
+
 	activated = 1
 	for(var/obj/effect/wallframe_spawn/other in neighbours)
 		if(!other.activated) other.activate()
@@ -113,24 +114,21 @@
 	icon_state = "r-wingrille"
 	frame_path = /obj/structure/wall_frame
 
-
-/obj/effect/wallframe_spawn/phoron
-	name = "phoron wall frame window spawner"
+/obj/effect/wallframe_spawn/borosilicate
+	name = "borosilicate wall frame window spawner"
 	icon_state = "p-wingrille"
-	win_path = /obj/structure/window/phoronbasic/full
+	win_path = /obj/structure/window/borosilicate/full
 
-
-/obj/effect/wallframe_spawn/reinforced_phoron
-	name = "reinforced phoron wall frame window spawner"
+/obj/effect/wallframe_spawn/reinforced_borosilicate
+	name = "reinforced borosilicate wall frame window spawner"
 	icon_state = "pr-wingrille"
-	win_path = /obj/structure/window/phoronreinforced/full
+	win_path = /obj/structure/window/borosilicate_reinforced/full
 
-/obj/effect/wallframe_spawn/reinforced_phoron/titanium
+/obj/effect/wallframe_spawn/reinforced_borosilicate/titanium
 	frame_path = /obj/structure/wall_frame/titanium
 
-/obj/effect/wallframe_spawn/reinforced_phoron/hull
+/obj/effect/wallframe_spawn/reinforced_borosilicate/hull
 	frame_path = /obj/structure/wall_frame/hull
-
 
 /obj/effect/wallframe_spawn/reinforced/polarized
 	name = "polarized reinforced wall frame window spawner"

@@ -24,6 +24,15 @@
 	var/warning = ""
 	var/hidden_from_codex			  // If it should not show up in Codex
 	var/category = /decl/language    // Used to point at root language types that shouldn't be visible
+	var/list/scramble_cache = list()
+	var/list/speech_sounds
+
+/decl/language/proc/get_spoken_sound()
+	if(speech_sounds)
+		var/list/result[2]
+		result[1] = pick(speech_sounds)
+		result[2] = 40
+		return result
 
 /decl/language/proc/can_be_spoken_properly_by(var/mob/speaker)
 	return TRUE
@@ -48,9 +57,6 @@
 		full_name += " [capitalize(lowertext(new_name))]"
 
 	return "[trim(full_name)]"
-
-/decl/language
-	var/list/scramble_cache = list()
 
 /decl/language/proc/scramble(var/input, var/list/known_languages)
 
@@ -120,13 +126,13 @@
 	return scrambled_text
 
 /decl/language/proc/format_message(message, verb)
-	return "[verb], <span class='message'><span class='[colour]'>\"[capitalize(message)]\"</span></span>"
+	return "[verb], <span class='message'><span class='[colour]'>\"[capitalize(filter_modify_message(message))]\"</span></span>"
 
 /decl/language/proc/format_message_plain(message, verb)
-	return "[verb], \"[capitalize(message)]\""
+	return "[verb], \"[capitalize(filter_modify_message(message))]\""
 
 /decl/language/proc/format_message_radio(message, verb)
-	return "[verb], <span class='[colour]'>\"[capitalize(message)]\"</span>"
+	return "[verb], <span class='[colour]'>\"[capitalize(filter_modify_message(message))]\"</span>"
 
 /decl/language/proc/get_talkinto_msg_range(message)
 	// if you yell, you'll be heard from two tiles over instead of one
@@ -137,7 +143,6 @@
 
 	if(!speaker_mask) speaker_mask = speaker.name
 	message = format_message(message, get_spoken_verb(message))
-
 	for(var/mob/player in GLOB.player_list)
 		player.hear_broadcast(src, speaker, speaker_mask, message)
 

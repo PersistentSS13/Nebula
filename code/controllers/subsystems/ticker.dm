@@ -96,10 +96,12 @@ SUBSYSTEM_DEF(ticker)
 	spawn(0)//Forking here so we dont have to wait for this to finish
 		mode.post_setup() // Drafts antags who don't override jobs.
 		to_world("<FONT color='blue'><B>Enjoy the game!</B></FONT>")
-		sound_to(world, sound(GLOB.using_map.welcome_sound))
-
-		//Holiday Round-start stuff	~Carn
-		Holiday_Game_Start()
+		if(GLOB.using_map.welcome_sound)
+			sound_to(world, sound(pick(GLOB.using_map.welcome_sound)))
+		if(global.current_holiday)
+			to_world("<font color='blue'>and...</font>")
+			to_world("<h4>[global.current_holiday.announcement]</h4>")
+			global.current_holiday.set_up_holiday()
 
 	if(!length(GLOB.admins))
 		send2adminirc("Round has started with no admins online.")
@@ -258,13 +260,16 @@ Helpers
 	mode = mode_datum
 	master_mode = mode_to_try
 	if(mode_to_try == "secret")
-		to_world("<B>The current game mode is - Secret!</B>")
+		to_world("<B>The current game mode is Secret!</B>")
 		var/list/mode_names = list()
 		for (var/mode_tag in base_runnable_modes)
 			var/datum/game_mode/M = gamemode_cache[mode_tag]
 			if(M)
 				mode_names += M.name
-		to_world("<B>Possibilities:</B> [english_list(mode_names)]")
+		if (config.secret_hide_possibilities)
+			message_admins("<B>Possibilities:</B> [english_list(mode_names)]")
+		else
+			to_world("<B>Possibilities:</B> [english_list(mode_names)]")
 	else
 		mode.announce()
 

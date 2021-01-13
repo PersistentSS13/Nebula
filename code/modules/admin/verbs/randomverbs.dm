@@ -9,7 +9,7 @@
 	if(confirm != "Yes")
 		return
 
-	for(var/obj/item/W in M)
+	for(var/obj/item/W in M.get_contained_external_atoms())
 		M.drop_from_inventory(W)
 
 	log_admin("[key_name(usr)] made [key_name(M)] drop everything!")
@@ -35,8 +35,8 @@
 		M.forceMove(pick(GLOB.prisonwarp))
 		if(istype(M, /mob/living/carbon/human))
 			var/mob/living/carbon/human/prisoner = M
-			prisoner.equip_to_slot_or_del(new /obj/item/clothing/under/color/orange(prisoner), slot_w_uniform)
-			prisoner.equip_to_slot_or_del(new /obj/item/clothing/shoes/color/orange(prisoner), slot_shoes)
+			prisoner.equip_to_slot_or_del(new /obj/item/clothing/under/color/orange(prisoner), slot_w_uniform_str)
+			prisoner.equip_to_slot_or_del(new /obj/item/clothing/shoes/color/orange(prisoner), slot_shoes_str)
 		spawn(50)
 			to_chat(M, "<span class='warning'>You have been sent to the prison station!</span>")
 		log_and_message_admins("sent [key_name_admin(M)] to the prison station.")
@@ -592,6 +592,10 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	if(!customname)
 		customname = "[command_name()] Update"
 
+	// Even admin must bow to the whim of the autolanguagefilter.
+	if(filter_block_message(mob, input) || filter_block_message(mob, customname))
+		return
+
 	//New message handling
 	post_comm_message(customname, replacetext(input, "\n", "<br/>"))
 
@@ -732,37 +736,6 @@ Traitors and the like can also be revived with the previous role mostly intact.
 	for(var/t in L)
 		to_chat(usr, "[t]")
 	SSstatistics.add_field_details("admin_verb","CC") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-
-/* This proc is DEFERRED. Does not do anything.
-/client/proc/cmd_admin_remove_phoron()
-	set category = "Debug"
-	set name = "Stabilize Atmos."
-	if(!holder)
-		to_chat(src, "Only administrators may use this command.")
-		return
-	SSstatistics.add_field_details("admin_verb","STATM") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
-// DEFERRED
-	spawn(0)
-		for(var/turf/T in view())
-			T.poison = 0
-			T.oldpoison = 0
-			T.tmppoison = 0
-			T.oxygen = 755985
-			T.oldoxy = 755985
-			T.tmpoxy = 755985
-			T.co2 = 14.8176
-			T.oldco2 = 14.8176
-			T.tmpco2 = 14.8176
-			T.n2 = 2.844e+006
-			T.on2 = 2.844e+006
-			T.tn2 = 2.844e+006
-			T.tsl_gas = 0
-			T.osl_gas = 0
-			T.sl_gas = 0
-			T.temp = 293.15
-			T.otemp = 293.15
-			T.ttemp = 293.15
-*/
 
 /client/proc/toggle_view_range()
 	set category = "Special Verbs"

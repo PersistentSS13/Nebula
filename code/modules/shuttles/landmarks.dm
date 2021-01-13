@@ -17,7 +17,7 @@
 	//when the shuttle leaves this landmark, it will leave behind the base area
 	//also used to determine if the shuttle can arrive here without obstruction
 	var/area/base_area
-	//Will also leave this type of turf behind if set.
+	//Will also leave this type of turf behind if set, if the turfs do not have prev_type set.
 	var/turf/base_turf
 	//Name of the shuttle, null for generic waypoint
 	var/shuttle_restricted
@@ -128,6 +128,7 @@
 	for(var/turf/T in range(radius, src))
 		if(T.density)
 			T.ChangeTurf(get_base_turf_by_area(T))
+		T.turf_flags |= TURF_FLAG_NORUINS
 
 //Used for custom landing locations. Self deletes after a shuttle leaves.
 /obj/effect/shuttle_landmark/temporary
@@ -135,8 +136,10 @@
 	landmark_tag = "landing"
 	flags = SLANDMARK_FLAG_AUTOSET
 
-/obj/effect/shuttle_landmark/temporary/Initialize()
+/obj/effect/shuttle_landmark/temporary/Initialize(var/mapload, var/secure = TRUE)
 	landmark_tag += "-[random_id("landmarks",1,9999)]"
+	if(!secure)
+		flags |= (SLANDMARK_FLAG_DISCONNECTED | SLANDMARK_FLAG_ZERO_G)
 	. = ..()
 
 /obj/effect/shuttle_landmark/temporary/Destroy()
@@ -151,9 +154,9 @@
 	qdel(src)
 
 /obj/item/spaceflare
-	name = "bluespace flare"
+	name = "long-range flare"
 	desc = "Burst transmitter used to broadcast all needed information for shuttle navigation systems. Has a flare attached for marking the spot where you probably shouldn't be standing."
-	icon = 'icons/obj/items/device/bluespace_flare.dmi'
+	icon = 'icons/obj/items/device/long_range_flare.dmi'
 	icon_state = "bluflare"
 	light_color = "#3728ff"
 	var/active

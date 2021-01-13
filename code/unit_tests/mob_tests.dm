@@ -24,10 +24,10 @@
 /datum/unit_test/human_breath/start_test()
 	var/turf/T = get_space_turf()
 
-	if(!istype(T, /turf/space))	//If the above isn't a space turf then we force it to find one will most likely pick 1,1,1
+	if(!isspaceturf(T))	//If the above isn't a space turf then we force it to find one will most likely pick 1,1,1
 		T = locate(/turf/space)
 	for(var/species_name in get_all_species())
-		var/datum/species/S = get_species_by_key(species_name)
+		var/decl/species/S = get_species_by_key(species_name)
 		var/mob/living/carbon/human/H = new(T, S.name)
 		if(H.need_breathe())
 			var/species_organ = H.species.breathing_organ
@@ -303,7 +303,7 @@ datum/unit_test/mob_damage/halloss
 
 /datum/unit_test/species_base_skin/start_test()
 	for(var/species_name in get_all_species())
-		var/datum/species/S = get_species_by_key(species_name)
+		var/decl/species/S = get_species_by_key(species_name)
 		if(S.base_skin_colours)
 			if(!(S.appearance_flags & HAS_BASE_SKIN_COLOURS))
 				log_unit_test("[S.name] has a skin colour list but no HAS_BASE_SKIN_COLOURS flag.")
@@ -421,7 +421,7 @@ datum/unit_test/mob_damage/halloss
 			failed[mobtype] = "invalid meat_type ([mtype]) but meat_amount above zero"
 
 		var/smat =   initial(animal.skin_material)
-		var/stype =  (smat && istype(SSmaterials.get_material_datum(smat), /material))
+		var/stype =  (smat && istype(decls_repository.get_decl(smat), /decl/material))
 		var/scount = initial(animal.skin_amount) > 0
 		if(stype && scount)
 			check_skin += mobtype
@@ -431,7 +431,7 @@ datum/unit_test/mob_damage/halloss
 			failed[mobtype] = "invalid skin_material ([smat]) but skin_amount above zero"
 
 		var/bmat =   initial(animal.bone_material)
-		var/btype =  (bmat && istype(SSmaterials.get_material_datum(bmat), /material))
+		var/btype =  (bmat && istype(decls_repository.get_decl(bmat), /decl/material))
 		var/bcount = initial(animal.bone_amount) > 0
 		if(btype && bcount)
 			check_bones += mobtype

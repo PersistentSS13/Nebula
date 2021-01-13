@@ -1,6 +1,6 @@
 // Glass shards
 
-/obj/item/material/shard
+/obj/item/shard
 	name = "shard"
 	icon = 'icons/obj/items/shards.dmi'
 	desc = "Made of nothing. How does this even exist?" // set based on material, if this desc is visible it's a bug (shards default to being made of glass)
@@ -13,22 +13,24 @@
 	thrown_material_force_multiplier = 0.1 // 3 with weight 30 (glass)
 	item_state = "shard-glass"
 	attack_verb = list("stabbed", "slashed", "sliced", "cut")
-	material = MAT_GLASS
+	material = /decl/material/solid/glass
+	applies_material_colour = TRUE
+	applies_material_name = TRUE
 	unbreakable = 1 //It's already broken.
 	item_flags = ITEM_FLAG_CAN_HIDE_IN_SHOES
 	var/has_handle
 
-/obj/item/material/shard/attack(mob/living/M, mob/living/user, var/target_zone)
+/obj/item/shard/attack(mob/living/M, mob/living/user, var/target_zone)
 	. = ..()
 	if(. && !has_handle)
 		var/mob/living/carbon/human/H = user
 		if(istype(H) && !H.gloves && !(H.species.species_flags & SPECIES_FLAG_NO_MINOR_CUT))
-			var/obj/item/organ/external/hand = H.get_organ(H.hand ? BP_L_HAND : BP_R_HAND)
+			var/obj/item/organ/external/hand = H.get_organ(H.get_active_held_item_slot())
 			if(istype(hand) && !BP_IS_PROSTHETIC(hand))
 				to_chat(H, SPAN_DANGER("You slice your hand on \the [src]!"))
 				hand.take_external_damage(rand(5,10), used_weapon = src)
 
-/obj/item/material/shard/set_material(var/new_material)
+/obj/item/shard/set_material(var/new_material)
 	..(new_material)
 	if(!istype(material))
 		return
@@ -37,8 +39,8 @@
 	update_icon()
 
 	if(material.shard_type)
-		SetName("[material.display_name] [material.shard_type]")
-		desc = "A small piece of [material.display_name]. It looks sharp, you wouldn't want to step on it barefoot. Could probably be used as ... a throwing weapon?"
+		SetName("[material.solid_name] [material.shard_type]")
+		desc = "A small piece of [material.solid_name]. It looks sharp, you wouldn't want to step on it barefoot. Could probably be used as ... a throwing weapon?"
 		switch(material.shard_type)
 			if(SHARD_SPLINTER, SHARD_SHRAPNEL)
 				gender = PLURAL
@@ -47,16 +49,16 @@
 	else
 		qdel(src)
 
-/obj/item/material/shard/on_update_icon()
+/obj/item/shard/on_update_icon()
 	if(material)
-		color = material.icon_colour
+		color = material.color
 		// 1-(1-x)^2, so that glass shards with 0.3 opacity end up somewhat visible at 0.51 opacity
 		alpha = 255 * (1 - (1 - material.opacity)*(1 - material.opacity))
 	else
 		color = "#ffffff"
 		alpha = 255
 
-/obj/item/material/shard/attackby(obj/item/W, mob/user)
+/obj/item/shard/attackby(obj/item/W, mob/user)
 	if(isWelder(W) && material.shard_can_repair)
 		var/obj/item/weldingtool/WT = W
 		if(WT.remove_fuel(0, user))
@@ -75,14 +77,14 @@
 		if(cable.use(3))
 			to_chat(user, SPAN_NOTICE("You wind some cable around the thick end of \the [src]."))
 			has_handle = cable.color
-			SetName("[material.display_name] shank")
+			SetName("[material.solid_name] shank")
 			update_icon()
 			return
 		to_chat(user, SPAN_WARNING("You need 3 or more units of cable to give \the [src] a handle."))
 		return
 	return ..()
 
-/obj/item/material/shard/on_update_icon()
+/obj/item/shard/on_update_icon()
 	overlays.Cut()
 	. = ..()
 	if(has_handle)
@@ -91,7 +93,7 @@
 		I.color = has_handle
 		overlays += I
 
-/obj/item/material/shard/Crossed(atom/movable/AM)
+/obj/item/shard/Crossed(atom/movable/AM)
 	..()
 	if(isliving(AM))
 		var/mob/M = AM
@@ -106,7 +108,7 @@
 			if(H.species.siemens_coefficient<0.5 || (H.species.species_flags & (SPECIES_FLAG_NO_EMBED|SPECIES_FLAG_NO_MINOR_CUT))) //Thick skin.
 				return
 
-			if( H.shoes || ( H.wear_suit && (H.wear_suit.body_parts_covered & FEET) ) )
+			if( H.shoes || ( H.wear_suit && (H.wear_suit.body_parts_covered & SLOT_FEET) ) )
 				return
 
 			to_chat(M, "<span class='danger'>You step on \the [src]!</span>")
@@ -127,14 +129,14 @@
 			return
 
 // Preset types - left here for the code that uses them
-/obj/item/material/shard/phoron/Initialize(mapload, material_key)
-	. = ..(loc, MAT_PHORON_GLASS)
+/obj/item/shard/borosilicate
+	material = /decl/material/solid/glass/borosilicate
 
-/obj/item/material/shard/shrapnel
+/obj/item/shard/shrapnel
 	name = "shrapnel"
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	w_class = ITEM_SIZE_TINY	//it's real small
 
-/obj/item/material/shard/plastic
-	material = MAT_PLASTIC
+/obj/item/shard/plastic
+	material = /decl/material/solid/plastic
 	w_class = ITEM_SIZE_TINY

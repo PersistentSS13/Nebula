@@ -84,20 +84,20 @@
 		to_chat(src, SPAN_NOTICE("Wait until the round starts to join."))
 		return
 	if(!config.enter_allowed)
-		to_chat(usr, "<span class='notice'>There is an administrative lock on entering the game!</span>")
+		to_chat(usr, SPAN_NOTICE("There is an administrative lock on entering the game!"))
 		return
 	if(spawning)
 		return
-	for(var/mob/M in SSmobs.mob_list)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
+	for(var/mob/M in GLOB.living_mob_list_)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
 		if(M.loc && !istype(M, /mob/new_player) && (M.saved_ckey == ckey || M.saved_ckey == "@[ckey]"))
 			transition_to_game()
 			to_chat(src, SPAN_NOTICE("A character is already in game."))
 			spawning = TRUE
 			M.key = key
+			qdel(src)
 			return
 
 	create_character()	// Creating a new character based off the player's preferences.
-
 	qdel(src)
 
 /mob/new_player/create_character()
@@ -105,13 +105,18 @@
 	transition_to_game()
 	var/turf/spawn_turf
 
-	// Temporary, until spawning mechanics can be finalized.
-	for(var/obj/machinery/cryopod/C in SSmachines.machinery)
-		spawn_turf = locate(C.x, C.y, C.z)
-	if(!spawn_turf)
-		spawn_turf = locate(100,100,1)
+	var/used_chargen = FALSE
+	if(chargen_spawns && length(chargen_spawns))
+		spawn_turf = SSchargen.get_spawn_turf()
+		used_chargen = TRUE
+	else
+		for(var/turf/T in GLOB.latejoin_cryo)
+			if(locate(/mob) in T)
+				continue
+			spawn_turf = T
+
 	var/mob/living/carbon/human/new_character
-	var/datum/species/chosen_species
+	var/decl/species/chosen_species
 	if(client.prefs.species)
 		chosen_species = all_species[client.prefs.species]
 
@@ -126,6 +131,8 @@
 
 	if(!new_character)
 		new_character = new(spawn_turf)
+		if(used_chargen)
+			SSchargen.assign_spawn_pod(new_character, spawn_turf)
 
 	new_character.lastarea = get_area(spawn_turf)
 	client.prefs.copy_to(new_character)
@@ -137,9 +144,12 @@
 			mind.StoreMemory(client.prefs.memory)
 		mind.transfer_to(new_character)					//won't transfer key since the mind is not active
 
+	var/datum/job/job = SSjobs.get_by_path(/datum/job/colonist) // Hacky way to get players equipped with a basic uniform and their accounts set up.
+	job.setup_account(new_character)
+	job.equip(new_character)
+
 	var/datum/skillset/SS = new_character.skillset 	// Populate the skill_list of the player's skillset so that they can be properly adjusted during gameplay.
 	SS.set_skillset_min()
-	SS.time_skills_set = world.realtime
 
 	new_character.dna.ready_dna(new_character)
 	new_character.dna.b_type = client.prefs.b_type
@@ -155,13 +165,13 @@
 	new_character.regenerate_icons()
 
 	new_character.key = key		//Manually transfer the key to log them in
-	apply_custom_loadout(new_character)
 
+	
 /mob/new_player/Move()
 	return 0
 
 /mob/new_player/get_species()
-	var/datum/species/chosen_species
+	var/decl/species/chosen_species
 	if(client.prefs.species)
 		chosen_species = all_species[client.prefs.species]
 
@@ -204,10 +214,10 @@
 					permitted = 0
 
 				if(!permitted)
-					to_chat(H, "<span class='warning'>Your current species or whitelist status does not permit you to spawn with [thing]!</span>")
+					to_chat(H, SPAN_WARNING("Your current species or whitelist status does not permit you to spawn with [thing]!"))
 					continue
 
-				if(!G.slot || G.slot == slot_tie || (G.slot in loadout_taken_slots) || !G.spawn_on_mob(H, H.client.prefs.Gear()[G.display_name]))
+				if(!G.slot || (G.slot in loadout_taken_slots) || !G.spawn_on_mob(H, H.client.prefs.Gear()[G.display_name]))
 					spawn_in_storage.Add(G)
 				else
 					loadout_taken_slots.Add(G.slot)

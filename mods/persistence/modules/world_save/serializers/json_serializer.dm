@@ -77,12 +77,16 @@
 /serializer/json/DeserializeDatum(var/datum/persistence/load_cache/thing/object)
 	throw EXCEPTION("Do not use DeserializeDatum for the JSON Serializer. Use QueryAndDeserializeDatum.")
 
-/serializer/proc/JsonDeserializeDatum(var/datum/thing, var/list/thing_vars)
+/serializer/json/proc/JsonDeserializeDatum(var/datum/thing, var/list/thing_vars)
 	for(var/V in thing_vars)
 		var/encoded_value = thing_vars[V]
 		if(istext(encoded_value) && findtext(encoded_value, "OBJ#", 1, 5))
 			// This is an object reference.
-			thing.vars[V] = QueryAndDeserializeDatum(copytext(encoded_value, 5))
+			thing.vars[V] = sql.QueryAndDeserializeDatum(copytext(encoded_value, 5))
+			continue
+		if(istext(encoded_value) && findtext(encoded_value, "FLAT_OBJ#", 1, 10))
+			// This is a flattened object
+			thing.vars[V] = QueryAndDeserializeDatum(copytext(encoded_value, 10))
 			continue
 		if(islist(encoded_value))
 			thing.vars[V] = DeserializeList(encoded_value)
@@ -95,21 +99,22 @@
 	var/list/final_list = list()
 	for(var/K in raw_list)
 		var/key = K
-		if(istext(K) && findtext(K, "OBJ#", 1, 2))
+		if(istext(K) && findtext(K, "OBJ#", 1, 5))
 			key = sql.QueryAndDeserializeDatum(copytext(K, 5))
-		else if(istext(K) && findtext(K, "FLAT_OBJ#", 1, 2))
+		else if(istext(K) && findtext(K, "FLAT_OBJ#", 1, 10))
 			key = QueryAndDeserializeDatum(copytext(K, 10))
 		else if(islist(K))
 			key = DeserializeList(K)
 		try
 			var/V = raw_list[K]
-			if(istext(V) && findtext(V, "OBJ#", 1, 2))
+			if(istext(V) && findtext(V, "OBJ#", 1, 5))
 				V = sql.QueryAndDeserializeDatum(copytext(V, 5))
-			else if(istext(K) && findtext(K, "FLAT_OBJ#", 1, 2))
+			else if(istext(K) && findtext(K, "FLAT_OBJ#", 1, 10))
 				V = QueryAndDeserializeDatum(copytext(V, 10))
 			else if(islist(V))
 				V = DeserializeList(V)
-			final_list[key] = V
+			if(V) // Prevents null values from clogging up lists when an object isn't supposed to be saved.
+				final_list[key] = V
 		catch
 			final_list.Add(key)
 	return final_list
@@ -117,6 +122,8 @@
 /serializer/json/QueryAndDeserializeDatum(var/thing_json)
 	var/list/tokens = splittext(thing_json, "|")
 	var/thing_type = text2path(tokens[1])
+	if(!thing_type)
+		return
 	var/datum/existing = new thing_type
 	var/list/vars = json_decode(jointext(tokens.Copy(2), "|"))
 	return JsonDeserializeDatum(existing, vars)

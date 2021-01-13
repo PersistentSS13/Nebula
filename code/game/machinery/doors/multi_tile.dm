@@ -18,7 +18,7 @@
 	width = 2
 	appearance_flags = 0
 	opacity = 1
-	assembly_type = /obj/structure/door_assembly/multi_tile
+	frame_type = /obj/structure/door_assembly/multi_tile
 
 /obj/machinery/door/airlock/multi_tile/Initialize()
 	. = ..()
@@ -61,9 +61,9 @@
 			success = 1
 			if(propagate)
 				var/turf/simulated/wall/W = T
-				W.update_connections()
-				W.update_icon()
-
+				W.wall_connections = null
+				W.other_connections = null
+				W.queue_icon_update()
 		else if( istype(T, /turf/simulated/shuttle/wall))
 			success = 1
 		else

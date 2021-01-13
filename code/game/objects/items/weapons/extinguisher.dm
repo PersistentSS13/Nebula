@@ -11,7 +11,7 @@
 	throw_speed = 2
 	throw_range = 10
 	force = 10.0
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	attack_verb = list("slammed", "whacked", "bashed", "thunked", "battered", "bludgeoned", "thrashed")
 
 	var/spray_particles = 3
@@ -23,11 +23,11 @@
 	var/sprite_name = "fire_extinguisher"
 
 /obj/item/extinguisher/mini
-	name = "fire extinguisher"
+	name = "mini fire extinguisher"
 	desc = "A light and compact fibreglass-framed model fire extinguisher."
 	icon_state = "miniFE0"
 	item_state = "miniFE"
-	hitsound = null	//it is much lighter, after all.
+	hitsound = null
 	throwforce = 2
 	w_class = ITEM_SIZE_SMALL
 	force = 3.0
@@ -35,20 +35,28 @@
 	starting_water = 1000
 	max_water = 1000
 	sprite_name = "miniFE"
+	material = /decl/material/solid/plastic
+	matter = list(
+		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/glass = MATTER_AMOUNT_TRACE
+	)
 
 /obj/item/extinguisher/Initialize()
 	. = ..()
 	create_reagents(max_water)
 	if(starting_water > 0)
-		reagents.add_reagent(/decl/reagent/water, starting_water)
+		reagents.add_reagent(/decl/material/liquid/water, starting_water)
 
 /obj/item/extinguisher/empty
+	starting_water = 0
+
+/obj/item/extinguisher/mini/empty
 	starting_water = 0
 
 /obj/item/extinguisher/examine(mob/user, distance)
 	. = ..()
 	if(distance <= 0)
-		to_chat(user, text("\icon[] [] contains [] units of water left!", src, src.name, src.reagents.total_volume))
+		to_chat(user, "[html_icon(src)] [name] contains [reagents.total_volume] units of water!")
 
 /obj/item/extinguisher/attack_self(mob/user)
 	safety = !safety
@@ -92,61 +100,31 @@
 		O.Move(get_step(user,movementdirection), movementdirection)
 		sleep(3)
 
-/obj/item/extinguisher/resolve_attackby(var/atom/target, var/mob/user, var/flag)
-	if (istype(target, /obj/structure/hygiene/sink) && REAGENTS_FREE_SPACE(target.reagents) > 0) // fill first, wash if full
-		return FALSE
-	return ..()
+/obj/item/extinguisher/resolve_attackby(obj/structure/O, mob/user, click_params)
+	. = (istype(O) && fill_from_pressurized_fluid_source(O, user)) || ..()
 
+/obj/item/extinguisher/fill_from_pressurized_fluid_source(obj/source, mob/user)
+	var/last_fill = reagents?.total_volume
+	. = ..()
+	if(. && reagents?.total_volume > last_fill)
+		playsound(loc, 'sound/effects/refill.ogg', 50, 1, -6)
 
 /obj/item/extinguisher/afterattack(var/atom/target, var/mob/user, var/flag)
-	var/issink = istype(target, /obj/structure/hygiene/sink)
-
-	if (flag && (issink || istype(target, /obj/structure/reagent_dispensers)))
-		var/obj/dispenser = target
-		var/amount = REAGENTS_FREE_SPACE(target.reagents)
-		if (amount <= 0)
-			to_chat(user, SPAN_NOTICE("\The [src] is full."))
-			return
-		if (!issink) // sinks create reagents, they don't "contain" them
-			if (dispenser.reagents.total_volume <= 0)
-				to_chat(user, SPAN_NOTICE("\The [dispenser] is empty."))
-				return
-			amount = dispenser.reagents.trans_to_obj(src, max_water)
-		else
-			reagents.add_reagent(/decl/reagent/water, amount)
-		to_chat(user, SPAN_NOTICE("You fill \the [src] with [amount] units from \the [dispenser]."))
-		playsound(src.loc, 'sound/effects/refill.ogg', 50, 1, -6)
-		if (istype(target, /obj/structure/reagent_dispensers/acid))
-			to_chat(user, SPAN_WARNING("The acid violently eats away at \the [src]!"))
-			if (prob(50))
-				reagents.splash(user, 5)
-			qdel(src)
-		return
-
-	if (!safety)
-		if (src.reagents.total_volume < 1)
-			to_chat(usr, SPAN_NOTICE("\The [src] is empty."))
-			return
-
-		if (world.time < src.last_use + 20)
-			return
-
-		src.last_use = world.time
-
-		playsound(src.loc, 'sound/effects/extinguish.ogg', 75, 1, -3)
-
-		var/direction = get_dir(target,src)
-
-		if(user.buckled && isobj(user.buckled))
-			addtimer(CALLBACK(src, .proc/propel_object, user.buckled, user, direction), 0)
-
-		addtimer(CALLBACK(src, .proc/do_spray, target), 0)
-
-		if(!user.check_space_footing())
-			step(user, direction)
-	else
+	if(safety)
 		return ..()
-	return
+	if (src.reagents.total_volume < 1)
+		to_chat(usr, SPAN_NOTICE("\The [src] is empty."))
+		return
+	if (world.time < src.last_use + 20)
+		return
+	src.last_use = world.time
+	playsound(src.loc, 'sound/effects/extinguish.ogg', 75, 1, -3)
+	var/direction = get_dir(target,src)
+	if(user.buckled && isobj(user.buckled))
+		addtimer(CALLBACK(src, .proc/propel_object, user.buckled, user, direction), 0)
+	addtimer(CALLBACK(src, .proc/do_spray, target), 0)
+	if(!user.check_space_footing())
+		step(user, direction)
 
 /obj/item/extinguisher/proc/do_spray(var/atom/Target)
 	var/turf/T = get_turf(Target)

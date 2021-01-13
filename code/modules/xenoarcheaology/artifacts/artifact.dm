@@ -3,8 +3,9 @@
 	desc = "A large alien device."
 	icon = 'icons/obj/xenoarchaeology.dmi'
 	icon_state = "ano00"
+	density = TRUE
+
 	var/base_icon = "ano0"
-	density = 1
 	var/datum/artifact_effect/my_effect
 	var/datum/artifact_effect/secondary_effect
 	var/being_used = 0
@@ -99,15 +100,12 @@
 	visible_message(SPAN_WARNING("\The [P] hits \the [src]!"))
 	check_triggers(/datum/artifact_trigger/proc/on_hit, P)
 
-/obj/structure/artifact/ex_act(severity)
+/obj/structure/artifact/explosion_act(severity)
+	SHOULD_CALL_PARENT(FALSE)
 	if(check_triggers(/datum/artifact_trigger/proc/on_explosion, severity))
 		return
-	switch(severity)
-		if(1) 
-			qdel(src)
-		if(2)
-			if (prob(50))
-				qdel(src)
+	if(severity == 1 || (severity == 2 && prob(50)))
+		physically_destroyed()
 
 /obj/structure/artifact/Move()
 	..()
@@ -132,3 +130,6 @@
 		out += secondary_effect.getDescription()
 
 	return out
+
+/obj/structure/artifact/fluid_act(datum/reagents/fluids)
+	check_triggers(/datum/artifact_trigger/proc/on_fluid_act, fluids)

@@ -10,6 +10,7 @@
 #define INVISIBILITY_LIGHTING    20
 #define INVISIBILITY_LEVEL_ONE   35
 #define INVISIBILITY_LEVEL_TWO   45
+#define INVISIBILITY_OVERMAP     50
 #define INVISIBILITY_OBSERVER    60
 #define INVISIBILITY_EYE         61
 #define INVISIBILITY_SYSTEM      99
@@ -75,10 +76,11 @@
 #define DEFAULT_JOB_TYPE /datum/job/assistant
 
 //Area flags, possibly more to come
-#define AREA_FLAG_RAD_SHIELDED      1 // shielded from radiation, clearly
-#define AREA_FLAG_EXTERNAL          2 // External as in exposed to space, not outside in a nice, green, forest
-#define AREA_FLAG_ION_SHIELDED      4 // shielded from ionospheric anomalies
+#define AREA_FLAG_RAD_SHIELDED      1 // Shielded from radiation, clearly.
+#define AREA_FLAG_EXTERNAL          2 // External as in exposed to space, not outside in a nice, green, forest.
+#define AREA_FLAG_ION_SHIELDED      4 // Shielded from ionospheric anomalies.
 #define AREA_FLAG_IS_NOT_PERSISTENT 8 // SSpersistence will not track values from this area.
+#define AREA_FLAG_IS_BACKGROUND     16// Blueprints can create areas on top of these areas. Cannot edit the name of or delete these areas.
 
 //Map template flags
 #define TEMPLATE_FLAG_ALLOW_DUPLICATES 1 // Lets multiple copies of the template to be spawned
@@ -249,7 +251,7 @@
 #define TOOL_INTERACTION_ALL         (TOOL_INTERACTION_ANCHOR | TOOL_INTERACTION_DECONSTRUCT | TOOL_INTERACTION_WIRING)
 
 //Inserts 'a' or 'an' before X in ways \a doesn't allow
-#define ADD_ARTICLE(X) "[(lowertext(copytext(X, 1, 2)) in list("a", "e", "i", "o", "u")) ? "an" : "a"] [X]"
+#define ADD_ARTICLE(X) "[(lowertext(X[1]) in GLOB.vowels) ? "an" : "a"] [X]"
 
 #define SOULSTONE_CRACKED -1
 #define SOULSTONE_EMPTY 0
@@ -268,3 +270,9 @@
 
 #define  ICON_STATE_WORLD  "world"
 #define  ICON_STATE_INV  "inventory"
+
+#if DM_VERSION < 513
+#define hex2num(X) hex2num_inner(X)
+#else
+#define hex2num(X) text2num(X, 16)
+#endif

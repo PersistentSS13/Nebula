@@ -57,26 +57,25 @@
 		overlays += lid
 
 
-/obj/item/chems/glass/bottle/adrenaline
-	name = "adrenaline bottle"
-	desc = "A small bottle. Contains adrenaline - used to stabilize patients."
+/obj/item/chems/glass/bottle/stabilizer
+	name = "stabilizer bottle"
+	desc = "A small bottle. Contains stabilizer - used to stabilize patients."
 	icon_state = "bottle-4"
 
-/obj/item/chems/glass/bottle/adrenaline/Initialize()
+/obj/item/chems/glass/bottle/stabilizer/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/reagent/adrenaline, 60)
+	reagents.add_reagent(/decl/material/liquid/stabilizer, 60)
 	update_icon()
 
-/obj/item/chems/glass/bottle/toxin
-	name = "toxin bottle"
-	desc = "A small bottle of toxins. Do not drink, it is poisonous."
+/obj/item/chems/glass/bottle/bromide
+	name = "bromide bottle"
+	desc = "A small bottle of bromide. Do not drink, it is poisonous."
 	icon_state = "bottle-3"
 
-/obj/item/chems/glass/bottle/toxin/Initialize()
+/obj/item/chems/glass/bottle/bromide/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/reagent/toxin, 60)
+	reagents.add_reagent(/decl/material/liquid/bromide, 60)
 	update_icon()
-
 
 /obj/item/chems/glass/bottle/cyanide
 	name = "cyanide bottle"
@@ -85,7 +84,7 @@
 
 /obj/item/chems/glass/bottle/cyanide/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/reagent/toxin/cyanide, 30) //volume changed to match chloral
+	reagents.add_reagent(/decl/material/liquid/cyanide, 30) //volume changed to match chloral
 	update_icon()
 
 
@@ -96,7 +95,7 @@
 
 /obj/item/chems/glass/bottle/sedatives/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/reagent/sedatives, 60)
+	reagents.add_reagent(/decl/material/liquid/sedatives, 60)
 	update_icon()
 
 
@@ -107,7 +106,7 @@
 
 /obj/item/chems/glass/bottle/antitoxin/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/reagent/antitoxins, 60)
+	reagents.add_reagent(/decl/material/liquid/antitoxins, 60)
 	update_icon()
 
 
@@ -118,7 +117,7 @@
 
 /obj/item/chems/glass/bottle/mutagenics/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/reagent/mutagenics, 60)
+	reagents.add_reagent(/decl/material/liquid/mutagenics, 60)
 	update_icon()
 
 
@@ -129,7 +128,7 @@
 
 /obj/item/chems/glass/bottle/ammonia/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/reagent/ammonia, 60)
+	reagents.add_reagent(/decl/material/gas/ammonia, 60)
 	update_icon()
 
 
@@ -140,9 +139,8 @@
 
 /obj/item/chems/glass/bottle/eznutrient/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/reagent/toxin/fertilizer/eznutrient, 60)
+	reagents.add_reagent(/decl/material/liquid/fertilizer, 60)
 	update_icon()
-
 
 /obj/item/chems/glass/bottle/left4zed
 	name = "\improper Left-4-Zed bottle"
@@ -151,7 +149,8 @@
 
 /obj/item/chems/glass/bottle/left4zed/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/reagent/toxin/fertilizer/left4zed, 60)
+	reagents.add_reagent(/decl/material/liquid/fertilizer, 50)
+	reagents.add_reagent(/decl/material/liquid/mutagenics, 10)
 	update_icon()
 
 
@@ -162,7 +161,8 @@
 
 /obj/item/chems/glass/bottle/robustharvest/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/reagent/toxin/fertilizer/robustharvest, 60)
+	reagents.add_reagent(/decl/material/liquid/fertilizer, 50)
+	reagents.add_reagent(/decl/material/gas/ammonia, 10)
 	update_icon()
 
 /obj/item/chems/glass/bottle/pacid
@@ -172,7 +172,7 @@
 
 /obj/item/chems/glass/bottle/pacid/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/reagent/acid/polyacid, 60)
+	reagents.add_reagent(/decl/material/liquid/acid/polyacid, 60)
 	update_icon()
 
 
@@ -185,7 +185,7 @@
 
 /obj/item/chems/glass/bottle/adminordrazine/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/reagent/adminordrazine, 60)
+	reagents.add_reagent(/decl/material/liquid/adminordrazine, 60)
 	update_icon()
 
 
@@ -196,7 +196,7 @@
 
 /obj/item/chems/glass/bottle/capsaicin/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/reagent/capsaicin, 60)
+	reagents.add_reagent(/decl/material/liquid/capsaicin, 60)
 	update_icon()
 
 
@@ -207,5 +207,5 @@
 
 /obj/item/chems/glass/bottle/frostoil/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/reagent/frostoil, 60)
+	reagents.add_reagent(/decl/material/liquid/frostoil, 60)
 	update_icon()

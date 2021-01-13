@@ -2,7 +2,7 @@
 
 /decl/archaeological_find/cult
 	item_type = "garments"
-	responsive_reagent = /decl/reagent/potassium
+	responsive_reagent = /decl/material/solid/potassium
 	possible_types = list(
 		/obj/item/clothing/head/culthood,
 		/obj/item/clothing/head/culthood/magus,
@@ -14,7 +14,7 @@
 /decl/archaeological_find/cult/sword
 	item_type = "blade"
 	modification_flags = 0
-	possible_types = list(/obj/item/material/sword/cultblade)
+	possible_types = list(/obj/item/sword/cultblade)
 	engraving_chance = 10
 
 //Override adding soulstone

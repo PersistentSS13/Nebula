@@ -1,13 +1,13 @@
-var/global/list/responsive_carriers = list(
-	/decl/reagent/carbon 			= "Trace organic cells",
-	/decl/reagent/potassium 		= "Long exposure particles",
-	/decl/reagent/fuel/hydrazine 	= "Trace water particles",
-	/decl/reagent/ammonia 			= "Crystalline structures",
-	/decl/reagent/mercury 			= "Metallic derivative",
-	/decl/reagent/iron 			= "Metallic composite",
-	/decl/reagent/toxin/chlorine 	= "Metamorphic/igneous rock composite",
-	/decl/reagent/phosphorus 		= "Metamorphic/sedimentary rock composite",
-	/decl/reagent/toxin/phoron 	= "Anomalous material")
+var/list/responsive_carriers = list(
+	/decl/material/solid/carbon          = "Trace organic cells",
+	/decl/material/solid/potassium       = "Long exposure particles",
+	/decl/material/liquid/fuel/hydrazine = "Trace water particles",
+	/decl/material/gas/ammonia 			 = "Crystalline structures",
+	/decl/material/liquid/mercury        = "Metallic derivative",
+	/decl/material/solid/metal/iron      = "Metallic composite",
+	/decl/material/gas/chlorine          = "Metamorphic/igneous rock composite",
+	/decl/material/solid/phosphorus      = "Metamorphic/sedimentary rock composite"
+)
 
 /decl/archaeological_find
 	var/item_type = "object"
@@ -16,7 +16,7 @@ var/global/list/responsive_carriers = list(
 	var/new_icon = 'icons/obj/xenoarchaeology.dmi'
 	var/new_icon_state
 	var/list/name_prefixes = list("strange","ancient","alien")
-	var/responsive_reagent = /decl/reagent/mercury
+	var/responsive_reagent = /decl/material/liquid/mercury
 	var/list/possible_types = list(/obj/item)
 
 /decl/archaeological_find/proc/create_find(atom/location)
@@ -43,7 +43,7 @@ var/global/list/responsive_carriers = list(
 		I.icon_state = new_icon_state()
 	I.desc = jointext(descriptors, "\n")
 	I.forceMove(location)
-	I.set_material(MAT_ALIENALLOY)
+	I.set_material(/decl/material/solid/metal/aliumium)
 	if(modification_flags & XENOFIND_APPLY_PREFIX)
 		new_name = "[pick(name_prefixes)] [new_name]"
 	I.SetName(new_name)
@@ -94,7 +94,7 @@ var/global/list/responsive_carriers = list(
 	if(prob(30))
 		descriptors.Add("is encircled with bands of [pick("quadrinium","cordite","ferritic-alloy","plasteel","duranium")]")
 	if(prob(30))
-		descriptors.Add("menaces with spikes of [pick("solid phoron","uranium","white pearl","black steel")]")
+		descriptors.Add("menaces with spikes of [pick("purple crystal","uranium","white pearl","black steel")]")
 
 	if(length(descriptors))
 		result += ". It [english_list(descriptors)]."

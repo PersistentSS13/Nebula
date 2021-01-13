@@ -1,6 +1,6 @@
 #define SAVE_RESET -1
 
-datum/preferences
+/datum/preferences
 	//doohickeys for savefiles
 	var/path
 	var/default_slot = 1				//Holder so it doesn't default to slot 1, rather the last one used
@@ -15,8 +15,15 @@ datum/preferences
 	//game-preferences
 	var/lastchangelog = ""				//Saved changlog filesize to detect if there was a change
 
-		//Mob preview
-	var/icon/preview_icon = null
+	//Mob preview
+	var/list/char_render_holders		//Should only be a key-value list of north/south/east/west = obj/screen.
+	var/static/list/preview_screen_locs = list(
+		"1" = "character_preview_map:1,5:-12",
+		"2" = "character_preview_map:1,3:15",
+		"4"  = "character_preview_map:1,2:10",
+		"8"  = "character_preview_map:1,1:5",
+		"BG" = "character_preview_map:1,1 to 1,5"
+	)
 
 	var/client/client = null
 	var/client_ckey = null
@@ -36,6 +43,10 @@ datum/preferences
 		else
 			SScharacter_setup.prefs_awaiting_setup += src
 	..()
+
+/datum/preferences/Destroy()
+	. = ..()
+	QDEL_LIST_ASSOC_VAL(char_render_holders)
 
 /datum/preferences/proc/setup()
 	if(!length(GLOB.skills))
@@ -71,6 +82,10 @@ datum/preferences
 		close_load_dialog(user)
 		return
 
+	if(!char_render_holders)
+		update_preview_icon()
+	show_character_previews()
+
 	var/dat = "<html><body><center>"
 
 	if(path)
@@ -89,9 +104,48 @@ datum/preferences
 	dat += player_setup.content(user)
 
 	dat += "</html></body>"
-	var/datum/browser/popup = new(user, "Character Setup","Character Setup", 1200, 800, src)
+	winshow(user, "preferences_window", TRUE)
+	var/datum/browser/popup = new(user, "preferences_browser", "Character Setup", 800, 800)
 	popup.set_content(dat)
-	popup.open()
+	popup.open(FALSE) // Skip registring onclose on the browser pane
+	onclose(user, "preferences_window", src) // We want to register on the window itself
+
+/datum/preferences/proc/update_character_previews(mutable_appearance/MA)
+	if(!client)
+		return
+
+	var/obj/screen/BG = LAZYACCESS(char_render_holders, "BG")
+	if(!BG)
+		BG = new
+		BG.layer = TURF_LAYER
+		BG.icon = 'icons/effects/128x48.dmi'
+		LAZYSET(char_render_holders, "BG", BG)
+		client.screen |= BG
+	BG.icon_state = bgstate
+	BG.screen_loc = preview_screen_locs["BG"]
+
+	for(var/D in GLOB.cardinal)
+		var/obj/screen/O = LAZYACCESS(char_render_holders, "[D]")
+		if(!O)
+			O = new
+			LAZYSET(char_render_holders, "[D]", O)
+			client.screen |= O
+		O.appearance = MA
+		O.dir = D
+		O.screen_loc = preview_screen_locs["[D]"]
+
+/datum/preferences/proc/show_character_previews()
+	if(!client || !char_render_holders)
+		return
+	for(var/render_holder in char_render_holders)
+		client.screen |= char_render_holders[render_holder]
+
+/datum/preferences/proc/clear_character_previews()
+	for(var/index in char_render_holders)
+		var/obj/screen/S = char_render_holders[index]
+		client?.screen -= S
+		qdel(S)
+	char_render_holders = null
 
 /datum/preferences/proc/process_link(mob/user, list/href_list)
 
@@ -131,6 +185,10 @@ datum/preferences
 			return 0
 		load_character(SAVE_RESET)
 		sanitize_preferences()
+	else if(href_list["close"])
+		// User closed preferences window, cleanup anything we need to.
+		clear_character_previews()
+		return 1
 	else
 		return 0
 
@@ -160,32 +218,24 @@ datum/preferences
 	character.age = age
 	character.b_type = b_type
 
-	character.r_eyes = r_eyes
-	character.g_eyes = g_eyes
-	character.b_eyes = b_eyes
+	character.eye_colour = eye_colour
 
 	character.h_style = h_style
-	character.r_hair = r_hair
-	character.g_hair = g_hair
-	character.b_hair = b_hair
+	character.hair_colour = hair_colour
 
 	character.f_style = f_style
-	character.r_facial = r_facial
-	character.g_facial = g_facial
-	character.b_facial = b_facial
+	character.facial_hair_colour = facial_hair_colour
 
-	character.r_skin = r_skin
-	character.g_skin = g_skin
-	character.b_skin = b_skin
+	character.skin_colour = skin_colour
 
-	character.s_tone = s_tone
-	character.s_base = s_base
+	character.skin_tone = skin_tone
+	character.skin_base = skin_base
 
 	character.h_style = h_style
 	character.f_style = f_style
 
 	// Replace any missing limbs.
-	for(var/name in BP_ALL_LIMBS)
+	for(var/name in global.all_limb_tags)
 		var/obj/item/organ/external/O = character.organs_by_name[name]
 		if(!O && organ_data[name] != "amputated")
 			var/list/organ_data = character.species.has_limbs[name]
@@ -194,7 +244,7 @@ datum/preferences
 			O = new limb_path(character)
 
 	// Destroy/cyborgize organs and limbs. The order is important for preserving low-level choices for robolimb sprites being overridden.
-	for(var/name in BP_BY_DEPTH)
+	for(var/name in global.all_limb_tags_by_depth)
 		var/status = organ_data[name]
 		var/obj/item/organ/external/O = character.organs_by_name[name]
 		if(!O)
@@ -243,7 +293,7 @@ datum/preferences
 			var/underwear_item_name = all_underwear[underwear_category_name]
 			var/datum/category_item/underwear/UWD = underwear_category.items_by_name[underwear_item_name]
 			var/metadata = all_underwear_metadata[underwear_category_name]
-			var/obj/item/underwear/UW = UWD.create_underwear(metadata)
+			var/obj/item/underwear/UW = UWD.create_underwear(character, metadata)
 			if(UW)
 				UW.ForceEquipUnderwear(character, FALSE)
 		else
@@ -332,3 +382,12 @@ datum/preferences
 		panel.close()
 		panel = null
 	close_browser(user, "window=saves")
+
+/datum/preferences/proc/apply_post_login_preferences()
+	set waitfor = 0
+	if(!client)
+		return
+	if(client.get_preference_value(/datum/client_preference/chat_position) == GLOB.PREF_YES)
+		client.update_chat_position(TRUE)
+	if(client.get_preference_value(/datum/client_preference/fullscreen_mode) != GLOB.PREF_OFF)
+		client.toggle_fullscreen(client.get_preference_value(/datum/client_preference/fullscreen_mode))

@@ -5,7 +5,7 @@
 		from.trans_to_holder(temp, amount, multiplier, 1)
 
 		var/text_output = temp.generate_taste_message(src)
-		if(text_output != last_taste_text || last_taste_time + 100 < world.time) //We dont want to spam the same message over and over again at the person. Give it a bit of a buffer.
+		if(text_output != last_taste_text || last_taste_time + 1 MINUTE < world.time) //We dont want to spam the same message over and over again at the person. Give it a bit of a buffer.
 			to_chat(src, "<span class='notice'>You can taste [text_output].</span>")//no taste means there are too many tastes and not enough flavor.
 
 			last_taste_time = world.time
@@ -26,10 +26,10 @@ calculate text size per text.
 	var/list/tastes = list() //descriptor = strength
 	if(minimum_percent <= 100)
 		for(var/reagent_type in reagent_volumes)
-			var/decl/reagent/R = decls_repository.get_decl(reagent_type)
+			var/decl/material/R = decls_repository.get_decl(reagent_type)
 			if(!R.taste_mult)
 				continue
-			if(istype(R, /decl/reagent/nutriment))
+			if(istype(R, /decl/material/liquid/nutriment))
 				var/list/taste_data = LAZYACCESS(reagent_data, reagent_type)
 				for(var/taste in taste_data)
 					if(taste in tastes)
@@ -65,4 +65,4 @@ calculate text size per text.
 	return english_list(out, "something indescribable")
 
 /mob/living/carbon/proc/get_fullness()
-	return nutrition + (REAGENT_VOLUME(reagents, /decl/reagent/nutriment) * 25)
+	return nutrition + (REAGENT_VOLUME(reagents, /decl/material/liquid/nutriment) * 25)

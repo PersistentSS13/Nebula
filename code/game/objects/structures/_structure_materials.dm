@@ -1,6 +1,6 @@
 /obj/structure
-	var/material/material
-	var/material/reinf_material
+	var/decl/material/material
+	var/decl/material/reinf_material
 	var/material_alteration
 	var/dismantled
 
@@ -34,21 +34,21 @@
 /obj/structure/proc/update_material_name(var/override_name)
 	var/base_name = override_name || initial(name)
 	if(istype(material))
-		SetName("[material.display_name] [base_name]")
+		SetName("[material.solid_name] [base_name]")
 	else
 		SetName(base_name)
 
 /obj/structure/proc/update_material_desc(var/override_desc)
 	var/base_desc = override_desc || initial(desc)
 	if(istype(material))
-		desc = "[base_desc] This one is made of [material.display_name]."
+		desc = "[base_desc] This one is made of [material.solid_name]."
 	else
 		desc = base_desc
 
 /obj/structure/proc/update_material_colour(var/override_colour)
 	var/base_colour = override_colour || initial(color)
 	if(istype(material))
-		color = material.icon_colour
+		color = material.color
 	else
 		color = base_colour
 
@@ -62,6 +62,7 @@
 			reinf_material.place_dismantled_product(T)
 
 /obj/structure/proc/dismantle()
+	SHOULD_CALL_PARENT(TRUE)
 	if(!dismantled)
 		dismantled = TRUE
 		create_dismantled_products(get_turf(src))

@@ -3,6 +3,12 @@
 	emote_message_3p = "USER burps."
 	message_type = AUDIBLE_MESSAGE
 
+/decl/emote/audible/Initialize()
+	. = ..()
+	if(!emote_message_radio)
+		// Snips the 'USER' from 3p emote messages for radio.
+		emote_message_radio = copytext(emote_message_3p, 6)
+
 /decl/emote/audible/deathgasp_alien
 	key = "deathgasp"
 	emote_message_3p = "USER lets out a waning guttural screech, green blood bubbling from its maw."
@@ -143,6 +149,8 @@
 	emote_message_3p_target = "<span class='warning'>USER slaps TARGET across the face!</span>"
 	emote_message_3p = "USER slaps USER_SELF across the face!"
 	emote_sound = 'sound/effects/snap.ogg'
+	check_restraints = TRUE
+	check_range = 1
 
 /decl/emote/audible/bug_hiss
 	key ="hiss"
@@ -159,11 +167,6 @@
 	key ="chitter"
 	emote_message_3p = "USER chitters."
 	emote_sound = 'sound/voice/Bug.ogg'
-
-/decl/emote/audible/vox_shriek
-	key ="shriek"
-	emote_message_3p = "USER SHRIEKS!"
-	emote_sound = 'sound/voice/shriek1.ogg'
 
 /decl/emote/audible/roar
 	key = "roar"

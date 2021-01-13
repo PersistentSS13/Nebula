@@ -81,7 +81,7 @@ GLOBAL_LIST_EMPTY(diversion_junctions)
 	if(stat & BROKEN || !I || !user)
 		return
 
-	if(istype(I, /obj/item/melee/energy/blade))
+	if(istype(I, /obj/item/energy_blade/blade))
 		to_chat(user, "You can't place that item inside the disposal unit.")
 		return
 
@@ -168,7 +168,7 @@ GLOBAL_LIST_EMPTY(diversion_junctions)
 	if(AM == user)
 		user.visible_message("<span class='danger'>[user] climbs into [src].</span>", \
 							 "<span class='notice'>You climb into [src].</span>")
-		log_and_message_admins("has stuffed themselves into [src].", AM)		 
+		admin_attack_log(user, null, "Stuffed themselves into \the [src].", null, "stuffed themselves into \the [src].")
 	else
 		user.visible_message("<span class='[is_dangerous ? "danger" : "notice"]'>[user] stuffs [AM] into [src][is_dangerous ? "!" : "."]</span>", \
 							 "<span class='notice'>You stuff [AM] into [src].</span>")
@@ -201,7 +201,7 @@ GLOBAL_LIST_EMPTY(diversion_junctions)
 	return
 
 /obj/machinery/disposal/DefaultTopicState()
-	return GLOB.outside_state	
+	return GLOB.outside_state
 
 // human interact with machine
 /obj/machinery/disposal/physical_attack_hand(mob/user)
@@ -387,10 +387,6 @@ GLOBAL_LIST_EMPTY(diversion_junctions)
 	if(wrapcheck == 1)
 		H.tomail = 1
 
-	for(var/mob/living/L in stuff)
-		if (L.ckey)
-			log_and_message_admins("has been flushed down [src].", L)
-
 	sleep(10)
 	if(last_sound < world.time + 1)
 		playsound(src, 'sound/machines/disposalflush.ogg', 50, 0, 0)
@@ -400,6 +396,10 @@ GLOBAL_LIST_EMPTY(diversion_junctions)
 
 	H.init(src, air_contents)	// copy the contents of disposer to holder
 	air_contents = new(PRESSURE_TANK_VOLUME)	// new empty gas resv.
+
+	for(var/mob/M in H.check_mob(stuff))
+		if(M.ckey)
+			admin_attack_log(null, M, null, "Was flushed down [src].", "has been flushed down [src].")
 
 	H.start(src) // start the holder processing movement
 	flushing = 0
@@ -513,7 +513,7 @@ GLOBAL_LIST_EMPTY(diversion_junctions)
 			found = 1
 			break
 	if(!found)
-		to_chat(user, "\icon[src]<span class=notice>\The [src] is not linked to any junctions!</span>")
+		to_chat(user, "[html_icon(src)]<span class=notice>\The [src] is not linked to any junctions!</span>")
 		return
 	var/obj/machinery/disposal_switch/NC = new/obj/machinery/disposal_switch(A, id_tag)
 	transfer_fingerprints_to(NC)
@@ -587,7 +587,7 @@ GLOBAL_LIST_EMPTY(diversion_junctions)
 				if(!src || !W.isOn()) return
 				to_chat(user, "You sliced the floorweld off the disposal outlet.")
 				var/obj/structure/disposalconstruct/machine/outlet/C = new (loc, src)
-				src.transfer_fingerprints_to(C)								
+				src.transfer_fingerprints_to(C)
 				C.anchored = 1
 				C.set_density(1)
 				C.update()

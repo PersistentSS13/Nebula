@@ -11,7 +11,7 @@
 	throw_range = 5
 	w_class = ITEM_SIZE_LARGE
 	origin_tech = "{'combat':1}"
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	var/status = 0
 	var/throw_amount = 100
 	var/lit = 0	//on or off
@@ -31,16 +31,9 @@
 /obj/item/flamethrower/Process()
 	if(!lit)
 		STOP_PROCESSING(SSobj, src)
-		return null
-	var/turf/location = loc
-	if(istype(location, /mob/))
-		var/mob/M = location
-		if(M.l_hand == src || M.r_hand == src)
-			location = M.loc
-	if(isturf(location)) //start a fire if possible
-		location.hotspot_expose(700, 2)
-	return
-
+	else
+		var/turf/location = get_turf(src)
+		location?.hotspot_expose(700, 2)
 
 /obj/item/flamethrower/on_update_icon()
 	overlays.Cut()
@@ -170,7 +163,7 @@
 	if(!lit || operating)	return
 	operating = 1
 	for(var/turf/T in turflist)
-		if(T.density || istype(T, /turf/space))
+		if(T.density || isspaceturf(T))
 			break
 		if(!previousturf && length(turflist)>1)
 			previousturf = get_turf(src)
@@ -189,8 +182,9 @@
 	//TODO: DEFERRED Consider checking to make sure tank pressure is high enough before doing this...
 	//Transfer 5% of current tank air contents to turf
 	var/datum/gas_mixture/air_transfer = tank.remove_air_ratio(0.02*(throw_amount/100))
-	//air_transfer.toxins = air_transfer.toxins * 5 // This is me not comprehending the air system. I realize this is retarded and I could probably make it work without fucking it up like this, but there you have it. -- TLE
-	new/obj/effect/decal/cleanable/liquid_fuel/flamethrower_fuel(target,air_transfer.get_by_flag(XGM_GAS_FUEL),get_dir(loc,target))
+	var/obj/effect/fluid/F = locate() in target
+	if(!F) F = new(target)
+	F.reagents.add_reagent(/decl/material/liquid/fuel, air_transfer.get_by_flag(XGM_GAS_FUEL))
 	air_transfer.remove_by_flag(XGM_GAS_FUEL, 0)
 	target.assume_air(air_transfer)
 	//Burn it based on transfered gas

@@ -10,7 +10,7 @@
 	explosion_resistance = 1
 	rad_resistance_modifier = 0.1
 	color = COLOR_STEEL
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	handle_generic_blending = TRUE
 	material_alteration = MAT_FLAG_ALTERATION_COLOR | MAT_FLAG_ALTERATION_NAME
 	maxhealth = 20
@@ -32,7 +32,7 @@
 
 /obj/structure/grille/update_material_desc(override_desc)
 	if(material)
-		desc = "A lattice of [material.display_name] rods, with screws to secure it to the floor."
+		desc = "A lattice of [material.solid_name] rods, with screws to secure it to the floor."
 	else
 		..()
 
@@ -48,8 +48,10 @@
 	update_connections(1)
 	update_icon()
 
-/obj/structure/grille/ex_act(severity)
-	qdel(src)
+/obj/structure/grille/explosion_act(severity)
+	..()
+	if(!QDELETED(src))
+		physically_destroyed()
 
 /obj/structure/grille/on_update_icon()
 	..()
@@ -204,14 +206,15 @@
 				take_damage(W.force * 0.1)
 	..()
 
-/obj/structure/grille/destroyed()
+/obj/structure/grille/physically_destroyed()
+	SHOULD_CALL_PARENT(FALSE)
 	if(!destroyed)
 		visible_message(SPAN_DANGER("\The [src] falls to pieces!"))
 	cut_grille()
+	. = TRUE
 
 // shock user with probability prb (if all connections & power are working)
 // returns 1 if shocked, 0 otherwise
-
 /obj/structure/grille/proc/shock(mob/user, prb)
 	if(!anchored || destroyed)		// anchored/destroyed grilles are never connected
 		return 0
@@ -255,7 +258,7 @@
 /obj/structure/grille/cult
 	name = "cult grille"
 	desc = "A matrice built out of an unknown material, with some sort of force field blocking air around it."
-	material = MAT_CULT
+	material = /decl/material/solid/stone/cult
 
 /obj/structure/grille/cult/CanPass(atom/movable/mover, turf/target, height = 1.5, air_group = 0)
 	if(air_group)
@@ -272,7 +275,7 @@
 	if(ST.get_amount() < 2)
 		to_chat(user, SPAN_WARNING("You need at least two rods to do this."))
 		return
-	user.visible_message(SPAN_NOTICE("\The [user] begins assembling a [ST.material.display_name] grille."))
+	user.visible_message(SPAN_NOTICE("\The [user] begins assembling a [ST.material.solid_name] grille."))
 	if(do_after(user, 1 SECOND, ST) && ST.use(2))
 		var/obj/structure/grille/F = new(loc, ST.material.type)
 		user.visible_message(SPAN_NOTICE("\The [user] finishes building \a [F]."))

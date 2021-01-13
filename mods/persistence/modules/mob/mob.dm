@@ -3,9 +3,14 @@
 
 /mob/before_save()
 	. = ..()
-	if(!(stat & DEAD)) // Temporary, until revival mechanics are in place.
-		saved_ckey = LAST_CKEY(src)
+	saved_ckey = ckey
 
-/mob/after_save()
-	. = ..()
-	saved_ckey = null
+/mob/Initialize()
+	if(!ispath(skillset))
+		var/datum/skillset/temp = skillset
+		skillset = /datum/skillset
+		. = ..()
+		skillset = temp
+	else
+		. = ..()
+	

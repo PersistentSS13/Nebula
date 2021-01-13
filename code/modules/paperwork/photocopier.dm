@@ -128,23 +128,14 @@
 			to_chat(user, "<span class='notice'>This cartridge is not yet ready for replacement! Use up the rest of the toner.</span>")
 	else ..()
 
-/obj/machinery/photocopier/ex_act(severity)
-	switch(severity)
-		if(1.0)
-			qdel(src)
-		if(2.0)
-			if(prob(50))
-				qdel(src)
-			else
-				if(toner > 0)
-					new /obj/effect/decal/cleanable/blood/oil(get_turf(src))
-					toner = 0
-		else
-			if(prob(50))
-				if(toner > 0)
-					new /obj/effect/decal/cleanable/blood/oil(get_turf(src))
-					toner = 0
-	return
+/obj/machinery/photocopier/explosion_act(severity)
+	. = ..()
+	if(.)
+		if(severity == 1 || (severity == 2 && prob(50)))
+			physically_destroyed()
+		else if((severity == 2 || prob(50)) && toner)
+			new /obj/effect/decal/cleanable/blood/oil(get_turf(src))
+			toner = 0
 
 /obj/machinery/photocopier/proc/copy(var/obj/item/paper/copy, var/need_toner=1)
 	var/obj/item/paper/c = new copy.type(loc, copy.text, copy.name, copy.metadata )
@@ -155,7 +146,7 @@
 		c.info = "<font color = #101010>"
 	else			//no toner? shitty copies for you!
 		c.info = "<font color = #808080>"
-	var/copied = html_decode(copy.info)
+	var/copied = copy.info
 	copied = replacetext(copied, "<font face=\"[c.deffont]\" color=", "<font face=\"[c.deffont]\" nocolor=")	//state of the art techniques in action
 	copied = replacetext(copied, "<font face=\"[c.crayonfont]\" color=", "<font face=\"[c.crayonfont]\" nocolor=")	//This basically just breaks the existing color tag, which we need to do because the innermost tag takes priority.
 	c.info += copied

@@ -19,7 +19,7 @@
 
 	var/cooldown = 0	//Cooldown for banging the tray with a rolling pin. based on world.time. very silly
 
-	material = MAT_CARDBOARD
+	material = /decl/material/solid/cardboard
 	applies_material_colour = TRUE
 	applies_material_name = TRUE
 
@@ -65,7 +65,7 @@
 		scatter_contents()
 
 /obj/item/storage/tray/attackby(obj/item/W, mob/user) // Keeping this from old trays because... i guess?
-	if(istype(W, /obj/item/material/kitchen/rollingpin))
+	if(istype(W, /obj/item/kitchen/rollingpin))
 		if(cooldown < world.time - 25)
 			user.visible_message(SPAN_WARNING("\The [user] bashes \the [src] with \the [W]!"))
 			playsound(user.loc, 'sound/effects/shieldbash.ogg', 50, 1)
@@ -73,16 +73,17 @@
 	else
 		..()
 
-/obj/item/storage/tray/proc/dump_contents(var/mob/user, turf/new_loc = loc)
+/obj/item/storage/tray/dump_contents(var/mob/user, turf/new_loc = loc)
 	if(!isturf(new_loc)) //to handle hand switching
-		return
-
-	close(user)
+		return FALSE
+	if(user)
+		close(user)
 	if(!(locate(/obj/structure/table) in new_loc) && user && contents.len)
 		visible_message(SPAN_DANGER("Everything falls off the [name]! Good job, [user]."))
 		scatter_contents(FALSE, new_loc)
 	else
 		scatter_contents(TRUE, new_loc)
+	return TRUE
 
 /obj/item/storage/tray/dropped(mob/user)
 	. = ..()
@@ -117,7 +118,7 @@ TRAY TYPES GO HERE
 /obj/item/storage/tray/wood
 	name = "tray" //material names are automatic kay?
 	desc = "A wooden tray to serve food on."
-	material = MAT_WOOD
+	material = /decl/material/solid/wood
 
 /obj/item/storage/tray/metal
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
@@ -129,14 +130,14 @@ TRAY TYPES GO HERE
 /obj/item/storage/tray/metal/aluminium
 	name = "tray"
 	desc = "An aluminium tray to serve food on."
-	material = MAT_ALUMINIUM
+	material = /decl/material/solid/metal/aluminium
 
 /obj/item/storage/tray/metal/silver
 	name = "platter"
 	desc = "You lazy bum."
-	material = MAT_SILVER
+	material = /decl/material/solid/metal/silver
 
 /obj/item/storage/tray/metal/gold
 	name = "platter"
 	desc = "A gold tray to serve food on. But oh sofancy."
-	material = MAT_GOLD
+	material = /decl/material/solid/metal/gold

@@ -37,14 +37,14 @@
 	if(!environment)
 		return
 	var/environment_heat_capacity = environment.heat_capacity()
-	if(istype(get_turf(src), /turf/space))
+	if(isspaceturf(get_turf(src)))
 		var/turf/heat_turf = get_turf(src)
 		environment_heat_capacity = heat_turf.heat_capacity
 
 	if((environment.temperature > (T0C + 50)) || (environment.temperature < (T0C + 10)))
 		var/transfer_coefficient = 1
 
-		handle_temperature_damage(HEAD, environment.temperature, environment_heat_capacity*transfer_coefficient)
+		handle_temperature_damage(SLOT_HEAD, environment.temperature, environment_heat_capacity*transfer_coefficient)
 
 	if(stat==2)
 		bodytemperature += 0.1*(environment.temperature - bodytemperature)*environment_heat_capacity/(environment_heat_capacity + 270000)
@@ -184,7 +184,7 @@
 			clear_fullscreen("blind")
 			set_fullscreen(disabilities & NEARSIGHTED, "impaired", /obj/screen/fullscreen/impaired, 1)
 			set_fullscreen(eye_blurry, "blurry", /obj/screen/fullscreen/blurry)
-			set_fullscreen(druggy, "high", /obj/screen/fullscreen/high)
+			set_fullscreen(drugged, "high", /obj/screen/fullscreen/high)
 		if (machine)
 			if (!( machine.check_eye(src) ))
 				reset_view(null)

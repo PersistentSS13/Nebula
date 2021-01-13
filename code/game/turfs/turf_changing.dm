@@ -16,6 +16,10 @@
 	if (above)
 		above.update_mimic()
 
+/turf/physically_destroyed()
+	SHOULD_CALL_PARENT(FALSE)
+	. = TRUE
+
 //Creates a new turf
 /turf/proc/ChangeTurf(var/turf/N, var/tell_universe = TRUE, var/force_lighting_update = FALSE, var/keep_air = FALSE)
 	if (!N)
@@ -24,7 +28,7 @@
 	// This makes sure that turfs are not changed to space when one side is part of a zone
 	if(N == /turf/space)
 		var/turf/below = GetBelow(src)
-		if(istype(below) && !istype(below,/turf/space))
+		if(istype(below) && !isspaceturf(below))
 			N = /turf/simulated/open
 
 	var/old_air = air
@@ -35,6 +39,8 @@
 	var/old_lighting_overlay = lighting_overlay
 	var/old_corners = corners
 	var/old_ao_neighbors = ao_neighbors
+	var/old_above = above
+	var/old_prev_type = prev_type
 
 //	log_debug("Replacing [src.type] with [N]")
 
@@ -48,12 +54,17 @@
 	// Run the Destroy() chain.
 	qdel(src)
 
+	var/old_opaque_counter = opaque_counter
 	var/turf/simulated/W = new N(src)
+
+	above = old_above
+	prev_type = old_prev_type
 
 	if (permit_ao)
 		regenerate_ao()
 
-	W.opaque_counter = opaque_counter
+	W.opaque_counter = old_opaque_counter
+	W.RecalculateOpacity()
 
 	if (keep_air)
 		W.air = old_air

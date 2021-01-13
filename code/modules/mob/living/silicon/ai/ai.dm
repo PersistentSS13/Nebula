@@ -153,6 +153,7 @@ var/list/ai_verbs_default = list(
 
 	//Languages
 	add_language(/decl/language/binary, 1)
+	add_language(/decl/language/machine, 1)
 	add_language(/decl/language/human/common, 1)
 	add_language(/decl/language/sign, 0)
 
@@ -201,6 +202,10 @@ var/list/ai_verbs_default = list(
 	to_chat(src, radio_text)
 	show_laws()
 	to_chat(src, "<b>These laws may be changed by other players or by other random events.</b>")
+
+	//Prevents more than one active core spawning on the same tile. Technically just a sanitization for roundstart join
+	for(var/obj/structure/aicore/C in src.loc)
+		qdel(C)
 
 	job = "AI"
 	setup_icon()
@@ -360,10 +365,10 @@ var/list/ai_verbs_default = list(
 	if(check_unable(AI_CHECK_WIRELESS))
 		return
 	if(!is_relay_online())
-		to_chat(usr, "<span class='warning'>No Emergency Bluespace Relay detected. Unable to transmit message.</span>")
+		to_chat(usr, "<span class='warning'>No emergency communication relay detected. Unable to transmit message.</span>")
 		return
 	if(emergency_message_cooldown)
-		to_chat(usr, "<span class='warning'>Arrays recycling. Please stand by.</span>")
+		to_chat(usr, "<span class='warning'>Arrays cycling. Please stand by.</span>")
 		return
 	var/input = sanitize(input(usr, "Please choose a message to transmit to [GLOB.using_map.boss_short] via quantum entanglement.  Please be aware that this process is very expensive, and abuse will lead to... termination.  Transmission does not guarantee a response. There is a 30 second delay before you may send another message, be clear, full and concise.", "To abort, send an empty message.", ""))
 	if(!input)
@@ -736,17 +741,18 @@ var/list/ai_verbs_default = list(
 	set name = "Change Grid Color"
 	set category = "Silicon Commands"
 
-	var/f_color = input("Choose your color, dark colors are not recommended!") as color
-	var/list/black_list = list("#000000","#080808", "#111111", "#1c1c1c", "#292929", "#333333","#4d4d4d")
-	if(f_color in black_list)
-		to_chat(usr, SPAN_WARNING("Color \"[f_color]\" is not allowed!"))
+	var/f_color = input("Choose your color, dark colors are not recommended!") as color|null
+	if(!length(f_color))
 		return
-	if(!f_color)
+
+	var/area/A = get_area(src)
+	if(!A)
 		return
-	var/area/A = get_area(usr)
+
 	for(var/turf/simulated/floor/bluegrid/F in A)
 		F.color = f_color
-	to_chat(usr, SPAN_NOTICE("Proccessing strata color was change to [f_color]"))
+
+	to_chat(usr, SPAN_NOTICE("Proccessing strata color was changed to \"<font color='[f_color]'>[f_color]</font>\""))
 
 /mob/living/silicon/ai/proc/show_crew_monitor()
 	set category = "Silicon Commands"

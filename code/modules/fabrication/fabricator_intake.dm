@@ -32,14 +32,14 @@
 	var/stacks_used = 1
 	var/mat_colour = thing.color
 	for(var/mat in thing.matter)
-		var/material/material_def = SSmaterials.get_material_datum(mat)
+		var/decl/material/material_def = decls_repository.get_decl(mat)
 		if(!material_def || !base_storage_capacity[material_def.type])
 			continue
 		var/taking_material = min(thing.matter[mat], storage_capacity[material_def.type] - stored_material[material_def.type])
 		if(taking_material <= 0)
 			continue
 		if(!mat_colour)
-			mat_colour = material_def.icon_colour
+			mat_colour = material_def.color
 		stored_material[material_def.type] += taking_material
 		stacks_used = max(stacks_used, ceil(taking_material/SHEET_MATERIAL_AMOUNT))
 		if(storage_capacity[material_def.type] == stored_material[material_def.type])
@@ -137,10 +137,5 @@
 	if((fab_status_flags & FAB_DISABLED) && !panel_open)
 		to_chat(user, SPAN_WARNING("\The [src] is disabled!"))
 		return TRUE
-	interact(user)
+	ui_interact(user)
 	return TRUE
-
-#undef SUBSTANCE_TAKEN_FULL
-#undef SUBSTANCE_TAKEN_NONE
-#undef SUBSTANCE_TAKEN_SOME
-#undef SUBSTANCE_TAKEN_ALL

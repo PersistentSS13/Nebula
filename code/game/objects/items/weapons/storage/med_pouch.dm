@@ -70,8 +70,8 @@ Single Use Emergency Pouches
 	color = COLOR_RED
 
 	startswith = list(
-	/obj/item/chems/hypospray/autoinjector/pouch_auto/adrenaline,
-	/obj/item/chems/pill/pouch_pill/adrenaline,
+	/obj/item/chems/hypospray/autoinjector/pouch_auto/stabilizer,
+	/obj/item/chems/pill/pouch_pill/stabilizer,
 	/obj/item/chems/pill/pouch_pill/painkillers,
 	/obj/item/stack/medical/bruise_pack = 2,
 		)
@@ -91,7 +91,7 @@ Single Use Emergency Pouches
 	color = COLOR_SEDONA
 
 	startswith = list(
-	/obj/item/chems/hypospray/autoinjector/pouch_auto/adrenaline,
+	/obj/item/chems/hypospray/autoinjector/pouch_auto/stabilizer,
 	/obj/item/chems/hypospray/autoinjector/pouch_auto/painkillers,
 	/obj/item/chems/hypospray/autoinjector/pouch_auto/adrenaline,
 	/obj/item/chems/pill/pouch_pill/painkillers,
@@ -113,10 +113,10 @@ Single Use Emergency Pouches
 	color = COLOR_BLUE
 
 	startswith = list(
-		/obj/item/chems/hypospray/autoinjector/pouch_auto/adrenaline,
+		/obj/item/chems/hypospray/autoinjector/pouch_auto/stabilizer,
 		/obj/item/chems/hypospray/autoinjector/pouch_auto/oxy_meds,
 		/obj/item/chems/hypospray/autoinjector/pouch_auto/adrenaline,
-		/obj/item/chems/pill/pouch_pill/adrenaline,
+		/obj/item/chems/pill/pouch_pill/stabilizer,
 		/obj/item/chems/pill/pouch_pill/oxy_meds
 	)
 	instructions = {"
@@ -137,7 +137,7 @@ Single Use Emergency Pouches
 
 	startswith = list(
 	/obj/item/chems/hypospray/autoinjector/pouch_auto/antitoxins,
-	/obj/item/chems/pill/pouch_pill/antitoxins,
+	/obj/item/chems/pill/pouch_pill/antitoxins
 		)
 	instructions = {"
 	1) Tear open the emergency medical pack using the easy open tab at the top.\n\
@@ -155,7 +155,7 @@ Single Use Emergency Pouches
 
 	startswith = list(
 	/obj/item/chems/hypospray/autoinjector/antirad,
-	/obj/item/chems/pill/pouch_pill/antitoxins,
+	/obj/item/chems/pill/pouch_pill/antitoxins
 		)
 	instructions = {"
 	1) Tear open the emergency medical pack using the easy open tab at the top.\n\
@@ -170,49 +170,49 @@ Single Use Emergency Pouches
 	name = "emergency pill"
 	desc = "An emergency pill from an emergency medical pouch"
 	icon_state = "pill2"
-	var/decl/reagent/chem_type
+	var/decl/material/chem_type
 	var/chem_amount = 15
 
-/obj/item/chems/pill/pouch_pill/adrenaline
-	chem_type = /decl/reagent/adrenaline
+/obj/item/chems/pill/pouch_pill/stabilizer
+	chem_type = /decl/material/liquid/stabilizer
 
 /obj/item/chems/pill/pouch_pill/antitoxins
-	chem_type = /decl/reagent/antitoxins
+	chem_type = /decl/material/liquid/antitoxins
 
 /obj/item/chems/pill/pouch_pill/oxy_meds
-	chem_type = /decl/reagent/oxy_meds
+	chem_type = /decl/material/liquid/oxy_meds
 
 /obj/item/chems/pill/pouch_pill/painkillers
-	chem_type = /decl/reagent/painkillers
+	chem_type = /decl/material/liquid/painkillers
 
 /obj/item/chems/pill/pouch_pill/Initialize()
 	. = ..()
 	reagents.add_reagent(chem_type, chem_amount)
-	var/decl/reagent/reagent = decls_repository.get_decl(chem_type)
-	name = "emergency [reagent.name] pill ([reagents.total_volume]u)"
+	var/decl/material/reagent = decls_repository.get_decl(chem_type)
+	name = "emergency [reagent.liquid_name] pill ([reagents.total_volume]u)"
 	color = reagents.get_color()
 
 /obj/item/chems/hypospray/autoinjector/pouch_auto
 	name = "emergency autoinjector"
 	desc = "An emergency autoinjector from an emergency medical pouch"
 
-/obj/item/chems/hypospray/autoinjector/pouch_auto/adrenaline
-	name = "emergency adrenaline autoinjector"
-	starts_with = list(/decl/reagent/adrenaline = 5)
+/obj/item/chems/hypospray/autoinjector/pouch_auto/stabilizer
+	name = "emergency stabilizer autoinjector"
+	starts_with = list(/decl/material/liquid/stabilizer = 5)
 
 /obj/item/chems/hypospray/autoinjector/pouch_auto/painkillers
 	name = "emergency painkiller autoinjector"
-	starts_with = list(/decl/reagent/painkillers = 5)
+	starts_with = list(/decl/material/liquid/painkillers = 5)
 
 /obj/item/chems/hypospray/autoinjector/pouch_auto/antitoxins
 	name = "emergency antitoxins autoinjector"
-	starts_with = list(/decl/reagent/antitoxins = 5)
+	starts_with = list(/decl/material/liquid/antitoxins = 5)
 
 /obj/item/chems/hypospray/autoinjector/pouch_auto/oxy_meds
 	name = "emergency oxygel autoinjector"
-	starts_with = list(/decl/reagent/oxy_meds = 5)
+	starts_with = list(/decl/material/liquid/oxy_meds = 5)
 
 /obj/item/chems/hypospray/autoinjector/pouch_auto/adrenaline
 	name = "emergency adrenaline autoinjector"
 	amount_per_transfer_from_this = 8
-	starts_with = list(/decl/reagent/adrenaline = 8)
+	starts_with = list(/decl/material/liquid/adrenaline = 8)

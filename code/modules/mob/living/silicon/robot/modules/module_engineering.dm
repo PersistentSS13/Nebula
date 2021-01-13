@@ -39,11 +39,10 @@
 		/obj/item/gripper,
 		/obj/item/gripper/no_use/loader,
 		/obj/item/lightreplacer,
-		/obj/item/pipe_painter,
-		/obj/item/floor_painter,
+		/obj/item/paint_sprayer,
 		/obj/item/inflatable_dispenser/robot,
 		/obj/item/inducer/borg,
-		/obj/item/plunger/robot,
+		/obj/item/plunger,
 		/obj/item/matter_decompiler,
 		/obj/item/stack/material/cyborg/steel,
 		/obj/item/stack/material/cyborg/aluminium,
@@ -60,7 +59,7 @@
 		/datum/matter_synth/plasteel = 20000,
 		/datum/matter_synth/wire
 	)
-	emag = /obj/item/melee/baton/robot/electrified_arm
+	emag = /obj/item/baton/robot/electrified_arm
 	skills = list(
 		SKILL_LITERACY     = SKILL_ADEPT,
 		SKILL_ATMOS        = SKILL_PROF,

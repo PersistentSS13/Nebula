@@ -6,11 +6,13 @@
 	desc = "Sensors detect an orbital station with low energy profile and sporadic life signs."
 	icon_state = "object"
 	known = 0
+	
 
 /datum/map_template/ruin/away_site/lar_maria
 	name = "Lar Maria"
 	id = "awaysite_lar_maria"
 	description = "An orbital virus research station."
+	prefix = "mods/corporate/away_sites/"
 	suffixes = list("lar_maria/lar_maria-1.dmm", "lar_maria/lar_maria-2.dmm")
 	cost = 2
 	area_usage_test_exempted_root_areas = list(/area/lar_maria)
@@ -96,8 +98,8 @@
 	icon_state = "guard_light"
 	maxHealth = 60
 	health = 60
-	natural_weapon = /obj/item/melee/baton
-	weapon = /obj/item/melee/baton
+	natural_weapon = /obj/item/baton
+	weapon = /obj/item/baton
 	corpse = /obj/effect/landmark/corpse/lar_maria/zhp_guard
 
 /mob/living/simple_animal/hostile/lar_maria/guard/Initialize()

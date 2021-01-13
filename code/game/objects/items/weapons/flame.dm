@@ -1,6 +1,7 @@
 //For anything that can light stuff on fire
 /obj/item/flame
-	waterproof = FALSE
+	var/lit_heat = 1000
+	var/waterproof = FALSE
 	var/lit = 0
 
 /obj/item/flame/afterattack(var/obj/O, var/mob/user, proximity)
@@ -18,21 +19,11 @@
 	if(!waterproof && lit)
 		extinguish(no_message = TRUE)
 
-/proc/isflamesource(var/atom/A)
-	if(!istype(A))
-		return FALSE
-	if(isWelder(A))
-		var/obj/item/weldingtool/WT = A
-		return (WT.isOn())
-	else if(istype(A, /obj/item/flame))
-		var/obj/item/flame/F = A
-		return (F.lit)
-	else if(istype(A, /obj/item/clothing/mask/smokable) && !istype(A, /obj/item/clothing/mask/smokable/pipe))
-		var/obj/item/clothing/mask/smokable/S = A
-		return (S.lit)
-	else if(istype(A, /obj/item/assembly/igniter))
-		return TRUE
-	return FALSE
+/obj/item/flame/get_heat()
+	. = max(..(), lit ? lit_heat : 0)
+
+/obj/item/flame/isflamesource()
+	. = lit
 
 ///////////
 //MATCHES//
@@ -41,8 +32,7 @@
 	name = "match"
 	desc = "A simple match stick, used for lighting fine smokables."
 	icon = 'icons/obj/items/storage/matches/match.dmi'
-	on_mob_icon = 'icons/obj/items/storage/matches/match.dmi'
-	icon_state = "world"
+	icon_state = ICON_STATE_WORLD
 	var/burnt = 0
 	var/smoketime = 5
 	w_class = ITEM_SIZE_TINY

@@ -3,6 +3,7 @@
 	icon = 'icons/obj/items/coin.dmi'
 	icon_state = "coin1"
 	applies_material_colour = TRUE
+	applies_material_name = TRUE
 	randpixel = 8
 	force = 1
 	throwforce = 1
@@ -38,7 +39,7 @@
 
 	icon_state = "coin[rand(1,10)]"
 	if(material)
-		desc = "A rather thick coin stamped out of [material.display_name]."
+		desc = "A rather thick coin stamped out of [material.solid_name]."
 	else
 		desc = "A rather thick coin."
 
@@ -122,22 +123,19 @@
 
 // Subtypes.
 /obj/item/coin/gold
-	material = MAT_GOLD
+	material = /decl/material/solid/metal/gold
 
 /obj/item/coin/silver
-	material = MAT_SILVER
+	material = /decl/material/solid/metal/silver
 
 /obj/item/coin/diamond
-	material = MAT_DIAMOND
+	material = /decl/material/solid/gemstone/diamond
 
 /obj/item/coin/iron
-	material = MAT_IRON
+	material = /decl/material/solid/metal/iron
 
 /obj/item/coin/uranium
-	material = MAT_URANIUM
+	material = /decl/material/solid/metal/uranium
 
 /obj/item/coin/platinum
-	material = MAT_PLATINUM
-
-/obj/item/coin/phoron
-	material = MAT_PHORON
+	material = /decl/material/solid/metal/platinum

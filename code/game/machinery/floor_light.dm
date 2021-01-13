@@ -12,9 +12,10 @@ var/list/floor_light_cache = list()
 	active_power_usage = 20
 	power_channel = LIGHT
 	matter = list(
-		MAT_STEEL = MATTER_AMOUNT_PRIMARY,
-		MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT
+		/decl/material/solid/metal/steel = MATTER_AMOUNT_PRIMARY,
+		/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT
 	)
+	required_interaction_dexterity = DEXTERITY_SIMPLE_MACHINES
 
 	var/damaged
 	var/default_light_max_bright = 0.75
@@ -124,21 +125,13 @@ var/list/floor_light_cache = list()
 			overlays |= floor_light_cache[cache_key]
 	update_brightness()
 
-/obj/machinery/floor_light/ex_act(severity)
-	switch(severity)
-		if(1)
-			qdel(src)
-		if(2)
-			if (prob(50))
-				qdel(src)
-			else if(prob(20))
+/obj/machinery/floor_light/explosion_act(severity)
+	. = ..()
+	if(. && !QDELETED(src))
+		if(severity == 1 || (severity == 2 && prob(50)) || (severity == 3 && prob(5)))
+			physically_destroyed(src)
+		else 
+			if(severity == 2 && prob(20))
 				set_broken(TRUE)
-			else
-				if(isnull(damaged))
-					damaged = 0
-		if(3)
-			if (prob(5))
-				qdel(src)
-			else if(isnull(damaged))
+			if(isnull(damaged))
 				damaged = 0
-	return

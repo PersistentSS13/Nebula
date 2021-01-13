@@ -16,7 +16,7 @@
 	var/smell_state = SMELL_DEFAULT
 	var/move_trail = /obj/effect/decal/cleanable/blood/tracks/footprints // if this item covers the feet, the footprints it should leave
 	var/made_of_cloth = FALSE
-
+	var/volume_multiplier = 1
 	var/markings_icon	// simple colored overlay that would be applied to the icon
 	var/markings_color	// for things like colored parts of labcoats or shoes
 
@@ -28,7 +28,7 @@
 // Sort of a placeholder for proper tailoring.
 /obj/item/clothing/attackby(obj/item/I, mob/user)
 	if(made_of_cloth && (I.edge || I.sharp) && user.a_intent == I_HURT)
-		if(!isturf(loc) && user.l_hand != src && user.r_hand != src)
+		if(!isturf(loc) && !(src in user.get_held_items()))
 			var/it = gender == PLURAL ? "them" : "it"
 			to_chat(user, SPAN_WARNING("You must either be holding \the [src], or [it] must be on the ground, before you can shred [it]."))
 			return
@@ -58,10 +58,10 @@
 /obj/item/clothing/proc/needs_vision_update()
 	return flash_protection || tint
 
-/obj/item/clothing/get_mob_overlay(mob/user_mob, slot)
+/obj/item/clothing/get_mob_overlay(mob/living/user_mob, slot, bodypart)
 	var/image/ret = ..()
 
-	if(slot == slot_l_hand_str || slot == slot_r_hand_str)
+	if(slot in user_mob?.held_item_slots)
 		return ret
 
 	if(ishuman(user_mob))
@@ -76,27 +76,24 @@
 			ret.overlays += A.get_mob_overlay(user_mob, slot)
 
 	if(markings_icon && markings_color)
-		var/mutable_appearance/MA = new()
-		MA.icon = ret.icon
-		MA.icon_state = markings_icon
-		MA.color = markings_color
-		MA.appearance_flags = RESET_COLOR
-		MA.layer = FLOAT_LAYER
-		MA.plane = FLOAT_PLANE
-		ret.overlays += MA
+		ret.overlays += get_mutable_overlay(ret.icon, markings_icon, markings_color)
 	return ret
 
-/obj/item/clothing/shoes/color/on_update_icon()
+/obj/item/clothing/apply_overlays(var/mob/user_mob, var/bodytype, var/image/overlay, var/slot)
+	var/image/ret = ..()
+	if(length(accessories))
+		for(var/obj/item/clothing/accessory/A in accessories)
+			ret.overlays += A.get_mob_overlay(user_mob, slot)
+
+	if(markings_icon && markings_color && check_state_in_icon("[ret.icon_state][markings_icon]", ret.icon))
+		ret.overlays += get_mutable_overlay(ret.icon, "[ret.icon_state][markings_icon]", markings_color)
+	
+	return ret
+
+/obj/item/clothing/on_update_icon()
+	..()
 	if(markings_icon && markings_color)
-		cut_overlays()
-		var/mutable_appearance/MA = new()
-		MA.icon = icon
-		MA.icon_state = markings_icon
-		MA.color = markings_color
-		MA.appearance_flags = RESET_COLOR
-		MA.layer = FLOAT_LAYER
-		MA.plane = FLOAT_PLANE
-		add_overlay(list(MA))
+		overlays += get_mutable_overlay(icon, "[get_world_inventory_state()][markings_icon]", markings_color)
 		
 /obj/item/clothing/proc/change_smell(smell = SMELL_DEFAULT)
 	smell_state = smell
@@ -121,34 +118,16 @@
 		for(var/T in starting_accessories)
 			var/obj/item/clothing/accessory/tie = new T(src)
 			src.attach_accessory(null, tie)
+	if(markings_color && markings_icon)
+		update_icon()
 
-/obj/item/clothing/mob_can_equip(M, slot, disable_warning = 0)
-
-	//if we can't equip the item anyway, don't bother with bodytype_restricted (cuts down on spam)
-	if (!..())
-		return 0
-
-	if(bodytype_restricted && istype(M,/mob/living/carbon/human))
-		var/exclusive = null
-		var/wearable = null
+/obj/item/clothing/mob_can_equip(mob/living/M, slot, disable_warning = 0)
+	. = ..()
+	if(. && length(bodytype_restricted) && ishuman(M) && !(slot in list(slot_l_store_str, slot_r_store_str, slot_s_store_str)) && !(slot in M.held_item_slots))
 		var/mob/living/carbon/human/H = M
-
-		if("exclude" in bodytype_restricted)
-			exclusive = 1
-
-		if(H.species)
-			if(exclusive)
-				if(!(H.species.get_bodytype(H) in bodytype_restricted))
-					wearable = 1
-			else
-				if(H.species.get_bodytype(H) in bodytype_restricted)
-					wearable = 1
-
-			if(!wearable && !(slot in list(slot_l_store, slot_r_store, slot_s_store)))
-				if(!disable_warning)
-					to_chat(H, SPAN_WARNING("\The [src] does not fit you."))
-				return 0
-	return 1
+		. = ("exclude" in bodytype_restricted) ? !(H.species.get_bodytype(H) in bodytype_restricted) : (H.species.get_bodytype(H) in bodytype_restricted)
+		if(!. && !disable_warning)
+			to_chat(H, SPAN_WARNING("\The [src] [gender == PLURAL ? "do" : "does"] not fit you."))
 
 /obj/item/clothing/equipped(var/mob/user)
 	if(needs_vision_update())
@@ -159,7 +138,7 @@
 	if(!bodytype_restricted)
 		return
 	bodytype_restricted = list(target_bodytype)
-	if(!on_mob_icon)
+	if(!use_single_icon)
 		if (sprite_sheets_obj && (target_bodytype in sprite_sheets_obj))
 			icon = sprite_sheets_obj[target_bodytype]
 		else
@@ -191,14 +170,14 @@
 			if(length(accessories) && can_see)
 				var/list/ties = list()
 				for(var/accessory in accessories)
-					ties += "\icon[accessory] \a [accessory]"
+					ties += "[html_icon(accessory)] \a [accessory]"
 				to_chat(user, "Attached to \the [src] are [english_list(ties)].")
 			return TOPIC_HANDLED
 		if(href_list["list_armor_damage"] && can_see)
 			var/datum/extension/armor/ablative/armor_datum = get_extension(src, /datum/extension/armor)
 			if(istype(armor_datum))
 				var/list/damages = armor_datum.get_visible_damage()
-				to_chat(user, "\The [src] \icon[src] has some damage:")
+				to_chat(user, "\The [src] [html_icon(src)] has some damage:")
 				for(var/key in damages)
 					to_chat(user, "<li><b>[capitalize(damages[key])]</b> damage to the <b>[key]</b> armor.")
 			return TOPIC_HANDLED

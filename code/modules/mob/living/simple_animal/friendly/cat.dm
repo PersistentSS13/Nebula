@@ -23,7 +23,7 @@
 	possession_candidate = 1
 	pass_flags = PASS_FLAG_TABLE
 
-	skin_material = MAT_SKIN_FUR_ORANGE
+	skin_material = /decl/material/solid/skin/fur/orange
 
 	var/turns_since_scan = 0
 	var/mob/living/simple_animal/mouse/movement_target
@@ -117,7 +117,7 @@
 	if(M.a_intent == I_HURT)
 		set_flee_target(M)
 
-/mob/living/simple_animal/cat/ex_act()
+/mob/living/simple_animal/cat/explosion_act()
 	. = ..()
 	set_flee_target(src.loc)
 
@@ -218,7 +218,7 @@
 	item_state = "cat"
 	icon_living = "cat"
 	icon_dead = "cat_dead"
-	skin_material = MAT_SKIN_FUR_BLACK
+	skin_material = /decl/material/solid/skin/fur/black
 
 /mob/living/simple_animal/cat/kitten
 	name = "kitten"
@@ -255,8 +255,8 @@
 	gender = pick(MALE, FEMALE)
 
 /mob/living/simple_animal/cat/fluff/ran
-	name = "Rantime"
-	desc = "Her full name is Ran Ste-Su G'Mindel Time."
+	name = "Runtime"
+	desc = "Under no circumstances is this feline allowed inside the atmospherics system."
 	gender = FEMALE
 	icon_state = "cat2"
 	item_state = "cat2"

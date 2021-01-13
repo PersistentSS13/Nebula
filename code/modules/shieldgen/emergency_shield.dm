@@ -67,18 +67,10 @@
 	set_opacity(1)
 	spawn(20) if(!QDELETED(src)) set_opacity(0)
 
-/obj/machinery/shield/ex_act(severity)
-	switch(severity)
-		if(1.0)
-			if (prob(75))
-				qdel(src)
-		if(2.0)
-			if (prob(50))
-				qdel(src)
-		if(3.0)
-			if (prob(25))
-				qdel(src)
-	return
+/obj/machinery/shield/explosion_act(severity)
+	. = ..()
+	if(. && ((severity == 1 && prob(75)) || (severity == 2 && prob(50)) || (severity == 3 && prob(25))))
+		physically_destroyed()
 
 /obj/machinery/shield/emp_act(severity)
 	switch(severity)
@@ -88,33 +80,28 @@
 			if(prob(50))
 				qdel(src)
 
-
 /obj/machinery/shield/hitby(AM, var/datum/thrownthing/TT)
+	..()
 	//Let everyone know we've been hit!
-	visible_message("<span class='notice'><B>\[src] was hit by [AM].</B></span>")
-
+	visible_message(SPAN_DANGER("\The [src] was hit by \the [AM]."))
 	//Super realistic, resource-intensive, real-time damage calculations.
 	var/tforce = 0
-
 	if(ismob(AM)) // All mobs have a multiplier and a size according to mob_defines.dm
 		var/mob/I = AM
 		tforce = I.mob_size * (TT.speed/THROWFORCE_SPEED_DIVISOR)
 	else
 		var/obj/O = AM
 		tforce = O.throwforce * (TT.speed/THROWFORCE_SPEED_DIVISOR)
-
 	src.health -= tforce
-
 	//This seemed to be the best sound for hitting a force field.
 	playsound(src.loc, 'sound/effects/EMPulse.ogg', 100, 1)
-
 	check_failure()
-
 	//The shield becomes dense to absorb the blow.. purely asthetic.
 	set_opacity(1)
-	spawn(20) if(!QDELETED(src)) set_opacity(0)
+	spawn(20)
+		if(!QDELETED(src))
+			set_opacity(0)
 
-	..()
 /obj/machinery/shieldgen
 	name = "Emergency shield projector"
 	desc = "Used to seal minor hull breaches."
@@ -166,14 +153,14 @@
 
 /obj/machinery/shieldgen/proc/create_shields()
 	for(var/turf/target_tile in range(8, src))
-		if ((istype(target_tile,/turf/space)|| istype(target_tile, /turf/simulated/open)) && !(locate(/obj/machinery/shield) in target_tile))
+		if(target_tile.is_open() && !(locate(/obj/machinery/shield) in target_tile))
 			if (malfunction && prob(33) || !malfunction)
 				var/obj/machinery/shield/S = new/obj/machinery/shield(target_tile)
 				deployed_shields += S
 				use_power_oneoff(S.shield_generate_power)
 
 	for(var/turf/above in range(8, GetAbove(src)))//Probably a better way to do this.
-		if ((istype(above,/turf/space)|| istype(above, /turf/simulated/open)) && !(locate(/obj/machinery/shield) in above))
+		if(above.is_open() && !(locate(/obj/machinery/shield) in above))
 			if (malfunction && prob(33) || !malfunction)
 				var/obj/machinery/shield/A = new/obj/machinery/shield(above)
 				deployed_shields += A
@@ -223,20 +210,18 @@
 	update_icon()
 	return
 
-/obj/machinery/shieldgen/ex_act(severity)
-	switch(severity)
-		if(1.0)
-			src.health -= 75
-			src.checkhp()
-		if(2.0)
-			src.health -= 30
-			if (prob(15))
-				src.malfunction = 1
-			src.checkhp()
-		if(3.0)
-			src.health -= 10
-			src.checkhp()
-	return
+/obj/machinery/shieldgen/explosion_act(severity)
+	. = ..()
+	if(.)
+		if(severity == 1)
+			health -= 75
+		else if(severity == 2)
+			health -= 30
+			if(prob(15))
+				malfunction = 1
+		else if(severity == 3)
+			health -= 10
+		checkhp()
 
 /obj/machinery/shieldgen/emp_act(severity)
 	switch(severity)
@@ -261,14 +246,14 @@
 		return TRUE
 
 	if (src.active)
-		user.visible_message("<span class='notice'>\icon[src] [user] deactivated the shield generator.</span>", \
-			"<span class='notice'>\icon[src] You deactivate the shield generator.</span>", \
+		user.visible_message("<span class='notice'>[html_icon(src)] [user] deactivated the shield generator.</span>", \
+			"<span class='notice'>[html_icon(src)] You deactivate the shield generator.</span>", \
 			"You hear heavy droning fade out.")
 		src.shields_down()
 	else
 		if(anchored)
-			user.visible_message("<span class='notice'>\icon[src] [user] activated the shield generator.</span>", \
-				"<span class='notice'>\icon[src] You activate the shield generator.</span>", \
+			user.visible_message("<span class='notice'>[html_icon(src)] [user] activated the shield generator.</span>", \
+				"<span class='notice'>[html_icon(src)] You activate the shield generator.</span>", \
 				"You hear heavy droning.")
 			src.shields_up()
 		else
@@ -314,7 +299,7 @@
 				src.shields_down()
 			anchored = 0
 		else
-			if(istype(get_turf(src), /turf/space)) return //No wrenching these in space!
+			if(isspaceturf(get_turf(src))) return //No wrenching these in space!
 			playsound(src.loc, 'sound/items/Ratchet.ogg', 100, 1)
 			to_chat(user, "<span class='notice'>You secure the [src] to the floor!</span>")
 			anchored = 1

@@ -28,22 +28,22 @@
 		if(thing.reagents.total_volume < 100)
 			to_chat(user, "<span class='warning'>You need at least one hundred units of material to form a fuel rod.</span>")
 			return 1
-		var/decl/reagent/R = decls_repository.get_decl(thing.reagents.reagent_volumes[1])
+		var/decl/material/R = decls_repository.get_decl(thing.reagents.reagent_volumes[1])
 		visible_message("<span class='notice'>\The [src] compresses the contents of \the [thing] into a new fuel assembly.</span>")
 		var/obj/item/fuel_assembly/F = new(get_turf(src), R.type, R.color)
 		thing.reagents.remove_reagent(R.type, 100)
 		user.put_in_hands(F)
 		return 1
 	else if(istype(thing, /obj/machinery/power/supermatter/shard))
-		var/obj/item/fuel_assembly/F = new(get_turf(src), MAT_SUPERMATTER)
+		var/obj/item/fuel_assembly/F = new(get_turf(src), /decl/material/solid/exotic_matter)
 		visible_message("<span class='notice'>\The [src] compresses the \[thing] into a new fuel assembly.</span>")
 		qdel(thing)
 		user.put_in_hands(F)
 		return 1
 	else if(istype(thing, /obj/item/stack/material))
 		var/obj/item/stack/material/M = thing
-		var/material/mat = M.get_material()
-		if(!mat.is_fusion_fuel)
+		var/decl/material/mat = M.get_material()
+		if(!(mat.flags & MAT_FLAG_FUSION_FUEL))
 			to_chat(user, "<span class='warning'>It would be pointless to make a fuel rod out of [mat.use_name].</span>")
 			return
 		if(!M.use(5))

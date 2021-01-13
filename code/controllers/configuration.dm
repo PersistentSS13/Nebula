@@ -44,6 +44,7 @@ var/list/gamemode_cache = list()
 	var/continous_rounds = 0			// Gamemodes which end instantly will instead keep on going until the round ends by escape shuttle or nuke.
 	var/allow_Metadata = 0				// Metadata is supported.
 	var/popup_admin_pm = 0				//adminPMs to non-admins show in a pop-up 'reply' window when set to 1.
+	var/allow_holidays = FALSE
 	var/fps = 20
 	var/tick_limit_mc_init = TICK_LIMIT_MC_INIT_DEFAULT	//SSinitialization throttling
 	var/list/resource_urls = null
@@ -53,6 +54,7 @@ var/list/gamemode_cache = list()
 	var/list/modes = list()				// allowed modes
 	var/list/votable_modes = list()		// votable modes
 	var/list/probabilities = list()		// relative probability of each mode
+	var/secret_hide_possibilities = FALSE // Whether or not secret modes show list of possible round types
 	var/humans_need_surnames = 0
 	var/allow_random_events = 0			// enables random events mid-round when set to 1
 	var/allow_ai = 1					// allow ai job
@@ -73,6 +75,9 @@ var/list/gamemode_cache = list()
 
 	var/character_slots = 10				// The number of available character slots
 	var/loadout_slots = 3					// The number of loadout slots per character
+
+	var/autosave_interval = 120				// The number in minutes that an autosave should take place.
+	var/autosave_auto_reset = 0				// Is above 0, after how many autosaves should the server reset?
 
 	var/max_maint_drones = 5				//This many drones can spawn,
 	var/allow_drone_spawn = 1				//assuming the admin allow them to.
@@ -160,7 +165,7 @@ var/list/gamemode_cache = list()
 	var/gateway_delay = 18000 //How long the gateway takes before it activates. Default is half an hour.
 	var/ghost_interaction = 0
 
-	var/comms_password = ""
+	var/comms_password = null
 	var/ban_comms_password = null
 	var/list/forbidden_versions = list() // Clients with these byond versions will be autobanned. Format: string "byond_version.byond_build"; separate with ; in config, e.g. 512.1234;512.1235
 	var/minimum_byond_version = 0
@@ -233,6 +238,11 @@ var/list/gamemode_cache = list()
 	var/do_not_prevent_spam = FALSE //If this is true, skips spam prevention for user actions; inputs, verbs, macros, etc.
 	var/max_acts_per_interval = 140 //Number of actions per interval permitted for spam protection.
 	var/act_interval = 0.1 SECONDS //Interval for spam prevention.
+
+	var/lock_client_view_x
+	var/lock_client_view_y
+	var/max_client_view_x
+	var/max_client_view_y
 
 /datum/configuration/New()
 	var/list/L = typesof(/datum/game_mode) - /datum/game_mode
@@ -562,7 +572,7 @@ var/list/gamemode_cache = list()
 					config.popup_admin_pm = 1
 
 				if("allow_holidays")
-					Holiday = 1
+					config.allow_holidays = 1
 
 				if("use_irc_bot")
 					use_irc_bot = 1
@@ -582,6 +592,9 @@ var/list/gamemode_cache = list()
 					config.antag_hud_allowed = 1
 				if("antag_hud_restricted")
 					config.antag_hud_restricted = 1
+
+				if("secret_hide_possibilities")
+					secret_hide_possibilities = TRUE
 
 				if("humans_need_surnames")
 					humans_need_surnames = 1
@@ -653,6 +666,12 @@ var/list/gamemode_cache = list()
 
 				if("loadout_slots")
 					config.loadout_slots = text2num(value)
+
+				if("autosave_interval")
+					config.autosave_interval = text2num(value)
+
+				if("autosave_auto_reset")
+					config.autosave_auto_reset = text2num(value)
 
 				if("allow_drone_spawn")
 					config.allow_drone_spawn = text2num(value)
@@ -824,6 +843,14 @@ var/list/gamemode_cache = list()
 				if("maximum_mushrooms")
 					config.maximum_mushrooms = value
 
+				if("lock_client_view_x")
+					config.lock_client_view_x = text2num(value)
+				if("lock_client_view_y")
+					config.lock_client_view_y = text2num(value)
+				if("max_client_view_x")
+					config.max_client_view_x = text2num(value)
+				if("max_client_view_y")
+					config.max_client_view_y = text2num(value)
 
 				if("use_loyalty_implants")
 					config.use_loyalty_implants = 1

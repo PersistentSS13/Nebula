@@ -78,12 +78,11 @@
 	var/disabilities = 0	//Carbon
 
 	var/next_move = null
-	var/hand = null
 	var/real_name = null
 
 	var/bhunger = 0			//Carbon
 
-	var/druggy = 0			//Carbon
+	var/drugged = 0			//Carbon
 	var/confused = 0		//Carbon
 	var/sleeping = 0		//Carbon
 	var/resting = 0			//Carbon
@@ -121,8 +120,6 @@
 	var/decl/move_intent/default_run_intent
 
 	var/obj/buckled = null//Living
-	var/obj/item/l_hand = null//Living
-	var/obj/item/r_hand = null//Living
 	var/obj/item/back = null//Human/Monkey
 	var/obj/item/storage/s_active = null//Carbon
 	var/obj/item/clothing/mask/wear_mask = null//Carbon
@@ -186,3 +183,5 @@
 	var/list/additional_vision_handlers = list() //Basically a list of atoms from which additional vision data is retrieved
 
 	var/list/progressbars = null //for stacking do_after bars
+
+	var/datum/ai/ai						// Type abused. Define with path and will automagically create. Determines behaviour for clientless mobs.

@@ -49,7 +49,7 @@
 	user.do_attack_animation(target)
 
 	if(do_after(user, 50, target) && in_range(user, target))
-		if(!user.unequip_item())
+		if(!user.unEquip(src))
 			return
 		src.target = target
 		forceMove(null)
@@ -79,9 +79,9 @@
 			var/turf/simulated/wall/W = target
 			W.dismantle_wall(1)
 		else if(istype(target, /mob/living))
-			target.ex_act(2) // c4 can't gib mobs anymore.
+			target.explosion_act(2) // c4 can't gib mobs anymore.
 		else
-			target.ex_act(1)
+			target.explosion_act(1)
 	if(target)
 		target.overlays -= image_overlay
 	qdel(src)

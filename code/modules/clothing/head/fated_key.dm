@@ -1,9 +1,8 @@
 /obj/item/clothing/head/fated
 	name = "strange key"
 	desc = "A glowing key, uncomfortably hot to the touch."
-	icon_state = "world"
+
 	icon = 'icons/clothing/head/fated_key.dmi'
-	on_mob_icon = 'icons/clothing/head/fated_key.dmi'
 	body_parts_covered = 0
 	armor = list(melee = 55, bullet = 55, laser = 55, energy = 55, bomb = 55, bio = 100, rad = 100)
 
@@ -27,7 +26,7 @@
 		name = "halo of starfire"
 		desc = "Beware the fire of the star-bearers; it is too terrible to touch."
 		starbearer.add_aura(new /obj/aura/regenerating(starbearer))
-		body_parts_covered = UPPER_TORSO|LOWER_TORSO|LEGS|ARMS|HEAD|FACE|EYES|HANDS|FEET
+		body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_ARMS|SLOT_HEAD|SLOT_FACE|SLOT_EYES|SLOT_HANDS|SLOT_FEET
 		item_flags |= ITEM_FLAG_AIRTIGHT
 
 /obj/item/clothing/head/fated/verb/perform_division()
@@ -50,7 +49,7 @@
 		return
 
 	var/atom/blade
-	for(var/obj/item/held in shuffle(list(user.l_hand, user.r_hand)))
+	for(var/obj/item/held in shuffle(user.get_held_items()))
 		if(has_edge(held))
 			blade = held
 			break
@@ -93,7 +92,7 @@
 	. = ..()
 	var/turf/T = get_turf(src)
 	if(T)
-		T.ex_act(2)
+		T.explosion_act(2)
 		var/firecount = rand(5,8)
 		while(firecount)
 			firecount--

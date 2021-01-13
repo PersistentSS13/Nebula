@@ -681,7 +681,7 @@
 /turf/simulated/floor/plating,
 /area/map_template/merc_shuttle)
 "bh" = (
-/obj/structure/handrai,
+/obj/structure/handrail,
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/external_air{
 	dir = 8;
 	id_tag = "merc_shuttle_pump"
@@ -903,12 +903,12 @@
 	id_tag = "merc_shuttle";
 	pixel_x = 0
 	},
-/obj/item/crowbar/prybar,
-/obj/item/crowbar/prybar,
-/obj/item/crowbar/prybar,
-/obj/item/crowbar/prybar,
-/obj/item/crowbar/prybar,
-/obj/item/crowbar/prybar,
+/obj/item/crowbar,
+/obj/item/crowbar,
+/obj/item/crowbar,
+/obj/item/crowbar,
+/obj/item/crowbar,
+/obj/item/crowbar,
 /obj/machinery/button/blast_door{
 	id_tag = "merc_airlock";
 	req_access = list("ACCESS_SYNDICATE")
@@ -1017,7 +1017,7 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/map_template/merc_shuttle/rear)
 "bI" = (
-/obj/effect/wallframe_spawn/reinforced_phoron,
+/obj/effect/wallframe_spawn/reinforced_borosilicate,
 /obj/machinery/atmospherics/pipe/manifold/visible/fuel{
 	dir = 4
 	},
@@ -1031,7 +1031,7 @@
 /turf/simulated/floor/plating,
 /area/map_template/merc_shuttle/rear)
 "bJ" = (
-/obj/structure/handrai{
+/obj/structure/handrail{
 	icon_state = "handrail";
 	dir = 1
 	},
@@ -1111,7 +1111,7 @@
 	icon_state = "warning";
 	dir = 8
 	},
-/obj/structure/handrai{
+/obj/structure/handrail{
 	icon_state = "handrail";
 	dir = 8
 	},
@@ -1127,7 +1127,7 @@
 /turf/simulated/wall/ocp_wall,
 /area/map_template/merc_shuttle/rear)
 "bR" = (
-/obj/effect/wallframe_spawn/reinforced_phoron,
+/obj/effect/wallframe_spawn/reinforced_borosilicate,
 /obj/machinery/atmospherics/pipe/manifold4w/visible/fuel,
 /obj/machinery/door/blast/regular/open{
 	density = 0;
@@ -1139,7 +1139,7 @@
 /turf/simulated/floor/plating,
 /area/map_template/merc_shuttle/rear)
 "bS" = (
-/obj/effect/wallframe_spawn/reinforced_phoron,
+/obj/effect/wallframe_spawn/reinforced_borosilicate,
 /obj/machinery/atmospherics/pipe/manifold/visible/fuel{
 	dir = 4
 	},
@@ -1341,7 +1341,7 @@
 	icon_state = "0-4";
 	d2 = 4
 	},
-/obj/structure/handrai,
+/obj/structure/handrail,
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/map_template/merc_shuttle/rear)
 "ci" = (
@@ -1407,7 +1407,7 @@
 /obj/item/stack/material/steel/fifty,
 /obj/item/stack/material/rods/fifty,
 /obj/item/stack/material/glass/reinforced/fifty,
-/obj/item/stack/material/glass/phoronrglass/ten,
+/obj/item/stack/material/glass/reinforced_borosilicate/ten,
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
@@ -1448,7 +1448,7 @@
 	d2 = 8;
 	icon_state = "2-8"
 	},
-/obj/structure/handrai,
+/obj/structure/handrail,
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/map_template/merc_shuttle/rear)
 "co" = (
@@ -1532,7 +1532,7 @@
 /obj/machinery/atmospherics/valve/shutoff{
 	level = 2
 	},
-/obj/structure/handrai{
+/obj/structure/handrail{
 	icon_state = "handrail";
 	dir = 8
 	},
@@ -1600,7 +1600,7 @@
 /obj/effect/floor_decal/industrial/warning/corner{
 	dir = 4
 	},
-/obj/structure/handrai{
+/obj/structure/handrail{
 	icon_state = "handrail";
 	dir = 4
 	},
@@ -1804,7 +1804,6 @@
 	icon_state = "1-4"
 	},
 /obj/item/storage/toolbox/syndicate,
-/obj/item/stack/material/phoron/fifty,
 /obj/item/storage/backpack/dufflebag/syndie/ammo,
 /obj/machinery/atmospherics/pipe/simple/visible/fuel{
 	dir = 4
@@ -1852,7 +1851,7 @@
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/map_template/merc_shuttle/rear)
 "cX" = (
-/obj/structure/handrai{
+/obj/structure/handrail{
 	icon_state = "handrail";
 	dir = 1
 	},
@@ -2081,13 +2080,7 @@
 /turf/simulated/floor/plating,
 /area/map_template/merc_spawn)
 "iv" = (
-/obj/structure/closet/crate/secure/phoron,
-/obj/item/stack/material/phoron/ten,
-/obj/item/stack/material/phoron/ten,
-/obj/item/stack/material/phoron/ten,
-/obj/item/stack/material/phoron/ten,
-/obj/item/stack/material/phoron/ten,
-/obj/item/stack/material/phoron/ten,
+/obj/structure/closet/crate/secure/explosives,
 /obj/structure/railing/mapped/no_density,
 /turf/simulated/floor/plating,
 /area/map_template/merc_spawn)
@@ -2419,7 +2412,7 @@
 	dir = 4;
 	id_tag = "merc_shuttle_pump_out_internal"
 	},
-/obj/structure/handrai,
+/obj/structure/handrail,
 /obj/machinery/light/small{
 	dir = 1
 	},
@@ -2548,7 +2541,8 @@
 /obj/machinery/vending/cigarette{
 	dir = 8;
 	name = "hacked cigarette machine";
-	markup = 0,products = list(/obj/item/storage/fancy/cigarettes = 10, /obj/item/storage/box/matches = 10, /obj/item/flame/lighter/zippo/random = 4, /obj/item/clothing/mask/smokable/cigarette/cigar/havana = 2)
+	markup = 0;
+	products = list(/obj/item/storage/fancy/cigarettes = 10, /obj/item/storage/box/matches = 10, /obj/item/flame/lighter/zippo/random = 4, /obj/item/clothing/mask/smokable/cigarette/cigar/havana = 2)
 	},
 /obj/structure/railing/mapped/no_density{
 	icon_state = "railing0-1";
@@ -2582,13 +2576,7 @@
 /turf/simulated/floor/plating,
 /area/map_template/merc_spawn)
 "Fy" = (
-/obj/structure/closet/crate/secure/phoron,
-/obj/item/stack/material/phoron/ten,
-/obj/item/stack/material/phoron/ten,
-/obj/item/stack/material/phoron/ten,
-/obj/item/stack/material/phoron/ten,
-/obj/item/stack/material/phoron/ten,
-/obj/item/stack/material/phoron/ten,
+/obj/structure/closet/crate/secure/explosives,
 /obj/machinery/light/spot{
 	icon_state = "tube_map";
 	dir = 1
@@ -2647,15 +2635,12 @@
 /obj/item/gun/energy/plasmacutter,
 /obj/item/gun/energy/plasmacutter,
 /obj/structure/window/reinforced{
-	icon_state = "rwindow";
 	dir = 4
 	},
 /obj/structure/window/reinforced{
-	icon_state = "rwindow";
 	dir = 8
 	},
 /obj/structure/window/reinforced{
-	icon_state = "rwindow";
 	dir = 1
 	},
 /turf/simulated/floor/plating,
@@ -2774,9 +2759,9 @@
 /obj/item/stack/material/ocp/ten,
 /obj/item/stack/material/ocp/ten,
 /obj/item/stack/material/ocp/ten,
-/obj/item/stack/material/glass/phoronrglass/ten,
-/obj/item/stack/material/glass/phoronrglass/ten,
-/obj/item/stack/material/glass/phoronrglass/ten,
+/obj/item/stack/material/glass/reinforced_borosilicate/ten,
+/obj/item/stack/material/glass/reinforced_borosilicate/ten,
+/obj/item/stack/material/glass/reinforced_borosilicate/ten,
 /obj/structure/railing/mapped/no_density{
 	icon_state = "railing0-1";
 	dir = 8
@@ -3074,15 +3059,12 @@
 "Ya" = (
 /obj/structure/table/rack,
 /obj/structure/window/reinforced{
-	icon_state = "rwindow";
 	dir = 4
 	},
 /obj/structure/window/reinforced{
-	icon_state = "rwindow";
 	dir = 8
 	},
 /obj/structure/window/reinforced{
-	icon_state = "rwindow";
 	dir = 1
 	},
 /obj/item/rig/medical/equipped,

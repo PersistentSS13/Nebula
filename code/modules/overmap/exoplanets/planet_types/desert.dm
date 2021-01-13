@@ -10,7 +10,7 @@
 	water_color = null
 	has_trees = FALSE
 	flora_diversity = 4
-	fauna_types = list(/mob/living/simple_animal/thinbug, /mob/living/simple_animal/tindalos, /mob/living/simple_animal/hostile/voxslug, /mob/living/simple_animal/hostile/antlion)
+	fauna_types = list(/mob/living/simple_animal/thinbug, /mob/living/simple_animal/tindalos, /mob/living/simple_animal/hostile/slug, /mob/living/simple_animal/hostile/antlion)
 	megafauna_types = list(/mob/living/simple_animal/hostile/antlion/mega)
 
 /obj/effect/overmap/visitable/sector/exoplanet/desert/generate_map()
@@ -23,7 +23,7 @@
 	if(atmosphere)
 		var/limit = 1000
 		if(habitability_class <= HABITABILITY_OKAY)
-			var/datum/species/human/H = /datum/species/human
+			var/decl/species/human/H = /decl/species/human
 			limit = initial(H.heat_level_1) - rand(1,10)
 		atmosphere.temperature = min(T20C + rand(20, 100), limit)
 		atmosphere.update_values()
@@ -44,24 +44,22 @@
 /datum/random_map/noise/exoplanet/desert
 	descriptor = "desert exoplanet"
 	smoothing_iterations = 4
-	land_type = /turf/simulated/floor/exoplanet/desert
+	land_type = /turf/exterior/sand
 
 	flora_prob = 5
 	large_flora_prob = 0
 
 /datum/random_map/noise/exoplanet/desert/get_additional_spawns(var/value, var/turf/T)
 	..()
-	if(is_edge_turf(T))
-		return
 	var/v = noise2value(value)
 	if(v > 6)
-		T.icon_state = "desert[v-1]"
+		T.icon_state = "0"
 		if(prob(10))
 			new/obj/structure/quicksand(T)
 
 /area/exoplanet/desert
 	ambience = list('sound/effects/wind/desert0.ogg','sound/effects/wind/desert1.ogg','sound/effects/wind/desert2.ogg','sound/effects/wind/desert3.ogg','sound/effects/wind/desert4.ogg','sound/effects/wind/desert5.ogg')
-	base_turf = /turf/simulated/floor/exoplanet/desert
+	base_turf = /turf/exterior/sand
 
 /obj/structure/quicksand
 	name = "sand"

@@ -37,12 +37,6 @@
 	if(locate(/obj/structure/window) in loc)
 		warning("Window Spawner: A window structure already exists at [loc.x]-[loc.y]-[loc.z]")
 
-	if(locate(/obj/structure/grille) in loc)
-		warning("Window Spawner: A grille already exists at [loc.x]-[loc.y]-[loc.z]")
-	else
-		var/obj/structure/grille/G = new /obj/structure/grille(loc)
-		handle_grille_spawn(G)
-
 	var/list/neighbours = list()
 	if(fulltile)
 		var/obj/structure/window/new_win = new win_path(loc)
@@ -64,6 +58,13 @@
 					handle_window_spawn(new_win)
 			else
 				neighbours |= other
+
+	if(locate(/obj/structure/grille) in loc)
+		warning("Window Spawner: A grille already exists at [loc.x]-[loc.y]-[loc.z]")
+	else
+		var/obj/structure/grille/G = new /obj/structure/grille(loc)
+		handle_grille_spawn(G)
+
 	activated = 1
 	for(var/obj/effect/wingrille_spawn/other in neighbours)
 		if(!other.activated) other.activate()
@@ -90,20 +91,20 @@
 	name = "Crescent window grille spawner"
 	win_path = /obj/structure/window/reinforced/crescent
 
-/obj/effect/wingrille_spawn/phoron
-	name = "phoron window grille spawner"
+/obj/effect/wingrille_spawn/borosilicate
+	name = "borosilicate window grille spawner"
 	icon_state = "p-wingrille"
-	win_path = /obj/structure/window/phoronbasic
+	win_path = /obj/structure/window/borosilicate
 
-/obj/effect/wingrille_spawn/reinforced_phoron
-	name = "reinforced phoron window grille spawner"
+/obj/effect/wingrille_spawn/reinforced_borosilicate
+	name = "reinforced borosilicate window grille spawner"
 	icon_state = "pr-wingrille"
-	win_path = /obj/structure/window/phoronreinforced
+	win_path = /obj/structure/window/borosilicate_reinforced
 
-/obj/effect/wingrille_spawn/reinforced_phoron/full
-	name = "reinforced phoron window grille spawner - full tile"
+/obj/effect/wingrille_spawn/reinforced_borosilicate/full
+	name = "reinforced borosilicate window grille spawner - full tile"
 	fulltile = TRUE
-	win_path = /obj/structure/window/phoronreinforced/full
+	win_path = /obj/structure/window/borosilicate_reinforced/full
 
 /obj/effect/wingrille_spawn/reinforced/polarized
 	name = "polarized window grille spawner"

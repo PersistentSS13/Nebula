@@ -53,35 +53,10 @@
 
 	..()
 
-
-
-// When destroyed by explosions, properly handle contents.
-obj/structure/ex_act(severity)
-	switch(severity)
-		if(1.0)
-			for(var/atom/movable/AM in contents)
-				AM.dropInto(loc)
-				AM.ex_act(severity++)
-
-			qdel(src)
-			return
-		if(2.0)
-			if(prob(50))
-				for(var/atom/movable/AM in contents)
-					AM.dropInto(loc)
-					AM.ex_act(severity++)
-
-				qdel(src)
-				return
-		if(3.0)
-			return
-
-
-
 /obj/structure/transit_tube_pod/Initialize()
 	. = ..()
 
-	air_contents.adjust_multi(MAT_OXYGEN, MOLES_O2STANDARD * 2, MAT_NITROGEN, MOLES_N2STANDARD)
+	air_contents.adjust_multi(/decl/material/gas/oxygen, MOLES_O2STANDARD * 2, /decl/material/gas/nitrogen, MOLES_N2STANDARD)
 	air_contents.temperature = T20C
 
 	// Give auto tubes time to align before trying to start moving
@@ -335,7 +310,7 @@ obj/structure/ex_act(severity)
 			do
 				sleep(last_delay)
 
-				if(!istype(loc, /turf/space))
+				if(!isspaceturf(loc))
 					last_delay++
 
 				if(last_delay > 10)
@@ -375,10 +350,6 @@ obj/structure/ex_act(severity)
 			var/turf/T = get_turf(src)
 			mob.forceMove(T)
 			mob.client.Move(get_step(T, direction), direction)
-
-			//if(moving && istype(loc, /turf/space))
-				// Todo: If you get out of a moving pod in space, you should move as well.
-				//  Same direction as pod? Direcion you moved? Halfway between?
 
 		if(!moving)
 			for(var/obj/structure/transit_tube/station/station in loc)

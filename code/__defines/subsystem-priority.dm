@@ -16,7 +16,7 @@
 #define SS_PRIORITY_MACHINERY      95  // Machinery + powernet ticks.
 #define SS_PRIORITY_AIR            80  // ZAS processing.
 #define SS_PRIORITY_THROWING       75  // Throwing calculation and constant checks
-#define SS_PRIORITY_CHEMISTRY      60  // Multi-tick chemical reactions.
+#define SS_PRIORITY_MATERIALS      60  // Multi-tick chemical reactions.
 #define SS_PRIORITY_SPACEDRIFT     40  // Drifting things
 #define SS_PRIORITY_ALARM          20  // Alarm processing.
 #define SS_PRIORITY_EVENT          20  // Event processing and queue handling.
@@ -39,6 +39,7 @@
 #define SS_PRIORITY_PLANTS        90   // Plant processing, slow ticks.
 #define SS_PRIORITY_VINES         50   // Spreading vine effects.
 #define SS_PRIORITY_PSYCHICS      45   // Psychic complexus processing.
+#define SS_PRIORITY_AI            45   // Artificial Intelligence on mobs processing.
 #define SS_PRIORITY_NANO          40   // Updates to nanoui uis.
 #define SS_PRIORITY_TURF          30   // Radioactive walls/blob.
 #define SS_PRIORITY_EVAC          30   // Processes the evac controller.

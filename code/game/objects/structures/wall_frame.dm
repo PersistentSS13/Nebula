@@ -6,7 +6,7 @@
 	desc = "A low wall section which serves as the base of windows, amongst other things."
 	icon = 'icons/obj/structures/wall_frame.dmi'
 	icon_state = "frame"
-	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_CLIMBABLE
+	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_CLIMBABLE | ATOM_FLAG_CAN_BE_PAINTED
 	anchored = 1
 	density = 1
 	throwpass = 1
@@ -15,13 +15,13 @@
 	material = DEFAULT_WALL_MATERIAL
 	handle_generic_blending = TRUE
 	tool_interaction_flags = (TOOL_INTERACTION_ANCHOR | TOOL_INTERACTION_DECONSTRUCT)
-	maxhealth = 100
+	maxhealth = 40
 
 	var/paint_color
 	var/stripe_color
 	var/list/connections
 	var/list/other_connections
-	
+
 /obj/structure/wall_frame/clear_connections()
 	connections = null
 	other_connections = null
@@ -99,7 +99,7 @@
 	overlays.Cut()
 	var/image/I
 
-	var/new_color = (paint_color ? paint_color : material.icon_colour)
+	var/new_color = (paint_color ? paint_color : material.color)
 	color = new_color
 
 	for(var/i = 1 to 4)
@@ -154,12 +154,19 @@
 		return
 	take_damage(tforce)
 
+/obj/structure/wall_frame/get_color()
+	return paint_color
+
+/obj/structure/wall_frame/set_color(new_color)
+	paint_color = new_color
+	update_icon()
+
 //Subtypes
 /obj/structure/wall_frame/standard
 	paint_color = COLOR_WALL_GUNMETAL
 
 /obj/structure/wall_frame/titanium
-	material = MAT_TITANIUM
+	material = /decl/material/solid/metal/titanium
 
 /obj/structure/wall_frame/hull
 	paint_color = COLOR_HULL

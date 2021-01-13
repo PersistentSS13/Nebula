@@ -29,7 +29,11 @@
 	pass_flags = PASS_FLAG_TABLE
 	move_to_delay = 3
 	speed = 1
-	max_gas = list(MAT_PHORON = 1, MAT_CO2 = 5, MAT_METHYL_BROMIDE = 1)
+	max_gas = list(
+		/decl/material/gas/chlorine = 1, 
+		/decl/material/gas/carbon_dioxide = 5, 
+		/decl/material/gas/methyl_bromide = 1
+	)
 	bleed_colour = "#0d5a71"
 	break_stuff_probability = 25
 	pry_time = 8 SECONDS
@@ -39,11 +43,11 @@
 	meat_amount = 3
 	bone_material = null
 	bone_amount =   0
-	skin_material = MAT_SKIN_CHITIN
+	skin_material = /decl/material/solid/skin/insect
 	skin_amount =   5
 
 	var/poison_per_bite = 6
-	var/poison_type = /decl/reagent/toxin/venom
+	var/poison_type = /decl/material/liquid/venom
 	var/busy = 0
 	var/eye_colour
 	var/allowed_eye_colours = list(COLOR_RED, COLOR_ORANGE, COLOR_YELLOW, COLOR_LIME, COLOR_DEEP_SKY_BLUE, COLOR_INDIGO, COLOR_VIOLET, COLOR_PINK)
@@ -83,7 +87,7 @@
 	harm_intent_damage = 6 //soft
 	poison_per_bite = 5
 	speed = 0
-	poison_type = /decl/reagent/sedatives
+	poison_type = /decl/material/liquid/sedatives
 	break_stuff_probability = 10
 	pry_time = 9 SECONDS
 
@@ -440,13 +444,13 @@ Hunter caste procs
 		stop_automation = first_stop_automation
 	
 /mob/living/simple_animal/hostile/giant_spider/hunter/throw_impact(atom/hit_atom)
+	..()
 	if(isliving(hit_atom))
 		var/mob/living/target = hit_atom
 		stop_automation = FALSE
 		visible_message(SPAN_DANGER("\The [src] slams into \the [target], knocking them over!"))
 		target.Weaken(1)
 		MoveToTarget()
-	. = ..()
 
 /******************
 Spitter caste procs

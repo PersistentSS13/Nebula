@@ -12,12 +12,16 @@ if(!click_handlers) { \
 
 /mob/Destroy()
 	QDEL_NULL_LIST(click_handlers)
+	var/datum/extension/hattable/hattable = get_extension(src, /datum/extension/hattable)
+	if(hattable?.hat)
+		hattable.hat.dropInto(get_turf(src))
+		hattable.hat = null
 	. = ..()
 
-var/const/CLICK_HANDLER_NONE                 = 0x000000
-var/const/CLICK_HANDLER_REMOVE_ON_MOB_LOGOUT = 0x000001
-var/const/CLICK_HANDLER_REMOVE_IF_NOT_TOP    = 0x000002
-var/const/CLICK_HANDLER_ALL                  = (~0)
+var/const/CLICK_HANDLER_NONE                 = BITFLAG(0)
+var/const/CLICK_HANDLER_REMOVE_ON_MOB_LOGOUT = BITFLAG(1)
+var/const/CLICK_HANDLER_REMOVE_IF_NOT_TOP    = BITFLAG(2)
+var/const/CLICK_HANDLER_ALL                  = (CLICK_HANDLER_NONE|CLICK_HANDLER_REMOVE_ON_MOB_LOGOUT|CLICK_HANDLER_REMOVE_IF_NOT_TOP)
 
 /datum/click_handler
 	var/mob/user

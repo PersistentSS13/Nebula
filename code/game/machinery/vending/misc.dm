@@ -23,12 +23,13 @@
 	icon_state = "dinnerware"
 	icon_vend = "dinnerware-vend"
 	icon_deny = "dinnerware-deny"
+	markup = 0
 	base_type = /obj/machinery/vending/dinnerware
 	products = list(
 		/obj/item/chems/glass/beaker/bowl =2,
 		/obj/item/storage/tray/metal/aluminium = 8,
-		/obj/item/material/knife/kitchen = 3,
-		/obj/item/material/kitchen/rollingpin = 2,
+		/obj/item/knife/kitchen = 3,
+		/obj/item/kitchen/rollingpin = 2,
 		/obj/item/chems/food/drinks/pitcher = 2,
 		/obj/item/chems/food/drinks/glass2/coffeecup = 8,
 		/obj/item/chems/food/drinks/glass2/coffeecup/teacup = 8,
@@ -41,9 +42,9 @@
 		/obj/item/storage/lunchbox/mars = 3,
 		/obj/item/storage/lunchbox/cti = 3,
 		/obj/item/storage/lunchbox/syndicate = 3,
-		/obj/item/material/knife/kitchen/cleaver = 1
+		/obj/item/knife/kitchen/cleaver = 1
 	)
-	contraband = list(/obj/item/material/knife/kitchen/cleaver/bronze = 1,/obj/item/storage/tray/metal/silver = 1)
+	contraband = list(/obj/item/knife/kitchen/cleaver/bronze = 1,/obj/item/storage/tray/metal/silver = 1)
 
 /obj/machinery/vending/fashionvend
 	name = "Smashing Fashions"
@@ -85,6 +86,8 @@
 		/obj/item/toy/eightball = 8, 
 		/obj/item/deck/cards = 5, 
 		/obj/item/deck/tarot = 5, 
+		/obj/item/deck/cag/white = 5,
+		/obj/item/deck/cag/black = 5, 
 		/obj/item/pack/cardemon = 6, 
 		/obj/item/pack/spaceball = 6, 
 		/obj/item/storage/pill_bottle/dice_nerd = 5, 
@@ -108,7 +111,7 @@
 	name = "Lavatory Essentials"
 	desc = "Vends things that make you less reviled in the work-place!"
 	vend_delay = 15
-	product_slogans = "Take a shower you hippie.;Get a haircut, hippie!;Reeking of vox taint? Take a shower!"
+	product_slogans = "Take a shower you hippie.;Get a haircut, hippie!;Reeking of scale taint? Take a shower!"
 
 	icon_state = "lavatory"
 	icon_deny = "lavatory-deny"

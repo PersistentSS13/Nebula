@@ -31,10 +31,10 @@
 	var/list/stored_material
 	var/list/storage_capacity
 	var/list/base_storage_capacity = list(
-		MAT_STEEL =     SHEET_MATERIAL_AMOUNT * 20,
-		MAT_ALUMINIUM = SHEET_MATERIAL_AMOUNT * 20,
-		MAT_GLASS =     SHEET_MATERIAL_AMOUNT * 10,
-		MAT_PLASTIC =   SHEET_MATERIAL_AMOUNT * 10
+		/decl/material/solid/metal/steel =     SHEET_MATERIAL_AMOUNT * 20,
+		/decl/material/solid/metal/aluminium = SHEET_MATERIAL_AMOUNT * 20,
+		/decl/material/solid/glass =     SHEET_MATERIAL_AMOUNT * 10,
+		/decl/material/solid/plastic =   SHEET_MATERIAL_AMOUNT * 10
 	)
 
 	var/initial_id_tag
@@ -44,7 +44,7 @@
 	var/build_time_multiplier = 1
 	var/global/list/stored_substances_to_names = list()
 
-	var/list/design_cache
+	var/list/design_cache = list()
 	var/list/installed_designs
 
 	var/sound_id
@@ -55,6 +55,8 @@
 
 	var/initial_network_id
 	var/initial_network_key
+
+	var/species_variation = /decl/species/human // If this fabricator is a variant for a specific species, this will be checked to unlock species-specific designs.
 
 /obj/machinery/fabricator/Destroy()
 	QDEL_NULL(currently_building)
@@ -88,17 +90,15 @@
 
 		// Update global type to string cache.
 		if(!stored_substances_to_names[mat])
-			if(ispath(mat, /material))
-				var/material/mat_instance = SSmaterials.get_material_datum(mat)
+			if(ispath(mat, /decl/material))
+				var/decl/material/mat_instance = decls_repository.get_decl(mat)
 				if(istype(mat_instance))
-					stored_substances_to_names[mat] =  lowertext(mat_instance.display_name)
-			else if(ispath(mat, /decl/reagent))
-				var/decl/reagent/reg = mat
+					stored_substances_to_names[mat] =  lowertext(mat_instance.name)
+			else if(ispath(mat, /decl/material))
+				var/decl/material/reg = mat
 				stored_substances_to_names[mat] = lowertext(initial(reg.name))
 
-	var/list/base_designs = SSfabrication.get_initial_recipes(fabricator_class)
-	design_cache = islist(base_designs) ? base_designs.Copy() : list() // Don't want to mutate the subsystem cache.
-	refresh_design_cache()
+	SSfabrication.init_fabricator(src)
 
 /obj/machinery/fabricator/proc/refresh_design_cache(var/list/known_tech)
 	if(length(installed_designs))
@@ -116,6 +116,19 @@
 		var/list/unlocked_tech = SSfabrication.get_unlocked_recipes(fabricator_class, known_tech)
 		if(length(unlocked_tech))
 			design_cache |= unlocked_tech
+
+	for(var/datum/fabricator_recipe/R in design_cache)
+		if(!length(R.species_locked))
+			continue
+
+		if(isnull(species_variation))
+			design_cache.Remove(R)
+			continue
+
+		for(var/species_type in R.species_locked)
+			if(ispath(species_variation, species_type))
+				design_cache.Remove(R)
+				return
 
 /obj/machinery/fabricator/state_transition(var/decl/machine_construction/default/new_state)
 	. = ..()
@@ -169,9 +182,9 @@
 
 /obj/machinery/fabricator/dismantle()
 	for(var/mat in stored_material)
-		if(ispath(mat, /material))
+		if(ispath(mat, /decl/material))
 			var/mat_name = stored_substances_to_names[mat]
-			var/material/M = SSmaterials.get_material_datum(mat_name)
+			var/decl/material/M = decls_repository.get_decl(mat_name)
 			if(stored_material[mat] > SHEET_MATERIAL_AMOUNT)
 				M.place_sheet(get_turf(src), round(stored_material[mat] / SHEET_MATERIAL_AMOUNT), M.type)
 	..()

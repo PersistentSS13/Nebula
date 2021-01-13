@@ -29,6 +29,7 @@
 	if(client)
 		handle_privacy_poll()
 		client.playtitlemusic()
+		client.prefs?.apply_post_login_preferences()
 		maybe_send_staffwarns("connected as new player")
 
 	var/decl/security_state/security_state = decls_repository.get_decl(GLOB.using_map.security_state)

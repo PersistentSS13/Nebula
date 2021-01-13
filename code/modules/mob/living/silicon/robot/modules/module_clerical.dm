@@ -2,9 +2,6 @@
 	channels = list(
 		"Service" = TRUE
 	)
-	languages = list(
-		/decl/language/human/common = TRUE
-	)
 	skills = list(
 		SKILL_LITERACY            = SKILL_ADEPT,
 		SKILL_FINANCE             = SKILL_PROF,
@@ -31,13 +28,13 @@
 		/obj/item/flash,
 		/obj/item/gripper/service,
 		/obj/item/chems/glass/bucket,
-		/obj/item/material/minihoe,
-		/obj/item/material/hatchet,
+		/obj/item/minihoe,
+		/obj/item/hatchet,
 		/obj/item/scanner/plant,
 		/obj/item/storage/plants,
 		/obj/item/robot_harvester,
-		/obj/item/material/kitchen/rollingpin,
-		/obj/item/material/knife/kitchen,
+		/obj/item/kitchen/rollingpin,
+		/obj/item/knife/kitchen,
 		/obj/item/crowbar,
 		/obj/item/rsf,
 		/obj/item/chems/dropper/industrial,
@@ -66,22 +63,22 @@
 	. = ..()
 	if(emag)
 		var/datum/reagents/R = emag.create_reagents(50)
-		R.add_reagent(/decl/reagent/paralytics, 10)
-		R.add_reagent(/decl/reagent/sedatives, 15)
-		R.add_reagent(/decl/reagent/ethanol/beer, 20)
-		R.add_reagent(/decl/reagent/drink/ice, 5)
+		R.add_reagent(/decl/material/liquid/paralytics, 10)
+		R.add_reagent(/decl/material/liquid/sedatives, 15)
+		R.add_reagent(/decl/material/liquid/ethanol/beer, 20)
+		R.add_reagent(/decl/material/solid/ice, 5)
 		emag.SetName("Mickey Finn's Special Brew")
 
 /obj/item/robot_module/general/butler/respawn_consumable(var/mob/living/silicon/robot/R, var/amount)
 	..()
 	var/obj/item/chems/food/condiment/enzyme/E = locate() in equipment
-	E.reagents.add_reagent(/decl/reagent/enzyme, 2 * amount)
+	E.reagents.add_reagent(/decl/material/liquid/enzyme, 2 * amount)
 	if(emag)
 		var/obj/item/chems/food/drinks/bottle/small/beer/B = emag
-		B.reagents.add_reagent(/decl/reagent/ethanol/beer, amount * 0.4)
-		B.reagents.add_reagent(/decl/reagent/drink/ice,    amount * 0.1)
-		B.reagents.add_reagent(/decl/reagent/paralytics,   amount * 0.2)
-		B.reagents.add_reagent(/decl/reagent/sedatives,    amount * 0.3)
+		B.reagents.add_reagent(/decl/material/liquid/ethanol/beer, amount * 0.4)
+		B.reagents.add_reagent(/decl/material/solid/ice,         amount * 0.1)
+		B.reagents.add_reagent(/decl/material/liquid/paralytics,   amount * 0.2)
+		B.reagents.add_reagent(/decl/material/liquid/sedatives,    amount * 0.3)
 
 /obj/item/robot_module/clerical/general
 	name = "clerical robot module"

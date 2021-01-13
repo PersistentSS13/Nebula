@@ -1,7 +1,6 @@
 /mob/living
 	see_in_dark = 2
 	see_invisible = SEE_INVISIBLE_LIVING
-	waterproof = FALSE
 
 	//Health and life related vars
 	var/maxHealth = 100 //Maximum health that should be possible.
@@ -18,7 +17,6 @@
 
 	var/last_special = 0 //Used by the resist verb, likely used to prevent players from bypassing next_move by logging in/out.
 
-	var/t_phoron = null
 	var/t_oxygen = null
 	var/t_sl_gas = null
 	var/t_n2 = null

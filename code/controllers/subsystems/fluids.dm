@@ -15,7 +15,9 @@ SUBSYSTEM_DEF(fluids)
 
 	var/obj/equalizing_reagent_holder
 	var/tmp/active_fluids_copied_yet = FALSE
+	var/tmp/fluid_sources_copied_yet = FALSE
 	var/af_index = 1
+	var/fs_index = 1
 	var/list/fluid_images = list()
 
 	var/list/gurgles = list(
@@ -36,17 +38,23 @@ SUBSYSTEM_DEF(fluids)
 	..("A:[active_fluids.len] S:[water_sources.len]")
 
 /datum/controller/subsystem/fluids/fire(resumed = 0)
-	if (!resumed)
-		processing_sources = water_sources.Copy()
-		active_fluids_copied_yet = FALSE
-		af_index = 1
 
-	var/list/curr_sources = processing_sources
+	if (!resumed)
+		active_fluids_copied_yet = FALSE
+		fluid_sources_copied_yet = FALSE
+		af_index = 1
+		fs_index = 1
+
+	if(!fluid_sources_copied_yet)
+		fluid_sources_copied_yet = TRUE
+		processing_sources = water_sources.Copy()
+
 	var/list/checked = list()
-	while (curr_sources.len)
-		curr_sources.len--
+	while(fs_index <= processing_sources.len)
+
+		var/turf/T = processing_sources[fs_index++]
+
 		var/flooded_a_neighbor
-		var/turf/T = curr_sources[curr_sources.len]
 		UPDATE_FLUID_BLOCKED_DIRS(T)
 		for(var/spread_dir in GLOB.cardinal)
 			if(T.fluid_blocked_dirs & spread_dir) 
@@ -62,13 +70,12 @@ SUBSYSTEM_DEF(fluids)
 			var/obj/effect/fluid/F = locate() in next
 			if(!F)
 				F = new /obj/effect/fluid(next)
-				var/datum/gas_mixture/GM = T.return_air()
-				if(GM) F.temperature = GM.temperature
-			if(F)
-				if(F.reagents.total_volume < FLUID_MAX_DEPTH)
-					F.reagents.add_reagent(/decl/reagent/water, FLUID_MAX_DEPTH - F.reagents.total_volume)
+			if(F.reagents.total_volume < FLUID_MAX_DEPTH)
+				F.reagents.add_reagent(/decl/material/liquid/water, FLUID_MAX_DEPTH - F.reagents.total_volume)
+
 		if(!flooded_a_neighbor)
-			REMOVE_ACTIVE_FLUID_SOURCE(T)
+			water_sources -= T
+
 		if (MC_TICK_CHECK)
 			return
 
@@ -91,7 +98,7 @@ SUBSYSTEM_DEF(fluids)
 			qdel(F)
 			continue
 
-		if(T.density || istype(T, /turf/space) || istype(T, /turf/simulated/floor/exoplanet))
+		if(T.density || isspaceturf(T) || istype(T, /turf/exterior))
 			F.reagents.remove_any(max(FLUID_EVAPORATION_POINT-1, round(F.reagents.total_volume * 0.5)))
 			if(F.reagents.total_volume <= FLUID_EVAPORATION_POINT)
 				qdel(F)
@@ -111,7 +118,7 @@ SUBSYSTEM_DEF(fluids)
 						F.reagents.trans_to_holder(other.reagents, min(Floor(F.reagents.total_volume*0.5), FLUID_MAX_DEPTH - other.reagents.total_volume))
 						continue
 		
-		if(F.reagents.total_volume > FLUID_EVAPORATION_POINT)
+		if(F.reagents.total_volume > FLUID_PUDDLE)
 			for(var/spread_dir in GLOB.cardinal)
 				if(T.fluid_blocked_dirs & spread_dir)
 					continue
@@ -131,8 +138,6 @@ SUBSYSTEM_DEF(fluids)
 					else
 						qdel(F)
 						break
-		else
-			qdel(F)
 
 		if (MC_TICK_CHECK)
 			return
@@ -146,13 +151,13 @@ SUBSYSTEM_DEF(fluids)
 			continue
 
 		// Equalize across our neighbors. Hardcoded here for performance reasons.
-		if(!length(F.neighbors) || F.reagents.total_volume <= FLUID_EVAPORATION_POINT)
+		if(!length(F.neighbors) || F.reagents.total_volume <= FLUID_PUDDLE)
 			continue
 
 		var/sufficient_delta = FALSE
 		for(var/thing in F.neighbors)
 			var/obj/effect/fluid/other = thing
-			if(abs(F.reagents.total_volume - other.reagents.total_volume) >= FLUID_EVAPORATION_POINT)
+			if(abs(F.reagents.total_volume - other.reagents.total_volume) > FLUID_EVAPORATION_POINT)
 				sufficient_delta = TRUE
 				break
 
@@ -178,4 +183,10 @@ SUBSYSTEM_DEF(fluids)
 		F.set_dir(setting_dir)
 
 		if (MC_TICK_CHECK)
-			return
+			return 
+
+/datum/controller/subsystem/fluids/StartLoadingMap()
+	suspend()
+
+/datum/controller/subsystem/fluids/StopLoadingMap()
+	wake()

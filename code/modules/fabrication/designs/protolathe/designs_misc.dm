@@ -23,8 +23,8 @@
 /datum/fabricator_recipe/protolathe/misc/beaker/get_product_name()
 	. = "beaker prototype ([..()])"
 
-/datum/fabricator_recipe/protolathe/misc/beaker/bluespace
-	path = /obj/item/chems/glass/beaker/bluespace
+/datum/fabricator_recipe/protolathe/misc/beaker/advanced
+	path = /obj/item/chems/glass/beaker/advanced
 
 /datum/fabricator_recipe/protolathe/misc/disk
 	path = /obj/item/disk/design_disk
@@ -38,8 +38,8 @@
 /datum/fabricator_recipe/protolathe/misc/advmop
 	path = /obj/item/mop/advanced
 
-/datum/fabricator_recipe/protolathe/misc/blutrash
-	path = /obj/item/storage/bag/trash/bluespace
+/datum/fabricator_recipe/protolathe/misc/advancedtrash
+	path = /obj/item/storage/bag/trash/advanced
 
 /datum/fabricator_recipe/protolathe/misc/holosign
 	path = /obj/item/holosign_creator
@@ -49,3 +49,9 @@
 
 /datum/fabricator_recipe/protolathe/misc/chameleon
 	path = /obj/item/storage/backpack/chameleon/sydie_kit
+
+/datum/fabricator_recipe/protolathe/misc/ship_tracker
+	path = /obj/item/ship_tracker
+
+/datum/fabricator_recipe/protolathe/misc/radio_beacon
+	path = /obj/item/radio_beacon

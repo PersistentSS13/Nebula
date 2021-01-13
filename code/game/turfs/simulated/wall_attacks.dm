@@ -8,7 +8,6 @@
 
 	if(density)
 		can_open = WALL_OPENING
-		//flick("[material.icon_base]fwall_opening", src)
 		sleep(15)
 		set_density(0)
 		set_opacity(0)
@@ -22,7 +21,6 @@
 			SSair.mark_for_update(turf)
 	else
 		can_open = WALL_OPENING
-		//flick("[material.icon_base]fwall_closing", src)
 		set_density(1)
 		set_opacity(1)
 		blocks_air = AIR_BLOCKED
@@ -70,9 +68,9 @@
 	. = TRUE
 	if(rotting)
 		if(reinf_material)
-			to_chat(user, "<span class='danger'>\The [reinf_material.display_name] feels porous and crumbly.</span>")
+			to_chat(user, "<span class='danger'>\The [reinf_material.solid_name] feels porous and crumbly.</span>")
 		else
-			to_chat(user, "<span class='danger'>\The [material.display_name] crumbles under your touch!</span>")
+			to_chat(user, "<span class='danger'>\The [material.solid_name] crumbles under your touch!</span>")
 			dismantle_wall()
 			return
 
@@ -95,7 +93,7 @@
 		return TRUE
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
-		var/obj/item/hand = H.hand ? H.organs_by_name[BP_L_HAND] : H.organs_by_name[BP_R_HAND]
+		var/obj/item/hand = H.organs_by_name[H.get_active_held_item_slot()]
 		if(hand && try_graffiti(H, hand))
 			return TRUE
 	. = ..()
@@ -117,8 +115,8 @@
 
 	if(W)
 		radiate()
-		if(is_hot(W))
-			burn(is_hot(W))
+		if(W.get_heat() >= T100C)
+			burn(W.get_heat())
 
 	if(locate(/obj/effect/overlay/wallrot) in src)
 		if(isWelder(W))

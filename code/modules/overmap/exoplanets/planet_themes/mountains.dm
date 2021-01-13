@@ -5,7 +5,7 @@
 /datum/exoplanet_theme/mountains/before_map_generation(obj/effect/overmap/visitable/sector/exoplanet/E)
 	rock_color = pick(E.rock_colors)
 	for(var/zlevel in E.map_z)
-		new /datum/random_map/automata/cave_system/mountains(null,E.x_origin,E.y_origin,zlevel,E.x_size,E.y_size,0,1,1, E.planetary_area, rock_color)
+		new /datum/random_map/automata/cave_system/mountains(null,E.x_origin,E.y_origin,zlevel,E.x_origin+E.x_size,E.x_origin+E.y_size,0,1,1, E.planetary_area, rock_color)
 
 /datum/exoplanet_theme/mountains/get_planet_image_extra()
 	var/image/res = image('icons/skybox/planet.dmi', "mountains")
@@ -15,7 +15,7 @@
 /datum/random_map/automata/cave_system/mountains
 	iterations = 2
 	descriptor = "space mountains"
-	wall_type =  /turf/simulated/mineral
+	wall_type =  /turf/simulated/wall/natural
 	cell_threshold = 6
 	var/rock_color
 
@@ -26,9 +26,9 @@
 	floor_type = world.turf
 	..()
 
-/datum/random_map/automata/cave_system/mountains/get_additional_spawns(value, var/turf/simulated/mineral/T)
-	T.color = rock_color
-	if(use_area)
-		if(istype(T))
-			T.mined_turf = use_area.base_turf
-			
+/datum/random_map/automata/cave_system/mountains/get_additional_spawns(value, var/turf/simulated/wall/natural/T)
+	if(istype(T))
+		T.paint_color = rock_color
+		T.queue_icon_update()
+		if(use_area)
+			T.floor_type = use_area.base_turf

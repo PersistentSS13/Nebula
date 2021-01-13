@@ -3,7 +3,7 @@
 	desc = "To stop that awful noise."
 	icon_state = "muzzle"
 	item_state = "muzzle"
-	body_parts_covered = FACE
+	body_parts_covered = SLOT_FACE
 	w_class = ITEM_SIZE_SMALL
 	gas_transfer_coefficient = 0.90
 	voicechange = 1
@@ -33,7 +33,7 @@
 	icon_state = "sterile"
 	item_state = "sterile"
 	w_class = ITEM_SIZE_SMALL
-	body_parts_covered = FACE
+	body_parts_covered = SLOT_FACE
 	item_flags = ITEM_FLAG_FLEXIBLEMATERIAL
 	gas_transfer_coefficient = 0.90
 	permeability_coefficient = 0.01
@@ -70,7 +70,7 @@
 	flags_inv = HIDEFACE|BLOCKHAIR
 	w_class = ITEM_SIZE_SMALL
 	siemens_coefficient = 0.9
-	body_parts_covered = HEAD|FACE|EYES
+	body_parts_covered = SLOT_HEAD|SLOT_FACE|SLOT_EYES
 
 /obj/item/clothing/mask/horsehead
 	name = "horse head mask"
@@ -78,7 +78,7 @@
 	icon_state = "horsehead"
 	item_state = "horsehead"
 	flags_inv = HIDEFACE|BLOCKHAIR
-	body_parts_covered = HEAD|FACE|EYES
+	body_parts_covered = SLOT_HEAD|SLOT_FACE|SLOT_EYES
 	w_class = ITEM_SIZE_SMALL
 	siemens_coefficient = 0.9
 
@@ -95,57 +95,30 @@
 	icon_state = "s-ninja"
 	item_state = "s-ninja"
 	flags_inv = HIDEFACE
-	body_parts_covered = FACE|EYES
+	body_parts_covered = SLOT_FACE|SLOT_EYES
 	action_button_name = "Toggle MUI"
 	origin_tech = "{'programming':5,'engineering':5}"
-	var/active = FALSE
-	var/mob/observer/eye/freelook/cameranet/eye
 
 /obj/item/clothing/mask/ai/Initialize()
 	. = ..()
-	eye = new(src)
-	eye.name_sufix = "camera MIU"
-
-/obj/item/clothing/mask/ai/Destroy()
-	if(eye)
-		if(active)
-			disengage_mask(eye.owner)
-		qdel(eye)
-		eye = null
-	..()
+	set_extension(src, /datum/extension/eye/cameranet)
 
 /obj/item/clothing/mask/ai/attack_self(var/mob/user)
 	if(user.incapacitated())
 		return
-	active = !active
-	to_chat(user, "<span class='notice'>You [active ? "" : "dis"]engage \the [src].</span>")
-	if(active)
-		engage_mask(user)
+	if(user.get_equipped_item(slot_wear_mask_str) != src)
+		to_chat(user, SPAN_WARNING("You must be wearing \the [src] to activate it!"))
+		return
+	var/datum/extension/eye/cameranet/CN = get_extension(src, /datum/extension/eye)
+	if(!CN)
+		to_chat(user, SPAN_WARNING("\The [src] doesn't respond!"))
+		return
+	if(CN.current_looker)
+		CN.unlook()
+		to_chat(user, SPAN_NOTICE("You deactivate \the [src]."))
 	else
-		disengage_mask(user)
-
-/obj/item/clothing/mask/ai/equipped(var/mob/user, var/slot)
-	..(user, slot)
-	engage_mask(user)
-
-/obj/item/clothing/mask/ai/dropped(var/mob/user)
-	..()
-	disengage_mask(user)
-
-/obj/item/clothing/mask/ai/proc/engage_mask(var/mob/user)
-	if(!active)
-		return
-	if(user.get_equipped_item(slot_wear_mask) != src)
-		return
-
-	eye.possess(user)
-	to_chat(eye.owner, "<span class='notice'>You feel disorented for a moment as your mind connects to the camera network.</span>")
-
-/obj/item/clothing/mask/ai/proc/disengage_mask(var/mob/user)
-	if(user == eye.owner)
-		to_chat(eye.owner, "<span class='notice'>You feel disorented for a moment as your mind disconnects from the camera network.</span>")
-		eye.release(eye.owner)
-		eye.forceMove(src)
+		CN.look(user)
+		to_chat(user, SPAN_NOTICE("You activate \the [src]."))
 
 /obj/item/clothing/mask/rubber
 	name = "rubber mask"
@@ -153,7 +126,7 @@
 	icon_state = "balaclava"
 	flags_inv = HIDEFACE|BLOCKHAIR
 	siemens_coefficient = 0.9
-	body_parts_covered = HEAD|FACE|EYES
+	body_parts_covered = SLOT_HEAD|SLOT_FACE|SLOT_EYES
 
 /obj/item/clothing/mask/rubber/barros
 	name = "Amaya Barros mask"
@@ -182,7 +155,7 @@
 /obj/item/clothing/mask/rubber/species/Initialize()
 	. = ..()
 	visible_name = species
-	var/datum/species/S = get_species_by_key(species)
+	var/decl/species/S = get_species_by_key(species)
 	if(istype(S))
 		var/decl/cultural_info/C = SSlore.get_culture(S.default_cultural_info[TAG_CULTURE])
 		if(istype(C))
@@ -199,15 +172,15 @@
 	icon_state = "spirit_mask"
 	item_state = "spirit_mask"
 	flags_inv = HIDEFACE
-	body_parts_covered = FACE|EYES
+	body_parts_covered = SLOT_FACE|SLOT_EYES
 
 // Bandanas below
 /obj/item/clothing/mask/bandana
 	name = "black bandana"
 	desc = "A fine bandana with nanotech lining. Can be worn on the head or face."
 	flags_inv = HIDEFACE
-	slot_flags = SLOT_MASK|SLOT_HEAD
-	body_parts_covered = FACE
+	slot_flags = SLOT_FACE|SLOT_HEAD
+	body_parts_covered = SLOT_FACE
 	icon_state = "bandblack"
 	item_state = "bandblack"
 	item_flags = ITEM_FLAG_FLEXIBLEMATERIAL
@@ -215,13 +188,13 @@
 
 /obj/item/clothing/mask/bandana/equipped(var/mob/user, var/slot)
 	switch(slot)
-		if(slot_wear_mask) //Mask is the default for all the settings
+		if(slot_wear_mask_str) //Mask is the default for all the settings
 			flags_inv = initial(flags_inv)
 			body_parts_covered = initial(body_parts_covered)
 			icon_state = initial(icon_state)
-		if(slot_head)
+		if(slot_head_str)
 			flags_inv = 0
-			body_parts_covered = HEAD
+			body_parts_covered = SLOT_HEAD
 			icon_state = "[initial(icon_state)]_up"
 			sprite_sheets = list()
 

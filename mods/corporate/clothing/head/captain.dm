@@ -1,7 +1,6 @@
 /obj/item/clothing/head/helmet/space/capspace
 	name = "space helmet"
-	icon_state = "capspace"
-	item_state = "capspace"
+	icon = 'mods/corporate/icons/clothing/head/capspace.dmi'
 	desc = "A special helmet designed for work in a hazardous, low-pressure environment. Only for the most fashionable of military figureheads."
 	item_flags = 0
 	max_pressure_protection = VOIDSUIT_MAX_PRESSURE
@@ -17,5 +16,3 @@
 		bio = ARMOR_BIO_SHIELDED, 
 		rad = ARMOR_RAD_SMALL
 		)
-	item_icons = list(slot_head_str = 'mods/corporate/icons/mob/onmob_head.dmi')
-	icon = 'mods/corporate/icons/obj/clothing/obj_head.dmi'

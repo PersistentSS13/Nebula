@@ -6,9 +6,7 @@
 #define NETWORK_ALL_FEATURES		(NETWORK_SOFTWAREDOWNLOAD|NETWORK_COMMUNICATION|NETWORK_SYSTEMCONTROL)
 
 // Transfer speeds, used when downloading/uploading a file/program.
-#define NETWORK_SPEED_LOWSIGNAL 0.5	// GQ/s transfer speed when the device is wirelessly connected and on Low signal
-#define NETWORK_SPEED_HIGHSIGNAL 1	// GQ/s transfer speed when the device is wirelessly connected and on High signal
-#define NETWORK_SPEED_ETHERNET 2		// GQ/s transfer speed when the device is using wired connection
+#define NETWORK_SPEED_BASE  1/NETWORK_BASE_BROADCAST_STRENGTH	// GQ/s transfer speed, multiplied by signal power
 #define NETWORK_SPEED_DISK 	10		// GQ/s transfer speed when the device is transferring between hard drives
 
 // Network mainframe roles
@@ -21,12 +19,12 @@
 #define MF_ROLE_CLONING			"CLONING REPOSITORY"
 
 // Program bitflags
-#define PROGRAM_ALL 		0x1F
-#define PROGRAM_CONSOLE 	0x1
-#define PROGRAM_LAPTOP 		0x2
-#define PROGRAM_TABLET 		0x4
-#define PROGRAM_TELESCREEN 	0x8
-#define PROGRAM_PDA 		0x10
+#define PROGRAM_CONSOLE    BITFLAG(0)
+#define PROGRAM_LAPTOP     BITFLAG(1)
+#define PROGRAM_TABLET     BITFLAG(2)
+#define PROGRAM_TELESCREEN BITFLAG(3)
+#define PROGRAM_PDA        BITFLAG(4)
+#define PROGRAM_ALL        (PROGRAM_CONSOLE|PROGRAM_LAPTOP|PROGRAM_TABLET|PROGRAM_TELESCREEN|PROGRAM_PDA)
 
 #define PROGRAM_STATE_KILLED 0
 #define PROGRAM_STATE_BACKGROUND 1

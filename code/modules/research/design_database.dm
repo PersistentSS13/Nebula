@@ -1,23 +1,23 @@
 /obj/machinery/design_database
 	name = "fabricator design database"
-	icon = 'icons/obj/machines/server.dmi'
-	icon_state = "server-off"
+	icon = 'icons/obj/machines/tcomms/blackbox.dmi'
+	icon_state = "blackbox"
 	density = TRUE
 	anchored = TRUE
 
 	var/initial_network_id
 	var/initial_network_key
 	var/list/tech_levels = list(
-		TECH_MATERIAL =    0,
-		TECH_ENGINEERING = 0,
-		TECH_PHORON =      0,
-		TECH_POWER =       0,
-		TECH_BLUESPACE =   0,
-		TECH_BIO =         0,
-		TECH_COMBAT =      0,
-		TECH_MAGNET =      0,
-		TECH_DATA =        0,
-		TECH_ESOTERIC =    0
+		TECH_MATERIAL =      1,
+		TECH_ENGINEERING =   1,
+		TECH_EXOTIC_MATTER = 0,
+		TECH_POWER =         1,
+		TECH_WORMHOLES =     0,
+		TECH_BIO =           0,
+		TECH_COMBAT =        0,
+		TECH_MAGNET =        1,
+		TECH_DATA =          1,
+		TECH_ESOTERIC =      0
 	)
 
 	var/need_disk_operation = FALSE
@@ -130,10 +130,11 @@
 		need_disk_operation = FALSE
 
 /obj/machinery/design_database/on_update_icon()
-	if(!(stat & NOPOWER) && !(stat & BROKEN) && use_power > 0)
-		icon_state = "server"
-	else
-		icon_state = "server-off"
+	icon_state = initial(icon_state)
+	if(panel_open)
+		icon_state = "[icon_state]_o"
+	if((stat & NOPOWER) || (stat & BROKEN) || !use_power)
+		icon_state = "[icon_state]_off"
 
 /obj/machinery/design_database/Destroy()
 	design_databases -= src

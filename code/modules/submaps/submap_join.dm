@@ -90,6 +90,7 @@
 			character.mind.assigned_job = job
 			character.mind.assigned_role = character.job
 
+		job.create_cash_on_hand(character)
 		to_chat(character, "<B>You are [job.total_positions == 1 ? "the" : "a"] [job.title] of the [name].</B>")
 
 		if(job.supervisors)
@@ -99,7 +100,7 @@
 			to_chat(character, ojob.info)
 
 		if(user_human && user_human.disabilities & NEARSIGHTED)
-			var/equipped = user_human.equip_to_slot_or_del(new /obj/item/clothing/glasses/prescription(user_human), slot_glasses)
+			var/equipped = user_human.equip_to_slot_or_del(new /obj/item/clothing/glasses/prescription(user_human), slot_glasses_str)
 			if(equipped)
 				var/obj/item/clothing/glasses/G = user_human.glasses
 				G.prescription = 7

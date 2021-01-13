@@ -63,7 +63,7 @@
 /obj/effect/overmap/visitable/sector/exoplanet/proc/get_atmosphere_color()
 	var/list/colors = list()
 	for(var/g in atmosphere.gas)
-		var/material/mat = SSmaterials.get_material_datum(g)
-		colors += mat.icon_colour
+		var/decl/material/mat = decls_repository.get_decl(g)
+		colors += mat.color
 	if(colors.len)
 		return MixColors(colors)

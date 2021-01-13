@@ -85,12 +85,7 @@ PROCESSING_SUBSYSTEM_DEF(plants)
 	seeds[seed.name] = seed
 
 	if(survive_on_station)
-		if(seed.consume_gasses)
-			seed.consume_gasses[MAT_PHORON] = null
-			seed.consume_gasses[MAT_CO2] = null
-		if(seed.chems && !isnull(seed.chems[/decl/reagent/acid/polyacid]))
-			seed.chems[/decl/reagent/acid/polyacid] = null // Eating through the hull will make these plants completely inviable, albeit very dangerous.
-			seed.chems -= null // Setting to null does not actually remove the entry, which is weird.
+		seed.consume_gasses = null
 		seed.set_trait(TRAIT_IDEAL_HEAT,293)
 		seed.set_trait(TRAIT_HEAT_TOLERANCE,20)
 		seed.set_trait(TRAIT_IDEAL_LIGHT,4)

@@ -4,6 +4,6 @@
 	operating = cur_operating
 	queue_icon_update()
 
-	if(operating)
+	if(loc && operating)
 		force_update_channels()
 	power_change()

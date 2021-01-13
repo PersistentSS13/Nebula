@@ -43,19 +43,12 @@ var/global/list/sparring_attack_cache = list()
 	return sparring_variant_type && decls_repository.get_decl(sparring_variant_type)
 
 /decl/natural_attack/proc/is_usable(var/mob/living/carbon/human/user, var/mob/target, var/zone)
-	if(user.restrained())
-		return 0
-
-	// Check if they have a functioning hand.
-	var/obj/item/organ/external/E = user.organs_by_name[BP_L_HAND]
-	if(E && !E.is_stump())
-		return 1
-
-	E = user.organs_by_name[BP_R_HAND]
-	if(E && !E.is_stump())
-		return 1
-
-	return 0
+	if(!user.restrained() && !user.incapacitated())
+		for(var/etype in usable_with_limbs)
+			var/obj/item/organ/external/E = user.organs_by_name[etype]
+			if(E && !E.is_stump())
+				return TRUE
+	return FALSE
 
 /decl/natural_attack/proc/get_unarmed_damage()
 	return damage
@@ -74,17 +67,17 @@ var/global/list/sparring_attack_cache = list()
 				// Induce blurriness
 				target.visible_message("<span class='danger'>[target] looks momentarily disoriented.</span>", "<span class='danger'>You see stars.</span>")
 				target.apply_effect(attack_damage*2, EYE_BLUR, armour)
-			if(BP_L_ARM, BP_L_HAND)
-				if (target.l_hand)
+			if(BP_L_ARM, BP_L_HAND, BP_R_ARM, BP_R_HAND)
+				var/check_zone = zone
+				if(check_zone == BP_L_ARM)
+					check_zone = BP_L_HAND
+				else if(check_zone == BP_R_ARM)
+					check_zone = BP_R_HAND
+				var/datum/inventory_slot/inv_slot = LAZYACCESS(target.held_item_slots, check_zone)
+				if(inv_slot?.holding)
 					// Disarm left hand
-					//Urist McAssistant dropped the macguffin with a scream just sounds odd.
-					target.visible_message("<span class='danger'>\The [target.l_hand] was knocked right out of [target]'s grasp!</span>")
-					target.drop_l_hand()
-			if(BP_R_ARM, BP_R_HAND)
-				if (target.r_hand)
-					// Disarm right hand
-					target.visible_message("<span class='danger'>\The [target.r_hand] was knocked right out of [target]'s grasp!</span>")
-					target.drop_r_hand()
+					target.visible_message(SPAN_DANGER("\The [inv_slot.holding] was knocked right out of [target]'s grasp!"))
+					target.drop_from_inventory(inv_slot.holding)
 			if(BP_CHEST)
 				if(!target.lying)
 					var/turf/T = get_step(get_turf(target), get_dir(get_turf(user), get_turf(target)))
@@ -154,10 +147,10 @@ var/global/list/sparring_attack_cache = list()
 
 /decl/natural_attack/bite/is_usable(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/zone)
 
-	if(istype(user.wear_mask, /obj/item/clothing/mask/muzzle))
+	if(user.is_muzzled())
 		return 0
 	for(var/obj/item/clothing/C in list(user.wear_mask, user.head, user.wear_suit))
-		if(C && (C.body_parts_covered & FACE) && (C.item_flags & ITEM_FLAG_THICKMATERIAL))
+		if(C && (C.body_parts_covered & SLOT_FACE) && (C.item_flags & ITEM_FLAG_THICKMATERIAL))
 			return 0 //prevent biting through a space helmet or similar
 	if (user == target && (zone == BP_HEAD || zone == BP_EYES || zone == BP_MOUTH))
 		return 0 //how do you bite yourself in the head?
@@ -227,18 +220,9 @@ var/global/list/sparring_attack_cache = list()
 	sparring_variant_type = /decl/natural_attack/light_strike/kick
 
 /decl/natural_attack/kick/is_usable(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/zone)
-	if(!(zone in list(BP_L_LEG, BP_R_LEG, BP_L_FOOT, BP_R_FOOT, BP_GROIN)))
-		return 0
-
-	var/obj/item/organ/external/E = user.organs_by_name[BP_L_FOOT]
-	if(E && !E.is_stump())
-		return 1
-
-	E = user.organs_by_name[BP_R_FOOT]
-	if(E && !E.is_stump())
-		return 1
-
-	return 0
+	if(zone == BP_HEAD || zone == BP_EYES || zone == BP_MOUTH)
+		zone = BP_CHEST
+	. = ..()
 
 /decl/natural_attack/kick/get_unarmed_damage(var/mob/living/carbon/human/user)
 	var/obj/item/clothing/shoes = user.shoes
@@ -329,3 +313,8 @@ var/global/list/sparring_attack_cache = list()
 	attack_name = "light kick"
 	attack_noun = list("foot")
 	usable_with_limbs = list(BP_L_FOOT, BP_R_FOOT)
+
+/decl/natural_attack/light_strike/kick/is_usable(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/zone)
+	if(zone == BP_HEAD || zone == BP_EYES || zone == BP_MOUTH)
+		zone = BP_CHEST
+	. = ..()

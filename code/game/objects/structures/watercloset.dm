@@ -28,7 +28,7 @@
 	tool_interaction_flags = initial(tool_interaction_flags)
 
 /obj/structure/hygiene/attackby(var/obj/item/thing, var/mob/user)
-	if(clogged > 0 && isPlunger(thing))
+	if(clogged > 0 && isplunger(thing))
 		user.visible_message("<span class='notice'>\The [user] strives valiantly to unclog \the [src] with \the [thing]!</span>")
 		spawn
 			playsound(loc, 'sound/effects/plunger.ogg', 75, 1)
@@ -75,8 +75,9 @@
 				playsound(T, pick(SSfluids.gurgles), 50, 1)
 			var/obj/effect/fluid/F = locate() in T
 			var/adding = min(flood_amt-F?.reagents.total_volume, rand(30,50)*clogged)
-			if(adding)
-				T.add_fluid(adding, /decl/reagent/water)
+			if(adding > 0)
+				if(!F) F = new(T)
+				F.reagents.add_reagent(/decl/material/liquid/water, adding)
 
 /obj/structure/hygiene/proc/drain()
 	if(!can_drain) return
@@ -235,7 +236,7 @@
 
 /obj/structure/hygiene/shower/Initialize()
 	. = ..()
-	create_reagents(50)
+	create_reagents(5)
 
 /obj/structure/hygiene/shower/Destroy()
 	QDEL_NULL(sound_token)
@@ -341,7 +342,7 @@
 			if(istype(L))
 				process_heat(L)
 	wash_floor()
-	reagents.add_reagent(/decl/reagent/water, REAGENTS_FREE_SPACE(reagents))
+	reagents.add_reagent(/decl/material/liquid/water, REAGENTS_FREE_SPACE(reagents))
 
 /obj/structure/hygiene/shower/proc/wash_floor()
 	if(!ismist && is_washing)
@@ -382,6 +383,9 @@
 	anchored = 1
 	var/busy = 0 	//Something's being washed at the moment
 
+/obj/structure/hygiene/sink/is_pressurized_fluid_source()
+	return TRUE
+
 /obj/structure/hygiene/sink/MouseDrop_T(var/obj/item/thing, var/mob/user)
 	..()
 	if(!istype(thing) || !ATOM_IS_OPEN_CONTAINER(thing))
@@ -399,9 +403,7 @@
 /obj/structure/hygiene/sink/attack_hand(var/mob/user)
 	if (ishuman(user))
 		var/mob/living/carbon/human/H = user
-		var/obj/item/organ/external/temp = H.organs_by_name[BP_R_HAND]
-		if (user.hand)
-			temp = H.organs_by_name[BP_L_HAND]
+		var/obj/item/organ/external/temp = H.organs_by_name[H.get_active_held_item_slot()]
 		if(temp && !temp.is_usable())
 			to_chat(user,"<span class='notice'>You try to move your [temp.name], but cannot!</span>")
 			return
@@ -432,8 +434,7 @@
 
 
 /obj/structure/hygiene/sink/attackby(obj/item/O, var/mob/living/user)
-
-	if(isPlunger(O) && clogged > 0)
+	if(isplunger(O) && clogged > 0)
 		return ..()
 
 	if(busy)
@@ -442,13 +443,13 @@
 
 	var/obj/item/chems/RG = O
 	if (istype(RG) && ATOM_IS_OPEN_CONTAINER(RG) && RG.reagents)
-		RG.reagents.add_reagent(/decl/reagent/water, min(RG.volume - RG.reagents.total_volume, RG.amount_per_transfer_from_this))
+		RG.reagents.add_reagent(/decl/material/liquid/water, min(RG.volume - RG.reagents.total_volume, RG.amount_per_transfer_from_this))
 		user.visible_message("<span class='notice'>[user] fills \the [RG] using \the [src].</span>","<span class='notice'>You fill \the [RG] using \the [src].</span>")
 		playsound(loc, 'sound/effects/sink.ogg', 75, 1)
 		return 1
 
-	else if (istype(O, /obj/item/melee/baton))
-		var/obj/item/melee/baton/B = O
+	else if (istype(O, /obj/item/baton))
+		var/obj/item/baton/B = O
 		if(B.bcell)
 			if(B.bcell.charge > 0 && B.status == 1)
 				flick("baton_active", src)
@@ -465,7 +466,7 @@
 					"<span class='userdanger'>[user] was stunned by \his wet [O]!</span>")
 				return 1
 	else if(istype(O, /obj/item/mop))
-		O.reagents.add_reagent(/decl/reagent/water, 5)
+		O.reagents.add_reagent(/decl/material/liquid/water, 5)
 		to_chat(user, "<span class='notice'>You wet \the [O] in \the [src].</span>")
 		playsound(loc, 'sound/effects/slosh.ogg', 25, 1)
 		return
@@ -501,6 +502,9 @@
 	name = "puddle"
 	icon_state = "puddle"
 	clogged = -1 // how do you clog a puddle
+
+/obj/structure/hygiene/sink/puddle/is_pressurized_fluid_source()
+	return FALSE
 
 /obj/structure/hygiene/sink/puddle/attack_hand(var/mob/M)
 	icon_state = "puddle-splash"
@@ -540,7 +544,7 @@
 	tape_type = /obj/item/tape/bog
 	icon_state = "bogroll"
 	item_state = "mummy_poor"
-	slot_flags = SLOT_HEAD | SLOT_OCLOTHING
+	slot_flags = SLOT_HEAD | SLOT_OVER_BODY
 	var/sheets = 30
 
 /obj/item/tape/bog

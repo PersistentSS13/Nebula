@@ -1,0 +1,21 @@
+name: Wiki Sync
+on:
+    push:
+        branches:
+            - dev
+    workflow_dispatch:
+    
+jobs:
+    update-wiki:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@master
+          - name: Sync Wiki
+            uses: joeizzard/action-wiki-sync@master
+            with:
+                username: PersistentSS13
+                access_token: ${{ secrets.GITHUB_TOKEN }}
+                wiki_folder: wiki
+                commit_username: 'Wiki Bot'
+                commit_email: '12163281+Andrew-Fall@users.noreply.github.com'
+                commit_message: 'action: wiki sync'

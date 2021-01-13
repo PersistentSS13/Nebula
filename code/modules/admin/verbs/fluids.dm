@@ -13,12 +13,14 @@
 	var/reagent_amount = input("How deep?", "Spawn Fluid", 1000) as num|null
 	if(!reagent_amount)
 		return
-	var/reagent_type = input("What kind of reagent?", "Spawn Fluid", /decl/reagent/water) as null|anything in subtypesof(/decl/reagent)
+	var/reagent_type = input("What kind of reagent?", "Spawn Fluid", /decl/material/liquid/water) as null|anything in subtypesof(/decl/material)
 	if(!reagent_type || !user || !check_rights(R_SPAWN))
 		return
-	for(var/thing in trange(spawn_range, get_turf(user)))
-		var/turf/T = thing
-		T.add_fluid(reagent_amount, reagent_type)
+	var/turf/flooding = get_turf(user)
+	for(var/thing in RANGE_TURFS(flooding, spawn_range))
+		var/obj/effect/fluid/F = locate() in thing
+		if(!F) F = new(thing)
+		F.reagents.add_reagent(reagent_type, reagent_amount)
 
 /datum/admins/proc/jump_to_fluid_source()
 
@@ -48,12 +50,12 @@
 		else
 			to_chat(usr, "No active fluids.")
 
+/turf/exterior/seafloor/non_flooded
+	flooded = FALSE
+
 /turf/simulated/open/flooded
 	name = "open water"
 	flooded = TRUE
-
-/turf/simulated/ocean/non_flooded
-	flooded = FALSE
 
 GLOBAL_LIST_INIT(submerged_levels, new)
 /datum/admins/proc/submerge_map()
@@ -96,8 +98,8 @@ GLOBAL_LIST_INIT(submerged_levels, new)
 			var/area/A = get_area(T)
 			if(A && (A.area_flags & AREA_FLAG_EXTERNAL))
 				if(A.base_turf)
-					A.base_turf = /turf/simulated/ocean/non_flooded
-				if(!istype(T, /turf/space))
+					A.base_turf = /turf/exterior/seafloor/non_flooded
+				if(!isspaceturf(T))
 					T.make_flooded()
 
 	// Generate the sea floor on the highest z-level in the set.
@@ -107,7 +109,7 @@ GLOBAL_LIST_INIT(submerged_levels, new)
 			first_level = check_level
 	flooding_levels -= first_level
 	GLOB.submerged_levels["[first_level]"] = TRUE
-	GLOB.using_map.base_turf_by_z["[first_level]"] = /turf/simulated/ocean
+	GLOB.using_map.base_turf_by_z["[first_level]"] = /turf/exterior/seafloor
 	new /datum/random_map/noise/seafloor/replace_space(null, 1, 1, first_level, world.maxx, world.maxy)
 
 	// Generate open space for the remaining z-levels.
@@ -120,9 +122,9 @@ GLOBAL_LIST_INIT(submerged_levels, new)
 			if(A && (A.area_flags & AREA_FLAG_EXTERNAL))
 				if(A.base_turf)
 					A.base_turf = /turf/simulated/open
-				if(istype(T, /turf/space))
+				if(isspaceturf(T))
 					T.ChangeTurf(/turf/simulated/open/flooded)
-				else if(istype(T, /turf/simulated/open))
+				else if(T.is_open())
 					T.make_flooded()
 				CHECK_TICK
 

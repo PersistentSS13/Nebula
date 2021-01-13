@@ -28,7 +28,7 @@ proc/random_hair_style(gender, species)
 	species = species || GLOB.using_map.default_species
 	var/h_style = "Bald"
 
-	var/datum/species/mob_species = get_species_by_key(species)
+	var/decl/species/mob_species = get_species_by_key(species)
 	var/list/valid_hairstyles = mob_species.get_hair_styles()
 	if(valid_hairstyles.len)
 		h_style = pick(valid_hairstyles)
@@ -38,7 +38,7 @@ proc/random_hair_style(gender, species)
 proc/random_facial_hair_style(gender, var/species)
 	species = species || GLOB.using_map.default_species
 	var/f_style = "Shaved"
-	var/datum/species/mob_species = get_species_by_key(species)
+	var/decl/species/mob_species = get_species_by_key(species)
 	var/list/valid_facialhairstyles = mob_species.get_facial_hair_styles(gender)
 	if(valid_facialhairstyles.len)
 		f_style = pick(valid_facialhairstyles)
@@ -46,14 +46,14 @@ proc/random_facial_hair_style(gender, var/species)
 
 proc/random_name(gender, species)
 	if(species)
-		var/datum/species/current_species = get_species_by_key(species)
+		var/decl/species/current_species = get_species_by_key(species)
 		if(current_species)
 			var/decl/cultural_info/current_culture = SSlore.get_culture(current_species.default_cultural_info[TAG_CULTURE])
 			if(current_culture)
-				return current_culture.get_random_name(gender)
+				return current_culture.get_random_name(null, gender)
 	return capitalize(pick(gender == FEMALE ? GLOB.first_names_female : GLOB.first_names_male)) + " " + capitalize(pick(GLOB.last_names))
 
-proc/random_skin_tone(var/datum/species/current_species)
+proc/random_skin_tone(var/decl/species/current_species)
 	var/species_tone = current_species ? 35 - current_species.max_skin_tone() : -185
 	switch(pick(60;"caucasian", 15;"afroamerican", 10;"african", 10;"latino", 5;"albino"))
 		if("caucasian")		. = -10
@@ -322,34 +322,34 @@ GLOBAL_LIST_INIT(bodypart_coverage_cache, new)
 	var/key = "[checking_flags]"
 	if(isnull(GLOB.bodypart_coverage_cache[key]))
 		var/coverage = 0
-		if(checking_flags & FULL_BODY)
+		if(checking_flags & SLOT_FULL_BODY)
 			coverage = 1
 		else
-			if(checking_flags & HEAD)
+			if(checking_flags & SLOT_HEAD)
 				coverage += 0.1
-			if(checking_flags & FACE)
+			if(checking_flags & SLOT_FACE)
 				coverage += 0.05
-			if(checking_flags & EYES)
+			if(checking_flags & SLOT_EYES)
 				coverage += 0.05
-			if(checking_flags & UPPER_TORSO)
+			if(checking_flags & SLOT_UPPER_BODY)
 				coverage += 0.15
-			if(checking_flags & LOWER_TORSO)
+			if(checking_flags & SLOT_LOWER_BODY)
 				coverage += 0.15
-			if(checking_flags & LEG_LEFT)
+			if(checking_flags & SLOT_LEG_LEFT)
 				coverage += 0.075
-			if(checking_flags & LEG_RIGHT)
+			if(checking_flags & SLOT_LEG_RIGHT)
 				coverage += 0.075
-			if(checking_flags & FOOT_LEFT)
+			if(checking_flags & SLOT_FOOT_LEFT)
 				coverage += 0.05
-			if(checking_flags & FOOT_RIGHT)
+			if(checking_flags & SLOT_FOOT_RIGHT)
 				coverage += 0.05
-			if(checking_flags & ARM_LEFT)
+			if(checking_flags & SLOT_ARM_LEFT)
 				coverage += 0.075
-			if(checking_flags & ARM_RIGHT)
+			if(checking_flags & SLOT_ARM_RIGHT)
 				coverage += 0.075
-			if(checking_flags & HAND_LEFT)
+			if(checking_flags & SLOT_HAND_LEFT)
 				coverage += 0.05
-			if(checking_flags & HAND_RIGHT)
+			if(checking_flags & SLOT_HAND_RIGHT)
 				coverage += 0.05
 		GLOB.bodypart_coverage_cache[key] = coverage
 	. = GLOB.bodypart_coverage_cache[key]

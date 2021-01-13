@@ -15,7 +15,7 @@
 	var/difficulty = 1 // higher difficulty requires higher skill level to make.
 	var/apply_material_name = 1 //Whether the recipe will prepend a material name to the title - 'steel clipboard' vs 'clipboard'
 
-/datum/stack_recipe/New(material/material, var/reinforce_material)
+/datum/stack_recipe/New(decl/material/material, var/reinforce_material)
 	if(material)
 		use_material = material.type
 		difficulty +=  material.construction_difficulty
@@ -37,9 +37,11 @@
 /datum/stack_recipe/proc/display_name()
 	if(!use_material || !apply_material_name)
 		return title
-	. = "[material_display_name(use_material)] [title]"
+	var/decl/material/material = decls_repository.get_decl(use_material)
+	. = "[material.solid_name] [title]"
 	if(use_reinf_material)
-		. = "[material_display_name(use_reinf_material)]-reinforced [.]"
+		material = decls_repository.get_decl(use_reinf_material)
+		. = "[material.solid_name]-reinforced [.]"
 
 /datum/stack_recipe/proc/spawn_result(mob/user, location, amount)
 	var/atom/O

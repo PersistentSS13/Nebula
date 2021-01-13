@@ -1,8 +1,8 @@
 // Smol blade
 /decl/archaeological_find/knife
 	item_type = "knife"
-	responsive_reagent = /decl/reagent/iron
-	possible_types = list(/obj/item/material/knife/combat)
+	responsive_reagent = /decl/material/solid/metal/iron
+	possible_types = list(/obj/item/knife/combat)
 
 /decl/archaeological_find/knife/generate_name()
 	return pick("bladed knife","serrated blade","sharp cutting implement")
@@ -19,10 +19,10 @@
 // Big blade
 /decl/archaeological_find/sword
 	item_type = "blade"
-	responsive_reagent = /decl/reagent/iron
+	responsive_reagent = /decl/material/solid/metal/iron
 	possible_types = list(
-		/obj/item/material/sword,
-		/obj/item/material/sword/katana
+		/obj/item/sword,
+		/obj/item/sword/katana
 		)
 
 /decl/archaeological_find/sword/new_icon_state()

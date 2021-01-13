@@ -37,14 +37,9 @@
 		return 1
 	return 0
 
-/obj/effect/blob/ex_act(var/severity)
-	switch(severity)
-		if(1)
-			take_damage(rand(100, 120) / brute_resist)
-		if(2)
-			take_damage(rand(60, 100) / brute_resist)
-		if(3)
-			take_damage(rand(20, 60) / brute_resist)
+/obj/effect/blob/explosion_act(var/severity)
+	SHOULD_CALL_PARENT(FALSE)
+	take_damage(rand(140 - (severity * 40), 140 - (severity * 20)) / brute_resist)
 
 /obj/effect/blob/on_update_icon()
 	if(health > maxHealth / 2)
@@ -71,7 +66,7 @@
 	update_icon()
 
 /obj/effect/blob/proc/expand(var/turf/T)
-	if(istype(T, /turf/unsimulated/) || istype(T, /turf/space) || (istype(T, /turf/simulated/mineral) && T.density))
+	if(istype(T, /turf/unsimulated/) || isspaceturf(T))
 		return
 	if(istype(T, /turf/simulated/wall))
 		var/turf/simulated/wall/SW = T
@@ -92,7 +87,7 @@
 		return
 	for(var/obj/machinery/door/D in T) // There can be several - and some of them can be open, locate() is not suitable
 		if(D.density)
-			D.ex_act(2)
+			D.explosion_act(2)
 			return
 	var/obj/structure/foamedmetal/F = locate() in T
 	if(F)
@@ -105,7 +100,7 @@
 
 	var/obj/vehicle/V = locate() in T
 	if(V)
-		V.ex_act(2)
+		V.explosion_act(2)
 		return
 	var/obj/machinery/camera/CA = locate() in T
 	if(CA)
@@ -124,6 +119,7 @@
 		new expandType(T, min(health, 30))
 
 /obj/effect/blob/proc/pulse(var/forceLeft, var/list/dirs)
+	set waitfor = FALSE
 	sleep(4)
 	var/pushDir = pick(dirs)
 	var/turf/T = get_step(src, pushDir)
@@ -267,11 +263,9 @@ regen() will cover update_icon() for this proc
 			icon_state = "blob_factory"
 
 /obj/effect/blob/core/Process()
-	set waitfor = 0
 	if(!blob_may_process)
 		return
 	blob_may_process = 0
-	sleep(0)
 	process_core_health()
 	regen()
 	for(var/I in 1 to times_to_pulse)
@@ -354,6 +348,9 @@ regen() will cover update_icon() for this proc
 	var/is_tendril = TRUE
 	var/types_of_tendril = list("solid", "fire")
 
+/obj/item/blob_tendril/get_heat()
+	. = max(..(), damtype == BURN ? 1000 : 0)
+
 /obj/item/blob_tendril/Initialize()
 	. = ..()
 	if(is_tendril)
@@ -389,11 +386,11 @@ regen() will cover update_icon() for this proc
 	icon_state = "core_sample"
 	item_state = "blob_core"
 	w_class = ITEM_SIZE_NORMAL
-	origin_tech = "{'materials':4,'bluespace':5,'biotech':7}"
+	origin_tech = "{'materials':4,'wormholes':5,'biotech':7}"
 	is_tendril = FALSE
 
 /obj/item/blob_tendril/core/aux
 	name = "asteroclast auxiliary nucleus sample"
 	desc = "A sample taken from an asteroclast's auxiliary nucleus."
 	icon_state = "core_sample_2"
-	origin_tech = "{'materials':2,'bluespace':3,'biotech':4}"
+	origin_tech = "{'materials':2,'wormholes':3,'biotech':4}"

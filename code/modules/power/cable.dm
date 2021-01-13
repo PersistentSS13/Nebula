@@ -215,20 +215,14 @@ By design, d1 is the smallest direction and d2 is the highest
 			return 1
 	return 0
 
-//explosion handling
-/obj/structure/cable/ex_act(severity)
-	switch(severity)
-		if(1.0)
-			qdel(src)
-		if(2.0)
-			if (prob(50))
-				new/obj/item/stack/cable_coil(src.loc, src.d1 ? 2 : 1, color)
-				qdel(src)
+/obj/structure/cable/create_dismantled_products(turf/T)
+	new /obj/item/stack/cable_coil(loc, (d1 ? 2 : 1), color)
 
-		if(3.0)
-			if (prob(25))
-				new/obj/item/stack/cable_coil(src.loc, src.d1 ? 2 : 1, color)
-				qdel(src)
+//explosion handling
+/obj/structure/cable/explosion_act(severity)
+	. = ..()
+	if(. && (severity == 1 || (severity == 2 && prob(50)) || (severity == 3 && prob(25))))
+		physically_destroyed()
 
 obj/structure/cable/proc/cableColor(var/colorC)
 	var/color_n = "#dd0000"
@@ -473,13 +467,13 @@ obj/structure/cable/proc/cableColor(var/colorC)
 	w_class = ITEM_SIZE_NORMAL
 	throw_speed = 2
 	throw_range = 5
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	matter = list(
-		MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT,
-		MAT_PLASTIC = MATTER_AMOUNT_TRACE
+		/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/plastic = MATTER_AMOUNT_TRACE
 	)
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 	item_state = "coil"
 	attack_verb = list("whipped", "lashed", "disciplined", "flogged")
 	stacktype = /obj/item/stack/cable_coil
@@ -495,9 +489,9 @@ obj/structure/cable/proc/cableColor(var/colorC)
 	uses_charge = 1
 	charge_costs = list(1)
 
-/obj/item/stack/cable_coil/Initialize(mapload, length = MAXCOIL, var/param_color = null)
-	. = ..(mapload, length)
-	src.amount = length
+/obj/item/stack/cable_coil/Initialize(mapload, c_length = MAXCOIL, var/param_color = null)
+	. = ..(mapload, c_length)
+	src.amount = c_length
 	if (param_color) // It should be red by default, so only recolor it if parameter was specified.
 		color = param_color
 	update_icon()
@@ -643,7 +637,7 @@ obj/structure/cable/proc/cableColor(var/colorC)
 		dirn = get_dir(F, user)
 
 	var/end_dir = 0
-	if(istype(F, /turf/simulated/open))
+	if(istype(F) && F.is_open())
 		if(!can_use(2))
 			to_chat(user, "You don't have enough cable to do this!")
 			return

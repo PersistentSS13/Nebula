@@ -3,10 +3,10 @@
 	desc = "Used for scanning and alerting when someone enters a certain proximity."
 	icon_state = "prox"
 	origin_tech = "{'magnets':1}"
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	matter = list(
-		MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT,
-		MAT_WASTE = MATTER_AMOUNT_TRACE
+		/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/slag = MATTER_AMOUNT_TRACE
 	)
 	movable_flags = MOVABLE_FLAG_PROXMOVE
 	wires = WIRE_PULSE
@@ -54,11 +54,11 @@
 /obj/item/assembly/prox_sensor/sense()
 	var/turf/mainloc = get_turf(src)
 //		if(scanning && cooldown <= 0)
-//			mainloc.visible_message("\icon[src] *boop* *boop*", "*boop* *boop*")
+//			mainloc.visible_message("[html_icon(src)] *boop* *boop*", "*boop* *boop*")
 	if((!holder && !secured)||(!scanning)||(cooldown > 0))	return 0
 	pulse(0)
 	if(!holder)
-		mainloc.visible_message("\icon[src] *beep* *beep*", "*beep* *beep*")
+		mainloc.visible_message("[html_icon(src)] *beep* *beep*", "*beep* *beep*")
 	cooldown = 2
 	spawn(10)
 		process_cooldown()

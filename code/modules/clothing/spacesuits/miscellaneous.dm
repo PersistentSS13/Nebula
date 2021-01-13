@@ -8,9 +8,8 @@
 	name = "Emergency Softsuit"
 	icon_state = "space_emergency"
 	icon = 'icons/clothing/spacesuit/emergency/suit.dmi'
-	on_mob_icon = 'icons/clothing/spacesuit/emergency/suit.dmi'
 	desc = "A thin, ungainly softsuit colored in blaze orange for rescuers to easily locate, looks pretty fragile."
 
 /obj/item/clothing/suit/space/emergency/Initialize()
 	. = ..()
-	slowdown_per_slot[slot_wear_suit] = 4
+	LAZYSET(slowdown_per_slot, slot_wear_suit_str, 4)

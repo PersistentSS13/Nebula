@@ -140,7 +140,7 @@ var/list/admin_verbs_spawn = list(
 	)
 var/list/admin_verbs_server = list(
 	/datum/admins/proc/capture_map_part,
-	/client/proc/Set_Holiday,
+	/client/proc/set_holiday,
 	/datum/admins/proc/startnow,
 	/datum/admins/proc/endnow,
 	/datum/admins/proc/restart,
@@ -206,7 +206,9 @@ var/list/admin_verbs_debug = list(
 	/client/proc/ping_webhook,
 	/client/proc/reload_webhooks,
 	/datum/admins/proc/check_unconverted_single_icon_items,
-	/client/proc/spawn_material
+	/client/proc/spawn_material,
+	/client/proc/verb_adjust_tank_bomb_severity,
+	/client/proc/force_ghost_trap_trigger
 	)
 
 var/list/admin_verbs_paranoid_debug = list(
@@ -262,7 +264,7 @@ var/list/admin_verbs_hideable = list(
 	/client/proc/cmd_admin_create_centcom_report,
 	/client/proc/toggle_random_events,
 	/client/proc/cmd_admin_add_random_ai_law,
-	/client/proc/Set_Holiday,
+	/client/proc/set_holiday,
 	/datum/admins/proc/startnow,
 	/datum/admins/proc/endnow,
 	/datum/admins/proc/restart,
@@ -744,34 +746,26 @@ var/list/admin_verbs_mod = list(
 			return
 	var/new_facial = input("Please select facial hair color.", "Character Generation") as color
 	if(new_facial)
-		M.r_facial = hex2num(copytext(new_facial, 2, 4))
-		M.g_facial = hex2num(copytext(new_facial, 4, 6))
-		M.b_facial = hex2num(copytext(new_facial, 6, 8))
+		M.facial_hair_colour = new_facial
 
 	var/new_hair = input("Please select hair color.", "Character Generation") as color
-	if(new_facial)
-		M.r_hair = hex2num(copytext(new_hair, 2, 4))
-		M.g_hair = hex2num(copytext(new_hair, 4, 6))
-		M.b_hair = hex2num(copytext(new_hair, 6, 8))
+	if(new_hair)
+		M.hair_colour = new_hair
 
 	var/new_eyes = input("Please select eye color.", "Character Generation") as color
 	if(new_eyes)
-		M.r_eyes = hex2num(copytext(new_eyes, 2, 4))
-		M.g_eyes = hex2num(copytext(new_eyes, 4, 6))
-		M.b_eyes = hex2num(copytext(new_eyes, 6, 8))
+		M.eye_colour = new_eyes
 		M.update_eyes()
 
 	var/new_skin = input("Please select body color.", "Character Generation") as color
 	if(new_skin)
-		M.r_skin = hex2num(copytext(new_skin, 2, 4))
-		M.g_skin = hex2num(copytext(new_skin, 4, 6))
-		M.b_skin = hex2num(copytext(new_skin, 6, 8))
+		M.skin_colour = new_skin
 
 	var/new_tone = input("Please select skin tone level: 1-220 (1=albino, 35=caucasian, 150=black, 220='very' black)", "Character Generation")  as text
 
 	if (new_tone)
-		M.s_tone = max(min(round(text2num(new_tone)), 220), 1)
-		M.s_tone =  -M.s_tone + 35
+		M.skin_tone = max(min(round(text2num(new_tone)), 220), 1)
+		M.skin_tone =  -M.skin_tone + 35
 
 	// hair
 	var/new_hstyle = input(usr, "Select a hair style", "Grooming")  as null|anything in GLOB.hair_styles_list

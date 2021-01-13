@@ -4,10 +4,11 @@
 	name = "gloves"
 	gender = PLURAL //Carn: for grammarically correct text-parsing
 	w_class = ITEM_SIZE_SMALL
-	icon = 'icons/obj/clothing/obj_hands.dmi'
+	icon_state = ICON_STATE_WORLD
+	icon = 'icons/clothing/hands/gloves_generic.dmi'
 	siemens_coefficient = 0.75
-	body_parts_covered = HANDS
-	slot_flags = SLOT_GLOVES
+	body_parts_covered = SLOT_HANDS
+	slot_flags = SLOT_HANDS
 	attack_verb = list("challenged")
 	blood_overlay_type = "bloodyhands"
 	bodytype_restricted = list(BODYTYPE_HUMANOID)
@@ -39,7 +40,7 @@
 			return FALSE
 	if(!..())
 		if(ring) //Put the ring back on if the check fails.
-			if(H.equip_to_slot_if_possible(ring, slot_gloves))
+			if(H.equip_to_slot_if_possible(ring, slot_gloves_str))
 				src.ring = null
 		return FALSE
 	if (ring)
@@ -53,7 +54,7 @@
 		return
 	var/mob/living/carbon/human/H = wearer
 	if(ring && istype(H))
-		if(!H.equip_to_slot_if_possible(ring, slot_gloves))
+		if(!H.equip_to_slot_if_possible(ring, slot_gloves_str))
 			ring.dropInto(loc)
 		src.ring = null
 	wearer = null

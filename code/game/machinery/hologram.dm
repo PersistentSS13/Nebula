@@ -34,6 +34,7 @@ var/const/HOLOPAD_MODE = RANGE_BASED
 /obj/machinery/hologram/holopad
 	name = "\improper holopad"
 	desc = "It's a floor-mounted device for projecting holographic images."
+	icon = 'icons/obj/machines/holopad.dmi'
 	icon_state = "holopad-B0"
 
 	layer = ABOVE_TILE_LAYER
@@ -92,6 +93,8 @@ var/const/HOLOPAD_MODE = RANGE_BASED
 				var/area/area = get_area(src)
 				for(var/mob/living/silicon/ai/AI in GLOB.living_mob_list_)
 					if(!AI.client)	continue
+					if (holopadType != HOLOPAD_LONG_RANGE && !AreConnectedZLevels(AI.z, src.z))
+						continue
 					to_chat(AI, "<span class='info'>Your presence is requested at <a href='?src=\ref[AI];jumptoholopad=\ref[src]'>\the [area]</a>.</span>")
 			else
 				to_chat(user, "<span class='notice'>A request for AI presence was already sent recently.</span>")
@@ -103,14 +106,18 @@ var/const/HOLOPAD_MODE = RANGE_BASED
 				last_request = world.time
 				var/list/holopadlist = list()
 				var/zlevels = GetConnectedZlevels(z)
+				var/zlevels_long = list()
 				if(GLOB.using_map.use_overmap && holopadType == HOLOPAD_LONG_RANGE)
 					for(var/zlevel in map_sectors)
 						var/obj/effect/overmap/visitable/O = map_sectors["[zlevel]"]
 						if(!isnull(O))
-							zlevels |= O.map_z
+							zlevels_long |= O.map_z
 				for(var/obj/machinery/hologram/holopad/H in SSmachines.machinery)
-					if((H.z in zlevels) && H.operable())
-						holopadlist["[H.loc.loc.name]"] = H	//Define a list and fill it with the area of every holopad in the world
+					if (H.operable())
+						if(H.z in zlevels)
+							holopadlist["[H.loc.loc.name]"] = H	//Define a list and fill it with the area of every holopad in the world
+						if (H.holopadType == HOLOPAD_LONG_RANGE && (H.z in zlevels_long))
+							holopadlist["[H.loc.loc.name]"] = H
 				holopadlist = sortAssoc(holopadlist)
 				var/temppad = input(user, "Which holopad would you like to contact?", "holopad list") as null|anything in holopadlist
 				targetpad = holopadlist["[temppad]"]
@@ -166,6 +173,8 @@ var/const/HOLOPAD_MODE = RANGE_BASED
 		user.eyeobj.setLoc(get_turf(src))
 	else if (!allow_ai)
 		to_chat(user, SPAN_WARNING("Access denied."))
+	else if (holopadType != HOLOPAD_LONG_RANGE && !AreConnectedZLevels(user.z, src.z))
+		to_chat(user, SPAN_WARNING("Out of range."))
 	else if(!masters[user])//If there is no hologram, possibly make one.
 		activate_holo(user)
 	else//If there is a hologram, remove it.
@@ -370,17 +379,10 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 	active_power_usage = 100
 
 //Destruction procs.
-/obj/machinery/hologram/ex_act(severity)
-	switch(severity)
-		if(1.0)
-			qdel(src)
-		if(2.0)
-			if (prob(50))
-				qdel(src)
-		if(3.0)
-			if (prob(5))
-				qdel(src)
-	return
+/obj/machinery/hologram/explosion_act(severity)
+	. = ..()
+	if(. && !QDELETED(src) && (severity == 1 || (severity == 2 && prob(50)) || (severity == 3 && prob(5))))
+		physically_destroyed(src)
 
 /obj/machinery/hologram/holopad/Destroy()
 	for (var/mob/living/master in masters)
@@ -415,12 +417,12 @@ Holographic project of everything else.
 /obj/machinery/hologram/projector
 	name = "hologram projector"
 	desc = "It makes a hologram appear...with magnets or something..."
-	icon = 'icons/obj/stationobjs.dmi'
+	icon = 'icons/obj/machines/holopad.dmi'
 	icon_state = "hologram0"
 
 /obj/machinery/hologram/holopad/longrange
 	name = "long range holopad"
-	desc = "It's a floor-mounted device for projecting holographic images. This one utilizes bluespace transmitter to communicate with far away locations."
+	desc = "It's a floor-mounted device for projecting holographic images. This one utilizes micro-width wormholes to communicate with far away locations."
 	icon_state = "holopad-Y0"
 	power_per_hologram = 1000 //per usage per hologram
 	holopadType = HOLOPAD_LONG_RANGE

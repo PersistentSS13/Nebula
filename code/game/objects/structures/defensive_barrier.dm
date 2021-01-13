@@ -8,7 +8,7 @@
 	anchored =   TRUE
 	atom_flags = ATOM_FLAG_CLIMBABLE | ATOM_FLAG_CHECKS_BORDER
 	can_buckle = TRUE
-	material =   MAT_STEEL
+	material =   /decl/material/solid/metal/steel
 	material_alteration = MAT_FLAG_ALTERATION_DESC | MAT_FLAG_ALTERATION_NAME
 	maxhealth = 200
 	var/secured
@@ -30,10 +30,10 @@
 	else
 		to_chat(user, SPAN_DANGER("It is on the verge of breaking apart!"))
 
-/obj/structure/defensive_barrier/destroyed()
+/obj/structure/defensive_barrier/physically_destroyed()
 	visible_message(SPAN_DANGER("\The [src] was destroyed!"))
 	playsound(src, 'sound/effects/clang.ogg', 100, 1)
-	..()
+	. = ..()
 
 /obj/structure/defensive_barrier/Destroy()
 	GLOB.dir_set_event.unregister(src, src, .proc/update_layers)
@@ -178,14 +178,14 @@
 	icon = 'icons/obj/structures/barrier.dmi'
 	icon_state = "barrier_hand"
 	w_class = ITEM_SIZE_LARGE
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	var/stored_health = 200
 	var/stored_max_health = 200
 
 /obj/item/defensive_barrier/Initialize(ml, material_key)
 	. = ..()
 	if(material)
-		name = "[material.display_name] [initial(name)]"
+		name = "[material.solid_name] [initial(name)]"
 
 /obj/item/defensive_barrier/proc/turf_check(mob/user)
 	var/turf/T = get_turf(user)

@@ -11,22 +11,22 @@
 
 	// Hotloading module
 	default_levels = list(
-		"1" = 'maps/persistence/outreach_1_mine_2.dmm',
-		"2" = 'maps/persistence/outreach_2_mine_1.dmm',
-		"3" = 'maps/persistence/outreach_3_ground.dmm',
-		"4" = 'maps/persistence/outreach_4_sky.dmm'
+		"1" = 'maps/persistence/outreach-1.dmm',
+		"2" = 'maps/persistence/outreach-2.dmm',
+		"3" = 'maps/persistence/outreach-3.dmm',
+		"4" = 'maps/persistence/outreach-4.dmm'
 	)
 
 	// A list of turfs and their default turfs for serialization optimization.
 	base_turf_by_z = list(
-		"1" = /turf/simulated/floor/exoplanet/barren,
-		"2" = /turf/simulated/floor/exoplanet/barren,
-		"3" = /turf/simulated/floor/exoplanet/barren,
+		"1" = /turf/exterior/barren,
+		"2" = /turf/exterior/barren,
+		"3" = /turf/exterior/barren,
 		"4" = /turf/simulated/open
 	)
 
-	overmap_size = 35
-	overmap_event_areas = 34
+	overmap_size = 100
+	overmap_event_areas = 250
 
 	allowed_spawns = list("Cyrogenic Storage")
 	default_spawn = "Cyrogenic Storage"

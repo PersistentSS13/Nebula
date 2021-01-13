@@ -11,6 +11,7 @@
 		QDEL_NULL(skillset)
 	QDEL_NULL_LIST(grabbed_by)
 	clear_fullscreen()
+	QDEL_NULL(ai)
 	if(client)
 		remove_screen_obj_references()
 		for(var/atom/movable/AM in client.screen)
@@ -52,7 +53,14 @@
 		move_intent = move_intents[1]
 	if(ispath(move_intent))
 		move_intent = decls_repository.get_decl(move_intent)
+	var/ai_type = get_ai_type()
+	if(ai_type)
+		ai = new ai_type(src)
 	START_PROCESSING(SSmobs, src)
+
+/mob/proc/get_ai_type()
+	if (ispath(ai))
+		return ai
 
 /mob/proc/show_message(msg, type, alt, alt_type)//Message, type of message (1 or 2), alternative message, alt message type (1 or 2)
 	if(!client)	return
@@ -122,7 +130,7 @@
 // self_message (optional) is what the src mob hears.
 // deaf_message (optional) is what deaf people will see.
 // hearing_distance (optional) is the range, how many tiles away the message can be heard.
-/mob/audible_message(var/message, var/self_message, var/deaf_message, var/hearing_distance = world.view, var/checkghosts = null, var/narrate = FALSE)
+/mob/audible_message(var/message, var/self_message, var/deaf_message, var/hearing_distance = world.view, var/checkghosts = null, var/narrate = FALSE, var/radio_message)
 	var/turf/T = get_turf(src)
 	var/list/mobs = list()
 	var/list/objs = list()
@@ -139,14 +147,17 @@
 
 		if(self_message && M == src)
 			M.show_message(self_message, AUDIBLE_MESSAGE, deaf_message, VISIBLE_MESSAGE)
-		else if(M.see_invisible >= invisibility || narrate) // Cannot view the invisible
+		else if(is_invisible_to(M) || narrate) // Cannot view the invisible
 			M.show_message(mob_message, AUDIBLE_MESSAGE, deaf_message, VISIBLE_MESSAGE)
 		else
 			M.show_message(mob_message, AUDIBLE_MESSAGE)
 
 	for(var/o in objs)
 		var/obj/O = o
-		O.show_message(message, AUDIBLE_MESSAGE, deaf_message, VISIBLE_MESSAGE)
+		if(radio_message)
+			O.hear_talk(src, radio_message, null, decls_repository.get_decl(/decl/language/noise))
+		else
+			O.show_message(message, AUDIBLE_MESSAGE, deaf_message, VISIBLE_MESSAGE)
 
 /mob/proc/add_ghost_track(var/message, var/mob/observer/ghost/M)
 	ASSERT(istype(M))
@@ -180,31 +191,24 @@
 			return M
 	return 0
 
+#define ENCUMBERANCE_MOVEMENT_MOD 0.35
 /mob/proc/movement_delay()
 	. = 0
 	if(istype(loc, /turf))
 		var/turf/T = loc
 		. += T.movement_delay
-
 	if (drowsyness > 0)
 		. += 6
 	if(lying) //Crawling, it's slower
 		. += (8 + ((weakened * 3) + (confused * 2)))
-	. += move_intent.move_delay
-	. += encumbrance() * (0.5 + 1.5 * (SKILL_MAX - get_skill_value(SKILL_HAULING))/(SKILL_MAX - SKILL_MIN)) //Varies between 0.5 and 2, depending on skill
+	. += move_intent.move_delay + (ENCUMBERANCE_MOVEMENT_MOD * encumbrance())
+#undef ENCUMBERANCE_MOVEMENT_MOD
 
 /mob/proc/encumbrance()
 	for(var/obj/item/grab/G in get_active_grabs())
-		var/atom/movable/pulling = G.affecting
-		if(istype(pulling, /obj))
-			var/obj/O = pulling
-			. += between(0, O.w_class, ITEM_SIZE_GARGANTUAN) / 5
-		else if(istype(pulling, /mob))
-			var/mob/M = pulling
-			. += max(0, M.mob_size) / MOB_SIZE_MEDIUM
-		else
-			. += 1
+		. = max(., G.grab_slowdown())
 	. *= (0.8 ** size_strength_mod())
+	. *= (0.5 + 1.5 * (SKILL_MAX - get_skill_value(SKILL_HAULING))/(SKILL_MAX - SKILL_MIN))
 
 //Determines mob size/strength effects for slowdown purposes. Standard is 0; can be pos/neg.
 /mob/proc/size_strength_mod()
@@ -236,6 +240,9 @@
 	return incapacitated(INCAPACITATION_KNOCKDOWN)
 
 /mob/proc/incapacitated(var/incapacitation_flags = INCAPACITATION_DEFAULT)
+	if(status_flags & ENABLE_AI)
+		return 1
+
 	if ((incapacitation_flags & INCAPACITATION_STUNNED) && stunned)
 		return 1
 
@@ -268,22 +275,25 @@
 	return
 
 /mob/proc/reset_view(atom/A)
-	if (client)
-		client.pixel_x = initial(client.pixel_x)
-		client.pixel_y = initial(client.pixel_y)
-		A = A ? A : eyeobj
-		if (istype(A, /atom/movable))
-			client.perspective = EYE_PERSPECTIVE
-			client.eye = A
-		else
-			if (isturf(loc))
-				client.eye = client.mob
-				client.perspective = MOB_PERSPECTIVE
-			else
-				client.perspective = EYE_PERSPECTIVE
-				client.eye = loc
-	return
-
+	set waitfor = 0
+	while(shakecamera && client && !QDELETED(src))
+		sleep(1)
+	if(!client || QDELETED(src))
+		return
+	client.default_pixel_x = initial(client.default_pixel_x)
+	client.default_pixel_y = initial(client.default_pixel_y)
+	client.pixel_x = client.default_pixel_x
+	client.pixel_y = client.default_pixel_y
+	A = A ? A : eyeobj
+	if (istype(A, /atom/movable))
+		client.perspective = EYE_PERSPECTIVE
+		client.eye = A
+	else if (isturf(loc))
+		client.eye = client.mob
+		client.perspective = MOB_PERSPECTIVE
+	else
+		client.perspective = EYE_PERSPECTIVE
+		client.eye = loc
 
 /mob/proc/show_inv(mob/user)
 	return
@@ -300,14 +310,20 @@
 	face_atom(A)
 
 	if(!isghost(src))
-		if(A.loc != src || A == l_hand || A == r_hand)
+		if((A.loc != src || (A in get_held_items())))
+			var/look_target = "at \the [A]"
+			if(isobj(A.loc))
+				look_target = "inside \the [A.loc]"
+			if(A == src)
+				var/datum/gender/T = gender_datums[get_gender()]
+				look_target = "at [T.self]"
 			for(var/mob/M in viewers(4, src))
 				if(M == src)
 					continue
 				if(M.client && M.client.get_preference_value(/datum/client_preference/examine_messages) == GLOB.PREF_SHOW)
 					if(M.is_blind() || is_invisible_to(M))
 						continue
-					to_chat(M, "<span class='subtle'><b>\The [src]</b> looks at \the [A].</span>")
+					to_chat(M, "<span class='subtle'><b>\The [src]</b> looks [look_target].</span>")
 
 	var/distance = INFINITY
 	if(isghost(src) || stat == DEAD)
@@ -362,21 +378,13 @@
 	set name = "Activate Held Object"
 	set category = "Object"
 	set src = usr
+	var/obj/item/W = get_active_hand()
+	W?.attack_self(src)
+	return W
 
-	if(hand)
-		var/obj/item/W = l_hand
-		if (W)
-			W.attack_self(src)
-			update_inv_l_hand()
-		else
-			attack_empty_hand(BP_L_HAND)
-	else
-		var/obj/item/W = r_hand
-		if (W)
-			W.attack_self(src)
-			update_inv_r_hand()
-		else
-			attack_empty_hand(BP_R_HAND)
+/mob/living/mode()
+	if(!..())
+		attack_empty_hand()
 
 /mob/proc/update_flavor_text(var/key)
 	var/msg = sanitize(input(usr,"Set the flavor text in your 'examine' verb. Can also be used for OOC notes about your character.","Flavor Text",html_decode(flavor_text)) as message|null, extra = 0)
@@ -450,7 +458,8 @@
 // If usr != src, or if usr == src but the Topic call was not resolved, this is called next.
 /mob/OnTopic(mob/user, href_list, datum/topic_state/state)
 	if(href_list["flavor_more"])
-		show_browser(user, "<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY><TT>[replacetext(flavor_text, "\n", "<BR>")]</TT></BODY></HTML>", "window=[name];size=500x200")
+		var/text = "<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY><TT>[replacetext(flavor_text, "\n", "<BR>")]</TT></BODY></HTML>"
+		show_browser(user, text, "window=[name];size=500x200")
 		onclose(user, "[name]")
 		return TOPIC_HANDLED
 
@@ -594,8 +603,7 @@
 
 	if(lying)
 		set_density(0)
-		if(l_hand) unEquip(l_hand)
-		if(r_hand) unEquip(r_hand)
+		drop_held_items()
 	else
 		set_density(initial(density))
 	reset_layer()
@@ -617,7 +625,7 @@
 		reset_plane_and_layer()
 
 /mob/proc/facedir(var/ndir)
-	if(!canface() || moving || (buckled && !buckled.buckle_movable))
+	if(!canface() || moving || (buckled && (!buckled.buckle_movable && !buckled.buckle_allow_rotation)))
 		return 0
 	set_dir(ndir)
 	if(buckled && buckled.buckle_movable)
@@ -827,7 +835,7 @@
 		visible_message("<span class='warning'><b>[usr] rips [selection] out of [src]'s body.</b></span>","<span class='warning'><b>[usr] rips [selection] out of your body.</b></span>")
 	remove_implant(selection)
 	selection.forceMove(get_turf(src))
-	if(!(U.l_hand && U.r_hand))
+	if(U.get_empty_hand_slot())
 		U.put_in_hands(selection)
 	if(ishuman(U))
 		var/mob/living/carbon/human/human_user = U
@@ -1049,12 +1057,21 @@
 /mob/proc/check_has_eyes()
 	return TRUE
 
-/mob/fluid_act(var/datum/reagents/fluids)
-	fluids.touch_mob(src)
-	..()
-
 /mob/proc/handle_pre_transformation()
 	return
 
 /mob/get_mass()
 	return mob_size
+
+/mob/physically_destroyed()
+	SHOULD_CALL_PARENT(FALSE)
+	gib()
+
+/mob/explosion_act()
+	. = ..()
+	if(!blinded)
+		flash_eyes()
+
+/mob/proc/adjust_drugged(var/amt, var/maxamt = 100)
+	drugged = Clamp(drugged + amt, 0, maxamt)
+	. = drugged

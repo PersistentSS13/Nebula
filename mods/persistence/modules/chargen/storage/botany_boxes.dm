@@ -2,8 +2,8 @@
 	name = "botany starter kit"
 	startswith = list(
 		/obj/item/chems/glass/bottle/ammonia = 2,
-		/obj/item/material/hatchet = 1,
-		/obj/item/material/minihoe = 1,
+		/obj/item/hatchet = 1,
+		/obj/item/minihoe = 1,
 		/obj/item/scanner/plant = 1,
 		/obj/item/clothing/gloves/thick/botany = 1,
 		/obj/item/clothing/suit/apron = 1,

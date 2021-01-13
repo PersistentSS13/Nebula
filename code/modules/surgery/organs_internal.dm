@@ -90,7 +90,7 @@
 	description = "This procedure detaches an internal organ for removal."
 	allowed_tools = list(
 		/obj/item/scalpel = 100,
-		/obj/item/material/shard = 50
+		/obj/item/shard = 50
 	)
 	min_duration = 90
 	max_duration = 110
@@ -101,15 +101,15 @@
 	for(var/organ in target.internal_organs_by_name)
 		var/obj/item/organ/I = target.internal_organs_by_name[organ]
 		if(I && !(I.status & ORGAN_CUT_AWAY) && I.parent_organ == target_zone)
-			LAZYDISTINCTADD(attached_organs, organ)
+			var/image/radial_button = image(icon = I.icon, icon_state = I.icon_state)
+			radial_button.name = "Detach \the [I.name]"
+			LAZYSET(attached_organs, organ, radial_button)
 	if(!LAZYLEN(attached_organs))
 		to_chat(user, SPAN_WARNING("You can't find any organs to separate."))
 	else
-		var/obj/item/organ/organ_to_remove = attached_organs[1]
-		if(attached_organs.len > 1)
-			organ_to_remove = input(user, "Which organ do you want to separate?") as null|anything in attached_organs
-		if(organ_to_remove)
-			return organ_to_remove
+		if(length(attached_organs) == 1)
+			return attached_organs[1]
+		return show_radial_menu(user, tool, attached_organs, radius = 42, require_near = TRUE, use_labels = TRUE, check_locs = list(tool))
 	return FALSE
 
 /decl/surgery_step/internal/detatch_organ/begin_step(mob/user, mob/living/carbon/human/target, target_zone, obj/item/tool)
@@ -141,8 +141,8 @@
 	allowed_tools = list(
 		/obj/item/hemostat = 100,
 		/obj/item/wirecutters = 75,
-		/obj/item/material/knife = 75,
-		/obj/item/material/kitchen/utensil/fork = 20
+		/obj/item/knife = 75,
+		/obj/item/kitchen/utensil/fork = 20
 	)
 	min_duration = 60
 	max_duration = 80
@@ -153,15 +153,15 @@
 		var/list/removable_organs
 		for(var/obj/item/organ/internal/I in affected.implants)
 			if(I.status & ORGAN_CUT_AWAY)
-				LAZYDISTINCTADD(removable_organs, I)
+				var/image/radial_button = image(icon = I.icon, icon_state = I.icon_state)
+				radial_button.name = "Remove \the [I.name]"
+				LAZYSET(removable_organs, I, radial_button)
 		if(!LAZYLEN(removable_organs))
 			to_chat(user, SPAN_WARNING("You can't find any removable organs."))
 		else
-			var/obj/item/organ/organ_to_remove = removable_organs[1]
-			if(removable_organs.len > 1)
-				organ_to_remove = input(user, "Which organ do you want to remove?") as null|anything in removable_organs
-			if(organ_to_remove)
-				return organ_to_remove
+			if(length(removable_organs) == 1)
+				return removable_organs[1]
+			return show_radial_menu(user, tool, removable_organs, radius = 42, require_near = TRUE, use_labels = TRUE, check_locs = list(tool))
 	return FALSE
 
 /decl/surgery_step/internal/remove_organ/get_skill_reqs(mob/living/user, mob/living/carbon/human/target, obj/item/tool)
@@ -326,12 +326,14 @@
 
 	for(var/obj/item/organ/I in affected.implants)
 		if(I && (I.status & ORGAN_CUT_AWAY))
-			LAZYADD(attachable_organs, I)
+			var/image/radial_button = image(icon = I.icon, icon_state = I.icon_state)
+			radial_button.name = "Attach \the [I.name]"
+			LAZYSET(attachable_organs, I, radial_button)
 
 	if(!LAZYLEN(attachable_organs))
 		return FALSE
 
-	var/obj/item/organ/organ_to_replace = input(user, "Which organ do you want to reattach?") as null|anything in attachable_organs
+	var/obj/item/organ/organ_to_replace = show_radial_menu(user, tool, attachable_organs, radius = 42, require_near = TRUE, use_labels = TRUE, check_locs = list(tool))
 	if(!organ_to_replace)
 		return FALSE
 

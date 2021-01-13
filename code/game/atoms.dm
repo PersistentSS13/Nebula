@@ -46,6 +46,7 @@
 
 /atom/proc/Initialize(mapload, ...)
 	SHOULD_CALL_PARENT(TRUE)
+	SHOULD_NOT_SLEEP(TRUE)
 	if(atom_flags & ATOM_FLAG_INITIALIZED)
 		crash_with("Warning: [src]([type]) initialized multiple times!")
 	atom_flags |= ATOM_FLAG_INITIALIZED
@@ -57,7 +58,7 @@
 		updateVisibility(src)
 		var/turf/T = loc
 		if(istype(T))
-			T.handle_opacity_change(src)
+			T.RecalculateOpacity()
 
 	return INITIALIZE_HINT_NORMAL
 
@@ -66,6 +67,7 @@
 	return
 
 /atom/Destroy()
+	global.is_currently_exploding -= src
 	QDEL_NULL(reagents)
 	. = ..()
 
@@ -251,7 +253,7 @@ its easier to just keep the beam vertical.
 			f_name = "a "
 		f_name += "<font color ='[blood_color]'>stained</font> [name][infix]!"
 
-	to_chat(user, "\icon[src] That's [f_name] [suffix]")
+	to_chat(user, "[html_icon(src)] That's [f_name] [suffix]")
 	to_chat(user, desc)
 	return TRUE
 
@@ -285,8 +287,40 @@ its easier to just keep the beam vertical.
 /atom/proc/on_update_icon()
 	return
 
-/atom/proc/ex_act(var/severity)
-	return
+/atom/proc/get_contained_external_atoms()
+	. = contents
+
+/atom/proc/dump_contents()
+	for(var/thing in get_contained_external_atoms())
+		var/atom/movable/AM = thing
+		AM.dropInto(loc)
+		if(ismob(AM))
+			var/mob/M = AM
+			if(M.client)
+				M.client.eye = M.client.mob
+				M.client.perspective = MOB_PERSPECTIVE
+
+/atom/proc/physically_destroyed()
+	SHOULD_CALL_PARENT(TRUE)
+	dump_contents()
+	. = TRUE
+
+/atom/proc/try_detonate_reagents(var/severity = 3)
+	if(reagents)
+		for(var/rtype in reagents.reagent_volumes)
+			var/decl/material/R = decls_repository.get_decl(rtype)
+			R.explosion_act(src, severity)
+
+/atom/proc/explosion_act(var/severity)
+	SHOULD_CALL_PARENT(TRUE)
+	if(!global.is_currently_exploding[src])
+		global.is_currently_exploding[src] = TRUE
+		. = (severity <= 3)
+		if(.)
+			for(var/atom/movable/AM in contents)
+				AM.explosion_act(severity++)
+			try_detonate_reagents(severity)
+		global.is_currently_exploding -= src
 
 /atom/proc/emag_act(var/remaining_charges, var/mob/user, var/emag_source)
 	return NO_EMAG_ACT
@@ -304,6 +338,7 @@ its easier to just keep the beam vertical.
 	. = TRUE
 
 /atom/proc/hitby(atom/movable/AM, var/datum/thrownthing/TT)//already handled by throw impact
+	SHOULD_CALL_PARENT(TRUE)
 	if(isliving(AM))
 		var/mob/living/M = AM
 		M.apply_damage(TT.speed*5, BRUTE)
@@ -328,7 +363,7 @@ its easier to just keep the beam vertical.
 	return 1
 
 /mob/living/proc/handle_additional_vomit_reagents(var/obj/effect/decal/cleanable/vomit/vomit)
-	vomit.reagents.add_reagent(/decl/reagent/acid/stomach, 5)
+	vomit.reagents.add_reagent(/decl/material/liquid/acid/stomach, 5)
 
 /atom/proc/clean_blood()
 	if(!simulated)
@@ -364,13 +399,6 @@ its easier to just keep the beam vertical.
 /atom/proc/checkpass(passflag)
 	return pass_flags&passflag
 
-/atom/proc/isinspace()
-	if(istype(get_turf(src), /turf/space))
-		return 1
-	else
-		return 0
-
-
 // Show a message to all mobs and objects in sight of this atom
 // Use for objects performing visible actions
 // message is output to anyone who can see, e.g. "The [src] does something!"
@@ -397,7 +425,7 @@ its easier to just keep the beam vertical.
 // message is the message output to anyone who can hear.
 // deaf_message (optional) is what deaf people will see.
 // hearing_distance (optional) is the range, how many tiles away the message can be heard.
-/atom/proc/audible_message(var/message, var/deaf_message, var/hearing_distance = world.view, var/checkghosts = null)
+/atom/proc/audible_message(var/message, var/deaf_message, var/hearing_distance = world.view, var/checkghosts = null, var/radio_message)
 	var/turf/T = get_turf(src)
 	var/list/mobs = list()
 	var/list/objs = list()
@@ -537,11 +565,7 @@ its easier to just keep the beam vertical.
 				M.adjustBruteLoss(damage)
 				return
 
-			var/obj/item/organ/external/affecting
-			var/list/limbs = BP_ALL_LIMBS //sanity check, can otherwise be shortened to affecting = pick(BP_ALL_LIMBS)
-			if(limbs.len)
-				affecting = H.get_organ(pick(limbs))
-
+			var/obj/item/organ/external/affecting = pick(H.organs)
 			if(affecting)
 				to_chat(M, "<span class='danger'>You land heavily on your [affecting.name]!</span>")
 				affecting.take_external_damage(damage, 0)
@@ -565,6 +589,9 @@ its easier to just keep the beam vertical.
 /atom/proc/get_color()
 	return color
 
+/atom/proc/set_color(new_color)
+	color = new_color
+
 /atom/proc/get_cell()
 	return
 
@@ -579,3 +606,9 @@ its easier to just keep the beam vertical.
 			user.examinate(src)
 			return TOPIC_HANDLED
 	. = ..()
+
+/atom/proc/get_heat()
+	. = temperature
+
+/atom/proc/isflamesource()
+	. = FALSE

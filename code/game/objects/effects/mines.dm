@@ -22,7 +22,7 @@
 
 	if(istype(M, /mob/living/carbon/human))
 		for(var/mob/O in viewers(world.view, src.loc))
-			to_chat(O, "<span class='warning'>\The [M] triggered the \icon[src] [src]</span>")
+			to_chat(O, "<span class='warning'>\The [M] triggered the [html_icon(src)] [src]</span>")
 		triggered = 1
 		call(src,triggerproc)(M)
 
@@ -52,16 +52,15 @@
 
 	for (var/turf/simulated/floor/target in range(1,src))
 		if(!target.blocks_air)
-			target.assume_gas(MAT_N2O, 30)
+			target.assume_gas(/decl/material/gas/nitrous_oxide, 30)
 
 	spawn(0)
 		qdel(src)
 
-/obj/effect/mine/proc/triggerphoron(obj)
+/obj/effect/mine/proc/triggerflame(obj)
 	for (var/turf/simulated/floor/target in range(1,src))
 		if(!target.blocks_air)
-			target.assume_gas(MAT_PHORON, 30)
-
+			target.assume_gas(/decl/material/gas/hydrogen, 30)
 			target.hotspot_expose(1000, CELL_VOLUME)
 
 	spawn(0)
@@ -85,10 +84,10 @@
 	icon_state = "uglymine"
 	triggerproc = "triggerrad"
 
-/obj/effect/mine/phoron
-	name = "Phoron Mine"
+/obj/effect/mine/flame
+	name = "Incendiary Mine"
 	icon_state = "uglymine"
-	triggerproc = "triggerphoron"
+	triggerproc = "triggerflame"
 
 /obj/effect/mine/kick
 	name = "Kick Mine"

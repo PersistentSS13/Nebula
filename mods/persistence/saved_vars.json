@@ -1,5 +1,12 @@
 [
 	{
+		"path":"/datum/computer_file",
+		"vars":[
+			"holder",
+			"filename"
+		]
+	},
+	{
 		"path":"/datum/computer_file/data",
 		"vars":[
 			"stored_data",
@@ -23,7 +30,9 @@
 			"UI",
 			"SE",
 			"b_type",
-			"real_name"
+			"real_name",
+			"lineage",
+			"species"
 		]
 	},
 	{
@@ -69,16 +78,15 @@
 			"role_alt_title",
 			"assigned_job",
 			"objectives",
-			"special_verbs",
 			"has_been_rev",
 			"faction",
 			"changeling",
-			"rev_cooldown",
 			"brigged_since",
 			"initial_account",
 			"philotic_damage",
 			"age",
-			"unique_id"
+			"unique_id",
+			"finished_chargen"
 		]
 	},
 	{
@@ -159,7 +167,20 @@
 	{
 		"path":"/datum/shuttle",
 		"vars":[
-			"name"
+			"name",
+			"shuttle_area",
+			"current_location",
+			"moving_status",
+			"flags"
+		]
+	},
+	{
+		"path":"/datum/shuttle/autodock",
+		"vars":[
+			"current_dock_target",
+			"dock_target",
+			"docking_codes",
+			"next_location"
 		]
 	},
 	{
@@ -170,12 +191,6 @@
 			"amount",
 			"instances",
 			"storing_object"
-		]
-	},
-	{
-		"path":"/datum/tech/materials",
-		"vars":[
-			"level"
 		]
 	},
 	{
@@ -244,7 +259,6 @@
 			"maxHealth",
 			"health",
 			"last_special",
-			"t_phoron",
 			"t_oxygen",
 			"t_sl_gas",
 			"t_n2",
@@ -269,7 +283,14 @@
 			"job",
 			"maxHealth",
 			"health",
-			"last_special"
+			"last_special",
+			"meat_type",
+			"meat_amount",
+			"skin_material",
+			"skin_amount",
+			"bone_material",
+			"bone_amount",
+			"available_maneuvers"
 		]
 	},
 	{
@@ -540,7 +561,6 @@
 			"bleed_ticks",
 			"can_bleed",
 			"in_stasis",
-			"ability_cooldown",
 			"time_last_used_ability",
 			"return_damage_min",
 			"return_damage_max"
@@ -576,9 +596,6 @@
 		"vars":[
 			"reagents"
 		]
-	},
-	{
-		"path":"/obj/item/clothing/ring/material"
 	},
 	{
 		"path":"/obj/item/clothing/shoes/magboots",
@@ -679,7 +696,6 @@
 			"secured",
 			"attached_overlays",
 			"holder",
-			"cooldown",
 			"wires"
 		]
 	},
@@ -741,28 +757,9 @@
 		]
 	},
 	{
-		"path":"/obj/item/modular_computer",
-		"vars":[
-			"hardware_flag",
-			"computer_emagged",
-			"bsod",
-			"damage",
-			"processor_unit",
-			"network_card",
-			"hard_drive",
-			"battery_module",
-			"card_slot",
-			"nano_printer",
-			"portable_drive",
-			"ai_slot",
-			"tesla_link"
-		]
-	},
-	{
 		"path":"/obj/item/organ/external",
 		"vars":[
 			"slowdown_general",
-			"broken_description",
 			"brute_ratio",
 			"burn_dam",
 			"burn_ratio",
@@ -773,11 +770,10 @@
 			"body_part",
 			"icon_position",
 			"model",
-			"s_tone",
-			"s_base",
-			"s_col",
-			"s_col_blend",
-			"h_col",
+			"skin_tone",
+			"skin_base",
+			"skin_cololour",
+			"hair_colour",
 			"body_hair",
 			"markings",
 			"wound_update_accuracy",
@@ -816,7 +812,6 @@
 			"dna",
 			"damage",
 			"min_broken_damage",
-			"max_damage",
 			"rejecting",
 			"death_time"
 		]
@@ -1001,9 +996,6 @@
 		"vars":[
 			"key_data"
 		]
-	},
-	{
-		"path":"/obj/item/material"
 	},
 	{
 		"path":"/obj/item/melee/baton",
@@ -1314,6 +1306,13 @@
 		]
 	},
 	{
+		"path":"/obj/machinery/computer/shuttle_control",
+		"vars":[
+			"hacked",
+			"shuttle_tag"
+		]
+	},
+	{
 		"path":"/obj/machinery/conveyor",
 		"vars":[
 			"forwards",
@@ -1527,12 +1526,6 @@
 		]
 	},
 	{
-		"path":"/obj/machinery/organ_printer",
-		"vars":[
-			"stored_matter"
-		]
-	},
-	{
 		"path":"/obj/machinery/papershredder",
 		"vars":[
 			"paperamount",
@@ -1673,7 +1666,8 @@
 			"full_shield_strength",
 			"idle_multiplier",
 			"spinup_delay",
-			"spinup_counter"
+			"spinup_counter",
+			"vessel_reverse_dir"
 		]
 	},
 	{
@@ -1779,7 +1773,8 @@
 			"uid",
 			"panel_open",
 			"power_components",
-			"anchored"
+			"anchored",
+			"initial_access"
 		]
 	},
 	{
@@ -1832,7 +1827,7 @@
 		"path":"/obj/structure/dispenser",
 		"vars":[
 			"oxygentanks",
-			"phorontanks"
+			"hydrogentanks"
 		]
 	},
 	{
@@ -1852,9 +1847,13 @@
 	{
 		"path":"/obj/structure/door_assembly",
 		"vars":[
-			"panel_icon",
-			"fill_icon",
-			"glass_icon"
+			"state",
+			"glass",
+			"glass_material",
+			"door_color",
+			"stripe_color",
+			"symbol_color",
+			"electronics"
 		]
 	},
 	{
@@ -1948,6 +1947,12 @@
 		]
 	},
 	{
+		"path":"/turf/simulated",
+		"vars":[
+			"decals"
+		]
+	},
+	{
 		"path":"/turf/simulated/wall",
 		"vars":[
 			"floor_type",
@@ -1979,13 +1984,11 @@
 			"contents",
 			"density",
 			"icon_state",
-			"name",
 			"pixel_x",
 			"pixel_y",
 			"dir",
 			"air",
-			"is_on_fire",
-			"saved_decals"
+			"is_on_fire"
 		]
 	},
 	{
@@ -2004,7 +2007,6 @@
 			"sdisabilities",
 			"disabilities",
 			"next_move",
-			"hand",
 			"real_name",
 			"bhunger",
 			"druggy",
@@ -2013,7 +2015,6 @@
 			"resting",
 			"lying",
 			"lying_prev",
-			"radio_interrupt_cooldown",
 			"unacidable",
 			"pinned",
 			"embedded",
@@ -2026,8 +2027,6 @@
 			"timeofdeath",
 			"bodytemperature",
 			"buckled",
-			"l_hand",
-			"r_hand",
 			"back",
 			"s_active",
 			"wear_mask",
@@ -2063,7 +2062,16 @@
 			"gender",
 			"x",
 			"y",
-			"z"
+			"z",
+			"held_item_slot_selected",
+			"held_item_slots"
+		]
+	},
+	{
+		"path":"/datum/inventory_slot",
+		"vars":[
+			"slot_id",
+			"holding"
 		]
 	},
 	{
@@ -2099,7 +2107,6 @@
 		"vars":[
 			"visibility",
 			"contents",
-			"density",
 			"dir",
 			"icon",
 			"icon_state",
@@ -2108,15 +2115,8 @@
 			"pixel_x",
 			"pixel_y",
 			"loc",
-			"matter",
-			"w_class",
-			"unacidable",
-			"throwforce",
 			"sharp",
 			"edge",
-			"in_use",
-			"damtype",
-			"armor_penetration",
 			"anchor_fall",
 			"holographic",
 			"req_access"
@@ -2125,13 +2125,11 @@
 	{
 		"path":"/datum/robot_component",
 		"vars":[
-			"name",
 			"installed",
 			"powered",
 			"toggled",
 			"brute_damage",
 			"electronics_damage",
-			"max_damage",
 			"external_type",
 			"wrapped"
 		]
@@ -2209,9 +2207,6 @@
 			"flash1",
 			"flash2"
 		]
-	},
-	{
-		"path":"/obj/item/stack/material/generic"
 	},
 	{
 		"path":"/obj/item/cell/apc",
@@ -2306,9 +2301,6 @@
 			"unique_name",
 			"unique_reskin"
 		]
-	},
-	{
-		"path":"/obj/item/material"
 	},
 	{
 		"path":"/obj/item/tank",
@@ -2490,33 +2482,14 @@
 		]
 	},
 	{
-		"path":"/image",
+		"path":"/datum/wrapper/image",
 		"vars":[
 			"color",
-			"icon",
 			"icon_state",
-			"appearance_flags",
-			"plane",
 			"alpha",
 			"layer",
 			"dir",
-			"visibility"
-		]
-	},
-	{
-		"path":"/datum/wrapper/area",
-		"vars":[
-			"area_type",
-			"name",
-			"turfs",
-			"has_gravity",
-			"apc"
-		]
-	},
-	{
-		"path":"/datum/wrapper/multiz",
-		"vars":[
-			"saved_z_levels"
+			"appearance_flags"
 		],
 		"flatten":true
 	},
@@ -2550,7 +2523,7 @@
 		"vars":[
 			"nitrogen_retardation_factor",
 			"thermal_release_modifier",
-			"phoron_release_modifier",
+			"product_release_modifier",
 			"oxygen_release_modifier",
 			"radiation_release_modifier",
 			"reaction_power_modifier",
@@ -2737,8 +2710,6 @@
 			"icon_state_open_broken",
 			"icon_state_closed_broken",
 			"begins_closed",
-			"implicit_material",
-			"min_force",
 			"maxhealth",
 			"block_air_zones",
 			"explosion_resistance",
@@ -2797,7 +2768,11 @@
 			"owner",
 			"skill_buffs",
 			"points_remaining",
-			"time_skills_set"
+			"time_active",
+			"total_points_added",
+			"min_skill_level",
+			"textbook_skills",
+			"last_read_time"
 		]
 	},
 	{
@@ -2880,9 +2855,19 @@
 		"path":"/obj/effect/overmap/visitable/ship/landable",
 		"vars":[
 			"tag_shuttle_mech_sensor",
+			"shuttle",
 			"landmark",
 			"multiz",
-			"status"
+			"status",
+			"saved_shuttle"
+		]
+	},
+	{
+		"path":"/obj/effect/shuttle_landmark",
+		"vars":[
+			"base_area",
+			"base_turf",
+			"shuttle_restricted"
 		]
 	},
 	{
@@ -2890,6 +2875,12 @@
 		"vars":[
 			"shuttle_name",
 			"visitors"
+		]
+	},
+	{
+		"path":"/obj/effect/shuttle_landmark/visiting_shuttle",
+		"vars":[
+			"core_landmark"
 		]
 	},
 	{
@@ -2942,6 +2933,22 @@
 		]
 	},
 	{
+		"path":"/obj/machinery/network/stellar_anchor",
+		"vars":[
+			"anchored_areas",
+			"should_launch",
+			"sector_name",
+			"created_sector"
+		]
+	},
+	{
+		"path":"/obj/machinery/network/stellar_anchor/ship_core",
+		"vars":[
+			"parent_shuttle",
+			"created_landable_ship"
+		]
+	},
+	{
 		"path":"/datum/shuttle/autodock/overmap",
 		"vars":[
 			"range",
@@ -2961,16 +2968,16 @@
 	{
 		"path":"/obj/effect/overmap/visitable",
 		"vars":[
-			"map_z",
 			"generic_waypoints",
 			"restricted_waypoints",
 			"docking_codes",
 			"start_x",
 			"start_y",
 			"base",
-			"in_space",
+			"sector_flags",
 			"hide_from_reports",
-			"has_distress_beacon"
+			"has_distress_beacon",
+			"free_landing"
 		]
 	},
 	{
@@ -2989,29 +2996,21 @@
 		"path":"/mob/living/carbon/human",
 		"vars":[
 			"oxygen_alert",
-			"phoron_alert",
+			"toxins_alert",
 			"co2_alert",
 			"fire_alert",
 			"pressure_alert",
 			"temperature_alert",
 			"heartbeat",
 			"stamina",
-			"r_hair",
-			"g_hair",
-			"b_hair",
+			"hair_color",
 			"h_style",
-			"r_facial",
-			"g_facial",
-			"b_facial",
 			"f_style",
-			"r_eyes",
-			"g_eyes",
-			"b_eyes",
-			"s_tone",
-			"s_base",
-			"r_skin",
-			"g_skin",
-			"b_skin",
+			"eye_colour",
+			"facial_hair_colour",
+			"skin_tone",
+			"skin_base",
+			"skin_color",
 			"size_multiplier",
 			"damage_multiplier",
 			"lip_style",
@@ -3063,7 +3062,10 @@
 			"descriptors",
 			"last_smelt",
 			"saved_ckey",
-			"home_spawn"
+			"home_spawn",
+			"stance_limbs",
+			"grasp_limbs",
+			"saved_species"
 		]
 	},
 	{
@@ -3130,10 +3132,7 @@
 			"no_attack_log",
 			"master",
 			"origin_tech",
-			"attack_verb",
 			"lock_picking_level",
-			"force",
-			"attack_cooldown",
 			"melee_accuracy_bonus",
 			"heat_protection",
 			"cold_protection",
@@ -3184,7 +3183,6 @@
 			"maxhealth",
 			"health",
 			"destroy_hits",
-			"min_force",
 			"pry_mod",
 			"repairing",
 			"block_air_zones",
@@ -3246,8 +3244,6 @@
 	{
 		"path":"/obj/item/organ/internal/eyes",
 		"vars":[
-			"phoron_guard",
-			"innate_flash_protection",
 			"eye_icon",
 			"apply_eye_colour",
 			"last_cached_eye_colour",
@@ -3337,10 +3333,7 @@
 	{
 		"path":"/obj/item/organ/external/groin/insectoid/mantid",
 		"vars":[
-			"existing_webs",
-			"max_webs",
-			"web_weave_time",
-			"cooldown"
+			"existing_webs"
 		]
 	},
 	{
@@ -3402,8 +3395,7 @@
 			"maintenance_protocols",
 			"hatch_closed",
 			"hatch_locked",
-			"use_air",
-			"material"
+			"use_air"
 		]
 	},
 	{
@@ -3414,10 +3406,8 @@
 			"total_damage",
 			"brute_damage",
 			"burn_damage",
-			"max_damage",
 			"damage_state",
 			"has_hardpoints",
-			"decal",
 			"power_use"
 		]
 	},
@@ -3526,7 +3516,7 @@
 		]
 	},
 	{
-		"path":"/obj/item/material/lock_construct",
+		"path":"/obj/item/lock_construct",
 		"vars":[
 			"lock_data"
 		]
@@ -3581,8 +3571,6 @@
 			"activators",
 			"complexity",
 			"size",
-			"cooldown_per_use",
-			"ext_cooldown",
 			"power_draw_per_use",
 			"power_draw_idle",
 			"spawn_flags",
@@ -3900,31 +3888,11 @@
 		]
 	},
 	{
-		"path":"/datum/wrapper/decal",
-		"vars":[
-			"icon",
-			"icon_state",
-			"appearance_flags",
-			"color",
-			"dir",
-			"plane",
-			"layer",
-			"alpha",
-			"detail_overlay",
-			"detail_color",
-			"x",
-			"y",
-			"z"
-		],
-		"flatten":true
-	},
-	{
 		"path":"/datum/computer_file/report/crew_record",
 		"vars":[
 			"grants",
 			"user_id"
-		],
-		"flatten":true
+		]
 	},
 	{
 		"path":"/datum/report_field",
@@ -3962,13 +3930,6 @@
 		]
 	},
 	{
-		"path":"/datum/wrapper/game_data",
-		"vars":[
-			"key"
-		],
-		"flatten":true
-	},
-	{
 		"path":"/obj/machinery/power/terminal",
 		"vars":[
 			"master"
@@ -3989,6 +3950,12 @@
 			"initial_network_key",
 			"saved_network_tag",
 			"saved_address"
+		]
+	},
+	{
+		"path":"/obj/machinery/network/mainframe",
+		"vars":[
+			"initial_roles"
 		]
 	},
 	{
@@ -4035,19 +4002,14 @@
 		]
 	},
 	{
-		"path":"/obj/item/organ/internal/augment/active/cyberbrain",
-		"vars":[
-			"stock_parts"
-		]
-	},
-	{
 		"path":"/obj/item/experiment",
 		"vars":[
 			"wired",
 			"welded",
 			"code_fragment",
 			"assembly_icon",
-			"components"
+			"components",
+			"experiment_id"
 		]
 	},
 	{
@@ -4058,7 +4020,7 @@
 			"speed",
 			"compression",
 			"power_efficiency",
-			"recipe",
+			"created_path",
 			"complexity"
 		]
 	},
@@ -4069,14 +4031,141 @@
 		]
 	},
 	{
-		"path":"/datum/computer_file/data/experiment",
+		"path":"/datum/extension",
 		"vars":[
+			"holder"
+		]
+	},
+	{
+		"path":"/datum/extension/assembly",
+		"vars":[
+			"parts",
+			"enabled",
+			"damage"
+		]
+	},
+	{
+		"path":"/obj/item/screwdriver",
+		"vars":[
+			"handle_color"
+		]
+	},
+	{
+		"path":"/obj/item/wrench",
+		"vars":[
+			"handle_color"
+		]
+	},
+	{
+		"path":"/datum/wrapper",
+		"vars":[
+			"key"
+		],
+		"flatten":true
+	},
+	{
+		"path":"/datum/wrapper/area",
+		"vars":[
+			"name",
+			"turfs",
+			"has_gravity",
+			"apc"
+		],
+		"flatten":true
+	},
+	{
+		"path":"/obj/effect/decal/cleanable",
+		"vars":[
+			"age"
+		]
+	},
+	{
+		"path":"/datum/extension/lockable",
+		"vars":[
+			"locked",
+			"code",
+			"l_code",
+			"l_set",
+			"l_setshort",
+			"l_hacking",
+			"emagged",
+			"is_digital_lock",
+			"open",
+			"error"
+		]
+	},
+	{
+		"path":"/obj/item/charge_stick",
+		"vars":[
+			"creator",
 			"id",
-			"multiplier",
-			"attribute",
-			"tech_levels",
-			"target_blueprint",
-			"in_progress"
+			"currency",
+			"loaded_worth"
+		]
+	},
+	{
+		"path":"/obj/item/stock_parts/computer/charge_stick_slot",
+		"vars":[
+			"stored_stick"
+		]
+	},
+	{
+		"path":"/obj/machinery/tracking_beacon",
+		"vars":[
+			"beacon"
+		]
+	},
+	{
+		"path":"/obj/item/blackout",
+		"vars":[
+			"last_use"
+		]
+	},
+	{
+		"path":"/obj/item/spy_monitor",
+		"vars":[
+			"operating",
+			"radio",
+			"selected_camera",
+			"cameras"
+		]
+	},
+	{
+		"path":"/obj/structure/displaycase",
+		"vars":[
+			"req_access",
+			"destroyed"
+		]
+	},
+	{
+		"path":"/obj/machinery/mining/drill",
+		"vars":[
+			"generated_ore",
+			"active",
+			"harvest_speed",
+			"capacity",
+			"supports",
+			"supported"
+		]
+	},
+	{
+		"path":"/obj/machinery/power/rad_collector",
+		"vars":[
+			"health",
+			"melted",
+			"active",
+			"locked",
+			"last_rads",
+			"loaded_tank"
+		]
+	},
+	{
+		"path":"/obj/item/stock_parts/network_lock",
+		"vars":[
+			"grants",
+			"initial_network_id",
+			"initial_network_key",
+			"emagged"
 		]
 	}
 ]

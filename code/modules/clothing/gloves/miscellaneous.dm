@@ -4,22 +4,13 @@
 	icon_state = "captain"
 	item_state = "egloves"
 
-/obj/item/clothing/gloves/cyborg
-	desc = "Beep boop borp!"
-	name = "cyborg gloves"
-	icon_state = "black"
-	item_state = "r_hands"
-	siemens_coefficient = 1.0
-
 /obj/item/clothing/gloves/insulated
 	desc = "These gloves will protect the wearer from electric shocks."
 	name = "insulated gloves"
 	color = COLOR_YELLOW
 	siemens_coefficient = 0
 	permeability_coefficient = 0.05
-	icon = 'icons/clothing/hands/gloves_generic.dmi'
-	on_mob_icon = 'icons/clothing/hands/gloves_generic.dmi'
-	icon_state = "world"
+	icon_state = ICON_STATE_WORLD
 
 /obj/item/clothing/gloves/insulated/cheap                             //Cheap Chinese Crap
 	desc = "These gloves are cheap copies of the coveted gloves, no way this can end badly."
@@ -34,20 +25,19 @@
 /obj/item/clothing/gloves/forensic
 	desc = "Specially made gloves for forensic technicians. The luminescent threads woven into the material stand out under scrutiny."
 	name = "forensic gloves"
-	icon_state = "forensic"
-	item_state = "bgloves"
+	color = COLOR_BROWN_ORANGE
 	siemens_coefficient = 0.50
 	permeability_coefficient = 0.05
-	cold_protection = HANDS
+	cold_protection = SLOT_HANDS
 	min_cold_protection_temperature = GLOVES_MIN_COLD_PROTECTION_TEMPERATURE
-	heat_protection = HANDS
+	heat_protection = SLOT_HANDS
 	max_heat_protection_temperature = GLOVES_MAX_HEAT_PROTECTION_TEMPERATURE
 
 /obj/item/clothing/gloves/tactical
 	desc = "These brown tactical gloves are made from a durable synthetic, and have hardened knuckles."
 	name = "tactical gloves"
-	icon_state = "work"
-	item_state = "wgloves"
+	icon_state = ICON_STATE_WORLD
+	color = COLOR_BROWN
 	force = 5
 	siemens_coefficient = 0.50
 	permeability_coefficient = 0.05
@@ -60,9 +50,8 @@
 /obj/item/clothing/gloves/guards
 	desc = "A pair of synthetic gloves and arm pads reinforced with armor plating."
 	name = "arm guards"
-	icon_state = "guards"
-	item_state = "guards"
-	body_parts_covered = HANDS|ARMS
+	icon = 'icons/clothing/hands/armguards.dmi'
+	body_parts_covered = SLOT_HANDS|SLOT_ARMS
 	w_class = ITEM_SIZE_NORMAL
 	siemens_coefficient = 0.7
 	permeability_coefficient = 0.03
@@ -75,19 +64,19 @@
 		)
 
 /obj/item/clothing/gloves/fire
-	desc = "A pair of Gloves specially design for firefight and damage control."
+	desc = "A pair of gloves specially design for firefight and damage control."
 	name = "fire gloves"
-	icon_state = "fire_gloves"
-	item_state = "fire_gloves"
+	icon_state = ICON_STATE_WORLD
+	icon = 'icons/clothing/hands/firefighter.dmi'
 	siemens_coefficient = 0.50
 	gas_transfer_coefficient = 0.90
 	permeability_coefficient = 0.50
 	item_flags = ITEM_FLAG_THICKMATERIAL
-	body_parts_covered = HANDS
-	cold_protection = HANDS
-	heat_protection = HANDS
+	body_parts_covered = SLOT_HANDS
+	cold_protection = SLOT_HANDS
+	heat_protection = SLOT_HANDS
 	min_cold_protection_temperature = GLOVES_MIN_COLD_PROTECTION_TEMPERATURE
-	heat_protection = HANDS
+	heat_protection = SLOT_HANDS
 	max_heat_protection_temperature = FIRESUIT_MAX_HEAT_PROTECTION_TEMPERATURE
 	max_pressure_protection = FIRESUIT_MAX_PRESSURE
 

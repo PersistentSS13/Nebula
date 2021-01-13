@@ -52,7 +52,8 @@
 	consume(user)
 	return 1
 
-/obj/singularity/ex_act(severity)
+/obj/singularity/explosion_act(severity)
+	SHOULD_CALL_PARENT(FALSE)
 	if(current_size == STAGE_SUPER)//IT'S UNSTOPPABLE
 		return
 	switch(severity)
@@ -275,9 +276,6 @@
 			X.singularity_pull(S, current_size)
 		else if(dist <= consume_range)
 			consume(X)
-
-	//for (var/turf/T in trange(grav_pull, src)) //TODO: Create a similar trange for orange to prevent snowflake of self check.
-	//	consume(T)
 
 	return
 

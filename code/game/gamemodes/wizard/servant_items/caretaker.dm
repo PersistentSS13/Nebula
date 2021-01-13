@@ -1,7 +1,7 @@
 /obj/item/clothing/head/caretakerhood
 	name = "holy hood"
 	desc = "The hood of a shining white robe, with blue trim. Who would possess this robe and still want to hide themself away?"
-	icon_state = "caretakerhood"
+	icon = 'icons/clothing/head/caretaker.dmi'
 	armor = list(
 		melee = ARMOR_MELEE_KNIVES, 
 		bullet = ARMOR_BALLISTIC_MINOR, 
@@ -15,7 +15,7 @@
 /obj/item/clothing/suit/caretakercloak
 	name = "holy cloak"
 	desc = "A shining white and blue robe. For some reason, it reminds you of the holidays."
-	icon_state = "caretakercloak"
+	icon = 'icons/clothing/suit/wizard/servant/caretaker.dmi'
 	armor = list(
 		melee = ARMOR_MELEE_RESISTANT, 
 		bullet = ARMOR_BALLISTIC_PISTOL, 
@@ -33,7 +33,8 @@
 /obj/item/clothing/shoes/dress/caretakershoes
 	name = "black leather shoes"
 	desc = "Dress shoes. These aren't as shiny as usual."
-	icon_state = "caretakershoes"
+	inset_color = COLOR_SKY_BLUE
+	shine = 30
 	armor = list(
 		rad = ARMOR_RAD_SHIELDED
 	)

@@ -10,7 +10,7 @@
 	obj_flags = OBJ_FLAG_NOFALL
 	handle_generic_blending = TRUE
 	tool_interaction_flags = TOOL_INTERACTION_DECONSTRUCT
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 
 	var/hatch_open = FALSE
 	var/decl/flooring/tiling/plated_tile
@@ -74,14 +74,10 @@
 		var/plate_path = plated_tile.build_type
 		new plate_path(T)
 
-/obj/structure/catwalk/ex_act(severity)
-	switch(severity)
-		if(1)
-			create_dismantled_products(get_turf(src))
-			qdel(src)
-		if(2)
-			create_dismantled_products(get_turf(src))
-			qdel(src)
+/obj/structure/catwalk/explosion_act(severity)
+	..()
+	if(!QDELETED(src) && severity != 3)
+		physically_destroyed()
 
 /obj/structure/catwalk/attack_robot(var/mob/user)
 	if(Adjacent(user))

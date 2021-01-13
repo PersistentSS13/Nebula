@@ -1,0 +1,35 @@
+
+<div class="item">
+	<div class="itemLabel">
+		Asteroid Type:
+	</div>
+	<div class="itemContent">
+		{{if data.error}}
+			ERROR
+		{{else}}
+			{{:data.asteroid_type}}
+		{{/if}}
+	</div>
+</div>
+<div class="item">
+	<div class="itemLabel">
+		Asteroid Description:
+	</div>
+	<div class="itemContent">
+		{{if data.error}}
+			{{:data.error}}
+		{{else}}
+			{{:data.asteroid_desc}}
+		{{/if}}
+	</div>
+</div>
+<div class="item">
+	<div class="itemContent">
+		{{:helper.link('Toggle Attraction', 'power', {'toggle_attract' : 1}, data.attracting ? 'selected' : null)}}
+	</div>
+</div>
+<div class="item">
+	<div class="itemContent">
+		{{:helper.displayBar(data.progress, 0, 100, 'good')}}
+	</div>
+</div>

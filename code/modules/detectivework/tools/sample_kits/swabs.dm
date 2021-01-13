@@ -22,7 +22,7 @@
 		return
 
 	if(user.zone_sel.selecting == BP_MOUTH)
-		var/cover = H.get_covering_equipped_item(FACE)
+		var/cover = H.get_covering_equipped_item(SLOT_FACE)
 		if(cover)
 			to_chat(user, SPAN_WARNING("\The [H]'s [cover] is in the way."))
 			return
@@ -53,8 +53,13 @@
 			object_to_swab = cover
 
 		var/datum/extension/forensic_evidence/forensics = get_extension(object_to_swab, /datum/extension/forensic_evidence)
-		if(!forensics || !forensics.has_evidence(/datum/forensics/gunshot_residue))
-			to_chat(user, SPAN_WARNING("You can't find any GSR on \the [object_to_swab]"))
+		var/has_evidence
+		if(forensics)
+			for(var/T in possible_evidence_types)
+				if(forensics.has_evidence(T))
+					has_evidence = TRUE
+		if(!has_evidence)
+			to_chat(user, SPAN_WARNING("You can't find anything useful on \the [object_to_swab]."))
 			return
 		user.visible_message(SPAN_NOTICE("[user] swabs [H]'s [object_to_swab.name] for a sample."))
 		var/obj/item/forensics/sample/swab/S = new /obj/item/forensics/sample/swab/(get_turf(user), object_to_swab)

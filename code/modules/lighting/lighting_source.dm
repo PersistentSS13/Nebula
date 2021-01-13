@@ -170,9 +170,9 @@
 // Decompile the hexadecimal colour into lumcounts of each perspective.
 /datum/light_source/proc/parse_light_color()
 	if(light_color)
-		lum_r = GetRedPart  (light_color) / 255
-		lum_g = GetGreenPart(light_color) / 255
-		lum_b = GetBluePart (light_color) / 255
+		lum_r = HEX_RED(light_color) / 255
+		lum_g = HEX_GREEN(light_color) / 255
+		lum_b = HEX_BLUE(light_color) / 255
 	else
 		lum_r = 1
 		lum_g = 1
@@ -281,8 +281,8 @@
 		corners |= T.get_corners()
 		turfs   += T
 
-		var/turf/simulated/open/O = T
-		if(istype(O) && O.below)
+		var/turf/O = T
+		if(istype(O) && O.is_open() && O.below)
 			// Consider the turf below us as well. (Z-lights)
 			for(T = O.below; !isnull(T); T = update_the_turf(T,corners, turfs));
 
@@ -316,9 +316,8 @@
 	corners |= T.get_corners()
 	turfs   += T
 
-	var/turf/simulated/open/O = T
-	if(istype(O) && O.below)
-		return O.below
+	if(T.is_open() && T.below)
+		return T.below
 	return null
 
 #undef effect_update

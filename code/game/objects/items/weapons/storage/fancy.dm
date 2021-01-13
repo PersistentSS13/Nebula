@@ -113,7 +113,7 @@
 	max_w_class = ITEM_SIZE_TINY
 	max_storage_space = 6
 	throwforce = 2
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 
 	key_type = /obj/item/clothing/mask/smokable/cigarette
 	startswith = list(/obj/item/clothing/mask/smokable/cigarette = 6)
@@ -147,13 +147,13 @@
 
 		// Instead of running equip_to_slot_if_possible() we check here first,
 		// to avoid dousing cig with reagents if we're not going to equip it
-		if(!cig.mob_can_equip(user, slot_wear_mask))
+		if(!cig.mob_can_equip(user, slot_wear_mask_str))
 			return
 
 		// We call remove_from_storage first to manage the reagent transfer and
 		// UI updates.
 		remove_from_storage(cig, null)
-		user.equip_to_slot(cig, slot_wear_mask)
+		user.equip_to_slot(cig, slot_wear_mask_str)
 
 		reagents.maximum_volume = 5 * contents.len
 		to_chat(user, "<span class='notice'>You take a cigarette out of the pack.</span>")
@@ -177,7 +177,7 @@
 
 /obj/item/storage/fancy/cigarettes/killthroat/Initialize()
 	. = ..()
-	fill_cigarre_package(src,list(/decl/reagent/fuel = 4))
+	fill_cigarre_package(src,list(/decl/material/liquid/fuel = 4))
 
 // New exciting ways to kill your lungs! - Earthcrusher //
 
@@ -261,7 +261,7 @@
 	w_class = ITEM_SIZE_SMALL
 	max_w_class = ITEM_SIZE_TINY
 	throwforce = 2
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 	storage_slots = 7
 
 	key_type = /obj/item/clothing/mask/smokable/cigarette/cigar

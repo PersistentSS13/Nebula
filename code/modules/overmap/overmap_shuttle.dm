@@ -26,8 +26,8 @@
 	if(!src.try_consume_fuel()) //insufficient fuel
 		for(var/area/A in shuttle_area)
 			for(var/mob/living/M in A)
-				M.show_message("<spawn class='warning'>You hear the shuttle engines sputter... perhaps it doesn't have enough fuel?", AUDIBLE_MESSAGE,
-				"<spawn class='warning'>The shuttle shakes but fails to take off.", VISIBLE_MESSAGE)
+				M.show_message(SPAN_WARNING("You hear the shuttle engines sputter... perhaps it doesn't have enough fuel?"), AUDIBLE_MESSAGE,
+				SPAN_WARNING("The shuttle shakes but fails to take off."), VISIBLE_MESSAGE)
 				return 0 //failure!
 	return 1 //sucess, continue with launch
 
@@ -37,15 +37,7 @@
 	if(moving_status == SHUTTLE_INTRANSIT)
 		return FALSE //already going somewhere, current_location may be an intransit location instead of in a sector
 
-	//ensures that distances are calculated correctly when dealing with multi-tile sectors
-	var/atom/movable/current_sector = waypoint_sector(current_location)
-	var/atom/movable/next_sector = waypoint_sector(next_location)
-	for(var/turf/current_loc_turf in (current_sector.locs))
-		for(var/turf/next_loc_turf in (next_sector.locs))
-			if(get_dist(current_loc_turf, next_loc_turf) <= range)
-				return TRUE
-
-	return FALSE
+	return get_dist(waypoint_sector(current_location), waypoint_sector(next_location)) <= range
 
 /datum/shuttle/autodock/overmap/can_launch()
 	return ..() && can_go()
@@ -140,7 +132,7 @@
 
 /obj/structure/fuel_port/attack_hand(mob/user)
 	if(!opened)
-		to_chat(user, "<spawn class='notice'>The door is secured tightly. You'll need a crowbar to open it.")
+		to_chat(user, SPAN_WARNING("The door is secured tightly. You'll need a crowbar to open it."))
 		return
 	else if(contents.len > 0)
 		user.put_in_hands(contents[1])
@@ -158,16 +150,16 @@
 /obj/structure/fuel_port/attackby(obj/item/W, mob/user)
 	if(isCrowbar(W))
 		if(opened)
-			to_chat(user, "<spawn class='notice'>You tightly shut \the [src] door.")
+			to_chat(user, SPAN_NOTICE("You tightly shut \the [src] door."))
 			playsound(src.loc, 'sound/effects/locker_close.ogg', 25, 0, -3)
 			opened = 0
 		else
-			to_chat(user, "<spawn class='notice'>You open up \the [src] door.")
+			to_chat(user, SPAN_NOTICE("You open up \the [src] door."))
 			playsound(src.loc, 'sound/effects/locker_open.ogg', 15, 1, -3)
 			opened = 1
 	else if(istype(W,/obj/item/tank))
 		if(!opened)
-			to_chat(user, "<spawn class='warning'>\The [src] door is still closed!")
+			to_chat(user, SPAN_WARNING("\The [src] door is still closed!"))
 			return
 		if(contents.len == 0)
 			user.unEquip(W, src)

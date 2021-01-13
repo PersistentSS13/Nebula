@@ -29,6 +29,11 @@
 
 /datum/goal/achievement/specific_object/food/New()
 	possible_objects = subtypesof(/obj/item/chems/food/snacks)
+	blacklisted_objects = blacklisted_objects || list()
+	blacklisted_objects |= typesof(/obj/item/chems/food/snacks/amanita_pie)
+	blacklisted_objects |= typesof(/obj/item/chems/food/snacks/amanitajelly)
+	blacklisted_objects |= typesof(/obj/item/chems/food/snacks/canned/caviar/true)
+	blacklisted_objects |= typesof(/obj/item/chems/food/snacks/old)
 	..()
 
 /datum/goal/achievement/specific_object/food/update_strings()
@@ -40,12 +45,12 @@
 	completion_message = "Ahh, that hit the spot!"
 
 /datum/goal/achievement/specific_object/drink/New()
-	possible_objects = subtypesof(/decl/reagent/drink)
+	possible_objects = subtypesof(/decl/material/liquid/drink)
 	..()
 
 /datum/goal/achievement/specific_object/drink/update_strings()
 	..()
-	var/decl/reagent/drink = object_path
+	var/decl/material/liquid/drink = object_path
 	description = "You could really do with a nice [initial(drink.name)]."
 
 /datum/goal/achievement/specific_object/pet

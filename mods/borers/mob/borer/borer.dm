@@ -8,7 +8,7 @@
 	response_disarm = "prods"
 	response_harm   = "stomps on"
 	icon_state = "brainslug"
-	item_state = "voxslug" // For the lack of a better sprite...
+	item_state = "slug" // For the lack of a better sprite...
 	icon_living = "brainslug"
 	icon_dead = "brainslug_dead"
 	speed = 5
@@ -27,9 +27,9 @@
 	bleed_colour = "#816e12"
 
 	var/static/list/chemical_types = list(
-		"anti-trauma" = /decl/reagent/brute_meds,
-		"amphetamines" =  /decl/reagent/amphetamines,
-		"painkillers" = /decl/reagent/painkillers
+		"anti-trauma" = /decl/material/liquid/brute_meds,
+		"amphetamines" =  /decl/material/liquid/amphetamines,
+		"painkillers" = /decl/material/liquid/painkillers
 	)
 
 	var/generation = 1
@@ -135,7 +135,7 @@
 
 		if(!stat && !host.stat)
 
-			if(host.reagents.has_reagent(/decl/reagent/nutriment/sugar))
+			if(host.reagents.has_reagent(/decl/material/liquid/nutriment/sugar))
 				if(!docile)
 					if(controlling)
 						to_chat(host, SPAN_NOTICE("You feel the soporific flow of sugar in your host's blood, lulling you into docility."))
@@ -268,7 +268,7 @@
 
 //Procs for grabbing players.
 /mob/living/simple_animal/borer/proc/request_player()
-	var/datum/ghosttrap/G = get_ghost_trap("cortical borer")
+	var/decl/ghosttrap/G = decls_repository.get_decl(/decl/ghosttrap/cortical_borer)
 	G.request_player(src, "A cortical borer needs a player.")
 
 /mob/living/simple_animal/borer/flash_eyes(intensity, override_blindness_check, affect_silicon, visual, type)

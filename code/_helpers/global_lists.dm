@@ -32,32 +32,33 @@ var/global/list/syndicate_access = list(access_maint_tunnels, access_syndicate, 
 
 // Strings which corraspond to bodypart covering flags, useful for outputting what something covers.
 var/global/list/string_part_flags = list(
-	"head" = HEAD,
-	"face" = FACE,
-	"eyes" = EYES,
-	"upper body" = UPPER_TORSO,
-	"lower body" = LOWER_TORSO,
-	"legs" = LEGS,
-	"feet" = FEET,
-	"arms" = ARMS,
-	"hands" = HANDS
+	"head" =       SLOT_HEAD,
+	"face" =       SLOT_FACE,
+	"eyes" =       SLOT_EYES,
+	"ears" =       SLOT_EARS,
+	"upper body" = SLOT_UPPER_BODY,
+	"lower body" = SLOT_LOWER_BODY,
+	"legs" =       SLOT_LEGS,
+	"feet" =       SLOT_FEET,
+	"arms" =       SLOT_ARMS,
+	"hands" =      SLOT_HANDS
 )
 
 // Strings which corraspond to slot flags, useful for outputting what slot something is.
 var/global/list/string_slot_flags = list(
-	"back" = SLOT_BACK,
-	"face" = SLOT_MASK,
-	"waist" = SLOT_BELT,
-	"ID slot" = SLOT_ID,
-	"ears" = SLOT_EARS,
-	"eyes" = SLOT_EYES,
-	"hands" = SLOT_GLOVES,
-	"head" = SLOT_HEAD,
-	"feet" = SLOT_FEET,
-	"exo slot" = SLOT_OCLOTHING,
-	"body" = SLOT_ICLOTHING,
-	"uniform" = SLOT_TIE,
-	"holster" = SLOT_HOLSTER
+	"back" =     SLOT_BACK,
+	"face" =     SLOT_FACE,
+	"waist" =    SLOT_LOWER_BODY,
+	"ID slot" =  SLOT_ID,
+	"ears" =     SLOT_EARS,
+	"eyes" =     SLOT_EYES,
+	"hands" =    SLOT_HANDS,
+	"head" =     SLOT_HEAD,
+	"feet" =     SLOT_FEET,
+	"exo slot" = SLOT_OVER_BODY,
+	"body" =     SLOT_UPPER_BODY,
+	"uniform" =  SLOT_TIE,
+	"holster" =  SLOT_HOLSTER
 )
 
 //////////////////////////
@@ -96,23 +97,21 @@ var/global/list/string_slot_flags = list(
 	return 1
 
 // This is all placeholder procs for an eventual PR to change them to use decls.
-var/list/all_species
-var/list/playable_species // A list of ALL playable species, whitelisted, latejoin or otherwise.
+var/list/all_species = list()
+var/list/playable_species = list() // A list of ALL playable species, whitelisted, latejoin or otherwise.
 /proc/build_species_lists()
-	if(global.all_species && global.playable_species)
-		return
-	global.playable_species = list()
-	global.all_species = list()
-	for(var/species_type in typesof(/datum/species))
-		var/datum/species/species = species_type
-		var/species_name = initial(species.name)
-		if(species_name)
-			global.all_species[species_name] = new species
-			species = get_species_by_key(species_name)
+	global.all_species.Cut()
+	global.playable_species.Cut()
+	var/list/species_decls = decls_repository.get_decls_of_subtype(/decl/species)
+	for(var/species_type in species_decls)
+		var/decl/species/species = species_decls[species_type]
+		if(species.name)
+			global.all_species[species.name] = species
 			if(!(species.spawn_flags & SPECIES_IS_RESTRICTED))
 				global.playable_species += species.name
 	if(GLOB.using_map.default_species)
 		global.playable_species |= GLOB.using_map.default_species
+
 /proc/get_species_by_key(var/species_key)
 	build_species_lists()
 	. = global.all_species[species_key]

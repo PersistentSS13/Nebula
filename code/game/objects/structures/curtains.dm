@@ -16,7 +16,7 @@
 			to_chat(user, SPAN_DANGER("You cannot install \the [src] from your hands."))
 			return
 
-		if(is_space_turf(loc))
+		if(isspaceturf(loc))
 			to_chat(user, SPAN_DANGER("You cannot install \the [src] in space."))
 			return
 
@@ -46,6 +46,7 @@
 	layer = ABOVE_WINDOW_LAYER
 	opacity = TRUE
 	density = FALSE
+	anchored = TRUE
 	var/obj/item/curtain/holder = /obj/item/curtain
 
 /obj/structure/curtain/open

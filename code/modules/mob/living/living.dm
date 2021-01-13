@@ -94,11 +94,7 @@ default behaviour is:
 						to_chat(src, "<span class='danger'>You fail to push [tmob]'s fat ass out of the way.</span>")
 						now_pushing = 0
 						return
-				if(tmob.r_hand && istype(tmob.r_hand, /obj/item/shield/riot))
-					if(prob(99))
-						now_pushing = 0
-						return
-				if(tmob.l_hand && istype(tmob.l_hand, /obj/item/shield/riot))
+				for(var/obj/item/shield/riot/shield in tmob.get_held_items())
 					if(prob(99))
 						now_pushing = 0
 						return
@@ -200,6 +196,9 @@ default behaviour is:
 //sort of a legacy burn method for /electrocute, /shock, and the e_chair
 /mob/living/proc/burn_skin(burn_amount)
 	take_overall_damage(0, burn_amount)
+
+/mob/living/proc/increaseBodyTemp(value)
+	return 0
 
 /mob/living/proc/adjustBodyTemp(actual, desired, incrementboost)
 	var/btemperature = actual
@@ -350,7 +349,7 @@ default behaviour is:
 	var/t = shooter.zone_sel?.selecting
 	if ((t in list( BP_EYES, BP_MOUTH )))
 		t = BP_HEAD
-	var/obj/item/organ/external/def_zone = ran_zone(t)
+	var/obj/item/organ/external/def_zone = ran_zone(t, target = src)
 	return def_zone
 
 
@@ -425,7 +424,7 @@ default behaviour is:
 	ear_deaf = 0
 	ear_damage = 0
 	drowsyness = 0
-	druggy = 0
+	drugged = 0
 	jitteriness = 0
 	confused = 0
 
@@ -640,13 +639,10 @@ default behaviour is:
 		return
 	return 1
 
-//Organs should not be removed via inventory procs.
-/mob/living/carbon/drop_from_inventory(var/obj/item/W, var/atom/Target = null)
-	if(W in internal_organs)
-		return
-	if(W in organs)
-		return
-	. = ..()
+/mob/living/carbon/get_contained_external_atoms()
+	. = contents.Copy()
+	. -= internal_organs
+	. -= organs
 
 //damage/heal the mob ears and adjust the deaf amount
 /mob/living/adjustEarDamage(var/damage, var/deaf)
@@ -762,21 +758,20 @@ default behaviour is:
 	if(!can_drown() || !loc.is_flooded(lying))
 		return FALSE
 	if(prob(5))
-		to_chat(src, SPAN_DANGER("You choke and splutter as you inhale water!"))
+		var/obj/effect/fluid/F = locate() in loc
+		to_chat(src, SPAN_DANGER("You choke and splutter as you inhale [(F?.reagents && F.reagents.get_primary_reagent_name()) || "liquid"]!"))
+		F?.reagents?.trans_to_holder(get_ingested_reagents(), min(F.reagents.total_volume, rand(2,5)))
+
 	var/turf/T = get_turf(src)
 	T.show_bubbles()
 	return TRUE // Presumably chemical smoke can't be breathed while you're underwater.
-
-/mob/fluid_act(var/datum/reagents/fluids)
-	..()
-	wash_mob(src)
 
 /mob/living/fluid_act(var/datum/reagents/fluids)
 	..()
 	for(var/thing in get_equipped_items(TRUE))
 		if(isnull(thing)) continue
 		var/atom/movable/A = thing
-		if(A.simulated && !A.waterproof)
+		if(A.simulated)
 			A.fluid_act(fluids)
 
 /mob/living/proc/nervous_system_failure()
@@ -864,3 +859,6 @@ default behaviour is:
 
 /mob/living/proc/can_do_special_ranged_attack(var/check_flag = TRUE)
 	return TRUE
+
+/mob/living/proc/get_ingested_reagents()
+	return reagents

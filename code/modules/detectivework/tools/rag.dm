@@ -1,18 +1,3 @@
-/mob
-	var/bloody_hands = null
-	var/mob/living/carbon/human/bloody_hands_mob
-	var/track_blood = 0
-	var/list/feet_blood_DNA
-	var/track_blood_type
-	var/feet_blood_color
-
-/obj/item/clothing/gloves
-	var/transfer_blood = 0
-	var/mob/living/carbon/human/bloody_hands_mob
-
-/obj/item/clothing/shoes/
-	var/track_blood = 0
-
 /obj/item/chems/glass/rag
 	name = "rag"
 	desc = "For cleaning up messes, you suppose."
@@ -50,7 +35,7 @@
 		remove_contents(user)
 
 /obj/item/chems/glass/rag/attackby(obj/item/W, mob/user)
-	if(isflamesource(W))
+	if(W.isflamesource())
 		if(on_fire)
 			to_chat(user, SPAN_WARNING("\The [src] is already blazing merrily!"))
 			return
@@ -117,11 +102,11 @@
 		var/mob/living/M = target
 		if(on_fire)
 			user.visible_message("<span class='danger'>\The [user] hits [target] with [src]!</span>",)
-			user.do_attack_animation(src)
+			user.do_attack_animation(target)
 			M.IgniteMob()
 		else if(reagents.total_volume)
 			if(user.zone_sel.selecting == BP_MOUTH)
-				user.do_attack_animation(src)
+				user.do_attack_animation(target)
 				user.visible_message(
 					"<span class='danger'>\The [user] smothers [target] with [src]!</span>",
 					"<span class='warning'>You smother [target] with [src]!</span>",
@@ -173,7 +158,7 @@
 	if(reagents)
 		total_volume += reagents.total_volume
 		for(var/rtype in reagents.reagent_volumes)
-			var/decl/reagent/R = decls_repository.get_decl(rtype)
+			var/decl/material/R = decls_repository.get_decl(rtype)
 			total_fuel = REAGENT_VOLUME(reagents, rtype) * R.fuel_value
 	. = (total_fuel >= 2 && total_fuel >= total_volume*0.5)
 
@@ -182,16 +167,6 @@
 		return
 	if(!can_ignite())
 		return
-
-	//also copied from matches
-	if(REAGENT_VOLUME(reagents, /decl/reagent/toxin/phoron)) // the phoron explodes when exposed to fire
-		visible_message(SPAN_DANGER("\The [src] explodes!"))
-		var/datum/effect/effect/system/reagents_explosion/e = new()
-		e.set_up(round(REAGENT_VOLUME(reagents, /decl/reagent/toxin/phoron) / 2.5, 1), get_turf(src), 0, 0)
-		e.start()
-		qdel(src)
-		return
-
 	START_PROCESSING(SSobj, src)
 	set_light(0.5, 0.1, 2, 2, "#e38f46")
 	on_fire = 1
@@ -231,6 +206,6 @@
 		qdel(src)
 		return
 
-	reagents.remove_reagent(/decl/reagent/fuel, reagents.maximum_volume/25)
+	reagents.remove_reagent(/decl/material/liquid/fuel, reagents.maximum_volume/25)
 	update_name()
 	burn_time--

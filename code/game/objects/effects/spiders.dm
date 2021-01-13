@@ -8,17 +8,10 @@
 	var/health = 15
 
 //similar to weeds, but only barfed out by nurses manually
-/obj/effect/spider/ex_act(severity)
-	switch(severity)
-		if(1.0)
-			qdel(src)
-		if(2.0)
-			if (prob(50))
-				qdel(src)
-		if(3.0)
-			if (prob(5))
-				qdel(src)
-	return
+/obj/effect/spider/explosion_act(severity)
+	..()
+	if(!QDELETED(src) && (severity == 1 || (severity == 2 && prob(50) || (severity == 3 && prob(5)))))
+		qdel(src)
 
 /obj/effect/spider/attack_hand(mob/living/user)
 
@@ -245,7 +238,7 @@
 
 	if(loc)
 		var/datum/gas_mixture/environment = loc.return_air()
-		if(environment && environment.gas[MAT_METHYL_BROMIDE] > 0)
+		if(environment && environment.gas[/decl/material/gas/methyl_bromide] > 0)
 			die()
 			return
 
@@ -275,7 +268,7 @@
 
 	if(isturf(loc))
 		if(prob(25))
-			var/list/nearby = trange(5, src) - loc
+			var/list/nearby = RANGE_TURFS(src, 5) - loc
 			if(nearby.len)
 				var/target_atom = pick(nearby)
 				walk_to(src, target_atom, 5)

@@ -49,7 +49,7 @@
 		return 100
 	return round((oxygen_deprivation/species.total_health)*100)
 
-/obj/item/organ/internal/lungs/robotize()
+/obj/item/organ/internal/lungs/robotize(var/company, var/skip_prosthetics, var/keep_organs, var/apply_material = /decl/material/solid/metal/steel)
 	. = ..()
 	icon_state = "lungs-prosthetic"
 
@@ -67,9 +67,9 @@
  */
 /obj/item/organ/internal/lungs/proc/sync_breath_types()
 	min_breath_pressure = species.breath_pressure
-	breath_type = species.breath_type ? species.breath_type : MAT_OXYGEN
-	poison_types = species.poison_types ? species.poison_types : list(MAT_PHORON = TRUE)
-	exhale_type = species.exhale_type ? species.exhale_type : MAT_CO2
+	breath_type = species.breath_type ? species.breath_type : /decl/material/gas/oxygen
+	poison_types = species.poison_types ? species.poison_types : list(/decl/material/gas/chlorine = TRUE)
+	exhale_type = species.exhale_type ? species.exhale_type : /decl/material/gas/carbon_dioxide
 
 /obj/item/organ/internal/lungs/Process()
 	..()
@@ -105,7 +105,7 @@
 			else
 				to_chat(owner, "<span class='danger'>You're having trouble getting enough [breath_type]!</span>")
 
-			owner.losebreath += round(damage/2)
+			owner.losebreath = max(3, owner.losebreath)
 
 /obj/item/organ/internal/lungs/proc/rupture()
 	var/obj/item/organ/external/parent = owner.get_organ(parent_organ)
@@ -153,7 +153,10 @@
 	safe_pressure_min *= 1 + rand(1,4) * damage/max_damage
 
 	if(!forced && owner.chem_effects[CE_BREATHLOSS] && !owner.chem_effects[CE_STABLE]) //opiates are bad mmkay
-		safe_pressure_min *= 1 + rand(1,4) * owner.chem_effects[CE_BREATHLOSS]
+		safe_pressure_min *= 1 + owner.chem_effects[CE_BREATHLOSS]
+	
+	if(owner.lying)
+		safe_pressure_min *= 0.8
 
 	var/failed_inhale = 0
 	var/failed_exhale = 0
@@ -178,7 +181,7 @@
 	var/inhaled_gas_used = inhaling / 4
 	breath.adjust_gas(breath_type, -inhaled_gas_used, update = 0) //update afterwards
 
-	owner.phoron_alert = 0 // Reset our toxins alert for now.
+	owner.toxins_alert = 0 // Reset our toxins alert for now.
 	if(!failed_inhale) // Enough gas to tell we're being poisoned via chemical burns or whatever.
 		var/poison_total = 0
 		if(poison_types)
@@ -186,21 +189,22 @@
 				if(poison_types[gname])
 					poison_total += breath.gas[gname]
 		if(((poison_total/breath.total_moles)*breath_pressure) > safe_toxins_max)
-			owner.phoron_alert = 1
+			owner.toxins_alert = 1
 
 	// Pass reagents from the gas into our body.
 	// Presumably if you breathe it you have a specialized metabolism for it, so we drop/ignore breath_type. Also avoids
-	// humans processing thousands of units of oxygen over the course of a round for the sole purpose of poisoning vox.
+	// humans processing thousands of units of oxygen over the course of a round.
 	var/ratio = BP_IS_PROSTHETIC(src)? 0.66 : 1
 	for(var/gasname in breath.gas - breath_type)
-		var/material/mat = SSmaterials.get_material_datum(gasname)
-		if(length(mat.chemical_makeup))
-			var/reagent_amount = breath.gas[gasname] * REAGENT_UNITS_PER_GAS_MOLE * ratio
-			 // Little bit of sanity so we aren't trying to add 0.0000000001 units of CO2, and so we don't end up with 99999 units of CO2.
-			if(reagent_amount >= 0.05)
-				for(var/chem in mat.chemical_makeup)
-					owner.reagents.add_reagent(chem, mat.chemical_makeup[chem] * reagent_amount)
-				breath.adjust_gas(gasname, -breath.gas[gasname], update = 0) //update after
+		var/decl/material/gas = decls_repository.get_decl(gasname)
+		if(gas.gas_metabolically_inert)
+			continue
+		// Little bit of sanity so we aren't trying to add 0.0000000001 units of CO2, and so we don't end up with 99999 units of CO2.
+		var/reagent_amount = breath.gas[gasname] * REAGENT_UNITS_PER_GAS_MOLE * ratio
+		if(reagent_amount < 0.05)
+			continue
+		owner.reagents.add_reagent(gasname, reagent_amount)
+		breath.adjust_gas(gasname, -breath.gas[gasname], update = 0) //update after
 
 	// Moved after reagent injection so we don't instantly poison ourselves with CO2 or whatever.
 	if(exhale_type && (!istype(owner.wear_mask) || !(exhale_type in owner.wear_mask.filtered_gases)))

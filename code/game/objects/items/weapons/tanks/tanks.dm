@@ -1,5 +1,22 @@
 #define TANK_IDEAL_PRESSURE 1015 //Arbitrary.
 
+var/tank_bomb_severity = 1
+#define TANK_BOMB_DVSTN_FACTOR (0.15 * global.tank_bomb_severity)
+#define TANK_BOMB_HEAVY_FACTOR (0.35 * global.tank_bomb_severity)
+#define TANK_BOMB_LIGHT_FACTOR (0.80 * global.tank_bomb_severity)
+#define TANK_BOMB_FLASH_FACTOR (1.25 * global.tank_bomb_severity)
+#define MAX_TANK_BOMB_SEVERITY 20
+
+/client/proc/verb_adjust_tank_bomb_severity()
+	set name = "Adjust Tank Bomb Severity"
+	set category = "Debug"
+
+	if(check_rights(R_DEBUG))
+		var/next_input = input("Enter a new bomb severity between 1 and [MAX_TANK_BOMB_SEVERITY].", "Tank Bomb Severity", global.tank_bomb_severity) as num|null
+		if(isnum(next_input))
+			global.tank_bomb_severity = Clamp(next_input, 0, MAX_TANK_BOMB_SEVERITY)
+			log_and_message_admins("[key_name_admin(mob)] has set the tank bomb severity value to [global.tank_bomb_severity].", mob)
+
 var/list/global/tank_gauge_cache = list()
 
 /obj/item/tank
@@ -347,8 +364,7 @@ var/list/global/tank_gauge_cache = list()
 	return removed
 
 /obj/item/tank/Process()
-	//Allow for reactions
-	air_contents.react() //cooking up air tanks - add phoron and oxygen, then heat above PHORON_MINIMUM_BURN_TEMPERATURE
+	air_contents.react()
 	check_status()
 
 /obj/item/tank/on_update_icon(var/override)
@@ -411,10 +427,10 @@ var/list/global/tank_gauge_cache = list()
 			T.assume_air(air_contents)
 			explosion(
 				get_turf(loc),
-				round(min(BOMBCAP_DVSTN_RADIUS, ((mult)*strength)*0.15)),
-				round(min(BOMBCAP_HEAVY_RADIUS, ((mult)*strength)*0.35)),
-				round(min(BOMBCAP_LIGHT_RADIUS, ((mult)*strength)*0.80)),
-				round(min(BOMBCAP_FLASH_RADIUS, ((mult)*strength)*1.20)),
+				round(min(BOMBCAP_DVSTN_RADIUS, ((mult) * strength) * TANK_BOMB_DVSTN_FACTOR)),
+				round(min(BOMBCAP_HEAVY_RADIUS, ((mult) * strength) * TANK_BOMB_HEAVY_FACTOR)),
+				round(min(BOMBCAP_LIGHT_RADIUS, ((mult) * strength) * TANK_BOMB_LIGHT_FACTOR)),
+				round(min(BOMBCAP_FLASH_RADIUS, ((mult) * strength) * TANK_BOMB_FLASH_FACTOR)),
 				)
 
 			var/num_fragments = round(rand(8,10) * sqrt(strength * mult))
@@ -440,7 +456,7 @@ var/list/global/tank_gauge_cache = list()
 				return
 			T.assume_air(air_contents)
 			playsound(get_turf(src), 'sound/weapons/gunshot/shotgun.ogg', 20, 1)
-			visible_message("\icon[src] <span class='danger'>\The [src] flies apart!</span>", "<span class='warning'>You hear a bang!</span>")
+			visible_message("[html_icon(src)] <span class='danger'>\The [src] flies apart!</span>", "<span class='warning'>You hear a bang!</span>")
 			T.hotspot_expose(air_contents.temperature, 70, 1)
 
 			var/strength = 1+((pressure-TANK_LEAK_PRESSURE)/TANK_FRAGMENT_SCALE)
@@ -471,7 +487,7 @@ var/list/global/tank_gauge_cache = list()
 
 			T.assume_air(leaked_gas)
 			if(!leaking)
-				visible_message("\icon[src] <span class='warning'>\The [src] relief valve flips open with a hiss!</span>", "You hear hissing.")
+				visible_message("[html_icon(src)] <span class='warning'>\The [src] relief valve flips open with a hiss!</span>", "You hear hissing.")
 				playsound(loc, 'sound/effects/spray.ogg', 10, 1, -3)
 				leaking = 1
 				#ifdef FIREDBG
@@ -487,45 +503,28 @@ var/list/global/tank_gauge_cache = list()
 			if(integrity == maxintegrity)
 				leaking = 0
 
-/////////////////////////////////
-///Prewelded tanks
-/////////////////////////////////
+/obj/item/tank/onetankbomb/Initialize()
+	. = ..()
 
-/obj/item/tank/phoron/welded
-	valve_welded = 1
-/obj/item/tank/oxygen/welded
-	valve_welded = 1
+	// Set up appearance/strings.
+	var/obj/item/tank/tank_copy = pick(typesof(/obj/item/tank/oxygen) + typesof(/obj/item/tank/hydrogen))
+	name = initial(tank_copy.name)
+	desc = initial(tank_copy.desc)
+	icon = initial(tank_copy.icon)
+	icon_state = initial(tank_copy.icon_state)
+	volume = initial(tank_copy.volume)
 
-/////////////////////////////////
-///Onetankbombs (added as actual items)
-/////////////////////////////////
-
-/obj/item/tank/proc/onetankbomb()
-	var/phoron_amt = 4 + rand(4)
-	var/oxygen_amt = 6 + rand(8)
-
-	air_contents.gas[MAT_PHORON] = phoron_amt
-	air_contents.gas[MAT_OXYGEN] = oxygen_amt
+	// Set up explosive mix.
+	air_contents.gas[DEFAULT_GAS_ACCELERANT] = 4 + rand(4)
+	air_contents.gas[DEFAULT_GAS_OXIDIZER] = 6 + rand(8)
 	air_contents.update_values()
-	valve_welded = 1
-	air_contents.temperature = PHORON_MINIMUM_BURN_TEMPERATURE-1
-
-	wired = 1
-
-	var/obj/item/assembly_holder/H = new(src)
-	proxyassembly.assembly = H
-	H.master = proxyassembly
-
-	H.update_icon()
+	air_contents.temperature = FLAMMABLE_GAS_MINIMUM_BURN_TEMPERATURE-1
+	valve_welded = TRUE
+	wired = TRUE
+	proxyassembly.assembly = new /obj/item/assembly_holder(src)
+	proxyassembly.assembly.master = proxyassembly
+	proxyassembly.assembly.update_icon()
 	update_icon(TRUE)
-
-/obj/item/tank/phoron/onetankbomb/Initialize()
-	. = ..()
-	onetankbomb()
-
-/obj/item/tank/oxygen/onetankbomb/Initialize()
-	. = ..()
-	onetankbomb()
 
 /////////////////////////////////
 ///Pulled from rewritten bomb.dm
@@ -548,8 +547,6 @@ var/list/global/tank_gauge_cache = list()
 	if(isigniter(S.a_left) == isigniter(S.a_right))		//Check if either part of the assembly has an igniter, but if both parts are igniters, then fuck it
 		return
 
-	if(!M.unequip_item())
-		return					//Remove the assembly from your hands
 	if(!M.unEquip(src))
 		return					//Remove the tank from your character,in case you were holding it
 	M.put_in_hands(src)			//Equips the bomb if possible, or puts it on the floor.
@@ -610,3 +607,8 @@ var/list/global/tank_gauge_cache = list()
 	name = "large metal fragment"
 	damage = 17
 
+#undef TANK_BOMB_DVSTN_FACTOR
+#undef TANK_BOMB_HEAVY_FACTOR
+#undef TANK_BOMB_LIGHT_FACTOR
+#undef TANK_BOMB_FLASH_FACTOR
+#undef MAX_TANK_BOMB_SEVERITY

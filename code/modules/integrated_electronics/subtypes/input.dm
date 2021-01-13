@@ -343,7 +343,7 @@
 	if(H in view(get_turf(src))) // Like medbot's analyzer it can be used in range..
 		if(H.seed)
 			for(var/chem_path in H.seed.chems)
-				var/decl/reagent/R = chem_path
+				var/decl/material/R = chem_path
 				greagents.Add(initial(R.name))
 
 	set_pin_data(IC_OUTPUT, 1, greagents)
@@ -1056,11 +1056,9 @@
 		)
 	outputs = list(
 		"Steel"				 	= IC_PINTYPE_NUMBER,
-		"Glass"					= IC_PINTYPE_NUMBER,
 		"Silver"				= IC_PINTYPE_NUMBER,
 		"Gold"					= IC_PINTYPE_NUMBER,
 		"Diamond"				= IC_PINTYPE_NUMBER,
-		"Solid Phoron"			= IC_PINTYPE_NUMBER,
 		"Uranium"				= IC_PINTYPE_NUMBER,
 		"Plasteel"				= IC_PINTYPE_NUMBER,
 		"Titanium"				= IC_PINTYPE_NUMBER,
@@ -1074,7 +1072,17 @@
 		)
 	spawn_flags = IC_SPAWN_RESEARCH
 	power_draw_per_use = 40
-	var/list/mtypes = list("steel", "glass", "silver", "gold", "diamond", "phoron", "uranium", "plasteel", "titanium", "glass", "plastic")
+	var/list/mtypes = list(
+		/decl/material/solid/metal/steel,
+		/decl/material/solid/metal/silver, 
+		/decl/material/solid/metal/gold, 
+		/decl/material/solid/gemstone/diamond, 
+		/decl/material/solid/metal/uranium,
+		/decl/material/solid/metal/plasteel,
+		/decl/material/solid/metal/titanium,
+		/decl/material/solid/glass,
+		/decl/material/solid/plastic
+	)
 
 /obj/item/integrated_circuit/input/matscan/do_work()
 	var/obj/O = get_pin_data_as_type(IC_INPUT, 1, /obj)
@@ -1140,8 +1148,8 @@
 	var/list/gas_names = list()
 	var/list/gas_amounts = list()
 	for(var/id in gases)
-		var/material/mat = SSmaterials.get_material_datum(id)
-		gas_names.Add(mat.display_name)
+		var/decl/material/mat = decls_repository.get_decl(id)
+		gas_names.Add(mat.gas_name)
 		gas_amounts.Add(round(gases[id], 0.001))
 
 	set_pin_data(IC_OUTPUT, 1, gas_names)

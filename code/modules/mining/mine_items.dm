@@ -30,13 +30,13 @@
 	desc = "The most basic of mining drills, for short excavations and small mineral extractions."
 	icon = 'icons/obj/items/tool/mining_drill.dmi'
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 	force = 15.0
 	throwforce = 4.0
 	icon_state = "drill"
 	item_state = "jackhammer"
 	w_class = ITEM_SIZE_HUGE
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	var/digspeed = 40 //moving the delay to an item var so R&D can make improved picks. --NEO
 	origin_tech = "{'materials':1,'engineering':1}"
 	attack_verb = list("hit", "pierced", "sliced", "attacked")
@@ -69,8 +69,8 @@
 	origin_tech = "{'materials':2,'powerstorage':3,'engineering':2}"
 	desc = "Yours is the drill that will pierce through the rock walls."
 	drill_verb = "drilling"
-	material = MAT_STEEL
-	matter = list(MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/metal/steel
+	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
 
 /obj/item/pickaxe/jackhammer
 	name = "sonic jackhammer"
@@ -89,10 +89,10 @@
 	origin_tech = "{'materials':6,'powerstorage':4,'engineering':5}"
 	desc = "Yours is the drill that will pierce the heavens!"
 	drill_verb = "drilling"
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	matter = list(
-		MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT,
-		MAT_DIAMOND = MATTER_AMOUNT_TRACE
+		/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_TRACE
 	)
 
 /obj/item/pickaxe/borgdrill
@@ -142,7 +142,7 @@
 	sharp = 1
 	build_from_parts = TRUE
 	hardware_color = COLOR_DIAMOND
-	material = MAT_DIAMOND
+	material = /decl/material/solid/gemstone/diamond
 
 /*****************************Shovel********************************/
 
@@ -152,13 +152,13 @@
 	icon = 'icons/obj/items/tool/shovel.dmi'
 	icon_state = "shovel"
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
-	slot_flags = SLOT_BELT
+	slot_flags = SLOT_LOWER_BODY
 	force = 8.0
 	throwforce = 4.0
 	item_state = "shovel"
 	w_class = ITEM_SIZE_HUGE
 	origin_tech = "{'materials':1,'engineering':1}"
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	attack_verb = list("bashed", "bludgeoned", "thrashed", "whacked")
 	sharp = 0
 	edge = 1
@@ -221,7 +221,7 @@
 /obj/item/stack/flag/attack_self(var/mob/user)
 	var/turf/T = get_turf(src)
 
-	if(istype(T, /turf/space) || istype(T, /turf/simulated/open))
+	if(!istype(T) || !T.is_open())
 		to_chat(user, "<span class='warning'>There's no solid surface to plant \the [singular_name] on.</span>")
 		return
 
@@ -233,7 +233,7 @@
 	if(use(1)) // Don't skip use() checks even if you only need one! Stacks with the amount of 0 are possible, e.g. on synthetics!
 		var/obj/item/stack/flag/newflag = new src.type(T, 1)
 		newflag.set_up()
-		if(istype(T, /turf/simulated/floor/asteroid) || istype(T, /turf/simulated/floor/exoplanet))
+		if(istype(T, /turf/simulated/floor/asteroid) || istype(T, /turf/exterior))
 			user.visible_message("\The [user] plants \the [newflag.singular_name] firmly in the ground.")
 		else
 			user.visible_message("\The [user] attaches \the [newflag.singular_name] firmly to the ground.")

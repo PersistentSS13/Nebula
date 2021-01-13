@@ -157,37 +157,21 @@
 		release_hoistee()
 	QDEL_NULL(source_hook)
 
-/obj/structure/hoist/ex_act(severity)
-	switch(severity)
-		if(1.0)
-			qdel(src)
-			return
-		if(2.0)
-			if(prob(50))
-				qdel(src)
-			else
-				visible_message("\The [src] shakes violently, and neatly collapses as its damage sensors go off.")
-				collapse_kit()
-			return
-		if(3.0)
-			if(prob(50) && !broken)
-				break_hoist()
-			return
+/obj/structure/hoist/explosion_act(severity)
+	. = ..()
+	if(.)
+		if(severity == 1 || (severity == 2 && prob(50)))
+			physically_destroyed()
+		else if(severity == 2)
+			visible_message("\The [src] shakes violently, and neatly collapses as its damage sensors go off.")
+			collapse_kit()
+		else if(severity == 3 && prob(50) && !broken)
+			break_hoist()
 
-/obj/effect/hoist_hook/ex_act(severity)
-	switch(severity)
-		if(1.0)
-			source_hoist.break_hoist()
-			return
-		if(2.0)
-			if(prob(50))
-				source_hoist.break_hoist()
-			return
-		if(3.0)
-			if(prob(25))
-				source_hoist.break_hoist()
-			return
-
+/obj/effect/hoist_hook/explosion_act(severity)
+	. = ..()
+	if(. && (severity == 1 || (severity == 2 && prob(50)) || (severity == 3 && prob(25))))
+		source_hoist.break_hoist()
 
 /obj/structure/hoist/attack_hand(mob/living/user)
 	if (!ishuman(user))
@@ -265,18 +249,19 @@
 
 /obj/structure/hoist/proc/can_move_dir(direction)
 	var/turf/dest = direction == UP ? GetAbove(source_hook) : GetBelow(source_hook)
+	if(!istype(dest))
+		return FALSE
 	switch(direction)
 		if (UP)
-			if (!isopenspace(dest)) // can't move into a solid tile
-				return 0
+			if(!dest.is_open()) // can't move into a solid tile
+				return FALSE
 			if (source_hook in get_step(src, dir)) // you don't get to move above the hoist
-				return 0
+				return FALSE
 		if (DOWN)
-			if (!isopenspace(get_turf(source_hook))) // can't move down through a solid tile
-				return 0
-	if (!dest) // can't move if there's nothing to move to
-		return 0
-	return 1 // i thought i could trust myself to write something as simple as this, guess i was wrong
+			var/turf/T = get_turf(source_hook)
+			if(!istype(T) || !T.is_open()) // can't move down through a solid tile
+				return FALSE
+	return TRUE // i thought i could trust myself to write something as simple as this, guess i was wrong
 
 /obj/structure/hoist/proc/move_dir(direction, ishoisting)
 	var/can = can_move_dir(direction)

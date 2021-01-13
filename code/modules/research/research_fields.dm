@@ -13,20 +13,20 @@
 	desc = "The study of physics and fabrication techniques as applied to engineering."
 	id = TECH_ENGINEERING
 
-/decl/research_field/phoron
+/decl/research_field/exotic_matter
 	name = "Exotic Matter"
 	desc = "The study of wormholes, non-baryonic matter, and the manipulation of spacetime."
-	id = TECH_PHORON
+	id = TECH_EXOTIC_MATTER
 
 /decl/research_field/power
 	name = "Power Storage"
 	desc = "The study of miniaturized high-density power storage systems."
 	id = TECH_POWER
 
-/decl/research_field/bluespace
-	name = "Bluespace"
-	desc = "The study of the parallel realm that lies adjacent to realspace."
-	id = TECH_BLUESPACE
+/decl/research_field/wormholes
+	name = "Wormholes"
+	desc = "The study of the realm that lies beyond the singularity."
+	id = TECH_WORMHOLES
 
 /decl/research_field/biotech
 	name = "Biotechnology"

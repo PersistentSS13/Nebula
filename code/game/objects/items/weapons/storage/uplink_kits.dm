@@ -6,13 +6,13 @@
 //For uplink kits that provide bulkier items
 /obj/item/storage/backpack/satchel/syndie_kit
 	desc = "A sleek, sturdy satchel."
-	icon_state = "satchel-norm"
+	icon = 'icons/obj/items/storage/backpack/satchel_grey.dmi'
 
 //In case an uplink kit provides a lot of gear
 /obj/item/storage/backpack/dufflebag/syndie_kit
 	name = "black dufflebag"
 	desc = "A sleek, sturdy dufflebag."
-	icon_state = "duffle_syndie"
+	icon = 'icons/obj/items/storage/backpack/dufflebag_syndie.dmi'
 
 /obj/item/storage/box/syndie_kit/imp_freedom
 	startswith = list(/obj/item/implanter/freedom)
@@ -119,27 +119,27 @@
 	. = ..()
 	var/obj/item/storage/fancy/cigarettes/pack
 	pack = new /obj/item/storage/fancy/cigarettes(src)
-	fill_cigarre_package(pack, list(/decl/reagent/aluminium = 1, /decl/reagent/potassium = 1, /decl/reagent/sulfur = 1))
+	fill_cigarre_package(pack, list(/decl/material/solid/metal/aluminium = 1, /decl/material/solid/potassium = 1, /decl/material/solid/sulfur = 1))
 	pack.desc += " 'F' has been scribbled on it."
 
 	pack = new /obj/item/storage/fancy/cigarettes(src)
-	fill_cigarre_package(pack, list(/decl/reagent/aluminium = 1, /decl/reagent/potassium = 1, /decl/reagent/sulfur = 1))
+	fill_cigarre_package(pack, list(/decl/material/solid/metal/aluminium = 1, /decl/material/solid/potassium = 1, /decl/material/solid/sulfur = 1))
 	pack.desc += " 'F' has been scribbled on it."
 
 	pack = new /obj/item/storage/fancy/cigarettes(src)
-	fill_cigarre_package(pack, list(/decl/reagent/potassium = 1, /decl/reagent/nutriment/sugar = 1, /decl/reagent/phosphorus = 1))
+	fill_cigarre_package(pack, list(/decl/material/solid/potassium = 1, /decl/material/liquid/nutriment/sugar = 1, /decl/material/solid/phosphorus = 1))
 	pack.desc += " 'S' has been scribbled on it."
 
 	pack = new /obj/item/storage/fancy/cigarettes(src)
-	fill_cigarre_package(pack, list(/decl/reagent/potassium = 1, /decl/reagent/nutriment/sugar = 1, /decl/reagent/phosphorus = 1))
+	fill_cigarre_package(pack, list(/decl/material/solid/potassium = 1, /decl/material/liquid/nutriment/sugar = 1, /decl/material/solid/phosphorus = 1))
 	pack.desc += " 'S' has been scribbled on it."
 
 	pack = new /obj/item/storage/fancy/cigarettes(src)
-	fill_cigarre_package(pack, list(/decl/reagent/antitoxins = 1, /decl/reagent/silicon = 1, /decl/reagent/fuel/hydrazine = 1))
+	fill_cigarre_package(pack, list(/decl/material/liquid/antitoxins = 1, /decl/material/solid/silicon = 1, /decl/material/liquid/fuel/hydrazine = 1))
 	pack.desc += " 'MB' has been scribbled on it."
 
 	pack = new /obj/item/storage/fancy/cigarettes(src)
-	fill_cigarre_package(pack, list(/decl/reagent/regenerator = 4))
+	fill_cigarre_package(pack, list(/decl/material/liquid/regenerator = 4))
 	pack.desc += " 'T' has been scribbled on it."
 
 	new /obj/item/flame/lighter/zippo(src)
@@ -157,7 +157,7 @@
 
 /obj/item/storage/secure/briefcase/heavysniper
 	startswith = list(
-		/obj/item/gun/projectile/heavysniper,
+		/obj/item/gun/projectile/bolt_action/sniper,
 		/obj/item/storage/box/ammo/sniperammo
 	)
 

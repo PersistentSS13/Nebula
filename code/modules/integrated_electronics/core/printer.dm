@@ -6,8 +6,8 @@
 	icon = 'icons/obj/assemblies/electronic_tools.dmi'
 	icon_state = "circuit_printer"
 	w_class = ITEM_SIZE_LARGE
-	material = MAT_STEEL
-	matter = list(MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/metal/steel
+	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
 
 	var/upgraded = FALSE		// When hit with an upgrade disk, will turn true, allowing it to print the higher tier circuits.
 	var/can_clone = TRUE		// Allows the printer to clone circuits, either instantly or over time depending on upgrade. Set to FALSE to disable entirely.
@@ -17,7 +17,7 @@
 	var/cloning = FALSE			// If the printer is currently creating a circuit
 	var/recycling = FALSE		// If an assembly is being emptied into this printer
 	var/list/program			// Currently loaded save, in form of list
-	var/materials = list(MAT_STEEL = 0)
+	var/materials = list(/decl/material/solid/metal/steel = 0)
 	var/metal_max = 25 * SHEET_MATERIAL_AMOUNT
 
 /obj/item/integrated_circuit_printer/proc/check_interactivity(mob/user)
@@ -51,9 +51,9 @@
 		return
 	for(var/material in O.matter)
 		if(materials[material] + O.matter[material] > metal_max)
-			var/material/material_datum = SSmaterials.get_material_datum(material)
+			var/decl/material/material_datum = decls_repository.get_decl(material)
 			if(material_datum)
-				to_chat(user, "<span class='notice'>[src] can't hold any more [material_datum.display_name]!</span>")
+				to_chat(user, "<span class='notice'>[src] can't hold any more [material_datum.name]!</span>")
 			return
 	for(var/material in O.matter)
 		materials[material] += O.matter[material]
@@ -72,7 +72,7 @@
 			amt = -round(-(metal_max - materials[M.material.type]) / SHEET_MATERIAL_AMOUNT) //round up
 		if(M.use(amt))
 			materials[M.material.type] = min(metal_max, materials[M.material.type] + amt * SHEET_MATERIAL_AMOUNT)
-			to_chat(user, "<span class='warning'>You insert [M.material.display_name] into \the [src].</span>")
+			to_chat(user, "<span class='warning'>You insert [M.material.solid_name] into \the [src].</span>")
 			if(user)
 				attack_self(user) // We're really bad at refreshing the UI, so this is the best we've got.
 	if(istype(O, /obj/item/disk/integrated_circuit/upgrade/advanced))
@@ -151,8 +151,8 @@
 		HTML += "Materials: "
 		var/list/dat = list()
 		for(var/material in materials)
-			var/material/material_datum = SSmaterials.get_material_datum(material)
-			dat += "[materials[material]]/[metal_max] [material_datum.display_name]"
+			var/decl/material/material_datum = decls_repository.get_decl(material)
+			dat += "[materials[material]]/[metal_max] [material_datum.name]"
 		HTML += jointext(dat, "; ")
 		HTML += ".<br><br>"
 
@@ -325,8 +325,8 @@
 /obj/item/integrated_circuit_printer/proc/subtract_material_costs(var/list/cost, var/mob/user)
 	for(var/material in cost)
 		if(materials[material] < cost[material])
-			var/material/material_datum = SSmaterials.get_material_datum(material)
-			to_chat(user, "<span class='warning'>You need [cost[material]] [material_datum.display_name] to build that!</span>")
+			var/decl/material/material_datum = decls_repository.get_decl(material)
+			to_chat(user, "<span class='warning'>You need [cost[material]] [material_datum.name] to build that!</span>")
 			return FALSE
 	for(var/material in cost) //Iterate twice to make sure it's going to work before deducting
 		materials[material] -= cost[material]
@@ -344,12 +344,12 @@
 /obj/item/disk/integrated_circuit/upgrade/advanced
 	name = "integrated circuit printer upgrade disk - advanced designs"
 	desc = "Install this into your integrated circuit printer to enhance it.  This one adds new, advanced designs to the printer."
-	material = MAT_STEEL
-	matter = list(MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/metal/steel
+	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
 
 /obj/item/disk/integrated_circuit/upgrade/clone
 	name = "integrated circuit printer upgrade disk - instant cloner"
 	desc = "Install this into your integrated circuit printer to enhance it.  This one allows the printer to duplicate assemblies instantaneously."
 	icon_state = "upgrade_disk_clone"
-	material = MAT_STEEL
-	matter = list(MAT_GLASS = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/metal/steel
+	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)

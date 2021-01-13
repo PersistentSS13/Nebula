@@ -17,21 +17,15 @@
 		/obj/item/holosign_creator,
 		/obj/item/lightreplacer,
 		/obj/item/borg/sight/hud/jani,
-		/obj/item/plunger/robot,
+		/obj/item/plunger,
 		/obj/item/crowbar,
 		/obj/item/weldingtool
 	)
 	emag = /obj/item/chems/spray
-	skills = list(
-		SKILL_LITERACY = SKILL_ADEPT,
-		SKILL_EVA      = SKILL_MAX,
-		SKILL_MECH     = HAS_PERK,
-		SKILL_BOTANY   = SKILL_MAX
-	) // lol, idk
 
 /obj/item/robot_module/janitor/finalize_emag()
 	. = ..()
-	emag.reagents.add_reagent(/decl/reagent/lube, 250)
+	emag.reagents.add_reagent(/decl/material/liquid/lube, 250)
 	emag.SetName("Lube spray")
 
 /obj/item/robot_module/janitor/respawn_consumable(var/mob/living/silicon/robot/R, var/amount)
@@ -40,4 +34,4 @@
 	LR.Charge(R, amount)
 	if(emag)
 		var/obj/item/chems/spray/S = emag
-		S.reagents.add_reagent(/decl/reagent/lube, 20 * amount)
+		S.reagents.add_reagent(/decl/material/liquid/lube, 20 * amount)

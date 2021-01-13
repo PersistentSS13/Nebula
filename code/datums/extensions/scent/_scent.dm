@@ -63,16 +63,29 @@ Scent intensity
 		return PROCESS_KILL
 	emit_scent()
 
+/datum/extension/scent/proc/check_smeller(var/mob/living/carbon/human/smeller)
+	if(!istype(smeller) || smeller.stat != CONSCIOUS || smeller.failed_last_breath)
+		return FALSE
+	if(smeller.get_equipped_item(slot_wear_mask_str))
+		return FALSE
+	var/obj/item/head = smeller.get_equipped_item(slot_head_str)
+	if(head?.permeability_coefficient < 1)
+		return FALSE
+	return TRUE
+
 /datum/extension/scent/proc/emit_scent()
-	for(var/mob/living/carbon/human/H in all_hearers(holder, range))
-		var/turf/T = get_turf(H.loc)
+	for(var/mob/living/M in all_hearers(holder, range))
+		var/turf/T = get_turf(M.loc)
 		if(!T)
 			continue
-		if(H.stat != CONSCIOUS || H.failed_last_breath || H.wear_mask || H.head && H.head.permeability_coefficient < 1 || !T.return_air())
+		if(!check_smeller(M) || !T.return_air())
 			continue
-		if(H.last_smelt < world.time)
-			intensity.PrintMessage(H, descriptor, scent)
-			H.last_smelt = world.time + intensity.cooldown
+		show_smell(M)
+
+/datum/extension/scent/proc/show_smell(var/mob/living/carbon/human/smeller)
+	if(LAZYACCESS(smeller.smell_cooldown, scent) < world.time)
+		intensity.PrintMessage(smeller, descriptor, scent)
+		LAZYSET(smeller.smell_cooldown, scent, world.time + intensity.cooldown)
 
 /*****
 Custom subtype
@@ -100,12 +113,12 @@ To add a scent extension to an atom using a reagent's info, where R. is the reag
 *****/
 
 /proc/set_scent_by_reagents(var/atom/smelly_atom)
-	var/decl/reagent/smelliest
-	var/decl/reagent/scent_intensity
+	var/decl/material/smelliest
+	var/decl/material/scent_intensity
 	if(!smelly_atom.reagents || !smelly_atom.reagents.total_volume)
 		return
 	for(var/reagent_type in smelly_atom.reagents.reagent_volumes)
-		var/decl/reagent/R = decls_repository.get_decl(reagent_type)
+		var/decl/material/R = decls_repository.get_decl(reagent_type)
 		if(!R.scent)
 			continue
 		var/decl/scent_intensity/SI = decls_repository.get_decl(R.scent_intensity)

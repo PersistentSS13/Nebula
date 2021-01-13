@@ -1,19 +1,17 @@
 /datum/map/persistence
-	allowed_jobs = list(/datum/job/assistant)
+	allowed_jobs = list(/datum/job/colonist)
 
-/datum/job/assistant
-	title = "Deck Hand"
-	supervisors = "literally everyone, you bottom feeder"
-	outfit_type = /decl/hierarchy/outfit/job/outreach/hand
-	alt_titles = list("Passenger")
+/datum/job/colonist
+	title = "Outreach Colonist"
+	supervisors = "Your own will and conscience."
+	department_refs = list(DEPT_CIVILIAN)
+	outfit_type = /decl/hierarchy/outfit/job/outreach
 	hud_icon = "hudcargotechnician"
 
 /decl/hierarchy/outfit/job/outreach/
-	hierarchy_type = /decl/hierarchy/outfit/job/outreach
-	pda_type = /obj/item/modular_computer/pda
-	pda_slot = slot_l_store
+	name = OUTFIT_JOB_NAME("Outreach Colonist")
+	id_type = /obj/item/card/id/network
+	pda_type = null
+	pda_slot = null
 	l_ear = null
 	r_ear = null
-
-/decl/hierarchy/outfit/job/outreach/hand
-	name = "Deck Hand"

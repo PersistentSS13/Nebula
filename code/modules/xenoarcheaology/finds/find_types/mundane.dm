@@ -9,9 +9,9 @@
 /decl/archaeological_find/cutlery
 	item_type = "cutlery"
 	possible_types = list(
-		/obj/item/material/kitchen/utensil/fork,
-		/obj/item/material/knife/table,
-		/obj/item/material/kitchen/utensil/spoon
+		/obj/item/kitchen/utensil/fork,
+		/obj/item/knife/table,
+		/obj/item/kitchen/utensil/spoon
 	)
 
 /decl/archaeological_find/cutlery/new_icon_state()
@@ -28,7 +28,7 @@
 	item_type = "coin"
 	modification_flags = XENOFIND_REPLACE_ICON
 	engraving_chance = 100
-	responsive_reagent = /decl/reagent/iron
+	responsive_reagent = /decl/material/solid/metal/iron
 	possible_types = list(/obj/item/coin)
 
 /decl/archaeological_find/coin/new_icon_state()
@@ -56,7 +56,7 @@
 /decl/archaeological_find/tank/spawn_item(atom/loc)
 	var/obj/item/tank/new_item = ..()
 	new_item.air_contents.gas.Cut()
-	new_item.air_contents.adjust_gas(pick(SSmaterials.all_gasses),15)
+	new_item.air_contents.adjust_gas(pick(subtypesof(/decl/material/gas)),15)
 	return new_item
 
 /decl/archaeological_find/tank/generate_name()
@@ -68,7 +68,7 @@
 //Random tool
 /decl/archaeological_find/tool
 	item_type = "tool"
-	responsive_reagent = /decl/reagent/iron
+	responsive_reagent = /decl/material/solid/metal/iron
 	possible_types = list(
 		/obj/item/wrench,
 		/obj/item/crowbar,
@@ -86,7 +86,7 @@
 	item_type = "crystal"
 	modification_flags = XENOFIND_REPLACE_ICON
 	engraving_chance = 100
-	responsive_reagent = /decl/reagent/ammonia
+	responsive_reagent = /decl/material/gas/ammonia
 
 /decl/archaeological_find/crystal/new_icon_state()
 	if(prob(25))

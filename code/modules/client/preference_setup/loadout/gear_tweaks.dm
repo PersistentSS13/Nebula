@@ -10,7 +10,7 @@
 /datum/gear_tweak/proc/tweak_gear_data(var/metadata, var/datum/gear_data)
 	return
 
-/datum/gear_tweak/proc/tweak_item(var/obj/item/I, var/metadata)
+/datum/gear_tweak/proc/tweak_item(var/user, var/obj/item/I, var/metadata)
 	return
 
 /datum/gear_tweak/proc/tweak_description(var/description, var/metadata)
@@ -38,7 +38,7 @@
 		return input(user, "Choose a color.", title, metadata) as null|anything in valid_colors
 	return input(user, "Choose a color.", title, metadata) as color|null
 
-/datum/gear_tweak/color/tweak_item(var/obj/item/I, var/metadata)
+/datum/gear_tweak/color/tweak_item(var/user, var/obj/item/I, var/metadata)
 	if(valid_colors && !(metadata in valid_colors))
 		return
 	I.color = sanitize_hexcolor(metadata, I.color)
@@ -126,7 +126,7 @@
 		else
 			return metadata
 
-/datum/gear_tweak/contents/tweak_item(var/obj/item/I, var/list/metadata)
+/datum/gear_tweak/contents/tweak_item(var/owner, var/obj/item/I, var/list/metadata)
 	if(length(metadata) != length(valid_contents))
 		return
 	for(var/i = 1 to valid_contents.len)
@@ -166,7 +166,7 @@
 	if(!.)
 		return metadata
 
-/datum/gear_tweak/reagents/tweak_item(var/obj/item/I, var/list/metadata)
+/datum/gear_tweak/reagents/tweak_item(var/user, var/obj/item/I, var/list/metadata)
 	if(metadata == "None")
 		return
 	var/reagent
@@ -176,6 +176,23 @@
 		reagent = valid_reagents[metadata]
 	if(reagent)
 		return I.reagents.add_reagent(reagent, REAGENTS_FREE_SPACE(I.reagents))
+
+/*
+* Custom Setup
+*/
+/datum/gear_tweak/custom_setup
+	var/custom_setup_proc
+
+/datum/gear_tweak/custom_setup/New(custom_setup_proc)
+	src.custom_setup_proc = custom_setup_proc
+	..()
+
+/datum/gear_tweak/custom_setup/tweak_item(var/user, var/item)
+	call(item, custom_setup_proc)(user)
+
+/*
+* Tablet Stuff
+*/
 
 /datum/gear_tweak/tablet
 	var/list/ValidProcessors = list(/obj/item/stock_parts/computer/processor_unit/small)
@@ -322,28 +339,84 @@
 	for(var/i in 1 to TWEAKABLE_COMPUTER_PART_SLOTS)
 		. += 1
 
-/datum/gear_tweak/tablet/tweak_item(var/obj/item/modular_computer/tablet/I, var/list/metadata)
+/datum/gear_tweak/tablet/tweak_item(var/user, var/obj/item/modular_computer/tablet/I, var/list/metadata)
 	if(length(metadata) < TWEAKABLE_COMPUTER_PART_SLOTS)
 		return
+	var/datum/extension/assembly/modular_computer/assembly = get_extension(I, /datum/extension/assembly)
 	if(ValidProcessors[metadata[1]])
 		var/t = ValidProcessors[metadata[1]]
-		I.processor_unit = new t(I)
+		assembly.add_replace_component(null, PART_CPU, new t(I))
 	if(ValidBatteries[metadata[2]])
 		var/t = ValidBatteries[metadata[2]]
-		I.battery_module = new t(I)
-		I.battery_module.charge_to_full()
+		assembly.add_replace_component(null, PART_BATTERY, new t(I))
 	if(ValidHardDrives[metadata[3]])
 		var/t = ValidHardDrives[metadata[3]]
-		I.hard_drive = new t(I)
+		assembly.add_replace_component(null, PART_HDD, new t(I))
 	if(ValidNetworkCards[metadata[4]])
 		var/t = ValidNetworkCards[metadata[4]]
-		I.network_card = new t(I)
+		assembly.add_replace_component(null, PART_NETWORK, new t(I))
 	if(ValidNanoPrinters[metadata[5]])
 		var/t = ValidNanoPrinters[metadata[5]]
-		I.nano_printer = new t(I)
+		assembly.add_replace_component(null, PART_PRINTER, new t(I))
 	if(ValidCardSlots[metadata[6]])
 		var/t = ValidCardSlots[metadata[6]]
-		I.card_slot = new t(I)
+		assembly.add_replace_component(null, PART_CARD, new t(I))
 	if(ValidTeslaLinks[metadata[7]])
 		var/t = ValidTeslaLinks[metadata[7]]
-		I.tesla_link = new t(I)
+		assembly.add_replace_component(null, PART_TESLA, new t(I))
+
+/*
+* Custom name
+*/
+
+var/datum/gear_tweak/custom_name/gear_tweak_free_name = new()
+
+/datum/gear_tweak/custom_name
+	var/list/valid_custom_names
+
+/datum/gear_tweak/custom_name/New(list/valid_custom_names)
+	src.valid_custom_names = valid_custom_names
+	..()
+
+/datum/gear_tweak/custom_name/get_contents(metadata)
+	return "Name: [metadata]"
+
+/datum/gear_tweak/custom_name/get_default()
+	return ""
+
+/datum/gear_tweak/custom_name/get_metadata(user, metadata, title)
+	if(valid_custom_names)
+		return input(user, "Choose an item name.", CHARACTER_PREFERENCE_INPUT_TITLE, metadata) as null|anything in valid_custom_names
+	return sanitize(input(user, "Choose the item's name. Leave it blank to use the default name.", "Item Name", metadata) as text|null, MAX_LNAME_LEN)
+
+/datum/gear_tweak/custom_name/tweak_item(obj/item/I, metadata)
+	if(metadata)
+		I.name = metadata
+
+/*
+* Custom description
+*/
+
+var/datum/gear_tweak/custom_desc/gear_tweak_free_desc = new()
+
+/datum/gear_tweak/custom_desc
+	var/list/valid_custom_desc
+
+/datum/gear_tweak/custom_desc/New(list/valid_custom_desc)
+	src.valid_custom_desc = valid_custom_desc
+	..()
+
+/datum/gear_tweak/custom_desc/get_contents(metadata)
+	return "Description: [metadata]"
+
+/datum/gear_tweak/custom_desc/get_default()
+	return ""
+
+/datum/gear_tweak/custom_desc/get_metadata(user, metadata, title)
+	if(valid_custom_desc)
+		return input(user, "Choose an item description.", CHARACTER_PREFERENCE_INPUT_TITLE, metadata) as null|anything in valid_custom_desc
+	return sanitize(input(user, "Choose the item's description. Leave it blank to use the default description.", "Item Description", metadata) as message|null)
+
+/datum/gear_tweak/custom_desc/tweak_item(obj/item/I, metadata)
+	if(metadata)
+		I.desc = metadata

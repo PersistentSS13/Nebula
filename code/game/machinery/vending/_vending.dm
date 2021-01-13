@@ -18,6 +18,7 @@
 	idle_power_usage = 10
 	emagged = 0 //Ignores if somebody doesn't have card access to that machine.
 	wires = /datum/wires/vending
+	required_interaction_dexterity = DEXTERITY_SIMPLE_MACHINES
 
 	var/icon_vend //Icon_state when vending
 	var/icon_deny //Icon_state when denying access
@@ -122,11 +123,13 @@
 /obj/machinery/vending/get_codex_value()
 	return "vendomat"
 
-/obj/machinery/vending/ex_act(severity)
-	if(severity == 1 || (severity == 2 && prob(50)))
-		qdel(src)
-	else if(prob(25))
-		malfunction()
+/obj/machinery/vending/explosion_act(severity)
+	..()
+	if(!QDELETED(src))
+		if(severity == 1 || (severity == 2 && prob(50)))
+			qdel(src)
+		else if(prob(25))
+			malfunction()
 
 /obj/machinery/vending/emag_act(var/remaining_charges, var/mob/user)
 	if (!emagged)
@@ -137,18 +140,18 @@
 
 /obj/machinery/vending/attackby(obj/item/W, mob/user)
 
-	var/obj/item/card/id/I = W.GetIdCard()
-
+	var/obj/item/charge_stick/CS = W.GetChargeStick()
 	if (currently_vending && vendor_account && !vendor_account.suspended)
+
+		if(!vend_ready)
+			to_chat(user, SPAN_WARNING("\The [src] is vending a product, wait a second!"))
+			return TRUE
+
 		var/paid = 0
 		var/handled = 0
 
-		if (I) //for IDs and PDAs and wallets with IDs
-			paid = pay_with_card(I,W)
-			handled = 1
-		else if (istype(W, /obj/item/charge_card))
-			var/obj/item/charge_card/C = W
-			paid = pay_with_charge_card(C)
+		if (CS)
+			paid = pay_with_charge_card(CS)
 			handled = 1
 		else if (istype(W, /obj/item/cash))
 			var/obj/item/cash/C = W
@@ -162,7 +165,7 @@
 			SSnano.update_uis(src)
 			return TRUE // don't smack that machine with your $2
 
-	if (I || istype(W, /obj/item/cash))
+	if (istype(W, /obj/item/cash))
 		attack_hand(user)
 		return TRUE
 	if(isMultitool(W) || isWirecutter(W))
@@ -200,7 +203,7 @@
 	if(currently_vending.price > cashmoney.absolute_worth)
 		// This is not a status display message, since it's something the character
 		// themselves is meant to see BEFORE putting the money in
-		to_chat(usr, "\icon[cashmoney] <span class='warning'>That is not enough money.</span>")
+		to_chat(usr, "[html_icon(cashmoney)] <span class='warning'>That is not enough money.</span>")
 		return 0
 	visible_message("<span class='info'>\The [usr] inserts some cash into \the [src].</span>")
 	cashmoney.adjust_worth(-(currently_vending.price))
@@ -214,59 +217,22 @@
  * Takes payment for whatever is the currently_vending item. Returns 1 if
  * successful, 0 if failed.
  */
-/obj/machinery/vending/proc/pay_with_charge_card(var/obj/item/charge_card/wallet)
-	visible_message("<span class='info'>\The [usr] swipes \the [wallet] through \the [src].</span>")
-	if(currently_vending.price > wallet.loaded_worth)
-		status_message = "Insufficient funds on chargecard."
-		status_error = 1
-		return 0
+/obj/machinery/vending/proc/pay_with_charge_card(var/obj/item/charge_stick/wallet)
+	visible_message("<span class='info'>\The [usr] plugs \the [wallet] into \the [src].</span>")
+	if(wallet.is_locked())
+		status_message = "Unlock \the [wallet] before using it."
+		status_error = TRUE
+	else if(currently_vending.price > wallet.loaded_worth)
+		status_message = "Insufficient funds on \the [wallet]."
+		status_error = TRUE
 	else
 		wallet.adjust_worth(-(currently_vending.price))
-		credit_purchase("[wallet.owner_name] (chargecard)")
-		return 1
+		credit_purchase("[wallet.id]")
+		return TRUE
+	if(status_message && status_error)
+		to_chat(usr, SPAN_WARNING(status_message))
+	return FALSE
 
-/**
- * Scan a card and attempt to transfer payment from associated account.
- *
- * Takes payment for whatever is the currently_vending item. Returns 1 if
- * successful, 0 if failed
- */
-/obj/machinery/vending/proc/pay_with_card(var/obj/item/card/id/I, var/obj/item/ID_container)
-	if(I==ID_container || ID_container == null)
-		visible_message("<span class='info'>\The [usr] swipes \the [I] through \the [src].</span>")
-	else
-		visible_message("<span class='info'>\The [usr] swipes \the [ID_container] through \the [src].</span>")
-	var/datum/money_account/customer_account = get_account(I.associated_account_number)
-	if (!customer_account)
-		status_message = "Error: Unable to access account. Please contact technical support if problem persists."
-		status_error = 1
-		return 0
-
-	if(customer_account.suspended)
-		status_message = "Unable to access account: account suspended."
-		status_error = 1
-		return 0
-
-	// Have the customer punch in the PIN before checking if there's enough money. Prevents people from figuring out acct is
-	// empty at high security levels
-	if(customer_account.security_level != 0) //If card requires pin authentication (ie seclevel 1 or 2)
-		var/attempt_pin = input("Enter pin code", "Vendor transaction") as num
-		customer_account = attempt_account_access(I.associated_account_number, attempt_pin, 2)
-
-		if(!customer_account)
-			status_message = "Unable to access account: incorrect credentials."
-			status_error = 1
-			return 0
-
-	if(currently_vending.price > customer_account.money)
-		status_message = "Insufficient funds in account."
-		status_error = 1
-		return 0
-	else
-		// Okay to move the money at this point
-		customer_account.transfer(vendor_account, currently_vending.price, "Purchase of [currently_vending.item_name]")
-
-		return 1
 
 /**
  *  Add money for current purchase to the vendor account.
@@ -334,7 +300,7 @@
 
 /obj/machinery/vending/OnTopic(mob/user, href_list, datum/topic_state/state)
 
-	if (href_list["vend"] && vend_ready && !currently_vending)
+	if (href_list["vend"] && !currently_vending)
 		var/key = text2num(href_list["vend"])
 		if(!is_valid_index(key, product_records))
 			return TOPIC_REFRESH
@@ -356,7 +322,7 @@
 				status_message = "This machine is currently unable to process payments due to problems with the associated account."
 				status_error = 1
 			else
-				status_message = "Please swipe a card or insert cash to pay for the item."
+				status_message = "Please insert cash or a credstick to pay for the product."
 				status_error = 0
 		return TOPIC_REFRESH
 
@@ -374,6 +340,8 @@
 	return ..()
 
 /obj/machinery/vending/proc/vend(var/datum/stored_items/vending_products/R, mob/user)
+	if(!vend_ready)
+		return
 	if((!allowed(user)) && !emagged && scan_id)	//For SECURE VENDING MACHINES YEAH
 		to_chat(user, "<span class='warning'>Access denied.</span>")//Unless emagged of course
 		flick(icon_deny,src)

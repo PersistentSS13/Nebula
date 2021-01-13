@@ -1,6 +1,6 @@
 /obj/machinery/fabricator/pipe
-	name = "Pipe Dispenser"
-	icon = 'icons/obj/stationobjs.dmi'
+	name = "pipe dispenser"
+	icon = 'icons/obj/machines/pipe_dispenser.dmi'
 	icon_state = "pipe_d"
 	obj_flags = OBJ_FLAG_ANCHORABLE
 	fabricator_class = FABRICATOR_CLASS_PIPE
@@ -27,13 +27,19 @@
 	if(anchored)
 		update_use_power(POWER_USE_IDLE)
 
+/obj/machinery/fabricator/pipe/take_materials(var/obj/item/thing, var/mob/user)
+	. = ..()
+	// Pipe objects do not contain matter, and will not provide a refund on materials used to make them, but can be recycled to prevent clutter.
+	if(istype(thing, /obj/item/pipe) && (. == SUBSTANCE_TAKEN_NONE))
+		return SUBSTANCE_TAKEN_ALL
+	
 /obj/machinery/fabricator/pipe/do_build(var/datum/fabricator_recipe/recipe, var/amount)
 	. = recipe.build(get_turf(src), amount, pipe_colors[selected_color])
 	use_power_oneoff(500 * amount)
 
 /obj/machinery/fabricator/pipe/disposal
-	name = "Disposal Pipe Dispenser"
-	icon = 'icons/obj/stationobjs.dmi'
+	name = "disposal pipe dispenser"
+	icon = 'icons/obj/machines/pipe_dispenser.dmi'
 	icon_state = "pipe_d"
 	fabricator_class = FABRICATOR_CLASS_DISPOSAL
 	base_type = /obj/machinery/fabricator/pipe/disposal

@@ -66,7 +66,7 @@
 		if(src)//Do not add to this if() statement, otherwise the meteor won't delete them
 			if(A)
 
-				A.ex_act(2)
+				A.explosion_act(2)
 				playsound(src.loc, 'sound/effects/meteorimpact.ogg', 40, 1)
 
 				for(var/mob/M in range(10, src))
@@ -168,7 +168,7 @@
 	. = ..()
 	var/mob/living/L = target
 	if(L.reagents)
-		L.reagents.add_reagent(/decl/reagent/toxin/venom, 5)
+		L.reagents.add_reagent(/decl/material/liquid/venom, 5)
 
 /obj/item/missile
 	icon = 'icons/obj/grenade.dmi'
@@ -177,12 +177,10 @@
 	throwforce = 15
 
 /obj/item/missile/throw_impact(atom/hit_atom)
+	..()
 	if(primed)
 		explosion(hit_atom, 0, 1, 2, 4)
 		qdel(src)
-	else
-		..()
-	return
 
 /obj/item/projectile/hotgas
 	name = "gas vent"

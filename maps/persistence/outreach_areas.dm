@@ -1,3 +1,6 @@
+/area/exoplanet/outreach
+	name = "Outreach"
+
 /area/outreach/outpost
 	//safe_zone = TRUE
 
@@ -15,6 +18,14 @@
 /area/outreach/outpost/hallway
 	icon_state = "hallA"
 	name = "\improper Hallways"
+
+/area/outreach/outpost/judges
+	name = "judges room"
+	icon_state = "security"
+
+/area/outreach/outpost/computer
+	name = "computer room"
+	icon_state = "comp room"
 
 /area/outreach/outpost/engineering
 	icon_state = "engine_smes"
@@ -57,3 +68,6 @@
 /area/outreach/mines/depth_2
 	do_autogenerate = TRUE
 	icon_state = "MD2"
+
+/area/outreach/mines/exits
+	icon_state = "ME"

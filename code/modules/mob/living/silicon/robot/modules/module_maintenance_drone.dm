@@ -5,6 +5,9 @@
 	networks = list(
 		NETWORK_ENGINEERING
 	)
+	languages = list(
+		/decl/language/human/common = FALSE
+	)
 	equipment = list(
 		/obj/item/weldingtool,
 		/obj/item/screwdriver,
@@ -12,15 +15,15 @@
 		/obj/item/crowbar,
 		/obj/item/wirecutters,
 		/obj/item/multitool,
+		/obj/item/t_scanner,
 		/obj/item/lightreplacer,
 		/obj/item/gripper,
 		/obj/item/soap,
 		/obj/item/gripper/no_use/loader,
 		/obj/item/extinguisher/mini,
-		/obj/item/pipe_painter,
-		/obj/item/floor_painter,
+		/obj/item/paint_sprayer,
 		/obj/item/inducer/borg,
-		/obj/item/plunger/robot,
+		/obj/item/plunger,
 		/obj/item/inflatable_dispenser/robot,
 		/obj/item/chems/spray/cleaner/drone,
 		/obj/item/borg/sight/hud/jani,
@@ -97,7 +100,7 @@
 		))
 		var/obj/item/stack/stack = locate(thing) in equipment
 		LAZYDISTINCTADD(stack.synths, wood)
-	
+
 	var/obj/item/stack/cable_coil/cyborg/C = locate() in equipment
 	C.synths = list(wire)
 
@@ -107,7 +110,7 @@
 /obj/item/robot_module/drone/respawn_consumable(var/mob/living/silicon/robot/R, var/amount)
 	..()
 	var/obj/item/chems/spray/cleaner/drone/SC = locate() in equipment
-	SC.reagents.add_reagent(/decl/reagent/cleaner, 8 * amount)
+	SC.reagents.add_reagent(/decl/material/liquid/cleaner, 8 * amount)
 
 /obj/item/robot_module/drone/construction
 	name = "construction drone module"
@@ -115,7 +118,6 @@
 	channels = list(
 		"Engineering" = 1
 	)
-	languages = list()
 
 /obj/item/robot_module/drone/construction/Initialize()
 	equipment += /obj/item/rcd/borg

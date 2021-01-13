@@ -2,10 +2,6 @@
 "aa" = (
 /turf/template_noop,
 /area/template_noop)
-"ab" = (
-/obj/effect/decal/cleanable/blood/drip,
-/turf/template_noop,
-/area/template_noop)
 "ac" = (
 /obj/item/stack/material/rods,
 /turf/template_noop,
@@ -121,7 +117,7 @@
 /area/map_template/marooned)
 "at" = (
 /obj/structure/closet/crate/freezer,
-/obj/structure/handrai{
+/obj/structure/handrail{
 	icon_state = "handrail";
 	dir = 4
 	},
@@ -130,7 +126,7 @@
 /area/map_template/marooned)
 "au" = (
 /obj/structure/closet/crate/freezer,
-/obj/structure/handrai,
+/obj/structure/handrail,
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/map_template/marooned)
 "av" = (
@@ -141,7 +137,7 @@
 /area/map_template/marooned)
 "aw" = (
 /obj/machinery/space_heater,
-/obj/structure/handrai,
+/obj/structure/handrail,
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/map_template/marooned)
 "ax" = (
@@ -156,7 +152,7 @@
 	pixel_x = -3;
 	pixel_y = 1
 	},
-/obj/structure/handrai{
+/obj/structure/handrail{
 	icon_state = "handrail";
 	dir = 4
 	},
@@ -190,7 +186,7 @@
 /turf/template_noop,
 /area/template_noop)
 "aD" = (
-/obj/structure/handrai{
+/obj/structure/handrail{
 	icon_state = "handrail";
 	dir = 4
 	},
@@ -215,7 +211,7 @@
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/map_template/marooned)
 "aH" = (
-/obj/structure/handrai{
+/obj/structure/handrail{
 	icon_state = "handrail";
 	dir = 4
 	},
@@ -241,7 +237,7 @@
 /area/map_template/marooned)
 "aL" = (
 /obj/structure/inflatable/wall,
-/obj/structure/handrai{
+/obj/structure/handrail{
 	icon_state = "handrail";
 	dir = 4
 	},
@@ -259,7 +255,7 @@
 /area/map_template/marooned)
 "aN" = (
 /obj/structure/inflatable/wall,
-/obj/structure/handrai{
+/obj/structure/handrail{
 	icon_state = "handrail";
 	dir = 8
 	},
@@ -324,7 +320,7 @@
 	pixel_x = -7;
 	pixel_y = 0
 	},
-/obj/item/melee/baton/cattleprod{
+/obj/item/baton/cattleprod{
 	desc = "Metal rod with wire attached to it.";
 	name = "jury-rigged antenna";
 	pixel_x = 5;
@@ -356,7 +352,7 @@
 /turf/template_noop,
 /area/template_noop)
 "aY" = (
-/obj/item/melee/baton/cattleprod{
+/obj/item/baton/cattleprod{
 	desc = "Metal rod with wire attached to it.";
 	name = "jury-rigged antenna";
 	pixel_x = 5;
@@ -366,12 +362,6 @@
 	d2 = 8;
 	icon_state = "0-8"
 	},
-/obj/effect/landmark/scorcher,
-/obj/effect/landmark/clear,
-/turf/template_noop,
-/area/template_noop)
-"aZ" = (
-/obj/effect/decal/cleanable/blood/drip,
 /obj/effect/landmark/scorcher,
 /obj/effect/landmark/clear,
 /turf/template_noop,
@@ -733,7 +723,7 @@ hi
 hi
 hi
 aX
-aZ
+hi
 hi
 aa
 aa
@@ -793,7 +783,7 @@ ai
 ai
 ai
 ai
-ab
+aa
 aa
 aa
 aa
@@ -979,7 +969,7 @@ aa
 aa
 aa
 aa
-ab
+aa
 aa
 aa
 aa
@@ -1132,7 +1122,7 @@ aa
 "}
 (24,1,1) = {"
 aa
-ab
+aa
 aa
 aa
 aa

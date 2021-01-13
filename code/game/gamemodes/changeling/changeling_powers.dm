@@ -277,7 +277,7 @@ var/global/list/possible_changeling_IDs = list("Alpha","Beta","Gamma","Delta","E
 	changeling.geneticdamage = 30
 
 	var/S_name = chosen_dna.speciesName
-	var/datum/species/S_dat = get_species_by_key(S_name)
+	var/decl/species/S_dat = get_species_by_key(S_name)
 	var/changeTime = 2 SECONDS
 	if(mob_size != S_dat.mob_size)
 		src.visible_message("<span class='warning'>[src]'s body begins to twist, their mass changing rapidly!</span>")
@@ -604,7 +604,7 @@ var/list/datum/absorbed_dna/hivemind_bank = list()
 	if(!chosen_dna)
 		return
 
-	var/datum/species/spec = get_species_by_key(chosen_dna.speciesName)
+	var/decl/species/spec = get_species_by_key(chosen_dna.speciesName)
 
 	if(spec && spec.species_flags & SPECIES_FLAG_NEED_DIRECT_ABSORB)
 		to_chat(src, "<span class='notice'>That species must be absorbed directly.</span>")
@@ -791,7 +791,7 @@ var/list/datum/absorbed_dna/hivemind_bank = list()
 	if(!T)	return 0
 	to_chat(T, "<span class='danger'>You feel a small prick and your chest becomes tight.</span>")
 	T.make_jittery(400)
-	if(T.reagents)	T.reagents.add_reagent(/decl/reagent/carbon_monoxide, 40)
+	if(T.reagents)	T.reagents.add_reagent(/decl/material/gas/carbon_monoxide, 40)
 	SSstatistics.add_field_details("changeling_powers","DTHS")
 	return 1
 

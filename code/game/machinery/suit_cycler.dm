@@ -6,14 +6,14 @@
 	density = 1
 
 	icon = 'icons/obj/suitstorage.dmi'
-	icon_state = "close"
+	icon_state = "base"
 
 	initial_access = list(list(access_captain, access_bridge))
 
 	var/active = 0          // PLEASE HOLD.
 	var/safeties = 1        // The cycler won't start with a living thing inside it unless safeties are off.
 	var/irradiating = 0     // If this is > 0, the cycler is decontaminating whatever is inside it.
-	var/radiation_level = 2 // 1 is removing germs, 2 is removing blood, 3 is removing phoron.
+	var/radiation_level = 2 // 1 is removing germs, 2 is removing blood, 3 is removing contaminants.
 	var/model_text = ""     // Some flavour text for the topic box.
 	var/locked = 1          // If locked, nothing can be taken from or added to the cycler.
 	var/can_repair = 1      // If set, the cycler can repair voidsuits.
@@ -65,14 +65,20 @@
 
 	var/new_overlays
 
-	if(!locked && !active)
+	if(boots)
+		LAZYADD(new_overlays, boots.get_mob_overlay(null, slot_shoes_str))
+	if(suit)
+		LAZYADD(new_overlays, suit.get_mob_overlay(null, slot_wear_suit_str))
+	if(helmet)
+		LAZYADD(new_overlays, helmet.get_mob_overlay(null, slot_head_str))
+	if(occupant)
+		LAZYADD(new_overlays, image(occupant))
+	LAZYADD(new_overlays, image(icon, "overbase"))
+
+	if(locked || active)
+		LAZYADD(new_overlays, image(icon, "closed"))
+	else
 		LAZYADD(new_overlays, image(icon, "open"))
-		if(helmet)
-			LAZYADD(new_overlays, image(icon, "helm"))
-		if(suit)
-			LAZYADD(new_overlays, image(icon, "suit"))
-		if(boots)
-			LAZYADD(new_overlays, image(icon, "storage"))
 
 	if(irradiating)
 		LAZYADD(new_overlays, image(icon, "light_radiation"))
@@ -106,6 +112,7 @@
 
 	target_modification = available_modifications[1]
 	target_bodytype = available_bodytypes[1]
+	update_icon()
 
 /obj/machinery/suit_cycler/Destroy()
 	DROP_NULL(occupant)

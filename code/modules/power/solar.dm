@@ -136,33 +136,27 @@ var/list/solars_list = list()
 	. = ..()
 	if(. && new_state)
 		health = 0
-		new /obj/item/material/shard(src.loc)
-		new /obj/item/material/shard(src.loc)
+		new /obj/item/shard(src.loc)
+		new /obj/item/shard(src.loc)
 		var/obj/item/solar_assembly/S = locate() in src
 		S.glass_type = null
 		unset_control()
 
-/obj/machinery/power/solar/ex_act(severity)
-	switch(severity)
-		if(1.0)
+/obj/machinery/power/solar/explosion_act(severity)
+	. = ..()
+	if(. && !QDELETED(src))
+		if(severity == 1)
 			if(prob(15))
-				new /obj/item/material/shard( src.loc )
-			qdel(src)
-			return
-
-		if(2.0)
+				new /obj/item/shard( src.loc )
+			physically_destroyed(src)
+		else if(severity == 2)
 			if (prob(25))
-				new /obj/item/material/shard( src.loc )
-				qdel(src)
-				return
-
-			if (prob(50))
+				new /obj/item/shard( src.loc )
+				physically_destroyed(src)
+			else if (prob(50))
 				set_broken(TRUE)
-
-		if(3.0)
-			if (prob(25))
-				set_broken(TRUE)
-	return
+		else if(severity == 3 && prob(25))
+			set_broken(TRUE)
 
 
 /obj/machinery/power/solar/fake/Initialize(mapload, var/obj/item/solar_assembly/S)
@@ -215,7 +209,7 @@ var/list/solars_list = list()
 	item_state = "electropack"
 	w_class = ITEM_SIZE_HUGE // Pretty big!
 	anchored = 0
-	material = MAT_STEEL
+	material = /decl/material/solid/metal/steel
 	var/tracker = 0
 	var/glass_type = null
 
@@ -249,7 +243,7 @@ var/list/solars_list = list()
 			playsound(src.loc, 'sound/items/Ratchet.ogg', 75, 1)
 			return 1
 
-		if(istype(W, /obj/item/stack/material) && W.get_material_type() == MAT_GLASS)
+		if(istype(W, /obj/item/stack/material) && W.get_material_type() == /decl/material/solid/glass)
 			var/obj/item/stack/material/S = W
 			if(S.use(2))
 				glass_type = W.type
@@ -477,18 +471,13 @@ var/list/solars_list = list()
 		S.update_icon() //update it
 	update_icon()
 
-/obj/machinery/power/solar_control/ex_act(severity)
-	switch(severity)
-		if(1.0)
-			//SN src = null
-			qdel(src)
-			return
-		if(2.0)
-			if (prob(50))
-				set_broken(TRUE)
-		if(3.0)
-			if (prob(25))
-				set_broken(TRUE)
+/obj/machinery/power/solar_control/explosion_act(severity)
+	. = ..()
+	if(.)
+		if(severity == 1)
+			physically_destroyed()
+		else if((severity == 2 && prob(50)) || (severity == 3 && prob(25)))
+			set_broken(TRUE)
 
 // Used for mapping in solar array which automatically starts itself (telecomms, for example)
 /obj/machinery/power/solar_control/autostart
@@ -507,7 +496,7 @@ var/list/solars_list = list()
 
 /obj/item/paper/solar
 	name = "paper- 'Going green! Setup your own solar array instructions.'"
-	info = "<h1>Welcome</h1><p>At greencorps we love the environment, and space. With this package you are able to help mother nature and produce energy without any usage of fossil fuel or phoron! Singularity energy is dangerous while solar energy is safe, which is why it's better. Now here is how you setup your own solar array.</p><p>You can make a solar panel by wrenching the solar assembly onto a cable node. Adding a glass panel, reinforced or regular glass will do, will finish the construction of your solar panel. It is that easy!</p><p>Now after setting up 19 more of these solar panels you will want to create a solar tracker to keep track of our mother nature's gift, the GLOB.sun. These are the same steps as before except you insert the tracker equipment circuit into the assembly before performing the final step of adding the glass. You now have a tracker! Now the last step is to add a computer to calculate the sun's movements and to send commands to the solar panels to change direction with the GLOB.sun. Setting up the solar computer is the same as setting up any computer, so you should have no trouble in doing that. You do need to put a wire node under the computer, and the wire needs to be connected to the tracker.</p><p>Congratulations, you should have a working solar array. If you are having trouble, here are some tips. Make sure all solar equipment are on a cable node, even the computer. You can always deconstruct your creations if you make a mistake.</p><p>That's all to it, be safe, be green!</p>"
+	info = "<h1>Welcome</h1><p>At greencorps we love the environment, and space. With this package you are able to help mother nature and produce energy without any usage of fossil fuels! Singularity energy is dangerous while solar energy is safe, which is why it's better. Now here is how you setup your own solar array.</p><p>You can make a solar panel by wrenching the solar assembly onto a cable node. Adding a glass panel, reinforced or regular glass will do, will finish the construction of your solar panel. It is that easy!</p><p>Now after setting up 19 more of these solar panels you will want to create a solar tracker to keep track of our mother nature's gift, the GLOB.sun. These are the same steps as before except you insert the tracker equipment circuit into the assembly before performing the final step of adding the glass. You now have a tracker! Now the last step is to add a computer to calculate the sun's movements and to send commands to the solar panels to change direction with the GLOB.sun. Setting up the solar computer is the same as setting up any computer, so you should have no trouble in doing that. You do need to put a wire node under the computer, and the wire needs to be connected to the tracker.</p><p>Congratulations, you should have a working solar array. If you are having trouble, here are some tips. Make sure all solar equipment are on a cable node, even the computer. You can always deconstruct your creations if you make a mistake.</p><p>That's all to it, be safe, be green!</p>"
 
 /proc/rate_control(var/S, var/V, var/C, var/Min=1, var/Max=5, var/Limit=null) //How not to name vars
 	var/href = "<A href='?src=\ref[S];rate control=1;[V]"

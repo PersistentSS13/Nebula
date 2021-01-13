@@ -8,6 +8,7 @@ var/global/list/map_sectors = list()
 	icon_state = "start"
 	requires_power = 0
 	base_turf = /turf/unsimulated/map
+	dynamic_lighting = 0
 
 /turf/unsimulated/map
 	icon = 'icons/turf/space.dmi'
@@ -16,7 +17,6 @@ var/global/list/map_sectors = list()
 
 /turf/unsimulated/map/edge
 	opacity = 1
-	density = 1
 
 /turf/unsimulated/map/Initialize(var/ml)
 	. = ..(ml)

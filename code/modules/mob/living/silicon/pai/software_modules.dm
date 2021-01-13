@@ -58,7 +58,7 @@
 			// Find the carrier
 			while(!istype(M, /mob/living))
 				if(!M || !M.loc || count > 6)
-					//For a runtime where M ends up in nullspace (similar to bluespace but less colourful)
+					//For a runtime where M ends up in nullspace
 					to_chat(src, "You are not being carried by anyone!")
 					return 0
 				M = M.loc
@@ -238,8 +238,8 @@
 			var/gases[0]
 			for(var/g in env.gas)
 				var/gas[0]
-				var/material/mat = SSmaterials.get_material_datum(g)
-				gas["name"] = capitalize(mat.display_name)
+				var/decl/material/mat = decls_repository.get_decl(g)
+				gas["name"] = capitalize(mat.gas_name)
 				gas["percent"] = round((env.gas[g] / t_moles) * 100)
 				gases[++gases.len] = gas
 			data["gas"] = gases

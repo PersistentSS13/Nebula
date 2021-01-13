@@ -37,8 +37,8 @@
 
 /obj/structure/pit/on_update_icon()
 	icon_state = "pit[open]"
-	if(istype(loc,/turf/simulated/floor/exoplanet))
-		var/turf/simulated/floor/exoplanet/E = loc
+	if(istype(loc,/turf/exterior))
+		var/turf/exterior/E = loc
 		if(E.dirt_color)
 			color = E.dirt_color
 
@@ -150,15 +150,15 @@
 	icon_state = pick("wood","cross")
 
 	var/decl/cultural_info/S = SSlore.get_culture(CULTURE_HUMAN)
-	var/nam = S.get_random_name(pick(MALE,FEMALE))
-	var/cur_year = game_year
+	var/nam = S.get_random_name(null, pick(MALE,FEMALE))
+	var/cur_year = GLOB.using_map.game_year
 	var/born = cur_year - rand(5,150)
 	var/died = max(cur_year - rand(0,70),born)
 
 	message = "Here lies [nam], [born] - [died]."
 
 /obj/structure/gravemarker/attackby(obj/item/W, mob/user)
-	if(istype(W,/obj/item/material/hatchet))
+	if(istype(W,/obj/item/hatchet))
 		visible_message("<span class = 'warning'>\The [user] starts hacking away at \the [src] with \the [W].</span>")
 		if(!do_after(user, 30))
 			visible_message("<span class = 'warning'>\The [user] hacks \the [src] apart.</span>")

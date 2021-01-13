@@ -42,13 +42,12 @@
 	var/t_left_radspike = 0
 	var/rad_shield = 0
 	var/global/list/coolant_reagents_purity = list(
-		/decl/reagent/water = 1,
-		/decl/reagent/drink/ice = 0.6,
-		/decl/reagent/burn_meds = 0.7,
-		/decl/reagent/antiseptic = 0.7,
-		/decl/reagent/burn_meds = 0.7,
-		/decl/reagent/amphetamines = 0.8,
-		/decl/reagent/adminordrazine = 2
+		/decl/material/liquid/water = 1,
+		/decl/material/solid/ice = 0.6,
+		/decl/material/liquid/burn_meds = 0.7,
+		/decl/material/liquid/antiseptic = 0.7,
+		/decl/material/liquid/amphetamines = 0.8,
+		/decl/material/liquid/adminordrazine = 2
 	)
 
 /obj/machinery/radiocarbon_spectrometer/Initialize()
@@ -228,16 +227,16 @@
 			//emergency stop if seal integrity reaches 0
 			if(scanner_seal_integrity <= 0 || (scanner_temperature >= 1273 && !rad_shield))
 				stop_scanning()
-				src.visible_message("<span class='notice'>\icon[src] buzzes unhappily. It has failed mid-scan!</span>", 2)
+				src.visible_message("<span class='notice'>[html_icon(src)] buzzes unhappily. It has failed mid-scan!</span>", 2)
 
 			if(prob(5))
-				src.visible_message("<span class='notice'>\icon[src] [pick("whirrs","chuffs","clicks")][pick(" excitedly"," energetically"," busily")].</span>", 2)
+				src.visible_message("<span class='notice'>[html_icon(src)] [pick("whirrs","chuffs","clicks")][pick(" excitedly"," energetically"," busily")].</span>", 2)
 	else
 		//gradually cool down over time
 		if(scanner_temperature > 0)
 			scanner_temperature = max(scanner_temperature - 5 - 10 * rand(), 0)
 		if(prob(0.75))
-			src.visible_message("<span class='notice'>\icon[src] [pick("plinks","hisses")][pick(" quietly"," softly"," sadly"," plaintively")].</span>", 2)
+			src.visible_message("<span class='notice'>[html_icon(src)] [pick("plinks","hisses")][pick(" quietly"," softly"," sadly"," plaintively")].</span>", 2)
 	last_process_worldtime = world.time
 
 /obj/machinery/radiocarbon_spectrometer/proc/stop_scanning()
@@ -255,7 +254,7 @@
 		used_coolant = 0
 
 /obj/machinery/radiocarbon_spectrometer/proc/complete_scan()
-	src.visible_message("<span class='notice'>\icon[src] makes an insistent chime.</span>", 2)
+	src.visible_message("<span class='notice'>[html_icon(src)] makes an insistent chime.</span>", 2)
 
 	if(scanned_item)
 		last_scan_data = get_scan_data()

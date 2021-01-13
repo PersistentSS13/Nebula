@@ -94,7 +94,6 @@
 
 /obj/structure/closet/wardrobe/xenos/Initialize()
 	. = ..()
-	new /obj/item/clothing/suit/mantle(src)
 	new /obj/item/clothing/suit/robe(src)
 	new /obj/item/clothing/shoes/sandal(src)
 	new /obj/item/clothing/shoes/sandal(src)
@@ -323,7 +322,7 @@
 	new /obj/item/clothing/shoes/color/orange(src)
 	new /obj/item/clothing/shoes/color/purple(src)
 	new /obj/item/clothing/shoes/color/red(src)
-	new /obj/item/clothing/shoes/leather(src)
+	new /obj/item/clothing/shoes/craftable(src)
 	new /obj/item/clothing/accessory/toggleable/hawaii/random(src)
 
 /obj/structure/closet/wardrobe/tactical
@@ -369,7 +368,7 @@
 	new /obj/item/clothing/under/lawyer/purpsuit(src)
 	new /obj/item/clothing/suit/storage/toggle/suit/purple(src)
 	new /obj/item/clothing/shoes/color/brown(src)
-	new /obj/item/clothing/shoes/laceup(src)
+	new /obj/item/clothing/shoes/dress(src)
 
 /obj/structure/closet/wardrobe/lawyer_black
 	name = "internal affairs wardrobe"
