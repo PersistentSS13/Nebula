@@ -9,7 +9,8 @@ SUBSYSTEM_DEF(chargen)
 
 
 /datum/controller/subsystem/chargen/Initialize()
-	map_z = world.maxz++
+	INCREMENT_WORLD_Z_SIZE
+	map_z = world.maxz
 
 	report_progress("Loading chargen map data.")
 	var/datum/map_load_metadata/M = maploader.load_map(file('maps/persistence/chargen/chargen.dmm'), 1, 1, map_z)
