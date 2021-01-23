@@ -4160,6 +4160,13 @@
 		]
 	},
 	{
+		"path":"/obj/machinery/mantrap",
+		"vars":[
+			"occupant",
+			"entrance_dir"
+    ]
+  },
+  {
 		"path":"/obj/item/stock_parts/network_lock",
 		"vars":[
 			"grants",
