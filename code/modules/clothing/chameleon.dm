@@ -7,7 +7,6 @@
 		return
 	//this is necessary, unfortunately, as initial() does not play well with list vars
 	var/obj/item/copy = new newtype(null)
-
 	desc = copy.desc
 	name = copy.name
 	icon = copy.icon
@@ -17,11 +16,6 @@
 	body_parts_covered = copy.body_parts_covered
 	flags_inv = copy.flags_inv
 	gender = copy.gender
-
-	if(copy.item_icons)
-		item_icons = copy.item_icons.Copy()
-	if(copy.item_state_slots)
-		item_state_slots = copy.item_state_slots.Copy()
 	if(copy.sprite_sheets)
 		sprite_sheets = copy.sprite_sheets.Copy()
 	//copying sprite_sheets_obj should be unnecessary as chameleon items are not refittable.
@@ -52,9 +46,7 @@
 //starts off as a jumpsuit
 /obj/item/clothing/under/chameleon
 	name = "jumpsuit"
-	icon_state = "jumpsuit"
-	item_state = "jumpsuit"
-	worn_state = "jumpsuit"
+	icon = 'icons/clothing/under/jumpsuits/jumpsuit.dmi'
 	desc = "It's a plain jumpsuit. It seems to have a small dial on the wrist."
 	origin_tech = "{'esoteric':3}"
 	item_flags = ITEM_FLAG_INVALID_FOR_CHAMELEON
@@ -83,8 +75,8 @@
 
 /obj/item/clothing/head/chameleon
 	name = "grey cap"
-	icon_state = "greysoft"
 	desc = "It looks like a plain hat, but upon closer inspection, there's an advanced holographic array installed inside. It seems to have a small dial inside."
+	icon = 'icons/clothing/head/softcap.dmi'
 	origin_tech = "{'esoteric':3}"
 	body_parts_covered = 0
 	item_flags = ITEM_FLAG_INVALID_FOR_CHAMELEON
@@ -113,8 +105,7 @@
 
 /obj/item/clothing/suit/chameleon
 	name = "armor"
-
-	item_state = 'icons/clothing/suit/armor/vest.dmi'
+	icon = 'icons/clothing/suit/armor/vest.dmi'
 	desc = "It appears to be a vest of standard armor, except this is embedded with a hidden holographic cloaker, allowing it to change it's appearance, but offering no protection.. It seems to have a small dial inside."
 	origin_tech = "{'esoteric':3}"
 	item_flags = ITEM_FLAG_INVALID_FOR_CHAMELEON
@@ -142,8 +133,7 @@
 //*******************
 /obj/item/clothing/shoes/chameleon
 	name = "black shoes"
-	icon_state = "black"
-	item_state = "black"
+	icon = 'icons/clothing/feet/colored_shoes.dmi'
 	desc = "They're comfy black shoes, with clever cloaking technology built in. It seems to have a small dial on the back of each shoe."
 	origin_tech = "{'esoteric':3}"
 	item_flags = ITEM_FLAG_INVALID_FOR_CHAMELEON
@@ -235,8 +225,7 @@
 
 /obj/item/clothing/mask/chameleon
 	name = "gas mask"
-	icon_state = "fullgas"
-	item_state = "gas_alt"
+	icon = 'icons/clothing/mask/gas_mask_full.dmi'
 	desc = "It looks like a plain gask mask, but on closer inspection, it seems to have a small dial inside."
 	origin_tech = "{'esoteric':3}"
 	item_flags = ITEM_FLAG_INVALID_FOR_CHAMELEON
@@ -265,8 +254,7 @@
 
 /obj/item/clothing/glasses/chameleon
 	name = "Optical Meson Scanner"
-	icon_state = "meson"
-	item_state = "glasses"
+	icon = 'icons/clothing/eyes/scanner_meson.dmi'
 	desc = "It looks like a plain set of mesons, but on closer inspection, it seems to have a small dial inside."
 	origin_tech = "{'esoteric':3}"
 	item_flags = ITEM_FLAG_INVALID_FOR_CHAMELEON
@@ -327,8 +315,7 @@
 
 /obj/item/clothing/accessory/chameleon
 	name = "tie"
-	icon_state = "tie"
-	item_state = ""
+	icon = 'icons/clothing/accessories/ties/tie.dmi'
 	desc = "A neosilk clip-on tie. It seems to have a small dial on its back."
 	origin_tech = "{'esoteric':3}"
 	item_flags = ITEM_FLAG_INVALID_FOR_CHAMELEON
@@ -361,7 +348,6 @@
 	inv_overlay = copy.inv_overlay
 	mob_overlay = copy.mob_overlay
 	overlay_state = copy.overlay_state
-	accessory_icons = copy.accessory_icons
 	on_rolled = copy.on_rolled
 	high_visibility = copy.high_visibility
 	return copy

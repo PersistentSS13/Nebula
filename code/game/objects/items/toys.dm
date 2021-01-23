@@ -751,9 +751,8 @@
 /obj/item/inflatable_duck
 	name = "inflatable duck"
 	desc = "No bother to sink or swim when you can just float!"
-	icon_state = "inflatable"
-	item_state = "inflatable"
-	icon = 'icons/obj/clothing/obj_belt.dmi'
+	icon = 'icons/clothing/belt/inflatable.dmi'
+	icon_state = ICON_STATE_WORLD
 	slot_flags = SLOT_LOWER_BODY
 
 /obj/item/marshalling_wand
@@ -762,10 +761,6 @@
 	icon_state = "marshallingwand"
 	item_state = "marshallingwand"
 	icon = 'icons/obj/toy.dmi'
-	item_icons = list(
-		icon_l_hand = 'icons/mob/onmob/items/lefthand.dmi',
-		icon_r_hand = 'icons/mob/onmob/items/righthand.dmi',
-		)
 	slot_flags = SLOT_LOWER_BODY
 	w_class = ITEM_SIZE_SMALL
 	force = 1

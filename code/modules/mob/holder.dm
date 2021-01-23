@@ -6,12 +6,7 @@ var/list/holder_mob_icon_cache = list()
 	desc = "You shouldn't ever see this."
 	icon = 'icons/obj/objects.dmi'
 	slot_flags = SLOT_HEAD | SLOT_HOLSTER
-
 	origin_tech = null
-	item_icons = list(
-		BP_L_HAND = 'icons/mob/onmob/items/lefthand_holder.dmi',
-		BP_R_HAND = 'icons/mob/onmob/items/righthand_holder.dmi'
-	)
 	pixel_y = 8
 
 	var/last_holder
@@ -27,6 +22,7 @@ var/list/holder_mob_icon_cache = list()
 
 /obj/item/holder/Destroy()
 	for(var/atom/movable/AM in src)
+		unregister_all_movement(last_holder, AM)
 		AM.forceMove(get_turf(src))
 	last_holder = null
 	STOP_PROCESSING(SSobj, src)
@@ -46,9 +42,8 @@ var/list/holder_mob_icon_cache = list()
 /obj/item/holder/proc/update_state(var/delay)
 	set waitfor = 0
 
-	if(last_holder != loc)
-		for(var/mob/M in contents)
-			unregister_all_movement(last_holder, M)
+	for(var/mob/M in contents)
+		unregister_all_movement(last_holder, M)
 
 	if(delay)
 		sleep(delay)
@@ -100,19 +95,51 @@ var/list/holder_mob_icon_cache = list()
 
 	..()
 
+var/list/holder_mob_icons = list(
+	"repairbot" =         'icons/clothing/holders/holder_repairbot.dmi',
+	"constructiondrone" = 'icons/clothing/holders/holder_constructiondrone.dmi',
+	"mouse_brown" =       'icons/clothing/holders/holder_mouse_brown.dmi',
+	"mouse_gray" =        'icons/clothing/holders/holder_mouse_gray.dmi',
+	"mouse_white" =       'icons/clothing/holders/holder_mouse_white.dmi',
+	"pai-repairbot" =     'icons/clothing/holders/holder_pai_repairbot.dmi',
+	"pai-monkey" =        'icons/clothing/holders/holder_pai_monkey.dmi',
+	"pai-rabbit" =        'icons/clothing/holders/holder_pai_rabbit.dmi',
+	"pai-mouse" =         'icons/clothing/holders/holder_pai_mouse.dmi',
+	"pai-crow" =          'icons/clothing/holders/holder_pai_crow.dmi',
+	"monkey" =            'icons/clothing/holders/holder_monkey.dmi',
+	"kitten" =            'icons/clothing/holders/holder_kitten.dmi',
+	"cat" =               'icons/clothing/holders/holder_cat.dmi',
+	"cat2" =              'icons/clothing/holders/holder_cat2.dmi',
+	"cat3" =              'icons/clothing/holders/holder_cat3.dmi',
+	"corgi" =             'icons/clothing/holders/holder_corgi.dmi',
+	"slug" =              'icons/clothing/holders/holder_slug.dmi'
+)
+
 /obj/item/holder/proc/sync(var/mob/living/M)
+
 	set_dir(SOUTH)
 	overlays.Cut()
-	icon = M.icon
-	icon_state = M.icon_state
-	item_state = M.item_state
+
+	if(global.holder_mob_icons[initial(M.icon_state)])
+		icon = global.holder_mob_icons[initial(M.icon_state)]
+		icon_state = ICON_STATE_WORLD
+		item_state = null
+		use_single_icon = TRUE
+	else
+		icon = M.icon
+		icon_state = M.icon_state
+		item_state = M.item_state
+		overlays |= M.overlays
+		use_single_icon = FALSE
+
 	color = M.color
 	SetName(M.name)
 	desc = M.desc
-	overlays |= M.overlays
+
 	var/mob/living/carbon/human/H = loc
-	last_holder = H
-	register_all_movement(H, M)
+	if(istype(H))
+		last_holder = H
+		register_all_movement(H, M)
 
 	update_held_icon()
 
@@ -216,16 +243,15 @@ var/list/holder_mob_icon_cache = list()
 				mob_icon.Blend(skin_colour, ICON_ADD)
 				var/icon/hair_icon = icon(icon, "[species_name]_holder_[cache_entry]_hair")
 				hair_icon.Blend(hair_colour, ICON_ADD)
-				var/icon/eyes_icon = icon(icon, "[species_name]_holder_[cache_entry]_eyes")
-				eyes_icon.Blend(eye_colour, ICON_ADD)
-
-				// Blend them together.
-				mob_icon.Blend(eyes_icon, ICON_OVERLAY)
+				var/obj/item/organ/internal/eyes/eyes = owner.internal_organs_by_name[BP_EYES]
+				if(eyes)
+					var/icon/eyes_icon = icon(icon, "[species_name]_holder_[cache_entry]_eyes")
+					eyes_icon.Blend(eye_colour, (eyes.eye_blend || ICON_ADD))
+					mob_icon.Blend(eyes_icon, ICON_OVERLAY)
 				mob_icon.Blend(hair_icon, ICON_OVERLAY)
 
 				// Add to the cache.
 				holder_mob_icon_cache[cache_key] = mob_icon
-			item_icons[cache_entry] = holder_mob_icon_cache[cache_key]
 
 	// Handle the rest of sync().
 	..(M)

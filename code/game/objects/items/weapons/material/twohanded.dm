@@ -19,12 +19,13 @@
 /obj/item/twohanded
 	w_class = ITEM_SIZE_HUGE
 	slot_flags = SLOT_BACK
+	icon_state = ICON_STATE_WORLD
+
 	var/wielded = 0
 	var/force_wielded = 0
 	var/force_unwielded
 	var/wieldsound = null
 	var/unwieldsound = null
-	var/base_icon
 	var/base_name
 	var/unwielded_material_force_multiplier = 0.25
 	var/wielded_parry_bonus = 15
@@ -50,7 +51,6 @@
 	force_wielded = force
 	force = force_unwielded
 
-
 /obj/item/twohanded/Initialize()
 	. = ..()
 	update_icon()
@@ -60,12 +60,11 @@
 	if(wielded)
 		. += wielded_parry_bonus
 
-/obj/item/twohanded/on_update_icon()
-	..()
-	icon_state = "[base_icon][wielded]"
-	LAZYSET(item_state_slots, BP_L_HAND, icon_state)
-	LAZYSET(item_state_slots, BP_R_HAND, icon_state)
-	LAZYSET(item_state_slots, slot_back_str, base_icon)
+/obj/item/twohanded/experimental_mob_overlay(mob/user_mob, slot, bodypart)
+	var/image/I = ..()
+	if(I && wielded && (slot in list(BP_L_HAND, BP_R_HAND)))
+		I.icon_state = "[I.icon_state]-wielded"
+	return I
 
 /*
  * Fireaxe
@@ -74,8 +73,6 @@
 	name = "fire axe"
 	desc = "Truly, the weapon of a madman. Who would think to fight fire with an axe?"
 	icon = 'icons/obj/items/tool/fireaxe.dmi'
-	icon_state = "fireaxe0"
-	base_icon = "fireaxe"
 	max_force = 60	//for wielded
 	material_force_multiplier = 0.6
 	unwielded_material_force_multiplier = 0.3
@@ -106,7 +103,6 @@
 /obj/item/twohanded/spear
 	name = "spear"
 	desc = "A haphazardly-constructed yet still deadly weapon of ancient design."
-	icon_state = "preview"
 	icon = 'icons/obj/items/weapon/spear.dmi'
 	material_force_multiplier = 0.33 // 12/19 with hardness 60 (steel) or 10/16 with hardness 50 (glass)
 	unwielded_material_force_multiplier = 0.20
@@ -134,19 +130,20 @@
 		color = material.color
 		alpha = 100 + material.opacity * 255
 	overlays += get_shaft_overlay("shaft")
-	overlays += get_mutable_overlay(icon, "cable", cable_color)
+	overlays += mutable_appearance(icon, "cable", cable_color)
 
 /obj/item/twohanded/spear/experimental_mob_overlay(mob/user_mob, slot, bodypart)
 	var/image/ret = ..()
-	if(wielded && check_state_in_icon("[ret.icon_state]_wielded", icon))
-		ret.icon_state = "[ret.icon_state]_wielded"
-	ret.overlays += get_shaft_overlay("[ret.icon_state]_shaft")
-	ret.overlays += get_mutable_overlay(icon, "[ret.icon_state]_cable", cable_color)
+	if(ret)
+		if(check_state_in_icon("[ret.icon_state]-shaft", ret.icon))
+			ret.overlays += get_shaft_overlay("[ret.icon_state]-shaft")
+		if(check_state_in_icon("[ret.icon_state]-cable", ret.icon))
+			ret.overlays += mutable_appearance(icon, "[ret.icon_state]-cable", cable_color)
 	return ret
 
 /obj/item/twohanded/spear/proc/get_shaft_overlay(var/base_state)
 	var/decl/material/M = decls_repository.get_decl(shaft_material)
-	var/mutable_appearance/shaft = get_mutable_overlay(icon, base_state, M.color)
+	var/mutable_appearance/shaft = mutable_appearance(icon, base_state, M.color)
 	shaft.alpha = 155 + 100 * M.opacity
 	return shaft
 
@@ -169,9 +166,6 @@
 	name = "bat"
 	desc = "HOME RUN!"
 	icon = 'icons/obj/items/weapon/bat.dmi'
-	icon_state = "metalbat0"
-	base_icon = "metalbat"
-	item_state = "metalbat"
 	w_class = ITEM_SIZE_LARGE
 	throwforce = 7
 	attack_verb = list("smashed", "beaten", "slammed", "smacked", "struck", "battered", "bonked")
@@ -199,3 +193,27 @@
 
 /obj/item/twohanded/baseballbat/diamond
 	material = /decl/material/solid/gemstone/diamond
+
+/obj/item/twohanded/pipewrench
+	name = "enormous pipe wrench"
+	desc = "You are no longer asking nicely."
+	icon = 'icons/obj/items/tool/pipewrench.dmi'
+	max_force = 60
+	material_force_multiplier = 0.6
+	unwielded_material_force_multiplier = 0.3
+	attack_verb = list("bludgeoned", "slammed", "smashed", "wrenched")
+	material = /decl/material/solid/metal/steel
+	applies_material_colour = FALSE
+	applies_material_name = TRUE
+	w_class = ITEM_SIZE_NO_CONTAINER
+
+/obj/item/twohanded/pipewrench/iswrench()
+	return wielded
+
+/obj/item/twohanded/pipewrench/afterattack(atom/A, mob/user, proximity)
+	if(!proximity) 
+		return
+	..()
+	if(istype(A,/obj/structure/window) && wielded)
+		var/obj/structure/window/W = A
+		W.shatter()

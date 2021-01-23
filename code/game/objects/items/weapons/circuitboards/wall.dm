@@ -32,9 +32,7 @@
 /obj/item/stock_parts/circuitboard/apc
 	name = T_BOARD("area power controller")
 	desc = "Heavy-duty switching circuits for power control."
-	icon = 'icons/obj/module.dmi'
-	icon_state = "power_mod"
-	item_state = "electronic"
+	icon = 'icons/obj/modules/module_power.dmi'
 	material = /decl/material/solid/metal/steel
 	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
 	w_class = ITEM_SIZE_SMALL
@@ -53,7 +51,7 @@
 
 /obj/item/stock_parts/circuitboard/requests_console
 	name = T_BOARD("requests console")
-	build_path = /obj/machinery/requests_console
+	build_path = /obj/machinery/network/requests_console
 	board_type = "wall"
 	origin_tech = "{'programming':1,'engineering':1}"
 	req_components = list()

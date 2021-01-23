@@ -36,6 +36,7 @@
 		. += new/datum/stack_recipe/urn(src)
 		. += new/datum/stack_recipe/spoon(src)
 		. += new/datum/stack_recipe/coin(src)
+		. += new/datum/stack_recipe/furniture/door(src)
 
 	if(wall_support_value >= 10)
 		. += new/datum/stack_recipe/furniture/girder(src)
@@ -46,6 +47,7 @@
 		. += new/datum/stack_recipe/furniture/barricade(src)
 		. += new/datum/stack_recipe/furniture/stool(src)
 		. += new/datum/stack_recipe/furniture/bar_stool(src)
+		. += new/datum/stack_recipe/furniture/coatrack(src)
 		. += new/datum/stack_recipe/furniture/bed(src)
 		. += new/datum/stack_recipe/furniture/pew(src)
 		. += new/datum/stack_recipe/furniture/pew_left(src)

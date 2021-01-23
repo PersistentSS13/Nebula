@@ -123,16 +123,17 @@
 	O.gender = gender
 	O.set_invisibility(0)
 
-	if(mind)
-		mind.transfer_to(O)
-		if(O.mind && O.mind.assigned_role == "Robot")
-			O.mind.original = O
-			var/mmi_type = SSrobots.get_mmi_type_by_title(O.mind.role_alt_title ? O.mind.role_alt_title : O.mind.assigned_role)
-			if(mmi_type)
-				O.mmi = new mmi_type(O)
-				O.mmi.transfer_identity(src)
-	if(O.key != key)
-		O.key = key
+	if(!mind)
+		mind_initialize()
+		mind.assigned_role = "Robot"
+	mind.active = TRUE
+	mind.transfer_to(O)
+	if(O.mind && O.mind.assigned_role == "Robot")
+		O.mind.original = O
+		var/mmi_type = SSrobots.get_mmi_type_by_title(O.mind.role_alt_title ? O.mind.role_alt_title : O.mind.assigned_role)
+		if(mmi_type)
+			O.mmi = new mmi_type(O)
+			O.mmi.transfer_identity(src)
 
 	O.dropInto(loc)
 	O.job = "Robot"
@@ -299,9 +300,9 @@
 	mutations |= MUTATION_CLUMSY
 	src.visible_message("<span class='danger'>\The [src]'s skin decays before your very eyes!</span>", "<span class='danger'>Your entire body is ripe with pain as it is consumed down to flesh and bones. You ... hunger. Not only for flesh, but to spread this gift.</span>")
 	if (src.mind)
-		if (src.mind.special_role == "Zombie")
+		if (src.mind.assigned_special_role == "Zombie")
 			return
-		src.mind.special_role = "Zombie"
+		src.mind.assigned_special_role = "Zombie"
 	log_admin("[key_name(src)] has transformed into a zombie!")
 	Weaken(5)
 	if (should_have_organ(BP_HEART))

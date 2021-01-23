@@ -1,33 +1,29 @@
-/datum/antagonist
+/decl/special_role
 	valid_species = list(SPECIES_HUMAN)
 	initial_spawn_req = 1
 	initial_spawn_target = 1
 
-/datum/antagonist/borer
-	initial_spawn_req = 1
-	initial_spawn_target = 1
-
-/datum/antagonist/mercenary
+/decl/special_role/mercenary
 	initial_spawn_req = 1
 	initial_spawn_target = 2
 
-/datum/antagonist/raider
+/decl/special_role/raider
 	initial_spawn_req = 1
 	initial_spawn_target = 2
 
-/datum/antagonist/cultist
+/decl/special_role/cultist
 	initial_spawn_req = 1
 	initial_spawn_target = 2
 
-/datum/antagonist/renegade
+/decl/special_role/renegade
 	initial_spawn_req = 1
 	initial_spawn_target = 2
 
-/datum/antagonist/loyalist
+/decl/special_role/loyalist
 	initial_spawn_req = 1
 	initial_spawn_target = 2
 
-/datum/antagonist/revolutionary
+/decl/special_role/revolutionary
 	initial_spawn_req = 1
 	initial_spawn_target = 2
 
@@ -37,7 +33,7 @@
 		"a collectable top hat"              = /obj/item/clothing/head/collectable/tophat,
 		"the reactive teleport armor"        = /obj/item/clothing/suit/armor/reactive,
 		"a jetpack"                          = /obj/item/tank/jetpack,
-		"a captain's jumpsuit"               = /obj/item/clothing/under/rank/captain,
+		"a captain's jumpsuit"               = /obj/item/clothing/under/captain,
 		"a pair of magboots"                 = /obj/item/clothing/shoes/magboots,
 		"the master blueprints"              = /obj/item/blueprints,
 		"a sample of slime extract"          = /obj/item/slime_extract,

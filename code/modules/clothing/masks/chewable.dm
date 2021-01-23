@@ -1,7 +1,7 @@
 /obj/item/clothing/mask/chewable
 	name = "chewable item master"
 	desc = "You're not sure what this is. You should probably ahelp it."
-	icon = 'icons/obj/clothing/obj_mask.dmi'
+	icon = 'icons/clothing/mask/chewables/lollipop.dmi'
 	body_parts_covered = 0
 
 	var/type_butt = null
@@ -53,7 +53,7 @@ obj/item/clothing/mask/chewable/Destroy()
 	name = "wad"
 	desc = "A chewy wad of tobacco. Cut in long strands and treated with syrups so it doesn't taste like a ash-tray when you stuff it into your face."
 	throw_speed = 0.5
-	icon_state = "chew"
+	icon = 'icons/clothing/mask/chewables/chew.dmi'
 	type_butt = /obj/item/trash/cigbutt/spitwad
 	w_class = ITEM_SIZE_TINY
 	slot_flags = SLOT_EARS | SLOT_FACE
@@ -64,7 +64,8 @@ obj/item/clothing/mask/chewable/Destroy()
 /obj/item/trash/cigbutt/spitwad
 	name = "spit wad"
 	desc = "A disgusting spitwad."
-	icon_state = "spit-chew"
+	icon = 'icons/clothing/mask/chewables/chew.dmi'
+	icon_state = "spit"
 
 /obj/item/clothing/mask/chewable/proc/extinguish(var/mob/user, var/no_message)
 	STOP_PROCESSING(SSobj, src)
@@ -93,7 +94,7 @@ obj/item/clothing/mask/chewable/Destroy()
 /obj/item/clothing/mask/chewable/tobacco/nico
 	name = "nicotine gum"
 	desc = "A chewy wad of synthetic rubber, laced with nicotine. Possibly the least disgusting method of nicotine delivery."
-	icon_state = "nic_gum"
+	icon = 'icons/clothing/mask/chewables/gum_nicotine.dmi'
 	type_butt = /obj/item/trash/cigbutt/spitgum
 
 /obj/item/clothing/mask/chewable/tobacco/nico/Initialize()
@@ -104,101 +105,114 @@ obj/item/clothing/mask/chewable/Destroy()
 /obj/item/clothing/mask/chewable/candy
 	name = "wad"
 	desc = "A chewy wad of wadding material."
+	icon = 'icons/clothing/mask/chewables/wad.dmi'
 	throw_speed = 0.5
-	icon_state = "chew"
 	type_butt = /obj/item/trash/cigbutt/spitgum
 	w_class = ITEM_SIZE_TINY
 	slot_flags = SLOT_EARS | SLOT_FACE
 	chem_volume = 50
 	chewtime = 300
 	filling = list(/decl/material/liquid/nutriment/sugar = 2)
+	var/initial_payload_amount = 3
+
+/obj/item/clothing/mask/chewable/candy/proc/get_possible_initial_reagents()
+	return
+
+/obj/item/clothing/mask/chewable/candy/Initialize()
+	. = ..()
+	var/list/possible_payloads = get_possible_initial_reagents()
+	if(length(possible_payloads))
+		reagents.add_reagent(pick(possible_payloads), initial_payload_amount)
+		color = reagents.get_color()
+		desc += " This one is labeled '[reagents.get_primary_reagent_name()]'."
 
 /obj/item/trash/cigbutt/spitgum
 	name = "old gum"
 	desc = "A disgusting chewed up wad of gum."
-	icon_state = "spit-gum"
+	icon_state = "spit"
+	icon = 'icons/clothing/mask/chewables/gum.dmi'
 
 /obj/item/trash/cigbutt/lollibutt
 	name = "popsicle stick"
 	desc = "A popsicle stick devoid of pop."
-	icon_state = "pop-stick"
+	icon = 'icons/clothing/mask/chewables/lollipop.dmi'
 
 /obj/item/clothing/mask/chewable/candy/gum
 	name = "chewing gum"
 	desc = "A chewy wad of fine synthetic rubber and artificial flavoring."
-	icon_state = "gum"
-	item_state = "gum"
+	icon = 'icons/clothing/mask/chewables/gum.dmi'
 
-/obj/item/clothing/mask/chewable/candy/gum/Initialize()
-	. = ..()
-	reagents.add_reagent(pick(list(
-				/decl/material/liquid/drink/juice/grape,
-				/decl/material/liquid/drink/juice/orange,
-				/decl/material/liquid/drink/juice/lemon,
-				/decl/material/liquid/drink/juice/lime,
-				/decl/material/liquid/drink/juice/apple,
-				/decl/material/liquid/drink/juice/pear,
-				/decl/material/liquid/drink/juice/banana,
-				/decl/material/liquid/drink/juice/berry,
-				/decl/material/liquid/drink/juice/watermelon)), 3)
-	color = reagents.get_color()
+/obj/item/clothing/mask/chewable/candy/gum/get_possible_initial_reagents()
+	return list(
+		/decl/material/liquid/drink/juice/grape,
+		/decl/material/liquid/drink/juice/orange,
+		/decl/material/liquid/drink/juice/lemon,
+		/decl/material/liquid/drink/juice/lime,
+		/decl/material/liquid/drink/juice/apple,
+		/decl/material/liquid/drink/juice/pear,
+		/decl/material/liquid/drink/juice/banana,
+		/decl/material/liquid/drink/juice/berry,
+		/decl/material/liquid/drink/juice/watermelon
+	)
 
 /obj/item/clothing/mask/chewable/candy/lolli
 	name = "lollipop"
 	desc = "A simple artificially flavored sphere of sugar on a handle. Colloquially known as a sucker. Allegedly one is born every minute."
+	icon = 'icons/clothing/mask/chewables/lollipop.dmi'
 	type_butt = /obj/item/trash/cigbutt/lollibutt
-	icon_state = "lollipop"
-	item_state = "lollipop"
+	initial_payload_amount = 10
 
-/obj/item/clothing/mask/chewable/candy/lolli/Initialize()
-	. = ..()
-	reagents.add_reagent(pick(list(
-				/decl/material/liquid/fuel,
-				/decl/material/liquid/drink/juice/grape,
-				/decl/material/liquid/drink/juice/orange,
-				/decl/material/liquid/drink/juice/lemon,
-				/decl/material/liquid/drink/juice/lime,
-				/decl/material/liquid/drink/juice/apple,
-				/decl/material/liquid/drink/juice/pear,
-				/decl/material/liquid/drink/juice/banana,
-				/decl/material/liquid/drink/juice/berry,
-				/decl/material/liquid/drink/juice/watermelon)), 3)
-	color = reagents.get_color()
+/obj/item/clothing/mask/chewable/candy/lolli/on_update_icon()
+	cut_overlays()
+	var/image/I = image(icon, "[icon_state]-stick")
+	I.appearance_flags |= RESET_COLOR
+	I.color = color
+	add_overlay(I)
+
+/obj/item/clothing/mask/chewable/candy/lolli/get_possible_initial_reagents()
+	return list(
+		/decl/material/liquid/fuel,
+		/decl/material/liquid/drink/juice/grape,
+		/decl/material/liquid/drink/juice/orange,
+		/decl/material/liquid/drink/juice/lemon,
+		/decl/material/liquid/drink/juice/lime,
+		/decl/material/liquid/drink/juice/apple,
+		/decl/material/liquid/drink/juice/pear,
+		/decl/material/liquid/drink/juice/banana,
+		/decl/material/liquid/drink/juice/berry,
+		/decl/material/liquid/drink/juice/watermelon
+	)
 
 /obj/item/clothing/mask/chewable/candy/lolli/meds
 	name = "lollipop"
 	desc = "A sucrose sphere on a small handle, it has been infused with medication."
 	type_butt = /obj/item/trash/cigbutt/lollibutt
-	icon_state = "lollipop"
 
-/obj/item/clothing/mask/chewable/candy/lolli/meds/Initialize()
-	. = ..()
-	reagents.add_reagent(pick(list(
-				/decl/material/liquid/oxy_meds,
-				/decl/material/liquid/regenerator,
-				/decl/material/liquid/amphetamines,
-				/decl/material/liquid/antirads,
-				/decl/material/liquid/stimulants,
-				/decl/material/liquid/antidepressants,
-				/decl/material/liquid/antitoxins,
-				/decl/material/liquid/brute_meds,
-				/decl/material/liquid/burn_meds,
-				/decl/material/liquid/stabilizer)), 10)
-	color = reagents.get_color()
+/obj/item/clothing/mask/chewable/candy/lolli/meds/get_possible_initial_reagents()
+	return list(
+		/decl/material/liquid/oxy_meds,
+		/decl/material/liquid/regenerator,
+		/decl/material/liquid/amphetamines,
+		/decl/material/liquid/antirads,
+		/decl/material/liquid/stimulants,
+		/decl/material/liquid/antidepressants,
+		/decl/material/liquid/antitoxins,
+		/decl/material/liquid/brute_meds,
+		/decl/material/liquid/burn_meds,
+		/decl/material/liquid/stabilizer
+	)
 
 /obj/item/clothing/mask/chewable/candy/lolli/weak_meds
 	name = "medicine lollipop"
 	desc = "A sucrose sphere on a small handle, it has been infused with medication."
 	filling = list(/decl/material/liquid/nutriment/sugar = 6)
+	initial_payload_amount = 15
 
-/obj/item/clothing/mask/chewable/candy/lolli/weak_meds/Initialize()
-	. = ..()
-	var/decl/material/payload = pick(list(
-				/decl/material/liquid/antibiotics,
-				/decl/material/liquid/painkillers,
-				/decl/material/liquid/regenerator,
-				/decl/material/liquid/antitoxins,
-				/decl/material/liquid/stabilizer))
-	reagents.add_reagent(payload, 15)
-	color = reagents.get_color()
-	desc = "[desc]. This one is labeled '[initial(payload.name)]'"
+/obj/item/clothing/mask/chewable/candy/lolli/weak_meds/get_possible_initial_reagents()
+	return list(
+		/decl/material/liquid/antibiotics,
+		/decl/material/liquid/painkillers,
+		/decl/material/liquid/regenerator,
+		/decl/material/liquid/antitoxins,
+		/decl/material/liquid/stabilizer
+	)

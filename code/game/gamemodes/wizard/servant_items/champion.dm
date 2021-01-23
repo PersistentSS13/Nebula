@@ -31,7 +31,7 @@
 /obj/item/clothing/under/bluetunic
 	name = "blue tunic"
 	desc = "A royal blue tunic. Beautifully archaic."
-	icon_state = "bluetunic"
+	icon = 'icons/clothing/under/tunic.dmi'
 	siemens_coefficient = 0.8
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY
 	armor = list(
@@ -63,7 +63,8 @@
 
 /obj/item/sword/excalibur/pickup(var/mob/living/user)
 	if(user.mind)
-		if(!GLOB.wizards.is_antagonist(user.mind) || user.mind.special_role != ANTAG_SERVANT)
+		var/decl/special_role/wizard/wizards = decls_repository.get_decl(/decl/special_role/wizard)
+		if(!wizards.is_antagonist(user.mind) || user.mind.assigned_special_role != "Spellbound Servant")
 			START_PROCESSING(SSobj, src)
 			to_chat(user,"<span class='danger'>\The [src] heats up in your hands, burning you!</span>")
 

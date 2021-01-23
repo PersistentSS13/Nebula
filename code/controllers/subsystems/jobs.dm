@@ -129,7 +129,7 @@ SUBSYSTEM_DEF(jobs)
 		if((player) && (player.mind))
 			player.mind.assigned_job = null
 			player.mind.assigned_role = null
-			player.mind.special_role = null
+			player.mind.assigned_special_role = null
 	for(var/datum/job/job in primary_job_datums)
 		job.current_positions = 0
 	unassigned_roundstart = list()
@@ -468,11 +468,10 @@ SUBSYSTEM_DEF(jobs)
 		H.skillset.obtain_from_client(job, H.client)
 
 		//Equip job items.
-		job.setup_account(H)
-
 		job.equip(H, H.mind ? H.mind.role_alt_title : "", H.char_branch, H.char_rank)
 		job.apply_fingerprints(H)
 		spawn_in_storage = equip_custom_loadout(H, job)
+		job.setup_account(H)
 	else
 		to_chat(H, "Your job is [rank] and the game just can't handle it! Please report this bug to an administrator.")
 

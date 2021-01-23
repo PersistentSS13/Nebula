@@ -4,7 +4,7 @@
 	color = "#9c2020"
 	planetary_area = /area/exoplanet/volcanic
 	rock_colors = list(COLOR_DARK_GRAY)
-	plant_colors = list("#a23c05","#3f1f0d","#662929","#ba6222","#7a5b3a","#120309")
+	plant_colors = list("#a23c05","#3f1f0d","#662929","#ba6222","#7a5b3a","#471429")
 	max_themes = 1
 	possible_themes = list(
 		/datum/exoplanet_theme = 100,
@@ -29,11 +29,8 @@
 /obj/effect/overmap/visitable/sector/exoplanet/volcanic/generate_habitability()
 	habitability_class =  HABITABILITY_BAD
 
-/obj/effect/overmap/visitable/sector/exoplanet/volcanic/generate_atmosphere()
-	..()
-	if(atmosphere)
-		atmosphere.temperature = T20C + rand(220, 800)
-		atmosphere.update_values()
+/obj/effect/overmap/visitable/sector/exoplanet/volcanic/get_target_temperature()
+	return T20C + rand(220, 800)
 
 /obj/effect/overmap/visitable/sector/exoplanet/volcanic/adapt_seed(var/datum/seed/S)
 	..()
@@ -54,6 +51,7 @@
 
 	fauna_prob = 1
 	flora_prob = 3
+	grass_prob = 0
 	large_flora_prob = 0
 
 //Squashing most of 1 tile lava puddles

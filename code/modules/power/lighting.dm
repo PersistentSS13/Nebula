@@ -33,7 +33,7 @@
 	var/on = 0					// 1 if on, 0 if off
 	var/flickering = 0
 	var/light_type = /obj/item/light/tube		// the type of light item
-
+	var/accepts_light_type = /obj/item/light/tube
 	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
 
 	var/obj/item/light/lightbulb
@@ -55,6 +55,7 @@
 	base_state = "bulb"
 	desc = "A small lighting fixture."
 	light_type = /obj/item/light/bulb
+	accepts_light_type = /obj/item/light/bulb
 	base_type = /obj/machinery/light/small/buildable
 	frame_type = /obj/item/frame/light/small
 
@@ -71,6 +72,7 @@
 	name = "spotlight"
 	desc = "A more robust socket for light tubes that demand more power."
 	light_type = /obj/item/light/tube/large
+	accepts_light_type = /obj/item/light/tube/large
 	base_type = /obj/machinery/light/spot/buildable
 	frame_type = /obj/item/frame/light/spot
 
@@ -110,7 +112,7 @@
 			pixel_x = -10
 
 	// Update icon state
-	overlays.Cut()
+	cut_overlays()
 	if(istype(construct_state))
 		switch(construct_state.type) //Never use the initial state. That'll just reset it to the mapping icon.
 			if(/decl/machine_construction/wall_frame/no_wires/simple)
@@ -139,7 +141,10 @@
 	if(istype(lightbulb, /obj/item/light))
 		var/image/I = image(icon, _state)
 		I.color = lightbulb.b_colour
-		overlays += I
+		if(on)
+			I.plane = EFFECTS_ABOVE_LIGHTING_PLANE
+			I.layer = ABOVE_LIGHTING_LAYER
+		add_overlay(I)
 
 	if(on)
 
@@ -242,7 +247,7 @@
 		if(lightbulb)
 			to_chat(user, "There is a [get_fitting_name()] already inserted.")
 			return
-		if(!istype(W, light_type))
+		if(!istype(W, accepts_light_type))
 			to_chat(user, "This type of light requires a [get_fitting_name()].")
 			return
 		if(!user.unEquip(W, src))
@@ -420,6 +425,7 @@
 	icon_state = "nav10"
 	base_state = "nav1"
 	light_type = /obj/item/light/tube/large
+	accepts_light_type = /obj/item/light/tube/large
 	on = TRUE
 	var/delay = 1
 	base_type = /obj/machinery/light/navigation/buildable
@@ -479,6 +485,18 @@
 	var/b_colour = "#fffee0"
 	var/list/lighting_modes = list()
 	var/sound_on
+	var/random_tone = TRUE
+	var/static/list/random_tone_options = list(
+		"#fffee0",
+		"#e0fefe",
+		"#fefefe",
+	)
+
+/obj/item/light/Initialize()
+	. = ..()
+	if (random_tone)
+		b_colour = pick(random_tone_options)
+		update_icon()
 
 /obj/item/light/tube
 	name = "light tube"
@@ -533,6 +551,7 @@
 /obj/item/light/bulb/red
 	color = "#da0205"
 	b_colour = "#da0205"
+	random_tone = FALSE
 
 /obj/item/light/bulb/red/readylight
 	lighting_modes = list(

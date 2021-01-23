@@ -27,7 +27,7 @@
 /obj/item/clothing/under/lawyer/infil
 	name = "formal outfit"
 	desc = "A white dress shirt and navy pants. Snazzy."
-	icon_state = "inf_mob"
+	icon = 'icons/clothing/under/formal.dmi'
 	bodytype_restricted = list(BODYTYPE_HUMANOID)
 
 /obj/item/clothing/shoes/dress/infilshoes
@@ -40,6 +40,7 @@
 	name = "maid's headband"
 	desc = "This dainty, frilled thing is apparently meant to go on your head."
 	icon = 'icons/clothing/head/inf_hat.dmi'
+
 /obj/item/clothing/suit/infilsuit/fem
 	name = "maid's uniform"
 	desc = "The uniform of someone you'd expect to see dusting off the Antique Gun's display case."
@@ -48,5 +49,5 @@
 /obj/item/clothing/under/lawyer/infil/fem
 	name = "white dress"
 	desc = "It's a simple, sleeveless white dress with black trim."
-	icon_state = "inffem"
+	icon = 'icons/clothing/under/dresses/dress_white.dmi'
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_FEET

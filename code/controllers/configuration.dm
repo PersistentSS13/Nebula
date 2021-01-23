@@ -1,7 +1,7 @@
 var/list/gamemode_cache = list()
 
 /datum/configuration
-	var/server_name = null				// server name (for world name / status)
+	var/server_name = "Nebula 13"		// server name (for world name / status)
 	var/server_suffix = 0				// generate numeric suffix based on server port
 
 	var/log_ooc = 0						// log OOC channel
@@ -899,12 +899,6 @@ var/list/gamemode_cache = list()
 				sqllogin = value
 			if ("password")
 				sqlpass = value
-			if ("feedback_database")
-				sqlfdbkdb = value
-			if ("feedback_login")
-				sqlfdbklogin = value
-			if ("feedback_password")
-				sqlfdbkpass = value
 			else
 				log_misc("Unknown setting in configuration: '[name]'")
 

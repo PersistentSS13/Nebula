@@ -1,11 +1,13 @@
 /obj/item/clothing
 	name = "clothing"
 	siemens_coefficient = 0.9
+	origin_tech = "{'materials':1,'engineering':1}"
+	material = /decl/material/solid/cloth
 
 	var/wizard_garb = 0
 	var/flash_protection = FLASH_PROTECTION_NONE	  // Sets the item's level of flash protection.
 	var/tint = TINT_NONE							  // Sets the item's level of visual impairment tint.
-	var/list/bodytype_restricted = list(BODYTYPE_HUMANOID)
+	var/list/bodytype_restricted
 	var/list/accessories = list()
 	var/list/valid_accessory_slots
 	var/list/restricted_accessory_slots
@@ -44,10 +46,6 @@
 	. = ..()
 // End placeholder.
 
-// Updates the icons of the mob wearing the clothing item, if any.
-/obj/item/clothing/proc/update_clothing_icon()
-	return
-
 // Updates the vision of the mob wearing the clothing item, if any
 /obj/item/clothing/proc/update_vision()
 	if(isliving(src.loc))
@@ -76,7 +74,7 @@
 			ret.overlays += A.get_mob_overlay(user_mob, slot)
 
 	if(markings_icon && markings_color)
-		ret.overlays += get_mutable_overlay(ret.icon, markings_icon, markings_color)
+		ret.overlays += mutable_appearance(ret.icon, markings_icon, markings_color)
 	return ret
 
 /obj/item/clothing/apply_overlays(var/mob/user_mob, var/bodytype, var/image/overlay, var/slot)
@@ -86,14 +84,14 @@
 			ret.overlays += A.get_mob_overlay(user_mob, slot)
 
 	if(markings_icon && markings_color && check_state_in_icon("[ret.icon_state][markings_icon]", ret.icon))
-		ret.overlays += get_mutable_overlay(ret.icon, "[ret.icon_state][markings_icon]", markings_color)
+		ret.overlays += mutable_appearance(ret.icon, "[ret.icon_state][markings_icon]", markings_color)
 	
 	return ret
 
 /obj/item/clothing/on_update_icon()
 	..()
 	if(markings_icon && markings_color)
-		overlays += get_mutable_overlay(icon, "[get_world_inventory_state()][markings_icon]", markings_color)
+		overlays += mutable_appearance(icon, "[get_world_inventory_state()][markings_icon]", markings_color)
 		
 /obj/item/clothing/proc/change_smell(smell = SMELL_DEFAULT)
 	smell_state = smell
@@ -135,14 +133,8 @@
 	return ..()
 
 /obj/item/clothing/proc/refit_for_bodytype(var/target_bodytype)
-	if(!bodytype_restricted)
-		return
-	bodytype_restricted = list(target_bodytype)
-	if(!use_single_icon)
-		if (sprite_sheets_obj && (target_bodytype in sprite_sheets_obj))
-			icon = sprite_sheets_obj[target_bodytype]
-		else
-			icon = initial(icon)
+	if(bodytype_restricted)
+		bodytype_restricted = list(target_bodytype)
 
 /obj/item/clothing/get_examine_line()
 	. = ..()
@@ -187,3 +179,6 @@
 	. = ..()
 	for(var/obj/item/clothing/accessory/A in accessories)
 		. = min(., A.get_pressure_weakness(pressure,zone))
+
+/obj/item/clothing/proc/check_limb_support(var/mob/living/carbon/human/user)
+	return FALSE

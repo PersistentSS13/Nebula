@@ -3,6 +3,7 @@
 	icon = 'icons/turf/exterior/barren.dmi'
 	footstep_type = /decl/footsteps/asteroid
 	icon_state = "0"
+	layer = PLATING_LAYER
 	var/diggable = 1
 	var/dirt_color = "#7c5e42"
 	var/possible_states = 0
@@ -59,8 +60,12 @@
 		set_light(owner.lightlevel, 0.1, 2)
 		if(owner.planetary_area && istype(loc, world.area))
 			ChangeArea(src, owner.planetary_area)
-	update_icon(TRUE)
+	..()
+	. = INITIALIZE_HINT_LATELOAD
+
+/turf/exterior/LateInitialize()
 	. = ..()
+	update_icon(TRUE)
 
 /turf/exterior/levelupdate()
 	for(var/obj/O in src)
@@ -150,6 +155,12 @@
 					else if(direction & WEST)
 						I.pixel_x -= world.icon_size
 					add_overlay(I)
+
+	var/datum/gas_mixture/air = (owner ? owner.atmosphere : GLOB.using_map.exterior_atmosphere)
+	if(length(air?.graphic))
+		vis_contents += air.graphic
+	else
+		vis_contents.Cut()
 
 	if(update_neighbors)
 		for(var/direction in GLOB.cornerdirs)

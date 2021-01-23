@@ -7,7 +7,7 @@
 	removed_by_welder = TRUE
 	wall_name = "bulkhead"
 	weight = MAT_VALUE_HEAVY
-	hardness = MAT_VALUE_FLEXIBLE
+	hardness = MAT_VALUE_RIGID
 	wall_support_value = MAT_VALUE_HEAVY
 
 /decl/material/solid/metal/uranium
@@ -284,6 +284,9 @@
 	taste_description = "metal"
 
 /decl/material/solid/metal/iron/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
+	if(M.HasTrait(/decl/trait/metabolically_inert))
+		return
+
 	M.add_chemical_effect(CE_BLOODRESTORE, 8 * removed)
 
 // Adminspawn only, do not let anyone get this.

@@ -28,7 +28,7 @@
 	uncreated_component_parts = list(
 		/obj/item/cell/alien
 	)
-	
+
 /obj/machinery/power/apc/alien/on_update_icon()
 	check_updates()
 	if(update_state & APC_UPDATE_ALLGOOD)
@@ -46,6 +46,7 @@
 	base_state = "bulb"
 	color = COLOR_PURPLE
 	light_type = /obj/item/light/alien
+	accepts_light_type = /obj/item/light/alien
 
 /obj/machinery/light/alien/Initialize()
 	color = null  //It's just for mapping
@@ -58,6 +59,7 @@
 	desc = "A simple alien device, perhaps some sort of light source."
 	color = COLOR_PURPLE
 	var/global/random_light_color
+	random_tone = FALSE
 
 /obj/item/light/alien/Initialize()
 	. = ..()

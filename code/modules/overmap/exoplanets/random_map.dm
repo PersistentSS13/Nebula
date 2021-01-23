@@ -1,12 +1,15 @@
+#define  COAST_VALUE  cell_range + 1
 /datum/random_map/noise/exoplanet
 	descriptor = "exoplanet"
 	smoothing_iterations = 1
+	smooth_single_tiles = 1
 
 	var/water_level
 	var/water_level_min = 0
 	var/water_level_max = 5
 	var/land_type = /turf/simulated/floor
 	var/water_type
+	var/coast_type
 
 	//intended x*y size, used to adjust spawn probs
 	var/intended_x = 150
@@ -14,15 +17,18 @@
 	var/large_flora_prob = 30
 	var/flora_prob = 10
 	var/fauna_prob = 2
+	var/grass_prob
 	var/megafauna_spawn_prob = 0.5 //chance that a given fauna mob will instead be a megafauna
 
 	var/list/plantcolors = list("RANDOM")
 	var/list/grass_cache
 
 /datum/random_map/noise/exoplanet/New(var/seed, var/tx, var/ty, var/tz, var/tlx, var/tly, var/do_not_apply, var/do_not_announce, var/never_be_priority = 0, var/used_area, var/list/_plant_colors)
-	target_turf_type = world.turf
+	if(target_turf_type == null)
+		target_turf_type = world.turf
 	water_level = rand(water_level_min,water_level_max)
 	//automagically adjust probs for bigger maps to help with lag
+	if(isnull(grass_prob)) grass_prob = flora_prob * 2
 	var/size_mod = intended_x / tlx * intended_y / tly
 	flora_prob *= size_mod
 	large_flora_prob *= size_mod
@@ -42,6 +48,8 @@
 	if(water_type && noise2value(value) < water_level)
 		return water_type
 	else
+		if(coast_type && value == COAST_VALUE)
+			return coast_type
 		return land_type
 
 /datum/random_map/noise/exoplanet/get_additional_spawns(var/value, var/turf/T)
@@ -53,12 +61,12 @@
 			if(prob(fauna_prob))
 				spawn_fauna(T)
 		if(5 to 6)
-			if(flora_prob > 5 && prob(flora_prob * 5))
+			if(grass_prob > 10 && prob(grass_prob))
 				spawn_grass(T)
 			if(prob(flora_prob/3))
 				spawn_flora(T)
 		if(7 to 9)
-			if(flora_prob > 1 && prob(flora_prob * 10))
+			if(grass_prob > 1 && prob(grass_prob * 3))
 				spawn_grass(T)
 			if(prob(flora_prob))
 				spawn_flora(T)
@@ -97,3 +105,16 @@
 	if(locate(/obj/effect/floor_decal) in T)
 		return
 	new /obj/effect/floor_decal(T, null, null, get_grass_overlay())
+
+/datum/random_map/noise/exoplanet/cleanup()
+	..()
+	if(!water_type || !water_level || !coast_type)
+		return
+	for(var/x in 1 to limit_x - 1)
+		for(var/y in 1 to limit_y - 1)
+			var/mapcell = get_map_cell(x,y)
+			if(noise2value(map[mapcell]) < water_level)
+				var/neighbors = get_neighbors(x, y, TRUE)
+				for(var/cell in neighbors)
+					if(noise2value(map[cell]) >= water_level)
+						map[cell] = COAST_VALUE		

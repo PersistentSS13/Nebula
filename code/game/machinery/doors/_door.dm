@@ -110,7 +110,7 @@
 	if(close_door_at && world.time >= close_door_at)
 		if(autoclose)
 			close_door_at = next_close_time()
-			close()
+			INVOKE_ASYNC(src, /obj/machinery/door/proc/close)
 		else
 			close_door_at = 0
 
@@ -317,6 +317,12 @@
 		to_chat(user, "\The [src] looks seriously damaged!")
 	else if(src.health < src.maxhealth * 3/4)
 		to_chat(user, "\The [src] shows signs of damage!")
+	else if(src.health < src.maxhealth && get_dist(src, user) <= 1)
+		to_chat(user, "\The [src] has some minor scuffing.")
+
+	var/mob/living/carbon/human/H = user
+	if (emagged && istype(H) && (H.skill_check(SKILL_COMPUTER, SKILL_ADEPT) || H.skill_check(SKILL_ELECTRICAL, SKILL_ADEPT)))
+		to_chat(user, SPAN_WARNING("\The [src]'s control panel looks fried."))
 
 /obj/machinery/door/set_broken(new_state, cause)
 	. = ..()
@@ -398,7 +404,6 @@
 	return world.time + (normalspeed ? 150 : 5)
 
 /obj/machinery/door/proc/close(var/forced = 0)
-	set waitfor = FALSE
 	if(!can_close(forced))
 		return
 	operating = 1

@@ -123,6 +123,7 @@
 	icon = 'icons/clothing/suit/straightjacket.dmi'
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_FEET|SLOT_ARMS|SLOT_HANDS
 	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT|HIDETAIL
+	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_TRACE)
 
 /obj/item/clothing/suit/straight_jacket/equipped(var/mob/user, var/slot)
 	if(slot == slot_wear_suit_str)
@@ -137,30 +138,14 @@
 	icon = 'icons/clothing/suit/ianshirt.dmi'
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_ARMS
 
-//pyjamas
-//originally intended to be pinstripes >.>
-
-/obj/item/clothing/under/bluepyjamas
-	name = "blue pyjamas"
-	desc = "Slightly old-fashioned sleepwear."
-	icon_state = "blue_pyjamas"
-	item_state = "blue_pyjamas"
-	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_ARMS|SLOT_LEGS
-
-/obj/item/clothing/under/redpyjamas
-	name = "red pyjamas"
-	desc = "Slightly old-fashioned sleepwear."
-	icon_state = "red_pyjamas"
-	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_ARMS|SLOT_LEGS
-
 //coats
 /obj/item/clothing/suit/leathercoat
 	name = "longcoat"
 	icon = 'icons/clothing/suit/leathercoat.dmi'
-	material = /decl/material/solid/leather
 	applies_material_colour = TRUE
 	applies_material_name = TRUE
 	material_armor_multiplier = 0.8
+	material = /decl/material/solid/leather
 	var/shine 
 	var/artificial_shine
 
@@ -174,7 +159,7 @@
 /obj/item/clothing/suit/leathercoat/apply_overlays(var/mob/user_mob, var/bodytype, var/image/overlay, var/slot)
 	var/image/I = ..()
 	if(shine > 0 && slot == slot_wear_suit_str)
-		var/mutable_appearance/S = get_mutable_overlay(I.icon, "shine")
+		var/mutable_appearance/S = mutable_appearance(I.icon, "shine")
 		S.alpha = max(shine, artificial_shine)/100 * 255
 		I.overlays += S
 	return I
@@ -184,10 +169,10 @@
 	artificial_shine = 80
 
 //stripper
-/obj/item/clothing/under/stripper/mankini
+/obj/item/clothing/under/mankini
 	name = "mankini"
 	desc = "No honest man would wear this abomination."
-	icon_state = "mankini"
+	icon = 'icons/clothing/under/mankini.dmi'
 	siemens_coefficient = 1
 	body_parts_covered = 0
 
@@ -207,6 +192,7 @@
 	cold_protection = SLOT_UPPER_BODY|SLOT_ARMS
 	min_cold_protection_temperature = T0C - 20
 	siemens_coefficient = 0.7
+	material = /decl/material/solid/leather
 
 /obj/item/clothing/suit/storage/leather_jacket
 	name = "black leather jacket"
@@ -319,14 +305,8 @@
 	desc = "Ho ho ho. Merrry X-mas!"
 	icon = 'icons/clothing/head/santa.dmi'
 	flags_inv = BLOCKHAIR
-	body_parts_covered = SLOT_HEAD
-	max_pressure_protection = FIRESUIT_MAX_PRESSURE
-	min_pressure_protection = 0
 
 /obj/item/clothing/suit/santa
 	name = "Santa's suit"
 	desc = "Festive!"
 	icon = 'icons/clothing/suit/santa.dmi'
-	allowed = list(/obj/item) //for stuffing exta special presents
-	max_pressure_protection = FIRESUIT_MAX_PRESSURE
-	min_pressure_protection = 0

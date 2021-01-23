@@ -309,10 +309,6 @@ var/global/list/damage_icon_parts = list()
 			if(part.skin_colour)
 				icon_key += "[part.skin_colour]"
 				icon_key += "[part.skin_blend]"
-			if(part.body_hair && part.hair_colour)
-				icon_key += "[part.hair_colour]"
-			else
-				icon_key += COLOR_BLACK
 			for(var/M in part.markings)
 				icon_key += "[M][part.markings[M]["color"]]"
 		if(BP_IS_PROSTHETIC(part))
@@ -391,11 +387,13 @@ var/global/list/damage_icon_parts = list()
 		var/obj/item/underwear/UW = entry
 		if (!UW || !UW.icon) // Avoid runtimes for nude underwear types
 			continue
-
-		var/image/I = image(icon = UW.icon, icon_state = UW.icon_state)
-		I.appearance_flags = RESET_COLOR
-		I.color = UW.color
-
+		var/image/I
+		if(UW.slot_offset_str && LAZYACCESS(species.equip_adjust, UW.slot_offset_str))
+			I = species.get_offset_overlay_image(FALSE, UW.icon, UW.icon_state, UW.color, UW.slot_offset_str)
+		else
+			I = image(icon = UW.icon, icon_state = UW.icon_state)
+			I.color = UW.color
+		I.appearance_flags |= RESET_COLOR
 		overlays_standing[HO_UNDERWEAR_LAYER] += I
 
 	if(update_icons)
@@ -494,11 +492,10 @@ var/global/list/damage_icon_parts = list()
 //vvvvvv UPDATE_INV PROCS vvvvvv
 
 /mob/living/carbon/human/update_inv_w_uniform(var/update_icons=1)
-	if(istype(w_uniform, /obj/item/clothing/under) && !(wear_suit && wear_suit.flags_inv & HIDEJUMPSUIT))
+	if(w_uniform && (!wear_suit || !(wear_suit.flags_inv & HIDEJUMPSUIT)))
 		overlays_standing[HO_UNIFORM_LAYER]	= w_uniform.get_mob_overlay(src,slot_w_uniform_str)
 	else
 		overlays_standing[HO_UNIFORM_LAYER]	= null
-
 	if(update_icons)
 		queue_icon_update()
 
@@ -581,7 +578,7 @@ var/global/list/damage_icon_parts = list()
 
 /mob/living/carbon/human/update_inv_s_store(var/update_icons=1)
 	if(s_store)
-		overlays_standing[HO_SUIT_STORE_LAYER]	= s_store.get_mob_overlay(src,slot_s_store_str)
+		overlays_standing[HO_SUIT_STORE_LAYER]	= s_store.get_mob_overlay(src, slot_belt_str)
 	else
 		overlays_standing[HO_SUIT_STORE_LAYER]	= null
 	if(update_icons)
@@ -627,10 +624,10 @@ var/global/list/damage_icon_parts = list()
 		queue_icon_update()
 
 /mob/living/carbon/human/update_inv_wear_mask(var/update_icons=1)
-	if( wear_mask && ( istype(wear_mask, /obj/item/clothing/mask) || istype(wear_mask, /obj/item/clothing/accessory) ) && !(head && head.flags_inv & HIDEMASK))
-		overlays_standing[HO_FACEMASK_LAYER]	= wear_mask.get_mob_overlay(src,slot_wear_mask_str)
+	if(wear_mask && !(head && head.flags_inv & HIDEMASK))
+		overlays_standing[HO_FACEMASK_LAYER] = wear_mask.get_mob_overlay(src,slot_wear_mask_str)
 	else
-		overlays_standing[HO_FACEMASK_LAYER]	= null
+		overlays_standing[HO_FACEMASK_LAYER] = null
 	if(update_icons)
 		queue_icon_update()
 
@@ -701,7 +698,7 @@ var/global/list/damage_icon_parts = list()
 		var/use_species_tail = species.get_tail_hair(src)
 		if(use_species_tail)
 			var/icon/hair_icon = icon(species.tail_icon, "[species.get_tail(src)]_[use_species_tail]")
-			hair_icon.Blend(hair_colour, ICON_ADD)
+			hair_icon.Blend(hair_colour, species.tail_hair_blend)
 			tail_icon.Blend(hair_icon, ICON_OVERLAY)
 		tail_icon_cache[icon_key] = tail_icon
 
@@ -736,20 +733,20 @@ var/global/list/damage_icon_parts = list()
 		queue_icon_update()
 
 /mob/living/carbon/human/proc/animate_tail_start(var/update_icons=1)
-	set_tail_state("[species.get_tail(src)]_slow[rand(0,9)]")
-
-	if(update_icons)
-		queue_icon_update()
+	if(species.tail_states)
+		set_tail_state("[species.get_tail(src)]_slow[rand(1, species.tail_states)]")
+		if(update_icons)
+			queue_icon_update()
 
 /mob/living/carbon/human/proc/animate_tail_fast(var/update_icons=1)
-	set_tail_state("[species.get_tail(src)]_loop[rand(0,9)]")
-
-	if(update_icons)
-		queue_icon_update()
+	if(species.tail_states)
+		set_tail_state("[species.get_tail(src)]_loop[rand(1, species.tail_states)]")
+		if(update_icons)
+			queue_icon_update()
 
 /mob/living/carbon/human/proc/animate_tail_reset(var/update_icons=1)
-	if(stat != DEAD)
-		set_tail_state("[species.get_tail(src)]_idle[rand(0,9)]")
+	if(stat != DEAD && species.tail_states > 0)
+		set_tail_state("[species.get_tail(src)]_idle[rand(1,species.tail_states)]")
 	else
 		set_tail_state("[species.get_tail(src)]_static")
 

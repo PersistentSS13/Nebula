@@ -601,7 +601,6 @@
 /turf/simulated/floor/tiled/airless,
 /area/outpost/abandoned)
 "ce" = (
-/obj/structure/closet/secure_closet/medical2,
 /obj/effect/floor_decal/corner/paleblue/three_quarters{
 	icon_state = "corner_white_three_quarters";
 	dir = 1
@@ -1796,7 +1795,7 @@
 /turf/simulated/floor/tiled/airless,
 /area/outpost/abandoned)
 "fN" = (
-/obj/machinery/requests_console{
+/obj/machinery/network/requests_console{
 	icon_state = "req_comp_rewired";
 	pixel_y = -32;
 	stat = 1

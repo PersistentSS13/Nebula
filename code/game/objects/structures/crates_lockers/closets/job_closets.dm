@@ -22,7 +22,7 @@
 		/obj/item/clothing/head/hairflower/yellow,
 		/obj/item/clothing/head/hairflower/blue,
 		/obj/item/clothing/under/sl_suit = 2,
-		/obj/item/clothing/under/rank/bartender = 2,
+		/obj/item/clothing/under/bartender = 2,
 		/obj/item/clothing/under/dress/dress_saloon,
 		/obj/item/clothing/accessory/wcoat/black = 2,
 		/obj/item/clothing/shoes/color/black = 2
@@ -42,7 +42,7 @@
 		/obj/item/clothing/under/waiter = 2,
 		/obj/item/radio/headset/headset_service = 2,
 		/obj/item/storage/box/mousetraps = 2,
-		/obj/item/clothing/under/rank/chef,
+		/obj/item/clothing/under/chef,
 		/obj/item/clothing/head/chefhat
 	)
 
@@ -56,7 +56,7 @@
 
 /obj/structure/closet/jcloset/WillContain()
 	return list(
-		/obj/item/clothing/under/rank/janitor,
+		/obj/item/clothing/under/janitor,
 		/obj/item/radio/headset/headset_service,
 		/obj/item/clothing/gloves/thick,
 		/obj/item/clothing/head/soft/purple,
@@ -82,7 +82,7 @@
 /obj/structure/closet/lawcloset/WillContain()
 	return list(
 		/obj/item/clothing/under/lawyer/female,
-		/obj/item/clothing/under/lawyer/black,
+		/obj/item/clothing/under/lawyer,
 		/obj/item/clothing/under/lawyer/red,
 		/obj/item/clothing/under/lawyer/bluesuit,
 		/obj/item/clothing/suit/storage/toggle/suit/blue,

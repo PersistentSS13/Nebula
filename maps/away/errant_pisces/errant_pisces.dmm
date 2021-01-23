@@ -3337,10 +3337,10 @@
 /area/errant_pisces/live_storage)
 "hG" = (
 /obj/structure/closet,
-/obj/item/clothing/under/rank/medical/scrubs,
-/obj/item/clothing/under/rank/medical/scrubs,
-/obj/item/clothing/under/rank/medical/scrubs,
-/obj/item/clothing/under/rank/nurse,
+/obj/item/clothing/under/medical/scrubs,
+/obj/item/clothing/under/medical/scrubs,
+/obj/item/clothing/under/medical/scrubs,
+/obj/item/clothing/under/nurse,
 /turf/simulated/floor/plating,
 /area/errant_pisces/infirmary)
 "hH" = (
@@ -3368,7 +3368,6 @@
 /obj/item/clothing/head/surgery,
 /obj/item/storage/firstaid/surgery,
 /obj/item/storage/firstaid/adv,
-/obj/item/clothing/mask/breath/anesthetic,
 /turf/simulated/floor/tiled/white,
 /area/errant_pisces/infirmary)
 "hM" = (
@@ -3960,7 +3959,7 @@
 "jD" = (
 /obj/structure/table/standard,
 /obj/random/firstaid,
-/obj/item/clothing/under/rank/medical/paramedic,
+/obj/item/clothing/under/medical/paramedic,
 /obj/machinery/atmospherics/unary/vent_scrubber/on{
 	dir = 1
 	},

@@ -39,7 +39,6 @@
 	var/skin_colour                    // skin colour
 	var/skin_blend = ICON_ADD          // How the skin colour is applied.
 	var/hair_colour                    // hair colour
-	var/body_hair                      // Icon blend for body hair if any.
 	var/list/markings = list()         // Markings (body_markings) to apply to the icon
 
 	// Wound and structural data.
@@ -76,6 +75,8 @@
 
 	var/atom/movable/applied_pressure
 	var/atom/movable/splinted
+
+	var/internal_organs_size = 0       // Currently size cost of internal organs in this body part
 
 	// HUD element variable, see organ_icon.dm get_damage_hud_image()
 	var/image/hud_damage_image
@@ -352,6 +353,10 @@
 		O = O.parent
 	return 0
 
+/obj/item/organ/external/proc/update_internal_organs_cost()
+	internal_organs_size = 0
+	for(var/obj/item/organ/internal/org in internal_organs)
+		internal_organs_size += org.get_storage_cost()
 
 /obj/item/organ/external/proc/dislocate()
 	if(dislocated == -1)
@@ -606,6 +611,8 @@ This function completely restores a damaged organ to perfect condition.
 /obj/item/organ/external/proc/need_process()
 	if(get_pain())
 		return 1
+	if(length(ailments))
+		return 1
 	if(status & (ORGAN_CUT_AWAY|ORGAN_BLEEDING|ORGAN_BROKEN|ORGAN_DEAD|ORGAN_MUTATED))
 		return 1
 	if((brute_dam || burn_dam) && !BP_IS_PROSTHETIC(src)) //Robot limbs don't autoheal and thus don't need to process when damaged
@@ -621,21 +628,18 @@ This function completely restores a damaged organ to perfect condition.
 
 /obj/item/organ/external/Process()
 	if(owner)
-
 		if(pain)
 			pain -= owner.lying ? 3 : 1
 			if(pain<0)
 				pain = 0
-
 		// Process wounds, doing healing etc. Only do this every few ticks to save processing power
 		if(owner.life_tick % wound_update_accuracy == 0)
 			update_wounds()
-
 		//Infections
 		update_germs()
 	else
 		pain = 0
-		..()
+	..()
 
 //Updating germ levels. Handles organ germ levels and necrosis.
 /*
@@ -1469,3 +1473,8 @@ obj/item/organ/external/proc/remove_clamps()
 
 /obj/item/organ/external/proc/has_growths()
 	return FALSE
+
+/obj/item/organ/external/add_ailment(var/datum/ailment/ailment)
+	. = ..()
+	if(. && owner)
+		owner.bad_external_organs |= src

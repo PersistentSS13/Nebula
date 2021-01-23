@@ -5900,6 +5900,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/effect/landmark/paperwork_finish_tradeship,
 /turf/simulated/floor/tiled/dark,
 /area/ship/trade/command/bridge)
 "As" = (
@@ -5999,7 +6000,6 @@
 /obj/item/multitool{
 	pixel_x = 5
 	},
-/obj/item/clamp,
 /turf/simulated/floor/tiled/techfloor,
 /area/ship/trade/maintenance/atmos)
 "BP" = (
@@ -6075,6 +6075,7 @@
 	},
 /obj/item/radio,
 /obj/random/drinkbottle,
+/obj/effect/landmark/paperwork_spawn_tradeship,
 /turf/simulated/floor/tiled/dark,
 /area/ship/trade/command/bridge)
 "CP" = (
@@ -6322,6 +6323,7 @@
 /obj/machinery/light_switch{
 	pixel_x = 28
 	},
+/obj/effect/landmark/paperwork_spawn_tradeship,
 /turf/simulated/floor/tiled/dark,
 /area/ship/trade/command/bridge)
 "FT" = (
@@ -6988,7 +6990,7 @@
 /turf/simulated/floor/tiled/freezer,
 /area/ship/trade/crew/wash)
 "Np" = (
-/obj/machinery/requests_console{
+/obj/machinery/network/requests_console{
 	announcementConsole = 1;
 	department = "Captain";
 	pixel_x = 0;

@@ -18,7 +18,7 @@
 /obj/item/clothing/ring/aura_ring/talisman_of_starborn
 	name = "Talisman of the Starborn"
 	desc = "This ring seems to shine with more light than is put on it."
-	icon_state = "starring"
+	icon = 'icons/clothing/rings/ring_star.dmi'
 
 /obj/item/clothing/ring/aura_ring/talisman_of_starborn/Initialize()
 	. = ..()
@@ -27,7 +27,7 @@
 /obj/item/clothing/ring/aura_ring/talisman_of_blueforged
 	name = "Talisman of the Blueforged"
 	desc = "The gem on this ring is quite peculiar..."
-	icon_state = "bluering"
+	icon = 'icons/clothing/rings/ring_blue.dmi'
 
 /obj/item/clothing/ring/aura_ring/talisman_of_blueforged/Initialize()
 	. = ..()
@@ -36,7 +36,7 @@
 /obj/item/clothing/ring/aura_ring/talisman_of_shadowling
 	name = "Talisman of the Shadowling"
 	desc = "If you weren't looking at this, you probably wouldn't have noticed it."
-	icon_state = "shadowring"
+	icon = 'icons/clothing/rings/ring_shadow.dmi'
 
 /obj/item/clothing/ring/aura_ring/talisman_of_shadowling/Initialize()
 	. = ..()
@@ -121,7 +121,7 @@
 	self_recharge = 0
 	max_shots = 10
 	projectile_type = /obj/item/projectile/energy/flash
-	required_antag_type = MODE_GODCULTIST
+	required_antag_type = /decl/special_role/godcultist
 
 /obj/item/sword/blazing
 	name = "blazing blade"

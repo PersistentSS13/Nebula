@@ -1,9 +1,6 @@
-GLOBAL_DATUM_INIT(ninjas, /datum/antagonist/ninja, new)
-
-/datum/antagonist/ninja
-	id = MODE_NINJA
-	role_text = "Ninja"
-	role_text_plural = "Ninja"
+/decl/special_role/ninja
+	name = "Ninja"
+	name_plural = "Ninja"
 	landmark_id = "ninjastart"
 	welcome_text = "<span class='info'>You are an elite mercenary assassin of the Spider Clan. You have a variety of abilities at your disposal, thanks to your nano-enhanced cyber armor.</span>"
 	flags = ANTAG_OVERRIDE_JOB | ANTAG_OVERRIDE_MOB | ANTAG_CLEAR_EQUIPMENT | ANTAG_CHOOSE_NAME | ANTAG_RANDSPAWN | ANTAG_VOTABLE | ANTAG_SET_APPEARANCE
@@ -20,10 +17,14 @@ GLOBAL_DATUM_INIT(ninjas, /datum/antagonist/ninja, new)
 	faction = "ninja"
 	base_to_load = /datum/map_template/ruin/antag_spawn/ninja
 
-/datum/antagonist/ninja/attempt_random_spawn()
+	default_outfit = /decl/hierarchy/outfit/ninja
+	id_title = "Infiltrator"
+	rig_type = /obj/item/rig/light/ninja
+
+/decl/special_role/ninja/attempt_random_spawn()
 	if(config.ninjas_allowed) ..()
 
-/datum/antagonist/ninja/create_objectives(var/datum/mind/ninja)
+/decl/special_role/ninja/create_objectives(var/datum/mind/ninja)
 
 	if(!..())
 		return
@@ -74,7 +75,7 @@ GLOBAL_DATUM_INIT(ninjas, /datum/antagonist/ninja, new)
 	ninja_objective.owner = ninja
 	ninja.objectives += ninja_objective
 
-/datum/antagonist/ninja/greet(var/datum/mind/player)
+/decl/special_role/ninja/greet(var/datum/mind/player)
 
 	if(!..())
 		return 0
@@ -82,7 +83,7 @@ GLOBAL_DATUM_INIT(ninjas, /datum/antagonist/ninja, new)
 	player.StoreMemory("<B>Directive:</B> <span class='danger'>[directive]</span><br>", /decl/memory_options/system)
 	to_chat(player, "<b>Remember your directive:</b> [directive].")
 
-/datum/antagonist/ninja/update_antag_mob(var/datum/mind/player)
+/decl/special_role/ninja/update_antag_mob(var/datum/mind/player)
 	..()
 	var/ninja_title = pick(GLOB.ninja_titles)
 	var/ninja_name = pick(GLOB.ninja_names)
@@ -92,21 +93,20 @@ GLOBAL_DATUM_INIT(ninjas, /datum/antagonist/ninja, new)
 		H.SetName(H.real_name)
 	player.name = H.name
 
-/datum/antagonist/ninja/equip(var/mob/living/carbon/human/player)
+/decl/hierarchy/outfit/ninja
+	name =    "Special Role - Ninja"
+	l_ear =   /obj/item/radio/headset
+	uniform = /obj/item/clothing/under/color/black
+	belt =    /obj/item/flashlight
+	hands =   list(/obj/item/modular_computer/pda/syndicate)
+
+/decl/special_role/ninja/equip(var/mob/living/carbon/human/player)
 	. = ..()
 	if(.)
-		var/obj/item/radio/R = new /obj/item/radio/headset(player)
-		player.equip_to_slot_or_del(R, slot_l_ear_str)
-		player.equip_to_slot_or_del(new /obj/item/clothing/under/color/black(player), slot_w_uniform_str)
-		player.equip_to_slot_or_del(new /obj/item/flashlight(player), slot_belt_str)
-		create_id("Infiltrator", player)
-		equip_rig(/obj/item/rig/light/ninja, player)
-		var/obj/item/modular_computer/pda/syndicate/U = new
-		player.put_in_hands(U)
 		var/decl/uplink_source/pda/uplink_source = new
 		uplink_source.setup_uplink_source(player, 0)
 
-/datum/antagonist/ninja/proc/generate_ninja_directive(side)
+/decl/special_role/ninja/proc/generate_ninja_directive(side)
 	var/directive = "[side=="face"?"[GLOB.using_map.company_name]":"A criminal syndicate"] is your employer. "//Let them know which side they're on.
 	switch(rand(1,18))
 		if(1)

@@ -9,6 +9,8 @@
 	glass_name = "tomato juice"
 	glass_desc = "Are you sure this is tomato juice?"
 	value = 2.5
+	opacity = 1
+	min_fluid_opacity = FLUID_MAX_ALPHA
 
 	chilling_products = list(
 		/decl/material/liquid/coagulated_blood = 1
@@ -58,6 +60,8 @@
 			B.blood_DNA["UNKNOWN DNA STRUCTURE"] = "X*"
 
 /decl/material/liquid/blood/affect_ingest(var/mob/living/carbon/M, var/alien, var/removed, var/datum/reagents/holder)
+	if(M.HasTrait(/decl/trait/metabolically_inert))
+		return
 
 	if(M.chem_doses[type] > 5)
 		M.adjustToxLoss(removed)

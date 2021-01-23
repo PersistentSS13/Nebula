@@ -17,7 +17,6 @@ var/list/icon_state_cache = list()
 	. = check[checkstate]
 
 /obj/item
-	var/on_mob_use_spritesheets  // use spritesheets list for on-mob icon
 	var/tmp/has_inventory_icon	// do not set manually
 	var/tmp/use_single_icon
 
@@ -64,6 +63,9 @@ var/list/bodypart_to_slot_lookup_table = list(
 	BP_R_HAND = "slot_r_hand"
 )
 
+/obj/item/proc/get_fallback_slot(var/slot)
+	return
+
 /obj/item/proc/experimental_mob_overlay(var/mob/user_mob, var/slot, var/bodypart)
 
 	var/bodytype = lowertext(user_mob?.get_bodytype())
@@ -78,6 +80,12 @@ var/list/bodypart_to_slot_lookup_table = list(
 		use_state = "[bodytype]-[global.bodypart_to_slot_lookup_table[slot]]"
 
 	if(!check_state_in_icon(use_state, useicon))
+		var/fallback = get_fallback_slot(slot)
+		if(!fallback)
+			return new /image
+		use_state = "[bodytype]-[fallback]"
+
+	if(!check_state_in_icon(use_state, useicon))
 		return new /image
 
 	var/image/I = image(useicon, use_state)
@@ -90,11 +98,8 @@ var/list/bodypart_to_slot_lookup_table = list(
 	. = species && species.get_bodytype(src)
 
 /obj/item/proc/get_icon_for_bodytype(var/bodytype)
-	. = icon
-	if(on_mob_use_spritesheets)
-		for(var/btype in sprite_sheets)
-			if(lowertext(btype) == bodytype)
-				return sprite_sheets[btype]
+	bodytype = lowertext(bodytype)
+	. = LAZYACCESS(sprite_sheets, bodytype) || icon
 
 /obj/item/proc/apply_overlays(var/mob/user_mob, var/bodytype, var/image/overlay, var/slot)
 	. = overlay
