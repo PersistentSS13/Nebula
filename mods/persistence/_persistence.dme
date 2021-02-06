@@ -40,7 +40,7 @@
 #include "game\turfs\flooring\flooring_premade.dm"
 #include "game\turfs\simulated\asteroid_subtypes.dm"
 #include "game\turfs\simulated\wall_types.dm"
-#include "modules\admin\admin.dm"
+#include "modules\admin\verbs\admin.dm"
 #include "modules\atmospherics\pipes.dm"
 #include "modules\atmospherics\components\omni_devices\mixer.dm"
 #include "modules\atmospherics\components\omni_devices\omni_base.dm"
