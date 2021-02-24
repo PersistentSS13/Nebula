@@ -42,7 +42,7 @@
 	if(query.ErrorMsg())
 		to_chat(usr, "Error: [query.ErrorMsg()]")
 
-	query = dbcon.NewQuery("SELECT `TABLE_NAME`, `TABLE_ROWS` FROM information_schema.tables WHERE `TABLE_NAME` IN ('list', 'list_element', 'thing', 'thing_var')")
+	query = dbcon.NewQuery("SELECT `TABLE_NAME`, `TABLE_ROWS` FROM information_schema.tables WHERE `TABLE_NAME` IN ('list_element', 'thing', 'thing_var')")
 	query.Execute()
 
 	if(query.ErrorMsg())
