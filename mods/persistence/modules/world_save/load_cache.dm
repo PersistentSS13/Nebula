@@ -68,9 +68,21 @@
 /datum/persistence/load_cache/resolver/proc/load_cache()
 	clear_cache()
 
-	// Deserialize the objects
+	// Deserialized levels
 	var/start = world.timeofday
-	var/DBQuery/query = dbcon.NewQuery("SELECT `id`,`type`,`x`,`y`,`z` FROM `thing`;")
+	var/DBQuery/query = dbcon.NewQuery("SELECT `z`,`dynamic`,`default_turf`,`metadata` FROM `z_level`;")
+	query.Execute()
+	while(query.NextRow())
+		var/items = query.GetRowData()
+		var/datum/persistence/load_cache/z_level/z_level = new(items)
+		z_levels += z_level
+		z_levels_cached++
+		CHECK_TICK
+	to_world_log("Took [(world.timeofday - start) / 10]s to cache [z_levels_cached] z_levels")
+
+	// Deserialize the objects
+	start = world.timeofday
+	query = dbcon.NewQuery("SELECT `id`,`type`,`x`,`y`,`z` FROM `thing`;")
 	query.Execute()
 	while(query.NextRow())
 		var/items = query.GetRowData()
@@ -107,18 +119,6 @@
 		lists_cached++
 		CHECK_TICK
 	to_world_log("Took [(world.timeofday - start) / 10]s to cache [lists_cached] lists")
-
-	// Deserialized levels
-	start = world.timeofday
-	query = dbcon.NewQuery("SELECT `z`,`dynamic`,`default_turf`,`metadata` FROM `z_level`;")
-	query.Execute()
-	while(query.NextRow())
-		var/items = query.GetRowData()
-		var/datum/persistence/load_cache/z_level/z_level = new(items)
-		z_levels += z_level
-		z_levels_cached++
-		CHECK_TICK
-	to_world_log("Took [(world.timeofday - start) / 10]s to cache [z_levels_cached] z_levels")
 
 	// Done!
 	to_world_log("Cached [things_cached] things, [vars_cached + failed_vars] vars, [lists_cached] lists. [failed_vars] failed to cache due to missing thing references.")

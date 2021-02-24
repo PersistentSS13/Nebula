@@ -113,8 +113,10 @@
 				V = QueryAndDeserializeDatum(copytext(V, 10))
 			else if(islist(V))
 				V = DeserializeList(V)
-			if(V) // Prevents null values from clogging up lists when an object isn't supposed to be saved.
+			if(V)
 				final_list[key] = V
+			else
+				final_list.Add(key)
 		catch
 			final_list.Add(key)
 	return final_list
