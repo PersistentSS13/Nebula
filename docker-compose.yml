@@ -1,0 +1,21 @@
+version: "2"
+services:
+  db:
+    image: persistent-db
+    build: ./sql
+    ports:
+        - "3306:3306"
+    volumes:
+        - "./sql/test_db:/var/lib/mysql"
+  ss13:
+    build:
+      context: .
+    image: persistent:latest
+    depends_on:
+        - db
+    ports:
+        - "8000:8000"
+    volumes:
+        - "./config:/persistent/config"
+        - "./data:/persistent/data"
+
