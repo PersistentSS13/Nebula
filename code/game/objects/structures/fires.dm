@@ -161,8 +161,8 @@
 	. = ..()
 
 /obj/structure/fire_source/grab_attack(var/obj/item/grab/G)
-	var/mob/affecting_mob = G.get_affecting_mob()
-	if(!affecting_mob)
+	var/mob/living/affecting_mob = G.get_affecting_mob()
+	if(!istype(affecting_mob))
 		return FALSE
 	if (G.assailant.a_intent != I_HURT)
 		return TRUE
@@ -170,7 +170,7 @@
 		to_chat(G.assailant, SPAN_WARNING("You need a better grip!"))
 		return TRUE
 	affecting_mob.forceMove(get_turf(src))
-	affecting_mob.Weaken(5)
+	SET_STATUS_MAX(affecting_mob, STAT_WEAK, 5)
 	visible_message(SPAN_DANGER("\The [G.assailant] hurls \the [affecting_mob] onto \the [src]!"))
 	burn(affecting_mob)
 	return TRUE

@@ -54,7 +54,7 @@ var/list/department_radio_keys = list(
 
 
 var/list/channel_to_radio_key = new
-proc/get_radio_key_from_channel(var/channel)
+/proc/get_radio_key_from_channel(var/channel)
 	var/key = channel_to_radio_key[channel]
 	if(!key)
 		for(var/radio_key in department_radio_keys)
@@ -89,7 +89,7 @@ proc/get_radio_key_from_channel(var/channel)
 	. = ispath(default_language, /decl/language) && GET_DECL(default_language)
 
 /mob/living/is_silenced()
-	. = ..() || silent
+	. = ..() || HAS_STATUS(src, STAT_SILENCE)
 
 //Takes a list of the form list(message, verb, whispering) and modifies it as needed
 //Returns 1 if a speech problem was applied, 0 otherwise
@@ -104,11 +104,11 @@ proc/get_radio_key_from_channel(var/channel)
 		verb = pick("yells","roars","hollers")
 		message_data[3] = 0
 		. = 1
-	else if(slurring)
+	else if(HAS_STATUS(src, STAT_SLUR))
 		message = slur(message)
 		verb = pick("slobbers","slurs")
 		. = 1
-	else if(stuttering)
+	else if(HAS_STATUS(src, STAT_STUTTER))
 		message = NewStutter(message)
 		verb = pick("stammers","stutters")
 		. = 1

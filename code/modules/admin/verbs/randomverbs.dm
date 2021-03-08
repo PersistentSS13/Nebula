@@ -30,7 +30,7 @@
 		for(var/obj/item/W in M)
 			M.drop_from_inventory(W)
 		//teleport person to cell
-		M.Paralyse(5)
+		SET_STATUS_MAX(M, STAT_PARA, 5)
 		sleep(5)	//so they black out before warping
 		M.forceMove(pick(GLOB.prisonwarp))
 		if(istype(M, /mob/living/carbon/human))
@@ -256,7 +256,7 @@
 	message_admins("[key_name_admin(usr)] has toggled [key_name_admin(M)]'s nodamage to [(M.status_flags & GODMODE) ? "On" : "Off"]", 1)
 	SSstatistics.add_field_details("admin_verb","GOD") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
-proc/cmd_admin_mute(mob/M as mob, mute_type)
+/proc/cmd_admin_mute(mob/M as mob, mute_type)
 	if(!usr || !usr.client)
 		return
 	if(!usr.client.holder)

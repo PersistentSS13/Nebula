@@ -164,8 +164,8 @@
 		return
 
 	if(owner && BP_IS_CRYSTAL(src)) // Crystalline robotics == piezoelectrics.
-		owner.Weaken(4 - severity)
-		owner.confused = max(owner.confused, 6 - (severity * 2))
+		SET_STATUS_MAX(owner, STAT_WEAK, 4 - severity)
+		SET_STATUS_MAX(owner, STAT_CONFUSE, 6 - (severity * 2))
 		return
 
 	var/burn_damage = 0
@@ -1082,7 +1082,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 		if(W.clamped)
 			return 1
 
-obj/item/organ/external/proc/remove_clamps()
+/obj/item/organ/external/proc/remove_clamps()
 	var/rval = 0
 	for(var/datum/wound/W in wounds)
 		rval |= W.clamped
@@ -1188,6 +1188,7 @@ obj/item/organ/external/proc/remove_clamps()
 	force_icon = R.icon
 	name = "[R ? R.modifier_string : "robotic"] [initial(name)]"
 	desc = "[R.desc] It looks like it was produced by [R.name]."
+	origin_tech = R.limb_tech
 	slowdown = R.movement_slowdown
 	max_damage *= R.hardiness
 	min_broken_damage *= R.hardiness
