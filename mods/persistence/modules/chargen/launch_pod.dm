@@ -1,5 +1,14 @@
 #define STARTING_POINTS 30
 
+/obj/machinery/cryopod/outreach
+	name = "outreach cryogenic freezer"
+
+/obj/machinery/cryopod/outreach/Initialize()
+	. = ..()
+	
+	GLOB.latejoin |= get_turf(src)
+	GLOB.latejoin_cryo |= get_turf(src)
+
 /obj/machinery/cryopod/chargen/proc/send_to_outpost()
 	if(!istype(occupant))
 		return

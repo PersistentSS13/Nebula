@@ -21,6 +21,7 @@
 	query.Execute()
 	if(query.NextRow())
 		save_exists = text2num(query.item[1]) > 0
+		in_loaded_world = save_exists
 
 /datum/controller/subsystem/persistence/proc/SaveWorld()
 	// Collect the z-levels we're saving and get the turfs!
@@ -307,8 +308,8 @@
 		serializer.Clear()
 
 		// Tell the atoms subsystem to not populate parts.
-		if(turfs_loaded)
-			SSatoms.adjust_init_arguments = TRUE
+		//if(turfs_loaded)
+			//SSatoms.adjust_init_arguments = TRUE
 	catch(var/exception/e)
 		to_world_log("Load failed on line [e.line], file [e.file] with message: '[e]'.")
 
