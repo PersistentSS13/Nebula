@@ -10,3 +10,6 @@
 		lighting_build_overlay()
 	else
 		lighting_clear_overlay()
+
+	if(lighting_overlay)
+		lighting_overlay.loc = src

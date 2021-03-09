@@ -1,8 +1,7 @@
 /obj/machinery/computer/chargen
 	var/ui_template = "chargen.tmpl"
 	var/active_section = "origin"
-	construct_state = /decl/machine_construction/default/panel_closed/computer/no_deconstruct
-	base_type = /obj/machinery/computer
+	construct_state = /decl/machine_construction/no_build
 
 /obj/machinery/computer/chargen/OnTopic(var/mob/user, var/href_list, var/datum/topic_state/state)
 	. = TOPIC_REFRESH
@@ -135,3 +134,12 @@
 			ui.set_initial_data(data)
 			ui.open()
 			ui.set_auto_update(1)
+
+/decl/machine_construction/no_build
+	needs_board = "computer"
+	cannot_print = TRUE
+
+/obj/item/stock_parts/circuitboard/computer_chargen
+	name = "circuitboard (dossier console)"
+	build_path = /obj/machinery/computer/chargen
+	
