@@ -114,7 +114,7 @@
 			to_chat(user, SPAN_NOTICE("\The [src] already has an occupant!"))
 	return FALSE
 
-obj/machinery/resleever/Process()
+/obj/machinery/resleever/Process()
 	if(!operable())
 		remaining = 0
 		update_use_power(POWER_USE_OFF)
@@ -123,7 +123,7 @@ obj/machinery/resleever/Process()
 	if(remaining > 1)
 		// Actively running
 		update_use_power(POWER_USE_ACTIVE)
-		occupant.Paralyse(4)
+		SET_STATUS_MAX(occupant, STAT_PARA, 4)
 		remaining -= 1
 
 		// If we are 66% done, give the occupant some notice.

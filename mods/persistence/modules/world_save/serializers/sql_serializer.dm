@@ -15,6 +15,10 @@
 	// Add the flatten serializer.
 	var/serializer/json/flattener
 
+	
+	var/static/byondChar			// byondChar isn't unicode valid, so we have to get this at runtime
+	var/static/utf8Char = "\uF811"	// this is a Private Use character in utf8 that we can use as a replacement
+
 #ifdef SAVE_DEBUG
 	var/verbose_logging = FALSE
 #endif
@@ -23,6 +27,15 @@
 /serializer/sql/New()
 	..()
 	flattener = new(src)
+	
+	if(isnull(byondChar))
+		byondChar = copytext_char("\improper", 1, 2)
+
+/serializer/sql/proc/byond2utf8(var/text)
+	return replacetext(text, byondChar, utf8Char)
+
+/serializer/sql/proc/utf82byond(var/text)
+	return replacetext(text, utf8Char, byondChar)
 
 // Serialize an object datum. Returns the appropriate serialized form of the object. What's outputted depends on the serializer.
 /serializer/sql/SerializeDatum(var/datum/object, var/object_parent)
@@ -100,6 +113,7 @@
 			VT = "NUM"
 		else if (istext(VV))
 			VT = "TEXT"
+			VV = byond2utf8(VV)
 		else if (ispath(VV) || IS_PROC(VV)) // After /datum check to avoid high-number obj refs
 			VT = "PATH"
 		else if (isfile(VV))
@@ -182,6 +196,7 @@
 			KT = "NUM"
 		else if (istext(key))
 			KT = "TEXT"
+			key = byond2utf8(key)
 		else if (ispath(key) || IS_PROC(key))
 			KT = "PATH"
 		else if (isfile(key))
@@ -222,6 +237,7 @@
 				ET = "NUM"
 			else if (istext(EV))
 				ET = "TEXT"
+				EV = byond2utf8(EV)
 			else if (isnull(EV))
 				ET = "NULL"
 			else if (ispath(EV) || IS_PROC(EV))
@@ -301,6 +317,7 @@
 				if("NUM")
 					existing.vars[TV.key] = text2num(TV.value)
 				if("TEXT")
+					TV.value = utf82byond(TV.value)
 					existing.vars[TV.key] = TV.value
 				if("PATH")
 					existing.vars[TV.key] = text2path(TV.value)
@@ -337,6 +354,7 @@
 				if("NULL")
 					key_value = null
 				if("TEXT")
+					LE.key = utf82byond(LE.key)
 					key_value = LE.key
 				if("NUM")
 					key_value = text2num(LE.key)
@@ -359,6 +377,7 @@
 					// This is how lists are made. Everything else is a dict.
 					existing += list(key_value)
 				if("TEXT")
+					LE.value = utf82byond(LE.value)
 					existing[key_value] = LE.value
 				if("NUM")
 					existing[key_value] = text2num(LE.value)
