@@ -27,16 +27,8 @@
 		/obj/item/scanner/health = 1
 	)
 
-/obj/item/chargen_box/science/burn_toxin
-	name = "burn & toxin kit"
-	startswith = list(
-		/obj/item/storage/med_pouch/burn = 4,
-		/obj/item/storage/med_pouch/toxin = 4,
-		/obj/item/chems/hypospray/autoinjector/pain = 2
-	)
-
 /obj/item/chargen_box/science/refill
-	name = "assorted drug refill"
+	name = "assorted pill valu-pak" // gotta give it a snazzy brand name
 	startswith = list(
 		/obj/item/storage/pill_bottle/brute_meds = 1,
 		/obj/item/storage/pill_bottle/burn_meds = 1,
@@ -53,4 +45,32 @@
 		/obj/item/stock_parts/circuitboard/destructive_analyzer = 1,
 		/obj/item/stock_parts/circuitboard/protolathe = 1,
 		/obj/item/clothing/suit/storage/toggle/labcoat = 1
+	)
+
+/obj/item/chargen_box/science/brute
+	name = "emergency brute treatment kit"
+	startswith = list(
+		/obj/item/storage/med_pouch/trauma = 2,
+		/obj/item/chems/hypospray/autoinjector/pain = 1
+	)
+	
+/obj/item/chargen_box/science/burn
+	name = "emergency burn treatment kit"
+	startswith = list(
+		/obj/item/storage/med_pouch/burn = 2,
+		/obj/item/chems/hypospray/autoinjector/pain = 1
+	)
+	
+/obj/item/chargen_box/science/toxin
+	name = "emergency toxin treatment kit"
+	startswith = list(
+		/obj/item/storage/med_pouch/toxin = 2,
+		/obj/item/chems/hypospray/autoinjector/detox = 1
+	)
+	
+/obj/item/chargen_box/science/oxyloss
+	name = "emergency suffocation treatment kit"
+	startswith = list(
+		/obj/item/storage/med_pouch/oxyloss = 2,
+		/obj/item/chems/hypospray/autoinjector = 1
 	)
