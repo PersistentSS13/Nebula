@@ -1,7 +1,7 @@
 #define STARTING_POINTS 30
 
 /obj/machinery/cryopod/outreach
-	name = "outreach cryogenic freezer"
+	name = "cryogenic freezer"
 
 /obj/machinery/cryopod/outreach/Initialize()
 	. = ..()

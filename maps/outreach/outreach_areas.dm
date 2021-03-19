@@ -58,15 +58,15 @@
 /area/exoplanet/outreach/mines
 	name = "Deep Underground"
 	icon_state = "unknown"
-	var/do_autogenerate = FALSE
+	ignore_mining_regen = TRUE
 
 /area/exoplanet/outreach/mines/depth_1
-	do_autogenerate = TRUE
 	icon_state = "cave"
+	ignore_mining_regen = FALSE
 
 /area/exoplanet/outreach/mines/depth_2
-	do_autogenerate = TRUE
 	icon_state = "cave"
+	ignore_mining_regen = FALSE
 
 /area/exoplanet/outreach/mines/exits
 	icon_state = "exit"
