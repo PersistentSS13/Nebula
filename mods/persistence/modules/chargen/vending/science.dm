@@ -11,7 +11,10 @@
 		/obj/item/chargen_box/science/emt = 999,
 		/obj/item/chargen_box/science/doctor = 999,
 		/obj/item/chargen_box/science/surgery = 999,
-		/obj/item/chargen_box/science/burn_toxin = 999,
-		/obj/item/chargen_box/science/refill = 999
+		/obj/item/chargen_box/science/refill = 999,
+		/obj/item/chargen_box/science/brute = 999,
+		/obj/item/chargen_box/science/burn = 999,
+		/obj/item/chargen_box/science/toxin = 999,
+		/obj/item/chargen_box/science/oxyloss = 999
 	)
 	idle_power_usage = 211 //refrigerator - believe it or not, this is actually the average power consumption of a refrigerated vending machine according to NRCan.
