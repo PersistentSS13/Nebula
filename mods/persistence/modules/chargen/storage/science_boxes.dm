@@ -27,14 +27,6 @@
 		/obj/item/scanner/health = 1
 	)
 
-/obj/item/chargen_box/science/burn_toxin // now deprecated + unused, see replacement medpacks below
-	name = "burn & toxin kit"
-	startswith = list(
-		/obj/item/storage/med_pouch/burn = 4,
-		/obj/item/storage/med_pouch/toxin = 4,
-		/obj/item/chems/hypospray/autoinjector/pain = 2
-	)
-
 /obj/item/chargen_box/science/refill
 	name = "assorted pill valu-pak" // gotta give it a snazzy brand name
 	startswith = list(
