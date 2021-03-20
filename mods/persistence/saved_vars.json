@@ -3965,6 +3965,12 @@
 		]
 	},
 	{
+		"path":"/obj/machinery/network/area_controller",
+		"vars":[
+			"owned_areas"
+		]
+	},
+	{
 		"path":"/datum/computer_network",
 		"vars":[
 			"network_key",
