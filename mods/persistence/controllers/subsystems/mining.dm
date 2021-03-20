@@ -54,7 +54,7 @@ SUBSYSTEM_DEF(mining)
 	var/list/mining_areas = list()
 
 /area
-	var/ignore_mining_regen = FALSE
+	var/ignore_mining_regen = TRUE
 
 /datum/controller/subsystem/mining/Initialize()
 	Regenerate()
