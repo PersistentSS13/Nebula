@@ -91,7 +91,7 @@
 	)
 
 	text_book_type = /obj/item/book/skill/research/science/expert
-
+/*
 /decl/hierarchy/chargen/role/judge
 	ID = "judge"
 	name = "Judge"
@@ -110,7 +110,7 @@
 	)
 
 	text_book_type = /obj/item/book/skill/engineering/construction/expert
-
+*/
 /decl/hierarchy/chargen/role/wage_slave
 	ID = "wage_slave"
 	name = "Wage Slave"

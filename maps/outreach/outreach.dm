@@ -10,6 +10,7 @@
 
 	#include "outreach_test.dm"
 	#include "chargen/chargen_areas.dm"
+	#include "music_tracks/dirtyoldfrogg.dm"
 
 	#include "outreach_access.dm"
 	#include "outreach_areas.dm"
