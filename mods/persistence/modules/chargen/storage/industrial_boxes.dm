@@ -1,5 +1,5 @@
 /obj/item/chargen_box/industrial/engineering
-	name = "engineering kit"
+	name = "engineering toolkit"
 	icon_state = "survival"
 	startswith = list(
 		/obj/item/storage/toolbox/mechanical = 1,
@@ -20,18 +20,49 @@
 	)
 
 /obj/item/chargen_box/industrial/building
-	name = "building materials"
+	name = "assorted building materials"
 	startswith = list(
 		/obj/item/stack/material/steel/fifty = 1,
 		/obj/item/stack/material/glass/ten = 1,
 		/obj/item/stack/material/plastic/ten = 1,
 		/obj/item/stack/cable_coil/random = 1
 	)
-
-/obj/item/chargen_box/industrial/microlathe
-	name = "microlathe kit"
+	
+/obj/item/chargen_box/industrial/steel
+	name = "steel resupply pack"
 	startswith = list(
-		/obj/item/stock_parts/circuitboard/autolathe/micro
+		/obj/item/stack/material/steel/fifty = 2
+	)
+	
+/obj/item/chargen_box/industrial/glass
+	name = "glass resupply pack"
+	startswith = list(
+		/obj/item/stack/material/glass/fifty = 2
+	)
+
+/obj/item/chargen_box/industrial/plastic
+	name = "plastic resupply pack"
+	startswith = list(
+		/obj/item/stack/material/plastic/fifty = 2
+	)
+	
+/obj/item/chargen_box/industrial/cable
+	name = "cable resupply pack"
+	startswith = list(
+		/obj/item/stack/cable_coil/random = 4
+	)
+
+/obj/item/chargen_box/industrial/autolathe
+	name = "DIY autolathe kit"
+	startswith = list(
+		/obj/item/stock_parts/circuitboard/autolathe = 1,
+		/obj/item/stack/material/steel/ten = 1,
+		/obj/item/stack/cable_coil/random = 1,
+		/obj/item/stock_parts/keyboard = 1,
+		/obj/item/stock_parts/console_screen = 1,
+		/obj/item/stock_parts/power/apc/buildable = 1,
+		/obj/item/stock_parts/matter_bin = 3,
+		/obj/item/stock_parts/manipulator = 1
 	)
 
 /obj/item/chargen_box/industrial/mining
@@ -71,7 +102,7 @@
 		/obj/item/stock_parts/circuitboard/mining_stacker = 1
 	)
 
-/obj/item/chargen_box/industrial/power_gen
+/obj/item/chargen_box/industrial/power_gen // parts not included since they can and should build their first autolathe in the outpost, which has power
 	name = "power generator kit"
 	startswith = list(
 		/obj/item/stock_parts/circuitboard/pacman = 1,
