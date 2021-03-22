@@ -9,8 +9,7 @@
 	for (var/turf/T in block(locate(origin_x, origin_y, origin_z), locate(limit_x, limit_y, origin_z)))
 		new_path = null
 		var/area/A = get_area(T)
-		// Yucky hardcode for now
-		if(istype(A, /area/exoplanet/outreach/mines/exits) || !istype(A, /area/exoplanet/outreach/mines))
+		if(A.ignore_mining_regen)
 			continue
 
 		tmp_cell = TRANSLATE_COORD(T.x, T.y)
@@ -53,6 +52,9 @@ SUBSYSTEM_DEF(mining)
 
 /datum/map
 	var/list/mining_areas = list()
+
+/area
+	var/ignore_mining_regen = TRUE
 
 /datum/controller/subsystem/mining/Initialize()
 	Regenerate()
