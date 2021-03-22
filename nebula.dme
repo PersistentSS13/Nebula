@@ -3273,7 +3273,6 @@
 #include "maps\antag_spawn\wizard\wizard.dm"
 #include "maps\away\away_sites.dm"
 #include "maps\away_sites_testing\away_sites_testing_define.dm"
-#include "maps\example\example_define.dm"
 #include "maps\kleibkhar\kleibkhar.dm"
 #include "maps\kleibkhar\kleibkhar_defines.dm"
 #include "maps\ministation\ministation_define.dm"
