@@ -1,458 +1,11 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
-"ck" = (
-/obj/structure/table/steel,
-/obj/machinery/recharger,
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"cS" = (
-/obj/machinery/fabricator/hacked,
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"cV" = (
-/obj/machinery/computer/shuttle_control{
-	shuttle_tag = "Example"
-	},
-/turf/simulated/floor/plating,
-/area/shuttle/escape)
-"dI" = (
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"eg" = (
-/turf/simulated/wall,
-/area/constructionsite)
-"fQ" = (
-/obj/machinery/door/airlock/external/bolted{
-	id_tag = "lower_level_dock_hatch_external"
-	},
-/obj/machinery/button/access/exterior{
-	id_tag = "lower_level_dock";
-	pixel_y = -21
-	},
-/turf/simulated/floor,
-/area/constructionsite)
-"fT" = (
-/obj/machinery/atmospherics/pipe/simple/hidden{
-	dir = 6
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"fU" = (
-/turf/simulated/wall/r_wall,
-/area/space)
-"gO" = (
-/obj/structure/table/rack,
-/obj/item/stack/material/plasteel/fifty,
-/obj/item/stack/material/steel/fifty,
-/obj/item/stack/material/glass/fifty,
-/obj/item/stack/material/gold/ten,
-/obj/item/stack/material/mhydrogen/ten,
-/obj/item/stack/material/silver/ten,
-/obj/item/stack/material/uranium/ten,
-/obj/item/stack/material/diamond/ten,
-/obj/item/storage/belt/utility/full,
-/obj/item/stack/material/steel/fifty,
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"hw" = (
-/obj/machinery/embedded_controller/radio/airlock/docking_port{
-	id_tag = "lower_level_dock";
-	pixel_y = 24;
-	tag_airpump = "lower_level_dock_pump";
-	tag_chamber_sensor = "lower_level_dock_sensor_chamber";
-	tag_exterior_door = "lower_level_dock_hatch_external";
-	tag_interior_door = "lower_level_dock_hatch_internal"
-	},
-/obj/machinery/atmospherics/unary/vent_pump/high_volume/external_air{
-	dir = 4;
-	id_tag = "lower_level_dock_pump"
-	},
-/obj/machinery/airlock_sensor{
-	id_tag = "lower_level_dock_sensor_chamber";
-	pixel_y = -21
-	},
-/turf/simulated/floor,
-/area/constructionsite)
-"iM" = (
-/obj/machinery/atmospherics/unary/vent_scrubber/on{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"jg" = (
-/obj/machinery/door/airlock/external/bolted{
-	id_tag = "example_shuttle_port_hatch"
-	},
-/turf/simulated/floor/plating,
-/area/shuttle/escape)
-"jB" = (
-/obj/structure/table/rack,
-/obj/item/gun/projectile/automatic/assault_rifle,
-/obj/item/gun/projectile/automatic/assault_rifle,
-/obj/item/gun/projectile/automatic/assault_rifle,
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"jO" = (
-/obj/effect/floor_decal/industrial/warning/corner{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"jV" = (
-/obj/structure/ladder,
-/obj/effect/floor_decal/industrial/warning{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"kw" = (
-/obj/machinery/light_switch/on{
-	dir = 8;
-	pixel_x = 24
-	},
-/obj/effect/floor_decal/corner/orange{
-	dir = 6
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"mC" = (
-/obj/effect/landmark{
-	name = "tdome1"
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"oZ" = (
-/obj/structure/cable,
-/obj/machinery/power/debug_items/infinite_generator,
-/obj/effect/floor_decal/corner/orange/mono,
-/turf/simulated/floor/tiled/monotile,
-/area/constructionsite)
-"pm" = (
-/obj/effect/floor_decal/corner/orange{
-	dir = 5
-	},
-/obj/machinery/computer/teleporter,
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"qt" = (
-/obj/effect/floor_decal/industrial/warning/corner,
-/obj/effect/floor_decal/corner/orange{
-	dir = 5
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"qJ" = (
-/obj/effect/landmark{
-	name = "tdome2"
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"rY" = (
-/obj/machinery/atmospherics/pipe/simple/hidden{
-	dir = 9
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"se" = (
-/obj/structure/table/rack,
-/obj/item/gun/energy/laser,
-/obj/item/gun/energy/laser,
-/obj/item/gun/energy/laser,
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"sQ" = (
-/obj/machinery/atmospherics/portables_connector,
-/obj/machinery/portable_atmospherics/canister/air/airlock,
-/obj/effect/floor_decal/corner/orange/mono,
-/turf/simulated/floor/tiled/monotile,
-/area/constructionsite)
-"sT" = (
-/obj/machinery/light/spot,
-/turf/simulated/floor/plating,
-/area/shuttle/escape)
-"tg" = (
-/obj/machinery/light_switch/on{
-	dir = 4;
-	pixel_x = -24
-	},
-/obj/effect/floor_decal/corner/orange{
-	dir = 9
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"tq" = (
-/obj/structure/table/rack,
-/obj/item/gun/projectile/revolver,
-/obj/item/gun/projectile/revolver,
-/obj/item/gun/projectile/revolver,
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"tE" = (
-/obj/effect/floor_decal/industrial/warning{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"us" = (
-/obj/effect/landmark{
-	name = "JoinLate"
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"vd" = (
-/obj/machinery/atmospherics/unary/vent_pump/on,
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"wj" = (
-/obj/item/radio/beacon,
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"wB" = (
-/obj/machinery/atmospherics/pipe/simple/hidden{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"wF" = (
-/obj/effect/floor_decal/corner/orange/mono,
-/turf/simulated/floor/tiled/monotile,
-/area/constructionsite)
-"xk" = (
-/turf/simulated/wall/titanium,
-/area/shuttle/escape)
-"xF" = (
-/obj/turbolift_map_holder/example,
-/turf/simulated/floor/plating,
-/area/constructionsite)
-"yN" = (
-/obj/effect/floor_decal/industrial/warning/corner{
-	dir = 8
-	},
-/obj/effect/floor_decal/corner/orange{
-	dir = 5
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"Af" = (
-/obj/machinery/atmospherics/pipe/manifold/hidden,
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"Bv" = (
-/obj/effect/landmark/start,
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"BV" = (
-/obj/machinery/atmospherics/portables_connector{
-	dir = 8
-	},
-/obj/machinery/portable_atmospherics/canister/empty,
-/obj/effect/floor_decal/corner/orange/mono,
-/turf/simulated/floor/tiled/monotile,
-/area/constructionsite)
-"EO" = (
-/obj/effect/floor_decal/corner/orange{
-	dir = 5
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"Fe" = (
-/obj/effect/floor_decal/industrial/warning,
-/obj/effect/floor_decal/corner/orange{
-	dir = 5
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"Gj" = (
-/obj/machinery/light/spot{
-	dir = 8
-	},
-/obj/effect/floor_decal/corner/orange{
-	dir = 9
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
 "Hk" = (
 /turf/space,
 /area/space)
-"Iv" = (
-/obj/effect/floor_decal/corner/orange/mono,
-/obj/machinery/teleport/hub,
-/turf/simulated/floor/tiled/monotile,
-/area/constructionsite)
-"JG" = (
-/obj/effect/floor_decal/corner/orange{
-	dir = 9
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"JO" = (
-/obj/effect/wallframe_spawn/reinforced/titanium,
-/turf/simulated/floor/plating,
-/area/shuttle/escape)
-"La" = (
-/obj/structure/bed/chair{
-	dir = 1
-	},
-/obj/machinery/embedded_controller/radio/simple_docking_controller{
-	dir = 8;
-	id_tag = "example_shuttle_starboard";
-	pixel_x = 19;
-	tag_door = "example_shuttle_starboard_hatch"
-	},
-/obj/machinery/embedded_controller/radio/simple_docking_controller{
-	dir = 4;
-	id_tag = "example_shuttle_port";
-	pixel_x = -19;
-	tag_door = "example_shuttle_port_hatch"
-	},
-/obj/effect/shuttle_landmark/lower_level,
-/turf/simulated/floor/plating,
-/area/shuttle/escape)
-"Mo" = (
-/obj/machinery/light/spot{
-	dir = 4
-	},
-/obj/effect/floor_decal/corner/orange{
-	dir = 6
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"Nu" = (
-/obj/structure/table/rack,
-/obj/item/gun/projectile/shotgun/pump,
-/obj/item/gun/projectile/shotgun/pump,
-/obj/item/gun/projectile/shotgun/pump,
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"NQ" = (
-/obj/effect/floor_decal/corner/orange{
-	dir = 6
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"Pw" = (
-/obj/structure/cable{
-	d2 = 2;
-	icon_state = "0-2"
-	},
-/obj/machinery/power/apc{
-	dir = 8;
-	name = "west bump";
-	pixel_x = -24
-	},
-/obj/effect/floor_decal/corner/orange{
-	dir = 9
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"PA" = (
-/obj/effect/floor_decal/industrial/warning/corner{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"QF" = (
-/obj/machinery/atmospherics/portables_connector{
-	dir = 8
-	},
-/obj/machinery/portable_atmospherics/canister/air,
-/obj/effect/floor_decal/corner/orange/mono,
-/turf/simulated/floor/tiled/monotile,
-/area/constructionsite)
-"RW" = (
-/obj/machinery/light/spot{
-	dir = 1
-	},
-/obj/effect/floor_decal/corner/orange{
-	dir = 5
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"Su" = (
-/obj/machinery/door/airlock/external/bolted{
-	id_tag = "example_shuttle_starboard_hatch"
-	},
-/turf/simulated/floor/plating,
-/area/shuttle/escape)
-"Sv" = (
-/obj/effect/floor_decal/industrial/warning{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
 "UM" = (
 /obj/effect/landmark/test/space_turf,
 /turf/space,
 /area/space)
-"Vt" = (
-/turf/simulated/floor/plating,
-/area/constructionsite)
-"VY" = (
-/obj/machinery/atmospherics/pipe/simple/hidden{
-	dir = 4
-	},
-/obj/machinery/door/airlock/external/bolted{
-	id_tag = "lower_level_dock_hatch_internal"
-	},
-/obj/machinery/button/access/interior{
-	id_tag = "lower_level_dock";
-	pixel_y = -21
-	},
-/turf/simulated/floor,
-/area/constructionsite)
-"Wr" = (
-/obj/effect/floor_decal/industrial/warning/fulltile,
-/obj/effect/floor_decal/industrial/warning{
-	dir = 8
-	},
-/turf/simulated/floor/tiled,
-/area/constructionsite)
-"WF" = (
-/obj/machinery/atmospherics/pipe/simple/hidden{
-	dir = 5
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"Yo" = (
-/obj/machinery/atmospherics/pipe/manifold/hidden{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"Yp" = (
-/obj/effect/floor_decal/corner/orange{
-	dir = 5
-	},
-/obj/machinery/teleport/station,
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"YO" = (
-/obj/effect/landmark/test/safe_turf,
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"Zi" = (
-/obj/effect/floor_decal/corner/orange{
-	dir = 10
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"ZF" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/obj/effect/floor_decal/corner/orange{
-	dir = 9
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"ZW" = (
-/obj/machinery/light/spot,
-/obj/effect/floor_decal/corner/orange{
-	dir = 10
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
 
 (1,1,1) = {"
 Hk
@@ -878,11 +431,11 @@ Hk
 Hk
 Hk
 Hk
-xk
-JO
-JO
-jg
-xk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -912,11 +465,11 @@ Hk
 Hk
 Hk
 Hk
-xk
-cV
-La
-sT
-xk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -946,11 +499,11 @@ Hk
 Hk
 Hk
 Hk
-xk
-JO
-JO
-Su
-xk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -972,25 +525,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-eg
-fQ
-eg
-fU
-fU
-fU
-fU
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1006,25 +559,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-eg
-hw
-eg
-fU
-fU
-fU
-fU
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1040,25 +593,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-eg
-eg
-eg
-eg
-eg
-eg
-eg
-eg
-eg
-VY
-eg
-eg
-eg
-eg
-eg
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1074,25 +627,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-eg
-wF
-JG
-JG
-Gj
-JG
-JG
-tg
-sQ
-rY
-Gj
-Pw
-ZF
-oZ
-eg
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1108,25 +661,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-eg
-EO
-mC
-mC
-mC
-dI
-dI
-dI
-dI
-dI
-us
-us
-us
-Zi
-eg
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1142,25 +695,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-eg
-EO
-mC
-mC
-mC
-vd
-WF
-YO
-fT
-iM
-us
-us
-us
-Zi
-eg
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1176,25 +729,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-eg
-RW
-mC
-mC
-mC
-dI
-wB
-dI
-wB
-dI
-us
-us
-us
-ZW
-eg
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1210,25 +763,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-eg
-qt
-tE
-tE
-jV
-PA
-wB
-dI
-wB
-dI
-dI
-dI
-dI
-Zi
-eg
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1244,25 +797,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-eg
-Fe
-Vt
-Vt
-xF
-Sv
-wB
-dI
-wB
-dI
-dI
-dI
-gO
-Zi
-eg
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1278,25 +831,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-eg
-Fe
-Vt
-Vt
-Vt
-Sv
-wB
-Bv
-wB
-dI
-dI
-dI
-cS
-Zi
-eg
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1312,25 +865,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-eg
-Fe
-Vt
-Vt
-Vt
-Sv
-wB
-dI
-wB
-dI
-dI
-dI
-ck
-Zi
-eg
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1346,25 +899,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-eg
-yN
-Wr
-Wr
-Wr
-jO
-wB
-dI
-wB
-dI
-dI
-dI
-jB
-Zi
-eg
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1380,25 +933,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-eg
-RW
-qJ
-qJ
-qJ
-dI
-wB
-dI
-wB
-dI
-dI
-dI
-tq
-ZW
-eg
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1414,25 +967,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-eg
-pm
-qJ
-qJ
-qJ
-vd
-Af
-dI
-Yo
-iM
-dI
-dI
-se
-Zi
-eg
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1448,25 +1001,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-eg
-Yp
-qJ
-qJ
-qJ
-wj
-wB
-dI
-wB
-dI
-dI
-dI
-Nu
-Zi
-eg
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1482,25 +1035,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-eg
-Iv
-NQ
-kw
-Mo
-NQ
-QF
-NQ
-BV
-NQ
-Mo
-NQ
-NQ
-wF
-eg
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1516,25 +1069,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-eg
-eg
-eg
-eg
-eg
-eg
-eg
-eg
-eg
-eg
-eg
-eg
-eg
-eg
-eg
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1550,25 +1103,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk
@@ -1584,25 +1137,25 @@ Hk
 Hk
 Hk
 Hk
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
-fU
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
+Hk
 Hk
 Hk
 Hk

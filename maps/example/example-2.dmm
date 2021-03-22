@@ -2,457 +2,6 @@
 "aa" = (
 /turf/space,
 /area/space)
-"ab" = (
-/turf/simulated/wall/r_wall,
-/area/space)
-"ac" = (
-/turf/simulated/wall,
-/area/medical/surgery)
-"ad" = (
-/obj/structure/iv_drip,
-/obj/item/chems/ivbag/blood/OMinus,
-/obj/item/chems/ivbag/blood/OMinus,
-/obj/item/chems/ivbag/blood/OMinus,
-/obj/effect/floor_decal/corner/blue/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"ae" = (
-/obj/machinery/optable,
-/obj/effect/floor_decal/corner/blue/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"af" = (
-/obj/machinery/computer/operating,
-/obj/effect/floor_decal/corner/blue/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"ag" = (
-/obj/structure/table/glass,
-/obj/item/storage/box/syringes,
-/obj/item/storage/box/freezer,
-/obj/machinery/light/spot{
-	dir = 1
-	},
-/obj/effect/floor_decal/corner/blue/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"ah" = (
-/obj/structure/table/glass,
-/obj/item/storage/box/gloves,
-/obj/item/storage/box/masks,
-/obj/structure/railing/mapped{
-	dir = 4
-	},
-/obj/effect/floor_decal/corner/blue/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"ai" = (
-/obj/machinery/atmospherics/unary/freezer,
-/obj/effect/floor_decal/corner/blue/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"aj" = (
-/obj/structure/lattice,
-/turf/simulated/open,
-/area/medical/surgery)
-"ak" = (
-/obj/machinery/light/spot{
-	dir = 1
-	},
-/obj/effect/floor_decal/corner/orange{
-	dir = 5
-	},
-/obj/effect/floor_decal/industrial/warning{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"al" = (
-/obj/structure/table/glass,
-/obj/item/storage/firstaid/surgery,
-/obj/effect/floor_decal/corner/blue/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"am" = (
-/obj/structure/railing/mapped{
-	dir = 4
-	},
-/obj/effect/floor_decal/corner/blue{
-	dir = 6
-	},
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
-"an" = (
-/turf/simulated/open,
-/area/medical/surgery)
-"ao" = (
-/obj/structure/table/glass,
-/obj/item/chems/dropper,
-/obj/item/stack/nanopaste,
-/obj/machinery/light/spot{
-	dir = 8
-	},
-/obj/effect/floor_decal/corner/blue/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"ap" = (
-/obj/machinery/body_scanconsole{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
-"aq" = (
-/obj/machinery/bodyscanner{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
-"ar" = (
-/obj/machinery/sleeper/standard,
-/obj/structure/railing/mapped{
-	dir = 4
-	},
-/obj/effect/floor_decal/corner/blue{
-	dir = 6
-	},
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
-"as" = (
-/obj/machinery/light_switch/on{
-	dir = 8;
-	pixel_x = 24
-	},
-/obj/effect/floor_decal/corner/orange{
-	dir = 6
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"at" = (
-/obj/structure/table/glass,
-/obj/item/scalpel/laser1,
-/obj/item/scalpel/laser2,
-/obj/item/scalpel/laser3,
-/obj/item/robotanalyzer,
-/obj/item/scanner/health,
-/obj/item/storage/firstaid/adv,
-/obj/effect/floor_decal/corner/blue/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"au" = (
-/obj/structure/ladder,
-/obj/structure/railing/mapped{
-	dir = 4
-	},
-/obj/effect/floor_decal/corner/blue{
-	dir = 6
-	},
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
-"av" = (
-/obj/machinery/atmospherics/portables_connector,
-/obj/effect/floor_decal/corner/blue/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"aw" = (
-/obj/machinery/portable_atmospherics/canister/oxygen/prechilled,
-/obj/machinery/atmospherics/portables_connector,
-/obj/effect/floor_decal/corner/blue/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"ay" = (
-/obj/machinery/light/spot{
-	dir = 4
-	},
-/obj/effect/floor_decal/corner/orange{
-	dir = 6
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"az" = (
-/obj/structure/closet/secure_closet/freezer/meat,
-/obj/effect/floor_decal/corner/blue/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"aB" = (
-/obj/structure/hygiene/sink{
-	dir = 8;
-	pixel_x = -15
-	},
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
-"aC" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/blue{
-	dir = 5
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"aD" = (
-/obj/machinery/atmospherics/pipe/manifold/hidden/blue,
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"aE" = (
-/obj/machinery/atmospherics/unary/vent_pump/on,
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
-"aF" = (
-/obj/machinery/fabricator/bioprinter,
-/obj/effect/floor_decal/corner/blue/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"aG" = (
-/obj/machinery/atmospherics/pipe/manifold/hidden,
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"aH" = (
-/obj/machinery/atmospherics/pipe/simple/hidden{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"aI" = (
-/obj/machinery/atmospherics/portables_connector{
-	dir = 8
-	},
-/obj/machinery/portable_atmospherics/canister/air,
-/obj/effect/floor_decal/corner/orange/mono,
-/turf/simulated/floor/tiled/monotile,
-/area/medical/surgery)
-"aJ" = (
-/obj/effect/floor_decal/corner/blue/three_quarters{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
-"aK" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/blue{
-	dir = 9
-	},
-/obj/effect/floor_decal/corner/orange{
-	dir = 6
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"aL" = (
-/obj/machinery/atmospherics/pipe/manifold/hidden{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"aM" = (
-/obj/machinery/atmospherics/portables_connector{
-	dir = 8
-	},
-/obj/machinery/portable_atmospherics/canister/empty,
-/obj/effect/floor_decal/corner/orange/mono,
-/turf/simulated/floor/tiled/monotile,
-/area/medical/surgery)
-"aO" = (
-/obj/machinery/atmospherics/unary/vent_scrubber/on{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"aP" = (
-/obj/machinery/light/spot{
-	dir = 8
-	},
-/obj/machinery/design_database,
-/obj/effect/floor_decal/corner/mauve/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"aQ" = (
-/obj/machinery/light/spot,
-/obj/machinery/fabricator/protolathe,
-/obj/effect/floor_decal/corner/mauve/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"aR" = (
-/obj/structure/cable{
-	d2 = 2;
-	icon_state = "0-2"
-	},
-/obj/machinery/power/apc{
-	dir = 8;
-	name = "west bump";
-	pixel_x = -24
-	},
-/obj/effect/floor_decal/corner/mauve{
-	dir = 5
-	},
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
-"aS" = (
-/obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
-"aT" = (
-/obj/structure/cable,
-/obj/machinery/power/debug_items/infinite_generator,
-/obj/effect/floor_decal/corner/mauve/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"aU" = (
-/obj/machinery/light/spot,
-/obj/effect/floor_decal/corner/orange{
-	dir = 10
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"aW" = (
-/obj/machinery/fabricator/imprinter,
-/obj/effect/floor_decal/corner/mauve/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"aX" = (
-/obj/machinery/destructive_analyzer,
-/obj/effect/floor_decal/corner/mauve/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"aZ" = (
-/obj/effect/floor_decal/industrial/warning{
-	dir = 8
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"ba" = (
-/obj/machinery/fabricator/industrial,
-/obj/effect/floor_decal/corner/mauve/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"eY" = (
-/obj/effect/floor_decal/corner/orange{
-	dir = 10
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"hN" = (
-/obj/machinery/atmospherics/pipe/simple/hidden{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
-"iE" = (
-/obj/machinery/atmospherics/unary/vent_pump/on,
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"kL" = (
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"lr" = (
-/obj/machinery/atmospherics/pipe/simple/hidden{
-	dir = 6
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"qL" = (
-/obj/machinery/computer/design_console,
-/obj/effect/floor_decal/corner/mauve/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"qY" = (
-/obj/effect/floor_decal/corner/orange/mono,
-/turf/simulated/floor/tiled/monotile,
-/area/medical/surgery)
-"tL" = (
-/obj/machinery/fabricator/robotics,
-/obj/effect/floor_decal/corner/mauve/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"zv" = (
-/obj/machinery/atmospherics/pipe/simple/hidden{
-	dir = 4
-	},
-/obj/effect/floor_decal/corner/blue{
-	dir = 6
-	},
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
-"zS" = (
-/obj/effect/floor_decal/corner/orange{
-	dir = 6
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"Dg" = (
-/obj/effect/floor_decal/industrial/warning{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"Em" = (
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
-"FJ" = (
-/obj/effect/floor_decal/corner/mauve/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"HZ" = (
-/obj/effect/floor_decal/industrial/warning/corner{
-	dir = 1
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"KB" = (
-/obj/effect/floor_decal/corner/blue{
-	dir = 6
-	},
-/obj/effect/floor_decal/industrial/warning/corner{
-	dir = 4
-	},
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
-"Ry" = (
-/obj/machinery/atmospherics/pipe/simple/hidden{
-	dir = 5
-	},
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
-"SE" = (
-/obj/effect/floor_decal/corner/blue{
-	dir = 10
-	},
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
-"Tt" = (
-/obj/machinery/design_database,
-/obj/effect/floor_decal/corner/mauve/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"Vl" = (
-/obj/effect/floor_decal/corner/orange{
-	dir = 9
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/medical/surgery)
-"WO" = (
-/obj/structure/table/rack,
-/obj/item/stack/material/plasteel/fifty,
-/obj/item/stack/material/steel/fifty,
-/obj/item/stack/material/glass/fifty,
-/obj/item/stack/material/gold/ten,
-/obj/item/stack/material/mhydrogen/ten,
-/obj/item/stack/material/silver/ten,
-/obj/item/stack/material/uranium/ten,
-/obj/item/stack/material/diamond/ten,
-/obj/item/storage/belt/utility/full,
-/obj/item/stack/material/steel/fifty,
-/obj/machinery/light_switch/on{
-	dir = 4;
-	pixel_x = -24
-	},
-/obj/effect/floor_decal/corner/blue/mono,
-/turf/simulated/floor/tiled/white/monotile,
-/area/medical/surgery)
-"Zk" = (
-/obj/effect/floor_decal/corner/mauve{
-	dir = 5
-	},
-/turf/simulated/floor/tiled/white,
-/area/medical/surgery)
 
 (1,1,1) = {"
 aa
@@ -972,25 +521,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1006,25 +555,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1040,25 +589,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1074,25 +623,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ac
-ad
-al
-ao
-at
-az
-aF
-WO
-Vl
-Vl
-aP
-aR
-aS
-aT
-ac
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1108,25 +657,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ac
-ae
-aB
-ap
-Em
-Em
-Em
-SE
-kL
-kL
-Tt
-Zk
-Em
-aW
-ac
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1142,25 +691,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ac
-af
-Em
-aq
-Em
-aE
-Ry
-SE
-lr
-aO
-qL
-Zk
-Em
-aX
-ac
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1176,25 +725,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ac
-ag
-Em
-Em
-Em
-Em
-hN
-SE
-aH
-kL
-Em
-Em
-Em
-aQ
-ac
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1210,25 +759,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ac
-ah
-am
-ar
-au
-KB
-zv
-aJ
-aH
-kL
-tL
-Zk
-Em
-ba
-ac
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1244,25 +793,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ac
-aj
-an
-an
-an
-Dg
-aH
-kL
-aH
-kL
-tL
-Zk
-Em
-FJ
-ac
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1278,25 +827,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ac
-aj
-an
-an
-an
-Dg
-aH
-kL
-aH
-kL
-kL
-kL
-kL
-eY
-ac
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1312,25 +861,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ac
-aj
-an
-an
-an
-Dg
-aH
-kL
-aH
-kL
-kL
-kL
-kL
-eY
-ac
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1346,25 +895,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ac
-aj
-an
-an
-an
-Dg
-aH
-kL
-aH
-kL
-kL
-kL
-kL
-eY
-ac
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1380,25 +929,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ac
-ak
-aZ
-aZ
-aZ
-HZ
-aH
-kL
-aH
-kL
-kL
-kL
-kL
-aU
-ac
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1414,25 +963,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ac
-ai
-aC
-kL
-kL
-iE
-aG
-kL
-aL
-aO
-kL
-kL
-kL
-eY
-ac
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1448,25 +997,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ac
-av
-aD
-kL
-kL
-kL
-aH
-kL
-aH
-kL
-kL
-kL
-kL
-eY
-ac
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1482,25 +1031,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ac
-aw
-aK
-as
-ay
-zS
-aI
-zS
-aM
-zS
-zS
-ay
-zS
-qY
-ac
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1516,25 +1065,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1550,25 +1099,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
@@ -1584,25 +1133,25 @@ aa
 aa
 aa
 aa
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
-ab
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
+aa
 aa
 aa
 aa
