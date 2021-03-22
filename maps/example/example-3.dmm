@@ -4,14 +4,14 @@
 /area/space)
 "b" = (
 /turf/simulated/wall/r_wall,
-/area/space)
+/area/centcom)
 "c" = (
 /turf/simulated/wall,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "d" = (
 /obj/effect/floor_decal/corner/orange/mono,
 /turf/simulated/floor/tiled/monotile,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "e" = (
 /obj/machinery/light/spot{
 	dir = 1
@@ -20,14 +20,14 @@
 	dir = 5
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "f" = (
 /obj/structure/lattice,
 /turf/simulated/open,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "g" = (
 /turf/simulated/open,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "h" = (
 /obj/machinery/light_switch/on{
 	dir = 8;
@@ -38,11 +38,7 @@
 	dir = 6
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
-"i" = (
-/obj/effect/shuttle_landmark/upper_level,
-/turf/space,
-/area/space)
+/area/centcom)
 "j" = (
 /obj/machinery/light/spot{
 	dir = 8
@@ -51,14 +47,14 @@
 	dir = 9
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "k" = (
 /obj/structure/ladder,
 /obj/structure/railing/mapped{
 	dir = 4
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "l" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
 	dir = 4
@@ -71,7 +67,7 @@
 	pixel_y = -21
 	},
 /turf/simulated/floor,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "m" = (
 /obj/machinery/door/airlock/external/bolted{
 	id_tag = "upper_level_dock_hatch_external"
@@ -81,17 +77,17 @@
 	pixel_y = -21
 	},
 /turf/simulated/floor,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "n" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
 	dir = 6
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "q" = (
 /obj/machinery/atmospherics/pipe/manifold/hidden,
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "s" = (
 /obj/machinery/atmospherics/portables_connector{
 	dir = 8
@@ -99,13 +95,13 @@
 /obj/machinery/portable_atmospherics/canister/air,
 /obj/effect/floor_decal/corner/orange/mono,
 /turf/simulated/floor/tiled/monotile,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "t" = (
 /obj/machinery/atmospherics/pipe/manifold/hidden{
 	dir = 1
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "u" = (
 /obj/machinery/atmospherics/portables_connector{
 	dir = 8
@@ -113,7 +109,7 @@
 /obj/machinery/portable_atmospherics/canister/empty,
 /obj/effect/floor_decal/corner/orange/mono,
 /turf/simulated/floor/tiled/monotile,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "v" = (
 /obj/machinery/light/spot{
 	dir = 1
@@ -125,14 +121,14 @@
 	dir = 8
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "x" = (
 /obj/machinery/light/spot,
 /obj/effect/floor_decal/corner/orange{
 	dir = 10
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "y" = (
 /obj/structure/cable{
 	d2 = 2;
@@ -147,7 +143,7 @@
 	dir = 9
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "z" = (
 /obj/structure/cable{
 	d1 = 1;
@@ -158,68 +154,68 @@
 	dir = 9
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "A" = (
 /obj/structure/cable,
 /obj/machinery/power/debug_items/infinite_generator,
 /obj/effect/floor_decal/corner/orange/mono,
 /turf/simulated/floor/tiled/monotile,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "B" = (
 /obj/effect/floor_decal/corner/orange{
 	dir = 10
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "C" = (
 /obj/machinery/atmospherics/pipe/simple/hidden,
 /obj/effect/floor_decal/corner/orange{
 	dir = 6
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "E" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
 	dir = 5
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "F" = (
 /obj/machinery/atmospherics/portables_connector,
 /obj/machinery/portable_atmospherics/canister/air/airlock,
 /obj/effect/floor_decal/corner/orange/mono,
 /turf/simulated/floor/tiled/monotile,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "G" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
 	dir = 4
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "H" = (
 /obj/effect/floor_decal/industrial/warning/corner{
 	dir = 1
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "I" = (
 /obj/effect/floor_decal/industrial/warning{
 	dir = 1
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "J" = (
 /obj/effect/floor_decal/industrial/warning{
 	dir = 8
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "K" = (
 /obj/effect/floor_decal/corner/orange{
 	dir = 6
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "L" = (
 /obj/machinery/light_switch/on{
 	dir = 4;
@@ -229,13 +225,13 @@
 	dir = 9
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "M" = (
 /obj/structure/railing/mapped{
 	dir = 4
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "P" = (
 /obj/structure/railing/mapped{
 	dir = 4
@@ -244,11 +240,11 @@
 	dir = 5
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "Q" = (
 /obj/machinery/atmospherics/unary/vent_pump/on,
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "S" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/external_air{
 	dir = 8;
@@ -267,7 +263,7 @@
 	pixel_y = -21
 	},
 /turf/simulated/floor,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "T" = (
 /obj/machinery/light/spot{
 	dir = 4
@@ -276,13 +272,13 @@
 	dir = 6
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "U" = (
 /obj/machinery/atmospherics/unary/vent_scrubber/on{
 	dir = 1
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "V" = (
 /obj/effect/landmark/map_data{
 	height = 3
@@ -291,25 +287,25 @@
 /area/space)
 "W" = (
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "X" = (
 /obj/effect/floor_decal/industrial/warning/corner{
 	dir = 4
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "Y" = (
 /obj/effect/floor_decal/corner/orange{
 	dir = 5
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 "Z" = (
 /obj/effect/floor_decal/corner/orange{
 	dir = 9
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/maintenance/fsmaint2)
+/area/centcom)
 
 (1,1,1) = {"
 a
@@ -1514,7 +1510,7 @@ a
 a
 a
 a
-i
+a
 a
 a
 a

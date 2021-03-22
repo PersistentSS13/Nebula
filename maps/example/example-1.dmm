@@ -3,11 +3,11 @@
 /obj/structure/table/steel,
 /obj/machinery/recharger,
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "cS" = (
 /obj/machinery/fabricator/hacked,
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "cV" = (
 /obj/machinery/computer/shuttle_control{
 	shuttle_tag = "Example"
@@ -16,10 +16,10 @@
 /area/shuttle/escape)
 "dI" = (
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "eg" = (
 /turf/simulated/wall,
-/area/constructionsite)
+/area/centcom)
 "fQ" = (
 /obj/machinery/door/airlock/external/bolted{
 	id_tag = "lower_level_dock_hatch_external"
@@ -29,16 +29,16 @@
 	pixel_y = -21
 	},
 /turf/simulated/floor,
-/area/constructionsite)
+/area/centcom)
 "fT" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
 	dir = 6
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "fU" = (
 /turf/simulated/wall/r_wall,
-/area/space)
+/area/centcom)
 "gO" = (
 /obj/structure/table/rack,
 /obj/item/stack/material/plasteel/fifty,
@@ -52,7 +52,7 @@
 /obj/item/storage/belt/utility/full,
 /obj/item/stack/material/steel/fifty,
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "hw" = (
 /obj/machinery/embedded_controller/radio/airlock/docking_port{
 	id_tag = "lower_level_dock";
@@ -71,13 +71,13 @@
 	pixel_y = -21
 	},
 /turf/simulated/floor,
-/area/constructionsite)
+/area/centcom)
 "iM" = (
 /obj/machinery/atmospherics/unary/vent_scrubber/on{
 	dir = 1
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "jg" = (
 /obj/machinery/door/airlock/external/bolted{
 	id_tag = "example_shuttle_port_hatch"
@@ -90,20 +90,20 @@
 /obj/item/gun/projectile/automatic/assault_rifle,
 /obj/item/gun/projectile/automatic/assault_rifle,
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "jO" = (
 /obj/effect/floor_decal/industrial/warning/corner{
 	dir = 1
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "jV" = (
 /obj/structure/ladder,
 /obj/effect/floor_decal/industrial/warning{
 	dir = 4
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "kw" = (
 /obj/machinery/light_switch/on{
 	dir = 8;
@@ -113,58 +113,58 @@
 	dir = 6
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "mC" = (
 /obj/effect/landmark{
 	name = "tdome1"
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "oZ" = (
 /obj/structure/cable,
 /obj/machinery/power/debug_items/infinite_generator,
 /obj/effect/floor_decal/corner/orange/mono,
 /turf/simulated/floor/tiled/monotile,
-/area/constructionsite)
+/area/centcom)
 "pm" = (
 /obj/effect/floor_decal/corner/orange{
 	dir = 5
 	},
 /obj/machinery/computer/teleporter,
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "qt" = (
 /obj/effect/floor_decal/industrial/warning/corner,
 /obj/effect/floor_decal/corner/orange{
 	dir = 5
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "qJ" = (
 /obj/effect/landmark{
 	name = "tdome2"
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "rY" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
 	dir = 9
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "se" = (
 /obj/structure/table/rack,
 /obj/item/gun/energy/laser,
 /obj/item/gun/energy/laser,
 /obj/item/gun/energy/laser,
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "sQ" = (
 /obj/machinery/atmospherics/portables_connector,
 /obj/machinery/portable_atmospherics/canister/air/airlock,
 /obj/effect/floor_decal/corner/orange/mono,
 /turf/simulated/floor/tiled/monotile,
-/area/constructionsite)
+/area/centcom)
 "sT" = (
 /obj/machinery/light/spot,
 /turf/simulated/floor/plating,
@@ -178,51 +178,47 @@
 	dir = 9
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "tq" = (
 /obj/structure/table/rack,
 /obj/item/gun/projectile/revolver,
 /obj/item/gun/projectile/revolver,
 /obj/item/gun/projectile/revolver,
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "tE" = (
 /obj/effect/floor_decal/industrial/warning{
 	dir = 4
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "us" = (
 /obj/effect/landmark{
 	name = "JoinLate"
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "vd" = (
 /obj/machinery/atmospherics/unary/vent_pump/on,
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "wj" = (
 /obj/item/radio/beacon,
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "wB" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
 	dir = 4
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "wF" = (
 /obj/effect/floor_decal/corner/orange/mono,
 /turf/simulated/floor/tiled/monotile,
-/area/constructionsite)
+/area/centcom)
 "xk" = (
 /turf/simulated/wall/titanium,
 /area/shuttle/escape)
-"xF" = (
-/obj/turbolift_map_holder/example,
-/turf/simulated/floor/plating,
-/area/constructionsite)
 "yN" = (
 /obj/effect/floor_decal/industrial/warning/corner{
 	dir = 8
@@ -231,15 +227,15 @@
 	dir = 5
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "Af" = (
 /obj/machinery/atmospherics/pipe/manifold/hidden,
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "Bv" = (
 /obj/effect/landmark/start,
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "BV" = (
 /obj/machinery/atmospherics/portables_connector{
 	dir = 8
@@ -247,20 +243,20 @@
 /obj/machinery/portable_atmospherics/canister/empty,
 /obj/effect/floor_decal/corner/orange/mono,
 /turf/simulated/floor/tiled/monotile,
-/area/constructionsite)
+/area/centcom)
 "EO" = (
 /obj/effect/floor_decal/corner/orange{
 	dir = 5
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "Fe" = (
 /obj/effect/floor_decal/industrial/warning,
 /obj/effect/floor_decal/corner/orange{
 	dir = 5
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "Gj" = (
 /obj/machinery/light/spot{
 	dir = 8
@@ -269,7 +265,7 @@
 	dir = 9
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "Hk" = (
 /turf/space,
 /area/space)
@@ -277,13 +273,13 @@
 /obj/effect/floor_decal/corner/orange/mono,
 /obj/machinery/teleport/hub,
 /turf/simulated/floor/tiled/monotile,
-/area/constructionsite)
+/area/centcom)
 "JG" = (
 /obj/effect/floor_decal/corner/orange{
 	dir = 9
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "JO" = (
 /obj/effect/wallframe_spawn/reinforced/titanium,
 /turf/simulated/floor/plating,
@@ -304,7 +300,6 @@
 	pixel_x = -19;
 	tag_door = "example_shuttle_port_hatch"
 	},
-/obj/effect/shuttle_landmark/lower_level,
 /turf/simulated/floor/plating,
 /area/shuttle/escape)
 "Mo" = (
@@ -315,20 +310,20 @@
 	dir = 6
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "Nu" = (
 /obj/structure/table/rack,
 /obj/item/gun/projectile/shotgun/pump,
 /obj/item/gun/projectile/shotgun/pump,
 /obj/item/gun/projectile/shotgun/pump,
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "NQ" = (
 /obj/effect/floor_decal/corner/orange{
 	dir = 6
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "Pw" = (
 /obj/structure/cable{
 	d2 = 2;
@@ -343,13 +338,13 @@
 	dir = 9
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "PA" = (
 /obj/effect/floor_decal/industrial/warning/corner{
 	dir = 4
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "QF" = (
 /obj/machinery/atmospherics/portables_connector{
 	dir = 8
@@ -357,7 +352,7 @@
 /obj/machinery/portable_atmospherics/canister/air,
 /obj/effect/floor_decal/corner/orange/mono,
 /turf/simulated/floor/tiled/monotile,
-/area/constructionsite)
+/area/centcom)
 "RW" = (
 /obj/machinery/light/spot{
 	dir = 1
@@ -366,7 +361,7 @@
 	dir = 5
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "Su" = (
 /obj/machinery/door/airlock/external/bolted{
 	id_tag = "example_shuttle_starboard_hatch"
@@ -378,14 +373,14 @@
 	dir = 1
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "UM" = (
 /obj/effect/landmark/test/space_turf,
 /turf/space,
 /area/space)
 "Vt" = (
 /turf/simulated/floor/plating,
-/area/constructionsite)
+/area/centcom)
 "VY" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
 	dir = 4
@@ -398,43 +393,43 @@
 	pixel_y = -21
 	},
 /turf/simulated/floor,
-/area/constructionsite)
+/area/centcom)
 "Wr" = (
 /obj/effect/floor_decal/industrial/warning/fulltile,
 /obj/effect/floor_decal/industrial/warning{
 	dir = 8
 	},
 /turf/simulated/floor/tiled,
-/area/constructionsite)
+/area/centcom)
 "WF" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
 	dir = 5
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "Yo" = (
 /obj/machinery/atmospherics/pipe/manifold/hidden{
 	dir = 1
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "Yp" = (
 /obj/effect/floor_decal/corner/orange{
 	dir = 5
 	},
 /obj/machinery/teleport/station,
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "YO" = (
 /obj/effect/landmark/test/safe_turf,
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "Zi" = (
 /obj/effect/floor_decal/corner/orange{
 	dir = 10
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "ZF" = (
 /obj/structure/cable{
 	d1 = 1;
@@ -445,14 +440,14 @@
 	dir = 9
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 "ZW" = (
 /obj/machinery/light/spot,
 /obj/effect/floor_decal/corner/orange{
 	dir = 10
 	},
 /turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+/area/centcom)
 
 (1,1,1) = {"
 Hk
@@ -1250,7 +1245,7 @@ eg
 Fe
 Vt
 Vt
-xF
+Vt
 Sv
 wB
 dI
