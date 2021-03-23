@@ -1464,7 +1464,6 @@
 /area/outpost/abandoned)
 "eQ" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/green{
-	icon_state = "intact";
 	dir = 4
 	},
 /turf/simulated/floor/tiled/white/airless,
@@ -1473,7 +1472,6 @@
 /obj/structure/door_assembly,
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/hidden/green{
-	icon_state = "intact";
 	dir = 4
 	},
 /turf/simulated/floor/tiled/airless,
@@ -1485,14 +1483,12 @@
 	dir = 9
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/green{
-	icon_state = "intact";
 	dir = 4
 	},
 /turf/simulated/floor/tiled/airless,
 /area/outpost/abandoned)
 "eT" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/green{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/random/trash,
@@ -1500,7 +1496,6 @@
 /area/outpost/abandoned)
 "eU" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/green{
-	icon_state = "intact";
 	dir = 4
 	},
 /turf/simulated/floor/tiled/airless,
@@ -1508,7 +1503,6 @@
 "eV" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/simple/hidden/green{
-	icon_state = "intact";
 	dir = 4
 	},
 /turf/simulated/floor/plating{
@@ -1520,7 +1514,6 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/fluid_mapped/fuel,
 /obj/machinery/atmospherics/pipe/simple/hidden/green{
-	icon_state = "intact";
 	dir = 4
 	},
 /turf/simulated/floor/tiled/airless,
@@ -1531,7 +1524,6 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/generic,
 /obj/machinery/atmospherics/pipe/simple/hidden/green{
-	icon_state = "intact";
 	dir = 4
 	},
 /turf/simulated/floor/tiled/airless,
@@ -1541,7 +1533,6 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/item/wrench,
 /obj/machinery/atmospherics/pipe/simple/hidden/green{
-	icon_state = "intact";
 	dir = 4
 	},
 /turf/simulated/floor/tiled/airless,
@@ -1549,7 +1540,6 @@
 "eZ" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/simple/hidden/green{
-	icon_state = "intact";
 	dir = 4
 	},
 /turf/simulated/floor/tiled/airless,
@@ -1557,7 +1547,6 @@
 "fa" = (
 /obj/effect/decal/cleanable/ash,
 /obj/machinery/atmospherics/pipe/simple/hidden/green{
-	icon_state = "intact";
 	dir = 4
 	},
 /turf/simulated/floor/tiled/airless,
@@ -1565,7 +1554,6 @@
 "fb" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/simple/hidden/green{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/red,
@@ -1939,7 +1927,6 @@
 /turf/simulated/floor/plating,
 /area/outpost/abandoned)
 "gg" = (
-/obj/machinery/computer/power_monitor,
 /obj/effect/decal/cleanable/cobweb2,
 /obj/structure/cable,
 /turf/simulated/floor/plating,
@@ -2574,8 +2561,7 @@
 /area/outpost/abandoned)
 "qb" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/red{
-	dir = 4;
-	icon_state = "intact"
+	dir = 4
 	},
 /obj/effect/floor_decal/corner/red{
 	icon_state = "corner_white";
@@ -2587,8 +2573,7 @@
 /area/outpost/abandoned)
 "rb" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/red{
-	dir = 4;
-	icon_state = "intact"
+	dir = 4
 	},
 /obj/effect/decal/cleanable/blood,
 /obj/effect/decal/cleanable/dirt,
@@ -2600,8 +2585,7 @@
 "sb" = (
 /obj/structure/table/steel_reinforced,
 /obj/machinery/atmospherics/pipe/simple/hidden/red{
-	dir = 4;
-	icon_state = "intact"
+	dir = 4
 	},
 /obj/effect/floor_decal/corner/red{
 	icon_state = "corner_white";
@@ -2615,22 +2599,19 @@
 "tb" = (
 /obj/effect/wallframe_spawn/reinforced,
 /obj/machinery/atmospherics/pipe/simple/hidden/red{
-	dir = 4;
-	icon_state = "intact"
+	dir = 4
 	},
 /turf/simulated/floor/plating,
 /area/outpost/abandoned)
 "ub" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/red{
-	dir = 4;
-	icon_state = "intact"
+	dir = 4
 	},
 /turf/simulated/floor,
 /area/outpost/abandoned)
 "vb" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/red{
-	dir = 4;
-	icon_state = "intact"
+	dir = 4
 	},
 /obj/effect/decal/cleanable/vomit,
 /obj/effect/decal/cleanable/dirt,
@@ -2657,7 +2638,6 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/red{
-	icon_state = "intact";
 	dir = 10
 	},
 /obj/effect/decal/cleanable/dirt,

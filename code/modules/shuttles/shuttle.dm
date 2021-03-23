@@ -2,6 +2,7 @@
 
 /datum/shuttle
 	var/name = ""
+	var/display_name = "" // User-facing; defaults to name.
 	var/warmup_time = 0
 	var/moving_status = SHUTTLE_IDLE
 
@@ -29,16 +30,26 @@
 	var/mothershuttle //tag of mothershuttle
 	var/motherdock    //tag of mothershuttle landmark, defaults to starting location
 
-/datum/shuttle/New(_name, var/obj/effect/shuttle_landmark/initial_location)
+/datum/shuttle/New(map_hash, var/obj/effect/shuttle_landmark/initial_location)
 	..()
-	if(_name)
-		src.name = _name
+	if(!display_name)
+		display_name = name
+	if(map_hash) // We adjust all tag vars, including name, for the map on which they are loaded. This is also done on subtypes.
+		ADJUST_TAG_VAR(name, map_hash)
+		ADJUST_TAG_VAR(current_location, map_hash)
+		ADJUST_TAG_VAR(logging_home_tag, map_hash)
+		ADJUST_TAG_VAR(mothershuttle, map_hash)
+		ADJUST_TAG_VAR(motherdock, map_hash)
 
 	var/list/areas = list()
 	if(!islist(shuttle_area))
 		shuttle_area = list(shuttle_area)
 	for(var/T in shuttle_area)
-		var/area/A = locate(T)
+		var/area/A
+		if(map_hash && islist(SSshuttle.map_hash_to_areas[map_hash]))
+			A = SSshuttle.map_hash_to_areas[map_hash][T] // We try to find the correct area of the given type.
+		else
+			A = locate(T) // But if this is a mainmap shuttle, there is only one anyway so just find it.
 		if(!istype(A))
 			CRASH("Shuttle \"[name]\" couldn't locate area [T].")
 		areas += A
@@ -163,7 +174,7 @@
 	if(current_location == destination)
 		log_error("Error when attempting to force move a shuttle: Attempted to move [src] to its current location [destination].")
 		return FALSE
-	if(destination.shuttle_restricted != name)
+	if(destination.shuttle_restricted != type)
 		log_error("Error when attempting to force move a shuttle: Destination location not restricted for [src]'s use.")
 		return FALSE
 	
@@ -213,7 +224,6 @@
 					bug.gib()
 				else
 					qdel(AM) //it just gets atomized I guess? TODO throw it into space somewhere, prevents people from using shuttles as an atom-smasher
-	var/list/powernets = list()
 	for(var/area/A in shuttle_area)
 		// if there was a zlevel above our origin, erase our ceiling now we're leaving
 		if(HasAbove(current_location.z))
@@ -224,13 +234,11 @@
 		if(knockdown)
 			A.throw_unbuckled_occupants(4, 1)
 
-		for(var/obj/structure/cable/C in A)
-			powernets |= C.powernet
 	if(logging_home_tag)
 		var/datum/shuttle_log/s_log = SSshuttle.shuttle_logs[src]
 		s_log.handle_move(current_location, destination)
 
-	translate_turfs(turf_translation, current_location.base_area, current_location.base_turf)
+	var/list/new_turfs = translate_turfs(turf_translation, current_location.base_area, current_location.base_turf)
 	current_location = destination
 
 	// if there's a zlevel above our destination, paint in a ceiling on it so we retain our air
@@ -243,16 +251,7 @@
 						continue
 					TA.ChangeTurf(ceiling_type, TRUE, TRUE, TRUE)
 
-	// Remove all powernets that were affected, and rebuild them.
-	var/list/cables = list()
-	for(var/datum/powernet/P in powernets)
-		cables |= P.cables
-		qdel(P)
-	for(var/obj/structure/cable/C in cables)
-		if(!C.powernet)
-			var/datum/powernet/NewPN = new()
-			NewPN.add_cable(C)
-			propagate_network(C,C.powernet)
+	handle_pipes_and_power_on_move(new_turfs)
 
 	if(mothershuttle)
 		var/datum/shuttle/mothership = SSshuttle.shuttles[mothershuttle]
@@ -261,6 +260,40 @@
 				mothership.shuttle_area |= shuttle_area
 			else
 				mothership.shuttle_area -= shuttle_area
+
+// Remove all powernets and pipenets that were affected, and rebuild them.
+/datum/shuttle/proc/handle_pipes_and_power_on_move(var/list/new_turfs)
+	var/list/powernets = list()	
+	var/list/cables = list()
+	var/list/pipes = list()
+
+	for(var/turf/T in new_turfs)
+		for(var/obj/structure/cable/cable in T)
+			powernets |= cable.powernet
+		for(var/obj/machinery/atmospherics/pipe in T)
+			pipes |= pipe
+			if(LAZYLEN(pipe.nodes_to_networks))
+				pipes |= pipe.nodes_to_networks // This gets all pipes that used to be adjacent to us
+		for(var/direction in GLOB.cardinal) // We do this so that if a shuttle lands in a way that should imply a new pipe/power connection, that actually happens
+			var/turf/neighbor = get_step(T, direction)
+			if(neighbor)
+				for(var/obj/structure/cable/cable in neighbor)
+					powernets |= cable.powernet
+				for(var/obj/machinery/atmospherics/pipe in neighbor)
+					pipes |= pipe
+
+	for(var/datum/powernet/P in powernets)
+		cables |= P.cables
+		qdel(P)
+	for(var/obj/structure/cable/C in cables)
+		if(!C.powernet)
+			var/datum/powernet/NewPN = new()
+			NewPN.add_cable(C)
+			propagate_network(C,C.powernet)
+	for(var/obj/machinery/atmospherics/pipe as anything in pipes)
+		pipe.atmos_init() // this will clear pipenet/pipeline
+	for(var/obj/machinery/atmospherics/pipe as anything in pipes)
+		pipe.build_network()
 
 //returns 1 if the shuttle has a valid arrive time
 /datum/shuttle/proc/has_arrive_time()
@@ -288,3 +321,16 @@
 	if(!next_location)
 		return "None"
 	return next_location.name
+
+// Testing
+// Returns either null (all good) or a string explaining any issues.
+/datum/shuttle/proc/test_landmark_setup()
+	if(!current_location)
+		if(initial(current_location))
+			return "Starting location (tag: [initial(current_location)]) was not found."
+		else
+			return "Starting location was not set or forwarded properly."
+	if(!motherdock && initial(motherdock))
+		return "The motherdock (tag: [initial(motherdock)]) was not found."
+	if(!mothershuttle && initial(mothershuttle))
+		return "The mothershuttle (tag: [initial(mothershuttle)]) was not found."

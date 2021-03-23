@@ -25,6 +25,7 @@ var/list/wall_noblend_objects = list(
 	explosion_resistance = 10
 	color = COLOR_GRAY40
 	atom_flags = ATOM_FLAG_CAN_BE_PAINTED
+	turf_flags = TURF_FLAG_SKIP_ICON_INIT // Icon is already regenerated when material is set.
 
 	var/damage = 0
 	var/damage_overlay = 0
@@ -69,9 +70,9 @@ var/list/wall_noblend_objects = list(
 	set_extension(src, /datum/extension/penetration/proc_call, .proc/CheckPenetration)
 	START_PROCESSING(SSturf, src) //Used for radiation.
 
-/turf/simulated/wall/LateInitialize()
+/turf/simulated/wall/LateInitialize(var/ml)
 	..()
-	update_material()
+	update_material(!ml)
 
 /turf/simulated/wall/Destroy()
 	STOP_PROCESSING(SSturf, src)
