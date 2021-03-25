@@ -1,7 +1,7 @@
 /decl/hierarchy/chargen
 	var/ID = "none"                        // ID of this chargen-entry. Needs to be unique.
 	name = "None"                          // Name of the chargen-entry. This is what the player sees.
-	var/desc = "Placeholder"      		   // Generic description of this entry.
+	var/desc = null      		   // Generic description of this entry.
 	var/list/skills
 	var/whitelist_only = FALSE
 

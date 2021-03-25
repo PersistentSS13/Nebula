@@ -46,3 +46,15 @@
 		return
 	
 	. = ..()
+
+/obj/item/book/skill/organizational/literacy/adept
+	skill_req = SKILL_BASIC
+	name = "intermediate literacy textbook"
+
+/obj/item/book/skill/organizational/literacy/expert
+	skill_req = SKILL_ADEPT
+	name = "advanced literacy textbook"
+
+/obj/item/book/skill/organizational/literacy/prof
+	skill_req = SKILL_EXPERT
+	name = "theoretical literacy textbook"

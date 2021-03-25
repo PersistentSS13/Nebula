@@ -2,6 +2,11 @@
 	hierarchy_type = /decl/hierarchy/chargen/role
 	var/text_book_type = /obj/item/book/skill/organizational/literacy/basic
 
+/decl/hierarchy/chargen/role/Initialize()
+	. = ..()
+	if(!desc)
+		desc = "Before I came here, I worked as a \a [name]."
+
 /decl/hierarchy/chargen/role/drifter
 	ID = "drifter"
 	name = "Drifter"
@@ -36,7 +41,7 @@
 	ID = "programmer"
 	name = "Programmer"
 	skills = list(
-		SKILL_COMPUTERS = 1,
+		SKILL_COMPUTER = 1,
 		SKILL_LITERACY = 1
 	)
 
@@ -99,6 +104,8 @@
 	skills = list(
 		SKILL_FORENSICS = 1
 	)
+
+	text_book_type = /obj/item/book/skill/security/forensics/prof
 
 /decl/hierarchy/chargen/role/gov_maint
 	ID = "gov_maint"
@@ -170,3 +177,12 @@
 	)
 
 	text_book_type = /obj/item/book/skill/engineering/electrical/expert
+
+/decl/hierarchy/chargen/role/educator
+	ID = "educator"
+	name = "Educator"
+	skills = list(
+		SKILL_LITERACY = 1
+	)
+
+	text_book_type = /obj/item/book/skill/organizational/literacy/prof

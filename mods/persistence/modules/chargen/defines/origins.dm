@@ -1,10 +1,14 @@
 /decl/hierarchy/chargen/origin
 	hierarchy_type = /decl/hierarchy/chargen/origin
 
+/decl/hierarchy/chargen/origin/Initialize()
+	. = ..()
+	if(!desc)
+		desc = "I grew up on \a [name]."
+
 /decl/hierarchy/chargen/origin/agricultural
 	ID = "agricultural_world"
 	name = "Agricultural World"
-	desc = "You grew up on an agricultural world."
 	skills = list(
 		SKILL_BOTANY 	= 1,
 		SKILL_LITERACY 	= 1
