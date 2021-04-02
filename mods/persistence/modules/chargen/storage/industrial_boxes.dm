@@ -4,7 +4,7 @@
 	startswith = list(
 		/obj/item/storage/toolbox/mechanical = 1,
 		/obj/item/clothing/head/welding = 1,
-		/obj/item/taperoll/engineering = 1
+		/obj/item/clothing/gloves/insulated = 1
 	)
 
 /obj/item/chargen_box/industrial/firefighter
@@ -27,13 +27,13 @@
 		/obj/item/stack/material/plastic/ten = 1,
 		/obj/item/stack/cable_coil/random = 1
 	)
-	
+
 /obj/item/chargen_box/industrial/steel
 	name = "steel resupply pack"
 	startswith = list(
 		/obj/item/stack/material/steel/fifty = 2
 	)
-	
+
 /obj/item/chargen_box/industrial/glass
 	name = "glass resupply pack"
 	startswith = list(
@@ -45,7 +45,7 @@
 	startswith = list(
 		/obj/item/stack/material/plastic/fifty = 2
 	)
-	
+
 /obj/item/chargen_box/industrial/cable
 	name = "cable resupply pack"
 	startswith = list(
@@ -102,15 +102,12 @@
 		/obj/item/stock_parts/circuitboard/mining_stacker = 1
 	)
 
-/obj/item/chargen_box/industrial/power_gen // parts not included since they can and should build their first autolathe in the outpost, which has power
-	name = "power generator kit"
+/obj/item/chargen_box/industrial/stirling
+	name = "DIY stirling generator kit"
 	startswith = list(
-		/obj/item/stock_parts/circuitboard/pacman = 1,
-		/obj/item/stack/material/uranium/ten = 1
-	)
-
-/obj/item/chargen_box/industrial/power_gen_refill
-	name = "generator refill kit"
-	startswith = list(
-		/obj/item/stack/material/uranium/ten = 1
+		/obj/item/stock_parts/circuitboard/pacman/stirling = 1,
+		/obj/item/stock_parts/matter_bin = 1,
+		/obj/item/stock_parts/micro_laser = 1,
+		/obj/item/stock_parts/capacitor = 1,
+		/obj/item/stock_parts/power/apc/buildable = 1,
 	)
