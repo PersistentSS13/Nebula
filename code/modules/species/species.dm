@@ -69,8 +69,7 @@
 	var/taste_sensitivity = TASTE_NORMAL      // How sensitive the species is to minute tastes.
 	var/silent_steps
 
-	var/min_age = 17
-	var/max_age = 70
+	var/age_descriptor = /datum/appearance_descriptor/age
 
 	// Speech vars.
 	var/assisted_langs = list()               // The languages the species can't speak without an assisted organ.
@@ -246,9 +245,9 @@
 	var/list/prone_overlay_offset = list(0, 0) // amount to shift overlays when lying
 	var/job_skill_buffs = list()				// A list containing jobs (/datum/job), with values the extra points that job recieves.
 
-	var/list/descriptors = list(
-		/datum/mob_descriptor/height = 0,
-		/datum/mob_descriptor/build = 0
+	var/list/appearance_descriptors = list(
+		/datum/appearance_descriptor/height = 1,
+		/datum/appearance_descriptor/build =  1
 	)
 
 	var/standing_jump_range = 2
@@ -276,14 +275,16 @@
 
 	var/datum/ai/ai						// Type abused. Define with path and will automagically create. Determines behaviour for clientless mobs. This will override mob AIs.
 
-	var/exertion_effect_chance = 0
+	var/exertion_emote_chance =    5
+	var/exertion_effect_chance =   0
 	var/exertion_hydration_scale = 0
 	var/exertion_nutrition_scale = 0
-	var/exertion_charge_scale = 0
-	var/exertion_reagent_scale = 0
-	var/exertion_reagent_path = null
-	var/list/exertion_emotes_biological = null
-	var/list/exertion_emotes_synthetic = null
+	var/exertion_charge_scale =    0
+	var/exertion_reagent_scale =   0
+
+	var/exertion_reagent_path
+	var/list/exertion_emotes_biological
+	var/list/exertion_emotes_synthetic
 
 	var/list/traits = list() // An associative list of /decl/traits and trait level - See individual traits for valid levels
 /*
@@ -305,8 +306,8 @@ The slots that you can use are found in items_clothing.dm and are the inventory 
 	you use the _str version of the slot.
 */
 
-/decl/species/New()
-
+/decl/species/Initialize()
+	..()
 	if(!codex_description)
 		codex_description = description
 
@@ -338,13 +339,17 @@ The slots that you can use are found in items_clothing.dm and are the inventory 
 	else
 		hud = new()
 
-	if(LAZYLEN(descriptors))
-		var/list/descriptor_datums = list()
-		for(var/desctype in descriptors)
-			var/datum/mob_descriptor/descriptor = new desctype
-			descriptor.comparison_offset = descriptors[desctype]
-			descriptor_datums[descriptor.name] = descriptor
-		descriptors = descriptor_datums
+	if(LAZYLEN(appearance_descriptors))
+		for(var/desctype in appearance_descriptors)
+			var/datum/appearance_descriptor/descriptor = new desctype(appearance_descriptors[desctype])
+			appearance_descriptors -= desctype
+			appearance_descriptors[descriptor.name] = descriptor
+
+	if(!(/datum/appearance_descriptor/age in appearance_descriptors))
+		LAZYINITLIST(appearance_descriptors)
+		var/datum/appearance_descriptor/age/age = new age_descriptor(1)
+		appearance_descriptors.Insert(1, age.name)
+		appearance_descriptors[age.name] = age
 
 	//If the species has eyes, they are the default vision organ
 	if(!vision_organ && has_organ[BP_EYES])
@@ -426,17 +431,9 @@ The slots that you can use are found in items_clothing.dm and are the inventory 
 	H.sync_organ_dna()
 
 /decl/species/proc/hug(var/mob/living/carbon/human/H,var/mob/living/target)
-
-	var/t_him = "them"
-	switch(target.gender)
-		if(MALE)
-			t_him = "him"
-		if(FEMALE)
-			t_him = "her"
-
-	H.visible_message("<span class='notice'>[H] hugs [target] to make [t_him] feel better!</span>", \
-					"<span class='notice'>You hug [target] to make [t_him] feel better!</span>")
-
+	var/decl/pronouns/G = target.get_pronouns()
+	H.visible_message("<span class='notice'>[H] hugs [target] to make [G.him] feel better!</span>", \
+					"<span class='notice'>You hug [target] to make [G.him] feel better!</span>")
 	if(H != target)
 		H.update_personal_goal(/datum/goal/achievement/givehug, TRUE)
 		target.update_personal_goal(/datum/goal/achievement/gethug, TRUE)
@@ -692,8 +689,8 @@ The slots that you can use are found in items_clothing.dm and are the inventory 
 	target.visible_message("<span class='danger'>[attacker] attempted to disarm \the [target]!</span>")
 
 /decl/species/proc/disfigure_msg(var/mob/living/carbon/human/H) //Used for determining the message a disfigured face has on examine. To add a unique message, just add this onto a specific species and change the "return" message.
-	var/datum/gender/T = gender_datums[H.get_gender()]
-	return "<span class='danger'>[T.His] face is horribly mangled!</span>\n"
+	var/decl/pronouns/G = H.get_pronouns()
+	return SPAN_DANGER("[G.His] face is horribly mangled!\n")
 
 /decl/species/proc/max_skin_tone()
 	if(appearance_flags & HAS_SKIN_TONE_GRAV)
@@ -860,7 +857,7 @@ The slots that you can use are found in items_clothing.dm and are the inventory 
 /decl/species/proc/handle_exertion(mob/living/carbon/human/H)
 	if (!exertion_effect_chance)
 		return
-	var/chance = exertion_effect_chance * H.encumbrance()
+	var/chance = max((100 - H.stamina), exertion_effect_chance * H.encumbrance())
 	if (chance && prob(H.skill_fail_chance(SKILL_HAULING, chance)))
 		var/synthetic = H.isSynthetic()
 		if (synthetic)
@@ -875,7 +872,7 @@ The slots that you can use are found in items_clothing.dm and are the inventory 
 				H.adjust_nutrition(-DEFAULT_HUNGER_FACTOR * exertion_nutrition_scale)
 			if (exertion_reagent_scale && !isnull(exertion_reagent_path))
 				H.make_reagent(REM * exertion_reagent_scale, exertion_reagent_path)
-		if (prob(10))
+		if(prob(exertion_emote_chance))
 			var/list/active_emotes = synthetic ? exertion_emotes_synthetic : exertion_emotes_biological
 			if(length(active_emotes))
 				var/decl/emote/exertion_emote = GET_DECL(pick(active_emotes))

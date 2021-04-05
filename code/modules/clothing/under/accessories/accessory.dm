@@ -62,7 +62,7 @@
 		if(uniform.rolled_sleeves && hide_on_uniform_rollsleeves)
 			return FALSE
 
-/obj/item/clothing/accessory/experimental_mob_overlay(mob/user_mob, slot, bodypart)
+/obj/item/clothing/accessory/get_mob_overlay(mob/user_mob, slot, bodypart)
 	var/image/ret = ..()
 	if(ret && istype(loc, /obj/item/clothing/under))
 		var/new_state = ret.icon_state
@@ -75,12 +75,16 @@
 			ret.icon_state = new_state
 	return ret
 
-/obj/item/clothing/accessory/proc/get_inv_overlay()
-	var/overlay_state = "[get_world_inventory_state()]-attached"
-	if(check_state_in_icon(overlay_state, icon))
-		var/image/I = image(icon, overlay_state)
-		I.appearance_flags |= RESET_COLOR
-		return I
+/obj/item/clothing/accessory/proc/get_attached_inventory_overlay()
+	var/image/ret = new /image
+	ret.appearance = src
+	ret.plane = FLOAT_PLANE
+	ret.layer = FLOAT_LAYER
+	ret.pixel_x = 0
+	ret.pixel_y = 0
+	ret.pixel_w = 0
+	ret.pixel_z = 0
+	return ret
 
 /obj/item/clothing/accessory/OnDisguise(obj/item/copy, mob/user)
 	. = ..()

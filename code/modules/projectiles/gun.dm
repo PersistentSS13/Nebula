@@ -45,6 +45,9 @@
 	attack_verb = list("struck", "hit", "bashed")
 	zoomdevicename = "scope"
 
+	drop_sound = 'sound/foley/drop1.ogg'
+	pickup_sound = 'sound/foley/pickup2.ogg'
+
 	var/waterproof = FALSE
 	var/burst = 1
 	var/fire_delay = 6 	//delay after shooting before the gun can be used again. Cannot be less than [burst_delay+1]
@@ -64,7 +67,6 @@
 	var/list/burst_accuracy = list(0) //allows for different accuracies for each shot in a burst. Applied on top of accuracy
 	var/list/dispersion = list(0)
 	var/one_hand_penalty
-	var/wielded_item_state
 	var/combustion	//whether it creates hotspot when fired
 
 	var/next_fire_time = 0
@@ -171,12 +173,6 @@
 	return mutable_appearance(icon, "[get_world_inventory_state()][safety_icon][safety()]")
 
 /obj/item/gun/get_mob_overlay(mob/user_mob, slot, bodypart)
-	var/image/I = ..()
-	if(wielded_item_state && user_mob.can_wield_item(src) && is_held_twohanded(user_mob))
-		I.icon_state = wielded_item_state
-	return I
-
-/obj/item/gun/experimental_mob_overlay(mob/user_mob, slot, bodypart)
 	var/image/ret = ..()
 	if(ret && user_mob.can_wield_item(src) && is_held_twohanded(user_mob) && check_state_in_icon("[ret.icon_state]-wielded", icon))
 		ret.icon_state = "[ret.icon_state]-wielded"
@@ -198,17 +194,20 @@
 			toggle_safety()
 			return 1
 	if(MUTATION_HULK in M.mutations)
-		to_chat(M, "<span class='danger'>Your fingers are much too large for the trigger guard!</span>")
+		to_chat(M, SPAN_WARNING("Your fingers are much too large for the trigger guard!"))
 		return 0
 	if((MUTATION_CLUMSY in M.mutations) && prob(40)) //Clumsy handling
 		var/obj/P = consume_next_projectile()
 		if(P)
-			if(process_projectile(P, user, user, pick(BP_L_FOOT, BP_R_FOOT)))
+			var/pew_loc = pick(BP_L_FOOT, BP_R_FOOT)
+			if(process_projectile(P, user, user, pew_loc))
+				var/decl/pronouns/G = user.get_pronouns()
 				handle_post_fire(user, user)
+				var/obj/item/affecting = user.get_organ(pew_loc)
+				pew_loc = affecting ? "\the [affecting]" : "the foot"
 				user.visible_message(
-					"<span class='danger'>\The [user] shoots \himself in the foot with \the [src]!</span>",
-					"<span class='danger'>You shoot yourself in the foot with \the [src]!</span>"
-					)
+					SPAN_DANGER("\The [user] shoots [G.self] in [pew_loc] with \the [src]!"),
+					SPAN_DANGER("You shoot yourself in [pew_loc] with \the [src]!"))
 				M.unEquip(src)
 		else
 			handle_click_empty(user)

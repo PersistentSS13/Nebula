@@ -1090,9 +1090,7 @@
 /turf/simulated/floor/fixed/alium/airless,
 /area/map_template/hydrobase/solars)
 "cM" = (
-/obj/machinery/power/solar{
-	id = "hydrosolar"
-	},
+/obj/machinery/power/solar,
 /obj/effect/floor_decal/solarpanel,
 /obj/structure/cable{
 	icon_state = "0-2";
@@ -1197,7 +1195,6 @@
 /area/map_template/hydrobase/station/growF)
 "da" = (
 /obj/machinery/atmospherics/pipe/simple/visible/cyan{
-	icon_state = "intact";
 	dir = 9
 	},
 /obj/machinery/light,
@@ -1575,7 +1572,6 @@
 /area/map_template/hydrobase/station/processing)
 "dR" = (
 /obj/machinery/power/solar_control/autostart{
-	id = "hydrosolar";
 	track = 2
 	},
 /obj/structure/window/borosilicate_reinforced{
@@ -1883,8 +1879,7 @@
 /area/map_template/hydrobase/station/processing)
 "eE" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	dir = 4;
-	icon_state = "intact"
+	dir = 4
 	},
 /obj/machinery/door/airlock/external{
 	icon_state = "door_locked";
@@ -1902,8 +1897,7 @@
 /area/map_template/hydrobase/station/solarlock)
 "eF" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	dir = 4;
-	icon_state = "intact"
+	dir = 4
 	},
 /obj/effect/floor_decal/industrial/warning{
 	icon_state = "warning";
@@ -2414,9 +2408,7 @@
 /turf/simulated/floor/tiled/freezer,
 /area/map_template/hydrobase/station/shower)
 "fG" = (
-/obj/machinery/power/solar{
-	id = "hydrosolar"
-	},
+/obj/machinery/power/solar,
 /obj/effect/floor_decal/solarpanel,
 /obj/structure/cable{
 	icon_state = "0-2";
@@ -2904,9 +2896,7 @@
 /turf/simulated/floor/fixed/alium,
 /area/map_template/hydrobase/station/dockport)
 "gD" = (
-/obj/machinery/power/solar{
-	id = "hydrosolar"
-	},
+/obj/machinery/power/solar,
 /obj/effect/floor_decal/solarpanel,
 /obj/structure/cable{
 	d1 = 4;

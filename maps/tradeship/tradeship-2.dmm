@@ -61,9 +61,7 @@
 /obj/item/bedsheet/captain,
 /obj/item/gun/projectile/pistol/holdout,
 /obj/structure/bed/padded,
-/obj/effect/landmark{
-	name = "JoinLateCryoCaptain"
-	},
+/obj/effect/landmark/latejoin/cryo_captain,
 /obj/machinery/alarm{
 	dir = 8;
 	icon_state = "alarm0";
@@ -123,7 +121,6 @@
 /area/ship/trade/shieldbay)
 "al" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 6
 	},
 /obj/structure/cable{
@@ -422,7 +419,6 @@
 	opacity = 0
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/door/firedoor,
@@ -559,7 +555,6 @@
 	id_tag = "scram"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/black{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/door/firedoor,
@@ -887,8 +882,7 @@
 /area/ship/trade/maintenance/hallway)
 "bQ" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	dir = 10;
-	icon_state = "intact"
+	dir = 10
 	},
 /obj/structure/cable{
 	d1 = 4;
@@ -906,7 +900,6 @@
 /area/ship/trade/shieldbay)
 "bW" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "intact";
 	dir = 6
 	},
 /obj/structure/cable{
@@ -931,7 +924,6 @@
 	pixel_y = 20
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/door/airlock/external/bolted{
@@ -959,7 +951,6 @@
 	tag_interior_door = "dock_star_in"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/structure/cable{
@@ -1049,7 +1040,6 @@
 /area/ship/trade/command/bridge)
 "cl" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "intact";
 	dir = 5
 	},
 /turf/simulated/floor/tiled/monotile,
@@ -1154,7 +1144,6 @@
 	pixel_x = 24
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/blue{
-	icon_state = "intact";
 	dir = 9
 	},
 /obj/machinery/floodlight,
@@ -1812,6 +1801,7 @@
 	icon_state = "1-2";
 	pixel_y = 0
 	},
+/obj/structure/emergency_dispenser/west,
 /turf/simulated/floor/tiled/techmaint,
 /area/ship/trade/crew/hallway/starboard)
 "dW" = (
@@ -1868,6 +1858,7 @@
 /area/ship/trade/cargo)
 "ed" = (
 /obj/machinery/light_switch{
+	on = 1;
 	pixel_x = -25
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
@@ -1933,7 +1924,6 @@
 /obj/structure/sign/warning/nosmoking_2{
 	pixel_y = 28
 	},
-/obj/structure/emergency_dispenser/west,
 /obj/structure/handrail{
 	icon_state = "handrail";
 	dir = 4
@@ -2336,7 +2326,6 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 6
 	},
 /obj/machinery/meter,
@@ -2402,6 +2391,9 @@
 	icon_state = "handrail";
 	dir = 8
 	},
+/obj/machinery/light_switch{
+	pixel_x = 28
+	},
 /turf/simulated/open,
 /area/ship/trade/cargo)
 "fu" = (
@@ -2421,9 +2413,7 @@
 /obj/item/chems/ivbag/blood/BPlus,
 /obj/item/chems/ivbag/blood/OMinus,
 /obj/item/chems/ivbag/blood/OPlus,
-/obj/machinery/newscaster{
-	pixel_x = -32
-	},
+/obj/structure/emergency_dispenser/west,
 /turf/simulated/floor/tiled/white,
 /area/ship/trade/crew/medbay)
 "fw" = (
@@ -2465,7 +2455,6 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 10
 	},
 /obj/machinery/meter,
@@ -2484,7 +2473,6 @@
 "fB" = (
 /obj/effect/floor_decal/industrial/warning,
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 6
 	},
 /obj/structure/handrail{
@@ -2538,7 +2526,6 @@
 "fP" = (
 /obj/effect/floor_decal/industrial/warning,
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 10
 	},
 /obj/structure/handrail{
@@ -2564,7 +2551,6 @@
 	pixel_x = -24
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 6
 	},
 /obj/structure/undies_wardrobe,
@@ -2603,7 +2589,6 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /turf/simulated/floor/tiled/steel_ridged,
@@ -2616,7 +2601,6 @@
 	},
 /obj/structure/disposalpipe/junction,
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 10
 	},
 /obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers{
@@ -2657,7 +2641,6 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/structure/cable{
@@ -2677,7 +2660,6 @@
 	},
 /obj/random/junk,
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/structure/cable{
@@ -2691,7 +2673,6 @@
 	},
 /obj/random/maintenance,
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/fabricator/book,
@@ -2733,7 +2714,6 @@
 "gm" = (
 /obj/structure/lattice,
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 5
 	},
 /turf/space,
@@ -2749,7 +2729,6 @@
 	opacity = 0
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /turf/simulated/floor/plating,
@@ -2761,7 +2740,6 @@
 /obj/random/clothing,
 /obj/random/clothing,
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 9
 	},
 /obj/item/storage/backpack/dufflebag,
@@ -2818,6 +2796,7 @@
 	icon_state = "railing0";
 	dir = 8
 	},
+/obj/structure/emergency_dispenser/east,
 /turf/simulated/open,
 /area/ship/trade/cargo)
 "gt" = (
@@ -2825,7 +2804,6 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/obj/machinery/atmospherics/pipe/simple/hidden/fuel,
 /obj/structure/cable{
 	d1 = 1;
 	d2 = 2;
@@ -2873,7 +2851,6 @@
 "gz" = (
 /obj/structure/lattice,
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 9
 	},
 /turf/space,
@@ -2988,6 +2965,9 @@
 	dir = 1
 	},
 /obj/machinery/light/spot,
+/obj/machinery/light_switch{
+	pixel_y = -25
+	},
 /turf/simulated/open,
 /area/ship/trade/cargo)
 "hb" = (
@@ -3070,9 +3050,6 @@
 /area/ship/trade/hidden)
 "hm" = (
 /obj/item/stool/padded,
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	dir = 10
-	},
 /obj/machinery/atmospherics/unary/vent_scrubber/on{
 	dir = 8
 	},
@@ -3093,7 +3070,6 @@
 	dir = 5
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 5
 	},
 /turf/simulated/floor/tiled/techmaint,
@@ -3119,7 +3095,6 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/structure/disposalpipe/junction{
@@ -3141,12 +3116,12 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
+/obj/structure/emergency_dispenser/north,
 /turf/simulated/floor/plating,
 /area/ship/trade/maintenance/hallway)
 "hv" = (
@@ -3182,7 +3157,6 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/power/apc{
@@ -3211,7 +3185,6 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/structure/cable{
@@ -3234,7 +3207,6 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/structure/cable{
@@ -3261,7 +3233,6 @@
 	dir = 9
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 9
 	},
 /obj/structure/cable{
@@ -3340,7 +3311,6 @@
 /area/ship/trade/maintenance/atmos)
 "hP" = (
 /obj/machinery/atmospherics/pipe/simple/visible/scrubbers{
-	icon_state = "intact-scrubbers";
 	dir = 4
 	},
 /obj/effect/floor_decal/corner/blue{
@@ -3357,7 +3327,6 @@
 /area/ship/trade/maintenance/atmos)
 "hQ" = (
 /obj/machinery/atmospherics/pipe/simple/visible/scrubbers{
-	icon_state = "intact-scrubbers";
 	dir = 10
 	},
 /obj/machinery/meter,
@@ -3540,11 +3509,9 @@
 /area/ship/trade/maintenance/atmos)
 "if" = (
 /obj/machinery/atmospherics/pipe/simple/visible/supply{
-	icon_state = "intact-supply";
 	dir = 6
 	},
 /obj/machinery/atmospherics/pipe/simple/visible/scrubbers{
-	icon_state = "intact-scrubbers";
 	dir = 5
 	},
 /obj/effect/floor_decal/corner/blue,
@@ -3568,7 +3535,6 @@
 	pixel_y = 0
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 6
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
@@ -3596,7 +3562,6 @@
 	icon_state = "4-10"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /turf/simulated/floor/tiled/techfloor,
@@ -3616,7 +3581,6 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/structure/ladder,
@@ -3642,7 +3606,6 @@
 	pixel_y = 0
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 9
 	},
 /obj/effect/landmark/start{
@@ -3744,7 +3707,6 @@
 /area/ship/trade/maintenance/power)
 "is" = (
 /obj/machinery/atmospherics/pipe/simple/visible/green{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/visible/red,
@@ -4014,7 +3976,6 @@
 /obj/effect/wallframe_spawn/reinforced,
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/visible/red{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/door/blast/regular{
@@ -4318,7 +4279,6 @@
 /area/space)
 "jD" = (
 /obj/machinery/atmospherics/pipe/simple/visible/green{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/effect/floor_decal/corner/red{
@@ -4439,7 +4399,6 @@
 /area/ship/trade/maintenance/engine/aft)
 "jN" = (
 /obj/machinery/atmospherics/pipe/simple/visible/green{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/structure/cable{
@@ -4452,8 +4411,7 @@
 "jO" = (
 /obj/machinery/meter,
 /obj/machinery/atmospherics/pipe/simple/visible/green{
-	dir = 9;
-	icon_state = "intact"
+	dir = 9
 	},
 /turf/simulated/floor/plating,
 /area/ship/trade/maintenance/engine/aft)
@@ -4704,7 +4662,6 @@
 /area/ship/trade/maintenance/atmos)
 "kv" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/fusion_fuel_injector/mapped{
@@ -4720,7 +4677,6 @@
 /area/ship/trade/maintenance/engine/aft)
 "kz" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/black{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/meter,
@@ -4757,7 +4713,6 @@
 /obj/structure/window/reinforced,
 /obj/effect/floor_decal/industrial/warning,
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 6
 	},
 /turf/simulated/floor/plating,
@@ -4837,7 +4792,6 @@
 /area/ship/trade/maintenance/engine/aft)
 "lu" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 10
 	},
 /obj/machinery/meter,
@@ -4863,7 +4817,6 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/door/airlock/hatch/autoname/engineering,
@@ -4871,7 +4824,6 @@
 /area/ship/trade/maintenance/engine/port)
 "md" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 5
 	},
 /obj/machinery/meter,
@@ -4984,7 +4936,6 @@
 /area/ship/trade/shuttle/outgoing)
 "nv" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "intact";
 	dir = 9
 	},
 /turf/simulated/floor/tiled/monotile,
@@ -5028,7 +4979,6 @@
 "ob" = (
 /obj/machinery/computer/shuttle_control/explore/tradeship,
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "intact";
 	dir = 6
 	},
 /turf/simulated/floor/tiled,
@@ -5050,7 +5000,6 @@
 	tag_interior_door = "dock_port_in"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/structure/cable{
@@ -5142,7 +5091,6 @@
 	pixel_y = 20
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/door/airlock/external/bolted{
@@ -5278,8 +5226,8 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/floor_decal/industrial/outline/yellow,
 /obj/machinery/computer/modular/preset/merchant/tradeship,
-/obj/machinery/firealarm{
-	pixel_y = 24
+/obj/machinery/light_switch{
+	pixel_y = 25
 	},
 /turf/simulated/floor/tiled/techfloor,
 /area/ship/trade/cargo)
@@ -5390,6 +5338,7 @@
 	icon_state = "corner_white";
 	dir = 5
 	},
+/obj/structure/emergency_dispenser/north,
 /turf/simulated/floor/tiled/dark,
 /area/ship/trade/command/bridge)
 "sb" = (
@@ -5413,7 +5362,6 @@
 /area/ship/trade/shieldbay)
 "sf" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/structure/window/borosilicate_reinforced{
@@ -5571,7 +5519,6 @@
 	icon_state = "4-9"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 6
 	},
 /turf/simulated/floor/airless,
@@ -5693,7 +5640,6 @@
 /area/ship/trade/command/captain)
 "wU" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
@@ -5705,7 +5651,6 @@
 /obj/effect/wallframe_spawn/reinforced/titanium,
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "intact";
 	dir = 4
 	},
 /turf/simulated/floor/plating,
@@ -5742,7 +5687,6 @@
 /area/ship/trade/maintenance/hallway)
 "xL" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 9
 	},
 /obj/structure/window/borosilicate_reinforced,
@@ -5864,7 +5808,6 @@
 /area/ship/trade/command/captain)
 "Ab" = (
 /obj/machinery/atmospherics/pipe/simple/visible/red{
-	icon_state = "intact";
 	dir = 6
 	},
 /obj/effect/floor_decal/corner/blue,
@@ -5946,7 +5889,6 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/structure/disposalpipe/segment{
@@ -6234,7 +6176,6 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /turf/simulated/floor/tiled/techmaint,
@@ -6319,9 +6260,6 @@
 /obj/random_multi/single_item/captains_spare_id,
 /obj/item/documents/tradehouse/account,
 /obj/item/documents/tradehouse/personnel,
-/obj/machinery/light_switch{
-	pixel_x = 28
-	},
 /obj/effect/landmark/paperwork_spawn_tradeship,
 /turf/simulated/floor/tiled/dark,
 /area/ship/trade/command/bridge)
@@ -6361,7 +6299,6 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/door/airlock/hatch/autoname/engineering,
@@ -6480,7 +6417,6 @@
 /area/ship/trade/maintenance/hallway)
 "Ib" = (
 /obj/machinery/atmospherics/pipe/simple/visible/green{
-	icon_state = "intact";
 	dir = 5
 	},
 /obj/machinery/light,
@@ -6893,7 +6829,6 @@
 	dir = 6
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/item/radio/intercom{
@@ -6980,7 +6915,6 @@
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/firealarm{
@@ -7016,14 +6950,12 @@
 	icon_state = "5-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 10
 	},
 /turf/simulated/floor/airless,
 /area/ship/trade/maintenance/engine/port)
 "NI" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/structure/bookcase/skill_books/random,
@@ -7051,7 +6983,6 @@
 /area/ship/trade/command/fmate)
 "Oc" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/effect/decal/cleanable/cobweb2,
@@ -7304,6 +7235,11 @@
 	},
 /obj/effect/floor_decal/industrial/outline/yellow,
 /obj/machinery/merchant_pad,
+/obj/machinery/firealarm{
+	dir = 4;
+	pixel_x = 24;
+	pixel_y = 0
+	},
 /turf/simulated/floor/tiled/techfloor,
 /area/ship/trade/cargo)
 "RL" = (
@@ -7321,7 +7257,6 @@
 "Sb" = (
 /obj/effect/floor_decal/industrial/outline/yellow,
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "intact";
 	dir = 5
 	},
 /turf/simulated/floor/plating,
@@ -7346,6 +7281,9 @@
 /area/ship/trade/garden)
 "Sg" = (
 /obj/machinery/light,
+/obj/machinery/light_switch{
+	pixel_y = -25
+	},
 /turf/simulated/floor/tiled/techmaint,
 /area/ship/trade/shieldbay)
 "Si" = (
@@ -7435,8 +7373,7 @@
 	pixel_y = 0
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	dir = 10;
-	icon_state = "intact"
+	dir = 10
 	},
 /obj/structure/handrail{
 	icon_state = "handrail";
@@ -7463,7 +7400,6 @@
 /area/ship/trade/maintenance/engine/aft)
 "TL" = (
 /obj/machinery/atmospherics/pipe/simple/visible/green{
-	icon_state = "intact";
 	dir = 5
 	},
 /obj/structure/cable{
@@ -7524,13 +7460,13 @@
 /area/ship/trade/crew/toilets)
 "UB" = (
 /obj/machinery/light,
-/obj/machinery/newscaster{
-	pixel_y = -32
-	},
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
 	icon_state = "4-8"
+	},
+/obj/machinery/light_switch{
+	pixel_y = -25
 	},
 /turf/simulated/floor/tiled/dark,
 /area/ship/trade/command/bridge)
@@ -7661,7 +7597,6 @@
 	icon_state = "4-9"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/structure/disposalpipe/segment{
@@ -7779,7 +7714,7 @@
 	icon_state = "4-10"
 	},
 /obj/machinery/button/access/interior{
-	id_tag = "bearcat_shuttle";
+	id_tag = "tradeship_shuttle";
 	pixel_x = -12;
 	pixel_y = 20
 	},

@@ -18,7 +18,7 @@
 	var/list/bad_areas = list()
 	var/area_test_count = 0
 
-	for(var/area/A in world)
+	for(var/area/A in global.areas)
 		if(!A.z)
 			continue
 		if(!isPlayerLevel(A.z))
@@ -78,7 +78,7 @@
 
 /datum/unit_test/air_alarm_connectivity/check_result()
 	var/failed = FALSE
-	for(var/area/A in world)
+	for(var/area/A in global.areas)
 		if(!A.z)
 			continue
 		if(!isPlayerLevel(A.z))
@@ -496,12 +496,13 @@
 
 //=======================================================================================
 
-/datum/unit_test/simple_pipes_shall_not_face_north_or_west // The init code is worthless and cannot handle it
+// Having them face north or west is now supported fully in code; this is for map consistency.
+/datum/unit_test/simple_pipes_shall_not_face_north_or_west
 	name = "MAP: Simple pipes shall not face north or west"
 
 /datum/unit_test/simple_pipes_shall_not_face_north_or_west/start_test()
 	var/failures = 0
-	for(var/obj/machinery/atmospherics/pipe/simple/pipe in world) // Pipes are removed from the SSmachines list during init.
+	for(var/obj/machinery/atmospherics/pipe/simple/pipe in SSmachines.machinery)
 		if(!istype(pipe, /obj/machinery/atmospherics/pipe/simple/hidden) && !istype(pipe, /obj/machinery/atmospherics/pipe/simple/visible))
 			continue
 		if(pipe.dir == NORTH || pipe.dir == WEST)
@@ -524,7 +525,7 @@
 	for(var/obj/machinery/atmospherics/valve/shutoff/SV in SSmachines.machinery)
 		SV.close()
 	for(var/obj/machinery/atmospherics/valve/shutoff/SV in SSmachines.machinery)
-		if(SV.network_node1 == SV.network_node2)
+		if(SV.network_in_dir(SV.dir) == SV.network_in_dir(turn(SV.dir, 180)))
 			log_bad("Following shutoff valve does not connect to two different pipe networks: [log_info_line(SV)]")
 			failures++
 

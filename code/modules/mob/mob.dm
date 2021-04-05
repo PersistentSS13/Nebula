@@ -205,7 +205,7 @@
 #undef ENCUMBERANCE_MOVEMENT_MOD
 
 /mob/proc/encumbrance()
-	for(var/obj/item/grab/G in get_active_grabs())
+	for(var/obj/item/grab/G as anything in get_active_grabs())
 		. = max(., G.grab_slowdown())
 	. *= (0.8 ** size_strength_mod())
 	. *= (0.5 + 1.5 * (SKILL_MAX - get_skill_value(SKILL_HAULING))/(SKILL_MAX - SKILL_MIN))
@@ -318,8 +318,8 @@
 			if(isobj(A.loc))
 				look_target = "inside \the [A.loc]"
 			if(A == src)
-				var/datum/gender/T = gender_datums[get_gender()]
-				look_target = "at [T.self]"
+				var/decl/pronouns/G = get_pronouns()
+				look_target = "at [G.self]"
 			for(var/mob/M in viewers(4, src))
 				if(M == src)
 					continue
@@ -519,9 +519,6 @@
 
 /mob/proc/is_ready()
 	return client && !!mind
-
-/mob/proc/get_gender()
-	return gender
 
 /mob/proc/see(message)
 	if(!is_active())
@@ -1026,4 +1023,7 @@
 	return TRUE
 
 /mob/proc/get_species()
+	return
+
+/mob/proc/get_bodytype()
 	return

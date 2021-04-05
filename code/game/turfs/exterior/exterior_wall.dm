@@ -1,3 +1,5 @@
+#define MAT_DROP_CHANCE 30
+
 var/list/default_strata_type_by_z = list()
 var/list/default_material_by_strata_and_z = list()
 var/list/default_strata_types = list()
@@ -11,6 +13,8 @@ var/list/natural_walls = list()
 	opacity =    TRUE
 	density =    TRUE
 	blocks_air = TRUE
+	turf_flags = TURF_FLAG_SKIP_ICON_INIT
+
 	var/strata
 	var/paint_color
 	var/image/ore_overlay
@@ -66,9 +70,9 @@ var/list/natural_walls = list()
 		reinf_material = GET_DECL(reinf_material)
 	. = INITIALIZE_HINT_LATELOAD
 
-/turf/exterior/wall/LateInitialize()
+/turf/exterior/wall/LateInitialize(var/ml)
 	..()
-	update_material()
+	update_material(!ml)
 	spread_deposit()
 
 /turf/exterior/wall/explosion_act(severity)
@@ -145,7 +149,7 @@ var/list/natural_walls = list()
 		SetName("natural [material.solid_name] wall")
 		desc = "A natural cliff face composed of bare [material.solid_name]."
 
-/turf/exterior/wall/proc/update_material()
+/turf/exterior/wall/proc/update_material(var/update_neighbors)
 	if(!material)
 		material = GET_DECL(get_default_material())
 	if(material)
@@ -154,8 +158,11 @@ var/list/natural_walls = list()
 		explosion_resistance = reinf_material.explosion_resistance
 	update_strings()
 	set_opacity(material.opacity >= 0.5)
-	for(var/turf/exterior/T in RANGE_TURFS(src, 1))
-		T.queue_icon_update()
+	if(update_neighbors)
+		for(var/turf/exterior/T in RANGE_TURFS(src, 1))
+			T.update_icon()
+	else
+		update_icon()
 	if(reinf_material?.ore_icon_overlay)
 		ore_overlay = image('icons/turf/mining_decals.dmi', "[reinf_material.ore_icon_overlay]")
 		ore_overlay.appearance_flags = RESET_COLOR
@@ -197,10 +204,9 @@ var/list/natural_walls = list()
 	var/image/I
 	for(var/i = 1 to 4)
 		var/apply_state = "[wall_connections[i]]"
-		if(check_state_in_icon(apply_state, material_icon_base))
-			I = image(material_icon_base, apply_state, dir = 1<<(i-1))
-			I.color = base_color
-			add_overlay(I)
+		I = image(material_icon_base, apply_state, dir = 1<<(i-1))
+		I.color = base_color
+		add_overlay(I)
 		if(shine)
 			I = image(material_icon_base, "shine[wall_connections[i]]", dir = 1<<(i-1))
 			I.appearance_flags |= RESET_ALPHA
@@ -218,6 +224,8 @@ var/list/natural_walls = list()
 	if(reinf_material?.ore_result_amount)
 		for(var/i = 1 to reinf_material.ore_result_amount)
 			pass_geodata_to(new /obj/item/ore(src, reinf_material.type))
+	if(prob(MAT_DROP_CHANCE))
+		pass_geodata_to(new /obj/item/ore(src, material.type))
 	destroy_artifacts(null, INFINITY)
 	playsound(src, 'sound/items/Welder.ogg', 100, 1)
 	. = ChangeTurf(floor_type || get_base_turf_by_area(src))
@@ -243,3 +251,5 @@ var/list/natural_walls = list()
 	set_extension(O, /datum/extension/geological_data)
 	var/datum/extension/geological_data/newdata = get_extension(O, /datum/extension/geological_data)
 	newdata.set_data(ours.geodata.get_copy())
+
+#undef MAT_DROP_CHANCE

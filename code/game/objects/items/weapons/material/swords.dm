@@ -17,6 +17,10 @@
 	material = /decl/material/solid/metal/steel
 	applies_material_colour = TRUE
 	applies_material_name = TRUE
+
+	pickup_sound = 'sound/foley/knife1.ogg' 
+	drop_sound = 'sound/foley/knifedrop3.ogg'
+
 	var/draw_handle
 
 /obj/item/sword/update_force()
@@ -38,12 +42,12 @@
 		if(material.reflectiveness >= MAT_VALUE_SHINY && check_state_in_icon("[icon_state]_shine", icon))
 			add_overlay(mutable_appearance(icon, "[icon_state]_shine"), adjust_brightness(color, 20 + material.reflectiveness))
 
-/obj/item/sword/experimental_mob_overlay(mob/user_mob, slot, bodypart)
-	var/image/res = ..()
+/obj/item/sword/get_mob_overlay(mob/user_mob, slot, bodypart)
+	var/image/ret = ..()
 	//Do not color scabbarded blades
-	if(res && applies_material_colour && (slot == slot_back_str || slot == slot_belt_str))
-		res.color = null
-	return res
+	if(ret && applies_material_colour && (slot == slot_back_str || slot == slot_belt_str))
+		ret.color = null
+	return ret
 
 /obj/item/sword/wood
 	material = /decl/material/solid/wood
@@ -77,8 +81,8 @@
 	desc = "A high-tech take on a woefully underpowered weapon. Can't mistake its sound for anything."
 	material = /decl/material/solid/metal/titanium
 	hitsound = 'sound/weapons/anime_sword.wav'
+	pickup_sound = 'sound/weapons/katana_out.wav'
 
-/obj/item/sword/katana/vibro/equipped(mob/living/user, slot)
-	if(slot in user.held_item_slots)
-		playsound(src, 'sound/weapons/katana_out.wav', 50, 1, -5)
-	
+/obj/item/sword/katana/vibro/pickup_sound_callback()
+	if(ismob(loc) && pickup_sound)
+		playsound(src, pickup_sound, 50, -1, 5)

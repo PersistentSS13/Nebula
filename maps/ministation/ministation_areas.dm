@@ -1,3 +1,12 @@
+/datum/event/prison_break/medical
+	areaType = list(/area/ministation/medical)
+
+/datum/event/prison_break/science
+	areaType = list(/area/ministation/science)
+
+/datum/event/prison_break/station
+	areaType = list(/area/ministation/security)
+
 /area/ministation
 	name = "\improper Ministation"
 	ambience = list('sound/ambience/ambigen3.ogg','sound/ambience/ambigen4.ogg','sound/ambience/ambigen5.ogg','sound/ambience/ambigen6.ogg','sound/ambience/ambigen7.ogg','sound/ambience/ambigen8.ogg','sound/ambience/ambigen9.ogg','sound/ambience/ambigen10.ogg','sound/ambience/ambigen11.ogg','sound/ambience/ambigen12.ogg')
@@ -17,12 +26,16 @@
 	icon_state = "yellow"
 	base_turf = /turf/space
 
-/area/supply
+/area/ministation/supply
+	name = "Supply Shuttle"
+	icon_state = "shuttle3"
+	req_access = list(access_cargo)
 	requires_power = 0
 
 //Hallways
 /area/ministation/hall
 	icon_state = "white"
+	area_flags = AREA_FLAG_HALLWAY
 
 /area/ministation/hall/w
 	name = "\improper Port Hallway"
@@ -38,7 +51,7 @@
 
 //Maintenance
 /area/ministation/maint
-	area_flags = AREA_FLAG_RAD_SHIELDED
+	area_flags = AREA_FLAG_RAD_SHIELDED | AREA_FLAG_MAINTENANCE
 	req_access = list(access_maint_tunnels)
 	turf_initializer = /decl/turf_initializer/maintenance
 	icon_state = "orange"
@@ -78,7 +91,7 @@
 /area/ministation/janitor
 	name = "\improper Custodial Closet"
 	req_access = list(access_janitor)
-	icon_state = "pink"
+	icon_state = "janitor"
 
 /area/ministation/commons
 	name = "\improper Common Area"
@@ -107,6 +120,7 @@
 	req_access = list(access_security)
 	secure = TRUE
 	icon_state = "red"
+	area_flags = AREA_FLAG_SECURITY
 
 /area/ministation/detective
 	name = "\improper Detective Office"
@@ -119,6 +133,15 @@
 	req_access =list(access_lawyer)
 	secure = TRUE
 	icon_state = "pink"
+
+/area/ministation/library
+	name = "\improper Library"
+	icon_state = "LIB"
+
+/area/ministation/atmospherics
+	name = "\improper Atmospherics"
+	req_access = list(access_atmospherics)
+	icon_state = "ATMOS"
 
 /area/ministation/science
 	name = "\improper Research & Development Laboratory"

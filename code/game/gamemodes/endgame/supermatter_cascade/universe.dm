@@ -59,8 +59,8 @@ var/global/universe_has_ended = 0
 	SSskybox.change_skybox("cascade", new_use_stars = FALSE, new_use_overmap_details = FALSE)
 
 	var/spawned_exit = FALSE
-	if(length(endgame_exits))
-		spawned_exit = new /obj/singularity/narsie/large/exit(pick(endgame_exits))
+	if(length(global.endgame_exits))
+		spawned_exit = new /obj/singularity/narsie/large/exit(pick(global.endgame_exits))
 
 	addtimer(CALLBACK(src, /datum/universal_state/supermatter_cascade/proc/announce_end_of_universe, spawned_exit), rand(30, 60) SECONDS)
 	addtimer(CALLBACK(src, /datum/universal_state/supermatter_cascade/proc/finalize_end_of_universe), 5 MINUTES)
@@ -77,11 +77,14 @@ var/global/universe_has_ended = 0
 	universe_has_ended = TRUE
 
 /datum/universal_state/supermatter_cascade/proc/AreaSet()
-	for(var/area/A)
-		if(!istype(A,/area) || istype(A, /area/space) || istype(A,/area/beach))
-			continue
-
-		A.update_icon()
+	for(var/area/A as anything in global.areas)
+		var/invalid_area = FALSE
+		for(var/check_area in GLOB.using_map.get_universe_end_evac_areas())
+			if(istype(A, check_area))
+				invalid_area = TRUE
+				break
+		if(!invalid_area)
+			A.update_icon()
 
 /datum/universal_state/supermatter_cascade/OverlayAndAmbientSet()
 	spawn(0)

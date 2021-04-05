@@ -183,7 +183,7 @@ SUBSYSTEM_DEF(jobs)
 /datum/controller/subsystem/jobs/proc/check_latejoin_blockers(var/mob/new_player/joining, var/datum/job/job)
 	if(!check_general_join_blockers(joining, job))
 		return FALSE
-	if(job.minimum_character_age && (joining.client.prefs.age < job.minimum_character_age))
+	if(job.minimum_character_age && (joining.client.prefs.get_character_age() < job.minimum_character_age))
 		to_chat(joining, "<span class='warning'>Your character's in-game age is too low for this job.</span>")
 		return FALSE
 	if(!job.player_old_enough(joining.client))
@@ -241,7 +241,7 @@ SUBSYSTEM_DEF(jobs)
 			continue
 		if(!job.player_old_enough(player.client))
 			continue
-		if(job.minimum_character_age && (player.client.prefs.age < job.minimum_character_age))
+		if(job.minimum_character_age && (player.client.prefs.get_character_age() < job.minimum_character_age))
 			continue
 		if(flag && !(flag in player.client.prefs.be_special_role))
 			continue
@@ -253,7 +253,7 @@ SUBSYSTEM_DEF(jobs)
 	for(var/datum/job/job in shuffle(primary_job_datums))
 		if(!job)
 			continue
-		if(job.minimum_character_age && (player.client.prefs.age < job.minimum_character_age))
+		if(job.minimum_character_age && (player.client.prefs.get_character_age() < job.minimum_character_age))
 			continue
 		if(istype(job, get_by_title(GLOB.using_map.default_assistant_title))) // We don't want to give him assistant, that's boring!
 			continue
@@ -285,7 +285,7 @@ SUBSYSTEM_DEF(jobs)
 			for(var/mob/V in candidates)
 				// Log-out during round-start? What a bad boy, no head position for you!
 				if(!V.client) continue
-				var/age = V.client.prefs.age
+				var/age = V.client.prefs.get_character_age()
 				if(age < job.minimum_character_age) // Nope.
 					continue
 				switch(age)
@@ -591,9 +591,15 @@ SUBSYSTEM_DEF(jobs)
 	if(!C)
 		return
 
+	var/location_name = station_name()
+
+	var/obj/effect/overmap/visitable/V = C.mob.get_owning_overmap_object()
+	if(istype(V))
+		location_name = V.name
+
 	var/style = "font-family: 'Fixedsys'; -dm-text-outline: 1 black; font-size: 11px;"
 	var/area/A = get_area(C.mob)
-	var/text = "[stationdate2text()], [stationtime2text()]\n[station_name()], [A.name]"
+	var/text = "[stationdate2text()], [stationtime2text()]\n[location_name], [A.name]"
 	text = uppertext(text)
 
 	var/obj/effect/overlay/T = new()

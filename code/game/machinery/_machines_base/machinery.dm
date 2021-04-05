@@ -153,6 +153,10 @@ Class Procs:
 /obj/machinery/Process()
 	return PROCESS_KILL // Only process if you need to.
 
+/obj/machinery/modify_mapped_vars(map_hash)
+	..()
+	ADJUST_TAG_VAR(id_tag, map_hash)
+
 /obj/machinery/proc/set_broken(new_state, cause = MACHINE_BROKEN_GENERIC)
 	if(stat_immune & BROKEN)
 		return FALSE
@@ -325,9 +329,7 @@ Class Procs:
 		return 0
 	if(!prob(prb))
 		return 0
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-	s.set_up(5, 1, src)
-	s.start()
+	spark_at(src, amount=5, cardinal_only = TRUE)
 	if(electrocute_mob(user, get_area(src), src, 0.7))
 		var/area/temp_area = get_area(src)
 		if(temp_area)
@@ -450,7 +452,7 @@ Class Procs:
 
 /obj/machinery/get_req_access()
 	. = ..() || list()
-	for(var/obj/item/stock_parts/network_lock/lock in get_all_components_of_type(/obj/item/stock_parts/network_lock))
+	for(var/obj/item/stock_parts/network_receiver/network_lock/lock in get_all_components_of_type(/obj/item/stock_parts/network_receiver/network_lock))
 		.+= lock.get_req_access()
 
 /obj/machinery/get_contained_external_atoms()

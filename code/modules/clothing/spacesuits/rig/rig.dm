@@ -93,7 +93,6 @@
 
 	// Wiring! How exciting.
 	var/datum/wires/rig/wires
-	var/datum/effect/effect/system/spark_spread/spark_system
 
 	var/banned_modules = list()
 
@@ -123,10 +122,6 @@
 
 	if(!length(req_access))
 		locked = 0
-
-	spark_system = new()
-	spark_system.set_up(5, 0, src)
-	spark_system.attach(src)
 
 	START_PROCESSING(SSobj, src)
 
@@ -182,8 +177,6 @@
 	STOP_PROCESSING(SSobj, src)
 	qdel(wires)
 	wires = null
-	qdel(spark_system)
-	spark_system = null
 	return ..()
 
 /obj/item/rig/proc/set_slowdown_and_vision(var/active)
@@ -277,7 +270,7 @@
 				)
 			)
 			for(var/list/piece_data in data_to_iterate)
-			
+
 				var/obj/item/piece = piece_data[1]
 				var/obj/item/compare_piece = piece_data[2]
 				var/msg_type = piece_data[3]
@@ -576,10 +569,7 @@
 
 /obj/item/rig/get_mob_overlay(mob/user_mob, slot, bodypart)
 	var/image/ret = ..()
-	if(slot != slot_back_str || offline)
-		return ret
-
-	if(equipment_overlay_icon && LAZYLEN(installed_modules))
+	if(ret && slot == slot_back_str && !offline && equipment_overlay_icon && LAZYLEN(installed_modules))
 		for(var/obj/item/rig_module/module in installed_modules)
 			if(module.suit_overlay)
 				ret.overlays += image("icon" = equipment_overlay_icon, "icon_state" = "[module.suit_overlay]")
@@ -813,7 +803,7 @@
 
 /obj/item/rig/proc/shock(mob/user)
 	if (electrocute_mob(user, cell, src)) //electrocute_mob() handles removing charge from the cell, no need to do that here.
-		spark_system.start()
+		spark_at(src, amount = 5, holder = src)
 		if(HAS_STATUS(user, STAT_STUN))
 			return 1
 	return 0

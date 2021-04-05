@@ -1,3 +1,16 @@
+/datum/appearance_descriptor/age/vox
+	chargen_min_index = 3
+	chargen_max_index = 6
+	standalone_value_descriptors = list(
+		"freshly spawned" =  1,
+		"a larva" =          2,
+		"a juvenile" =       5,
+		"an adolescent" =    8,
+		"an adult" =        12,
+		"senescent" =       50,
+		"withered" =        65
+	)
+
 #define IS_VOX "vox"
 
 /decl/species/vox
@@ -49,9 +62,8 @@
 	cold_level_2 = 50
 	cold_level_3 = -1
 	
-	min_age = 1
-	max_age = 100
-	
+	age_descriptor = /datum/appearance_descriptor/age/vox
+
 	gluttonous = GLUT_TINY|GLUT_ITEM_NORMAL
 	stomach_capacity = 12
 
@@ -87,10 +99,10 @@
 		)
 
 	genders = list(NEUTER)
-	descriptors = list(
-		/datum/mob_descriptor/height = -1,
-		/datum/mob_descriptor/build = 1,
-		/datum/mob_descriptor/vox_markings = 0
+	appearance_descriptors = list(
+		/datum/appearance_descriptor/height =       0.75,
+		/datum/appearance_descriptor/build =        1.25,
+		/datum/appearance_descriptor/vox_markings = 1
 		)
 
 	available_cultural_info = list(
@@ -117,7 +129,7 @@
 	exertion_effect_chance = 10
 	exertion_hydration_scale = 1
 	exertion_charge_scale = 1
-	exertion_reagent_scale = 5
+	exertion_reagent_scale = 1
 	exertion_reagent_path = /decl/material/liquid/lactate
 	exertion_emotes_biological = list(
 		/decl/emote/exertion/biological,
@@ -139,6 +151,7 @@
 		slot_back_str =       list("[NORTH]" = list("x" =  0, "y" = -2), "[EAST]" = list("x" = 0, "y" = -2), "[SOUTH]" = list("x" =  0, "y" = -2),  "[WEST]" = list("x" =  0, "y" = -2)),
 		slot_wear_suit_str =  list("[NORTH]" = list("x" =  0, "y" = -3), "[EAST]" = list("x" = 0, "y" = -3), "[SOUTH]" = list("x" =  0, "y" = -3),  "[WEST]" = list("x" =  0, "y" = -3)),
 		slot_w_uniform_str =  list("[NORTH]" = list("x" =  0, "y" = -3), "[EAST]" = list("x" = 0, "y" = -3), "[SOUTH]" = list("x" =  0, "y" = -3),  "[WEST]" = list("x" =  0, "y" = -3)),
+		slot_tie_str =        list("[NORTH]" = list("x" =  0, "y" = -3), "[EAST]" = list("x" = 0, "y" = -3), "[SOUTH]" = list("x" =  0, "y" = -3),  "[WEST]" = list("x" =  0, "y" = -3)),
 		slot_underpants_str = list("[NORTH]" = list("x" =  0, "y" = -3), "[EAST]" = list("x" = 0, "y" = -3), "[SOUTH]" = list("x" =  0, "y" = -3),  "[WEST]" = list("x" =  0, "y" = -3)),
 		slot_undershirt_str = list("[NORTH]" = list("x" =  0, "y" = -3), "[EAST]" = list("x" = 0, "y" = -3), "[SOUTH]" = list("x" =  0, "y" = -3),  "[WEST]" = list("x" =  0, "y" = -3))
 	)
@@ -158,8 +171,8 @@
 		H.set_internals(H.back)
 
 /decl/species/vox/disfigure_msg(var/mob/living/carbon/human/H)
-	var/datum/gender/T = gender_datums[H.get_gender()]
-	return "<span class='danger'>[T.His] beak-segments are cracked and chipped! [T.He] [T.is] not even recognizable.</span>\n"
+	var/decl/pronouns/G = H.get_pronouns()
+	return "<span class='danger'>[G.His] beak-segments are cracked and chipped! [G.He] [G.is] not even recognizable.</span>\n"
 	
 /decl/species/vox/skills_from_age(age)
 	. = 8

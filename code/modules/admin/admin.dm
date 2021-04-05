@@ -122,7 +122,7 @@ var/global/floorIsLava = 0
 		if(extra_body)
 			body += "<br><br>"
 			body += extra_body
-			
+
 	if (M.client)
 		if(!istype(M, /mob/new_player))
 			body += "<br><br>"
@@ -201,13 +201,6 @@ var/global/floorIsLava = 0
 			<br>
 			<A href='?src=\ref[src];forcespeech=\ref[M]'>Forcesay</A>
 			"}
-	if (M.client)
-		body += {" |
-			<A href='?src=\ref[src];tdome1=\ref[M]'>Thunderdome 1</A> |
-			<A href='?src=\ref[src];tdome2=\ref[M]'>Thunderdome 2</A> |
-			<A href='?src=\ref[src];tdomeadmin=\ref[M]'>Thunderdome Admin</A> |
-			<A href='?src=\ref[src];tdomeobserve=\ref[M]'>Thunderdome Observer</A> |
-		"}
 	// language toggles
 	body += "<br><br><b>Languages:</b><br>"
 	var/f = 1
@@ -850,7 +843,9 @@ var/global/floorIsLava = 0
 
 	var/confirm = alert("End the game round?", "Game Ending", "Yes", "Cancel")
 	if(confirm == "Yes")
-		SSticker.force_ending = 1
+		Master.SetRunLevel(RUNLEVEL_POSTGAME)
+		SSticker.end_game_state = END_GAME_READY_TO_END
+		INVOKE_ASYNC(SSticker, /datum/controller/subsystem/ticker/proc/declare_completion)
 		log_and_message_admins("initiated a game ending.")
 		to_world("<span class='danger'>Game ending!</span> <span class='notice'>Initiated by [usr.key]!</span>")
 		SSstatistics.add_field("admin_verb","ER") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
@@ -980,7 +975,7 @@ var/global/floorIsLava = 0
 	set name = "Unprison"
 	if (isAdminLevel(M.z))
 		if (config.allow_admin_jump)
-			M.forceMove(pick(GLOB.latejoin))
+			M.forceMove(pick(global.latejoin_locations))
 			message_admins("[key_name_admin(usr)] has unprisoned [key_name_admin(M)]", 1)
 			log_admin("[key_name(usr)] has unprisoned [key_name(M)]")
 		else
@@ -1106,7 +1101,7 @@ var/global/floorIsLava = 0
 		to_chat(usr, "[assoc_key] has:")
 		var/list/current_items = SScustomitems.custom_items_by_ckey[assoc_key]
 		for(var/datum/custom_item/item in current_items)
-			to_chat(usr, "- name: [item.item_name] icon: [item.item_icon_state] path: [item.item_path] desc: [item.item_desc]")
+			to_chat(usr, "- name: [item.item_name] state: [item.item_state] icon: [item.item_icon] path: [item.item_path] desc: [item.item_desc]")
 
 /datum/admins/proc/spawn_plant(seedtype in SSplants.seeds)
 	set category = "Debug"
@@ -1447,10 +1442,18 @@ var/global/floorIsLava = 0
 		return
 
 	if(check_rights(R_INVESTIGATE))
-		if(!HAS_STATUS(M, STAT_PARA))
+		if(!M.admin_paralyzed)
+			M.visible_message(
+				SPAN_OCCULT("OOC: \The [M] has been paralyzed by a staff member. Please hold all interactions with them until staff have finished with them."),
+				SPAN_OCCULT("OOC: You have been paralyzed by a staff member. Please refer to your currently open admin help ticket or, if you don't have one, admin help for assistance.")
+			)
 			M.set_status(STAT_PARA, 8000)
+			M.admin_paralyzed = TRUE
 		else
 			M.set_status(STAT_PARA, 0)
+			M.admin_paralyzed = FALSE
+			M.visible_message(SPAN_OCCULT("OOC: \The [M] has been released from paralysis by staff. You may resume interactions with them."))
+			to_chat(M, SPAN_OCCULT("OOC: You have been released from paralysis by staff and can return to your game."))
 		log_and_message_admins("has [HAS_STATUS(M, STAT_PARA) ? "paralyzed" : "unparalyzed"] [key_name(M)].")
 
 /datum/admins/proc/sendFax()

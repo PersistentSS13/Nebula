@@ -8,7 +8,7 @@
 	active_power_usage = 10
 	layer = CAMERA_LAYER
 
-	var/list/network = list(NETWORK_EXODUS)
+	var/list/network = list(NETWORK_PUBLIC)
 	var/c_tag = null
 	var/c_tag_order = 999
 	var/number = 0 //camera number in area
@@ -183,7 +183,7 @@
 				assembly.dropInto(loc)
 				assembly.anchored = 1
 				assembly.camera_name = c_tag
-				assembly.camera_network = english_list(network, "Exodus", ",", ",")
+				assembly.camera_network = english_list(network, NETWORK_PUBLIC, ",", ",")
 				assembly.update_icon()
 				assembly.set_dir(src.dir)
 				if(stat & BROKEN)
@@ -266,10 +266,7 @@
 	update_coverage()
 
 	//sparks
-	var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
-	spark_system.set_up(5, 0, loc)
-	spark_system.start()
-	playsound(loc, "sparks", 50, 1)
+	spark_at(loc, amount=5)
 
 /obj/machinery/camera/proc/set_status(var/newstatus)
 	if (status != newstatus)

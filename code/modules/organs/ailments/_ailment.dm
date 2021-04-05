@@ -46,8 +46,6 @@
 	if(organ)
 		LAZYREMOVE(organ.ailments, src)
 		organ = null
-	deltimer(timer_id)
-	timer_id = null
 	. = ..()
 
 /datum/ailment/proc/begin_ailment_event()
@@ -73,7 +71,7 @@
 	if(treatment)
 		. = replacetext(., "$ITEM$", "\the [treatment]")
 	if(user)
-		var/datum/gender/G = gender_datums[user.gender]
+		var/decl/pronouns/G = user.get_pronouns()
 		. = replacetext(., "$USER$", "\the [user]")
 		. = replacetext(., "$USER_HIS$", G.his)
 	if(target)

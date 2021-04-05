@@ -11,6 +11,7 @@
 	lock_picking_level = 5
 	sharp = TRUE
 	applies_material_colour = TRUE
+	drop_sound = 'sound/foley/singletooldrop2.ogg'
 
 	var/global/valid_colours = list(COLOR_RED, COLOR_CYAN_BLUE, COLOR_PURPLE, COLOR_CHESTNUT, COLOR_ASSEMBLY_YELLOW, COLOR_BOTTLE_GREEN)
 	var/handle_color
@@ -26,11 +27,11 @@
 		handle_color = pick(valid_colours)
 	overlays += mutable_appearance(icon, "[get_world_inventory_state()]_handle", handle_color)
 
-/obj/item/screwdriver/experimental_mob_overlay()
-	var/image/res = ..()
-	if(res)
-		res.color = handle_color
-	return res
+/obj/item/screwdriver/get_mob_overlay()
+	var/image/ret = ..()
+	if(ret)
+		ret.color = handle_color
+	return ret
 
 /obj/item/screwdriver/get_on_belt_overlay()
 	var/image/res = ..()

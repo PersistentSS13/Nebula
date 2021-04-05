@@ -14,7 +14,7 @@
 	material = /decl/material/solid/metal/steel
 	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
 	origin_tech = "{'engineering':1}"
-
+	drop_sound = 'sound/foley/tooldrop1.ogg'
 	var/lit_colour = COLOR_PALE_ORANGE
 	var/waterproof = FALSE
 	var/welding = 0 	//Whether or not the welding tool is off(0), on(1) or currently welding(2)
@@ -52,14 +52,14 @@
 	QDEL_NULL(tank)
 	return ..()
 
-/obj/item/weldingtool/experimental_mob_overlay(mob/user_mob, slot, bodypart)
-	var/image/I = ..()
-	if(welding && I && check_state_in_icon("[I.icon_state]-lit", I.icon))
-		var/image/lit = image(I.icon, "[I.icon_state]-lit")
+/obj/item/weldingtool/get_mob_overlay(mob/user_mob, slot, bodypart)
+	var/image/ret = ..()
+	if(ret && welding && check_state_in_icon("[ret.icon_state]-lit", ret.icon))
+		var/image/lit = image(ret.icon, "[ret.icon_state]-lit")
 		lit.layer = ABOVE_LIGHTING_LAYER
 		lit.plane = EFFECTS_ABOVE_LIGHTING_PLANE
-		I.add_overlay(lit)
-	return I
+		ret.add_overlay(lit)
+	return ret
 
 /obj/item/weldingtool/get_heat()
 	. = max(..(), isOn() ? 3800 : 0)

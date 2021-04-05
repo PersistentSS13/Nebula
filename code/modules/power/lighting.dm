@@ -41,7 +41,6 @@
 	var/flickering = 0
 	var/light_type = /obj/item/light/tube		// the type of light item
 	var/accepts_light_type = /obj/item/light/tube
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
 
 	var/obj/item/light/lightbulb
 
@@ -93,8 +92,6 @@
 /obj/machinery/light/Initialize(mapload, d=0, populate_parts = TRUE)
 	. = ..()
 
-	s.set_up(1, 1, src)
-
 	if(populate_parts)
 		lightbulb = new light_type(src)
 		if(prob(lightbulb.broken_chance))
@@ -105,7 +102,6 @@
 
 /obj/machinery/light/Destroy()
 	QDEL_NULL(lightbulb)
-	QDEL_NULL(s)
 	. = ..()
 
 /obj/machinery/light/on_update_icon(var/trigger = 1)
@@ -153,9 +149,6 @@
 	if(istype(lightbulb, /obj/item/light))
 		var/image/I = image(icon, _state)
 		I.color = get_mode_color()
-		if(on)
-			I.plane = EFFECTS_ABOVE_LIGHTING_PLANE
-			I.layer = ABOVE_LIGHTING_LAYER
 		add_overlay(I)
 
 	if(on)
@@ -294,9 +287,7 @@
 	else if(!lightbulb)
 		to_chat(user, "You stick \the [W] into the light socket!")
 		if(powered() && (W.obj_flags & OBJ_FLAG_CONDUCTIBLE))
-			var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-			s.set_up(3, 1, src)
-			s.start()
+			spark_at(src, cardinal_only = TRUE)
 			if (prob(75))
 				electrocute_mob(user, get_area(src), src, rand(0.7,1.0))
 
@@ -362,12 +353,15 @@
 			var/obj/item/organ/external/hand = H.organs_by_name[user.get_active_held_item_slot()]
 			if(hand && hand.is_usable() && !hand.can_feel_pain())
 				user.apply_damage(3, BURN, hand.organ_tag, used_weapon = src)
-				user.visible_message(SPAN_WARNING("\The [user]'s [hand] burns and sizzles as \he touches the hot [get_fitting_name()]."), SPAN_WARNING("Your [hand] burns and sizzles as you remove the hot [get_fitting_name()]."))
+				var/decl/pronouns/G = user.get_pronouns()
+				user.visible_message( \
+					SPAN_DANGER("\The [user]'s [hand.name] burns and sizzles as [G.he] touches the hot [get_fitting_name()]."), \
+					SPAN_DANGER("Your [hand.name] burns and sizzles as you remove the hot [get_fitting_name()]."))
 		else
-			to_chat(user, "You try to remove the [get_fitting_name()], but it's too hot and you don't want to burn your hand.")
+			to_chat(user, SPAN_WARNING("You try to remove the [get_fitting_name()], but it's too hot and you don't want to burn your hand."))
 			return TRUE
 	else
-		to_chat(user, "You remove the [get_fitting_name()].")
+		to_chat(user, SPAN_NOTICE("You remove the [get_fitting_name()]."))
 
 	// create a light tube/bulb item and put it in the user's hand
 	user.put_in_active_hand(remove_bulb())	//puts it in our active hand
@@ -388,8 +382,7 @@
 		if(lightbulb && !(lightbulb.status == LIGHT_BROKEN))
 			playsound(src.loc, 'sound/effects/Glasshit.ogg', 75, 1)
 		if(on)
-			s.set_up(3, 1, src)
-			s.start()
+			spark_at(src, cardinal_only = TRUE)
 	lightbulb.status = LIGHT_BROKEN
 	update_icon()
 

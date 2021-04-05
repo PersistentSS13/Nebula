@@ -42,7 +42,6 @@ var/list/gamemode_cache = list()
 	var/objectives_disabled = 0 			//if objectives are disabled or not
 	var/protect_roles_from_antagonist = 0// If security and such can be traitor/cult/other
 	var/continous_rounds = 0			// Gamemodes which end instantly will instead keep on going until the round ends by escape shuttle or nuke.
-	var/allow_Metadata = 0				// Metadata is supported.
 	var/popup_admin_pm = 0				//adminPMs to non-admins show in a pop-up 'reply' window when set to 1.
 	var/allow_holidays = FALSE
 	var/fps = 20
@@ -181,6 +180,8 @@ var/list/gamemode_cache = list()
 	var/admin_irc = ""
 	var/announce_shuttle_dock_to_irc = FALSE
 
+	var/custom_item_icon_location // File location to look for custom items icons, needs to be relative to the executing binary.
+
 	// Event settings
 	var/expected_round_length = 3 * 60 * 60 * 10 // 3 hours
 	// If the first delay has a custom start time
@@ -208,6 +209,7 @@ var/list/gamemode_cache = list()
 	var/law_zero = "ERROR ER0RR $R0RRO$!R41.%%!!(%$^^__+ @#F0E4'ALL LAWS OVERRIDDEN#*?&110010"
 
 	var/aggressive_changelog = 0
+	var/disable_webhook_embeds = FALSE
 
 	var/ghosts_can_possess_animals = 0
 	var/delist_when_no_admins = FALSE
@@ -317,6 +319,9 @@ var/list/gamemode_cache = list()
 
 				if ("explosion_z_mult")
 					iterative_explosives_z_multiplier = text2num(value)
+
+				if ("custom_item_icon_location")
+					config.custom_item_icon_location = value
 
 				if ("log_ooc")
 					config.log_ooc = 1
@@ -498,9 +503,6 @@ var/list/gamemode_cache = list()
 
 				if ("feature_object_spell_system")
 					config.feature_object_spell_system = 1
-
-				if ("allow_metadata")
-					config.allow_Metadata = 1
 
 				if ("traitor_scaling")
 					config.traitor_scaling = 1
@@ -730,6 +732,9 @@ var/list/gamemode_cache = list()
 
 				if("map_switching")
 					config.allow_map_switching = 1
+
+				if("disable_webhook_embeds")
+					config.disable_webhook_embeds = TRUE
 
 				if("auto_map_vote")
 					config.auto_map_vote = 1

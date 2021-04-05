@@ -215,9 +215,7 @@
 /obj/machinery/computer/cryopod{
 	pixel_y = -32
 	},
-/obj/effect/landmark{
-	name = "JoinLateCryo"
-	},
+/obj/effect/landmark/latejoin/cryo,
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
@@ -237,9 +235,7 @@
 	icon_state = "loadingarea";
 	dir = 1
 	},
-/obj/effect/landmark{
-	name = "JoinLateCryo"
-	},
+/obj/effect/landmark/latejoin/cryo,
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
@@ -247,7 +243,6 @@
 /area/ship/trade/escape_port)
 "aF" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "intact";
 	dir = 5
 	},
 /obj/effect/floor_decal/corner/beige{
@@ -292,9 +287,7 @@
 	d2 = 4;
 	icon_state = "2-4"
 	},
-/obj/effect/landmark{
-	name = "JoinLateCryoTwo"
-	},
+/obj/effect/landmark/latejoin/cryo_two,
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/ship/trade/escape_star)
 "aM" = (
@@ -313,9 +306,7 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/effect/landmark{
-	name = "JoinLateCryoTwo"
-	},
+/obj/effect/landmark/latejoin/cryo_two,
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/ship/trade/escape_star)
 "aO" = (
@@ -823,6 +814,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/structure/emergency_dispenser/east,
 /turf/simulated/floor/tiled/monotile,
 /area/ship/trade/cargo/lower)
 "ca" = (
@@ -841,9 +833,7 @@
 	dir = 1;
 	pixel_y = -30
 	},
-/obj/effect/landmark{
-	name = "JoinLateCryo"
-	},
+/obj/effect/landmark/latejoin/cryo,
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
@@ -1069,9 +1059,7 @@
 /area/ship/trade/crew/dorms2)
 "cJ" = (
 /obj/machinery/light,
-/obj/machinery/fabricator/imprinter{
-	initial_id_tag = "tradeship_rnd"
-	},
+/obj/machinery/fabricator/imprinter,
 /turf/simulated/floor/tiled/white,
 /area/ship/trade/science/fabricaton)
 "cL" = (
@@ -1400,7 +1388,7 @@
 	},
 /obj/machinery/door/firedoor,
 /obj/machinery/door/window/brigdoor/eastleft{
-	id = "tank";
+	id_tag = "tank";
 	name = "drunk tank"
 	},
 /obj/structure/cable{
@@ -1453,10 +1441,8 @@
 	pixel_x = 11;
 	pixel_y = 0
 	},
-/obj/machinery/alarm{
-	dir = 8;
-	icon_state = "alarm0";
-	pixel_x = 24
+/obj/machinery/light_switch{
+	pixel_x = 28
 	},
 /turf/simulated/floor/tiled/white,
 /area/ship/trade/science)
@@ -1484,6 +1470,7 @@
 /obj/machinery/light_switch{
 	pixel_w = -23
 	},
+/obj/structure/emergency_dispenser/south,
 /turf/simulated/floor/tiled/white,
 /area/ship/trade/science)
 "dL" = (
@@ -1600,6 +1587,7 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
+/obj/structure/emergency_dispenser/north,
 /turf/simulated/floor/tiled,
 /area/ship/trade/maintenance/lower)
 "dV" = (
@@ -1877,7 +1865,6 @@
 	icon_state = "1-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "intact";
 	dir = 5
 	},
 /obj/effect/floor_decal/industrial/warning{
@@ -1888,7 +1875,6 @@
 /area/ship/trade/maintenance/eva)
 "eF" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/door/airlock/external/bolted{
@@ -1915,7 +1901,6 @@
 	pixel_y = 40
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "intact";
 	dir = 4
 	},
 /obj/machinery/embedded_controller/radio/airlock/airlock_controller{
@@ -2082,10 +2067,6 @@
 /obj/machinery/suit_cycler/tradeship,
 /turf/simulated/floor/tiled/techfloor,
 /area/ship/trade/maintenance/eva)
-"fe" = (
-/obj/effect/landmark/test/space_turf,
-/turf/space,
-/area/space)
 "fs" = (
 /obj/structure/closet/wardrobe/mixed,
 /obj/item/storage/backpack/dufflebag,
@@ -2220,6 +2201,9 @@
 	icon_state = "railing0";
 	dir = 8
 	},
+/obj/machinery/light_switch{
+	pixel_y = -25
+	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/ship/trade/cargo/lower)
 "ib" = (
@@ -2276,9 +2260,7 @@
 	dir = 1;
 	pixel_y = -24
 	},
-/obj/effect/landmark{
-	name = "JoinLateCryo"
-	},
+/obj/effect/landmark/latejoin/cryo,
 /obj/structure/cable{
 	d1 = 4;
 	d2 = 8;
@@ -2416,9 +2398,7 @@
 /area/ship/trade/cargo/lower)
 "my" = (
 /obj/machinery/cryopod/robot,
-/obj/effect/landmark{
-	name = "JoinLateCyborg"
-	},
+/obj/effect/landmark/latejoin/cyborg,
 /turf/simulated/floor/tiled/techfloor,
 /area/ship/trade/maintenance/techstorage)
 "mN" = (
@@ -2447,9 +2427,7 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/effect/landmark{
-	name = "JoinLateCryoTwo"
-	},
+/obj/effect/landmark/latejoin/cryo_two,
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/ship/trade/escape_star)
 "nf" = (
@@ -2526,15 +2504,23 @@
 	},
 /turf/simulated/floor/tiled/techfloor,
 /area/ship/trade/maintenance/techstorage)
-"pq" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/landmark/test/safe_turf,
-/turf/simulated/floor/tiled,
-/area/ship/trade/cargo/lower)
 "pr" = (
 /obj/effect/paint/brown,
 /turf/simulated/wall/r_wall/hull,
 /area/ship/trade/cargo/lower)
+"ps" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/structure/cable{
+	d1 = 1;
+	d2 = 2;
+	icon_state = "1-2";
+	pixel_y = 0
+	},
+/obj/structure/disposalpipe/segment,
+/obj/structure/emergency_dispenser/east,
+/turf/simulated/floor/plating,
+/area/ship/trade/maintenance/lower)
 "qb" = (
 /obj/effect/floor_decal/industrial/warning{
 	dir = 1
@@ -2552,9 +2538,7 @@
 	d2 = 8;
 	icon_state = "4-8"
 	},
-/obj/effect/landmark{
-	name = "JoinLateCryoTwo"
-	},
+/obj/effect/landmark/latejoin/cryo_two,
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/ship/trade/escape_star)
 "ql" = (
@@ -2792,14 +2776,16 @@
 	pixel_x = 24;
 	pixel_y = 0
 	},
-/obj/machinery/fabricator/robotics{
-	id_tag = "tradeship_rnd"
-	},
+/obj/machinery/fabricator/robotics,
 /obj/machinery/newscaster{
 	pixel_y = -30
 	},
 /turf/simulated/floor/tiled/white,
 /area/ship/trade/science/fabricaton)
+"vI" = (
+/obj/structure/emergency_dispenser/east,
+/turf/simulated/floor/tiled,
+/area/ship/trade/maintenance/lower)
 "vW" = (
 /obj/effect/paint/brown,
 /turf/simulated/wall/r_wall/hull,
@@ -2920,6 +2906,11 @@
 	},
 /turf/simulated/floor/plating,
 /area/ship/trade/cargo/lower)
+"zJ" = (
+/obj/structure/disposalpipe/segment,
+/obj/structure/emergency_dispenser/east,
+/turf/simulated/floor/tiled,
+/area/ship/trade/maintenance/lower)
 "Ab" = (
 /obj/machinery/door/airlock/hatch/autoname/general,
 /obj/machinery/door/firedoor,
@@ -3003,6 +2994,15 @@
 	},
 /turf/simulated/floor/lino,
 /area/ship/trade/crew/dorms1)
+"De" = (
+/obj/machinery/alarm{
+	dir = 1;
+	icon_state = "alarm0";
+	pixel_x = 0;
+	pixel_y = -32
+	},
+/turf/simulated/floor/tiled/white,
+/area/ship/trade/science)
 "Dh" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
 	dir = 4;
@@ -3021,7 +3021,7 @@
 	name = "Drunk Tank";
 	pixel_x = 1;
 	pixel_y = -29;
-	id = "tank"
+	id_tag = "tank"
 	},
 /obj/item/stool/padded,
 /turf/simulated/floor/plating,
@@ -3100,14 +3100,12 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/obj/machinery/firealarm{
-	dir = 4;
-	pixel_x = 24;
-	pixel_y = 0
-	},
 /obj/structure/railing/mapped{
 	icon_state = "railing0-1";
 	dir = 8
+	},
+/obj/machinery/light_switch{
+	pixel_x = 28
 	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/ship/trade/cargo/lower)
@@ -3120,9 +3118,7 @@
 	dir = 4;
 	pixel_x = -22
 	},
-/obj/machinery/fabricator/protolathe{
-	initial_id_tag = "tradeship_rnd"
-	},
+/obj/machinery/fabricator/protolathe,
 /obj/machinery/alarm{
 	pixel_y = 24
 	},
@@ -3523,6 +3519,11 @@
 	icon_state = "railing0-1";
 	dir = 8
 	},
+/obj/machinery/firealarm{
+	dir = 4;
+	pixel_x = 24;
+	pixel_y = 0
+	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/ship/trade/cargo/lower)
 "Sx" = (
@@ -3705,6 +3706,8 @@
 	icon_state = "corner_white";
 	dir = 5
 	},
+/obj/structure/emergency_dispenser/east,
+/obj/structure/emergency_dispenser/north,
 /turf/simulated/floor/tiled/techfloor,
 /area/ship/trade/maintenance/techstorage)
 "Zd" = (
@@ -3731,6 +3734,10 @@
 	},
 /turf/simulated/floor/tiled/techfloor,
 /area/ship/trade/maintenance/storage)
+"ZA" = (
+/obj/structure/emergency_dispenser/west,
+/turf/simulated/floor/tiled,
+/area/ship/trade/maintenance/lower)
 "ZJ" = (
 /turf/simulated/wall,
 /area/ship/trade/escape_star)
@@ -4948,7 +4955,7 @@ aa
 aa
 aa
 aa
-fe
+aa
 aa
 aa
 aa
@@ -6169,7 +6176,7 @@ JM
 fL
 fL
 fL
-fL
+De
 yF
 se
 se
@@ -6569,7 +6576,7 @@ ah
 ah
 On
 br
-bI
+zJ
 bI
 ds
 On
@@ -6577,7 +6584,7 @@ On
 ap
 VX
 VX
-On
+vI
 dP
 VX
 dZ
@@ -6894,7 +6901,7 @@ du
 du
 aU
 du
-pq
+du
 Dh
 bv
 du
@@ -7315,7 +7322,7 @@ VX
 ap
 dk
 On
-On
+ZA
 dY
 VX
 ee
@@ -7389,7 +7396,7 @@ aK
 wb
 EB
 bz
-bP
+ps
 yL
 cl
 cC
