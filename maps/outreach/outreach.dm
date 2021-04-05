@@ -1,8 +1,4 @@
 #if !defined(USING_MAP_DATUM)
-	#ifdef UNIT_TEST
-		#include "unit_tests.dmm"
-	#endif
-
 	// Mods section
 	#include "../../mods/persistence/_persistence.dme"
 	#include "../../mods/species/ascent/_ascent.dme"

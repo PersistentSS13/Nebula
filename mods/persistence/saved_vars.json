@@ -2670,9 +2670,31 @@
 	{
 		"path":"/obj/item/stock_parts/radio",
 		"vars":[
+			"frequency",
 			"filter",
 			"encryption",
 			"multitool_extension"
+		]
+	},
+	{
+		"path":"/obj/item/stock_parts/radio/receiver",
+		"vars":[
+			"receive_and_write",
+			"receive_and_call"
+		]
+	},
+	{
+		"path":"/obj/item/stock_parts/radio/transmitter/basic",
+		"vars":[
+			"transmit_on_tick",
+			"transmit_on_change"
+		]
+	},
+	{
+		"path":"/obj/item/stock_parts/radio/transmitter/on_event",
+		"vars":[
+			"event",
+			"transmit_on_event"
 		]
 	},
 	{
