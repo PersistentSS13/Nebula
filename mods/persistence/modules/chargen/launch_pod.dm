@@ -6,8 +6,8 @@
 /obj/machinery/cryopod/outreach/Initialize()
 	. = ..()
 	
-	GLOB.latejoin |= get_turf(src)
-	GLOB.latejoin_cryo |= get_turf(src)
+	global.latejoin_locations |= get_turf(src)
+	global.latejoin_cryo_locations |= get_turf(src)
 
 /obj/machinery/cryopod/chargen/proc/send_to_outpost()
 	if(!istype(occupant))
@@ -41,14 +41,14 @@
 			network.store_file(CR, MF_ROLE_CREW_RECORDS)
 			break
 
-	for(var/turf/T in GLOB.latejoin_cryo)
+	for(var/turf/T in global.latejoin_cryo_locations)
 		if(!(locate(/mob) in T))
 			go_out()
 			user.forceMove(T)
 			return
 	
 	// If we didn't find a empty turf, put them on a filled one	
-	var/turf/T = pick(GLOB.latejoin_cryo)
+	var/turf/T = pick(global.latejoin_cryo_locations)
 	if(T)
 		go_out()
 		user.forceMove(T)

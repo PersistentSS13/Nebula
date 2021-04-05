@@ -110,7 +110,7 @@
 		spawn_turf = SSchargen.get_spawn_turf()
 		used_chargen = TRUE
 	else
-		for(var/turf/T in GLOB.latejoin_cryo)
+		for(var/turf/T in global.latejoin_cryo_locations)
 			if(locate(/mob) in T)
 				continue
 			spawn_turf = T
@@ -169,10 +169,6 @@
 	
 /mob/new_player/Move()
 	return 0
-
-/mob/new_player/get_gender()
-	if(!client || !client.prefs) ..()
-	return client.prefs.gender
 
 /mob/new_player/is_ready()
 	return ready && ..()
