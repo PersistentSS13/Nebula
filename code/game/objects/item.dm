@@ -60,11 +60,10 @@
 	var/zoom = 0 //1 if item is actively being used to zoom. For scoped guns and binoculars.
 
 	var/base_parry_chance	// Will allow weapon to parry melee attacks if non-zero
-	var/icon_override = null  //Used to override hardcoded clothing dmis in human clothing proc.
 
 	var/use_alt_layer = FALSE // Use the slot's alternative layer when rendering on a mob
 
-	var/list/sprite_sheets = list() // Assoc list of bodytype to icon override for on-mob icons when this item is held or worn.
+	var/list/sprite_sheets // Assoc list of bodytype to icon for producing onmob overlays when this item is held or worn.
 
 	// Material handling for material weapons (not used by default, unless material is supplied or set)
 	var/decl/material/material                      // Reference to material decl. If set to a string corresponding to a material ID, will init the item with that material.
@@ -79,11 +78,27 @@
 	///Sound used when equipping the item into a valid slot
 	var/equip_sound
 	///Sound uses when picking the item up (into your hands)
-	var/pickup_sound
+	var/pickup_sound = 'sound/foley/paperpickup2.ogg'
 	///Sound uses when dropping the item, or when its thrown.
-	var/drop_sound
+	var/drop_sound = 'sound/foley/drop1.ogg'
 	
 	var/datum/reagents/coating // reagent container for coating things like blood/oil, used for overlays and tracks
+
+	var/tmp/has_inventory_icon	// do not set manually
+	var/tmp/use_single_icon
+
+// Foley sound callbacks
+/obj/item/proc/equipped_sound_callback()
+	if(ismob(loc) && equip_sound)
+		playsound(src, equip_sound, 25, 0)
+
+/obj/item/proc/pickup_sound_callback()
+	if(ismob(loc) && pickup_sound)
+		playsound(src, pickup_sound, 25, 0)
+
+/obj/item/proc/dropped_sound_callback()
+	if(!ismob(loc) && drop_sound)
+		playsound(src, drop_sound, 25, 0)
 
 /obj/item/proc/get_origin_tech()
 	return origin_tech
@@ -109,6 +124,7 @@
 	if(randpixel && (!pixel_x && !pixel_y) && isturf(loc)) //hopefully this will prevent us from messing with mapper-set pixel_x/y
 		pixel_x = rand(-randpixel, randpixel)
 		pixel_y = rand(-randpixel, randpixel)
+	reconsider_single_icon()
 
 /obj/item/Destroy()
 	STOP_PROCESSING(SSobj, src)
@@ -346,8 +362,6 @@
 				playsound(hit_atom, 'sound/weapons/genhit.ogg', volume, TRUE, -1)
 		else
 			playsound(hit_atom, 'sound/weapons/throwtap.ogg', 1, volume, -1)
-	else if(drop_sound)
-		playsound(src, drop_sound, 50)
 
 // apparently called whenever an item is removed from a slot, container, or anything else.
 /obj/item/proc/dropped(mob/user)
@@ -356,6 +370,8 @@
 	update_twohanding()
 	for(var/obj/item/thing in user?.get_held_items())
 		thing.update_twohanding()
+	if(drop_sound && SSticker.mode)
+		addtimer(CALLBACK(src, .proc/dropped_sound_callback), 0, (TIMER_OVERRIDE | TIMER_UNIQUE))
 
 // called just as an item is picked up (loc is not yet changed)
 /obj/item/proc/pickup(mob/user)
@@ -388,15 +404,13 @@
 		for(var/obj/item/held in M.get_held_items())
 			held.update_twohanding()
 
-	if(slot_flags & global.slot_flags_enumeration[slot])
-		if(equip_sound)
-			playsound(src, equip_sound, 50)
-		else if(drop_sound)
-			playsound(src, drop_sound, 50)
-	else if(isliving(user) && pickup_sound)
-		var/mob/living/L = user
-		if(slot in L.held_item_slots)
-			playsound(src, pickup_sound, 50)
+	if(SSticker.mode && (equip_sound || pickup_sound))
+		if((slot_flags & global.slot_flags_enumeration[slot]) && equip_sound)
+			addtimer(CALLBACK(src, .proc/equipped_sound_callback), 0, (TIMER_OVERRIDE | TIMER_UNIQUE))
+		else if(isliving(user) && pickup_sound)
+			var/mob/living/L = user
+			if(slot in L.held_item_slots)
+				addtimer(CALLBACK(src, .proc/pickup_sound_callback), 0, (TIMER_OVERRIDE | TIMER_UNIQUE))
 
 //Defines which slots correspond to which slot flags
 var/list/slot_flags_enumeration = list(
@@ -584,8 +598,9 @@ var/list/slot_flags_enumeration = list(
 		return 0
 	if(!istype(attacker))
 		return 0
+	var/decl/pronouns/G = attacker.get_pronouns()
 	attacker.apply_damage(force, damtype, attacker.get_active_held_item_slot(), used_weapon = src)
-	attacker.visible_message(SPAN_DANGER("\The [attacker] hurts \his hand on [src]!"))
+	attacker.visible_message(SPAN_DANGER("\The [attacker] hurts [G.his] hand on \the [src]!"))
 	playsound(target, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
 	playsound(target, hitsound, 50, 1, -1)
 	return 1
@@ -759,7 +774,8 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 	GLOB.moved_event.register(user, src, /obj/item/proc/unzoom)
 	GLOB.dir_set_event.register(user, src, /obj/item/proc/unzoom)
 	GLOB.item_unequipped_event.register(src, src, /obj/item/proc/zoom_drop)
-	GLOB.stat_set_event.register(user, src, /obj/item/proc/unzoom)
+	if(isliving(user))
+		GLOB.stat_set_event.register(user, src, /obj/item/proc/unzoom)
 
 /obj/item/proc/zoom_drop(var/obj/item/I, var/mob/user)
 	unzoom(user)
@@ -773,7 +789,8 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 	GLOB.moved_event.unregister(user, src, /obj/item/proc/unzoom)
 	GLOB.dir_set_event.unregister(user, src, /obj/item/proc/unzoom)
 	GLOB.item_unequipped_event.unregister(src, src, /obj/item/proc/zoom_drop)
-	GLOB.stat_set_event.unregister(user, src, /obj/item/proc/unzoom)
+	if(isliving(user))
+		GLOB.stat_set_event.unregister(user, src, /obj/item/proc/unzoom)
 
 	if(!user.client)
 		return
@@ -788,56 +805,6 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 
 /obj/item/proc/pwr_drain()
 	return 0 // Process Kill
-
-/obj/item/proc/use_spritesheet(var/bodytype, var/slot, var/icon_state)
-	if(!sprite_sheets || !sprite_sheets[bodytype])
-		return 0
-	if(slot == BP_L_HAND || slot == BP_R_HAND)
-		return 0
-
-	if(icon_state in icon_states(sprite_sheets[bodytype]))
-		return 1
-
-	return (slot != slot_wear_suit_str && slot != slot_head_str)
-
-/obj/item/proc/get_icon_state(mob/user_mob, slot)
-	. = (item_state || icon_state)
-
-/obj/item/proc/get_mob_overlay(mob/user_mob, slot, bodypart)
-
-	if(use_single_icon)
-		return experimental_mob_overlay(user_mob, slot, bodypart)
-
-	var/bodytype = BODYTYPE_HUMANOID
-	var/mob/living/carbon/human/user_human
-	if(ishuman(user_mob))
-		user_human = user_mob
-		bodytype = user_human.species.get_bodytype(user_human)
-
-	var/mob_state = get_icon_state(user_mob, slot)
-
-	var/mob_icon
-	var/spritesheet = FALSE
-	if(icon_override)
-		mob_icon = icon_override
-		if(slot == BP_L_HAND || slot == slot_l_ear_str)
-			mob_state = "[mob_state]_l"
-		if(slot == BP_R_HAND || slot == slot_r_ear_str)
-			mob_state = "[mob_state]_r"
-	else if(use_spritesheet(bodytype, slot, mob_state))
-		if(slot == slot_l_ear_str)
-			mob_state = "[mob_state]_l"
-		if(slot == slot_r_ear_str)
-			mob_state = "[mob_state]_r"
-		spritesheet = TRUE
-		mob_icon = sprite_sheets[bodytype]
-	else
-		mob_icon = global.default_onmob_icons[slot]
-
-	if(user_human)
-		var/use_slot = (bodypart in user_human.species.equip_adjust) ? bodypart : slot
-		return user_human.species.get_offset_overlay_image(spritesheet, mob_icon, mob_state, color, use_slot)
-	return overlay_image(mob_icon, mob_state, color, RESET_COLOR)
 
 /obj/item/proc/get_examine_line()
 	if(coating)
@@ -885,11 +852,10 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 		SetName(citem.item_name)
 	if(citem.item_desc)
 		desc = citem.item_desc
-	if(citem.item_icon_state)
-		icon = CUSTOM_ITEM_OBJ
-		set_icon_state(citem.item_icon_state)
-		item_state = null
-		icon_override = CUSTOM_ITEM_MOB
+	if(citem.item_icon)
+		icon = citem.item_icon
+	if(citem.item_state)
+		set_icon_state(citem.item_state)
 	
 /obj/item/proc/is_special_cutting_tool(var/high_power)
 	return FALSE

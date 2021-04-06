@@ -9,6 +9,7 @@
 	idle_power_usage = 10
 	public_variables = list(
 		/decl/public_access/public_variable/button_active,
+		/decl/public_access/public_variable/inv_button_active,
 		/decl/public_access/public_variable/button_state,
 		/decl/public_access/public_variable/input_toggle
 	)
@@ -88,6 +89,21 @@
 	if(.)
 		button.active = new_val
 
+/decl/public_access/public_variable/inv_button_active
+	expected_type = /obj/machinery/button
+	name = "inverse button toggle"
+	desc = "Toggled whenever the button is pressed. Inverse value of button toggle."
+	can_write = FALSE
+	has_updates = TRUE
+
+/decl/public_access/public_variable/inv_button_active/access_var(obj/machinery/button/button)
+	return !button.active
+
+/decl/public_access/public_variable/inv_button_active/write_var(obj/machinery/button/button, new_val)
+	. = ..()
+	if(.)
+		button.active = !new_val
+
 // The point here is that button_active just pulses on button press and can't be changed otherwise, while button_state can be changed externally.
 /decl/public_access/public_variable/button_state
 	expected_type = /obj/machinery/button
@@ -95,14 +111,16 @@
 	desc = "Whether the button is currently in the on state."
 	can_write = TRUE
 	has_updates = FALSE
+	var_type = IC_FORMAT_BOOLEAN
 
 /decl/public_access/public_variable/button_state/access_var(obj/machinery/button/button)
 	return button.state
 
 /decl/public_access/public_variable/button_state/write_var(obj/machinery/button/button, new_val)
+	new_val = !!new_val
 	. = ..()
 	if(.)
-		button.state = new_val
+		button.state = !!new_val
 
 /decl/stock_part_preset/radio/basic_transmitter/button
 	transmit_on_change = list("button_active" = /decl/public_access/public_variable/button_active)

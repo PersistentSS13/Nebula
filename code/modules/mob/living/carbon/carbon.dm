@@ -129,9 +129,7 @@
 
 	set_status(STAT_JITTER, min(shock_damage*5, 200))
 
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-	s.set_up(5, 1, loc)
-	s.start()
+	spark_at(loc, amount=5, cardinal_only = TRUE)
 
 	return shock_damage
 
@@ -553,3 +551,6 @@
 			set_internals(selected_obj, "\the [selected_obj] [selected_from] your [selected_slot]")
 		else
 			set_internals(selected_obj, "\the [selected_obj]")
+
+/mob/living/carbon/get_bodytype()
+	. = species && species.get_bodytype(src)

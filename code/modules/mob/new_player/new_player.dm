@@ -358,19 +358,39 @@
 	dat += "<tr><td colspan = 3><b>[GLOB.using_map.station_name]:</b></td></tr>"
 
 	// MAIN MAP JOBS
-	var/list/job_summaries
+	var/list/job_summaries = list()
 	var/list/hidden_reasons = list()
 	for(var/datum/job/job in SSjobs.primary_job_datums)
+
 		var/summary = job.get_join_link(client, "byond://?src=\ref[src];SelectedJob=[job.title]", show_invalid_jobs)
-		if(summary && summary != "")
-			LAZYADD(job_summaries, summary)
+		if(summary)
+
+			var/decl/department/dept = job.primary_department && SSjobs.get_department_by_type(job.primary_department)
+			var/summary_key = (dept || "No Department")
+			var/list/existing_summaries = job_summaries[summary_key]
+			if(!existing_summaries)
+				existing_summaries = list()
+				job_summaries[summary_key] = existing_summaries
+			if(job.head_position)
+				existing_summaries.Insert(1, summary)
+			else
+				existing_summaries.Add(summary)
 		else
 			for(var/raisin in job.get_unavailable_reasons(client))
 				hidden_reasons[raisin] = TRUE
 
-	if(LAZYLEN(job_summaries))
-		dat += job_summaries
-	else
+	var/added_job = FALSE
+	if(length(job_summaries))
+		job_summaries = sortTim(job_summaries, /proc/cmp_departments_dsc, FALSE)
+		for(var/job_category in job_summaries)
+			if(length(job_summaries[job_category]))
+				var/decl/department/job_dept = job_category
+				// TODO: use bgcolor='[job_dept.display_color]' when less pastel/bright colours are chosen.
+				dat += "<tr><td bgcolor='#333333' colspan = 3><b><font color = '#ffffff'><center>[istype(job_dept) ? job_dept.name : job_dept]</center></font></b></td></tr>"
+				dat += job_summaries[job_category]
+				added_job = TRUE
+
+	if(!added_job)
 		dat += "<tr><td>No available positions.</td></tr>"
 	// END MAIN MAP JOBS
 
@@ -439,7 +459,8 @@
 	new_character.lastarea = get_area(spawn_turf)
 
 	if(GLOB.random_players)
-		client.prefs.gender = pick(MALE, FEMALE)
+		var/decl/species/current_species = get_species_by_key(client.prefs.species || GLOB.using_map.default_species)
+		client.prefs.gender = pick(current_species.genders)
 		client.prefs.real_name = client.prefs.get_random_name()
 		client.prefs.randomize_appearance_and_body_for(new_character)
 	client.prefs.copy_to(new_character)
@@ -510,10 +531,6 @@
 	if(!chosen_species || !check_species_allowed(chosen_species, 0))
 		return GLOB.using_map.default_species
 	return chosen_species.name
-
-/mob/new_player/get_gender()
-	if(!client || !client.prefs) ..()
-	return client.prefs.gender
 
 /mob/new_player/is_ready()
 	return ready && ..()

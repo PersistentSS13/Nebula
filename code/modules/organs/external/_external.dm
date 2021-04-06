@@ -232,12 +232,12 @@
 		child.show_decay_status(user)
 
 /obj/item/organ/external/attackby(obj/item/W, mob/user)
-	
+
 	var/obj/item/organ/external/E = W
 	if(BP_IS_PROSTHETIC(src) && istype(E) && BP_IS_PROSTHETIC(E))
-		
+
 		var/combined = FALSE
-		if(E.organ_tag == parent_organ) 
+		if(E.organ_tag == parent_organ)
 
 			if(length(E.children))
 				to_chat(usr, SPAN_WARNING("You cannot connect additional limbs to \the [E]."))
@@ -249,7 +249,7 @@
 			else
 				dropInto(loc)
 				forceMove(E)
-	
+
 			if(loc != E)
 				return
 
@@ -407,6 +407,8 @@
 		for(var/obj/item/organ/external/organ in children)
 			organ.replaced(owner)
 
+		owner.refresh_modular_limb_verbs()
+
 	if(!parent && parent_organ)
 		parent = owner.organs_by_name[src.parent_organ]
 		if(parent)
@@ -460,12 +462,11 @@
 		if(BURN)  src.heal_damage(0, repair_amount, 0, 1)
 	owner.regenerate_icons()
 	if(user == src.owner)
-		user.visible_message("<span class='notice'>\The [user] patches [damage_desc] on \his [src.name] with [tool].</span>")
+		var/decl/pronouns/G = user.get_pronouns()
+		user.visible_message(SPAN_NOTICE("\The [user] patches [damage_desc] on [G.his] [name] with \the [tool]."))
 	else
-		user.visible_message("<span class='notice'>\The [user] patches [damage_desc] on [owner]'s [src.name] with [tool].</span>")
-
+		user.visible_message(SPAN_NOTICE("\The [user] patches [damage_desc] on \the [owner]'s [name] with \the [tool]."))
 	return 1
-
 
 /*
 This function completely restores a damaged organ to perfect condition.
@@ -1218,6 +1219,8 @@ Note that amputating the affected organ does in fact remove the infection from t
 		while(null in owner.internal_organs)
 			owner.internal_organs -= null
 
+		owner.refresh_modular_limb_verbs()
+
 	return 1
 
 /obj/item/organ/external/proc/get_damage()	//returns total damage
@@ -1231,7 +1234,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 
 /obj/item/organ/external/is_usable()
 	. = ..()
-	. = . && !is_malfunctioning() 
+	. = . && !is_malfunctioning()
 	. = . && (!is_broken() || splinted) && !is_stump()
 	. = . && !(status & ORGAN_TENDON_CUT)
 	. = . && (!can_feel_pain() || get_pain() < pain_disability_threshold)
@@ -1347,15 +1350,12 @@ Note that amputating the affected organ does in fact remove the infection from t
 			"<span class='danger'>Your [src.name] explodes!</span>",\
 			"<span class='danger'>You hear an explosion!</span>")
 		explosion(get_turf(owner),-1,-1,2,3)
-		var/datum/effect/effect/system/spark_spread/spark_system = new /datum/effect/effect/system/spark_spread()
-		spark_system.set_up(5, 0, victim)
-		spark_system.attach(owner)
-		spark_system.start()
-		spawn(10)
-			qdel(spark_system)
+		spark_at(victim, 5, holder=owner)
 		qdel(src)
 	else if(is_stump())
 		qdel(src)
+
+	victim.refresh_modular_limb_verbs()
 
 /obj/item/organ/external/proc/disfigure(var/type = "brute")
 	if(status & ORGAN_DISFIGURED)

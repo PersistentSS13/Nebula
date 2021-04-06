@@ -8,7 +8,7 @@
 "h" = (/obj/machinery/computer/chargen{icon_state = "computer"; dir = 4},/obj/machinery/light/buildable{icon_state = "tube_map"; dir = 8},/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
 "i" = (/obj/machinery/atmospherics/pipe/simple/visible/universal,/obj/effect/landmark/chargen_spawn,/obj/effect/catwalk_plated,/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
 "j" = (/obj/machinery/atmospherics/pipe/simple/visible/red{dir = 5; icon_state = "intact"},/obj/machinery/door/airlock/highsecurity{autoset_access = 0; req_access = list()},/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
-"k" = (/obj/machinery/atmospherics/pipe/vent{icon_state = "intact"; dir = 8},/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
+"k" = (/obj/machinery/atmospherics/unary/vent_pump/high_volume{icon_state = "intact"; dir = 8},/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
 "l" = (/obj/machinery/atmospherics/unary/tank/air{dir = 4},/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
 "m" = (/obj/machinery/atmospherics/pipe/manifold/visible/blue{icon_state = "map"; dir = 4},/obj/effect/catwalk_plated,/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
 "n" = (/obj/machinery/atmospherics/pipe/simple/visible/blue,/obj/structure/window/reinforced,/obj/effect/catwalk_plated,/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)

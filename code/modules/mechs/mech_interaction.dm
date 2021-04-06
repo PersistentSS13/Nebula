@@ -158,7 +158,7 @@
 					ruser = user
 				temp_system.afterattack(A,ruser,adj,params)
 			if(system_moved) //We are using a proxy system that may not have logging like mech equipment does
-				log_and_message_admins("used [temp_system] targetting [A]", user, src.loc)
+				admin_attack_log(user, A, "Attacked using \a [temp_system] (MECH)", "Was attacked with \a [temp_system] (MECH)", "used \a [temp_system] (MECH) to attack")
 			//Mech equipment subtypes can add further click delays
 			var/extra_delay = 0
 			if(ME != null)
@@ -296,13 +296,19 @@
 
 	else if(istype(thing, /obj/item/kit/paint))
 		user.visible_message(SPAN_NOTICE("\The [user] opens \the [thing] and spends some quality time customising \the [src]."))
+
 		var/obj/item/kit/paint/P = thing
 		SetName(P.new_name)
 		desc = P.new_desc
-		for(var/obj/item/mech_component/comp in list(arms, legs, head, body))
-			comp.decal = P.new_icon
-		if(P.new_icon_file)
-			icon = P.new_icon_file
+
+		if(P.new_state)
+			for(var/obj/item/mech_component/comp in list(arms, legs, head, body))
+				comp.decal = P.new_state
+
+		if(P.new_icon)
+			for(var/obj/item/mech_component/comp in list(arms, legs, head, body))
+				comp.icon = P.new_icon
+
 		queue_icon_update()
 		P.use(1, user)
 		return 1

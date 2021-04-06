@@ -47,17 +47,17 @@
 	if(check_state_in_icon("[BODYTYPE_HUMANOID]-[slot_w_uniform_str]-sleeves", icon))
 		verbs |= /obj/item/clothing/under/proc/roll_up_sleeves
 
-/obj/item/clothing/under/experimental_mob_overlay(mob/user_mob, slot, bodypart)
-	var/image/I = ..()
-	if(I && slot == slot_w_uniform_str)
-		if(rolled_down && check_state_in_icon("[I.icon_state]-rolled", I.icon))
-			I.icon_state = "[I.icon_state]-rolled"
+/obj/item/clothing/under/get_mob_overlay(mob/user_mob, slot, bodypart)
+	var/image/ret = ..()
+	if(ret && slot == slot_w_uniform_str)
+		if(rolled_down && check_state_in_icon("[ret.icon_state]-rolled", ret.icon))
+			ret.icon_state = "[ret.icon_state]-rolled"
 		else
-			if(check_state_in_icon("[I.icon_state]-[lowertext(user_mob.gender)]", I.icon))
-				I.icon_state = "[I.icon_state]-[lowertext(user_mob.gender)]"
-			if(rolled_sleeves && check_state_in_icon("[I.icon_state]-sleeves", I.icon))
-				I.icon_state = "[I.icon_state]-sleeves"
-	return I
+			if(check_state_in_icon("[ret.icon_state]-[lowertext(user_mob.gender)]", ret.icon))
+				ret.icon_state = "[ret.icon_state]-[lowertext(user_mob.gender)]"
+			if(rolled_sleeves && check_state_in_icon("[ret.icon_state]-sleeves", ret.icon))
+				ret.icon_state = "[ret.icon_state]-sleeves"
+	return ret
 
 /obj/item/clothing/under/proc/roll_down_clothes()
 
@@ -131,15 +131,22 @@
 	sensor_mode = modes.Find(switchMode) - 1
 
 	if (src.loc == user)
+		var/user_message
 		switch(sensor_mode)
 			if(0)
-				user.visible_message("[user] adjusts the tracking sensor on \his [src.name].", "You disable your suit's remote sensing equipment.")
+				user_message = "You disable your suit's remote sensing equipment."
 			if(1)
-				user.visible_message("[user] adjusts the tracking sensor on \his [src.name].", "Your suit will now report whether you are live or dead.")
+				user_message = "Your suit will now report whether you are live or dead."
 			if(2)
-				user.visible_message("[user] adjusts the tracking sensor on \his [src.name].", "Your suit will now report your vital lifesigns.")
+				user_message = "Your suit will now report your vital lifesigns."
 			if(3)
-				user.visible_message("[user] adjusts the tracking sensor on \his [src.name].", "Your suit will now report your vital lifesigns as well as your coordinate position.")
+				user_message = "Your suit will now report your vital lifesigns as well as your coordinate position."
+
+		if(user_message)
+			var/decl/pronouns/G = user.get_pronouns()
+			user.visible_message( \
+				SPAN_NOTICE("\The [user] adjusts the tracking sensor on [G.his] [name]."), \
+				SPAN_NOTICE(user_message))
 
 	else if (ismob(src.loc))
 		if(sensor_mode == 0)

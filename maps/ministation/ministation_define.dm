@@ -20,7 +20,7 @@
 
 	default_law_type = /datum/ai_laws/nanotrasen
 
-	lobby_screens = list('maps/ministation/lobby.png')
+	lobby_screens = list('maps/ministation/ministation_lobby.png')
 
 	//TEMPORARY NOTE: Evac messages are temporary until its set up properly. Make sure they're changed later.
 	emergency_shuttle_leaving_dock = "Attention all crew members: the escape shuttle will be arriving shortly, please prepare to board."
@@ -29,7 +29,7 @@
 	evac_controller_type = /datum/evacuation_controller/ministation_substitute
 
 	station_networks = list(
-		NETWORK_EXODUS,
+		NETWORK_PUBLIC,
 		NETWORK_MINE,
 		NETWORK_SECURITY,
 		NETWORK_RESEARCH,

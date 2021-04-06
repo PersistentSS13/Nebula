@@ -42,13 +42,6 @@
 #define MAX_TEMPERATURE 90
 #define MIN_TEMPERATURE -40
 
-//all air alarms in area are connected via magic
-/area
-	var/list/air_vent_names = list()
-	var/list/air_scrub_names = list()
-	var/list/air_vent_info = list()
-	var/list/air_scrub_info = list()
-
 /obj/machinery/alarm
 	name = "alarm"
 	icon = 'icons/obj/monitors.dmi'
@@ -118,6 +111,11 @@
 	target_temperature = T0C+75
 	environment_type = /decl/environment_data/finnish
 
+/obj/machinery/alarm/warm/Initialize()
+	. = ..()
+	TLV["temperature"] = list(T0C-26, T0C, T0C+75, T0C+85) // K
+	TLV["pressure"] = list(ONE_ATMOSPHERE*0.80,ONE_ATMOSPHERE*0.90,ONE_ATMOSPHERE*1.30,ONE_ATMOSPHERE*1.50) /* kpa */
+
 /obj/machinery/alarm/nobreach
 	breach_detection = 0
 
@@ -163,6 +161,10 @@
 	for(var/device_tag in alarm_area.air_scrub_names + alarm_area.air_vent_names)
 		send_signal(device_tag, list()) // ask for updates; they initialized before us and we didn't get the data
 	queue_icon_update()
+
+/obj/machinery/alarm/modify_mapped_vars(map_hash)
+	..()
+	ADJUST_TAG_VAR(alarm_id, map_hash)
 
 /obj/machinery/alarm/get_req_access()
 	if(!locked)

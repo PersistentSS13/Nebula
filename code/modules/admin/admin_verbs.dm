@@ -208,7 +208,8 @@ var/list/admin_verbs_debug = list(
 	/client/proc/spawn_material,
 	/client/proc/verb_adjust_tank_bomb_severity,
 	/client/proc/force_ghost_trap_trigger,
-	/client/proc/spawn_quantum_mechanic
+	/client/proc/spawn_quantum_mechanic,
+	/client/proc/spawn_exoplanet
 	)
 
 var/list/admin_verbs_paranoid_debug = list(
@@ -692,13 +693,10 @@ var/list/admin_verbs_mod = list(
 		to_chat(usr, "Only mobs with clients can alter their own appearance.")
 		return
 
-	switch(alert("Do you wish for [H] to be allowed to select non-whitelisted races?","Alter Mob Appearance","Yes","No","Cancel"))
-		if("Yes")
-			log_and_message_admins("has allowed [H] to change \his appearance, including races that requires whitelisting")
-			H.change_appearance(APPEARANCE_ALL, H.loc, check_species_whitelist = 0)
-		if("No")
-			log_and_message_admins("has allowed [H] to change \his appearance, excluding races that requires whitelisting.")
-			H.change_appearance(APPEARANCE_ALL, H.loc, check_species_whitelist = 1)
+	var/whitelist_check = alert("Do you wish for [H] to be allowed to select non-whitelisted races?","Alter Mob Appearance","Yes","No","Cancel") == "No"
+	var/decl/pronouns/G = H.get_pronouns(ignore_coverings = TRUE)
+	log_and_message_admins("has allowed [H] to change [G.his] appearance, [whitelist_check ? "excluding" : "including"] races that requires whitelisting.")
+	H.change_appearance(APPEARANCE_ALL, H.loc, check_species_whitelist = whitelist_check)
 	SSstatistics.add_field_details("admin_verb","CMAS") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
 /client/proc/change_security_level()
@@ -778,11 +776,11 @@ var/list/admin_verbs_mod = list(
 	var/new_gender = alert(usr, "Please select gender.", "Character Generation", "Male", "Female", "Neuter")
 	if (new_gender)
 		if(new_gender == "Male")
-			M.gender = MALE
+			M.set_gender(MALE)
 		else if (new_gender == "Female")
-			M.gender = FEMALE
+			M.set_gender(FEMALE)
 		else
-			M.gender = NEUTER
+			M.set_gender(NEUTER)
 
 	M.update_hair()
 	M.update_body()

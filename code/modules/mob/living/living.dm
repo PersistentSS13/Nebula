@@ -5,6 +5,11 @@
 	else
 		add_to_living_mob_list()
 
+/mob/living/examine(mob/user, distance, infix, suffix)
+	. = ..()
+	if (admin_paralyzed)
+		to_chat(user, SPAN_OCCULT("OOC: They have been paralyzed by staff. Please avoid interacting with them unless cleared to do so by staff."))
+
 //mob verbs are faster than object verbs. See above.
 /mob/living/pointed(atom/A as mob|obj|turf in view())
 	if(incapacitated())
@@ -488,21 +493,6 @@ default behaviour is:
 /mob/living/proc/UpdateDamageIcon()
 	return
 
-/mob/living/proc/Examine_OOC()
-	set name = "Examine Meta-Info (OOC)"
-	set category = "OOC"
-	set src in view()
-
-	if(config.allow_Metadata)
-		if(client)
-			to_chat(usr, "[src]'s Metainfo:<br>[client.prefs.metadata]")
-		else
-			to_chat(usr, "[src] does not have any stored infomation!")
-	else
-		to_chat(usr, "OOC Metadata is not supported by this server!")
-
-	return
-
 /mob/living/handle_grabs_after_move()
 	..()
 	if(!skill_check(SKILL_MEDICAL, SKILL_BASIC))
@@ -893,4 +883,3 @@ default behaviour is:
 
 /mob/living/is_deaf()
 	. = ..() || GET_STATUS(src, STAT_DEAF)
-

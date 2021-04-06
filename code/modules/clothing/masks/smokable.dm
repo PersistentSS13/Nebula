@@ -105,15 +105,15 @@
 		M.update_inv_wear_mask(0)
 		M.update_inv_hands()
 
-/obj/item/clothing/mask/smokable/experimental_mob_overlay(mob/user_mob, slot, bodypart)
-	var/image/I = ..()
-	if(I && lit && check_state_in_icon("[I.icon_state]-on", I.icon))
-		var/image/on_overlay = image(I.icon, "[I.icon_state]-on")
+/obj/item/clothing/mask/smokable/get_mob_overlay(mob/user_mob, slot, bodypart)
+	var/image/ret = ..()
+	if(ret && lit && check_state_in_icon("[ret.icon_state]-on", ret.icon))
+		var/image/on_overlay = image(ret.icon, "[ret.icon_state]-on")
 		on_overlay.appearance_flags |= RESET_COLOR
 		on_overlay.layer = ABOVE_LIGHTING_LAYER
 		on_overlay.plane = EFFECTS_ABOVE_LIGHTING_PLANE
-		I.add_overlay(on_overlay)
-	return I
+		ret.add_overlay(on_overlay)
+	return ret
 
 /obj/item/clothing/mask/smokable/fluid_act(var/datum/reagents/fluids)
 	..()
@@ -335,9 +335,11 @@
 		if(blocked)
 			to_chat(H, "<span class='warning'>\The [blocked] is in the way!</span>")
 			return 1
+		var/decl/pronouns/G = user.get_pronouns()
+		var/puff_str = pick("drag","puff","pull")
 		user.visible_message(\
-			"[user] takes a [pick("drag","puff","pull")] on \his [name].", \
-			"You take a [pick("drag","puff","pull")] on your [name].")
+			SPAN_NOTICE("\The [user] takes a [puff_str] on [G.his] [name]."), \
+			SPAN_NOTICE("You take a [puff_str] on your [name]."))
 		smoke(12, TRUE)
 		add_trace_DNA(H)
 		user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)

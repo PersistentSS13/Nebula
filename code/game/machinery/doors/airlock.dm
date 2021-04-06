@@ -300,11 +300,8 @@ About the new airlock wires panel:
 		return 0
 
 /obj/machinery/door/airlock/on_update_icon(state=0, override=0)
-	if(connections in list(NORTH, SOUTH, NORTH|SOUTH))
-		if(connections in list(WEST, EAST, EAST|WEST))
-			set_dir(SOUTH)
-		else
-			set_dir(EAST)
+	if(connections & (NORTH|SOUTH))
+		set_dir(EAST)
 	else
 		set_dir(SOUTH)
 
@@ -549,9 +546,7 @@ About the new airlock wires panel:
 		if (istype(mover, /obj/item))
 			var/obj/item/i = mover
 			if(i.material && i.material.conductive)
-				var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-				s.set_up(5, 1, src)
-				s.start()
+				spark_at(src, amount=5, cardinal_only = TRUE)
 	return ..()
 
 /obj/machinery/door/airlock/physical_attack_hand(mob/user)
@@ -869,9 +864,7 @@ About the new airlock wires panel:
 	da.symbol_color = symbol_color
 
 	if(moved)
-		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-		s.set_up(5, 1, da)
-		s.start()
+		spark_at(da, amount=5, cardinal_only = TRUE)
 	else
 		da.anchored = 1
 	da.state = 1
@@ -889,9 +882,7 @@ About the new airlock wires panel:
 		if (secured_wires)
 			lock()
 		visible_message("\The [src]'s control panel bursts open, sparks spewing out!")
-		var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-		s.set_up(5, 1, src)
-		s.start()
+		spark_at(src, amount=5, cardinal_only = TRUE)
 
 /obj/machinery/door/airlock/open(var/forced=0)
 	if(!can_open(forced))

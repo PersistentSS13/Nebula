@@ -115,9 +115,6 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/constructionsite)
 "mC" = (
-/obj/effect/landmark{
-	name = "tdome1"
-	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/constructionsite)
 "oZ" = (
@@ -141,9 +138,6 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/constructionsite)
 "qJ" = (
-/obj/effect/landmark{
-	name = "tdome2"
-	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/constructionsite)
 "rY" = (
@@ -193,9 +187,7 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/constructionsite)
 "us" = (
-/obj/effect/landmark{
-	name = "JoinLate"
-	},
+/obj/effect/landmark/latejoin,
 /turf/simulated/floor/tiled/steel_grid,
 /area/constructionsite)
 "vd" = (
@@ -379,10 +371,6 @@
 	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/constructionsite)
-"UM" = (
-/obj/effect/landmark/test/space_turf,
-/turf/space,
-/area/space)
 "Vt" = (
 /turf/simulated/floor/plating,
 /area/constructionsite)
@@ -423,10 +411,6 @@
 	dir = 5
 	},
 /obj/machinery/teleport/station,
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
-"YO" = (
-/obj/effect/landmark/test/safe_turf,
 /turf/simulated/floor/tiled/steel_grid,
 /area/constructionsite)
 "Zi" = (
@@ -486,7 +470,7 @@ Hk
 Hk
 Hk
 Hk
-UM
+Hk
 "}
 (2,1,1) = {"
 Hk
@@ -1151,7 +1135,7 @@ mC
 mC
 vd
 WF
-YO
+dI
 fT
 iM
 us

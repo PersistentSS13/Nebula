@@ -148,9 +148,7 @@
 
 	explosion(src.loc, 0, 0, 1, rand(1,2), 1)
 
-	var/datum/effect/effect/system/spark_spread/s = new /datum/effect/effect/system/spark_spread
-	s.set_up(3, 1, src)
-	s.start()
+	spark_at(src, cardinal_only = TRUE)
 
 	new /obj/effect/decal/cleanable/blood/oil(src.loc)
 	qdel(src)
@@ -174,7 +172,6 @@
 /obj/machinery/media/jukebox/proc/StopPlaying()
 	playing = 0
 	update_use_power(POWER_USE_IDLE)
-	update_icon()
 	QDEL_NULL(sound_token)
 
 
@@ -188,7 +185,6 @@
 
 	playing = 1
 	update_use_power(POWER_USE_ACTIVE)
-	update_icon()
 
 /obj/machinery/media/jukebox/proc/AdjustVolume(var/new_volume)
 	volume = Clamp(new_volume, 0, 50)

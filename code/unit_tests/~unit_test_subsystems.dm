@@ -43,18 +43,22 @@ SUBSYSTEM_DEF(unit_tests)
 		if(istype(map_template, /datum/map_template/ruin/away_site))
 			report_progress("Skipping template '[map_template]' ([map_template.type]): Is an Away Site")
 			continue
-
-		// Suggestion: Do smart things here to squeeze as many templates as possible into the same Z-level
-		if(map_template.tallness == 1)
-			INCREMENT_WORLD_Z_SIZE
-			GLOB.using_map.sealed_levels += world.maxz
-			var/corner = locate(world.maxx/2, world.maxy/2, world.maxz)
-			log_unit_test("Loading template '[map_template]' ([map_template.type]) at [log_info_line(corner)]")
-			map_template.load(corner)
-		else // Multi-Z templates are loaded using different means
-			log_unit_test("Loading template '[map_template]' ([map_template.type]) at Z-level [world.maxz+1] with a tallness of [map_template.tallness]")
-			map_template.load_new_z()
+		load_template(map_template)
+		if(map_template.template_flags & TEMPLATE_FLAG_TEST_DUPLICATES)
+			load_template(map_template)
 	log_unit_test("Map Templates Loaded")
+
+/datum/controller/subsystem/unit_tests/proc/load_template(datum/map_template/map_template)
+	// Suggestion: Do smart things here to squeeze as many templates as possible into the same Z-level
+	if(map_template.tallness == 1)
+		INCREMENT_WORLD_Z_SIZE
+		GLOB.using_map.sealed_levels += world.maxz
+		var/corner = locate(world.maxx/2, world.maxy/2, world.maxz)
+		log_unit_test("Loading template '[map_template]' ([map_template.type]) at [log_info_line(corner)]")
+		map_template.load(corner)
+	else // Multi-Z templates are loaded using different means
+		log_unit_test("Loading template '[map_template]' ([map_template.type]) at Z-level [world.maxz+1] with a tallness of [map_template.tallness]")
+		map_template.load_new_z()
 
 /datum/controller/subsystem/unit_tests/proc/start_game()
 	if (GAME_STATE >= RUNLEVEL_POSTGAME)
@@ -80,15 +84,19 @@ SUBSYSTEM_DEF(unit_tests)
 	while (curr.len)
 		var/datum/unit_test/test = curr[curr.len]
 		curr.len--
-		if(do_unit_test(test, end_unit_tests))
-			if(test.async)
-				async_tests += test
-			else
-				test.teardown_test()
+		if(test.async)
+			async_tests += test
+		else
+			do_unit_test(test, end_unit_tests)
 		total_unit_tests++
 		if (MC_TICK_CHECK)
 			return
+
+	// Once we have dealt with all synchronous tests
+	//  start all async tests and proceed to the next stage
 	if (!curr.len)
+		for(var/test in async_tests)
+			do_unit_test(test, end_unit_tests)
 		stage++
 
 /datum/controller/subsystem/unit_tests/proc/handle_async(resumed = 0)
@@ -127,7 +135,7 @@ SUBSYSTEM_DEF(unit_tests)
 		if (4)	// do normal tests
 			handle_tests()
 
-		if (5)
+		if (5) // do async tests
 			handle_async(resumed)
 
 		if (6)	// Finalization.

@@ -4,6 +4,10 @@
 	item_flags = ITEM_FLAG_NO_BLUDGEON
 	w_class = ITEM_SIZE_NO_CONTAINER
 
+	pickup_sound = null
+	drop_sound =   null
+	equip_sound =  null
+
 	var/atom/movable/affecting = null
 	var/mob/assailant = null
 	var/decl/grab/current_grab
@@ -53,19 +57,19 @@
 		GLOB.zone_selected_event.register(assailant.zone_sel, src, .proc/on_target_change)
 	var/obj/item/organ/O = get_targeted_organ()
 
-	var/datum/gender/T = gender_datums[assailant.get_gender()]
+	var/decl/pronouns/G = assailant.get_pronouns()
 	if(O)
 		SetName("[name] ([O.name])")
 		GLOB.dismembered_event.register(affecting, src, .proc/on_organ_loss)
 		if(affecting != assailant)
 			visible_message(SPAN_DANGER("\The [assailant] has grabbed [affecting]'s [O.name]!"))
 		else
-			visible_message(SPAN_NOTICE("\The [assailant] has grabbed [T.his] [O.name]!"))
+			visible_message(SPAN_NOTICE("\The [assailant] has grabbed [G.his] [O.name]!"))
 	else
 		if(affecting != assailant)
 			visible_message(SPAN_DANGER("\The [assailant] has grabbed \the [affecting]!"))
 		else
-			visible_message(SPAN_NOTICE("\The [assailant] has grabbed [T.self]!"))
+			visible_message(SPAN_NOTICE("\The [assailant] has grabbed [G.self]!"))
 
 	if(affecting_mob && affecting_mob.a_intent != I_HELP)
 		upgrade(TRUE)
@@ -272,7 +276,7 @@
 	return current_grab.force_danger
 
 /obj/item/grab/proc/grab_slowdown()
-	return current_grab.grab_slowdown
+	return max(ceil(affecting?.get_object_size() * current_grab.grab_slowdown), 1)
 
 /obj/item/grab/proc/assailant_moved()
 	affecting.glide_size = assailant.glide_size // Note that this is called _after_ the Move() call resolves, so while it adjusts affecting's move animation, it won't adjust anything else depending on it.
