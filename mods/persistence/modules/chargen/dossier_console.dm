@@ -87,6 +87,7 @@
 	.["active"] = active_section
 	.["finished"] = user.mind.finished_chargen
 	.["age"] = user.mind.age
+	.["map_name"] = GLOB.using_map.station_name
 	// .["species"] = usr.species.name
 
 	.["origin"] = istype(user.mind.origin) ? user.mind.origin.name : "Not set"

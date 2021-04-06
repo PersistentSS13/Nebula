@@ -57,6 +57,9 @@
 		message_admins(SPAN_DANGER("UNABLE TO FIND SUITABLE LOCATION FOR NEW PLAYERS! CREATE A CRYOPOD."))
 
 /obj/machinery/cryopod/chargen/check_occupant_allowed(mob/M)
+	. = ..()
+	if(!.)
+		return
 	var/allowed = M.mind.finished_chargen
 	if(!allowed)
 		to_chat(M, SPAN_NOTICE("The [src] beeps: Please finished your dossier on the terminal before proceeding to cryostasis."))
