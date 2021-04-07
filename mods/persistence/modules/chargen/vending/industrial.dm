@@ -21,6 +21,5 @@
 		/obj/item/chargen_box/industrial/chem_suit = 999,
 		/obj/item/chargen_box/industrial/pick = 999,
 		/obj/item/chargen_box/industrial/ore_processor = 999,
-		/obj/item/chargen_box/industrial/power_gen = 999,
-		/obj/item/chargen_box/industrial/power_gen_refill = 999
+		/obj/item/chargen_box/industrial/stirling = 999
 	)
