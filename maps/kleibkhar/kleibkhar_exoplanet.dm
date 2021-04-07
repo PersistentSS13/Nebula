@@ -1,4 +1,4 @@
-#define EXT_EDGE_GRASS_KLEIBKHAR    (53 * 0.001)
+#define KLEIBKHAR_GRASS_EDGE_LAYER    (53 * 0.001)
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar
 	name = "\proper Kleibkhar"
 	desc = "A habitable border-world, home to a recent dime-a-dozen corporate colony."
@@ -64,7 +64,7 @@
 /turf/exterior/kleibkhar_grass
 	name = "wild grass"
 	icon = 'icons/turf/exterior/wildgrass.dmi'
-	icon_edge_layer = EXT_EDGE_GRASS_KLEIBKHAR
+	icon_edge_layer = KLEIBKHAR_GRASS_EDGE_LAYER
 	icon_has_corners = TRUE
 	color = "#799c4b"
 	footstep_type = /decl/footsteps/grass
@@ -105,4 +105,4 @@
 		footstep_type = /decl/footsteps/asteroid
 		color = null
 
-#undef EXT_EDGE_GRASS_KLEIBKHAR
+#undef KLEIBKHAR_GRASS_EDGE_LAYER
