@@ -3087,7 +3087,8 @@
 			"home_spawn",
 			"stance_limbs",
 			"grasp_limbs",
-			"saved_species"
+			"saved_species",
+			"vessel"
 		]
 	},
 	{
@@ -4002,7 +4003,8 @@
 		"vars":[
 			"stackmob",
 			"backup",
-			"cortical_alias"
+			"cortical_alias",
+			"mind_id"
 		]
 	},
 	{

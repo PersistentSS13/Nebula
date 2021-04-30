@@ -12,7 +12,7 @@
 -- Dumping structure for table persistent.list_element
 DROP TABLE IF EXISTS `list_element`;
 CREATE TABLE IF NOT EXISTS `list_element` (
-  `id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
   `list_id` int NOT NULL,
   `key` longtext NOT NULL,
   `key_type` varchar(256) NOT NULL,
@@ -25,20 +25,21 @@ CREATE TABLE IF NOT EXISTS `list_element` (
 -- Dumping structure for table persistent.thing
 DROP TABLE IF EXISTS `thing`;
 CREATE TABLE IF NOT EXISTS `thing` (
-  `id` int NOT NULL,
+  `p_id` varchar(12) NOT NULL,
   `type` varchar(256) NOT NULL,
   `x` int DEFAULT NULL,
   `y` int DEFAULT NULL,
   `z` int DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `ref`varchar(12) DEFAULT NULL,
+  PRIMARY KEY (`p_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 -- Data exporting was unselected.
 -- Dumping structure for table persistent.thing_var
 DROP TABLE IF EXISTS `thing_var`;
 CREATE TABLE IF NOT EXISTS `thing_var` (
-  `id` int NOT NULL,
-  `thing_id` int NOT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `thing_id` varchar(12) NOT NULL,
   `key` varchar(256) NOT NULL,
   `type` varchar(256) NOT NULL,
   `value` longtext NOT NULL,
@@ -58,6 +59,15 @@ CREATE TABLE IF NOT EXISTS `z_level` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+DROP TABLE IF EXISTS `limbo`;
+CREATE TABLE IF NOT EXISTS `limbo` (
+  `key` longtext NOT NULL,
+  `type` varchar(64) NOT NULL,
+  `p_id` varchar(12) NOT NULL,
+  `metadata` varchar(64) DEFAULT NULL,
+  `rel_p_ids` longtext DEFAULT NULL,
+  `rel_list_ids` longtext DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 -- Data exporting was unselected.
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;

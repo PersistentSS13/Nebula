@@ -1,5 +1,5 @@
 /datum/persistence/load_cache/thing
-	var/id
+	var/p_id
 	var/thing_type
 	var/x
 	var/y
@@ -7,7 +7,7 @@
 	var/list/thing_vars = list()
 
 /datum/persistence/load_cache/thing/New(var/sql_row)
-	id = text2num(sql_row["id"])
+	p_id = sql_row["p_id"]
 	thing_type = text2path(sql_row["type"])
 	x = text2num(sql_row["x"])
 	y = text2num(sql_row["y"])
@@ -82,12 +82,12 @@
 
 	// Deserialize the objects
 	start = world.timeofday
-	query = dbcon.NewQuery("SELECT `id`,`type`,`x`,`y`,`z` FROM `thing`;")
+	query = dbcon.NewQuery("SELECT `p_id`,`type`,`x`,`y`,`z` FROM `thing`;")
 	query.Execute()
 	while(query.NextRow())
 		var/items = query.GetRowData()
 		var/datum/persistence/load_cache/thing/T = new(items)
-		things[items["id"]] = T
+		things[items["p_id"]] = T
 		things_cached++
 		CHECK_TICK
 	to_world_log("Took [(world.timeofday - start) / 10]s to cache [things_cached] things.")
@@ -99,7 +99,7 @@
 	while(query.NextRow())
 		var/items = query.GetRowData()
 		var/datum/persistence/load_cache/thing_var/V = new(items)
-		var/datum/persistence/load_cache/thing/T = things["[items["thing_id"]]"]
+		var/datum/persistence/load_cache/thing/T = things[items["thing_id"]]
 		if(T)
 			T.thing_vars.Add(V)
 			vars_cached++

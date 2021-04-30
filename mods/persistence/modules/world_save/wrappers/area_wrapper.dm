@@ -25,7 +25,7 @@
 
 	has_gravity = A.has_gravity
 
-/datum/wrapper/area/on_deserialize()
+/datum/wrapper/area/on_deserialize()	
 	// Check for areas that have already been deserialized to prevent duplicate areas.
 	for(var/area/pre_area)
 		if("[pre_area.type]" == key && pre_area.name == name)

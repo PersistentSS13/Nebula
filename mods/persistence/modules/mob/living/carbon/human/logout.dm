@@ -14,30 +14,16 @@
 /mob/living/carbon/human/Initialize()
 	. = ..()
 
-	if(ignore_persistent_spawn())
-		return
-
-	// Safety check. If a character spawned outside of a saved area, we want to move them to their last spawn.
-	if(!(z in SSpersistence.saved_levels))
-		if(istype(home_spawn))
-			if(locate(/mob) in get_turf(home_spawn))
-				// Someone or something was in your bed/cryopod.
-				forceMove(get_spawn_turf())
-			else
-				forceMove(get_turf(home_spawn)) // Welcome home!
-		else
-			forceMove(get_spawn_turf()) // Sorry man. Your bed/cryopod was not set.
-
 	// Check if humans are asleep on startup.
 	if(!istype(client))
 		goto_sleep()
 		
 /mob/living/carbon/human/proc/get_spawn_turf()
 	var/spawn_turf
-	for(var/obj/machinery/cryopod/C in SSmachines.machinery)
+	for(var/obj/machinery/cryopod/outreach/C in SSmachines.machinery)
 		spawn_turf = locate(C.x, C.y, C.z)
 	if(!spawn_turf)
-		spawn_turf = locate(100,100,1)
+		spawn_turf = locate(100,100,3)
 	return spawn_turf
 
 /mob/living/carbon/human/Logout()
