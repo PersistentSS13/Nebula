@@ -84,18 +84,40 @@
 		to_chat(src, SPAN_NOTICE("Wait until the round starts to join."))
 		return
 	if(!config.enter_allowed)
-		to_chat(usr, SPAN_NOTICE("There is an administrative lock on entering the game!"))
+		to_chat(src, SPAN_NOTICE("There is an administrative lock on entering the game!"))
 		return
 	if(spawning)
 		return
-	for(var/mob/M in GLOB.living_mob_list_)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
-		if(M.loc && !istype(M, /mob/new_player) && (M.saved_ckey == ckey || M.saved_ckey == "@[ckey]"))
+	for(var/datum/mind/target_mind in GLOB.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
+		if(target_mind.key == key)
+			if(!target_mind.current || istype(target_mind.current, /mob/new_player))
+				continue
 			transition_to_game()
 			to_chat(src, SPAN_NOTICE("A character is already in game."))
 			spawning = TRUE
-			M.key = key
+			target_mind.current.key = key
 			qdel(src)
 			return
+	// Query for the character associated with this ckey
+	var/DBQuery/char_query = dbcon.NewQuery("SELECT `key`, `p_id` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]'")
+	char_query.Execute()
+	if(char_query.ErrorMsg())
+		to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
+	if(char_query.NextRow())
+		var/list/char_items = char_query.GetRowData()
+		var/mind_p_id = char_items["p_id"]
+		var/datum/mind/target_mind = SSpersistence.DeserializeOneOff(mind_p_id, char_items["key"], LIMBO_MIND)
+		if(!target_mind)
+			to_world_log("CHARACTER DESERIALIZATION FAILED: Could not locate p_id [mind_p_id] from limbo list.")
+			to_chat(src, SPAN_WARNING("Something has gone wrong while returning you to your body. Contact an admin."))
+			return
+		var/mob/person = target_mind.current
+		transition_to_game()
+		to_chat(src, SPAN_NOTICE("A character is already in game."))
+		spawning = TRUE
+		person.key = key
+		qdel(src)
+		return
 
 	create_character()	// Creating a new character based off the player's preferences.
 	qdel(src)

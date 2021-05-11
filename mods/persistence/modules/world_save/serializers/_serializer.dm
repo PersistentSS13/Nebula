@@ -1,5 +1,4 @@
 #define IS_PROC(X) (findtext("\ref[X]", "0x26"))
-
 /serializer
 	var/datum/persistence/load_cache/resolver/resolver = new()
 
@@ -50,7 +49,7 @@
 /serializer/proc/DeserializeList(var/raw_list)
 
 /serializer/proc/QueryAndDeserializeDatum(var/object_id)
-	var/datum/existing = reverse_map["[object_id]"]
+	var/datum/existing = reverse_map["[object_id]"] 
 	if(!isnull(existing))
 		return existing
 	return DeserializeDatum(resolver.things["[object_id]"])

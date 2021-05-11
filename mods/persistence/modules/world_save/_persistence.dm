@@ -9,6 +9,7 @@
 
 /datum
 	var/should_save = TRUE
+	var/persistent_id		// This value should be constant across save/loads. It is first generated on serialization.
 
 /turf
 	var/is_on_fire = FALSE

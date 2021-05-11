@@ -10,6 +10,7 @@
 	var/list/saved_levels 	= 	list()	// Saved levels are saved entirely and optimized with get_base_turf()
 
 	var/serializer/sql/serializer = new() // The serializer impl for actually saving.
+	var/serializer/sql/one_off/one_off	= new() // The serializer impl for one off serialization/deserialization.
 
 /datum/controller/subsystem/persistence/Initialize()
 	saved_levels = GLOB.using_map.saved_levels
@@ -53,6 +54,27 @@
 			var/zone/zone = SSair.zones[SSair.zones.len]
 			SSair.zones.len--
 			zone.c_invalidate()
+		
+		// Find all the minds gameworld and add any player characters to the limbo list.
+		for(var/datum/mind/char_mind in GLOB.player_minds)
+			if(istype(char_mind.current, /mob/new_player) || !char_mind.finished_chargen)
+				continue
+			serializer.Serialize(char_mind)
+			AddToLimbo(char_mind.unique_id, LIMBO_MIND, char_mind.persistent_id, char_mind.key, FALSE)
+		serializer.Commit()
+		serializer.CommitRefUpdates()
+		
+		// Query the database for objects that may not be in the gameworld, but should be saved
+		var/list/limbo_datums = list()
+		var/DBQuery/limbo_query = dbcon.NewQuery("SELECT `key`, `type`, `p_id` FROM `limbo`")
+		limbo_query.Execute()
+		while(limbo_query.NextRow())
+			var/list/limbo_items = limbo_query.GetRowData()
+			var/target_p_id = limbo_items["p_id"]
+			var/limbo_key = limbo_items["key"]
+			var/limbo_type = limbo_items["type"]
+			if(target_p_id)
+				limbo_datums += new /datum/limbo_state(target_p_id, limbo_key, limbo_type)
 
 		// Wipe the previous save.
 		serializer.WipeSave()
@@ -100,24 +122,7 @@
 				z_level.new_index = new_z_index
 				z_transform["[T.z]"] = z_level
 
-		// Now to go through for all *characters*. Characters are annoying because they could be anywhere.
 		new_z_index++
-		var/lost_character_z = new_z_index // Special z_level for lost bois.
-		for(var/mob/living in world)
-			if(!living.z) // TODO: Fix this. Some mobs are allowed to be in nullspace. Like stackmobs.
-				continue
-			if(!living.ckey)
-				continue // Not a player character
-			if("[living.z]" in z_transform)
-				continue // Not a lost boi.
-			// Lost boi.
-			var/datum/persistence/load_cache/z_level/z_level = new()
-			z_level.dynamic = TRUE
-			z_level.index = living.z
-			z_level.new_index = lost_character_z
-			z_level.default_turf = /turf/space
-			z_transform["[living.z]"] = z_level
-
 		// Now we rebuild our z_level metadata list into the serializer for it to remap everything for us.
 		for(var/z in z_transform)
 			var/datum/persistence/load_cache/z_level/z_level = z_transform[z]
@@ -157,6 +162,7 @@
 					// Prevent the whole game from locking up.
 					CHECK_TICK
 			serializer.Commit() // cleanup leftovers.
+			serializer.CommitRefUpdates()
 
 		index = 1
 
@@ -202,12 +208,13 @@
 		if(query.ErrorMsg())
 			to_world_log("Z_LEVEL SERIALIZATION FAILED: [query.ErrorMsg()].")
 
-		// Save all players.
-		for(var/mob/living/T in world)
-			serializer.Serialize(T)
-			CHECK_TICK
 		serializer.Commit()
+		serializer.CommitRefUpdates()
 
+		// Reinsert anything in the limbo table which wasn't in the gameworld.
+		for(var/datum/limbo_state/L in limbo_datums)
+			L.reinsert()
+			CHECK_TICK
 		//
 		//	CLEANUP SECTION
 		//
@@ -318,6 +325,82 @@
 
 /datum/controller/subsystem/persistence/proc/RemoveSavedArea(var/area/A)
 	saved_areas -= A
+
+// Adds the passed values into the limbo table, pointing to an object that should be maintained in the database even if
+// it is outside of the gameworld.
+/datum/controller/subsystem/persistence/proc/AddToLimbo(var/key, var/limbo_type, var/persistent_id, var/metadata, var/modify = TRUE)
+	key = sanitizeSQL(key)
+	limbo_type = sanitizeSQL(limbo_type)
+	persistent_id = sanitizeSQL(persistent_id)
+	metadata = sanitizeSQL(metadata)
+	var/DBQuery/existing_query = dbcon.NewQuery("SELECT 1 FROM `limbo` WHERE `key` = '[key]' AND `type` = '[limbo_type]'")
+	existing_query.Execute()
+
+	var/DBQuery/insert_query
+	if(existing_query.NextRow()) // There was already something in limbo with this type, so just update the persistent ID or return.
+		if(!modify)
+			return
+		insert_query = dbcon.NewQuery("UPDATE `limbo` SET `p_id` = '[persistent_id]', `metadata` = '[metadata]' WHERE `key` = '[key]' AND `type` = '[limbo_type]'")
+		insert_query.Execute()
+		return
+	insert_query = dbcon.NewQuery("INSERT INTO `limbo` (`key`,`type`,`p_id`,`metadata`) VALUES('[key]', '[limbo_type]', '[persistent_id]', '[metadata]')")
+	insert_query.Execute()
+	if(insert_query.ErrorMsg())
+		to_world_log("LIMBO ADDITION FAILED: [insert_query.ErrorMsg()].")
+
+/datum/controller/subsystem/persistence/proc/DeleteFromLimbo(var/key, var/limbo_type)
+	var/DBQuery/delete_query = dbcon.NewQuery("DELETE FROM `limbo` WHERE `key` = '[key]' AND `type` = '[limbo_type]'")
+	delete_query.Execute()
+
+// This agnostically serializes an object. If provided with a limbo key and type,
+// this will also add the object to the table and append the related things and list ids to the table.
+/datum/controller/subsystem/persistence/proc/SerializeOneOff(var/datum/target, var/limbo_key, var/limbo_type, var/limbo_metadata)
+	one_off.update_indices()
+	one_off.SerializeDatum(target)
+
+	var/list/p_ids = list()
+	var/list/list_ids = list()
+	for(var/ref in one_off.thing_map)
+		p_ids |= one_off.thing_map[ref]
+	for(var/ref in one_off.list_map)
+		list_ids |= one_off.list_map[ref]
+
+	// We delete *old* variables to prevent errors with variable assignment.
+	var/list/where_list = list()
+	for(var/p_id in p_ids)
+		where_list.Add("'[p_id]'")
+	var/DBQuery/delete_query = dbcon.NewQuery("DELETE FROM `thing_var` WHERE `thing_id` IN ([jointext(where_list, ", ")])")
+	delete_query.Execute()
+
+	if(limbo_key && limbo_type)
+		AddToLimbo(limbo_key, limbo_type, target.persistent_id, limbo_metadata, FALSE)
+		// Insert the related IDs for caching on load. Normal limbo state datums do this as well, but we already know all the related IDs from serializing, so we do it here instead. 
+		var/list/related_p_ids = json_encode(p_ids)
+		var/list/related_list_ids = json_encode(list_ids)
+		var/DBQuery/update_query = dbcon.NewQuery("UPDATE `limbo` SET `rel_p_ids` = '[related_p_ids]', `rel_list_ids` = '[related_list_ids]' WHERE `key` = '[limbo_key]' AND `type` = '[limbo_type]'")
+		update_query.Execute()
+	
+	one_off.Commit()
+	one_off.CommitRefUpdates()
+	one_off.Clear()
+
+/datum/controller/subsystem/persistence/proc/DeserializeOneOff(var/limbo_p_id, var/limbo_key, var/limbo_type)
+	// Hold off on initialization until everthing is finished loading.
+	SSatoms.map_loader_begin()
+	one_off.update_load_cache(limbo_key, limbo_type)
+	var/datum/target = one_off.QueryAndDeserializeDatum(limbo_p_id)
+
+	// Copy pasta for calling after_deserialize on everything we just deserialized.
+	for(var/id in one_off.reverse_map)
+		var/datum/T = one_off.reverse_map[id]
+		T.after_deserialize()
+	
+	// Start initializing whatever we deserialized.
+	SSatoms.map_loader_stop()
+	SSatoms.InitializeAtoms()
+	one_off.CommitRefUpdates()
+	one_off.Clear()
+	return target
 
 /hook/roundstart/proc/retally_all_power()
 	for(var/area/A)

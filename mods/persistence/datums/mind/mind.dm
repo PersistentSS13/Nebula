@@ -1,8 +1,10 @@
+GLOBAL_LIST_EMPTY(player_minds)
+
 /datum/mind
 	// This is a unique UID that will forever identify this mind.
 	// No two minds are ever the same, and this ID will always identify 'this character'.
 	var/unique_id
-	var/age = 0// How old the mob's mind is in years.
+	var/age = 0 // How old the mob's mind is in years.
 	var/philotic_damage = 0
 
 	var/datum/skillset/chargen_skillset 		// Temporary skillset used for character generation.
@@ -13,6 +15,20 @@
 /datum/mind/New()
 	. = ..()
 	unique_id = "[sequential_id(/datum/mind)]"
+	GLOB.player_minds += src
+
+/datum/mind/Destroy()
+	. = ..()
+	GLOB.player_minds -= src
+
+/datum/mind/transfer_to(mob/living/new_character)
+	. = ..()
+	// New mobs tend to have their organs installed before mind is transferred, so we'll double check that the mind_id is correct here.
+	var/mob/living/carbon/human/H = new_character
+	if(istype(H))
+		var/obj/item/organ/internal/stack/S = H.get_internal_organ(BP_STACK)
+		if(S)
+			S.update_mind_id()
 
 /proc/get_valid_clone_pods(var/mind_id)
 	var/list/valid_clone_pods = list()

@@ -2,14 +2,27 @@
 	var/obj/home_spawn		// The object we last safe-slept on. Used for moving characters to safe locations on loads.
 	var/saved_species		// Whatever species we were, so that everything isn't rebuilt on load.
 
-/mob/living/carbon/human/Initialize()
+/mob/living/carbon/human/after_deserialize()
+	. = ..()
 	if(ispath(move_intent))
 		move_intent = decls_repository.get_decl(move_intent)
 	if(saved_species)
 		species = get_species_by_key(saved_species)
+	
+	if(ignore_persistent_spawn())
+		return
 
+	if(!loc) // We're loading into null-space because we were in an unsaved level or intentionally in limbo. Move them to the last valid spawn.
+		if(istype(home_spawn))
+			if(home_spawn.loc)
+				forceMove(get_turf(home_spawn)) // Welcome home!
+				return
+			else // Your bed is in nullspace with you!
+				QDEL_NULL(home_spawn)
+		forceMove(get_spawn_turf()) // Sorry man. Your bed/cryopod was not set.
+
+/mob/living/carbon/human/Initialize()
 	..()
-
 	return INITIALIZE_HINT_LATELOAD
 
 /mob/living/carbon/human/LateInitialize()

@@ -1,16 +1,19 @@
 /serializer/sql
-	var/thing_index = 1
-	var/var_index = 1
 	var/list_index = 1
-	var/element_index = 1
 
 	var/list/thing_inserts = list()
 	var/list/var_inserts = list()
 	var/list/element_inserts = list()
+	var/list/ref_updates = list()
+
+	var/tot_element_inserts = 0
 
 	var/autocommit = TRUE // whether or not to autocommit after a certain number of inserts.
 	var/inserts_since_commit = 0
 	var/autocommit_threshold = 5000
+
+	var/inserts_since_ref_update = 0 // we automatically commit refs to the database in batches on load
+	var/ref_update_threshold = 200
 
 	// Add the flatten serializer.
 	var/serializer/json/flattener
@@ -56,8 +59,8 @@
 		return existing
 
 	// Thing didn't exist. Create it.
-	var/t_i = "[thing_index]"
-	thing_index++
+	var/p_i = object.persistent_id ? object.persistent_id : PERSISTENT_ID
+	object.persistent_id = p_i
 
 	var/x = 0
 	var/y = 0
@@ -76,11 +79,11 @@
 			z = T.z
 
 #ifdef SAVE_DEBUG
-	to_world_log("(SerializeThing) ([t_i],'[object.type]',[x],[y],[z])")
+	to_world_log("(SerializeThing) ('[p_i]','[object.type]',[x],[y],[z],'["ref(object)"])")
 #endif
-	thing_inserts.Add("([t_i],'[object.type]',[x],[y],[z])")
+	thing_inserts.Add("('[p_i]','[object.type]',[x],[y],[z],'[ref(object)]')")
 	inserts_since_commit++
-	thing_map["\ref[object]"] = t_i
+	thing_map["\ref[object]"] = p_i
 
 	for(var/V in object.get_saved_vars())
 		if(!issaved(object.vars[V]))
@@ -151,15 +154,14 @@
 			continue
 		VV = sanitizeSQL("[VV]")
 #ifdef SAVE_DEBUG
-		to_world_log("(SerializeThingVar-Done) ([var_index],[t_i],'[V]','[VT]',\"[VV]\")")
+		to_world_log("(SerializeThingVar-Done) ('[p_i]','[V]','[VT]',\"[VV]\")")
 #endif
-		var_inserts.Add("([var_index],[t_i],'[V]','[VT]',\"[VV]\")")
+		var_inserts.Add("('[p_i]','[V]','[VT]',\"[VV]\")")
 		inserts_since_commit++
-		var_index++
 	object.after_save() // After save hook.
 	if(inserts_since_commit > autocommit_threshold)
 		Commit()
-	return t_i
+	return p_i
 
 
 // Serialize a list. Returns the appropriate serialized form of the list. What's outputted depends on the serializer.
@@ -175,11 +177,12 @@
 #endif
 		return existing
 
+	var/found_element = FALSE
+	var/list_ref = "\ref[_list]"
 	var/l_i = "[list_index]"
 	list_index++
 	inserts_since_commit++
-	list_map["\ref[_list]"] = l_i
-
+	list_map[list_ref] = l_i
 	for(var/key in _list)
 		var/ET = "NULL"
 		var/KT = "NULL"
@@ -276,13 +279,17 @@
 		EV = sanitizeSQL("[EV]")
 #ifdef SAVE_DEBUG
 		if(verbose_logging)
-			to_world_log("(SerializeListElem-Done) ([element_index],[l_i],\"[KV]\",'[KT]',\"[EV]\",\"[ET]\")")
-#endif
-		element_inserts.Add("([element_index],[l_i],\"[KV]\",'[KT]',\"[EV]\",\"[ET]\")")
+			to_world_log("(SerializeListElem-Done) ([l_i],\"[KV]\",'[KT]',\"[EV]\",\"[ET]\")")
+#endif	
+		found_element = TRUE
+		element_inserts.Add("([l_i],\"[KV]\",'[KT]',\"[EV]\",\"[ET]\")")
 		inserts_since_commit++
-		element_index++
+	
+	if(!found_element) // There wasn't anything that actually needed serializing in this list, so return null.
+		list_index--
+		list_map -= list_ref
+		return null
 	return l_i
-
 
 /serializer/sql/DeserializeDatum(var/datum/persistence/load_cache/thing/thing)
 #ifdef SAVE_DEBUG
@@ -290,7 +297,7 @@
 #endif
 
 	// Checking for existing items.
-	var/datum/existing = reverse_map["[thing.id]"]
+	var/datum/existing = reverse_map["[thing.p_id]"]
 	if(existing)
 		return existing
 	// Handlers for specific types would go here.
@@ -305,7 +312,8 @@
 	else
 		// default creation
 		existing = new thing.thing_type()
-	reverse_map["[thing.id]"] = existing
+	existing.persistent_id = thing.p_id // Upon deserialization we reapply the persistent_id in the thing table to save space.
+	reverse_map["[thing.p_id]"] = existing
 	// Fetch all the variables for the thing.
 	for(var/datum/persistence/load_cache/thing_var/TV in thing.thing_vars)
 		// Each row is a variable on this object.
@@ -339,8 +347,11 @@
 #ifdef SAVE_DEBUG
 	to_world_log("Deserialized thing of type [thing.thing_type] ([thing.x],[thing.y],[thing.z]) with vars: " + jointext(deserialized_vars, ", "))
 #endif
+	ref_updates["[existing.persistent_id]"] = ref(existing)
+	inserts_since_ref_update++
+	if(inserts_since_ref_update > ref_update_threshold)
+		CommitRefUpdates()
 	return existing
-
 
 /serializer/sql/DeserializeList(var/raw_list)
 	var/list/existing = list()
@@ -408,17 +419,18 @@
 	var/DBQuery/query
 	try
 		if(length(thing_inserts) > 0)
-			query = dbcon.NewQuery("INSERT INTO `thing`(`id`,`type`,`x`,`y`,`z`) VALUES[jointext(thing_inserts, ",")]")
+			query = dbcon.NewQuery("INSERT INTO `thing`(`p_id`,`type`,`x`,`y`,`z`,`ref`) VALUES[jointext(thing_inserts, ",")] ON DUPLICATE KEY UPDATE `p_id` = `p_id`")
 			query.Execute()
 			if(query.ErrorMsg())
 				to_world_log("THING SERIALIZATION FAILED: [query.ErrorMsg()].")
 		if(length(var_inserts) > 0)
-			query = dbcon.NewQuery("INSERT INTO `thing_var`(`id`,`thing_id`,`key`,`type`,`value`) VALUES[jointext(var_inserts, ",")]")
+			query = dbcon.NewQuery("INSERT INTO `thing_var`(`thing_id`,`key`,`type`,`value`) VALUES[jointext(var_inserts, ",")]")
 			query.Execute()
 			if(query.ErrorMsg())
 				to_world_log("VAR SERIALIZATION FAILED: [query.ErrorMsg()].")
 		if(length(element_inserts) > 0)
-			query = dbcon.NewQuery("INSERT INTO `list_element`(`id`,`list_id`,`key`,`key_type`,`value`,`value_type`) VALUES[jointext(element_inserts, ",")]")
+			tot_element_inserts += length(element_inserts)
+			query = dbcon.NewQuery("INSERT INTO `list_element`(`list_id`,`key`,`key_type`,`value`,`value_type`) VALUES[jointext(element_inserts, ",")]")
 			query.Execute()
 			if(query.ErrorMsg())
 				to_world_log("ELEMENT SERIALIZATION FAILED: [query.ErrorMsg()].")
@@ -431,13 +443,35 @@
 	element_inserts.Cut(1)
 	inserts_since_commit = 0
 
+/serializer/sql/proc/CommitRefUpdates()
+	establish_db_connection()
+	if(!dbcon.IsConnected())
+		return
+	if(length(ref_updates) == 0)
+		inserts_since_ref_update = 0
+		return
+	var/list/where_list = list()
+	var/list/case_list = list()
+	var/DBQuery/query
+	for(var/p_id in ref_updates)
+		where_list.Add("'[p_id]'")
+		var/new_ref = sanitizeSQL(ref_updates[p_id])
+		case_list.Add("WHEN `p_id` = '[p_id]' THEN '[new_ref]'")
+
+	query = dbcon.NewQuery("UPDATE `thing` SET `ref` = CASE [jointext(case_list, " ")] END WHERE `p_id` IN ([jointext(where_list, ", ")])")
+	query.Execute()
+	if(query.ErrorMsg())
+		to_world_log("REFERENCE UPDATE FAILED: [query.ErrorMsg()].")
+	
+	ref_updates.Cut()
+	inserts_since_ref_update = 0
 
 /serializer/sql/Clear()
 	. = ..()
 	thing_inserts.Cut(1)
 	var_inserts.Cut(1)
 	element_inserts.Cut(1)
-
+	list_index = 1
 
 // Deletes all saves from the database.
 /serializer/sql/proc/WipeSave()
@@ -458,8 +492,3 @@
 	if(query.ErrorMsg())
 		to_world_log("UNABLE TO WIPE PREVIOUS SAVE: [query.ErrorMsg()].")
 	Clear()
-
-	thing_index = 1
-	var_index = 1
-	list_index = 1
-	element_index = 1

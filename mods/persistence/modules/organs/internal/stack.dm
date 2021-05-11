@@ -1,11 +1,18 @@
-/proc/switchToStack(var/datum/mind/mind)
-	for(var/obj/item/organ/internal/stack/S in world)
-		if(S.owner.mind == mind)
-			S.stackmob = new()
-			S.stackmob.forceMove(S)
-			mind.transfer_to(S.stackmob)
-			to_chat(S.stackmob, SPAN_NOTICE("You feel slightly disoriented. That's normal when you're just \a [S.name]."))
-			return S
+GLOBAL_LIST_EMPTY(cortical_stacks)
+/proc/switchToStack(var/obj/stack_holder, var/datum/mind/mind)
+	// See if we can find the stack in whatever the holder was, usually a person.
+	var/obj/item/organ/internal/stack/target = locate() in stack_holder
+	if(!target)
+		for(var/obj/item/organ/internal/stack/S in GLOB.cortical_stacks)
+			if(S.mind_id == mind.unique_id)
+				target = S
+				break
+	if(!target)
+		return null
+	target.stackmob = new(target)
+	mind.transfer_to(target.stackmob)
+	to_chat(target.stackmob, SPAN_NOTICE("You feel slightly disoriented. That's normal when you're just \a [target.name]."))
+	return target
 
 /obj/item/organ/internal/stack
 	name = "cortical stack"
@@ -15,19 +22,29 @@
 	vital = 1
 	origin_tech = "{'biotech':4,'materials':4,'magnets':2,'programming':3}"
 	relative_size = 10
-
+	
+	var/mind_id
 	var/datum/computer_file/data/cloning/backup
-	var/mob/living/carbon/limbo/stackmob = null
+	var/mob/living/limbo/stackmob = null
 
 	var/cortical_alias
 	var/last_alias_change
 
 /obj/item/organ/internal/stack/Initialize()
 	. = ..()
+	GLOB.cortical_stacks |= src
 	robotize()
 	if(owner && istype(owner))
 		cortical_alias = Gibberish(owner.name, 100)
 		verbs |= /obj/item/organ/internal/stack/proc/change_cortical_alias
+
+/obj/item/organ/internal/stack/Destroy()
+	GLOB.cortical_stacks -= src
+	QDEL_NULL(backup)
+	if(stackmob)
+		stackmob.forceMove(null) // Move the stackmob to null space to allow it to otherwise resleeve.
+		stackmob = null
+	. = ..()
 
 /obj/item/organ/internal/stack/examine(var/mob/user)
 	. = ..(user)
@@ -51,8 +68,17 @@
 /obj/item/organ/internal/stack/replaced()
 	. = ..()
 	qdel(backup)
+	update_mind_id()
 	if(owner)
 		owner.add_language(/decl/language/cortical)
+
+/obj/item/organ/internal/stack/proc/update_mind_id()
+	if(owner.mind)
+		for(var/stack in GLOB.cortical_stacks)
+			var/obj/item/organ/internal/stack/S = stack
+			if(S.mind_id == owner.mind.unique_id) // Make sure only one stack has a given mind ID.
+				S.mind_id = null
+		mind_id = owner.mind.unique_id
 
 /obj/item/organ/internal/stack/removed(var/mob/living/user, var/drop_organ=1)
 	if(!istype(owner))
@@ -65,14 +91,6 @@
 	backup = new()
 	backup.initialize_backup(owner)
 	return ..()
-
-/obj/item/organ/internal/stack/Destroy()
-	if(stackmob)
-		// Stacks can be destroyed. This is the next tiny death.
-		stackmob.death(0)
-	QDEL_NULL(stackmob)
-	QDEL_NULL(backup)
-	. = ..()
 
 /obj/item/organ/internal/stack/proc/change_cortical_alias()
 	set name = "Change Cortical Chat alias"

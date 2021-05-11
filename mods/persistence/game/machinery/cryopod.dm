@@ -55,3 +55,31 @@
 
 	SetName(initial(name))
 	return
+
+// Players shoved into this will be removed from the game and added to limbo to be deserialized later.
+/obj/machinery/cryopod/despawner
+	time_till_despawn = 20
+
+/obj/machinery/cryopod/despawner/Process()
+	. = ..()
+	if ((world.time - time_entered < time_till_despawn) && (occupant.ckey))
+		return
+	despawn_occupant()
+
+/obj/machinery/cryopod/despawner/despawn_occupant()
+	if(!occupant)
+		return
+	var/mob/living/carbon/human/H = occupant
+	if(istype(H))
+		H.home_spawn = src
+		var/datum/mind/occupant_mind = occupant.mind
+		if(occupant_mind)
+			SSpersistence.SerializeOneOff(occupant_mind, occupant_mind.unique_id, LIMBO_MIND, occupant_mind.key, FALSE)
+			QDEL_NULL(occupant.mind)
+	if(occupant.ckey)
+		var/mob/new_player/new_player = new()
+		new_player.ckey = occupant.ckey
+	// Delete the mob.
+	occupant.forceMove(null)
+	qdel(occupant)
+	set_occupant(null)
