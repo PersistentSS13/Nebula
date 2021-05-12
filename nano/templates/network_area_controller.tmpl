@@ -1,0 +1,67 @@
+{{if data.no_network}}
+	<h2>No network connection:</h2>
+	Additional information:<br>
+	<i>Unable to connect to the network or network access controller. Protection services disabled.</i>
+	<div class="item">
+		{{:helper.link('REFRESH', null, { "refresh" : 1 })}}
+		{{:helper.link("NETWORK SETTINGS", null, { "settings" : 1 })}}
+		{{:helper.link('EDIT AREAS', null, { "create_area" : 1})}}
+	</div>
+{{else}}
+	<div class="itemContent">
+		{{:helper.link("NETWORK SETTINGS", null, { "settings" : 1 })}}
+	</div><br><hr>
+	<i>Welcome to the Network Area Controller system. Please consult your system administrator if you have any questions about your device.</i><hr>
+	<div class="itemLabel">
+		Power Control:
+	</div>
+	<div class="itemContent">
+		{{:helper.link(data.powered ? 'ON' : 'OFF', 'power', { "toggle_power" : 1})}}
+	</div>
+	<div class="itemLabel">
+		Protected Areas:
+	</div>
+	<div class="itemContent">
+		{{:data.protected}} / {{:data.max_protected}}
+	</div>
+	<div class="itemLabel">
+		Power Usage:
+	</div>
+	<div class="itemContent">
+		{{:data.power_usage}}
+	</div>
+	{{if data.selected_area}}
+		<h2>Selected Area: {{:data.area_name}}</h2>
+		{{:helper.link('CLEAR GRANTS', null, { "clear_grants" : 1})}}
+		<hr>
+		<table>
+			<tr><th>Grant
+			<th>Operations
+			{{for data.grants}}
+				<tr><td>{{:value.grant_name}}
+				<td>
+					{{if value.assigned}}
+						{{:helper.link('REMOVE', null, { "remove_grant" : value.grant_name })}}
+					{{else}}
+						{{:helper.link('ASSIGN', null, { "add_grant" : value.grant_name })}}
+					{{/if}}
+			{{/for}}
+		</table>
+		{{:helper.link('Back to menu', null, { "back" : 1 })}}
+	{{else}}
+		<h2>Available Areas:</h2>
+		<table>
+			<tr><th>Area Name
+			<th>Grants
+			<th>Operations
+			{{for data.areas}}
+				<tr><td>{{:value.area_name}}
+				<td>{{:value.grant_count}}
+				<td>
+					{{:helper.link('EDIT', null, { "view_area" : value.area_index })}}
+			{{/for}}
+		</table>
+		<hr>
+		{{:helper.link('EDIT AREAS', null, { "create_area" : 1})}}
+	{{/if}}
+{{/if}}
