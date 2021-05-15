@@ -105,6 +105,7 @@
 #include "modules\modular_computers\networking\machines\acl.dm"
 #include "modules\modular_computers\networking\machines\router.dm"
 #include "modules\modular_computers\networking\machines\area_controller.dm"
+#include "modules\organs\external\head.dm"
 #include "modules\organs\internal\brain.dm"
 #include "modules\organs\internal\stack.dm"
 #include "modules\overmap\_defines.dm"

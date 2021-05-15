@@ -52,7 +52,6 @@
 			to_chat(user, SPAN_WARNING("Unable to analyze \the [loaded_item]. Recipe corrupted."))
 			return
 		var/datum/computer_file/data/blueprint/BP = new(null, recipe.path)
-		// for(var/datum/extension/network_device/mainframe/MF in network.get_mainframes_by_role(MF_ROLE_DESIGN, user))
 		if(file_source.store_file(BP))
 			analyze_successful = TRUE
 			to_chat(user, SPAN_NOTICE("\The [src] pings and reports that through invention it managed to produce a blueprint for [initial(BP.created_path.name)]."))

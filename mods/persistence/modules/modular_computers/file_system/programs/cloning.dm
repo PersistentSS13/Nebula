@@ -50,36 +50,29 @@
 				"contents" = "Empty.",
 				"total_progress" = 1
 			)
-
+			cloning_pod["can_clone"] = CP.check_clone()
+			cloning_pod["can_backup"] = CP.check_scan() 
 			if(!cloning_pod["online"])
 				cloning_pod["status"] = "Offline."
 			else if(CP.occupied)
 				cloning_pod["status"] = "Occupied."
+				if(CP.scanning || CP.cloning)
+					cloning_pod["operation"] = CP.scanning ? "Scanning." : "Cloning."
+					cloning_pod["progress"] = (world.time - CP.task_started_on) / (TASK_SCAN_TIME)
+					cloning_pod["remaining"] = round((TASK_SCAN_TIME + CP.task_started_on - world.time) / 10)
 				var/atom/movable/occupant = CP.get_occupant()
 				if(istype(occupant, /obj/item/organ/internal/stack))
-					var/obj/item/organ/internal/stack/stack = occupant
-					if(!CP.cloning && stack.backup && stack.stackmob)
-						cloning_pod["can_clone"] = TRUE
-					else
-						cloning_pod["operating"] = "Cloning."
-						cloning_pod["progress"] = (world.time - CP.task_started_on) / (TASK_CLONE_TIME SECONDS)
-						cloning_pod["remaining"] = round((TASK_CLONE_TIME SECONDS + CP.task_started_on - world.time) / 10)
 					cloning_pod["contents"] = occupant.name
 				else if(istype(occupant, /mob/living/carbon))
 					var/mob/living/carbon/O = occupant
 					cloning_pod["contents"] = "lifeform: [O.species.name]"
-					if(O.mind && !CP.scanning)
-						cloning_pod["can_backup"] = TRUE
+					if(O.mind)
 						var/datum/computer_file/data/cloning/cloneFile = network.get_latest_clone_backup(O.mind.unique_id)
 						if(cloneFile)
 							cloning_pod["detailed"] = TRUE
 							cloning_pod["last_backup"] = time2text(cloneFile.backup_date, "DDD, Month DD of YYYY")
 							cloning_pod["backup_size"] = cloneFile.size
 							cloning_pod["filename"] = cloneFile.filename
-					else if(CP.scanning)
-						cloning_pod["operation"] = "Scanning."
-						cloning_pod["progress"] = (world.time - CP.task_started_on) / (TASK_SCAN_TIME SECONDS)
-						cloning_pod["remaining"] = round((TASK_SCAN_TIME SECONDS + CP.task_started_on - world.time) / 10)
 			else
 				cloning_pod["status"] = "Online."
 			cloning_pods += list(cloning_pod)
@@ -107,7 +100,7 @@
 		return
 
 	if(href_list["change_file_server"])
-		var/list/file_servers = network.get_file_server_tags(user, MF_ROLE_CLONING)
+		var/list/file_servers = network.get_file_server_tags(MF_ROLE_CLONING, user)
 		var/file_server = input(usr, "Choose a fileserver to view files on:", "Select File Server") as null|anything in file_servers
 		if(file_server)
 			current_filesource.server = file_server
@@ -125,6 +118,6 @@
 
 	if(href_list["eject"])
 		var/datum/extension/network_device/cloning_pod/CP = network.get_device_by_tag(href_list["machine"])
-		CP.eject_occupant()
+		CP.eject_occupant(user)
 
 	return TOPIC_REFRESH

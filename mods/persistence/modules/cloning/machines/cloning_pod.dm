@@ -1,5 +1,5 @@
 /obj/machinery/cloning_pod
-	name = "Cloning Pod"
+	name = "cloning pod"
 	desc = "Clones a backup of a deceased crew member."
 	icon = 'icons/obj/cloning.dmi'
 	icon_state = "pod_0"
@@ -86,6 +86,10 @@
 	if(.)
 		update_network_status()
 
+/obj/machinery/cloning_pod/on_update_icon()
+	. = ..()
+	icon_state = "pod_[occupant ? "1" : "0"]"
+
 /obj/machinery/cloning_pod/proc/update_network_status()
 	var/datum/extension/network_device/D = get_extension(src, /datum/extension/network_device)
 	if(!D)
@@ -101,8 +105,7 @@
 	set src in oview(1)
 	if(usr.stat != 0)
 		return
-	var/datum/extension/network_device/cloning_pod/D = get_extension(src, /datum/extension/network_device)
-	if(D.eject_occupant())
+	if(eject_occupant())
 		add_fingerprint(usr)
 
 /obj/machinery/cloning_pod/verb/move_inside()
@@ -125,6 +128,58 @@
 
 	visible_message(message, range = 3)
 	if(do_after(user, 20, src))
-		var/datum/extension/network_device/cloning_pod/computer = get_extension(src, /datum/extension/network_device)
-		computer.set_occupant(target, user)
-		src.add_fingerprint(user)
+		set_occupant(target, user)
+		add_fingerprint(user)
+
+/obj/machinery/cloning_pod/proc/set_occupant(var/atom/movable/target, var/mob/user)
+	var/datum/extension/network_device/cloning_pod/D = get_extension(src, /datum/extension/network_device)
+	occupant = target
+	D.occupied = !!occupant
+	update_icon()
+	if(!target)
+		D.cloning = FALSE
+		D.scanning = FALSE
+		return
+
+	if(istype(target, /mob))
+		var/mob/M = target
+		M.forceMove(src)
+		if(M.client)
+			M.client.perspective = EYE_PERSPECTIVE
+			M.client.eye = src
+
+	if(istype(target, /obj/item/organ/internal/stack))
+		var/obj/item/organ/internal/stack/S = target
+		if(user && !user.unEquip(S, src))
+			return FALSE
+		if(S.stackmob && S.stackmob.client)
+			S.stackmob.client.perspective = EYE_PERSPECTIVE
+			S.stackmob.client.eye = src
+
+/obj/machinery/cloning_pod/proc/eject_occupant(var/mob/user, var/forced = FALSE)
+	if(!occupant)
+		return
+	var/datum/extension/network_device/cloning_pod/D = get_extension(src, /datum/extension/network_device)
+	// Don't allow for manual early ejection from the pod.
+	if(!forced)
+		if(D.scanning)
+			to_chat(user, SPAN_NOTICE("Cannot eject [occupant] while scans are running."))
+			return
+		if(D.cloning)
+			to_chat(user, SPAN_NOTICE("Cannot eject [occupant] while cloning process is active."))
+			return
+
+	var/mob/M = occupant
+	if(M && M.client)
+		M.client.eye = M.client.mob
+		M.client.perspective = MOB_PERSPECTIVE
+		M.unset_sdisability(BLINDED)
+
+	var/obj/item/organ/internal/stack/S = occupant
+	if(istype(occupant, /obj/item/organ/internal/stack) && S && S.stackmob && S.stackmob.client)
+		S.stackmob.client.eye = S.stackmob.client.mob
+		S.stackmob.client.perspective = MOB_PERSPECTIVE
+
+	occupant.dropInto(get_turf(src))
+	set_occupant(null)
+	return TRUE

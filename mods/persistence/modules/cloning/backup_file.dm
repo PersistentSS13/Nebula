@@ -5,6 +5,7 @@
 	read_only = TRUE
 	var/mob_age			// Mob's age in years.
 	var/list/skill_list = list()
+	var/skill_points	// How many skill points the mob had remaining at time of cloning.
 	var/list/languages  = list()
 	var/mind_id			// Fingerprint of the mob's mind.
 	var/datum/dna/dna
@@ -13,7 +14,10 @@
 // Initializes all the data on a backup with an existing mob.
 /datum/computer_file/data/cloning/proc/initialize_backup(var/mob/living/H)
 	languages = H.languages.Copy()
-	skill_list = H.skillset.skill_list
+	var/datum/skillset/mob_set = H.skillset
+	var/list/mob_skill_list = mob_set.skill_list
+	skill_list = mob_skill_list.Copy()
+	skill_points = mob_set.points_remaining
 	if(H.mind)
 		mind_id = H.mind.unique_id
 		mob_age = H.mind.age

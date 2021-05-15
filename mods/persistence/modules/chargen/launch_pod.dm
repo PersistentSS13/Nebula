@@ -13,8 +13,14 @@
 	if(!istype(occupant))
 		return
 
+	var/mob/living/carbon/human/user = occupant
+	if(occupant.mind.chargen_stack)
+		var/obj/item/organ/internal/stack/charstack = new()
+		var/obj/item/organ/O = occupant.get_organ(charstack.parent_organ)
+		charstack.replaced(occupant, O)
+		to_chat(user, SPAN_NOTICE("You have been provided with a Cortical Stack to act as an emergency revival tool."))
+
 	// Updating the mob's skills with the actual chargen choices.
-	var/mob/living/carbon/user = occupant
 	var/datum/skillset/mob_set = occupant.skillset
 	var/datum/skillset/char = occupant.mind.chargen_skillset
 	var/list/char_set = char.skill_list
@@ -22,6 +28,8 @@
 	mob_set.default_value = char.default_value
 	mob_set.points_remaining = 30
 	mob_set.on_levels_change()
+
+	user.add_language(/decl/language/human/common)
 	
 	to_chat(user, SPAN_NOTICE("You have an additional [STARTING_POINTS] skill points to apply to your character. Use the 'Adjust Skills' verb to do so"))
 

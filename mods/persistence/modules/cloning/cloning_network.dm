@@ -16,6 +16,10 @@
 		mainframe.delete_file(latest_file.filename)
 	return latest_file
 
+/decl/modpack/persistence/post_initialize()
+	. = ..()
+	GLOB.all_mainframe_roles += MF_ROLE_CLONING
+
 /obj/machinery/computer/modular/preset/cloning
 	default_software = list(
 		/datum/computer_file/program/cloning
