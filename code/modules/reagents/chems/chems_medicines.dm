@@ -142,8 +142,8 @@
 	if(istype(H))
 		H.immunity -= 0.5 //inverse effects when abused
 
-/decl/material/liquid/stimulants
-	name = "stimulants"
+/decl/material/liquid/hyperzine
+	name = "hyperzine"
 	lore_text = "Improves the ability to concentrate."
 	taste_description = "sourness"
 	color = "#bf80bf"
@@ -151,7 +151,7 @@
 	metabolism = 0.01
 	value = 1.5
 
-/decl/material/liquid/stimulants/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/hyperzine/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	var/volume = REAGENT_VOLUME(holder, type)
 	if(volume <= 0.1 && LAZYACCESS(M.chem_doses, type) >= 0.5 && world.time > REAGENT_DATA(holder, type) + 5 MINUTES)
 		LAZYSET(holder.reagent_data, type, world.time)

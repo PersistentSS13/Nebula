@@ -194,7 +194,7 @@
 		/decl/material/liquid/regenerator,
 		/decl/material/liquid/amphetamines,
 		/decl/material/liquid/antirads,
-		/decl/material/liquid/stimulants,
+		/decl/material/liquid/hyperzine,
 		/decl/material/liquid/antidepressants,
 		/decl/material/liquid/antitoxins,
 		/decl/material/liquid/brute_meds,

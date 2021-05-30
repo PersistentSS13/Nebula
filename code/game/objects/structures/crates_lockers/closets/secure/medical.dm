@@ -142,7 +142,7 @@
 		/obj/item/chems/glass/bottle/sedatives,
 		/obj/item/chems/syringe,
 		/obj/item/storage/pill_bottle/antidepressants,
-		/obj/item/chems/pill/stimulants,
+		/obj/item/chems/pill/hyperzine,
 		/obj/item/clipboard,
 		/obj/item/folder/cyan,
 		/obj/item/taperecorder,
@@ -190,7 +190,7 @@
 		/obj/item/chems/glass/bottle/sedatives,
 		/obj/item/chems/syringe,
 		/obj/item/storage/pill_bottle/antidepressants,
-		/obj/item/storage/pill_bottle/stimulants,
+		/obj/item/storage/pill_bottle/hyperzine,
 		/obj/item/clothing/under/psych/turtleneck,
 		/obj/item/clothing/under/psych
 	)

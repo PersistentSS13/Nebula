@@ -198,9 +198,9 @@
 	required_reagents = list(/decl/material/solid/sodium = 1, /decl/material/liquid/acid/hydrochloric = 1)
 	result_amount = 2
 
-/datum/chemical_reaction/stimulants
-	name = "Stimulants"
-	result = /decl/material/liquid/stimulants
+/datum/chemical_reaction/hyperzine
+	name = "Hyperzine"
+	result = /decl/material/liquid/hyperzine
 	required_reagents = list(/decl/material/liquid/hallucinogenics = 1, /decl/material/solid/lithium = 1)
 	result_amount = 3
 
