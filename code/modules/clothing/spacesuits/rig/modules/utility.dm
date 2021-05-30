@@ -280,7 +280,7 @@
 
 	charges = list(
 		list("antidepressants", "antidepressants",  /decl/material/liquid/antidepressants,   30),
-		list("stimulants",      "stimulants",       /decl/material/liquid/stimulants,        30),
+		list("hyperzine",      "hyperzine",       /decl/material/liquid/hyperzine,        30),
 		list("amphetamines",    "amphetamines",     /decl/material/liquid/amphetamines,      30),
 		list("painkillers",     "painkillers",      /decl/material/liquid/painkillers,       30),
 		list("glucose",         "glucose",          /decl/material/liquid/nutriment/glucose, 80)
