@@ -731,7 +731,7 @@
 	req_access = list("ACCESS_MERCHANT")
 	},
 /obj/effect/floor_decal/corner/brown/half,
-/obj/item/chems/pill/stimulants,
+/obj/item/chems/pill/hyperzine,
 /obj/item/storage/pill_bottle/gleam,
 /obj/item/plastique,
 /obj/item/plastique,

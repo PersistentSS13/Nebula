@@ -62,11 +62,11 @@
 	startswith = list(/obj/item/chems/pill/antidepressants = 21)
 	wrapper_color = COLOR_GRAY
 
-/obj/item/storage/pill_bottle/stimulants
-	name = "pill bottle (stimulants)"
+/obj/item/storage/pill_bottle/hyperzine
+	name = "pill bottle (hyperzine)"
 	desc = "Mental stimulant. For use in individuals suffering from ADHD, or general concentration issues. 15u dose per pill."
 
-	startswith = list(/obj/item/chems/pill/stimulants = 21)
+	startswith = list(/obj/item/chems/pill/hyperzine = 21)
 	wrapper_color = COLOR_GRAY
 
 /obj/item/storage/pill_bottle/assorted

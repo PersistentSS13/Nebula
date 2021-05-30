@@ -188,7 +188,7 @@
 /obj/item/chems/pill/zoom/initialize_reagents()
 	reagents.add_reagent(/decl/material/liquid/narcotics, 5)
 	reagents.add_reagent(/decl/material/liquid/antidepressants, 5)
-	reagents.add_reagent(/decl/material/liquid/stimulants, 5)
+	reagents.add_reagent(/decl/material/liquid/hyperzine, 5)
 	reagents.add_reagent(/decl/material/liquid/amphetamines, 5)
 
 /obj/item/chems/pill/gleam
@@ -207,12 +207,12 @@
 	reagents.add_reagent(/decl/material/liquid/antibiotics, 10)
 
 //Psychiatry pills.
-/obj/item/chems/pill/stimulants
-	name = "stimulants (15u)"
+/obj/item/chems/pill/hyperzine
+	name = "hyperzine (15u)"
 	desc = "Improves the ability to concentrate."
 	icon_state = "pill2"
-/obj/item/chems/pill/stimulants/initialize_reagents()
-	reagents.add_reagent(/decl/material/liquid/stimulants, 15)
+/obj/item/chems/pill/hyperzine/initialize_reagents()
+	reagents.add_reagent(/decl/material/liquid/hyperzine, 15)
 
 
 /obj/item/chems/pill/antidepressants
