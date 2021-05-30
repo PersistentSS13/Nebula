@@ -82,9 +82,9 @@
 	required_reagents = list(/decl/material/liquid/acid/hydrochloric = 1, /decl/material/gas/ammonia = 1, /decl/material/liquid/antitoxins = 1)
 	result_amount = 2
 
-/datum/chemical_reaction/oxy_meds
-	name = "Oxygen Deprivation Medication"
-	result = /decl/material/liquid/oxy_meds
+/datum/chemical_reaction/dexalin
+	name = "Dexalin"
+	result = /decl/material/liquid/dexalin
 	required_reagents = list(/decl/material/liquid/acetone = 1, /decl/material/liquid/water = 1, /decl/material/solid/sulfur = 1)
 	result_amount = 1
 
@@ -231,7 +231,7 @@
 /datum/chemical_reaction/adrenaline
 	name = "Adrenaline"
 	result = /decl/material/liquid/adrenaline
-	required_reagents = list(/decl/material/liquid/nutriment/sugar = 1, /decl/material/liquid/amphetamines = 1, /decl/material/liquid/oxy_meds = 1)
+	required_reagents = list(/decl/material/liquid/nutriment/sugar = 1, /decl/material/liquid/amphetamines = 1, /decl/material/liquid/dexalin = 1)
 	result_amount = 3
 
 /datum/chemical_reaction/stabilizer

@@ -141,8 +141,8 @@
 	spawn_reagent = /decl/material/liquid/antiseptic
 /obj/item/chems/chem_disp_cartridge/burn_meds
 	spawn_reagent = /decl/material/liquid/burn_meds
-/obj/item/chems/chem_disp_cartridge/oxy_meds
-	spawn_reagent = /decl/material/liquid/oxy_meds
+/obj/item/chems/chem_disp_cartridge/dexalin
+	spawn_reagent = /decl/material/liquid/dexalin
 /obj/item/chems/chem_disp_cartridge/regenerator
 	spawn_reagent = /decl/material/liquid/regenerator
 /obj/item/chems/chem_disp_cartridge/antitoxins
