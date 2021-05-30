@@ -62,7 +62,7 @@
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/sedatives())
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/painkillers())
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/antitoxins())
-	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/oxy_meds())
+	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/dexalin())
 
 /obj/machinery/sleeper/mounted/ui_interact(var/mob/user, var/ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1, var/datum/topic_state/state = GLOB.mech_state)
 	. = ..()

@@ -323,12 +323,13 @@
 		ADJ_STATUS(H, STAT_CONFUSE, 1)
 		ADJ_STATUS(H, STAT_DROWSY, 1)
 
-/decl/material/liquid/oxy_meds
-	name = "oxygel"
+/decl/material/liquid/dexalin
+	name = "dexalin"
 	lore_text = "A biodegradable gel full of oxygen-laden synthetic molecules. Injected into suffocation victims to stave off the effects of oxygen deprivation."
 	taste_description = "tasteless slickness"
 	color = COLOR_GRAY80
+	scannable = 1
 
-/decl/material/liquid/oxy_meds/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/dexalin/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	M.add_chemical_effect(CE_OXYGENATED, 1)
 	holder.remove_reagent(/decl/material/gas/carbon_monoxide, 2 * removed)

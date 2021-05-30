@@ -150,11 +150,11 @@
 
 
 /obj/item/chems/pill/oxygen
-	name = "oxygen (15u)"
+	name = "dexalin (15u)"
 	desc = "Used to treat oxygen deprivation."
 	icon_state = "pill1"
 /obj/item/chems/pill/oxygen/initialize_reagents()
-	reagents.add_reagent(/decl/material/liquid/oxy_meds, 15)
+	reagents.add_reagent(/decl/material/liquid/dexalin, 15)
 
 /obj/item/chems/pill/antitoxins
 	name = "antitoxins (15u)"

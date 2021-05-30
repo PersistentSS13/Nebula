@@ -112,10 +112,10 @@ Single Use Emergency Pouches
 
 	startswith = list(
 		/obj/item/chems/hypospray/autoinjector/pouch_auto/stabilizer,
-		/obj/item/chems/hypospray/autoinjector/pouch_auto/oxy_meds,
+		/obj/item/chems/hypospray/autoinjector/pouch_auto/dexalin,
 		/obj/item/chems/hypospray/autoinjector/pouch_auto/adrenaline,
 		/obj/item/chems/pill/pouch_pill/stabilizer,
-		/obj/item/chems/pill/pouch_pill/oxy_meds
+		/obj/item/chems/pill/pouch_pill/dexalin
 	)
 	instructions = {"
 	1) Tear open the emergency medical pack using the easy open tab at the top.\n\
@@ -177,8 +177,8 @@ Single Use Emergency Pouches
 /obj/item/chems/pill/pouch_pill/antitoxins
 	chem_type = /decl/material/liquid/antitoxins
 
-/obj/item/chems/pill/pouch_pill/oxy_meds
-	chem_type = /decl/material/liquid/oxy_meds
+/obj/item/chems/pill/pouch_pill/dexalin
+	chem_type = /decl/material/liquid/dexalin
 
 /obj/item/chems/pill/pouch_pill/painkillers
 	chem_type = /decl/material/liquid/painkillers
@@ -204,9 +204,9 @@ Single Use Emergency Pouches
 	name = "emergency antitoxins autoinjector"
 	starts_with = list(/decl/material/liquid/antitoxins = 5)
 
-/obj/item/chems/hypospray/autoinjector/pouch_auto/oxy_meds
-	name = "emergency oxygel autoinjector"
-	starts_with = list(/decl/material/liquid/oxy_meds = 5)
+/obj/item/chems/hypospray/autoinjector/pouch_auto/dexalin
+	name = "emergency dexalin autoinjector"
+	starts_with = list(/decl/material/liquid/dexalin = 5)
 
 /obj/item/chems/hypospray/autoinjector/pouch_auto/adrenaline
 	name = "emergency adrenaline autoinjector"

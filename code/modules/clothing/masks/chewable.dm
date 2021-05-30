@@ -190,7 +190,7 @@
 
 /obj/item/clothing/mask/chewable/candy/lolli/meds/get_possible_initial_reagents()
 	return list(
-		/decl/material/liquid/oxy_meds,
+		/decl/material/liquid/dexalin,
 		/decl/material/liquid/regenerator,
 		/decl/material/liquid/amphetamines,
 		/decl/material/liquid/antirads,
