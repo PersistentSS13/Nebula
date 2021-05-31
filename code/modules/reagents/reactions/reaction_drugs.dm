@@ -70,9 +70,9 @@
 	maximum_temperature = 60 CELSIUS
 	result_amount = 3
 
-/datum/chemical_reaction/regenerator
-	name = "Regenerative Serum"
-	result = /decl/material/liquid/regenerator
+/datum/chemical_reaction/tricordrazine
+	name = "Tricordrazine"
+	result = /decl/material/liquid/tricordrazine
 	required_reagents = list(/decl/material/liquid/stabilizer = 1, /decl/material/liquid/antitoxins = 1)
 	result_amount = 2
 

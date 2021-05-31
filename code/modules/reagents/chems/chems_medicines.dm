@@ -292,8 +292,8 @@
 	..()
 	M.add_chemical_effect(CE_STABLE)
 
-/decl/material/liquid/regenerator
-	name = "regenerative serum"
+/decl/material/liquid/tricordrazine
+	name = "tricordrazine"
 	lore_text = "A broad-spectrum cellular regenerator that heals both burns and physical trauma, albeit quite slowly."
 	taste_description = "metastasis"
 	color = "#8040ff"
@@ -301,7 +301,7 @@
 	flags = IGNORE_MOB_SIZE
 	value = 1.5
 
-/decl/material/liquid/regenerator/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/tricordrazine/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	M.heal_organ_damage(3 * removed, 3 * removed)
 
 /decl/material/liquid/neuroannealer

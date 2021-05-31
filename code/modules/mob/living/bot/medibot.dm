@@ -24,10 +24,10 @@
 	var/injection_amount = 15 //How much reagent do we inject at a time?
 	var/heal_threshold = 10 //Start healing when they have this much damage in a category
 	var/use_beaker = 0 //Use reagents in beaker instead of default treatment agents.
-	var/treatment_brute = /decl/material/liquid/regenerator
-	var/treatment_oxy =   /decl/material/liquid/regenerator
-	var/treatment_fire =  /decl/material/liquid/regenerator
-	var/treatment_tox =   /decl/material/liquid/regenerator
+	var/treatment_brute = /decl/material/liquid/tricordrazine
+	var/treatment_oxy =   /decl/material/liquid/tricordrazine
+	var/treatment_fire =  /decl/material/liquid/tricordrazine
+	var/treatment_tox =   /decl/material/liquid/tricordrazine
 	var/treatment_emag =  /decl/material/liquid/venom
 	var/declare_treatment = 0 //When attempting to treat a patient, should it notify everyone wearing medhuds?
 

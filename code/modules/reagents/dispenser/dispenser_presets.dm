@@ -32,7 +32,7 @@
 			/obj/item/chems/chem_disp_cartridge/antiseptic,
 			/obj/item/chems/chem_disp_cartridge/burn_meds,
 			/obj/item/chems/chem_disp_cartridge/dexalin,
-			/obj/item/chems/chem_disp_cartridge/regenerator,
+			/obj/item/chems/chem_disp_cartridge/tricordrazine,
 			/obj/item/chems/chem_disp_cartridge/antitoxins,
 			/obj/item/chems/chem_disp_cartridge/antirads,
 			/obj/item/chems/chem_disp_cartridge/neuroannealer,

@@ -190,7 +190,7 @@
 	name = "Doctor's Delight"
 	description = "A healthy mixture of juices and medication, guaranteed to keep you healthy until the next maintenance goblin decides to put a few new holes in you."
 	ratios = list(
-		/decl/material/liquid/regenerator =        0.3,
+		/decl/material/liquid/tricordrazine =        0.3,
 		/decl/material/liquid/drink/juice/lime =   0.1, 
 		/decl/material/liquid/drink/juice/tomato = 0.1, 
 		/decl/material/liquid/drink/juice/orange = 0.1, 
