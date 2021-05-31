@@ -143,8 +143,8 @@
 	spawn_reagent = /decl/material/liquid/burn_meds
 /obj/item/chems/chem_disp_cartridge/dexalin
 	spawn_reagent = /decl/material/liquid/dexalin
-/obj/item/chems/chem_disp_cartridge/regenerator
-	spawn_reagent = /decl/material/liquid/regenerator
+/obj/item/chems/chem_disp_cartridge/tricordrazine
+	spawn_reagent = /decl/material/liquid/tricordrazine
 /obj/item/chems/chem_disp_cartridge/antitoxins
 	spawn_reagent = /decl/material/liquid/antitoxins
 /obj/item/chems/chem_disp_cartridge/antirads
