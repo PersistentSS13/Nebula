@@ -209,7 +209,7 @@
 
 //Notes by Darem: Food in the "snacks" subtype can hold a maximum of 50 units Generally speaking, you don't want to go over 40
 //	total for the item because you want to leave space for extra condiments. If you want effect besides healing, add a reagent for
-//	it. Try to stick to existing reagents when possible (so if you want a stronger healing effect, just use regenerative serum). On use
+//	it. Try to stick to existing reagents when possible (so if you want a stronger healing effect, just use tricordrazine). On use
 //	effect (such as the old officer eating a donut code) requires a unique reagent (unless you can figure out a better way).
 
 //The nutriment reagent and bitesize variable replace the old heal_amt and amount variables. Each unit of nutriment is equal to
@@ -230,7 +230,7 @@
 	bitesize = 3
 /obj/item/chems/food/snacks/aesirsalad/Initialize()
 	.=..()
-	reagents.add_reagent(/decl/material/liquid/regenerator, 8)
+	reagents.add_reagent(/decl/material/liquid/tricordrazine, 8)
 
 /obj/item/chems/food/snacks/egg
 	name = "egg"
@@ -522,7 +522,7 @@
 	desc = "The food of choice for the veteran. Do <b>NOT</b> overconsume."
 	filling_color = "#6d6d00"
 	heated_reagents = list(
-		/decl/material/liquid/regenerator = 5, 
+		/decl/material/liquid/tricordrazine = 5, 
 		/decl/material/liquid/amphetamines = 0.75, 
 		/decl/material/liquid/hyperzine = 0.25
 	)
@@ -552,7 +552,7 @@
 	nutriment_desc = list("heartiness" = 1, "dough" = 2)
 	nutriment_amt = 2
 	var/warm = 0
-	var/list/heated_reagents = list(/decl/material/liquid/regenerator = 5)
+	var/list/heated_reagents = list(/decl/material/liquid/tricordrazine = 5)
 
 /obj/item/chems/food/snacks/donkpocket/Initialize()
 	.=..()
@@ -917,7 +917,7 @@
 	if(prob(10))
 		name = "exceptional plump pie"
 		desc = "Microwave is taken by a fey mood! It has cooked an exceptional plump pie!"
-		reagents.add_reagent(/decl/material/liquid/regenerator, 5)
+		reagents.add_reagent(/decl/material/liquid/tricordrazine, 5)
 
 /obj/item/chems/food/snacks/xemeatpie
 	name = "xeno-pie"
@@ -1242,7 +1242,7 @@
 /obj/item/chems/food/snacks/nettlesoup/Initialize()
 	.=..()
 	reagents.add_reagent(/decl/material/liquid/water, 5)
-	reagents.add_reagent(/decl/material/liquid/regenerator, 5)
+	reagents.add_reagent(/decl/material/liquid/tricordrazine, 5)
 
 /obj/item/chems/food/snacks/mysterysoup
 	name = "mystery soup"
@@ -1271,7 +1271,7 @@
 		list(
 			/decl/material/liquid/nutriment =           5,
 			/decl/material/liquid/water =               5,
-			/decl/material/liquid/regenerator =         5
+			/decl/material/liquid/tricordrazine =         5
 		),
 		list(
 			/decl/material/liquid/nutriment =           5,
@@ -1894,7 +1894,7 @@
 		name = "exceptional plump helmet biscuit"
 		desc = "Microwave is taken by a fey mood! It has cooked an exceptional plump helmet biscuit!"
 		reagents.add_reagent(/decl/material/liquid/nutriment, 3)
-		reagents.add_reagent(/decl/material/liquid/regenerator, 5)
+		reagents.add_reagent(/decl/material/liquid/tricordrazine, 5)
 
 
 /obj/item/chems/food/snacks/chawanmushi
@@ -3267,7 +3267,7 @@
 
 /obj/item/chems/food/snacks/syndicake/Initialize()
 	.=..()
-	reagents.add_reagent(/decl/material/liquid/regenerator, 5)
+	reagents.add_reagent(/decl/material/liquid/tricordrazine, 5)
 
 //terran delights
 
@@ -3539,7 +3539,7 @@
 		/decl/material/liquid/nutriment/banana_cream,
 		/decl/material/liquid/nutriment/cherryjelly,
 		/decl/material/liquid/fuel,
-		/decl/material/liquid/regenerator
+		/decl/material/liquid/tricordrazine
 	)
 
 /obj/item/chems/food/snacks/donut/chaos/Initialize()

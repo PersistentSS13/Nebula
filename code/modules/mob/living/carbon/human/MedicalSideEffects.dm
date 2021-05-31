@@ -81,7 +81,7 @@
 // ========
 /datum/medical_effect/headache
 	name = "Headache"
-	triggers = list(/decl/material/liquid/brute_meds = 15, /decl/material/liquid/regenerator = 15)
+	triggers = list(/decl/material/liquid/brute_meds = 15, /decl/material/liquid/tricordrazine = 15)
 	cures = list(/decl/material/liquid/neuroannealer, /decl/material/liquid/painkillers)
 	cure_message = "Your head stops throbbing..."
 
