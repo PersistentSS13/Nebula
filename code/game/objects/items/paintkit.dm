@@ -6,12 +6,17 @@
 	var/new_icon                 // What base icon will the new exosuit use?
 	var/new_state = "ripley"     // What base icon state with the new exosuit use.
 	var/uses = 1                 // Uses before the kit deletes itself.
+	var/custom = FALSE
+
+/obj/item/kit/get_single_monetary_worth()
+	. = max(round(..()), (custom ? 100 : 750) * uses) // Luxury good, value is entirely artificial.
 
 /obj/item/kit/examine(mob/user)
 	. = ..()
 	to_chat(user, "It has [uses] use\s left.")
 
 /obj/item/kit/inherit_custom_item_data(var/datum/custom_item/citem)
+	custom = TRUE
 	new_name =  citem.item_name
 	new_desc =  citem.item_desc
 	new_state = citem.item_state
@@ -51,7 +56,7 @@
 
 		var/mob/living/carbon/human/H = user
 		if(istype(H))
-			bodytype_restricted = list(H.species.get_bodytype(H))
+			bodytype_restricted = list(H.get_bodytype_category())
 		kit.use(1,user)
 		reconsider_single_icon()
 		return TRUE
@@ -70,7 +75,7 @@
 
 		var/mob/living/carbon/human/H = user
 		if(istype(H))
-			bodytype_restricted = list(H.species.get_bodytype(H))
+			bodytype_restricted = list(H.get_bodytype_category())
 		kit.use(1,user)
 		reconsider_single_icon()
 		return TRUE

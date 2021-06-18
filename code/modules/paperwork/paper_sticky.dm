@@ -6,11 +6,20 @@
 	icon_state = "pad_full"
 	item_state = "paper"
 	w_class = ITEM_SIZE_SMALL
+	material = /decl/material/solid/wood
 
 	var/papers = 50
 	var/written_text
 	var/written_by
 	var/paper_type = /obj/item/paper/sticky
+
+/obj/item/sticky_pad/proc/update_matter()
+	matter = list(
+		/decl/material/solid/wood = round((papers * SHEET_MATERIAL_AMOUNT) * 0.2)
+	)
+
+/obj/item/sticky_pad/create_matter()
+	update_matter()
 
 /obj/item/sticky_pad/on_update_icon()
 	if(papers <= 15)
@@ -66,6 +75,7 @@
 		if(papers <= 0)
 			qdel(src)
 		else
+			update_matter()
 			update_icon()
 
 /obj/item/sticky_pad/random/Initialize()
@@ -82,16 +92,16 @@
 
 /obj/item/paper/sticky/Initialize()
 	. = ..()
-	GLOB.moved_event.register(src, src, /obj/item/paper/sticky/proc/reset_persistence_tracking)
+	events_repository.register(/decl/observ/moved, src, src, /obj/item/paper/sticky/proc/reset_persistence_tracking)
 
 /obj/item/paper/sticky/proc/reset_persistence_tracking()
-	SSpersistence.forget_value(src, /datum/persistent/paper/sticky)
+	SSpersistence.forget_value(src, /decl/persistence_handler/paper/sticky)
 	pixel_x = 0
 	pixel_y = 0
 
 /obj/item/paper/sticky/Destroy()
 	reset_persistence_tracking()
-	GLOB.moved_event.unregister(src, src)
+	events_repository.unregister(/decl/observ/moved, src, src)
 	. = ..()
 
 /obj/item/paper/sticky/on_update_icon()
@@ -118,12 +128,12 @@
 	var/dir_offset = 0
 	if(target_turf != source_turf)
 		dir_offset = get_dir(source_turf, target_turf)
-		if(!(dir_offset in GLOB.cardinal))
+		if(!(dir_offset in global.cardinal))
 			to_chat(user, SPAN_WARNING("You cannot reach that from here."))
 			return
 
 	if(user.unEquip(src, source_turf))
-		SSpersistence.track_value(src, /datum/persistent/paper/sticky)
+		SSpersistence.track_value(src, /decl/persistence_handler/paper/sticky)
 		if(params)
 			var/list/mouse_control = params2list(params)
 			if(mouse_control["icon-x"])

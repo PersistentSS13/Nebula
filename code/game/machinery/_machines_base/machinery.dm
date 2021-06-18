@@ -82,6 +82,9 @@ Class Procs:
 	layer = STRUCTURE_LAYER // Layer under items
 	throw_speed = 1
 	throw_range = 5
+	matter = list(
+		/decl/material/solid/metal/steel = MATTER_AMOUNT_PRIMARY
+	)
 
 	var/stat = 0
 	var/waterproof = TRUE
@@ -103,7 +106,7 @@ Class Procs:
 	var/list/maximum_component_parts = list(/obj/item/stock_parts = 10)         //null - no max. list(type part = number max).
 	var/uid
 	var/panel_open = 0
-	var/global/gl_uid = 1
+	var/static/gl_uid = 1
 	var/interact_offline = 0 // Can the machine be interacted with while de-powered.
 	var/clicksound			// sound played on succesful interface use by a carbon lifeform
 	var/clickvol = 40		// sound played on succesful interface use
@@ -228,7 +231,7 @@ Class Procs:
 	if((stat & BROKEN) && (reason_broken & MACHINE_BROKEN_GENERIC))
 		return STATUS_CLOSE
 
-	return GLOB.physical_state.can_use_topic(nano_host(), user)
+	return global.physical_topic_state.can_use_topic(nano_host(), user)
 
 /obj/machinery/CouldUseTopic(var/mob/user)
 	..()
@@ -456,8 +459,12 @@ Class Procs:
 		.+= lock.get_req_access()
 
 /obj/machinery/get_contained_external_atoms()
-	. = (contents - component_parts)
+	. = ..()
+	. -= component_parts
 
 /obj/machinery/proc/get_auto_access()
 	var/area/A = get_area(src)
 	return A?.req_access?.Copy()
+
+/obj/machinery/get_matter_amount_modifier()
+	. = ..() * HOLLOW_OBJECT_MATTER_MULTIPLIER // machine matter is largely just the frame, and the components contribute most of the matter/value.

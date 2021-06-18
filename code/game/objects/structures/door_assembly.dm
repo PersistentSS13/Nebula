@@ -15,7 +15,7 @@
 	var/panel_icon = 'icons/obj/doors/station/panel.dmi'
 	var/fill_icon = 'icons/obj/doors/station/fill_steel.dmi'
 	var/glass_icon = 'icons/obj/doors/station/fill_glass.dmi'
-	var/paintable = AIRLOCK_PAINTABLE|AIRLOCK_STRIPABLE
+	var/paintable = PAINT_PAINTABLE|PAINT_STRIPABLE
 	var/door_color = "none"
 	var/stripe_color = "none"
 	var/symbol_color = "none"
@@ -85,7 +85,7 @@
 	glass = -1
 	paintable = 0
 
-/obj/structure/door_assembly/blast/on_update_icon()	
+/obj/structure/door_assembly/blast/on_update_icon()
 
 /obj/structure/door_assembly/blast/morgue
 	name = "morgue door assembly"
@@ -121,7 +121,7 @@
 						if(!WT.isOn())
 							return TRUE
 						to_chat(user, "<span class='notice'>You welded the [mat_name] plating off!</span>")
-						glass_material_datum.place_sheet(get_turf(src), 2)
+						glass_material_datum.create_object(get_turf(src), 2)
 						glass = 0
 						update_icon()
 					return TRUE
@@ -131,8 +131,7 @@
 					if(!WT.isOn())
 						return
 					to_chat(user, "<span class='notice'>You dissasembled the airlock assembly!</span>")
-					new /obj/item/stack/material/steel(src.loc, 4)
-					qdel (src)
+					dismantle()
 					return TRUE
 		else
 			to_chat(user, "<span class='notice'>You need more welding fuel.</span>")
@@ -214,7 +213,7 @@
 
 	else if(istype(W, /obj/item/stack/material) && !glass)
 		var/obj/item/stack/material/S = W
-		var/material_name = S.get_material_type()		
+		var/material_name = S.get_material_type()
 		if (S.get_amount() >= 2)
 			playsound(src.loc, 'sound/items/Crowbar.ogg', 100, 1)
 			user.visible_message("[user] adds [S.name] to the airlock assembly.", "You start to install [S.name] into the airlock assembly.")

@@ -33,11 +33,6 @@
 #define MAT_VALUE_HARD_DIY          2
 #define MAT_VALUE_VERY_HARD_DIY     3
 
-//Stack flags
-#define USE_MATERIAL_COLOR          BITFLAG(0)
-#define USE_MATERIAL_SINGULAR_NAME  BITFLAG(1)
-#define USE_MATERIAL_PLURAL_NAME    BITFLAG(2)
-
 //Arbitrary hardness thresholds
 #define MAT_VALUE_SOFT              10
 #define MAT_VALUE_FLEXIBLE          20
@@ -51,6 +46,13 @@
 #define MAT_VALUE_SHINY             40
 #define MAT_VALUE_VERY_SHINY        60
 #define MAT_VALUE_MIRRORED          80
+
+// Wall layering flags
+#define PAINT_PAINTABLE BITFLAG(0)
+#define PAINT_STRIPABLE BITFLAG(1)
+#define PAINT_DETAILABLE BITFLAG(2)
+#define PAINT_WINDOW_PAINTABLE BITFLAG(3)
+#define WALL_HAS_EDGES BITFLAG(4)
 
 #define STRUCTURE_BRITTLE_MATERIAL_DAMAGE_MULTIPLIER 4 // Amount table damage is multiplied by if it is made of a brittle material (e.g. glass)
 

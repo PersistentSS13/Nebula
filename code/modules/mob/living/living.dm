@@ -590,8 +590,13 @@ default behaviour is:
 	set name = "Rest"
 	set category = "IC"
 
-	resting = !resting
-	to_chat(src, "<span class='notice'>You are now [resting ? "resting" : "getting up"]</span>")
+	if(!incapacitated(INCAPACITATION_KNOCKOUT) && canClick())
+		setClickCooldown(3)
+		if(resting && !do_after(src, 2 SECONDS, src, incapacitation_flags = ~INCAPACITATION_FORCELYING))
+			return
+		resting = !resting
+		UpdateLyingBuckledAndVerbStatus()
+		to_chat(src, SPAN_NOTICE("You are now [resting ? "resting" : "getting up"]."))
 
 //called when the mob receives a bright flash
 /mob/living/flash_eyes(intensity = FLASH_PROTECTION_MODERATE, override_blindness_check = FALSE, affect_silicon = FALSE, visual = FALSE, type = /obj/screen/fullscreen/flash)
@@ -624,7 +629,9 @@ default behaviour is:
 	return 1
 
 /mob/living/carbon/get_contained_external_atoms()
-	. = contents - (internal_organs|organs)
+	. = ..()
+	. -= internal_organs
+	. -= organs
 
 /mob/proc/can_be_possessed_by(var/mob/observer/ghost/possessor)
 	return istype(possessor) && possessor.client
@@ -670,7 +677,9 @@ default behaviour is:
 	return 1
 
 /mob/living/reset_layer()
-	if(hiding)
+	if (jumping)
+		layer = VEHICLE_LOAD_LAYER
+	else if (hiding)
 		layer = HIDING_MOB_LAYER
 	else
 		..()
@@ -779,15 +788,11 @@ default behaviour is:
 	return
 
 /mob/living/proc/has_chemical_effect(var/chem, var/threshold_over, var/threshold_under)
-	var/val = LAZYACCESS(chem_effects, chem)
+	var/val = GET_CHEMICAL_EFFECT(src, chem)
 	. = (isnull(threshold_over) || val >= threshold_over) && (isnull(threshold_under) || val <= threshold_under)
 
 /mob/living/proc/add_chemical_effect(var/effect, var/magnitude = 1)
-	magnitude += LAZYACCESS(chem_effects, effect)
-	LAZYSET(chem_effects, effect, magnitude)
-
-/mob/living/proc/add_up_to_chemical_effect(var/effect, var/magnitude = 1)
-	magnitude = max(magnitude, LAZYACCESS(chem_effects, effect))
+	magnitude += GET_CHEMICAL_EFFECT(src, effect)
 	LAZYSET(chem_effects, effect, magnitude)
 
 /mob/living/proc/adjust_immunity(var/amt)
@@ -835,7 +840,7 @@ default behaviour is:
 			visible_message(SPAN_DANGER("\The [src]'s [isSynthetic() ? "state worsens": "wounds open more"] from being dragged!"))
 
 /mob/living/CanUseTopicPhysical(mob/user)
-	. = CanUseTopic(user, GLOB.physical_no_access_state)
+	. = CanUseTopic(user, global.physical_no_access_topic_state)
 
 /mob/living/proc/is_telekinetic()
 	return FALSE
@@ -883,3 +888,27 @@ default behaviour is:
 
 /mob/living/is_deaf()
 	. = ..() || GET_STATUS(src, STAT_DEAF)
+
+/mob/living/attempt_hug(mob/living/target, hug_3p, hug_1p)
+	. = ..()
+	if(.)
+
+		if(fire_stacks >= target.fire_stacks + 3)
+			target.fire_stacks += 1
+			fire_stacks -= 1
+		else if(target.fire_stacks >= fire_stacks + 3)
+			fire_stacks += 1
+			target.fire_stacks -= 1
+
+		if(on_fire && !target.on_fire)
+			target.IgniteMob()
+		else if(!on_fire && target.on_fire)
+			IgniteMob()
+
+/mob/living/proc/jump_layer_shift()
+	jumping = TRUE
+	reset_layer()
+
+/mob/living/proc/jump_layer_shift_end()
+	jumping = FALSE
+	reset_layer()

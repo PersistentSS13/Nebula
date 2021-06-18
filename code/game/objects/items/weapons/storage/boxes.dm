@@ -27,7 +27,7 @@
 	item_state = "syringe_kit"
 	max_storage_space = DEFAULT_BOX_STORAGE
 	use_sound = 'sound/effects/storage/box.ogg'
-	var/foldable = /obj/item/stack/material/cardboard	// BubbleWrap - if set, can be folded (when empty) into a sheet of cardboard
+	var/foldable = /obj/item/stack/material/cardstock // BubbleWrap - if set, can be folded (when empty) into a sheet of cardboard
 
 /obj/item/storage/box/large
 	name = "large box"
@@ -516,7 +516,7 @@
 /obj/item/storage/box/tapes
 	name = "box of spare tapes"
 	desc = "A box full of blank tapes."
-	startswith = list(/obj/item/tape/random = 14)
+	startswith = list(/obj/item/magnetic_tape/random = 14)
 
 /obj/item/storage/box/taperolls
 	name = "box of spare taperolls"

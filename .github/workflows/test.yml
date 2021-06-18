@@ -4,15 +4,19 @@ on:
   push:
     branches:
       - dev
+      - stable
+      - staging
   pull_request:
     branches:
       - dev
+      - stable
+      - staging
   workflow_dispatch:
 
 env:
   BYOND_MAJOR: "513"
   BYOND_MINOR: "1542"
-  SPACEMAN_DMM_VERSION: suite-1.6
+  SPACEMAN_DMM_VERSION: suite-1.7
 
 jobs:
   DreamChecker:
@@ -27,7 +31,12 @@ jobs:
       - name: Install Dreamchecker
         run:  scripts/install-spaceman-dmm.sh dreamchecker
       - name: Run Dreamchecker
-        run: ~/dreamchecker
+        run: ~/dreamchecker > ${GITHUB_WORKSPACE}/output-annotations.txt 2>&1
+      - name: Annotate Lints
+        uses: yogstation13/DreamAnnotate@34029606cd7c22a08a589e084f860c1cc287363c
+        if: always()
+        with:
+          outputFile: output-annotations.txt
       - name: Run Failure Webhook
         env:
           JOB_STATUS: ${{ job.status }}
@@ -69,7 +78,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        map_path: [example, tradeship, ministation, away_sites_testing, modpack_testing, outreach, kleibkhar]
+        map_path: [example, tradeship, nexus, exodus, ministation, away_sites_testing, modpack_testing, outreach, kleibkhar]
     steps:
       - uses: actions/checkout@5a4ac9002d0be2fb38bd78e4b4dbde5606d7042f
       - name: Setup Cache

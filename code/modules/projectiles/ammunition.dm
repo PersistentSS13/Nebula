@@ -33,13 +33,30 @@
 /obj/item/ammo_casing/proc/expend()
 	. = BB
 	BB = null
-	set_dir(pick(GLOB.alldirs)) //spin spent casings
+	set_dir(pick(global.alldirs)) //spin spent casings
 
 	// Aurora forensics port, gunpowder residue.
 	if(leaves_residue)
 		leave_residue()
 
 	update_icon()
+
+/obj/item/ammo_casing/Crossed(atom/AM)
+	..()
+
+	if(isliving(AM))
+		var/mob/living/L = AM
+
+		if(L.buckled)
+			return
+
+		if(!MOVING_DELIBERATELY(L) && prob(10))
+			playsound(src, pick(fall_sounds), 50, 1)
+			var/turf/turf_current = get_turf(src)
+			var/turf/turf_destiinaton = get_step(turf_current, AM.dir)
+			if(turf_destiinaton.Adjacent(turf_current))
+				throw_at(turf_destiinaton, 2, 2, spin = FALSE)
+				animate(src, pixel_x = rand(-16, 16), pixel_y = rand(-16, 16), transform = turn(matrix(), rand(120, 300)), time = rand(3, 8))
 
 /obj/item/ammo_casing/proc/leave_residue()
 	var/mob/living/carbon/human/H = get_holder_of_type(src, /mob/living/carbon/human)
@@ -172,7 +189,7 @@
 	to_chat(user, "<span class='notice'>You empty [src].</span>")
 	for(var/obj/item/ammo_casing/C in stored_ammo)
 		C.forceMove(user.loc)
-		C.set_dir(pick(GLOB.alldirs))
+		C.set_dir(pick(global.alldirs))
 	stored_ammo.Cut()
 	update_icon()
 
@@ -207,8 +224,8 @@
 	to_chat(user, "There [(stored_ammo.len == 1)? "is" : "are"] [stored_ammo.len] round\s left!")
 
 //magazine icon state caching
-/var/global/list/magazine_icondata_keys = list()
-/var/global/list/magazine_icondata_states = list()
+var/global/list/magazine_icondata_keys = list()
+var/global/list/magazine_icondata_states = list()
 
 /proc/initialize_magazine_icondata(var/obj/item/ammo_magazine/M)
 	var/typestr = "[M.type]"

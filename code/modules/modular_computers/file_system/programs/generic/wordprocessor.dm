@@ -7,13 +7,15 @@
 	size = 4
 	available_on_network = 1
 	nanomodule_path = /datum/nano_module/program/computer_wordprocessor/
+
+	usage_flags = PROGRAM_ALL
+	category = PROG_OFFICE
+
 	var/browsing
 	var/open_file
 	var/loaded_data
 	var/error
 	var/is_edited
-	usage_flags = PROGRAM_ALL
-	category = PROG_OFFICE
 
 /datum/computer_file/program/wordprocessor/proc/open_file(var/filename)
 	var/datum/computer_file/data/F = get_file(filename)
@@ -26,6 +28,8 @@
 	. = computer.save_file(filename, loaded_data, /datum/computer_file/data/text)
 	if(.)
 		is_edited = 0
+
+#define MAX_FIELDS_NUM 50
 
 /datum/computer_file/program/wordprocessor/Topic(href, href_list)
 	if(..())
@@ -108,6 +112,17 @@
 		var/newtext = sanitize(replacetext(input(usr, "Editing file '[open_file]'. You may use most tags used in paper formatting:", "Text Editor", oldtext) as message|null, "\n", "\[br\]"), MAX_TEXTFILE_LENGTH)
 		if(!newtext)
 			return
+
+		//Count the fields
+		var/fields = 0
+		var/regex/re = regex(@"\[field\]","g")
+		while(re.Find(newtext))
+			fields++
+
+		if(fields > MAX_FIELDS_NUM)
+			to_chat(usr, SPAN_WARNING("Too many fields. Sorry, you can't do this."))
+			return
+
 		loaded_data = newtext
 		is_edited = 1
 		return 1
@@ -118,10 +133,12 @@
 			error = "Hardware error: Printer missing or out of paper."
 			return 1
 
+#undef MAX_FIELDS_NUM
+
 /datum/nano_module/program/computer_wordprocessor
 	name = "Word Processor"
 
-/datum/nano_module/program/computer_wordprocessor/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1, var/datum/topic_state/state = GLOB.default_state)
+/datum/nano_module/program/computer_wordprocessor/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1, var/datum/topic_state/state = global.default_topic_state)
 	var/list/data = host.initial_data()
 	var/datum/computer_file/program/wordprocessor/PRG
 	PRG = program

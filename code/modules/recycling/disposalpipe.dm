@@ -10,7 +10,7 @@
 	level = 1			// underfloor only
 	dir = 0				// dir will contain dominant direction for junction pipes
 	alpha = 192 // Plane and alpha modified for mapping, reset to normal on spawn.
-	layer = DISPOSALS_PIPE_LAYER
+	layer = ABOVE_TILE_LAYER
 	var/dpdir = 0		// bitmask of pipe directions
 	var/base_icon_state	// initial icon state on map
 	var/sort_type = ""
@@ -21,7 +21,9 @@
 /obj/structure/disposalpipe/Initialize()
 	. = ..()
 	alpha = 255
+	layer = DISPOSALS_PIPE_LAYER
 	base_icon_state = icon_state
+	update_icon()
 
 // pipe is deleted
 // ensure if holder is present, it is expelled
@@ -157,7 +159,7 @@
 // remains : set to leave broken pipe pieces in place
 /obj/structure/disposalpipe/proc/broken(var/remains = 0)
 	if(remains)
-		for(var/D in GLOB.cardinal)
+		for(var/D in global.cardinal)
 			if(D & dpdir)
 				var/obj/structure/disposalpipe/broken/P = new(src.loc)
 				P.set_dir(D)
@@ -459,7 +461,7 @@
 /obj/structure/disposalpipe/tagger/Initialize()
 	. = ..()
 	dpdir = dir | turn(dir, 180)
-	if(sort_tag) GLOB.tagger_locations |= sort_tag
+	if(sort_tag) global.tagger_locations |= sort_tag
 	updatename()
 	updatedesc()
 	update()
@@ -523,7 +525,7 @@
 
 /obj/structure/disposalpipe/diversion_junction/Initialize()
 	. = ..()
-	GLOB.diversion_junctions += src
+	global.diversion_junctions += src
 	updatedir()
 	updatedesc()
 	update()
@@ -534,7 +536,7 @@
 	updatedesc()
 
 /obj/structure/disposalpipe/diversion_junction/Destroy()
-	GLOB.diversion_junctions -= src
+	global.diversion_junctions -= src
 	if(linked)
 		linked.junctions.Remove(src)
 	linked = null
@@ -620,7 +622,7 @@
 
 /obj/structure/disposalpipe/sortjunction/Initialize()
 	. = ..()
-	if(sort_type) GLOB.tagger_locations |= sort_type
+	if(sort_type) global.tagger_locations |= sort_type
 
 	updatedir()
 	updatename()

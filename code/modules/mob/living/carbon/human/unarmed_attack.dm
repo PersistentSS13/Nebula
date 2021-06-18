@@ -101,12 +101,12 @@ var/global/list/sparring_attack_cache = list()
 						step(target, get_dir(get_turf(user), get_turf(target)))
 						target.visible_message("<span class='danger'>[pick("[target] was sent flying backward!", "[target] staggers back from the impact!")]</span>")
 					if(prob(50))
-						target.set_dir(GLOB.reverse_dir[target.dir])
+						target.set_dir(global.reverse_dir[target.dir])
 					target.apply_effect(attack_damage * 0.4, WEAKEN, armour)
 			if(BP_GROIN)
 				var/decl/pronouns/G = target.get_pronouns()
 				target.visible_message( \
-					SPAN_WARNING("\The [target] looks like [G.he] is in pain!"), \
+					SPAN_WARNING("\The [target] looks like [G.he] [G.is] in pain!"), \
 					SPAN_WARNING(G.get_message_for_being_kicked_in_the_dick()))
 				target.apply_effects(stutter = attack_damage * 2, agony = attack_damage* 3, blocked = armour)
 			if(BP_L_LEG, BP_L_FOOT, BP_R_LEG, BP_R_FOOT)

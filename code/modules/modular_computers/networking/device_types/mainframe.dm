@@ -1,7 +1,13 @@
-GLOBAL_LIST_INIT(all_mainframe_roles, list(MF_ROLE_SOFTWARE, MF_ROLE_FILESERVER, MF_ROLE_EMAIL_SERVER, MF_ROLE_LOG_SERVER, MF_ROLE_CREW_RECORDS))
+var/global/list/all_mainframe_roles = list(
+	MF_ROLE_SOFTWARE,
+	MF_ROLE_FILESERVER, 
+	MF_ROLE_EMAIL_SERVER, 
+	MF_ROLE_LOG_SERVER, 
+	MF_ROLE_CREW_RECORDS
+)
 
 /datum/extension/network_device/mainframe
-	connection_type = NETWORK_CONNECTION_WIRED
+	connection_type = NETWORK_CONNECTION_STRONG_WIRELESS
 	expected_type = /obj/machinery
 	var/max_log_count = 100
 	var/list/roles = list()
