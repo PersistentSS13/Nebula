@@ -88,6 +88,7 @@
 #include "modules\mob\language\cortical.dm"
 #include "modules\mob\living\inventory.dm"
 #include "modules\mob\living\living.dm"
+#include "modules\mob\living\carbon\life.dm"
 #include "modules\mob\living\carbon\human\_defines.dm"
 #include "modules\mob\living\carbon\human\human.dm"
 #include "modules\mob\living\carbon\human\login.dm"
