@@ -27,6 +27,18 @@
 		</div>
 		<div class='item'>
 			<div class="itemLabelWider">
+				Cortical Stack:
+			</div>
+			<div style="float:right">
+				{{if data.finished}}
+					{{:data.stack ? 'Yes' : 'No'}}
+				{{else}}
+					{{:helper.link(data.stack ? 'Yes' : 'No', null, { 'action' : 'toggle_stack'}, null, null)}}
+				{{/if}}
+			</div>
+		</div>
+		<div class='item'>
+			<div class="itemLabelWider">
 				Born on:
 			</div>
 			<div style="float:right">

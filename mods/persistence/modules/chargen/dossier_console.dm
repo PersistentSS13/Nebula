@@ -21,6 +21,9 @@
 				user.mind.age = age_num
 			else
 				to_chat(user, SPAN_NOTICE("The console beeps: '[new_age]' is not a valid number. Please enter a valid number."))
+		if("toggle_stack")
+			user.mind.chargen_stack = !user.mind.chargen_stack
+			return
 		if("choose_origin")
 			active_section = "origin"
 		if("choose_role")
@@ -89,7 +92,7 @@
 	.["age"] = user.mind.age
 	.["map_name"] = GLOB.using_map.station_name
 	// .["species"] = usr.species.name
-
+	.["stack"] = user.mind.chargen_stack
 	.["origin"] = istype(user.mind.origin) ? user.mind.origin.name : "Not set"
 	.["role"] = istype(user.mind.role) ? user.mind.role.name : "Not set"
 

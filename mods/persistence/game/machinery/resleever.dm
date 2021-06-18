@@ -162,7 +162,10 @@
 /obj/machinery/resleever/OnTopic(var/mob/user, var/list/href_list)
 	switch(href_list["action"])
 		if("begin")
-			if(occupant.ckey)
+			if(!occupant)
+				to_chat(user, "No occupant in \the [src]!")
+				return TOPIC_REFRESH
+			if(occupant.get_internal_organ(BP_STACK))
 				to_chat(user, "Occupant already has a mind.")
 				return TOPIC_REFRESH
 			if(sleeve())

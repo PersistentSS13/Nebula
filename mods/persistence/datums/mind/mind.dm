@@ -6,6 +6,7 @@ GLOBAL_LIST_EMPTY(player_minds)
 	var/unique_id
 	var/age = 0 // How old the mob's mind is in years.
 	var/philotic_damage = 0
+	var/chargen_stack = TRUE // Whether or not the mob starts with a cortical stack.
 
 	var/datum/skillset/chargen_skillset 		// Temporary skillset used for character generation.
 	var/finished_chargen = FALSE				// Whether or not this character finished character generation.
@@ -53,9 +54,6 @@ GLOBAL_LIST_EMPTY(player_minds)
 				to_chat(user, SPAN_WARNING("That cloning pod has become unavailable. Please choose a new cloning pod."))
 				return show_valid_respawns(user)
 			CP.create_character(user.mind, user.ckey)
-			user.mind.philotic_damage += rand(3, 15)
-			if(user.mind.philotic_damage > 75)
-				to_chat(user, SPAN_WARNING("Colors seem to lack the vibrance they used to have. It would be easy to just go to sleep and never wake up."))
 			user.Destroy() // Whatever mob was storing us is no longer needed.
 			return TRUE
 	else
