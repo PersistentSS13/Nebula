@@ -1,7 +1,7 @@
 #define BASE_TURF_UPKEEP_COST 	  50
 #define MAX_SHIP_TILES		  	 400
 #define MAX_ANCHORED_NAME_LENGTH  50
-GLOBAL_LIST_EMPTY(stellar_anchors)
+var/global/list/stellar_anchors = list()
 
 /obj/machinery/network/stellar_anchor
 	name = "stellar anchor"
@@ -20,17 +20,13 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 
 /obj/machinery/network/stellar_anchor/Initialize()
 	. = ..()
-	GLOB.world_saving_start_event.register(SSpersistence, src, /obj/effect/overmap/visitable/proc/on_saving_start)
-	GLOB.world_saving_finish_event.register(SSpersistence, src, /obj/effect/overmap/visitable/proc/on_saving_end)
-	GLOB.stellar_anchors += src
+	global.stellar_anchors += src
 
 	set_extension(src, /datum/extension/eye/stellar_anchor)
 
 /obj/machinery/network/stellar_anchor/Destroy()
 	. = ..()
-	GLOB.world_saving_start_event.unregister(SSpersistence, src)
-	GLOB.world_saving_finish_event.unregister(SSpersistence, src)
-	GLOB.stellar_anchors -= src
+	global.stellar_anchors -= src
 
 /obj/machinery/network/stellar_anchor/proc/on_saving_start()
 	if(is_paid())
@@ -51,7 +47,7 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 	if(created_sector)
 		created_sector.should_save = initial(created_sector.should_save) // Manually set the sector to save to ensure that sectors do not persist without an anchor.
 		for(var/sector_z in created_sector.map_z)
-			if(z in GLOB.using_map.saved_levels) // Safety check.
+			if(z in global.using_map.saved_levels) // Safety check.
 				continue
 			SSpersistence.saved_levels -= sector_z
 
@@ -133,7 +129,7 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 	if(area_to_add in anchored_areas)
 		. += "this area is already being anchored by \the [src]"
 	else
-		for(var/obj/machinery/network/stellar_anchor/sa in GLOB.stellar_anchors)
+		for(var/obj/machinery/network/stellar_anchor/sa in global.stellar_anchors)
 			if(area_to_add in sa.anchored_areas)
 				. += "this area is already being anchored by another stellar anchor!"
 				break
@@ -275,7 +271,7 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 /obj/machinery/network/stellar_anchor/ship_core/is_valid_location(var/produce_error = TRUE)
 	var/turf/T = get_turf(src)
 	var/area/A = get_area(T)
-	for(var/obj/machinery/network/stellar_anchor/other_anchor in GLOB.stellar_anchors)
+	for(var/obj/machinery/network/stellar_anchor/other_anchor in global.stellar_anchors)
 		if(other_anchor == src)
 			continue
 		if(A in other_anchor.anchored_areas)
@@ -337,7 +333,7 @@ GLOBAL_LIST_EMPTY(stellar_anchors)
 	while(pending_turfs.len)
 		var/turf/T = pending_turfs[1]
 		pending_turfs -= T
-		for(var/dir in GLOB.cardinal)	// Floodfill to find all turfs contiguous with the randomly chosen start_turf.
+		for(var/dir in global.cardinal)	// Floodfill to find all turfs contiguous with the randomly chosen start_turf.
 			var/turf/NT = get_step(T, dir)
 			if(!isturf(NT) || !(NT in area_turfs) || (NT in pending_turfs) || (NT in checked_turfs))
 				continue

@@ -1,4 +1,8 @@
-/datum/reagents/New(var/maximum_volume = 120, var/atom/my_atom)
-	src.maximum_volume = maximum_volume
-	if(istype(my_atom))
-		src.my_atom = my_atom
+/datum/reagents/New(maximum_volume, atom/my_atom)
+	if(!my_atom)
+		my_atom = global.temp_reagents_holder
+	. = ..()
+
+/datum/reagents/after_deserialize()
+	. = ..()
+	update_total()

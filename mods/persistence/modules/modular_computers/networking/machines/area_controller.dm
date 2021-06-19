@@ -25,7 +25,7 @@
 
 	set_extension(src, /datum/extension/eye/blueprints/area_control)
 	for(var/A in owned_areas)
-		GLOB.protected_areas[A] = src
+		global.protected_areas[A] = src
 	
 	recalculate_power()
 	update_protected_count()
@@ -33,8 +33,8 @@
 /obj/machinery/network/area_controller/Destroy()
 	. = ..()
 	for(var/A in owned_areas)
-		if(GLOB.protected_areas[A] == src)
-			GLOB.protected_areas -= A
+		if(global.protected_areas[A] == src)
+			global.protected_areas -= A
 	selected_area = null
 	owned_areas.Cut()
 
@@ -72,12 +72,12 @@
 
 /obj/machinery/network/area_controller/proc/add_area(var/area/A)
 	owned_areas[A] = list()
-	GLOB.protected_areas[A] = src
+	global.protected_areas[A] = src
 	recalculate_power()
 
 /obj/machinery/network/area_controller/proc/remove_area(var/area/A)
 	owned_areas -= A
-	GLOB.protected_areas -= A
+	global.protected_areas -= A
 	recalculate_power()
 
 /obj/machinery/network/area_controller/OnTopic(mob/user, href_list, datum/topic_state/state)
@@ -222,13 +222,13 @@
 /atom/proc/check_area_protection(var/mob/user, var/area/checked_area)
 	if(!checked_area)
 		checked_area = get_area(src)
-	if(!(checked_area in GLOB.protected_areas))
+	if(!(checked_area in global.protected_areas))
 		return TRUE
 	if(!user)
 		return TRUE
-	var/obj/machinery/network/area_controller/ac = GLOB.protected_areas[checked_area]
+	var/obj/machinery/network/area_controller/ac = global.protected_areas[checked_area]
 	if(!ac)
-		GLOB.protected_areas -= checked_area
+		global.protected_areas -= checked_area
 		return TRUE
 	if(!(ac.z in GetConnectedZlevels(z))) // Area controller must be in the same sector.
 		return TRUE

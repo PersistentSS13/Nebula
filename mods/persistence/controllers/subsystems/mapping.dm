@@ -5,13 +5,13 @@
 	. = ..()
 
 	// Load our maps dynamically.
-	for(var/z in GLOB.using_map.default_levels)
-		var/map_file = GLOB.using_map.default_levels[z]
+	for(var/z in global.using_map.default_levels)
+		var/map_file = global.using_map.default_levels[z]
 		if(SSpersistence.SaveExists() && (text2num(z) in SSpersistence.saved_levels))
 			// Load a default map instead.
 			INCREMENT_WORLD_Z_SIZE
 			continue
-		maploader.load_map(map_file, 1, 1, text2num(z), no_changeturf = TRUE)
+		maploader.load_map(file(map_file), 1, 1, text2num(z), no_changeturf = TRUE)
 		CHECK_TICK
 
 	// Build the list of static persisted levels from our map.
@@ -23,13 +23,13 @@
 	SSpersistence.LoadWorld()
 	
 	// Initialize the overmap for Persistence.
-	if(GLOB.using_map.use_overmap)
-		if(!GLOB.using_map.overmap_z)
+	if(global.using_map.use_overmap)
+		if(!global.using_map.overmap_z)
 			build_overmap() // If a overmap hasn't been loaded, create a new one.
 
 	// Generate the areas of the overmap that are hazardous.
 	// Map is placed at the lower left corner of the overmap, not including the edges (2, 2).
-	new /datum/random_map/automata/overmap(null, 2, 2, GLOB.using_map.overmap_z, GLOB.using_map.overmap_size - 2, GLOB.using_map.overmap_size - 2, FALSE, FALSE, FALSE)
+	new /datum/random_map/automata/overmap(null, 2, 2, global.using_map.overmap_z, global.using_map.overmap_size - 2, global.using_map.overmap_size - 2, FALSE, FALSE, FALSE)
 	
 #endif
 

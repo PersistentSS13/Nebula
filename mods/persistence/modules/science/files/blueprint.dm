@@ -41,8 +41,7 @@
 	var/datum/fabricator_recipe/recipe = get_recipe()
 	var/list/building_cost = atom_info_repository.get_matter_for(recipe.path)
 	for(var/mat in building_cost)
-		if(!recipe.ignore_materials[mat])
-			resources[mat] = ceil(building_cost[mat] / efficiency)
+		resources[mat] = ceil(building_cost[mat] / efficiency)
 	return resources
 
 /datum/computer_file/data/blueprint/proc/get_build_time()

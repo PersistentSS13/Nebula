@@ -18,7 +18,7 @@
 	output += "<div align='center'>"
 	if(GAME_STATE < RUNLEVEL_GAME)
 		output += "<span class='average'><b>The Game Is Loading!</b></span><br><br>"
-	output += "<i>[GLOB.using_map.get_map_info()]</i>"
+	output += "<i>[global.using_map.get_map_info()]</i>"
 	output +="<hr>"
 	output += "<a href='byond://?src=\ref[src];setupCharacter=1'>Set up character</A> "
 	output += "<a href='byond://?src=\ref[src];joinGame=1'>Join game</a><br><br>"
@@ -28,7 +28,7 @@
 	output += "<a href='byond://?src=\ref[src];refreshPanel=1'>Refresh</a><br><br>"
 	output += "</div>"
 
-	panel = new(src, "Welcome","Welcome to [GLOB.using_map.full_name]", 560, 280, src)
+	panel = new(src, "Welcome","Welcome to [global.using_map.full_name]", 560, 280, src)
 	panel.set_window_options("can_close=0")
 	panel.set_content(JOINTEXT(output))
 	panel.open()
@@ -37,7 +37,7 @@
 	. = ..()
 
 	if(statpanel("Lobby"))
-		stat("Players : [GLOB.player_list.len]")
+		stat("Players : [global.player_list.len]")
 
 /mob/new_player/Topic(href, href_list) // This is a full override; does not call parent.
 	if(usr != src)
@@ -76,7 +76,7 @@
 		if(M.loc && !istype(M, /mob/new_player) && (M.saved_ckey == ckey || M.saved_ckey == "@[ckey]"))
 			to_chat(src, SPAN_NOTICE("You already have a character in game!"))
 			return
-	client.prefs.ShowChoices(src)
+	client.prefs.open_setup_window(src)
 	return
 
 /mob/new_player/proc/joinGame()
@@ -88,7 +88,7 @@
 		return
 	if(spawning)
 		return
-	for(var/datum/mind/target_mind in GLOB.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
+	for(var/datum/mind/target_mind in global.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
 		if(target_mind.key == key)
 			if(!target_mind.current || istype(target_mind.current, /mob/new_player))
 				continue
@@ -162,8 +162,8 @@
 	if(mind)
 		mind.active = 0 //we wish to transfer the key manually
 		mind.original = new_character
-		if(client.prefs.memory)
-			mind.StoreMemory(client.prefs.memory)
+		var/memory = client.prefs.records[PREF_MEM_RECORD]
+		mind.StoreMemory(memory)
 		mind.transfer_to(new_character)					//won't transfer key since the mind is not active
 
 	var/datum/job/job = SSjobs.get_by_path(/datum/job/colonist) // Hacky way to get players equipped with a basic uniform and their accounts set up.
@@ -178,7 +178,7 @@
 	new_character.sync_organ_dna()
 	if(client.prefs.disabilities)
 		// Set defer to 1 if you add more crap here so it only recalculates struc_enzymes once. - N3X
-		new_character.dna.SetSEState(GLOB.GLASSESBLOCK,1,0)
+		new_character.dna.SetSEState(global.GLASSESBLOCK,1,0)
 		new_character.disabilities |= NEARSIGHTED
 
 	// Do the initial caching of the player's body icons.
@@ -197,7 +197,7 @@
 
 /mob/new_player/proc/transition_to_game()
 	close_spawn_windows()
-	sound_to(src, sound(null, repeat = 0, wait = 0, volume = 85, channel = GLOB.lobby_sound_channel)) // stops lobby music
+	sound_to(src, sound(null, repeat = 0, wait = 0, volume = 85, channel = sound_channels.lobby_channel)) // stops lobby music
 
 /mob/new_player/close_spawn_windows()
 	close_browser(src, "window=latechoices") //closes late choices window

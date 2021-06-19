@@ -1,14 +1,8 @@
 
 
-/obj/machinery/AdjustInitializeArguments(list/arguments)
-	if(SSpersistence.in_loaded_world)
-		if(arguments.len > 2)
-			arguments[3] = FALSE
-		else if(arguments.len > 1)
-			arguments |= list(null, FALSE)
-		else
-			arguments = list(FALSE, null, FALSE)
-
+/obj/machinery/populate_parts(full_populate)
+	if(persistent_id) // Only objects that have been loaded with have this var set at creation, so we prevent recreating additional components.
+		return
 	. = ..()
 
 /obj/machinery/before_save()

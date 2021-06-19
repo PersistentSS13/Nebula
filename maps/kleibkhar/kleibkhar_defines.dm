@@ -38,4 +38,4 @@
 	salary_modifier = 0.2
 
 /datum/map/kleibkhar/get_map_info()
-	return "You're a colonist on the planet Kleibkhar, a lush planet targeted for development by corporation to create a new consumer base. No government has authority in this sector. Colonists come from a wide variety of backgrounds, but universally with only the shirt on their backs."
+	return "You're a colonist on the planet Kleibkhar, a lush planet targeted for development by a corporation to create a new consumer base. No government has authority in this sector. Colonists come from a wide variety of backgrounds, but universally with only the shirt on their backs."

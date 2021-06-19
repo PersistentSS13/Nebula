@@ -79,7 +79,7 @@ SUBSYSTEM_DEF(mining)
 	generating_mines = TRUE
 	generators.Cut(1)
 	var/list/eject_mobs = list()
-	for(var/z in GLOB.using_map.mining_areas)
+	for(var/z in global.using_map.mining_areas)
 		for(var/x in 1 to world.maxx)
 			for(var/y in 1 to world.maxy)
 				var/turf/T = locate(x, y, z)
@@ -90,12 +90,12 @@ SUBSYSTEM_DEF(mining)
 	SpitOutMobs(eject_mobs, 3)
 
 
-	for(var/z_level in GLOB.using_map.mining_areas)
+	for(var/z_level in global.using_map.mining_areas)
 		var/datum/random_map/automata/cave_system/outreach/generator = new(null, TRANSITIONEDGE, TRANSITIONEDGE, z_level, world.maxx - TRANSITIONEDGE, world.maxy - TRANSITIONEDGE, FALSE, FALSE, FALSE)
 		generator.minerals_rich = generator.minerals_sparse // No rare materials.
 		generators.Add(generator)
 
-	// for(var/z in GLOB.using_map.mining_areas)
+	// for(var/z in global.using_map.mining_areas)
 	// 	for(var/x in 1 to world.maxx)
 	// 		for(var/y in 1 to world.maxy)
 	// 			var/turf/T = locate(x, y, z)

@@ -104,7 +104,7 @@
 			DA.loaded_item = null
 			DA.update_icon()
 
-/datum/computer_file/program/damn/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1, var/datum/topic_state/state = GLOB.default_state)
+/datum/computer_file/program/damn/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1, var/datum/topic_state/state = global.default_topic_state)
 	. = ..()
 	if(!.)
 		return

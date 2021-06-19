@@ -14,7 +14,7 @@
 
 /mob/observer/eye/blueprints/area_control/proc/claim_area()
 	var/area/A = get_area(src)
-	if(A in GLOB.protected_areas)
+	if(A in global.protected_areas)
 		to_chat(owner, SPAN_WARNING("This area is already being protected!"))
 		return FALSE
 	to_chat(owner, SPAN_NOTICE("You add the area to the area controller's protected areas."))
@@ -23,7 +23,7 @@
 
 /mob/observer/eye/blueprints/area_control/proc/release_area()
 	var/area/A = get_area(src)
-	if(!(A in GLOB.protected_areas))
+	if(!(A in global.protected_areas))
 		to_chat(owner, SPAN_WARNING("This area isn't being protected!"))
 		return FALSE
 	if(!(A in ac.owned_areas))
@@ -80,7 +80,7 @@
 
 /mob/observer/eye/blueprints/area_control/check_modification_validity()
 	var/area/A = get_area(src)
-	if((A in GLOB.protected_areas) && GLOB.protected_areas[A] && GLOB.protected_areas[A] != ac)
+	if((A in global.protected_areas) && global.protected_areas[A] && global.protected_areas[A] != ac)
 		to_chat(owner, SPAN_WARNING("This area is being protected by another area controller!"))
 		return FALSE
 	. = ..()

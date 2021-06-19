@@ -134,6 +134,8 @@
 		"vars":[
 			"total_volume",
 			"maximum_volume",
+			"reagent_volumes",
+			"reagent_data",
 			"my_atom"
 		]
 	},
@@ -1774,7 +1776,8 @@
 			"panel_open",
 			"power_components",
 			"anchored",
-			"initial_access"
+			"initial_access",
+			"uncreated_component_parts"
 		]
 	},
 	{
@@ -2755,8 +2758,7 @@
 			"hidden",
 			"category",
 			"resources",
-			"build_time",
-			"ignore_materials"
+			"build_time"
 		]
 	},
 	{
@@ -3088,6 +3090,7 @@
 			"stance_limbs",
 			"grasp_limbs",
 			"saved_species",
+			"saved_bodytype",
 			"vessel"
 		]
 	},
@@ -4224,6 +4227,27 @@
 		"vars":[
 			"on",
 			"air_contents"
+		]
+	},
+	{
+		"path":"/obj/machinery/docking_beacon",
+		"vars":[
+			"display_name",
+			"permitted_shuttles",
+			"locked",
+			"docking_by_codes",
+			"docking_codes",
+			"docking_width",
+			"docking_height",
+			"projecting",
+			"construction_mode"
+		]
+	},
+	{
+		"path":"/obj/machinery/atmospherics/unary/material/extractor",
+		"vars":[
+			"output_container",
+			"input_buffer"
 		]
 	}
 ]

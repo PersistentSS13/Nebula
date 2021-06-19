@@ -1,4 +1,4 @@
-GLOBAL_LIST_EMPTY(player_minds)
+var/global/list/player_minds = list()
 
 /datum/mind
 	// This is a unique UID that will forever identify this mind.
@@ -16,11 +16,11 @@ GLOBAL_LIST_EMPTY(player_minds)
 /datum/mind/New()
 	. = ..()
 	unique_id = "[sequential_id(/datum/mind)]"
-	GLOB.player_minds += src
+	global.player_minds += src
 
 /datum/mind/Destroy()
 	. = ..()
-	GLOB.player_minds -= src
+	global.player_minds -= src
 
 /datum/mind/transfer_to(mob/living/new_character)
 	. = ..()

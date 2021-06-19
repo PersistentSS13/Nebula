@@ -5,13 +5,13 @@
 
 /obj/effect/overmap/visitable/Initialize()
 	. = ..()
-	GLOB.world_saving_start_event.register(SSpersistence, src, /obj/effect/overmap/visitable/proc/on_saving_start)
-	GLOB.world_saving_finish_event.register(SSpersistence, src, /obj/effect/overmap/visitable/proc/on_saving_end)
+	events_repository.register(/decl/observ/world_saving_start_event, SSpersistence, src, .proc/on_saving_start)
+	events_repository.register(/decl/observ/world_saving_finish_event, SSpersistence, src, .proc/on_saving_end)
 
 /obj/effect/overmap/visitable/Destroy()
 	. = ..()
-	GLOB.world_saving_start_event.unregister(SSpersistence, src)
-	GLOB.world_saving_finish_event.unregister(SSpersistence, src)
+	events_repository.unregister(/decl/observ/world_saving_start_event, SSpersistence, src)
+	events_repository.unregister(/decl/observ/world_saving_finish_event, SSpersistence, src)
 
 /obj/effect/overmap/visitable/proc/on_saving_start()
 	// Record where to replace the sector upon reinitialization

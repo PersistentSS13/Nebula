@@ -3,7 +3,7 @@
 		access_kleibkhar_engineer
 	)
 
-/var/const/access_kleibkhar_engineer = "ACCESS_KLEIBKHAR_ENGINEER"
+/var/global/const/access_kleibkhar_engineer = "ACCESS_KLEIBKHAR_ENGINEER"
 
 /datum/access/kleibkhar_engineer
 	id = access_kleibkhar_engineer

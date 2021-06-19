@@ -6,4 +6,4 @@
 
 /decl/modpack/persistence/post_initialize()
 	. = ..()
-	GLOB.all_mainframe_roles += MF_ROLE_DESIGN
+	global.all_mainframe_roles += MF_ROLE_DESIGN

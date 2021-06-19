@@ -1,6 +1,7 @@
 /mob/living/carbon/human
 	var/obj/home_spawn		// The object we last safe-slept on. Used for moving characters to safe locations on loads.
 	var/saved_species		// Whatever species we were, so that everything isn't rebuilt on load.
+	var/saved_bodytype
 
 /mob/living/carbon/human/after_deserialize()
 	. = ..()
@@ -8,7 +9,9 @@
 		move_intent = decls_repository.get_decl(move_intent)
 	if(saved_species)
 		species = get_species_by_key(saved_species)
-	
+	if(saved_bodytype)
+		set_bodytype(species.get_bodytype_by_name(saved_bodytype))
+
 	if(ignore_persistent_spawn())
 		return
 
@@ -43,6 +46,7 @@
 /mob/living/carbon/human/before_save()
 	. = ..()
 	if(species) saved_species = species.name // Caching species key for reference on load.
+	if(bodytype) saved_bodytype = bodytype.name
 
 // For granting cortical chat on character creation.
 /mob/living/carbon/human/update_languages()	

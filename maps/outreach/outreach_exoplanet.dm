@@ -11,6 +11,7 @@
 	plant_colors = list(COLOR_PALE_PINK, COLOR_PALE_GREEN_GRAY, COLOR_CIVIE_GREEN)
 	surface_color = COLOR_PALE_GREEN_GRAY
 	water_color = COLOR_BOTTLE_GREEN
+	crust_strata = /decl/strata/sedimentary
 
 	ruin_tags_whitelist = RUIN_NATURAL | RUIN_WATER
 	features_budget = 0
@@ -23,8 +24,8 @@
 
 
 /obj/effect/overmap/visitable/sector/exoplanet/outreach/Initialize(var/mapload, var/z_level)
-	. = ..(mapload, GLOB.using_map.station_levels[4])
-	docking_codes = "[GLOB.using_map.dock_name]"
+	. = ..(mapload, global.using_map.station_levels[4])
+	docking_codes = "[global.using_map.dock_name]"
 
 	// Build Level workaround
 	maxx = world.maxx

@@ -18,7 +18,7 @@
 
 /decl/modpack/persistence/post_initialize()
 	. = ..()
-	GLOB.all_mainframe_roles += MF_ROLE_CLONING
+	global.all_mainframe_roles += MF_ROLE_CLONING
 
 /obj/machinery/computer/modular/preset/cloning
 	default_software = list(

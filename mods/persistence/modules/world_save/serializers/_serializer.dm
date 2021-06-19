@@ -65,7 +65,7 @@
 /serializer/proc/should_flatten(var/datum/object)
 	if(isnull(object))
 		return FALSE
-	return object.type in GLOB.flatten_types
+	return object.type in global.flatten_types
 
 /serializer/proc/Clear()
 	z_index = -1

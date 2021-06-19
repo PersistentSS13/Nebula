@@ -1,9 +1,9 @@
-GLOBAL_LIST_EMPTY(cortical_stacks)
+var/global/list/cortical_stacks = list()
 /proc/switchToStack(var/obj/stack_holder, var/datum/mind/mind)
 	// See if we can find the stack in whatever the holder was, usually a person.
 	var/obj/item/organ/internal/stack/target = locate() in stack_holder
 	if(!target)
-		for(var/obj/item/organ/internal/stack/S in GLOB.cortical_stacks)
+		for(var/obj/item/organ/internal/stack/S in global.cortical_stacks)
 			if(S.mind_id == mind.unique_id)
 				target = S
 				break
@@ -32,14 +32,14 @@ GLOBAL_LIST_EMPTY(cortical_stacks)
 
 /obj/item/organ/internal/stack/Initialize()
 	. = ..()
-	GLOB.cortical_stacks |= src
+	global.cortical_stacks |= src
 	robotize()
 	if(owner && istype(owner))
 		cortical_alias = Gibberish(owner.name, 100)
 		verbs |= /obj/item/organ/internal/stack/proc/change_cortical_alias
 
 /obj/item/organ/internal/stack/Destroy()
-	GLOB.cortical_stacks -= src
+	global.cortical_stacks -= src
 	QDEL_NULL(backup)
 	if(stackmob)
 		stackmob.forceMove(null) // Move the stackmob to null space to allow it to otherwise resleeve.
@@ -74,7 +74,7 @@ GLOBAL_LIST_EMPTY(cortical_stacks)
 
 /obj/item/organ/internal/stack/proc/update_mind_id()
 	if(owner.mind)
-		for(var/stack in GLOB.cortical_stacks)
+		for(var/stack in global.cortical_stacks)
 			var/obj/item/organ/internal/stack/S = stack
 			if(S.mind_id == owner.mind.unique_id) // Make sure only one stack has a given mind ID.
 				S.mind_id = null

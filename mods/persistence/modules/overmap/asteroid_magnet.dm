@@ -95,7 +95,7 @@
 
 	for(var/mob/living/M in range(ASTEROID_SIZE, center_turf))
 		// Don't be standing where the asteroid is about to be.
-		M.throw_at(get_random_edge_turf(GLOB.reverse_dir[dir],TRANSITIONEDGE + 2, z), 250, 5)
+		M.throw_at(get_random_edge_turf(global.reverse_dir[dir],TRANSITIONEDGE + 2, z), 250, 5)
 
 	var/list/target_turfs = RANGE_TURFS(center_turf, ASTEROID_SIZE)
 
@@ -146,7 +146,7 @@
 	if(!curr_sector.is_still())
 		return "Cannot attract an asteroid while the ship is in motion!"
 	var/found_spent = FALSE // Let players know that the asteroid field has been spent.
-	for(var/obj/effect/overmap/event/meteor/M in overmap_event_handler.hazard_by_turf[get_turf(curr_sector)])
+	for(var/obj/effect/overmap/event/meteor/M in SSmapping.overmap_event_handler.hazard_by_turf[get_turf(curr_sector)])
 		if(!M.spent)
 			return M // Return the first unspent asteroid field found in the same tile as the ship/station that the asteroid magnet is attached to.
 		else

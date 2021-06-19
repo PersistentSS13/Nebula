@@ -81,7 +81,7 @@
 
 	if(!istype(user.mind.chargen_skillset))
 		user.mind.chargen_skillset = new(user)
-		for(var/decl/hierarchy/skill in GLOB.skills)
+		for(var/decl/hierarchy/skill in global.skills)
 			user.mind.chargen_skillset.skill_list[skill.type] = 1
 		user.mind.chargen_skillset.skill_list[SKILL_HAULING] = SKILL_BASIC
 		user.mind.chargen_skillset.skill_list[SKILL_LITERACY] = SKILL_BASIC
@@ -90,7 +90,7 @@
 	.["active"] = active_section
 	.["finished"] = user.mind.finished_chargen
 	.["age"] = user.mind.age
-	.["map_name"] = GLOB.using_map.station_name
+	.["map_name"] = global.using_map.station_name
 	// .["species"] = usr.species.name
 	.["stack"] = user.mind.chargen_stack
 	.["origin"] = istype(user.mind.origin) ? user.mind.origin.name : "Not set"

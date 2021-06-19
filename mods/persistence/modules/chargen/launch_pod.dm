@@ -41,7 +41,7 @@
 
 	// Find the Outreach network, and create the crew record for convenience.
 	var/datum/computer_file/report/crew_record/CR = new()
-	GLOB.all_crew_records.Add(CR)
+	global.all_crew_records.Add(CR)
 	CR.load_from_mob(user)
 	for(var/network_id in SSnetworking.networks)
 		var/datum/computer_network/network = SSnetworking.networks[network_id]
