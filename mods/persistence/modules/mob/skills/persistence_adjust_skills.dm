@@ -16,7 +16,7 @@
 	literacy_charges = 999							 // No need to limit the amount of textbooks one mob can make. This var should not be saved.
 
 /datum/skillset/proc/set_skillset_min()				 // Outside of Persistence skills are tied to job preferences, so this should be kept here.
-	for(var/decl/hierarchy/skill/S in GLOB.skills)
+	for(var/decl/hierarchy/skill/S in global.skills)
 		skill_list[S.type] = SKILL_MIN
 	on_levels_change()
 

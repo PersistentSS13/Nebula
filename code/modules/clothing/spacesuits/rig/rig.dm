@@ -456,7 +456,7 @@
 	cell.use(cost * CELLRATE)
 	return 1
 
-/obj/item/rig/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1, var/nano_state = GLOB.inventory_state)
+/obj/item/rig/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1, var/nano_state = global.inventory_topic_state)
 	if(!user)
 		return
 
@@ -576,7 +576,7 @@
 	return ret
 
 /obj/item/rig/get_req_access()
-	if(!security_check_enabled)
+	if(!security_check_enabled || !locked)
 		return list()
 	return ..()
 
@@ -909,7 +909,7 @@
 
 /obj/item/rig/proc/forced_move(var/direction, var/mob/user)
 	if(malfunctioning)
-		direction = pick(GLOB.cardinal)
+		direction = pick(global.cardinal)
 
 	if(world.time < wearer_move_delay)
 		return

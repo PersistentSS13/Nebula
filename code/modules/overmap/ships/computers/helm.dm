@@ -1,5 +1,16 @@
-LEGACY_RECORD_STRUCTURE(all_waypoints, waypoint)
+var/global/list/all_waypoints = list()
 
+/datum/computer_file/data/waypoint
+	var/list/fields = list()
+
+/datum/computer_file/data/waypoint/New()
+	global.all_waypoints += src
+	
+/datum/computer_file/data/waypoint/Destroy()
+	. = ..()
+	global.all_waypoints -= src
+
+var/global/list/overmap_helm_computers
 /obj/machinery/computer/ship/helm
 	name = "helm control console"
 	icon_keyboard = "teleport_key"
@@ -12,25 +23,39 @@ LEGACY_RECORD_STRUCTURE(all_waypoints, waypoint)
 	var/dy		//coordinates
 	var/speedlimit = 1/(20 SECONDS) //top speed for autopilot, 5
 	var/accellimit = 1 //manual limiter for acceleration
+	/// The mob currently operating the helm - The last one to click one of the movement buttons and be on the overmap screen. Set to `null` for autopilot or when the mob isn't in range.
+	var/weakref/current_operator
 
 /obj/machinery/computer/ship/helm/Initialize()
 	. = ..()
-	get_known_sectors()
+	LAZYADD(global.overmap_helm_computers, src)
+	for(var/obj/effect/overmap/visitable/sector as anything in global.known_overmap_sectors)
+		add_known_sector(sector)
 
-/obj/machinery/computer/ship/helm/proc/get_known_sectors()
-	var/area/overmap/map = locate() in world
-	for(var/obj/effect/overmap/visitable/sector/S in map)
-		if ((S.sector_flags & OVERMAP_SECTOR_KNOWN))
-			var/datum/computer_file/data/waypoint/R = new()
-			R.fields["name"] = S.name
-			R.fields["x"] = S.x
-			R.fields["y"] = S.y
-			known_sectors[S.name] = R
+/obj/machinery/computer/ship/helm/Destroy()
+	. = ..()
+	LAZYREMOVE(global.overmap_helm_computers, src)
+
+/obj/machinery/computer/ship/helm/proc/add_known_sector(var/obj/effect/overmap/visitable/sector)
+	var/datum/computer_file/data/waypoint/R = new
+	R.fields["name"] = sector.name
+	R.fields["x"] =    sector.x
+	R.fields["y"] =    sector.y
+	known_sectors[sector.name] = R
 
 /obj/machinery/computer/ship/helm/Process()
 	..()
+
+	var/mob/current_operator_actual = current_operator?.resolve()
+	if (current_operator_actual)
+		if (!linked)
+			to_chat(current_operator_actual, SPAN_DANGER("\The [src]'s controls lock up with an error flashing across the screen: Connection to vessel lost!"))
+			set_operator(null, TRUE)
+		else if (!Adjacent(current_operator_actual) || CanUseTopic(current_operator_actual) != STATUS_INTERACTIVE || !viewing_overmap(current_operator_actual))
+			set_operator(null)
+
 	if (autopilot && dx && dy)
-		var/turf/T = locate(dx,dy,GLOB.using_map.overmap_z)
+		var/turf/T = locate(dx,dy,global.using_map.overmap_z)
 		if(linked.loc == T)
 			if(linked.is_still())
 				autopilot = 0
@@ -52,7 +77,13 @@ LEGACY_RECORD_STRUCTURE(all_waypoints, waypoint)
 			// All other cases, move toward direction
 			else if (speed + acceleration <= speedlimit)
 				linked.accelerate(direction, accellimit)
-		linked.operator_skill = null//if this is on you can't dodge meteors
+
+		// Re-resolve as the above set_operator() calls may have nullified or changed this.
+		current_operator_actual = current_operator?.resolve()
+		if (current_operator_actual)
+			to_chat(current_operator_actual, SPAN_DANGER("\The [src]'s autopilot is active and wrests control from you!"))
+			set_operator(null, TRUE, TRUE)
+
 		return
 
 /obj/machinery/computer/ship/helm/relaymove(var/mob/user, direction)
@@ -60,6 +91,7 @@ LEGACY_RECORD_STRUCTURE(all_waypoints, waypoint)
 		if(prob(user.skill_fail_chance(SKILL_PILOT, 50, linked.skill_needed, factor = 1)))
 			direction = turn(direction,pick(90,-90))
 		linked.relaymove(user, direction, accellimit)
+		set_operator(user)
 		return 1
 
 /obj/machinery/computer/ship/helm/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
@@ -113,7 +145,7 @@ LEGACY_RECORD_STRUCTURE(all_waypoints, waypoint)
 
 		ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
 		if (!ui)
-			ui = new(user, src, ui_key, "helm.tmpl", "[linked.name] Helm Control", 565, 545)
+			ui = new(user, src, ui_key, "helm.tmpl", "[linked.name] Helm Control", 565, 545, nref = src)
 			ui.set_initial_data(data)
 			ui.open()
 			ui.set_auto_update(1)
@@ -127,11 +159,11 @@ LEGACY_RECORD_STRUCTURE(all_waypoints, waypoint)
 
 	if (href_list["add"])
 		var/datum/computer_file/data/waypoint/R = new()
-		var/sec_name = input("Input naviation entry name", "New navigation entry", "Sector #[known_sectors.len]") as text
+		var/sec_name = input("Input naviation entry name", "New navigation entry", "Sector #[length(known_sectors)]") as text
 		if(!CanInteract(user,state))
 			return TOPIC_NOACTION
 		if(!sec_name)
-			sec_name = "Sector #[known_sectors.len]"
+			sec_name = "Sector #[length(known_sectors)]"
 		R.fields["name"] = sec_name
 		if(sec_name in known_sectors)
 			to_chat(user, "<span class='warning'>Sector with that name already exists, please input a different name.</span>")
@@ -199,6 +231,10 @@ LEGACY_RECORD_STRUCTURE(all_waypoints, waypoint)
 
 	if (href_list["apilot"])
 		autopilot = !autopilot
+		if (autopilot)
+			set_operator(null, autopilot = TRUE)
+		else if (viewing_overmap(user))
+			set_operator(user)
 
 	if (href_list["manual"])
 		if(!isliving(user))
@@ -208,6 +244,69 @@ LEGACY_RECORD_STRUCTURE(all_waypoints, waypoint)
 
 	add_fingerprint(user)
 	updateUsrDialog()
+
+/obj/machinery/computer/ship/helm/unlook(mob/user)
+	. = ..()
+	if (current_operator?.resolve() == user)
+		set_operator(null)
+
+
+/obj/machinery/computer/ship/helm/look(mob/user)
+	. = ..()
+	if (!autopilot)
+		set_operator(user)
+
+
+/**
+ * Updates `current_operator` to the new user, or `null` and ejects the old operator from the overmap view - Only one person on a helm at a time!
+ * Will call `display_operator_change_message()` if `silent` is `FALSE`.
+ * `autopilot` will prevent ejection from the overmap (You want to monitor your autopilot right?) and by passed on to `display_operator_change_message()`.
+ * Skips ghosts and observers to prevent accidental external influencing of flight.
+ */
+/obj/machinery/computer/ship/helm/proc/set_operator(mob/user, silent, autopilot)
+	var/mob/current_operator_actual = current_operator?.resolve()
+	if (isobserver(user) || user == current_operator_actual)
+		return
+
+	var/mob/old_operator = current_operator_actual
+	current_operator_actual = user
+	current_operator = weakref(current_operator_actual)
+	linked.update_operator_skill(current_operator_actual)
+	if (!autopilot && old_operator && viewing_overmap(old_operator))
+		addtimer(CALLBACK(src, /obj/machinery/computer/ship/.proc/unlook, old_operator), 0) // Workaround for linter SHOULD_NOT_SLEEP checks.
+
+	log_debug("HELM CONTROL: [current_operator_actual ? current_operator_actual : "NO PILOT"] taking control of [src] from [old_operator ? old_operator : "NO PILOT"] in [get_area(src)]. [autopilot ? "(AUTOPILOT MODE)" : null]")
+
+	if (!silent)
+		display_operator_change_message(old_operator, current_operator_actual, autopilot)
+
+
+/**
+ * Displays visible messages indicating a change in operator.
+ * `autopilot` will affect the displayed message.
+ */
+/obj/machinery/computer/ship/helm/proc/display_operator_change_message(mob/old_operator, mob/new_operator, autopilot)
+	if (!old_operator)
+		new_operator.visible_message(
+			SPAN_NOTICE("\The [new_operator] takes \the [src]'s controls."),
+			SPAN_NOTICE("You take \the [src]'s controls.")
+		)
+	else if (!new_operator)
+		if (autopilot)
+			old_operator.visible_message(
+				SPAN_NOTICE("\The [old_operator] engages \the [src]'s autopilot and releases the controls."),
+				SPAN_NOTICE("You engage \the [src]'s autopilot and release the controls.")
+			)
+		else
+			old_operator.visible_message(
+				SPAN_WARNING("\The [old_operator] releases \the [src]'s controls."),
+				SPAN_WARNING("You release \the [src]'s controls.")
+			)
+	else
+		old_operator.visible_message(
+			SPAN_WARNING("\The [new_operator] takes \the [src]'s controls from \the [old_operator]."),
+			SPAN_DANGER("\The [new_operator] takes \the [src]'s controls from you!")
+		)
 
 
 /obj/machinery/computer/ship/navigation
@@ -242,7 +341,7 @@ LEGACY_RECORD_STRUCTURE(all_waypoints, waypoint)
 
 	ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if (!ui)
-		ui = new(user, src, ui_key, "nav.tmpl", "[linked.name] Navigation Screen", 380, 530)
+		ui = new(user, src, ui_key, "nav.tmpl", "[linked.name] Navigation Screen", 380, 530, nref = src)
 		ui.set_initial_data(data)
 		ui.open()
 		ui.set_auto_update(1)
@@ -268,4 +367,4 @@ LEGACY_RECORD_STRUCTURE(all_waypoints, waypoint)
 		set_light(0)
 	else
 		icon_state = "tele_nav"
-		set_light(light_max_bright_on, light_inner_range_on, light_outer_range_on, 2, light_color)
+		set_light(light_range_on, light_power_on, light_color)

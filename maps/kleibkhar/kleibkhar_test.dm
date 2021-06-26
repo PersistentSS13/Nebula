@@ -8,10 +8,10 @@
 
 	// Hotloading module
 	default_levels = list(
-		"1" = 'maps/kleibkhar/kleibkhar-1.dmm',
-		"2" = 'maps/kleibkhar/kleibkhar-2.dmm',
-		"3" = 'maps/kleibkhar/kleibkhar-3.dmm',
-		"4" = 'maps/kleibkhar/kleibkhar-4.dmm'
+		"1" = "maps/kleibkhar/kleibkhar-1.dmm",
+		"2" = "maps/kleibkhar/kleibkhar-2.dmm",
+		"3" = "maps/kleibkhar/kleibkhar-3.dmm",
+		"4" = "maps/kleibkhar/kleibkhar-4.dmm"
 	)
 
 	// A list of turfs and their default turfs for serialization optimization.
@@ -29,10 +29,10 @@
 	mining_areas = list(4, 5)
 
 	default_levels = list(
-		"4" = 'maps/kleibkhar/kleibkhar-1.dmm',
-		"5" = 'maps/kleibkhar/kleibkhar-2.dmm',
-		"6" = 'maps/kleibkhar/kleibkhar-3.dmm',
-		"7" = 'maps/kleibkhar/kleibkhar-4.dmm'
+		"4" = "maps/kleibkhar/kleibkhar-1.dmm",
+		"5" = "maps/kleibkhar/kleibkhar-2.dmm",
+		"6" = "maps/kleibkhar/kleibkhar-3.dmm",
+		"7" = "maps/kleibkhar/kleibkhar-4.dmm"
 	)
 
 	// A list of turfs and their default turfs for serialization optimization.

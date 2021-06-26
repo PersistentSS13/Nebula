@@ -84,7 +84,7 @@
 				M.client.screen -= W
 
 /datum/storage_ui/default/on_post_remove(var/mob/user)
-	if(user?.s_active)
+	if(user && user.s_active) // Using ?. here causes a runtime ('Cannot read 0.s_active'), it shouldn't but it does.
 		user.s_active.show_to(user)
 
 /datum/storage_ui/default/on_hand_attack(var/mob/user)
@@ -231,7 +231,7 @@
 		storage_start.overlays += stored_continue
 		storage_start.overlays += stored_end
 
-		O.screen_loc = "LEFT+4:[round((startpoint+endpoint)/2)+2],BOTTOM+2:16"
+		O.screen_loc = "LEFT+4:[round((startpoint+endpoint)/2)+2-O.pixel_x],BOTTOM+2:[16-O.pixel_y]"
 		O.maptext = ""
 		O.hud_layerise()
 

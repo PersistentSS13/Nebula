@@ -47,7 +47,7 @@
 	if(isnull(object) || !object.should_save)
 		return
 
-	if(isnull(GLOB.saved_vars[object.type]))
+	if(isnull(global.saved_vars[object.type]))
 		return // EXPERIMENTAL. Don't save things without a whitelist.
 
 	var/datum/existing = thing_map["\ref[object]"]

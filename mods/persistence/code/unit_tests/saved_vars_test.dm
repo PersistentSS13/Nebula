@@ -5,7 +5,7 @@
 	SSpersistence.in_loaded_world = TRUE
 	try
 		var/failed = FALSE
-		for(var/path in GLOB.saved_vars)
+		for(var/path in global.saved_vars)
 			CHECK_TICK
 			if(ispath(path, /datum/extension))
 				continue // Skip extensions
@@ -17,7 +17,7 @@
 				if(!istype(D))
 					fail("Attempted to create '[path]' but was not able to create of datum.")
 					continue
-				for(var/V in GLOB.saved_vars[path])
+				for(var/V in global.saved_vars[path])
 					if(V in D.vars)
 						continue
 					fail("Expecting '[V]' in type [path], but variable was not defined.")

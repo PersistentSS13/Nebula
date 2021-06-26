@@ -22,28 +22,28 @@
 /obj/item/chargen_box/industrial/building
 	name = "assorted building materials"
 	startswith = list(
-		/obj/item/stack/material/steel/fifty = 1,
-		/obj/item/stack/material/glass/ten = 1,
-		/obj/item/stack/material/plastic/ten = 1,
+		/obj/item/stack/material/sheet/mapped/steel/fifty = 1,
+		/obj/item/stack/material/pane/mapped/glass/ten = 1,
+		/obj/item/stack/material/panel/mapped/plastic/ten = 1,
 		/obj/item/stack/cable_coil/random = 1
 	)
 
 /obj/item/chargen_box/industrial/steel
 	name = "steel resupply pack"
 	startswith = list(
-		/obj/item/stack/material/steel/fifty = 2
+		/obj/item/stack/material/sheet/mapped/steel/fifty = 2
 	)
 
 /obj/item/chargen_box/industrial/glass
 	name = "glass resupply pack"
 	startswith = list(
-		/obj/item/stack/material/glass/fifty = 2
+		/obj/item/stack/material/pane/mapped/glass/fifty = 2
 	)
 
 /obj/item/chargen_box/industrial/plastic
 	name = "plastic resupply pack"
 	startswith = list(
-		/obj/item/stack/material/plastic/fifty = 2
+		/obj/item/stack/material/panel/mapped/plastic/fifty = 2
 	)
 
 /obj/item/chargen_box/industrial/cable
@@ -56,7 +56,7 @@
 	name = "DIY autolathe kit"
 	startswith = list(
 		/obj/item/stock_parts/circuitboard/autolathe = 1,
-		/obj/item/stack/material/steel/ten = 1,
+		/obj/item/stack/material/sheet/mapped/steel/ten = 1,
 		/obj/item/stack/cable_coil/random = 1,
 		/obj/item/stock_parts/keyboard = 1,
 		/obj/item/stock_parts/console_screen = 1,

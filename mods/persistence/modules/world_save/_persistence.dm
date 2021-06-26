@@ -52,7 +52,7 @@
 
 /obj/after_deserialize()
 	..()
-	queue_icon_update()
+	//queue_icon_update()
 
 /obj/machinery/embedded_controller
 	var/saved_memory
@@ -95,12 +95,12 @@
 	should_save = FALSE
 
 /datum/proc/get_saved_vars()
-	return GLOB.saved_vars[type] || get_default_vars()
+	return global.saved_vars[type] || get_default_vars()
 
 /datum/proc/get_default_vars()
 	var/savedlist = list()
 	for(var/v in vars)
-		if(issaved(vars[v]) && !(v in GLOB.blacklisted_vars))
+		if(issaved(vars[v]) && !(v in global.blacklisted_vars))
 			LAZYADD(savedlist, v)
 	return savedlist
 

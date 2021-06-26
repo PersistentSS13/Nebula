@@ -289,18 +289,18 @@
 		src.attack_hand(user)
 
 /obj/structure/closet/proc/slice_into_parts(obj/W, mob/user)
-	new /obj/item/stack/material/steel(src.loc, 2)
 	user.visible_message("<span class='notice'>\The [src] has been cut apart by [user] with \the [W].</span>", \
 						 "<span class='notice'>You have cut \the [src] apart with \the [W].</span>", \
 						 "You hear welding.")
-	dismantle(src)
+	physically_destroyed()
 
 /obj/structure/closet/receive_mouse_drop(atom/dropping, mob/user)
 	. = ..()
-	if(!. && opened && !istype(dropping, /obj/structure/closet) && (large || !ismob(dropping)))
-		step_towards(dropping, loc)
-		if(user != dropping)
-			user.show_viewers(SPAN_DANGER("\The [user] stuffs \the [dropping] into \the [src]!"))
+	var/atom/movable/AM = dropping
+	if(!. && istype(AM) && opened && !istype(AM, /obj/structure/closet) && AM.simulated && !AM.anchored && (large || !ismob(AM)))
+		step_towards(AM, loc)
+		if(user != AM)
+			user.show_viewers(SPAN_DANGER("\The [user] stuffs \the [AM] into \the [src]!"))
 		return TRUE
 
 /obj/structure/closet/attack_ai(mob/living/silicon/ai/user)
@@ -501,4 +501,4 @@
 	return TRUE
 
 /obj/structure/closet/CanUseTopicPhysical(mob/user)
-	return CanUseTopic(user, GLOB.physical_no_access_state)
+	return CanUseTopic(user, global.physical_no_access_topic_state)

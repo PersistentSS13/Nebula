@@ -12,7 +12,7 @@
 	deny_file = 'icons/obj/doors/elevator/lights_deny.dmi'
 	lights_file = 'icons/obj/doors/elevator/lights_green.dmi'
 
-	paintable = AIRLOCK_WINDOW_PAINTABLE
+	paintable = PAINT_WINDOW_PAINTABLE
 
 	var/datum/turbolift/lift
 	var/datum/turbolift_floor/floor
@@ -35,7 +35,7 @@
 		for(var/mob/living/LM in turf)
 			if(LM.mob_size <= MOB_SIZE_TINY)
 				var/moved = 0
-				for(dir in shuffle(GLOB.cardinal.Copy()))
+				for(dir in shuffle(global.cardinal.Copy()))
 					var/dest = get_step(LM,dir)
 					if(!(locate(/obj/machinery/door/airlock/lift) in dest))
 						if(LM.Move(dest))

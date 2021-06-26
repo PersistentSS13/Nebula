@@ -27,7 +27,7 @@
 
 /obj/machinery/cloning_pod/Initialize()
 	. = ..()
-	set_extension(src, /datum/extension/network_device/cloning_pod, initial_network_id, initial_network_key, NETWORK_CONNECTION_WIRED)
+	set_extension(src, /datum/extension/network_device/cloning_pod, initial_network_id, initial_network_key, NETWORK_CONNECTION_STRONG_WIRELESS)
 	if(occupant)
 		eject()
 

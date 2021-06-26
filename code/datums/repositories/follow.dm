@@ -1,4 +1,4 @@
-/var/repository/follow/follow_repository = new()
+var/global/repository/follow/follow_repository = new()
 
 /repository/follow
 	var/datum/cache_entry/valid_until/cache
@@ -6,6 +6,7 @@
 	var/list/followed_objects
 	var/list/followed_objects_assoc
 	var/list/followed_subtypes
+	var/list/followed_subtypes_tcache = list()
 
 	var/list/excluded_subtypes = list(
 		/obj/machinery/atmospherics, // Atmos stuff calls initialize time and time again..,
@@ -21,6 +22,10 @@
 	for(var/fht in subtypesof(/datum/follow_holder))
 		var/datum/follow_holder/fh = fht
 		followed_subtypes[initial(fh.followed_type)] = fht
+		followed_subtypes_tcache += initial(fh.followed_type)
+
+	followed_subtypes_tcache = typecacheof(followed_subtypes_tcache)
+	excluded_subtypes = typecacheof(excluded_subtypes)
 
 /repository/follow/proc/add_subject(var/atom/movable/AM)
 	cache = null
@@ -31,7 +36,7 @@
 	followed_objects_assoc[AM] = follow_holder
 	followed_objects.Add(follow_holder)
 
-	GLOB.destroyed_event.register(AM, src, /repository/follow/proc/remove_subject)
+	events_repository.register(/decl/observ/destroyed, AM, src, /repository/follow/proc/remove_subject)
 
 /repository/follow/proc/remove_subject(var/atom/movable/AM)
 	cache = null
@@ -41,7 +46,7 @@
 	followed_objects_assoc -= AM
 	followed_objects.Remove(follow_holder)
 
-	GLOB.destroyed_event.unregister(AM, src, /repository/follow/proc/remove_subject)
+	events_repository.unregister(/decl/observ/destroyed, AM, src, /repository/follow/proc/remove_subject)
 
 	qdel(follow_holder)
 
@@ -78,11 +83,6 @@
 
 	cache.data = L
 	return L
-
-/atom/movable/Initialize()
-	. = ..()
-	if(!is_type_in_list(src, follow_repository.excluded_subtypes) && is_type_in_list(src, follow_repository.followed_subtypes))
-		follow_repository.add_subject(src)
 
 /******************
 * Follow Metadata *

@@ -30,6 +30,6 @@
 
 /datum/computer_file/data/cloning/calculate_size()
 	var/file_size = BASE_CLONE_BACKUP_SIZE + round(mob_age / 2) + languages.len
-	for(var/decl/hierarchy/skill/S in GLOB.skills)
+	for(var/decl/hierarchy/skill/S in global.skills)
 		file_size += skill_list[S.type]
 	size = file_size

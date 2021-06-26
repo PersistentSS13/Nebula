@@ -17,13 +17,13 @@
 	for(var/n in 1 to severity)
 		waves += rand(5,15)
 
-	start_side = pick(GLOB.cardinal)
+	start_side = pick(global.cardinal)
 	endWhen = worst_case_end()
 
 /datum/event/meteor_wave/announce()
 	switch(severity)
 		if(EVENT_LEVEL_MAJOR)
-			command_announcement.Announce(replacetext(GLOB.using_map.meteor_detected_message, "%STATION_NAME%", location_name()), "[location_name()] Sensor Array", new_sound = GLOB.using_map.meteor_detected_sound, zlevels = affecting_z)
+			command_announcement.Announce(replacetext(global.using_map.meteor_detected_message, "%STATION_NAME%", location_name()), "[location_name()] Sensor Array", new_sound = global.using_map.meteor_detected_sound, zlevels = affecting_z)
 		else
 			command_announcement.Announce("The [location_name()] is now in a meteor shower.", "[location_name()] Sensor Array", zlevels = affecting_z)
 
@@ -66,7 +66,7 @@
 		else
 			return meteors_minor
 
-/var/list/meteors_minor = list(
+var/global/list/meteors_minor = list(
 	/obj/effect/meteor/medium     = 80,
 	/obj/effect/meteor/dust       = 30,
 	/obj/effect/meteor/irradiated = 30,
@@ -76,7 +76,7 @@
 	/obj/effect/meteor/silver     = 10,
 )
 
-/var/list/meteors_moderate = list(
+var/global/list/meteors_moderate = list(
 	/obj/effect/meteor/medium     = 80,
 	/obj/effect/meteor/big        = 30,
 	/obj/effect/meteor/dust       = 30,
@@ -87,7 +87,7 @@
 	/obj/effect/meteor/emp        = 10,
 )
 
-/var/list/meteors_major = list(
+var/global/list/meteors_major = list(
 	/obj/effect/meteor/medium     = 80,
 	/obj/effect/meteor/big        = 30,
 	/obj/effect/meteor/dust       = 30,
@@ -110,27 +110,42 @@
 	. = ..()
 
 /datum/event/meteor_wave/overmap/tick()
-	if(victim && !victim.is_still()) //Meteors mostly fly in your face
-		start_side = prob(90) ? victim.fore_dir : pick(GLOB.cardinal)
-	else //Unless you're standing
-		start_side = pick(GLOB.cardinal)
+	if(!victim)
+		return
+	if (victim.is_still() || victim.get_helm_skill() >= SKILL_ADEPT) //Unless you're standing or good at your job..
+		start_side = pick(global.cardinal)
+	else //..Meteors mostly fly in your face
+		start_side = prob(90) ? victim.fore_dir : pick(global.cardinal)
 	..()
 
 /datum/event/meteor_wave/overmap/get_wave_size()
 	. = ..()
-	if(!victim)
+	if (!victim)
 		return
 	var/skill = victim.get_helm_skill()
 	var/speed = victim.get_speed()
-	if(skill >= SKILL_PROF)
-		. = round(. * 0.5)
-	if(victim.is_still()) //Standing still means less shit flies your way
-		. = round(. * 0.1)
-	if(speed < SHIP_SPEED_SLOW) //Slow and steady
-		. = round(. * 0.5)
-	if(speed > SHIP_SPEED_FAST) //Sanic stahp
-		. *= 2
-	
+	if (skill < SKILL_EXPERT)
+		if(victim.is_still() || speed < SHIP_SPEED_SLOW) //Standing still or being slow means less shit flies your way
+			. = round(. * 0.7)
+		if(speed > SHIP_SPEED_FAST) //Sanic stahp
+			. *= 2
+	else if (skill == SKILL_EXPERT)
+		if (victim.is_still())
+			. = round(. * 0.2)
+		if (speed < SHIP_SPEED_SLOW)
+			. = round(. * 0.5)
+		else if (speed > SHIP_SPEED_SLOW && speed < SHIP_SPEED_FAST)
+			. = round(. * 0.7)
+		if (speed > SHIP_SPEED_FAST)
+			. = round(. * 1.2)
+	else if (skill > SKILL_EXPERT)
+		if (victim.is_still())
+			. = round(. * 0.1)
+		if (speed < SHIP_SPEED_SLOW)
+			. = round(. * 0.2)
+		else if (speed > SHIP_SPEED_SLOW && speed < SHIP_SPEED_FAST)
+			. = round(. * 0.5)
+
 	//Smol ship evasion
 	if(victim.vessel_size < SHIP_SIZE_LARGE && speed < SHIP_SPEED_FAST)
 		var/skill_needed = SKILL_PROF

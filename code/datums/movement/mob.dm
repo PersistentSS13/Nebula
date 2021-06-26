@@ -214,6 +214,8 @@
 	var/turf/old_turf = get_turf(mob)
 	step(mob, direction)
 
+	if(!mob)
+		return // If the mob gets deleted on move (e.g. Entered, whatever), it wipes this reference on us in Destroy (and we should be aborting all action anyway).
 	if(mob.loc == old_turf) // Did not move for whatever reason.
 		mob.moving = FALSE
 		return
@@ -228,12 +230,9 @@
 		for(var/obj/item/grab/G as anything in mob.get_active_grabs())
 			G.adjust_position()
 
-	if(QDELETED(mob)) // No idea why, but this was causing null check runtimes on live.
-		return
-
 	for(var/obj/item/grab/G as anything in mob.get_active_grabs())
 		if(G.assailant_reverse_facing())
-			mob.set_dir(GLOB.reverse_dir[direction])
+			mob.set_dir(global.reverse_dir[direction])
 		G.assailant_moved()
 	for(var/obj/item/grab/G as anything in mob.grabbed_by)
 		G.adjust_position()
@@ -304,4 +303,4 @@
 	if(prob(stability))
 		return
 
-	return prob(50) ? GLOB.cw_dir[.] : GLOB.ccw_dir[.]
+	return prob(50) ? global.cw_dir[.] : global.ccw_dir[.]

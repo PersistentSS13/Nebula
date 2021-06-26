@@ -19,12 +19,13 @@
 	if(!ml)
 		if(!isnull(_age))
 			age = _age
-		SSpersistence.track_value(src, /datum/persistent/filth)
+		SSpersistence.track_value(src, /decl/persistence_handler/filth)
 
 	. = ..()
 
 	hud_overlay = new /image/hud_overlay('icons/effects/hud_tile.dmi', src, "caution")
-	hud_overlay.plane = EFFECTS_ABOVE_LIGHTING_PLANE
+	hud_overlay.plane = ABOVE_LIGHTING_PLANE
+	hud_overlay.layer = ABOVE_LIGHTING_LAYER
 	set_cleanable_scent()
 
 	if(isspaceturf(loc))
@@ -32,7 +33,7 @@
 		QDEL_IN(src, 5 SECONDS)
 
 /obj/effect/decal/cleanable/Destroy()
-	SSpersistence.forget_value(src, /datum/persistent/filth)
+	SSpersistence.forget_value(src, /decl/persistence_handler/filth)
 	. = ..()
 
 /obj/effect/decal/cleanable/clean_blood(var/ignore = 0)

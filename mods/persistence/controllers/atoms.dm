@@ -1,2 +1,2 @@
 /datum/controller/subsystem/atoms
-	adjust_init_arguments = TRUE
+	adjust_init_arguments = FALSE

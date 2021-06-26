@@ -257,14 +257,14 @@
 		if(sample_datum.get_default_vars() == sample_datum.get_saved_vars())
 			fail("Incorrect vars returned. Didn't get back default list. Got back vars: [jointext(sample_datum.get_saved_vars(), ", ")].")
 		else
-			LAZYADD(GLOB.saved_vars[/datum/sample_obj/test_container], "test_var")
+			LAZYADD(global.saved_vars[/datum/sample_obj/test_container], "test_var")
 			if("test_var_2" in sample_datum.get_saved_vars())
 				fail("Incorrect vars returned. Got 'test_var_2' despite it not being on the whitelist")
 			else if(!("test_var" in sample_datum.get_saved_vars()))
 				fail("test_var was not in whitelist despite being explicitly added.")
 			else
 				pass("Correct saved vars returned.")
-		GLOB.saved_vars.Remove(/datum/sample_obj/test_container)
+		global.saved_vars.Remove(/datum/sample_obj/test_container)
 	catch(var/exception/e)
 		fail("Caught exception on line[e.line] at [e.file] with msg '[e]'.")
 	return 1

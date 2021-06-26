@@ -13,7 +13,7 @@
 	var/serializer/sql/one_off/one_off	= new() // The serializer impl for one off serialization/deserialization.
 
 /datum/controller/subsystem/persistence/Initialize()
-	saved_levels = GLOB.using_map.saved_levels
+	saved_levels = global.using_map.saved_levels
 
 /datum/controller/subsystem/persistence/proc/SaveExists()
 	if(save_exists)
@@ -31,7 +31,7 @@
 	
 	// Launch events
 
-	GLOB.world_saving_start_event.raise_event(src)
+	events_repository.raise_event(/decl/observ/world_saving_start_event)
 	try
 		//
 		// 	PREPARATION SECTIONS
@@ -56,7 +56,7 @@
 			zone.c_invalidate()
 		
 		// Find all the minds gameworld and add any player characters to the limbo list.
-		for(var/datum/mind/char_mind in GLOB.player_minds)
+		for(var/datum/mind/char_mind in global.player_minds)
 			if(istype(char_mind.current, /mob/new_player) || !char_mind.finished_chargen)
 				continue
 			serializer.Serialize(char_mind)
@@ -86,7 +86,7 @@
 		var/list/z_transform = list()
 		var/new_z_index = 1
 		// First we find the highest non-dynamic z_level.
-		for(var/z in GLOB.using_map.station_levels)
+		for(var/z in global.using_map.station_levels)
 			if(z in saved_levels)
 				new_z_index = max(new_z_index, z)
 
@@ -95,7 +95,7 @@
 			var/datum/persistence/load_cache/z_level/z_level = new()
 			z_level.default_turf = get_base_turf(z)
 			z_level.index = z
-			if(z in GLOB.using_map.station_levels)
+			if(z in global.using_map.station_levels)
 				z_level.dynamic = FALSE
 				z_level.new_index = z
 			else
@@ -229,7 +229,7 @@
 	to_world("Save complete! Took [(world.timeofday-start)/10]s to save world.")
 	
 	// Launch event for anything that needs to do cleanup post save.
-	GLOB.world_saving_finish_event.raise_event(src)
+	events_repository.raise_event(/decl/observ/world_saving_finish_event)
 
 /datum/controller/subsystem/persistence/proc/LoadWorld()
 	try

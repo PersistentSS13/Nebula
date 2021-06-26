@@ -12,7 +12,7 @@
 /obj/machinery/network/router/after_deserialize()
 	. = ..()
 	if(initial_network_id && saved_network)
-		// adds to GLOB &* updates override from New()
+		// adds to global &* updates override from New()
 		saved_network.change_id(initial_network_id)
 		SSnetworking.networks[initial_network_id] = saved_network
 

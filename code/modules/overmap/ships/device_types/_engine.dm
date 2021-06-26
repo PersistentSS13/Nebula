@@ -1,4 +1,4 @@
-var/list/ship_engines = list()
+var/global/list/ship_engines = list()
 /datum/extension/ship_engine
 	base_type = /datum/extension/ship_engine
 	expected_type = /obj/machinery
@@ -18,6 +18,12 @@ var/list/ship_engines = list()
 	..()
 	engine_type = e_type
 	ship_engines |= src
+
+/datum/extension/ship_engine/Destroy()
+	. = ..()
+	ship_engines -= src
+	for(var/obj/effect/overmap/visitable/ship/S in SSshuttle.ships)
+		S.engines -= src
 
 /datum/extension/ship_engine/proc/is_on()
 	var/obj/machinery/M = holder
@@ -67,7 +73,7 @@ var/list/ship_engines = list()
 /datum/extension/ship_engine/proc/check_blockage()
 	var/obj/machinery/M = holder
 	blockage = FALSE
-	var/exhaust_dir = GLOB.reverse_dir[M.dir]
+	var/exhaust_dir = global.reverse_dir[M.dir]
 	var/turf/A = get_step(src, exhaust_dir)
 	var/turf/B = A
 	while(isturf(A) && !(isspaceturf(A) || A.is_open()))
@@ -95,3 +101,10 @@ var/list/ship_engines = list()
 			M.power_change()
 		if(is_on())//if everything is in working order, start booting!
 			next_on = world.time + boot_time
+
+/datum/extension/ship_engine/proc/sync_to_ship()
+	. = FALSE
+	for(var/obj/effect/overmap/visitable/ship/S in SSshuttle.ships)
+		if(S.check_ownership(holder))
+			S.engines |= src
+			return TRUE

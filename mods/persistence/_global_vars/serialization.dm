@@ -1,6 +1,6 @@
-GLOBAL_LIST_EMPTY(flatten_types)
-GLOBAL_LIST_INIT(saved_vars, initialize_saved_vars())
-GLOBAL_LIST_INIT(blacklisted_vars, list("is_processing", "vars", "active_timers", "weakref", "type", "parent_type"))
+var/global/list/flatten_types = list()
+var/global/list/saved_vars = initialize_saved_vars()
+var/global/list/blacklisted_vars = list("is_processing", "vars", "active_timers", "type", "parent_type")
 
 /proc/initialize_saved_vars()
 	. = list()
@@ -25,7 +25,7 @@ GLOBAL_LIST_INIT(blacklisted_vars, list("is_processing", "vars", "active_timers"
 		loaded_types += length(subtypes) + 1
 		if(saved_var["flatten"])
 			// We're flattening this obj too.
-			LAZYDISTINCTADD(GLOB.flatten_types, path)
+			LAZYDISTINCTADD(global.flatten_types, path)
 
 		for(var/v in saved_var["vars"])
 			LAZYDISTINCTADD(.[path], v)
