@@ -7,6 +7,8 @@
 	#include "kleibkhar_test.dm"
 	#include "chargen/chargen_areas.dm"
 
+	#include "premade_shuttle/premade_shuttle.dm"
+
 	#include "kleibkhar_access.dm"
 	#include "kleibkhar_areas.dm"
 	#include "kleibkhar_jobs.dm"

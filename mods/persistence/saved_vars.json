@@ -2102,7 +2102,8 @@
 			"layer",
 			"pixel_x",
 			"pixel_y",
-			"loc"
+			"loc",
+			"level"
 		]
 	},
 	{
@@ -2122,7 +2123,8 @@
 			"edge",
 			"anchor_fall",
 			"holographic",
-			"req_access"
+			"req_access",
+			"buckled_mob"
 		]
 	},
 	{
@@ -2883,7 +2885,9 @@
 			"landmark",
 			"multiz",
 			"status",
-			"saved_shuttle"
+			"saved_landmark",
+			"saved_areas",
+			"use_mapped_z_levels"
 		]
 	},
 	{
@@ -2945,7 +2949,10 @@
 	{
 		"path":"/obj/machinery/computer/ship/sensors",
 		"vars":[
-			"sensors"
+			"sensors",
+			"objects_in_view",
+			"contact_datums",
+			"trackers"
 		]
 	},
 	{
@@ -2963,13 +2970,6 @@
 			"should_launch",
 			"sector_name",
 			"created_sector"
-		]
-	},
-	{
-		"path":"/obj/machinery/network/stellar_anchor/ship_core",
-		"vars":[
-			"parent_shuttle",
-			"created_landable_ship"
 		]
 	},
 	{
@@ -3001,7 +3001,11 @@
 			"sector_flags",
 			"hide_from_reports",
 			"has_distress_beacon",
-			"free_landing"
+			"free_landing",
+			"rent_amount",
+			"paid_rent",
+			"rent_period",
+			"last_due"
 		]
 	},
 	{
@@ -4249,5 +4253,19 @@
 			"output_container",
 			"input_buffer"
 		]
+	},
+	{
+		"path":"/atom/movable/area_holder",
+		"vars":[
+			"areas"
+		]
+	},
+	{
+		"path":"/turf/exterior/wall",
+		"vars":[
+			"reinf_material",
+			"strata"
+		]
+
 	}
 ]

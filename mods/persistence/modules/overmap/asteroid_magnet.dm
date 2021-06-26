@@ -1,4 +1,4 @@
-#define ASTEROID_SIZE 6
+#define ASTEROID_SIZE 7
 #define MAX_OBJS 10
 #define MAX_MOBS 5
 #define OBJ_PROB 20
@@ -64,7 +64,7 @@
 				visible_message(SPAN_DANGER("\The [src] flashes numerous errors!"))
 			update_use_power(POWER_USE_IDLE)
 			return
-		attraction_progress += 2
+		attraction_progress += 5
 	else
 		attraction_progress = 0
 		visible_message(SPAN_WARNING("\The [src] flashes an 'Out of range' error!"))
@@ -81,11 +81,16 @@
 	asteroid.spent = TRUE
 
 	var/decl/asteroid_class/class = decls_repository.get_decl(asteroid.class)
-
-	var/list/outer_types = class?.outer_types // Rocks etc.
-	var/list/inner_types = class?.inner_types // Minerals, open turfs etc.
-	var/list/object_types = class?.object_types
-	var/list/mob_types = class?.mob_types
+	if(!class)
+		return FALSE
+	var/decl/strata/asteroid/asteroid_strata = pick(class.possible_stratas)
+	if(asteroid_strata)
+		// This is a little gross, but it's better than having a ridiculous amount of turf subtypes.
+		global.default_strata_type_by_z["[z]"] = asteroid_strata
+	var/list/outer_types = class.outer_types // Rocks etc.
+	var/list/inner_types = class.inner_types // Minerals, open turfs etc.
+	var/list/object_types = class.object_types
+	var/list/mob_types = class.mob_types
 
 	if(!length(outer_types) || !length(inner_types))
 		return FALSE
@@ -138,13 +143,13 @@
 	return TRUE
 
 /obj/machinery/asteroid_magnet/proc/get_asteroid()
-	var/obj/effect/overmap/visitable/ship/curr_sector = map_sectors["[z]"]
+	var/obj/effect/overmap/visitable/curr_sector = map_sectors["[z]"]
 	if(!curr_sector)
 		return "Could not find orientation in space!"
 	if(!istype(curr_sector) || istype(curr_sector, /obj/effect/overmap/visitable/ship/landable))
 		return "Cannot attract an asteroid from this location!"
 	if(!curr_sector.is_still())
-		return "Cannot attract an asteroid while the ship is in motion!"
+		return "Cannot attract an asteroid while the sector is in motion!"
 	var/found_spent = FALSE // Let players know that the asteroid field has been spent.
 	for(var/obj/effect/overmap/event/meteor/M in SSmapping.overmap_event_handler.hazard_by_turf[get_turf(curr_sector)])
 		if(!M.spent)
@@ -158,10 +163,11 @@
 	name = "circuitboard (asteroid magnet)" 
 	board_type = "machine" 
 	build_path = /obj/machinery/asteroid_magnet 
-	origin_tech = "{'magnets':3}"
+	origin_tech = "{'magnets':2}"
 	req_components = list( 
-							/obj/item/stock_parts/capacitor = 1, 
-							/obj/item/stock_parts/micro_laser = 1) 
+		/obj/item/stock_parts/capacitor = 1, 
+		/obj/item/stock_parts/micro_laser = 1
+	) 
 	additional_spawn_components = list( 
 		/obj/item/stock_parts/console_screen = 1, 
 		/obj/item/stock_parts/keyboard = 1, 

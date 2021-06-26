@@ -1,0 +1,57 @@
+"a" = (/obj/effect/wallframe_spawn/reinforced/hull,/obj/machinery/door/firedoor/autoset,/turf/simulated/floor/plating,/area/map_template/premade_shuttle)
+"b" = (/turf/template_noop,/area/template_noop)
+"c" = (/obj/machinery/computer/shuttle_control/explore,/turf/simulated/floor/tiled/techfloor/grid,/area/map_template/premade_shuttle)
+"d" = (/obj/machinery/computer/ship/helm,/turf/simulated/floor/tiled/techfloor/grid,/area/map_template/premade_shuttle)
+"e" = (/obj/machinery/computer/ship/engines,/turf/simulated/floor/tiled/techfloor/grid,/area/map_template/premade_shuttle)
+"f" = (/turf/simulated/wall/r_wall/hull,/area/map_template/premade_shuttle)
+"g" = (/obj/structure/bed/chair/comfy/black{dir = 1},/obj/machinery/light{dir = 8; icon_state = "tube_map"},/turf/simulated/floor/tiled/techfloor,/area/map_template/premade_shuttle)
+"h" = (/obj/structure/bed/chair/comfy/captain{icon_state = "capchair"; dir = 1},/turf/simulated/floor/tiled/techfloor/grid,/area/map_template/premade_shuttle)
+"i" = (/obj/structure/bed/chair/comfy/black{dir = 1},/obj/machinery/light{dir = 4; icon_state = "tube_map"},/turf/simulated/floor/tiled/techfloor,/area/map_template/premade_shuttle)
+"j" = (/obj/structure/bed/chair/shuttle/black{icon_state = "shuttle_chair"; dir = 4},/turf/simulated/floor/tiled/techfloor,/area/map_template/premade_shuttle)
+"k" = (/turf/simulated/floor/tiled/techfloor,/area/map_template/premade_shuttle)
+"l" = (/turf/simulated/floor/tiled/techfloor/grid,/area/map_template/premade_shuttle)
+"m" = (/obj/structure/table/rack,/obj/effect/floor_decal/industrial/outline/orange,/turf/simulated/floor/tiled/techfloor,/area/map_template/premade_shuttle)
+"n" = (/obj/machinery/atmospherics/pipe/simple/hidden/supply{icon_state = "11-supply"; dir = 6},/obj/structure/bed/chair/shuttle/black{icon_state = "shuttle_chair"; dir = 4},/obj/structure/bed/chair/shuttle/black{icon_state = "shuttle_chair"; dir = 4},/turf/simulated/floor/tiled/techfloor/grid,/area/map_template/premade_shuttle)
+"o" = (/obj/machinery/atmospherics/pipe/manifold/hidden/supply{icon_state = "map-supply"; dir = 1},/turf/simulated/floor/tiled/techfloor/grid,/area/map_template/premade_shuttle)
+"p" = (/obj/machinery/atmospherics/pipe/simple/hidden/supply{icon_state = "11-supply"; dir = 10},/turf/simulated/floor/tiled/techfloor/grid,/area/map_template/premade_shuttle)
+"q" = (/obj/structure/table/rack,/obj/effect/floor_decal/industrial/outline/orange,/turf/simulated/floor/tiled/techfloor/grid,/area/map_template/premade_shuttle)
+"r" = (/obj/machinery/alarm{dir = 4; pixel_x = -24},/obj/machinery/atmospherics/pipe/simple/hidden/supply{icon_state = "11-supply"; dir = 1},/obj/structure/bed/chair/shuttle/black{icon_state = "shuttle_chair"; dir = 4},/turf/simulated/floor/tiled/techfloor,/area/map_template/premade_shuttle)
+"s" = (/obj/machinery/atmospherics/unary/vent_pump/on{icon_state = "map_vent_out"; dir = 1},/turf/simulated/floor/tiled/techfloor,/area/map_template/premade_shuttle)
+"t" = (/obj/machinery/atmospherics/pipe/simple/hidden/universal,/turf/simulated/floor/tiled/techfloor/grid,/area/map_template/premade_shuttle)
+"u" = (/obj/machinery/atmospherics/unary/vent_scrubber/on,/turf/simulated/floor/tiled/techfloor,/area/map_template/premade_shuttle)
+"v" = (/obj/structure/ore_box,/turf/simulated/floor/tiled/techfloor,/area/map_template/premade_shuttle)
+"w" = (/obj/structure/cable/blue{icon_state = "0-4"},/obj/machinery/power/apc{icon_state = "apc0"; dir = 8},/obj/machinery/atmospherics/pipe/simple/hidden/supply{icon_state = "11-supply"; dir = 1},/turf/simulated/floor/tiled/techfloor,/area/map_template/premade_shuttle)
+"x" = (/obj/structure/cable/blue{icon_state = "4-8"},/turf/simulated/floor/tiled/techfloor,/area/map_template/premade_shuttle)
+"y" = (/obj/structure/cable/blue{icon_state = "4-8"},/obj/machinery/atmospherics/pipe/manifold/hidden/cyan{icon_state = "map"; dir = 8},/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{icon_state = "11-scrubbers"; dir = 6},/turf/simulated/floor/tiled/techfloor/grid,/area/map_template/premade_shuttle)
+"z" = (/obj/structure/cable/blue{icon_state = "2-8"},/obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers,/turf/simulated/floor/tiled/techfloor,/area/map_template/premade_shuttle)
+"A" = (/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{icon_state = "11-scrubbers"; dir = 8},/obj/machinery/computer/ship/sensors{icon_state = "computer"; dir = 8},/turf/simulated/floor/tiled/techfloor,/area/map_template/premade_shuttle)
+"B" = (/obj/structure/window/borosilicate_reinforced,/obj/structure/window/borosilicate_reinforced{icon_state = "rwindow"; dir = 1},/obj/structure/window/borosilicate_reinforced{icon_state = "rwindow"; dir = 8},/obj/machinery/door/firedoor/autoset,/obj/machinery/atmospherics/unary/outlet_injector{icon_state = "off"; dir = 8},/turf/simulated/floor/plating,/area/map_template/premade_shuttle)
+"C" = (/obj/machinery/atmospherics/pipe/simple/hidden/supply{icon_state = "11-supply"; dir = 1},/obj/machinery/light{dir = 8; icon_state = "tube_map"},/turf/simulated/floor/tiled/techfloor,/area/map_template/premade_shuttle)
+"D" = (/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,/obj/machinery/atmospherics/pipe/simple/hidden/cyan{icon_state = "11"; dir = 5},/turf/simulated/floor/tiled/techfloor/grid,/area/map_template/premade_shuttle)
+"E" = (/obj/structure/cable/blue{icon_state = "1-2"},/obj/machinery/atmospherics/pipe/simple/hidden/cyan{icon_state = "11"; dir = 10},/turf/simulated/floor/tiled/techfloor,/area/map_template/premade_shuttle)
+"F" = (/obj/machinery/computer/modular/preset/engineering{icon_state = "computer"; dir = 8},/obj/machinery/light{dir = 4; icon_state = "tube_map"},/turf/simulated/floor/tiled/techfloor,/area/map_template/premade_shuttle)
+"G" = (/obj/machinery/door/airlock/external,/obj/machinery/atmospherics/pipe/simple/hidden/supply{icon_state = "11-supply"; dir = 1},/turf/simulated/floor/plating,/area/map_template/premade_shuttle)
+"H" = (/obj/structure/window/reinforced{icon_state = "rwindow"; dir = 1},/obj/machinery/atmospherics/pipe/simple/visible/fuel{icon_state = "11"; dir = 6},/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,/obj/structure/table/rack,/obj/item/stack/material/graphite/ten,/obj/item/stack/material/graphite/ten,/turf/simulated/floor/plating,/area/map_template/premade_shuttle)
+"I" = (/obj/structure/cable/blue{icon_state = "1-4"},/obj/machinery/atmospherics/binary/pump/high_power{icon_state = "map_off"; dir = 1},/obj/machinery/atmospherics/binary/pump/high_power{icon_state = "map_off"; dir = 8},/turf/simulated/floor/plating,/area/map_template/premade_shuttle)
+"J" = (/obj/structure/window/reinforced{icon_state = "rwindow"; dir = 1},/obj/structure/cable/blue{icon_state = "2-8"},/obj/machinery/atmospherics/portables_connector{icon_state = "map_connector"; dir = 8},/obj/machinery/portable_atmospherics/canister/carbon_dioxide,/turf/simulated/floor/plating,/area/map_template/premade_shuttle)
+"K" = (/obj/machinery/door/airlock/external,/turf/simulated/floor/plating,/area/map_template/premade_shuttle)
+"L" = (/obj/machinery/light/small/red,/obj/machinery/atmospherics/unary/vent_pump/on{icon_state = "map_vent_out"; dir = 1},/turf/simulated/floor/plating,/area/map_template/premade_shuttle)
+"M" = (/obj/machinery/atmospherics/pipe/simple/visible/fuel{icon_state = "11"; dir = 6},/turf/simulated/wall/r_wall/hull,/area/map_template/premade_shuttle)
+"N" = (/obj/machinery/power/port_gen/pacman/stirling,/obj/structure/window/reinforced{icon_state = "rwindow"; dir = 1},/obj/machinery/door/window/eastleft,/obj/structure/cable/orange{icon_state = "0-4"},/obj/machinery/atmospherics/pipe/manifold/visible/fuel,/obj/machinery/atmospherics/unary/vent_scrubber/on{icon_state = "map_scrubber_on"; dir = 1},/turf/simulated/floor/plating,/area/map_template/premade_shuttle)
+"O" = (/obj/machinery/power/terminal{dir = 4; icon_state = "term"},/obj/structure/cable/orange{icon_state = "0-8"},/obj/machinery/atmospherics/pipe/simple/visible/fuel{icon_state = "11"; dir = 10},/obj/machinery/atmospherics/portables_connector{icon_state = "map_connector"; dir = 1},/obj/machinery/portable_atmospherics/canister/air,/turf/simulated/floor/plating,/area/map_template/premade_shuttle)
+"P" = (/obj/machinery/power/smes/buildable/max_cap_in_out,/obj/structure/cable/blue,/obj/machinery/light,/turf/simulated/floor/plating,/area/map_template/premade_shuttle)
+"Q" = (/obj/machinery/atmospherics/unary/engine{icon_state = "nozzle"; dir = 1},/turf/simulated/floor/plating,/area/map_template/premade_shuttle)
+
+(1,1,1) = {"
+baaaaab
+bacdeab
+ffghiff
+fjklkmf
+fnoplqf
+frstuvf
+fwxyzAB
+fCkDEFf
+fGfHIJf
+KLMNOPf
+ffQfQff
+"}

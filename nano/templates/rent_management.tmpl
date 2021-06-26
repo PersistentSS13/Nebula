@@ -1,0 +1,30 @@
+{{if data.error}}
+	<h1>No target sector found!</h1>
+{{else}}
+	<div class="item">
+		<div class="itemLabel">
+			Sector Name:
+		</div>
+		<div class="itemContent">
+			{{:data.sector_name}}
+		</div>
+		<div class="itemLabel">
+			Rent Paid:
+		</div>
+		<div class="itemContent">
+			{{:data.rent_paid}} / {{:data.rent_due}}
+		</div>
+		<div class="itemLabel">
+			Rent Due Date:
+		</div>
+		<div class="itemContent">
+			{{:data.rent_date}}
+		</div>
+		<div class="itemLabel">
+			Pay Rent:
+		</div>
+		<div class="itemContent">
+			{{:helper.link('Pay', 'cart', { 'pay' : 1 })}}
+		</div>
+	</div>
+{{/if}}
