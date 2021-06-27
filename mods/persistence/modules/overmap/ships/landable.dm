@@ -9,7 +9,7 @@
 
 // Rebuild the shuttle on load.
 /obj/effect/overmap/visitable/ship/landable/Initialize()
-	if(!SSshuttle.shuttles[shuttle])
+	if(!SSshuttle.shuttles[shuttle] && persistent_id)
 		if(saved_landmark && saved_areas)
 			new /datum/shuttle/autodock/overmap/created(null, saved_landmark, saved_areas.Copy(), shuttle)
 		else

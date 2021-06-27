@@ -5,12 +5,6 @@ var/global/atom/movable/area_holder/area_holder
 	var/list/areas = list()
 	invisibility = INVISIBILITY_ABSTRACT
 
-/atom/movable/area_holder/New(loc, ...)
-	. = ..()
-	if(global.area_holder)
-		CRASH("Area holder created when an area holder already exists!")
-	global.area_holder = src
-
 /atom/movable/area_holder/Destroy()
 	. = ..()
 	areas.Cut()

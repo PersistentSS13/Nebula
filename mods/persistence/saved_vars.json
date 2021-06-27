@@ -4201,7 +4201,7 @@
 		"vars":[
 			"occupant",
 			"entrance_dir"
-    ]
+		]
   },
   {
 		"path":"/obj/item/stock_parts/network_lock",
@@ -4266,6 +4266,5 @@
 			"reinf_material",
 			"strata"
 		]
-
 	}
 ]
