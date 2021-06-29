@@ -69,7 +69,7 @@
 
 /obj/item/clothing/ring/reagent/sleepy/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/liquid/paralytics, 10) // Less than a sleepy-pen, but still enough to knock someone out
+	reagents.add_reagent(/decl/material/liquid/vecuronium_bromide, 10) // Less than a sleepy-pen, but still enough to knock someone out
 	reagents.add_reagent(/decl/material/liquid/soporific, 5)  
 
 /////////////////////////////////////////

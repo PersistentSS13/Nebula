@@ -1420,8 +1420,8 @@
 /obj/structure/table/reinforced,
 /obj/item/chems/spray/cleaner,
 /obj/item/chems/spray/cleaner,
-/obj/item/chems/spray/antiseptic,
-/obj/item/chems/spray/antiseptic,
+/obj/item/chems/spray/sterilizine,
+/obj/item/chems/spray/sterilizine,
 /obj/item/storage/box/bloodpacks,
 /obj/item/tape/medical,
 /obj/item/tape/medical,
@@ -3229,7 +3229,7 @@
 /area/map_template/rescue_base/start)
 "gZ" = (
 /obj/structure/table/glass,
-/obj/item/chems/spray/antiseptic,
+/obj/item/chems/spray/sterilizine,
 /obj/item/chems/spray/cleaner,
 /turf/simulated/floor/tiled/white,
 /area/map_template/rescue_base/start)

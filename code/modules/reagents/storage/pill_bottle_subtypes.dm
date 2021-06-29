@@ -55,18 +55,18 @@
 	wrapper_color = COLOR_PURPLE_GRAY
 
 //Baycode specific Psychiatry pills.
-/obj/item/storage/pill_bottle/antidepressants
-	name = "pill bottle (antidepressants)"
+/obj/item/storage/pill_bottle/citalopram
+	name = "pill bottle (citalopram)"
 	desc = "Mild antidepressant. For use in individuals suffering from depression or anxiety. 15u dose per pill."
 
-	startswith = list(/obj/item/chems/pill/antidepressants = 21)
+	startswith = list(/obj/item/chems/pill/citalopram = 21)
 	wrapper_color = COLOR_GRAY
 
-/obj/item/storage/pill_bottle/hyperzine
-	name = "pill bottle (hyperzine)"
+/obj/item/storage/pill_bottle/methylphenidate
+	name = "pill bottle (methylphenidate)"
 	desc = "Mental stimulant. For use in individuals suffering from ADHD, or general concentration issues. 15u dose per pill."
 
-	startswith = list(/obj/item/chems/pill/hyperzine = 21)
+	startswith = list(/obj/item/chems/pill/methylphenidate = 21)
 	wrapper_color = COLOR_GRAY
 
 /obj/item/storage/pill_bottle/assorted
@@ -80,5 +80,5 @@
 			/obj/item/chems/pill/tramadol = 2,
 			/obj/item/chems/pill/oxygen = 2,
 			/obj/item/chems/pill/kelotane = 2,
-			/obj/item/chems/pill/antirads
+			/obj/item/chems/pill/hyronalin
 		)

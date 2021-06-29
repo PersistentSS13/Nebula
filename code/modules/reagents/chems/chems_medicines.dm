@@ -17,8 +17,8 @@
 			ADJ_STATUS(M, STAT_BLIND, -5)
 			E.damage = max(E.damage - 5 * removed, 0)
 
-/decl/material/liquid/antirads
-	name = "antirads"
+/decl/material/liquid/hyronalin
+	name = "hyronalin" //known as antirads on Nebula, Arithrazine was removed
 	lore_text = "A synthetic recombinant protein, derived from entolimod, used in the treatment of radiation poisoning."
 	taste_description = "bitterness"
 	color = "#408000"
@@ -28,7 +28,7 @@
 	flags = IGNORE_MOB_SIZE
 	value = 1.5
 
-/decl/material/liquid/antirads/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/hyronalin/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	M.radiation = max(M.radiation - 30 * removed, 0)
 
 /decl/material/liquid/bicaridine
@@ -142,8 +142,8 @@
 	if(istype(H))
 		H.immunity -= 0.5 //inverse effects when abused
 
-/decl/material/liquid/hyperzine
-	name = "hyperzine"
+/decl/material/liquid/methylphenidate
+	name = "methylphenidate"
 	lore_text = "Improves the ability to concentrate."
 	taste_description = "sourness"
 	color = "#bf80bf"
@@ -151,7 +151,7 @@
 	metabolism = 0.01
 	value = 1.5
 
-/decl/material/liquid/hyperzine/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/methylphenidate/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	var/volume = REAGENT_VOLUME(holder, type)
 	if(volume <= 0.1 && LAZYACCESS(M.chem_doses, type) >= 0.5 && world.time > REAGENT_DATA(holder, type) + 5 MINUTES)
 		LAZYSET(holder.reagent_data, type, world.time)
@@ -165,8 +165,8 @@
 			LAZYSET(holder.reagent_data, type, world.time)
 			to_chat(M, "<span class='notice'>Your mind feels focused and undivided.</span>")
 
-/decl/material/liquid/antidepressants
-	name = "antidepressants"
+/decl/material/liquid/citalopram
+	name = "citalopram"
 	lore_text = "Stabilizes the mind a little."
 	taste_description = "bitterness"
 	color = "#ff80ff"
@@ -174,7 +174,7 @@
 	metabolism = 0.01
 	value = 1.5
 
-/decl/material/liquid/antidepressants/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/citalopram/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	var/volume = REAGENT_VOLUME(holder, type)
 	if(volume <= 0.1 && LAZYACCESS(M.chem_doses, type) >= 0.5 && world.time > REAGENT_DATA(holder, type) + 5 MINUTES)
 		LAZYSET(holder.reagent_data, type, world.time)
@@ -217,8 +217,8 @@
 	if(prob(2))
 		H.immunity_norm = max(H.immunity_norm - 1, 0)
 
-/decl/material/liquid/retrovirals
-	name = "retrovirals"
+/decl/material/liquid/ryetalyn
+	name = "ryetalyn"
 	lore_text = "A combination of retroviral therapy compounds and a meta-polymerase that rapidly mends genetic damage and unwanted mutations with the power of dark science."
 	taste_description = "acid"
 	color = "#004000"
@@ -226,7 +226,7 @@
 	overdose = REAGENTS_OVERDOSE
 	value = 1.5
 
-/decl/material/liquid/retrovirals/affect_overdose(mob/living/M, alien, datum/reagents/holder)
+/decl/material/liquid/ryetalyn/affect_overdose(mob/living/M, alien, datum/reagents/holder)
 	. = ..()
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
@@ -235,7 +235,7 @@
 				E.mutate()
 				E.limb_flags |= ORGAN_FLAG_DEFORMED
 	
-/decl/material/liquid/retrovirals/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/ryetalyn/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	M.adjustCloneLoss(-20 * removed)
 	if(LAZYACCESS(M.chem_doses, type) > 10)
 		ADJ_STATUS(M, STAT_DIZZY, 5)

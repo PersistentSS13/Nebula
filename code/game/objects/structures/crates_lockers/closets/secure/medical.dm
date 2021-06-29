@@ -141,8 +141,8 @@
 		/obj/item/clothing/shoes/color/white,
 		/obj/item/chems/glass/bottle/soporific,
 		/obj/item/chems/syringe,
-		/obj/item/storage/pill_bottle/antidepressants,
-		/obj/item/chems/pill/hyperzine,
+		/obj/item/storage/pill_bottle/citalopram,
+		/obj/item/chems/pill/methylphenidate,
 		/obj/item/clipboard,
 		/obj/item/folder/cyan,
 		/obj/item/taperecorder,
@@ -189,8 +189,8 @@
 		/obj/item/clothing/suit/straight_jacket,
 		/obj/item/chems/glass/bottle/soporific,
 		/obj/item/chems/syringe,
-		/obj/item/storage/pill_bottle/antidepressants,
-		/obj/item/storage/pill_bottle/hyperzine,
+		/obj/item/storage/pill_bottle/citalopram,
+		/obj/item/storage/pill_bottle/methylphenidate,
 		/obj/item/clothing/under/psych/turtleneck,
 		/obj/item/clothing/under/psych
 	)

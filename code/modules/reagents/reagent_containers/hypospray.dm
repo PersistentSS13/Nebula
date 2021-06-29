@@ -191,15 +191,15 @@
 	band_color = COLOR_PURPLE
 	starts_with = list(/decl/material/liquid/tramadol = 5)
 
-/obj/item/chems/hypospray/autoinjector/antirad
-	name = "autoinjector (anti-rad)"
+/obj/item/chems/hypospray/autoinjector/hyronalin
+	name = "autoinjector (hyronalin)"
 	band_color = COLOR_AMBER
-	starts_with = list(/decl/material/liquid/antirads = 5)
+	starts_with = list(/decl/material/liquid/hyronalin = 5)
 
-/obj/item/chems/hypospray/autoinjector/hallucinogenics
+/obj/item/chems/hypospray/autoinjector/mindbreaker_toxin
 	name = "autoinjector"
 	band_color = COLOR_DARK_GRAY
-	starts_with = list(/decl/material/liquid/hallucinogenics = 5)
+	starts_with = list(/decl/material/liquid/mindbreaker_toxin = 5)
 
 /obj/item/chems/hypospray/autoinjector/empty
 	name = "autoinjector"

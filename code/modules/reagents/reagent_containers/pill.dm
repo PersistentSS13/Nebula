@@ -186,10 +186,10 @@
 	desc = "Zoooom!"
 	icon_state = "pill4"
 /obj/item/chems/pill/zoom/initialize_reagents()
-	reagents.add_reagent(/decl/material/liquid/narcotics, 5)
-	reagents.add_reagent(/decl/material/liquid/antidepressants, 5)
+	reagents.add_reagent(/decl/material/liquid/impedrezene, 5)
+	reagents.add_reagent(/decl/material/liquid/citalopram, 5)
+	reagents.add_reagent(/decl/material/liquid/methylphenidate, 5)
 	reagents.add_reagent(/decl/material/liquid/hyperzine, 5)
-	reagents.add_reagent(/decl/material/liquid/amphetamines, 5)
 
 /obj/item/chems/pill/gleam
 	name = "strange pill"
@@ -207,34 +207,34 @@
 	reagents.add_reagent(/decl/material/liquid/spaceacillin, 10)
 
 //Psychiatry pills.
-/obj/item/chems/pill/hyperzine
-	name = "hyperzine (15u)"
+/obj/item/chems/pill/methylphenidate
+	name = "methylphenidate (15u)"
 	desc = "Improves the ability to concentrate."
 	icon_state = "pill2"
-/obj/item/chems/pill/hyperzine/initialize_reagents()
-	reagents.add_reagent(/decl/material/liquid/hyperzine, 15)
+/obj/item/chems/pill/methylphenidate/initialize_reagents()
+	reagents.add_reagent(/decl/material/liquid/methylphenidate, 15)
 
 
-/obj/item/chems/pill/antidepressants
-	name = "antidepressants (15u)"
+/obj/item/chems/pill/citalopram
+	name = "citalopram (15u)"
 	desc = "Mild anti-depressant."
 	icon_state = "pill4"
-/obj/item/chems/pill/antidepressants/initialize_reagents()
-	reagents.add_reagent(/decl/material/liquid/antidepressants, 15)
+/obj/item/chems/pill/citalopram/initialize_reagents()
+	reagents.add_reagent(/decl/material/liquid/citalopram, 15)
 
-/obj/item/chems/pill/antirads
-	name = "antirads (7u)"
+/obj/item/chems/pill/hyronalin
+	name = "hyronalin (7u)"
 	desc = "Used to treat radiation poisoning."
 	icon_state = "pill1"
-/obj/item/chems/pill/antirads/initialize_reagents()
-	reagents.add_reagent(/decl/material/liquid/antirads, 7)
+/obj/item/chems/pill/hyronalin/initialize_reagents()
+	reagents.add_reagent(/decl/material/liquid/hyronalin, 7)
 
 /obj/item/chems/pill/antirad
 	name = "AntiRad"
 	desc = "Used to treat radiation poisoning."
 	icon_state = "yellow"
 /obj/item/chems/pill/antirad/initialize_reagents()
-	reagents.add_reagent(/decl/material/liquid/antirads, 5)
+	reagents.add_reagent(/decl/material/liquid/hyronalin, 5)
 	reagents.add_reagent(/decl/material/liquid/dylovene, 10)
 
 

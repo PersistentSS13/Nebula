@@ -74,9 +74,9 @@
 
 /obj/item/gun/projectile/dartgun/vox/raider
 	starting_chems = list(
-		/decl/material/liquid/hallucinogenics,
+		/decl/material/liquid/mindbreaker_toxin,
 		/decl/material/liquid/soporific,
-		/decl/material/liquid/paralytics
+		/decl/material/liquid/vecuronium_bromide
 	)
 
 /spell/targeted/shapeshift/true_form

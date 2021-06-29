@@ -36,7 +36,7 @@
 
 /datum/ailment/head/sneezing
 	name = "sneezing"
-	treated_by_reagent_type = /decl/material/liquid/antiseptic
+	treated_by_reagent_type = /decl/material/liquid/sterilizine
 	treated_by_reagent_dosage = 1
 	medication_treatment_message = "The itching in your sinuses fades away."
 	diagnosis_string = "$USER_HIS$ sinuses are inflamed and running."
@@ -81,7 +81,7 @@
 	name = "coughing"
 	specific_organ_subtype = /obj/item/organ/internal/lungs
 	applies_to_organ = list(BP_LUNGS)
-	treated_by_reagent_type = /decl/material/liquid/antiseptic
+	treated_by_reagent_type = /decl/material/liquid/sterilizine
 	medication_treatment_message = "The tickling in your throat fades away."
 	diagnosis_string = "$USER_HIS$ throat is red and inflamed."
 

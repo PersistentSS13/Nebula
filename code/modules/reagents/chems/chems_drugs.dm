@@ -1,6 +1,6 @@
 
-/decl/material/liquid/amphetamines
-	name = "amphetamines"
+/decl/material/liquid/hyperzine
+	name = "hyperzine" //known as amphetamines on Nebula, not to be confused with stimulants which is Neb's methylphenidate
 	lore_text = "A powerful, long-lasting stimulant." 
 	taste_description = "acid"
 	color = "#ff3300"
@@ -8,21 +8,21 @@
 	overdose = REAGENTS_OVERDOSE * 0.5
 	value = 2
 
-/decl/material/liquid/amphetamines/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/hyperzine/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	if(prob(5))
 		M.emote(pick("twitch", "blink_r", "shiver"))
 	M.add_chemical_effect(CE_SPEEDBOOST, 1)
 	M.add_chemical_effect(CE_PULSE, 3)
 
-/decl/material/liquid/narcotics
-	name = "narcotics"
+/decl/material/liquid/impedrezene
+	name = "impedrezene"
 	lore_text = "A narcotic that impedes mental ability by slowing down the higher brain cell functions."
 	taste_description = "numbness"
 	color = "#c8a5dc"
 	overdose = REAGENTS_OVERDOSE
 	value = 2
 
-/decl/material/liquid/narcotics/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/impedrezene/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	ADJ_STATUS(M, STAT_JITTER, -5)
 	if(prob(80))
 		M.adjustBrainLoss(5.25 * removed)
@@ -103,8 +103,8 @@
 	SET_STATUS_MAX(M, STAT_DRUGGY, 15)
 	M.add_chemical_effect(CE_PULSE, -1)
 
-/decl/material/liquid/hallucinogenics
-	name = "hallucinogenics"
+/decl/material/liquid/mindbreaker_toxin
+	name = "mindbreaker toxin"
 	lore_text = "A mix of powerful hallucinogens, they can cause fatal effects in users."
 	taste_description = "sourness"
 	color = "#b31008"
@@ -112,7 +112,7 @@
 	overdose = REAGENTS_OVERDOSE
 	value = 2
 
-/decl/material/liquid/hallucinogenics/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/mindbreaker_toxin/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	M.add_chemical_effect(CE_MIND, -2)
 	M.set_hallucination(50, 50)
 

@@ -38,7 +38,7 @@
 	)
 
 	sacrifice_reagents = list(
-		/decl/material/liquid/amphetamines
+		/decl/material/liquid/hyperzine
 	)
 	sacrifice_objects = list(
 		/obj/item/stack/telecrystal

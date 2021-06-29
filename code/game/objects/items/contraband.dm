@@ -25,10 +25,10 @@
 
 /obj/item/chems/glass/beaker/vial/random/toxin
 	random_reagent_list = list(
-		list(/decl/material/liquid/hallucinogenics = 10)    = 2,
+		list(/decl/material/liquid/mindbreaker_toxin = 10)    = 2,
 		list(/decl/material/liquid/psychoactives = 20)      = 2,
 		list(/decl/material/liquid/carpotoxin = 15)   = 2,
-		list(/decl/material/liquid/narcotics = 15)          = 2,
+		list(/decl/material/liquid/impedrezene = 15)          = 2,
 		list(/decl/material/liquid/zombiepowder = 10) = 1
 	)
 

@@ -377,7 +377,7 @@
 /obj/item/chems/syringe/drugs/Initialize()
 	. = ..()
 	reagents.add_reagent(/decl/material/liquid/psychoactives, 5)
-	reagents.add_reagent(/decl/material/liquid/hallucinogenics, 5)
+	reagents.add_reagent(/decl/material/liquid/mindbreaker_toxin, 5)
 	reagents.add_reagent(/decl/material/liquid/cryptobiolin, 5)
 	mode = SYRINGE_INJECT
 	update_icon()
@@ -389,7 +389,7 @@
 /obj/item/chems/syringe/steroid/Initialize()
 	. = ..()
 	reagents.add_reagent(/decl/material/liquid/adrenaline, 5)
-	reagents.add_reagent(/decl/material/liquid/amphetamines, 10)
+	reagents.add_reagent(/decl/material/liquid/hyperzine, 10)
 
 
 // TG ports

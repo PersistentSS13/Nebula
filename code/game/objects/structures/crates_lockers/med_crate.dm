@@ -46,5 +46,5 @@
 	return list(
 		/obj/item/storage/firstaid/surgery,
 		/obj/item/storage/pill_bottle/dylovene = 2,
-		/obj/item/chems/pill/antirads = 12
+		/obj/item/chems/pill/hyronalin = 12
 			)
