@@ -56,8 +56,8 @@
 	..()
 	M.add_chemical_effect(CE_PULSE, 2)
 
-/decl/material/liquid/sedatives
-	name = "sedatives"
+/decl/material/liquid/soporific
+	name = "soporific"
 	lore_text = "A mild sedative used to calm patients and induce sleep."
 	taste_description = "bitterness"
 	color = "#009ca8"
@@ -65,7 +65,7 @@
 	overdose = REAGENTS_OVERDOSE
 	value = 2
 
-/decl/material/liquid/sedatives/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/soporific/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	ADJ_STATUS(M, STAT_JITTER, -50)
 	var/threshold = 1
 	var/dose = LAZYACCESS(M.chem_doses, type)

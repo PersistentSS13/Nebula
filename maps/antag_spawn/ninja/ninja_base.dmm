@@ -69,8 +69,8 @@
 	dir = 1;
 	pixel_y = 16
 	},
-/obj/item/chems/glass/bottle/sedatives,
-/obj/item/chems/glass/bottle/sedatives,
+/obj/item/chems/glass/bottle/soporific,
+/obj/item/chems/glass/bottle/soporific,
 /obj/item/chems/syringe,
 /turf/unsimulated/floor{
 	icon_state = "white"

@@ -47,14 +47,14 @@
 /datum/genetics/side_effect/bone_snap
 	name = "Bone Snap"
 	symptom = "Subject's limbs tremble notably."
-	treatment = "Inject small dose of styptic medication."
+	treatment = "Inject small dose of bicaridine medication."
 	effect = "Subject's bone breaks."
 	duration = 1 MINUTE
 
 /datum/genetics/side_effect/bone_snap/start(mob/living/carbon/human/H)
 	H.visible_message("<B>\The [H]</B>'s limbs start shivering uncontrollably.")
 /datum/genetics/side_effect/bone_snap/finish(mob/living/carbon/human/H)
-	if(!H.reagents.has_reagent(/decl/material/liquid/brute_meds))
+	if(!H.reagents.has_reagent(/decl/material/liquid/bicaridine))
 		var/obj/item/organ/external/E = pick(H.organs)
 		if(E)
 			E.take_external_damage(20, 0, 0)

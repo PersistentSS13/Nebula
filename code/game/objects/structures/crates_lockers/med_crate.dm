@@ -21,7 +21,7 @@
 	return list(
 		/obj/item/defibrillator/loaded,
 		/obj/item/stack/medical/advanced/ointment = 10,
-		/obj/item/storage/pill_bottle/burn_meds,
+		/obj/item/storage/pill_bottle/kelotane,
 		/obj/item/storage/pill_bottle/painkillers = 2,
 		/obj/item/storage/pill_bottle/antibiotics
 	)

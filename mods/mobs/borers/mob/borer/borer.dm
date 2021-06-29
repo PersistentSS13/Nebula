@@ -30,7 +30,7 @@
 	bleed_colour = "#816e12"
 
 	var/static/list/chemical_types = list(
-		"anti-trauma" = /decl/material/liquid/brute_meds,
+		"anti-trauma" = /decl/material/liquid/bicaridine,
 		"amphetamines" =  /decl/material/liquid/amphetamines,
 		"painkillers" = /decl/material/liquid/painkillers
 	)

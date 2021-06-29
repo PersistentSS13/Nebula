@@ -30,8 +30,8 @@
 /obj/item/chargen_box/science/refill
 	name = "assorted pill valu-pak" // gotta give it a snazzy brand name
 	startswith = list(
-		/obj/item/storage/pill_bottle/brute_meds = 1,
-		/obj/item/storage/pill_bottle/burn_meds = 1,
+		/obj/item/storage/pill_bottle/bicaridine = 1,
+		/obj/item/storage/pill_bottle/kelotane = 1,
 		/obj/item/storage/pill_bottle/oxygen = 1,
 		/obj/item/storage/pill_bottle/dylovene = 1,
 		/obj/item/storage/pill_bottle/painkillers = 1,

@@ -64,7 +64,7 @@
 	if(emag)
 		var/datum/reagents/R = emag.create_reagents(50)
 		R.add_reagent(/decl/material/liquid/paralytics, 10)
-		R.add_reagent(/decl/material/liquid/sedatives, 15)
+		R.add_reagent(/decl/material/liquid/soporific, 15)
 		R.add_reagent(/decl/material/liquid/ethanol/beer, 20)
 		R.add_reagent(/decl/material/solid/ice, 5)
 		emag.SetName("Mickey Finn's Special Brew")
@@ -78,7 +78,7 @@
 		B.reagents.add_reagent(/decl/material/liquid/ethanol/beer, amount * 0.4)
 		B.reagents.add_reagent(/decl/material/solid/ice,         amount * 0.1)
 		B.reagents.add_reagent(/decl/material/liquid/paralytics,   amount * 0.2)
-		B.reagents.add_reagent(/decl/material/liquid/sedatives,    amount * 0.3)
+		B.reagents.add_reagent(/decl/material/liquid/soporific,    amount * 0.3)
 
 /obj/item/robot_module/clerical/general
 	name = "clerical robot module"

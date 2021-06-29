@@ -341,8 +341,8 @@
 	chems = list(
 		/decl/material/liquid/nutriment = list(1), 
 		/decl/material/liquid/psychoactives = list(1,8), 
-		/decl/material/liquid/burn_meds = list(1,8,1), 
-		/decl/material/liquid/brute_meds = list(1,10,1), 
+		/decl/material/liquid/kelotane = list(1,8,1), 
+		/decl/material/liquid/bicaridine = list(1,10,1), 
 		/decl/material/liquid/bromide = list(1,10)
 	)
 	kitchen_tag = "biteleaf"
@@ -366,7 +366,7 @@
 	mutants = null
 	chems = list(
 		/decl/material/liquid/nutriment = list(1), 
-		/decl/material/liquid/brute_meds = list(1,8), 
+		/decl/material/liquid/bicaridine = list(1,8), 
 		/decl/material/liquid/antidepressants = list(1,8,1), 
 		/decl/material/liquid/hyperzine = list(1,8,1), 
 		/decl/material/liquid/amphetamines = list(1,10,1), 
@@ -478,7 +478,7 @@
 	seed_name = "liberty cap"
 	display_name = "liberty cap mushroom patch"
 	mutants = null
-	chems = list(/decl/material/liquid/nutriment = list(1), /decl/material/liquid/sedatives = list(3,3), /decl/material/liquid/psychoactives = list(1,25))
+	chems = list(/decl/material/liquid/nutriment = list(1), /decl/material/liquid/soporific = list(3,3), /decl/material/liquid/psychoactives = list(1,25))
 
 /datum/seed/mushroom/hallucinogenic/strong/New()
 	..()
@@ -674,7 +674,7 @@
 	name = "lavender"
 	seed_name = "lavender"
 	display_name = "lavender patch"
-	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/brute_meds = list(1,10))
+	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/bicaridine = list(1,10))
 
 /datum/seed/flower/lavender/New()
 	..()
@@ -716,7 +716,7 @@
 	seed_name = "green grape"
 	display_name = "green grapevine"
 	mutants = null
-	chems = list(/decl/material/liquid/nutriment = list(1,10), /decl/material/liquid/burn_meds = list(3,5), /decl/material/liquid/drink/juice/grape = list(10,10))
+	chems = list(/decl/material/liquid/nutriment = list(1,10), /decl/material/liquid/kelotane = list(3,5), /decl/material/liquid/drink/juice/grape = list(10,10))
 
 /datum/seed/grapes/green/New()
 	..()
@@ -1190,7 +1190,7 @@
 	name = "shand"
 	seed_name = "S'randar's hand"
 	display_name = "S'randar's hand patch"
-	chems = list(/decl/material/liquid/brute_meds = list(0,10))
+	chems = list(/decl/material/liquid/bicaridine = list(0,10))
 	kitchen_tag = "shand"
 
 /datum/seed/shand/New()
@@ -1210,7 +1210,7 @@
 	name = "mtear"
 	seed_name = "Messa's tear"
 	display_name = "Messa's tear patch"
-	chems = list(/decl/material/liquid/nutriment/honey = list(1,10), /decl/material/liquid/burn_meds = list(3,5))
+	chems = list(/decl/material/liquid/nutriment/honey = list(1,10), /decl/material/liquid/kelotane = list(3,5))
 	kitchen_tag = "mtear"
 
 /datum/seed/mtear/New()

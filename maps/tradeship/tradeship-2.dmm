@@ -6456,7 +6456,7 @@
 /obj/item/storage/pill_bottle/antibiotics,
 /obj/item/storage/pill_bottle/painkillers,
 /obj/item/storage/pill_bottle/dylovene,
-/obj/item/storage/pill_bottle/burn_meds,
+/obj/item/storage/pill_bottle/kelotane,
 /turf/simulated/floor/tiled/white,
 /area/ship/trade/crew/medbay)
 "Is" = (

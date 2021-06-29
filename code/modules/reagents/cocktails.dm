@@ -405,7 +405,7 @@
 		/decl/material/liquid/ethanol/aged_whiskey = 0.1,
 		/decl/material/liquid/ethanol/cognac =       0.1,
 		/decl/material/liquid/drink/juice/lime =     0.1,
-		/decl/material/liquid/sedatives =            0.1
+		/decl/material/liquid/soporific =            0.1
 	)
 
 /decl/cocktail/snowwhite

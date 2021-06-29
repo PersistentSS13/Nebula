@@ -197,7 +197,7 @@
 		list("dylovene",   "dylovene",       /decl/material/liquid/dylovene,          20),
 		list("glucose",      "glucose",      /decl/material/liquid/nutriment/glucose, 80),
 		list("antirads",    "antirads",      /decl/material/liquid/antirads,          20),
-		list("regenerative", "regenerative", /decl/material/liquid/burn_meds,         20),
+		list("regenerative", "regenerative", /decl/material/liquid/kelotane,          20),
 		list("antibiotics",  "antibiotics",  /decl/material/liquid/antibiotics,       20),
 		list("painkillers",  "painkillers",  /decl/material/liquid/painkillers,       20)
 		)

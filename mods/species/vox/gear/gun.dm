@@ -67,15 +67,15 @@
 
 /obj/item/gun/projectile/dartgun/vox/medical
 	starting_chems = list(
-		/decl/material/liquid/burn_meds,
-		/decl/material/liquid/brute_meds,
+		/decl/material/liquid/kelotane,
+		/decl/material/liquid/bicaridine,
 		/decl/material/liquid/dylovene
 	)
 
 /obj/item/gun/projectile/dartgun/vox/raider
 	starting_chems = list(
 		/decl/material/liquid/hallucinogenics,
-		/decl/material/liquid/sedatives,
+		/decl/material/liquid/soporific,
 		/decl/material/liquid/paralytics
 	)
 

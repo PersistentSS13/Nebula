@@ -30,17 +30,17 @@
 			/obj/item/chems/chem_disp_cartridge/retrovirals,
 			/obj/item/chems/chem_disp_cartridge/painkillers,
 			/obj/item/chems/chem_disp_cartridge/antiseptic,
-			/obj/item/chems/chem_disp_cartridge/burn_meds,
+			/obj/item/chems/chem_disp_cartridge/kelotane,
 			/obj/item/chems/chem_disp_cartridge/dexalin,
 			/obj/item/chems/chem_disp_cartridge/tricordrazine,
 			/obj/item/chems/chem_disp_cartridge/dylovene,
 			/obj/item/chems/chem_disp_cartridge/antirads,
 			/obj/item/chems/chem_disp_cartridge/alkysine,
 			/obj/item/chems/chem_disp_cartridge/imidazoline,
-			/obj/item/chems/chem_disp_cartridge/brute_meds,
+			/obj/item/chems/chem_disp_cartridge/bicaridine,
 			/obj/item/chems/chem_disp_cartridge/amphetamines,
 			/obj/item/chems/chem_disp_cartridge/antibiotics,
-			/obj/item/chems/chem_disp_cartridge/sedatives
+			/obj/item/chems/chem_disp_cartridge/soporific
 		)
 
 /obj/machinery/chemical_dispenser/bar_soft

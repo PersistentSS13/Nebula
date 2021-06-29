@@ -38547,7 +38547,7 @@
 /area/exodus/medical/chemistry)
 "bxt" = (
 /obj/structure/table/standard,
-/obj/item/chems/glass/bottle/sedatives{
+/obj/item/chems/glass/bottle/soporific{
 	pixel_x = -6;
 	pixel_y = 10
 	},

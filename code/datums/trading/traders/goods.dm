@@ -342,7 +342,7 @@ Sells devices, odds and ends, and medical stuff
 								  /obj/item/bonegel = TRADER_THIS_TYPE,
 								  /obj/item/bonesetter = TRADER_THIS_TYPE,
 								  /obj/item/chems/glass/bottle/stabilizer = TRADER_THIS_TYPE,
-								  /obj/item/chems/glass/bottle/sedatives = TRADER_THIS_TYPE,
+								  /obj/item/chems/glass/bottle/soporific = TRADER_THIS_TYPE,
 								  /obj/item/chems/glass/bottle/dylovene = TRADER_THIS_TYPE,
 								  /obj/item/bodybag/cryobag = TRADER_THIS_TYPE,
 								  /obj/item/sign/medipolma = TRADER_THIS_TYPE

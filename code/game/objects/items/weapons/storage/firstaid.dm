@@ -105,8 +105,8 @@
 	item_state = "firstaid-advanced"
 
 	startswith = list(
-		/obj/item/storage/pill_bottle/brute_meds,
-		/obj/item/storage/pill_bottle/burn_meds,
+		/obj/item/storage/pill_bottle/bicaridine,
+		/obj/item/storage/pill_bottle/kelotane,
 		/obj/item/storage/pill_bottle/oxygen,
 		/obj/item/storage/pill_bottle/dylovene,
 		/obj/item/storage/pill_bottle/painkillers,

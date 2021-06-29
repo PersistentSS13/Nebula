@@ -119,7 +119,7 @@
 	heating_message = "melts into a liquid slurry."
 	heating_products = list(
 		/decl/material/liquid/carpotoxin = 0.2, 
-		/decl/material/liquid/sedatives = 0.4, 
+		/decl/material/liquid/soporific = 0.4, 
 		/decl/material/solid/metal/copper = 0.4
 	)
 	taste_mult = 1.2

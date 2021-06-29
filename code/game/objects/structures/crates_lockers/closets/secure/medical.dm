@@ -139,7 +139,7 @@
 		/obj/item/clothing/under/psych/turtleneck,
 		/obj/item/clothing/suit/storage/toggle/labcoat,
 		/obj/item/clothing/shoes/color/white,
-		/obj/item/chems/glass/bottle/sedatives,
+		/obj/item/chems/glass/bottle/soporific,
 		/obj/item/chems/syringe,
 		/obj/item/storage/pill_bottle/antidepressants,
 		/obj/item/chems/pill/hyperzine,
@@ -187,7 +187,7 @@
 /obj/structure/closet/secure_closet/psychiatry/WillContain()
 	return list(
 		/obj/item/clothing/suit/straight_jacket,
-		/obj/item/chems/glass/bottle/sedatives,
+		/obj/item/chems/glass/bottle/soporific,
 		/obj/item/chems/syringe,
 		/obj/item/storage/pill_bottle/antidepressants,
 		/obj/item/storage/pill_bottle/hyperzine,

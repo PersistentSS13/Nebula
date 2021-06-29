@@ -16,7 +16,7 @@
 
 /datum/ailment/head/tinnitus
 	name = "tinnitus"
-	treated_by_reagent_type = /decl/material/liquid/brute_meds
+	treated_by_reagent_type = /decl/material/liquid/bicaridine
 	treated_by_reagent_dosage = 1
 	medication_treatment_message = "The high-pitched ringing in your ears slowly fades to nothing."
 
