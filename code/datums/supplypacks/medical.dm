@@ -13,7 +13,7 @@
 					/obj/item/storage/firstaid/stab,
 					/obj/item/chems/glass/bottle/dylovene,
 					/obj/item/chems/glass/bottle/stabilizer,
-					/obj/item/chems/glass/bottle/sedatives,
+					/obj/item/chems/glass/bottle/soporific,
 					/obj/item/storage/box/syringes,
 					/obj/item/storage/box/autoinjectors)
 	containername = "medical crate"

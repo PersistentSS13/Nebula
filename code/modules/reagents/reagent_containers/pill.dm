@@ -119,19 +119,19 @@
 /obj/item/chems/pill/adminordrazine/initialize_reagents()
 	reagents.add_reagent(/decl/material/liquid/adminordrazine, 1)
 
-/obj/item/chems/pill/stox
-	name = "sedatives (15u)"
+/obj/item/chems/pill/soporific
+	name = "soporific (15u)"
 	desc = "Commonly used to treat insomnia."
 	icon_state = "pill3"
-/obj/item/chems/pill/stox/initialize_reagents()
-	reagents.add_reagent(/decl/material/liquid/sedatives, 15)
+/obj/item/chems/pill/soporific/initialize_reagents()
+	reagents.add_reagent(/decl/material/liquid/soporific, 15)
 
-/obj/item/chems/pill/burn_meds
-	name = "synthskin (15u)"
+/obj/item/chems/pill/kelotane
+	name = "kelotane (15u)"
 	desc = "Used to treat burns."
 	icon_state = "pill2"
-/obj/item/chems/pill/burn_meds/initialize_reagents()
-	reagents.add_reagent(/decl/material/liquid/burn_meds, 15)
+/obj/item/chems/pill/kelotane/initialize_reagents()
+	reagents.add_reagent(/decl/material/liquid/kelotane, 15)
 
 /obj/item/chems/pill/painkillers
 	name = "painkillers (15u)"
@@ -164,12 +164,12 @@
 	reagents.add_reagent(/decl/material/liquid/dylovene, 15)
 
 
-/obj/item/chems/pill/brute_meds
-	name = "styptic (20u)"
+/obj/item/chems/pill/bicaridine
+	name = "bicaridine (15u)"
 	desc = "Used to treat physical injuries."
 	icon_state = "pill2"
-/obj/item/chems/pill/brute_meds/initialize_reagents()
-	reagents.add_reagent(/decl/material/liquid/brute_meds, 20)
+/obj/item/chems/pill/bicaridine/initialize_reagents()
+	reagents.add_reagent(/decl/material/liquid/bicaridine, 15)
 
 
 /obj/item/chems/pill/happy

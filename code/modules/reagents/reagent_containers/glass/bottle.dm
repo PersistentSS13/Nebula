@@ -88,14 +88,14 @@
 	update_icon()
 
 
-/obj/item/chems/glass/bottle/sedatives
-	name = "sedatives bottle"
+/obj/item/chems/glass/bottle/soporific
+	name = "soporific bottle"
 	desc = "A small bottle of soporific medication. Just the fumes make you sleepy."
 	icon_state = "bottle-3"
 
-/obj/item/chems/glass/bottle/sedatives/Initialize()
+/obj/item/chems/glass/bottle/soporific/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/liquid/sedatives, 60)
+	reagents.add_reagent(/decl/material/liquid/soporific, 60)
 	update_icon()
 
 

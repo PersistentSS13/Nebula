@@ -13,7 +13,7 @@
 	products = list(
 		/obj/item/chems/glass/bottle/dylovene = 4,
 		/obj/item/chems/glass/bottle/stabilizer = 4,
-		/obj/item/chems/glass/bottle/sedatives = 4,
+		/obj/item/chems/glass/bottle/soporific = 4,
 		/obj/item/chems/glass/bottle/bromide = 4,
 		/obj/item/chems/syringe/antibiotic = 4,
 		/obj/item/chems/syringe = 12,
@@ -28,7 +28,7 @@
 	contraband = list(
 		/obj/item/clothing/mask/chewable/candy/lolli/meds = 8,
 		/obj/item/chems/pill/bromide = 3,
-		/obj/item/chems/pill/stox = 4,
+		/obj/item/chems/pill/soporific = 4,
 		/obj/item/chems/pill/dylovene = 6
 	)
 	idle_power_usage = 211 //refrigerator - believe it or not, this is actually the average power consumption of a refrigerated vending machine according to NRCan.

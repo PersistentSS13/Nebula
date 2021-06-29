@@ -31,8 +31,8 @@
 /decl/material/liquid/antirads/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	M.radiation = max(M.radiation - 30 * removed, 0)
 
-/decl/material/liquid/brute_meds
-	name = "styptic powder"
+/decl/material/liquid/bicaridine
+	name = "bicaridine"
 	lore_text = "An analgesic and bleeding suppressant that helps with recovery from physical trauma. Can assist with mending arteries if injected in large amounts, but will cause complications."
 	taste_description = "bitterness"
 	taste_mult = 3
@@ -43,7 +43,7 @@
 	value = 1.5
 	fruit_descriptor = "medicinal"
 
-/decl/material/liquid/brute_meds/affect_overdose(mob/living/M, alien, var/datum/reagents/holder)
+/decl/material/liquid/bicaridine/affect_overdose(mob/living/M, alien, var/datum/reagents/holder)
 	..()
 	if(ishuman(M))
 		M.add_chemical_effect(CE_BLOCKAGE, (15 + REAGENT_VOLUME(holder, type))/100)
@@ -52,13 +52,13 @@
 			if(E.status & ORGAN_ARTERY_CUT && prob(2))
 				E.status &= ~ORGAN_ARTERY_CUT
 
-/decl/material/liquid/brute_meds/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/bicaridine/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	M.heal_organ_damage(6 * removed, 0)
 	M.add_chemical_effect(CE_PAINKILLER, 10)
 
-/decl/material/liquid/burn_meds
-	name = "synthskin"
-	lore_text = "A synthetic sealant, disinfectant and analgesic that encourages burned tissue to recover."
+/decl/material/liquid/kelotane
+	name = "kelotane"
+	lore_text = "Treats burn damage. Prevents infection."
 	taste_description = "bitterness"
 	color = "#ffa800"
 	overdose = REAGENTS_OVERDOSE
@@ -66,7 +66,7 @@
 	flags = IGNORE_MOB_SIZE
 	value = 1.5
 
-/decl/material/liquid/burn_meds/affect_blood(mob/living/M, alien, removed, var/datum/reagents/holder)
+/decl/material/liquid/kelotane/affect_blood(mob/living/M, alien, removed, var/datum/reagents/holder)
 	M.heal_organ_damage(0, 6 * removed)
 	M.add_chemical_effect(CE_PAINKILLER, 10)
 

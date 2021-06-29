@@ -55,9 +55,9 @@
 	required_reagents = list(/decl/material/liquid/mercury = 1, /decl/material/liquid/acetone = 1, /decl/material/liquid/nutriment/sugar = 1)
 	result_amount = 2
 
-/datum/chemical_reaction/burn_meds
-	name = "Anti-Burn Medication"
-	result = /decl/material/liquid/burn_meds
+/datum/chemical_reaction/kelotane
+	name = "Kelotane"
+	result = /decl/material/liquid/kelotane
 	required_reagents = list(/decl/material/solid/silicon = 1, /decl/material/solid/carbon = 1)
 	result_amount = 2
 	log_is_important = 1
@@ -88,9 +88,9 @@
 	required_reagents = list(/decl/material/liquid/acetone = 1, /decl/material/liquid/water = 1, /decl/material/solid/sulfur = 1)
 	result_amount = 1
 
-/datum/chemical_reaction/brute_meds
-	name = "Anti-Trauma Medication"
-	result = /decl/material/liquid/brute_meds
+/datum/chemical_reaction/bicaridine
+	name = "Bicaridine"
+	result = /decl/material/liquid/bicaridine
 	required_reagents = list(/decl/material/liquid/stabilizer = 1, /decl/material/solid/carbon = 1)
 	inhibitors = list(/decl/material/liquid/nutriment/sugar = 1) // Messes up with adrenaline
 	result_amount = 2
@@ -129,9 +129,9 @@
 	required_reagents = list(/decl/material/solid/carbon = 1, /decl/material/liquid/fuel/hydrazine = 1, /decl/material/liquid/dylovene = 1)
 	result_amount = 2
 
-/datum/chemical_reaction/sedatives
-	name = "Sedatives"
-	result = /decl/material/liquid/sedatives
+/datum/chemical_reaction/soporific
+	name = "Soporific"
+	result = /decl/material/liquid/soporific
 	required_reagents = list(/decl/material/liquid/ethanol = 1, /decl/material/liquid/nutriment/sugar = 4
 	)
 	inhibitors = list(
@@ -148,7 +148,7 @@
 /datum/chemical_reaction/zombiepowder
 	name = "Zombie Powder"
 	result = /decl/material/liquid/zombiepowder
-	required_reagents = list(/decl/material/liquid/carpotoxin = 5, /decl/material/liquid/sedatives = 5, /decl/material/solid/metal/copper = 5)
+	required_reagents = list(/decl/material/liquid/carpotoxin = 5, /decl/material/liquid/soporific = 5, /decl/material/solid/metal/copper = 5)
 	result_amount = 2
 	minimum_temperature = 90 CELSIUS
 	maximum_temperature = 99 CELSIUS

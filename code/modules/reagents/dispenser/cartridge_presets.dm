@@ -139,8 +139,8 @@
 	spawn_reagent = /decl/material/liquid/painkillers
 /obj/item/chems/chem_disp_cartridge/antiseptic
 	spawn_reagent = /decl/material/liquid/antiseptic
-/obj/item/chems/chem_disp_cartridge/burn_meds
-	spawn_reagent = /decl/material/liquid/burn_meds
+/obj/item/chems/chem_disp_cartridge/kelotane
+	spawn_reagent = /decl/material/liquid/kelotane
 /obj/item/chems/chem_disp_cartridge/dexalin
 	spawn_reagent = /decl/material/liquid/dexalin
 /obj/item/chems/chem_disp_cartridge/tricordrazine
@@ -153,13 +153,13 @@
 	spawn_reagent = /decl/material/liquid/alkysine
 /obj/item/chems/chem_disp_cartridge/imidazoline
 	spawn_reagent = /decl/material/liquid/imidazoline
-/obj/item/chems/chem_disp_cartridge/brute_meds
-	spawn_reagent = /decl/material/liquid/brute_meds
+/obj/item/chems/chem_disp_cartridge/bicaridine
+	spawn_reagent = /decl/material/liquid/bicaridine
 /obj/item/chems/chem_disp_cartridge/amphetamines
 	spawn_reagent = /decl/material/liquid/amphetamines
 /obj/item/chems/chem_disp_cartridge/antibiotics
 	spawn_reagent = /decl/material/liquid/antibiotics
-/obj/item/chems/chem_disp_cartridge/sedatives
-	spawn_reagent = /decl/material/liquid/sedatives
+/obj/item/chems/chem_disp_cartridge/soporific
+	spawn_reagent = /decl/material/liquid/soporific
 /obj/item/chems/chem_disp_cartridge/stabilizer
 	spawn_reagent = /decl/material/liquid/stabilizer

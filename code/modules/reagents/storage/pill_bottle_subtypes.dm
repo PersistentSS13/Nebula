@@ -5,11 +5,11 @@
 	startswith = list(/obj/item/chems/pill/dylovene = 21)
 	wrapper_color = COLOR_GREEN
 
-/obj/item/storage/pill_bottle/brute_meds
-	name = "pill bottle (styptic)"
+/obj/item/storage/pill_bottle/bicaridine
+	name = "pill bottle (bicaridine)"
 	desc = "Contains pills used to stabilize the severely injured."
 
-	startswith = list(/obj/item/chems/pill/brute_meds = 21)
+	startswith = list(/obj/item/chems/pill/bicaridine = 21)
 	wrapper_color = COLOR_MAROON
 
 /obj/item/storage/pill_bottle/oxygen
@@ -33,11 +33,11 @@
 	startswith = list(/obj/item/chems/pill/adrenaline = 21)
 	wrapper_color = COLOR_PALE_BLUE_GRAY
 
-/obj/item/storage/pill_bottle/burn_meds
-	name = "pill bottle (synthskin)"
+/obj/item/storage/pill_bottle/kelotane
+	name = "pill bottle (kelotane)"
 	desc = "Contains pills used to treat burns."
 
-	startswith = list(/obj/item/chems/pill/burn_meds = 21)
+	startswith = list(/obj/item/chems/pill/kelotane = 21)
 	wrapper_color = COLOR_SUN
 
 /obj/item/storage/pill_bottle/antibiotics
@@ -79,6 +79,6 @@
 			/obj/item/chems/pill/sugariron = 2,
 			/obj/item/chems/pill/painkillers = 2,
 			/obj/item/chems/pill/oxygen = 2,
-			/obj/item/chems/pill/burn_meds = 2,
+			/obj/item/chems/pill/kelotane = 2,
 			/obj/item/chems/pill/antirads
 		)
