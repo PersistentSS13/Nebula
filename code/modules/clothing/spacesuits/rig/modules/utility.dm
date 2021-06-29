@@ -180,7 +180,7 @@
 		list("dexalin",       "dexalin",     /decl/material/liquid/dexalin,      80),
 		list("inaprovaline",   "inaprovaline",   /decl/material/liquid/inaprovaline,   80),
 		list("dylovene",   "dylovene",       /decl/material/liquid/dylovene,     80),
-		list("antirads",     "antirads",     /decl/material/liquid/antirads,     80),
+		list("hyronalin",     "hyronalin",     /decl/material/liquid/hyronalin,     80),
 		list("spaceacillin",  "spaceacillin",  /decl/material/liquid/spaceacillin,  80),
 		list("tramadol",  "tramadol",  /decl/material/liquid/tramadol,  80)
 		)
@@ -196,7 +196,7 @@
 		list("inaprovaline",   "inaprovaline",   /decl/material/liquid/inaprovaline,  20),
 		list("dylovene",   "dylovene",       /decl/material/liquid/dylovene,          20),
 		list("glucose",      "glucose",      /decl/material/liquid/nutriment/glucose, 80),
-		list("antirads",    "antirads",      /decl/material/liquid/antirads,          20),
+		list("hyronalin",    "hyronalin",      /decl/material/liquid/hyronalin,       20),
 		list("regenerative", "regenerative", /decl/material/liquid/kelotane,          20),
 		list("spaceacillin",  "spaceacillin",  /decl/material/liquid/spaceacillin,    20),
 		list("tramadol",  "tramadol",        /decl/material/liquid/tramadol,          20)
@@ -279,9 +279,9 @@
 	desc = "A complex web of tubing and needles suitable for hardsuit use."
 
 	charges = list(
-		list("antidepressants", "antidepressants",  /decl/material/liquid/antidepressants,   30),
-		list("hyperzine",      "hyperzine",         /decl/material/liquid/hyperzine,         30),
-		list("amphetamines",    "amphetamines",     /decl/material/liquid/amphetamines,      30),
+		list("citalopram", "citalopram",            /decl/material/liquid/citalopram,        30),
+		list("methylphenidate",      "methylphenidate",    /decl/material/liquid/methylphenidate,     30),
+		list("hyperzine",    "hyperzine",           /decl/material/liquid/hyperzine,         30),
 		list("tramadol",     "tramadol",            /decl/material/liquid/tramadol,          30),
 		list("glucose",         "glucose",          /decl/material/liquid/nutriment/glucose, 80)
 		)

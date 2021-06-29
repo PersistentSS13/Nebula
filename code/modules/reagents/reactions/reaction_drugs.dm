@@ -10,9 +10,9 @@
 	required_reagents = list(/decl/material/liquid/inaprovaline = 1, /decl/material/liquid/ethanol = 1, /decl/material/liquid/acetone = 1)
 	result_amount = 3
 
-/datum/chemical_reaction/antiseptic
-	name = "Antiseptic"
-	result = /decl/material/liquid/antiseptic
+/datum/chemical_reaction/sterilizine
+	name = "Sterilizine"
+	result = /decl/material/liquid/sterilizine
 	required_reagents = list(/decl/material/liquid/ethanol = 1, /decl/material/liquid/dylovene = 1, /decl/material/liquid/acid/hydrochloric = 1)
 	result_amount = 3
 
@@ -43,15 +43,15 @@
 	required_reagents = list(/decl/material/liquid/acid = 1, /decl/material/liquid/acid/hydrochloric = 1, /decl/material/solid/potassium = 1)
 	result_amount = 3
 
-/datum/chemical_reaction/antirads
-	name = "Anti-Radiation Medication"
-	result = /decl/material/liquid/antirads
+/datum/chemical_reaction/hyronalin
+	name = "Hyronalin"
+	result = /decl/material/liquid/hyronalin
 	required_reagents = list(/decl/material/solid/metal/radium = 1, /decl/material/liquid/dylovene = 1)
 	result_amount = 2
 
-/datum/chemical_reaction/narcotics
-	name = "Narcotics"
-	result = /decl/material/liquid/narcotics
+/datum/chemical_reaction/impedrezene
+	name = "Impedrezene"
+	result = /decl/material/liquid/impedrezene
 	required_reagents = list(/decl/material/liquid/mercury = 1, /decl/material/liquid/acetone = 1, /decl/material/liquid/nutriment/sugar = 1)
 	result_amount = 2
 
@@ -95,16 +95,16 @@
 	inhibitors = list(/decl/material/liquid/nutriment/sugar = 1) // Messes up with adrenaline
 	result_amount = 2
 
-/datum/chemical_reaction/amphetamines
-	name = "Amphetamines"
-	result = /decl/material/liquid/amphetamines
+/datum/chemical_reaction/hyperzine
+	name = "Hyperzine"
+	result = /decl/material/liquid/hyperzine
 	required_reagents = list(/decl/material/liquid/nutriment/sugar = 1, /decl/material/solid/phosphorus = 1, /decl/material/solid/sulfur = 1)
 	result_amount = 3
 
-/datum/chemical_reaction/retrovirals
-	name = "Retrovirals"
-	result = /decl/material/liquid/retrovirals
-	required_reagents = list(/decl/material/liquid/antirads = 1, /decl/material/solid/carbon = 1)
+/datum/chemical_reaction/ryetalyn
+	name = "Ryetalyn"
+	result = /decl/material/liquid/ryetalyn
+	required_reagents = list(/decl/material/liquid/hyronalin = 1, /decl/material/solid/carbon = 1)
 	result_amount = 2
 
 /datum/chemical_reaction/nanitefluid
@@ -139,9 +139,9 @@
 	) // Messes with the smoke
 	result_amount = 5
 
-/datum/chemical_reaction/paralytics
-	name = "Paralytics"
-	result = /decl/material/liquid/paralytics
+/datum/chemical_reaction/vecuronium_bromide
+	name = "Vecuronium Bromide"
+	result = /decl/material/liquid/vecuronium_bromide
 	required_reagents = list(/decl/material/liquid/ethanol = 1, /decl/material/liquid/mercury = 2, /decl/material/liquid/fuel/hydrazine = 2)
 	result_amount = 1
 
@@ -154,9 +154,9 @@
 	maximum_temperature = 99 CELSIUS
 	mix_message = "The solution boils off to form a fine powder."
 
-/datum/chemical_reaction/hallucinogenics
-	name = "Hallucinogenics"
-	result = /decl/material/liquid/hallucinogenics
+/datum/chemical_reaction/mindbreaker_toxin
+	name = "Mindbreaker Toxin"
+	result = /decl/material/liquid/mindbreaker_toxin
 	required_reagents = list(/decl/material/solid/silicon = 1, /decl/material/liquid/fuel/hydrazine = 1, /decl/material/liquid/dylovene = 1)
 	result_amount = 3
 	mix_message = "The solution takes on an iridescent sheen."
@@ -198,16 +198,16 @@
 	required_reagents = list(/decl/material/solid/sodium = 1, /decl/material/liquid/acid/hydrochloric = 1)
 	result_amount = 2
 
-/datum/chemical_reaction/hyperzine
-	name = "Hyperzine"
-	result = /decl/material/liquid/hyperzine
-	required_reagents = list(/decl/material/liquid/hallucinogenics = 1, /decl/material/solid/lithium = 1)
+/datum/chemical_reaction/methylphenidate
+	name = "Methylphenidate"
+	result = /decl/material/liquid/methylphenidate
+	required_reagents = list(/decl/material/liquid/mindbreaker_toxin = 1, /decl/material/solid/lithium = 1)
 	result_amount = 3
 
-/datum/chemical_reaction/antidepressants
-	name = "Antidepressants"
-	result = /decl/material/liquid/antidepressants
-	required_reagents = list(/decl/material/liquid/hallucinogenics = 1, /decl/material/solid/carbon = 1)
+/datum/chemical_reaction/citalopram
+	name = "Citalopram"
+	result = /decl/material/liquid/citalopram
+	required_reagents = list(/decl/material/liquid/mindbreaker_toxin = 1, /decl/material/solid/carbon = 1)
 	result_amount = 3
 
 /datum/chemical_reaction/hair_remover
@@ -231,7 +231,7 @@
 /datum/chemical_reaction/adrenaline
 	name = "Adrenaline"
 	result = /decl/material/liquid/adrenaline
-	required_reagents = list(/decl/material/liquid/nutriment/sugar = 1, /decl/material/liquid/amphetamines = 1, /decl/material/liquid/dexalin = 1)
+	required_reagents = list(/decl/material/liquid/nutriment/sugar = 1, /decl/material/liquid/hyperzine = 1, /decl/material/liquid/dexalin = 1)
 	result_amount = 3
 
 /datum/chemical_reaction/inaprovaline
@@ -251,7 +251,7 @@
 		/decl/material/liquid/enzyme = 1
 	)
 	required_reagents = list(
-		/decl/material/liquid/hallucinogenics = 2,
+		/decl/material/liquid/mindbreaker_toxin = 2,
 		/decl/material/liquid/glowsap = 2
 	)
 

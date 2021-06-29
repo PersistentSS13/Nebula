@@ -45,8 +45,8 @@
 		/decl/material/liquid/water = 1,
 		/decl/material/solid/ice = 0.6,
 		/decl/material/liquid/kelotane = 0.7,
-		/decl/material/liquid/antiseptic = 0.7,
-		/decl/material/liquid/amphetamines = 0.8,
+		/decl/material/liquid/sterilizine = 0.7,
+		/decl/material/liquid/hyperzine = 0.8,
 		/decl/material/liquid/adminordrazine = 2
 	)
 

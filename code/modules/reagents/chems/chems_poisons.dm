@@ -1,5 +1,5 @@
-/decl/material/liquid/paralytics
-	name = "paralytics"
+/decl/material/liquid/vecuronium_bromide
+	name = "vecuronium bromide"
 	lore_text = "A powerful paralytic agent."
 	taste_description = "metallic"
 	color = "#ff337d"
@@ -7,7 +7,7 @@
 	overdose = REAGENTS_OVERDOSE * 0.5
 	value = 1.5
 
-/decl/material/liquid/paralytics/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/vecuronium_bromide/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	var/threshold = 2
 	var/dose = LAZYACCESS(M.chem_doses, type)
 	if(dose >= metabolism * threshold * 0.5)

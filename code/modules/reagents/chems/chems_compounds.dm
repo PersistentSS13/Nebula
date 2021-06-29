@@ -352,8 +352,8 @@
 				if(BP_IS_PROSTHETIC(I))
 					I.heal_damage(20*removed)
 
-/decl/material/liquid/antiseptic
-	name = "antiseptic"
+/decl/material/liquid/sterilizine
+	name = "sterilizine"
 	lore_text = "Sterilizes surfaces (or wounds) in preparation for surgery, and thoroughly removes blood."
 	taste_description = "bitterness"
 	color = "#c8a5dc"

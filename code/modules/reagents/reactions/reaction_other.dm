@@ -70,7 +70,7 @@
 
 /datum/chemical_reaction/paint
 	name = "Paint"
-	result = /decl/material/liquid/narcotics
+	result = /decl/material/liquid/impedrezene
 	required_reagents = list(/decl/material/liquid/plasticide = 1, /decl/material/liquid/water = 3)
 	result_amount = 5
 	mix_message = "The solution thickens and takes on a glossy sheen."

@@ -63,7 +63,7 @@
 	. = ..()
 	if(emag)
 		var/datum/reagents/R = emag.create_reagents(50)
-		R.add_reagent(/decl/material/liquid/paralytics, 10)
+		R.add_reagent(/decl/material/liquid/vecuronium_bromide, 10)
 		R.add_reagent(/decl/material/liquid/soporific, 15)
 		R.add_reagent(/decl/material/liquid/ethanol/beer, 20)
 		R.add_reagent(/decl/material/solid/ice, 5)
@@ -77,7 +77,7 @@
 		var/obj/item/chems/food/drinks/bottle/small/beer/B = emag
 		B.reagents.add_reagent(/decl/material/liquid/ethanol/beer, amount * 0.4)
 		B.reagents.add_reagent(/decl/material/solid/ice,         amount * 0.1)
-		B.reagents.add_reagent(/decl/material/liquid/paralytics,   amount * 0.2)
+		B.reagents.add_reagent(/decl/material/liquid/vecuronium_bromide,   amount * 0.2)
 		B.reagents.add_reagent(/decl/material/liquid/soporific,    amount * 0.3)
 
 /obj/item/robot_module/clerical/general

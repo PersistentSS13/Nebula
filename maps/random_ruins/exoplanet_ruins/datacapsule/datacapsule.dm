@@ -38,7 +38,7 @@
 /obj/item/chems/glass/beaker/vial/random_podchem/Initialize()
 	. = ..()
 	desc += "Label is smudged, and there's crusted blood fingerprints on it."
-	var/reagent_type = pick(/decl/material/liquid/random, /decl/material/liquid/zombie/science, /decl/material/liquid/retrovirals)
+	var/reagent_type = pick(/decl/material/liquid/random, /decl/material/liquid/zombie/science, /decl/material/liquid/ryetalyn)
 	reagents.add_reagent(pick(reagent_type), 5)
 
 /obj/structure/backup_server

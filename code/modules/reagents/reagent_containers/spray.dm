@@ -104,13 +104,13 @@
 	. = ..()
 	reagents.add_reagent(/decl/material/liquid/cleaner, volume)
 
-/obj/item/chems/spray/antiseptic
-	name = "antiseptic spray"
+/obj/item/chems/spray/sterilizine
+	name = "sterilizine spray"
 	desc = "Great for hiding incriminating bloodstains and sterilizing scalpels."
 
-/obj/item/chems/spray/antiseptic/Initialize()
+/obj/item/chems/spray/sterilizine/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/liquid/antiseptic, volume)
+	reagents.add_reagent(/decl/material/liquid/sterilizine, volume)
 
 /obj/item/chems/spray/hair_remover
 	name = "hair remover"

@@ -442,7 +442,7 @@
 /obj/item/chems/food/snacks/bearmeat/Initialize()
 	.=..()
 	reagents.add_reagent(/decl/material/liquid/nutriment/protein, 12)
-	reagents.add_reagent(/decl/material/liquid/amphetamines, 5)
+	reagents.add_reagent(/decl/material/liquid/hyperzine, 5)
 
 /obj/item/chems/food/snacks/spider
 	name = "giant spider leg"
@@ -523,8 +523,8 @@
 	filling_color = "#6d6d00"
 	heated_reagents = list(
 		/decl/material/liquid/tricordrazine = 5, 
-		/decl/material/liquid/amphetamines = 0.75, 
-		/decl/material/liquid/hyperzine = 0.25
+		/decl/material/liquid/hyperzine = 0.75, 
+		/decl/material/liquid/methylphenidate = 0.25
 	)
 	var/has_been_heated = 0 // Unlike the warm var, this checks if the one-time self-heating operation has been used.
 
@@ -3182,7 +3182,7 @@
 	.=..()
 	reagents.add_reagent(/decl/material/liquid/nutriment, 5,
 						/decl/material/liquid/adrenaline, 5,
-						/decl/material/liquid/amphetamines, 5,
+						/decl/material/liquid/hyperzine, 5,
 						/decl/material/solid/metal/iron, 5)
 
 //Vending Machine Foods should go here.

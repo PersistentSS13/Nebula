@@ -146,7 +146,7 @@
 				/obj/item/chems/glass/bottle/dylovene = 2,
 				/obj/item/storage/pill_bottle = 2,
 				/obj/item/storage/pill_bottle/tramadol = 1,
-				/obj/item/storage/pill_bottle/antidepressants = 2,
+				/obj/item/storage/pill_bottle/citalopram = 2,
 				/obj/item/storage/pill_bottle/oxygen = 1,
 				/obj/item/storage/pill_bottle/kelotane = 1,
 				/obj/item/storage/pill_bottle/bicaridine = 1,

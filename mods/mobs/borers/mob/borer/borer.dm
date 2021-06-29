@@ -31,7 +31,7 @@
 
 	var/static/list/chemical_types = list(
 		"bicaridine" = /decl/material/liquid/bicaridine,
-		"amphetamines" =  /decl/material/liquid/amphetamines,
+		"hyperzine" =  /decl/material/liquid/hyperzine,
 		"tramadol" = /decl/material/liquid/tramadol
 	)
 

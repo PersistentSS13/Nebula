@@ -193,10 +193,10 @@
 	return list(
 		/decl/material/liquid/dexalin,
 		/decl/material/liquid/tricordrazine,
-		/decl/material/liquid/amphetamines,
-		/decl/material/liquid/antirads,
 		/decl/material/liquid/hyperzine,
-		/decl/material/liquid/antidepressants,
+		/decl/material/liquid/hyronalin,
+		/decl/material/liquid/methylphenidate,
+		/decl/material/liquid/citalopram,
 		/decl/material/liquid/dylovene,
 		/decl/material/liquid/bicaridine,
 		/decl/material/liquid/kelotane,

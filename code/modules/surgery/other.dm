@@ -215,7 +215,7 @@
 
 /decl/surgery_step/sterilize/proc/check_chemicals(var/obj/item/chems/container)
 	if(istype(container) && ATOM_IS_OPEN_CONTAINER(container))
-		if(container.reagents.has_reagent(/decl/material/liquid/antiseptic))
+		if(container.reagents.has_reagent(/decl/material/liquid/sterilizine))
 			return TRUE
 		else
 			for(var/rtype in container?.reagents?.reagent_volumes)

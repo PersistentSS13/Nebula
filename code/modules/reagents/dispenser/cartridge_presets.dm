@@ -133,12 +133,12 @@
 // ERT
 /obj/item/chems/chem_disp_cartridge/adrenaline
 	spawn_reagent = /decl/material/liquid/adrenaline
-/obj/item/chems/chem_disp_cartridge/retrovirals
-	spawn_reagent = /decl/material/liquid/retrovirals
+/obj/item/chems/chem_disp_cartridge/ryetalyn
+	spawn_reagent = /decl/material/liquid/ryetalyn
 /obj/item/chems/chem_disp_cartridge/tramadol
 	spawn_reagent = /decl/material/liquid/tramadol
-/obj/item/chems/chem_disp_cartridge/antiseptic
-	spawn_reagent = /decl/material/liquid/antiseptic
+/obj/item/chems/chem_disp_cartridge/sterilizine
+	spawn_reagent = /decl/material/liquid/sterilizine
 /obj/item/chems/chem_disp_cartridge/kelotane
 	spawn_reagent = /decl/material/liquid/kelotane
 /obj/item/chems/chem_disp_cartridge/dexalin
@@ -147,16 +147,16 @@
 	spawn_reagent = /decl/material/liquid/tricordrazine
 /obj/item/chems/chem_disp_cartridge/dylovene
 	spawn_reagent = /decl/material/liquid/dylovene
-/obj/item/chems/chem_disp_cartridge/antirads
-	spawn_reagent = /decl/material/liquid/antirads
+/obj/item/chems/chem_disp_cartridge/hyronalin
+	spawn_reagent = /decl/material/liquid/hyronalin
 /obj/item/chems/chem_disp_cartridge/alkysine
 	spawn_reagent = /decl/material/liquid/alkysine
 /obj/item/chems/chem_disp_cartridge/imidazoline
 	spawn_reagent = /decl/material/liquid/imidazoline
 /obj/item/chems/chem_disp_cartridge/bicaridine
 	spawn_reagent = /decl/material/liquid/bicaridine
-/obj/item/chems/chem_disp_cartridge/amphetamines
-	spawn_reagent = /decl/material/liquid/amphetamines
+/obj/item/chems/chem_disp_cartridge/hyperzine
+	spawn_reagent = /decl/material/liquid/hyperzine
 /obj/item/chems/chem_disp_cartridge/spaceacillin
 	spawn_reagent = /decl/material/liquid/spaceacillin
 /obj/item/chems/chem_disp_cartridge/soporific

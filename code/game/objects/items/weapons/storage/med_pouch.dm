@@ -152,7 +152,7 @@ Single Use Emergency Pouches
 	color = COLOR_AMBER
 
 	startswith = list(
-	/obj/item/chems/hypospray/autoinjector/antirad,
+	/obj/item/chems/hypospray/autoinjector/hyronalin,
 	/obj/item/chems/pill/pouch_pill/dylovene
 		)
 	instructions = {"

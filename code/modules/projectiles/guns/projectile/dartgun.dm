@@ -155,4 +155,4 @@
 	starting_chems = list(/decl/material/liquid/kelotane,/decl/material/liquid/bicaridine,/decl/material/liquid/dylovene)
 
 /obj/item/gun/projectile/dartgun/raider
-	starting_chems = list(/decl/material/liquid/psychoactives,/decl/material/liquid/soporific,/decl/material/liquid/narcotics)
+	starting_chems = list(/decl/material/liquid/psychoactives,/decl/material/liquid/soporific,/decl/material/liquid/impedrezene)
