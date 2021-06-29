@@ -23,7 +23,7 @@
 	startswith = list(
 		/obj/item/storage/firstaid/surgery = 1,
 		/obj/item/stock_parts/circuitboard/optable = 1,
-		/obj/item/storage/pill_bottle/painkillers = 1,
+		/obj/item/storage/pill_bottle/tramadol = 1,
 		/obj/item/scanner/health = 1
 	)
 
@@ -34,8 +34,8 @@
 		/obj/item/storage/pill_bottle/kelotane = 1,
 		/obj/item/storage/pill_bottle/oxygen = 1,
 		/obj/item/storage/pill_bottle/dylovene = 1,
-		/obj/item/storage/pill_bottle/painkillers = 1,
-		/obj/item/storage/pill_bottle/antibiotics = 1,
+		/obj/item/storage/pill_bottle/tramadol = 1,
+		/obj/item/storage/pill_bottle/spaceacillin = 1,
 		/obj/item/stack/medical/splint = 1
 	)
 

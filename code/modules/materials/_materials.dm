@@ -543,7 +543,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 		M.apply_damage((radioactivity / 2) * removed, IRRADIATE)
 
 	if(dirtiness <= DIRTINESS_STERILE)
-		if(M.germ_level < INFECTION_LEVEL_TWO) // rest and antibiotics is required to cure serious infections
+		if(M.germ_level < INFECTION_LEVEL_TWO) // rest and spaceacillin is required to cure serious infections
 			M.germ_level -= min(removed*20, M.germ_level)
 		for(var/obj/item/I in M.contents)
 			I.was_bloodied = null

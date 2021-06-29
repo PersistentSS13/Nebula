@@ -186,9 +186,9 @@
 			LAZYSET(holder.reagent_data, type, world.time)
 			to_chat(M, "<span class='notice'>Your mind feels stable... a little stable.</span>")
 
-/decl/material/liquid/antibiotics
-	name = "antibiotics"
-	lore_text = "An all-purpose antibiotic agent."
+/decl/material/liquid/spaceacillin
+	name = "spaceacillin"
+	lore_text = "A theta-lactam antibiotic. Slows progression of diseases. Treats infections."
 	taste_description = "bitterness"
 	color = "#c1c1c1"
 	metabolism = REM * 0.1
@@ -196,7 +196,7 @@
 	scannable = 1
 	value = 1.5
 
-/decl/material/liquid/antibiotics/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/spaceacillin/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	var/mob/living/carbon/human/H = M
 	if(!istype(H))
 		return
@@ -208,7 +208,7 @@
 	if(LAZYACCESS(H.chem_doses, type) > 15)
 		H.immunity = max(H.immunity - 0.25, 0)
 
-/decl/material/liquid/antibiotics/affect_overdose(var/mob/living/M, var/alien, var/datum/reagents/holder)
+/decl/material/liquid/spaceacillin/affect_overdose(var/mob/living/M, var/alien, var/datum/reagents/holder)
 	..()
 	var/mob/living/carbon/human/H = M
 	if(!istype(H))
@@ -279,8 +279,8 @@
 				var/obj/item/organ/internal/heart = H.get_internal_organ(BP_HEART)
 				heart.take_internal_damage(heart.max_damage * 0.15)
 
-/decl/material/liquid/stabilizer
-	name = "stabilizer"
+/decl/material/liquid/inaprovaline
+	name = "inaprovaline"
 	lore_text = "A wonder drug that stabilizes autonomous nervous system, smoothing out irregularities in breathing and pulse, and helps against short-term brain damage."
 	taste_description = "gauze"
 	color = "#7efff9"
@@ -288,7 +288,7 @@
 	metabolism = 0.5 * REM
 	value = 1.5
 
-/decl/material/liquid/stabilizer/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/inaprovaline/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	..()
 	M.add_chemical_effect(CE_STABLE)
 

@@ -200,7 +200,7 @@
 		/decl/material/liquid/dylovene,
 		/decl/material/liquid/bicaridine,
 		/decl/material/liquid/kelotane,
-		/decl/material/liquid/stabilizer
+		/decl/material/liquid/inaprovaline
 	)
 
 /obj/item/clothing/mask/chewable/candy/lolli/weak_meds
@@ -211,9 +211,9 @@
 
 /obj/item/clothing/mask/chewable/candy/lolli/weak_meds/get_possible_initial_reagents()
 	return list(
-		/decl/material/liquid/antibiotics,
-		/decl/material/liquid/painkillers,
+		/decl/material/liquid/spaceacillin,
+		/decl/material/liquid/tramadol,
 		/decl/material/liquid/tricordrazine,
 		/decl/material/liquid/dylovene,
-		/decl/material/liquid/stabilizer
+		/decl/material/liquid/inaprovaline
 	)

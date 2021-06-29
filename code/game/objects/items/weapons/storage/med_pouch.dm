@@ -68,9 +68,9 @@ Single Use Emergency Pouches
 	color = COLOR_RED
 
 	startswith = list(
-	/obj/item/chems/hypospray/autoinjector/pouch_auto/stabilizer,
-	/obj/item/chems/pill/pouch_pill/stabilizer,
-	/obj/item/chems/pill/pouch_pill/painkillers,
+	/obj/item/chems/hypospray/autoinjector/pouch_auto/inaprovaline,
+	/obj/item/chems/pill/pouch_pill/inaprovaline,
+	/obj/item/chems/pill/pouch_pill/tramadol,
 	/obj/item/stack/medical/bruise_pack = 2,
 		)
 	instructions = {"
@@ -89,10 +89,10 @@ Single Use Emergency Pouches
 	color = COLOR_SEDONA
 
 	startswith = list(
-	/obj/item/chems/hypospray/autoinjector/pouch_auto/stabilizer,
-	/obj/item/chems/hypospray/autoinjector/pouch_auto/painkillers,
+	/obj/item/chems/hypospray/autoinjector/pouch_auto/inaprovaline,
+	/obj/item/chems/hypospray/autoinjector/pouch_auto/tramadol,
 	/obj/item/chems/hypospray/autoinjector/pouch_auto/adrenaline,
-	/obj/item/chems/pill/pouch_pill/painkillers,
+	/obj/item/chems/pill/pouch_pill/tramadol,
 	/obj/item/stack/medical/ointment = 2,
 		)
 	instructions = {"
@@ -111,10 +111,10 @@ Single Use Emergency Pouches
 	color = COLOR_BLUE
 
 	startswith = list(
-		/obj/item/chems/hypospray/autoinjector/pouch_auto/stabilizer,
+		/obj/item/chems/hypospray/autoinjector/pouch_auto/inaprovaline,
 		/obj/item/chems/hypospray/autoinjector/pouch_auto/dexalin,
 		/obj/item/chems/hypospray/autoinjector/pouch_auto/adrenaline,
-		/obj/item/chems/pill/pouch_pill/stabilizer,
+		/obj/item/chems/pill/pouch_pill/inaprovaline,
 		/obj/item/chems/pill/pouch_pill/dexalin
 	)
 	instructions = {"
@@ -171,8 +171,8 @@ Single Use Emergency Pouches
 	var/decl/material/chem_type
 	var/chem_amount = 15
 
-/obj/item/chems/pill/pouch_pill/stabilizer
-	chem_type = /decl/material/liquid/stabilizer
+/obj/item/chems/pill/pouch_pill/inaprovaline
+	chem_type = /decl/material/liquid/inaprovaline
 
 /obj/item/chems/pill/pouch_pill/dylovene
 	chem_type = /decl/material/liquid/dylovene
@@ -180,8 +180,8 @@ Single Use Emergency Pouches
 /obj/item/chems/pill/pouch_pill/dexalin
 	chem_type = /decl/material/liquid/dexalin
 
-/obj/item/chems/pill/pouch_pill/painkillers
-	chem_type = /decl/material/liquid/painkillers
+/obj/item/chems/pill/pouch_pill/tramadol
+	chem_type = /decl/material/liquid/tramadol
 
 /obj/item/chems/pill/pouch_pill/initialize_reagents()
 	reagents.add_reagent(chem_type, chem_amount)
@@ -192,13 +192,13 @@ Single Use Emergency Pouches
 	name = "emergency autoinjector"
 	desc = "An emergency autoinjector from an emergency medical pouch"
 
-/obj/item/chems/hypospray/autoinjector/pouch_auto/stabilizer
-	name = "emergency stabilizer autoinjector"
-	starts_with = list(/decl/material/liquid/stabilizer = 5)
+/obj/item/chems/hypospray/autoinjector/pouch_auto/inaprovaline
+	name = "emergency inaprovaline autoinjector"
+	starts_with = list(/decl/material/liquid/inaprovaline = 5)
 
-/obj/item/chems/hypospray/autoinjector/pouch_auto/painkillers
+/obj/item/chems/hypospray/autoinjector/pouch_auto/tramadol
 	name = "emergency painkiller autoinjector"
-	starts_with = list(/decl/material/liquid/painkillers = 5)
+	starts_with = list(/decl/material/liquid/tramadol = 5)
 
 /obj/item/chems/hypospray/autoinjector/pouch_auto/dylovene
 	name = "emergency dylovene autoinjector"

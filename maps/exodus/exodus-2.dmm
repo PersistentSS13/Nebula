@@ -35728,9 +35728,9 @@
 	name = "Pill Cabinet";
 	pixel_y = -32
 	},
-/obj/item/chems/syringe/antibiotic,
+/obj/item/chems/syringe/spaceacillin,
 /obj/item/storage/pill_bottle/dylovene,
-/obj/item/storage/pill_bottle/painkillers,
+/obj/item/storage/pill_bottle/tramadol,
 /obj/structure/table/standard{
 	name = "plastic table frame"
 	},
@@ -38555,7 +38555,7 @@
 	pixel_x = 5;
 	pixel_y = 5
 	},
-/obj/item/chems/glass/bottle/stabilizer{
+/obj/item/chems/glass/bottle/inaprovaline{
 	pixel_x = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
@@ -41804,10 +41804,10 @@
 	name = "Pill Cabinet"
 	},
 /obj/item/storage/pill_bottle/dylovene,
-/obj/item/storage/pill_bottle/painkillers,
-/obj/item/chems/syringe/antibiotic,
-/obj/item/chems/syringe/antibiotic,
-/obj/item/chems/syringe/stabilizer,
+/obj/item/storage/pill_bottle/tramadol,
+/obj/item/chems/syringe/spaceacillin,
+/obj/item/chems/syringe/spaceacillin,
+/obj/item/chems/syringe/inaprovaline,
 /turf/simulated/wall/prepainted,
 /area/exodus/medical/sleeper)
 "bDw" = (
@@ -60192,10 +60192,10 @@
 /area/exodus/engineering/sublevel_access)
 "cmk" = (
 /obj/item/storage/lockbox/vials,
-/obj/item/chems/syringe/antibiotic,
-/obj/item/chems/syringe/antibiotic,
-/obj/item/chems/syringe/antibiotic,
-/obj/item/chems/syringe/antibiotic,
+/obj/item/chems/syringe/spaceacillin,
+/obj/item/chems/syringe/spaceacillin,
+/obj/item/chems/syringe/spaceacillin,
+/obj/item/chems/syringe/spaceacillin,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	dir = 4
 	},

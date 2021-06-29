@@ -12,10 +12,10 @@
 	initial_access = list(access_medical_equip)
 	products = list(
 		/obj/item/chems/glass/bottle/dylovene = 4,
-		/obj/item/chems/glass/bottle/stabilizer = 4,
+		/obj/item/chems/glass/bottle/inaprovaline = 4,
 		/obj/item/chems/glass/bottle/soporific = 4,
 		/obj/item/chems/glass/bottle/bromide = 4,
-		/obj/item/chems/syringe/antibiotic = 4,
+		/obj/item/chems/syringe/spaceacillin = 4,
 		/obj/item/chems/syringe = 12,
 		/obj/item/scanner/health = 5,
 		/obj/item/chems/glass/beaker = 4, 
@@ -45,13 +45,13 @@
 	products = list(
 		/obj/item/stack/medical/bruise_pack = 3,
 		/obj/item/stack/medical/ointment = 3,
-		/obj/item/chems/pill/painkillers = 4,
+		/obj/item/chems/pill/tramadol = 4,
 		/obj/item/storage/med_pouch/trauma,
 		/obj/item/storage/med_pouch/burn,
 		/obj/item/storage/med_pouch/oxyloss,
 		/obj/item/storage/med_pouch/toxin
 	)
-	contraband = list(/obj/item/chems/syringe/dylovene = 4,/obj/item/chems/syringe/antibiotic = 4,/obj/item/chems/pill/bromide = 1)
+	contraband = list(/obj/item/chems/syringe/dylovene = 4,/obj/item/chems/syringe/spaceacillin = 4,/obj/item/chems/pill/bromide = 1)
 
 /obj/machinery/vending/wallmed2
 	name = "NanoMed Mini"

@@ -1756,8 +1756,8 @@
 /obj/item/bonesetter,
 /obj/item/bonegel,
 /obj/item/sutures,
-/obj/item/chems/syringe/antibiotic,
-/obj/item/chems/syringe/antibiotic,
+/obj/item/chems/syringe/spaceacillin,
+/obj/item/chems/syringe/spaceacillin,
 /turf/simulated/floor/shuttle/white,
 /area/map_template/skipjack_station/start)
 "ez" = (

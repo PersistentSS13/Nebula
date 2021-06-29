@@ -340,13 +340,13 @@
 /// Syringes. END
 ////////////////////////////////////////////////////////////////////////////////
 
-/obj/item/chems/syringe/stabilizer
-	name = "Syringe (stabilizer)"
-	desc = "Contains stabilizer - for patients in danger of brain damage."
+/obj/item/chems/syringe/inaprovaline
+	name = "Syringe (inaprovaline)"
+	desc = "Contains inaprovaline - for patients in danger of brain damage."
 
-/obj/item/chems/syringe/stabilizer/Initialize()
+/obj/item/chems/syringe/inaprovaline/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/liquid/stabilizer, 15)
+	reagents.add_reagent(/decl/material/liquid/inaprovaline, 15)
 	mode = SYRINGE_INJECT
 	update_icon()
 
@@ -360,13 +360,13 @@
 	mode = SYRINGE_INJECT
 	update_icon()
 
-/obj/item/chems/syringe/antibiotic
-	name = "Syringe (antibiotics)"
+/obj/item/chems/syringe/spaceacillin
+	name = "Syringe (spaceacillin)"
 	desc = "Contains antibiotic agents."
 
-/obj/item/chems/syringe/antibiotic/Initialize()
+/obj/item/chems/syringe/spaceacillin/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/liquid/antibiotics, 15)
+	reagents.add_reagent(/decl/material/liquid/spaceacillin, 15)
 	mode = SYRINGE_INJECT
 	update_icon()
 

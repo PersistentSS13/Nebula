@@ -183,8 +183,8 @@
 /area/map_template/ninja_dojo/dojo)
 "aB" = (
 /obj/structure/table/glass,
-/obj/item/chems/syringe/antibiotic,
-/obj/item/chems/syringe/antibiotic,
+/obj/item/chems/syringe/spaceacillin,
+/obj/item/chems/syringe/spaceacillin,
 /obj/item/stack/medical/advanced/bruise_pack,
 /turf/unsimulated/floor{
 	icon_state = "white"

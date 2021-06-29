@@ -4,7 +4,7 @@
 
 /datum/ailment/head/headache
 	name = "headache"
-	treated_by_reagent_type = /decl/material/liquid/painkillers
+	treated_by_reagent_type = /decl/material/liquid/tramadol
 	treated_by_reagent_dosage = 1
 	medication_treatment_message = "Your headache grudgingly fades away."
 
@@ -97,7 +97,7 @@
 
 /datum/ailment/sore_joint
 	name = "sore joint"
-	treated_by_reagent_type = /decl/material/liquid/painkillers
+	treated_by_reagent_type = /decl/material/liquid/tramadol
 	medication_treatment_message = "The dull pulse of pain in your $ORGAN$ fades away."
 	diagnosis_string = "$USER_HIS$ $ORGAN$ is visibly swollen."
 
@@ -115,7 +115,7 @@
 /datum/ailment/sore_back
 	name = "sore back"
 	applies_to_organ = list(BP_CHEST)
-	treated_by_reagent_type = /decl/material/liquid/painkillers
+	treated_by_reagent_type = /decl/material/liquid/tramadol
 	medication_treatment_message = "You straighten, finding that your back is no longer hurting."
 
 /datum/ailment/sore_back/on_ailment_event()
@@ -135,7 +135,7 @@
 
 /datum/ailment/cramps
 	name = "cramps"
-	treated_by_reagent_type = /decl/material/liquid/painkillers
+	treated_by_reagent_type = /decl/material/liquid/tramadol
 	medication_treatment_message = "The painful cramping in your $ORGAN$ relaxes."
 
 /datum/ailment/cramps/on_ailment_event()

@@ -187,9 +187,9 @@
 	starts_with = list(/decl/material/liquid/dylovene = 5)
 
 /obj/item/chems/hypospray/autoinjector/pain
-	name = "autoinjector (painkiller)"
+	name = "autoinjector (tramadol)"
 	band_color = COLOR_PURPLE
-	starts_with = list(/decl/material/liquid/painkillers = 5)
+	starts_with = list(/decl/material/liquid/tramadol = 5)
 
 /obj/item/chems/hypospray/autoinjector/antirad
 	name = "autoinjector (anti-rad)"

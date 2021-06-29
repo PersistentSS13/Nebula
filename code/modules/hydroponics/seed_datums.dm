@@ -639,7 +639,7 @@
 	name = "poppies"
 	seed_name = "poppy"
 	display_name = "poppy patch"
-	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/painkillers = list(1,10))
+	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/tramadol = list(1,10))
 	kitchen_tag = "poppy"
 
 /datum/seed/flower/poppy/New()
@@ -1311,7 +1311,7 @@
 	name = "bruisegrass"
 	seed_name = "bruisegrass"
 	display_name = "bruisegrass patch"
-	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/painkillers = list(1,10))
+	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/tramadol = list(1,10))
 	kitchen_tag = "bruisegrass"
 	exude_gasses = null
 

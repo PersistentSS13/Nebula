@@ -133,20 +133,20 @@
 /obj/item/chems/pill/kelotane/initialize_reagents()
 	reagents.add_reagent(/decl/material/liquid/kelotane, 15)
 
-/obj/item/chems/pill/painkillers
-	name = "painkillers (15u)"
-	desc = "A simple painkiller."
+/obj/item/chems/pill/tramadol
+	name = "tramadol (15u)"
+	desc = "A medium-strength painkiller."
 	icon_state = "pill3"
-/obj/item/chems/pill/painkillers/initialize_reagents()
-	reagents.add_reagent(/decl/material/liquid/painkillers, 15)
+/obj/item/chems/pill/tramadol/initialize_reagents()
+	reagents.add_reagent(/decl/material/liquid/tramadol, 15)
 
 
-/obj/item/chems/pill/stabilizer
-	name = "stabilizer (30u)"
+/obj/item/chems/pill/inaprovaline
+	name = "inaprovaline (30u)"
 	desc = "Used to stabilize patients."
 	icon_state = "pill1"
 /obj/item/chems/pill/adrenaline/initialize_reagents()
-	reagents.add_reagent(/decl/material/liquid/stabilizer, 30)
+	reagents.add_reagent(/decl/material/liquid/inaprovaline, 30)
 
 
 /obj/item/chems/pill/oxygen
@@ -199,12 +199,12 @@
 /obj/item/chems/pill/gleam/initialize_reagents()
 	reagents.add_reagent(/decl/material/liquid/glowsap/gleam, 10)
 
-/obj/item/chems/pill/antibiotics
-	name = "antibiotics (10u)"
+/obj/item/chems/pill/spaceacillin
+	name = "spaceacillin (10u)"
 	desc = "Contains antibiotic agents."
 	icon_state = "pill3"
-/obj/item/chems/pill/antibiotics/initialize_reagents()
-	reagents.add_reagent(/decl/material/liquid/antibiotics, 10)
+/obj/item/chems/pill/spaceacillin/initialize_reagents()
+	reagents.add_reagent(/decl/material/liquid/spaceacillin, 10)
 
 //Psychiatry pills.
 /obj/item/chems/pill/hyperzine
