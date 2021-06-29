@@ -134,8 +134,8 @@ Single Use Emergency Pouches
 	color = COLOR_GREEN
 
 	startswith = list(
-	/obj/item/chems/hypospray/autoinjector/pouch_auto/antitoxins,
-	/obj/item/chems/pill/pouch_pill/antitoxins
+	/obj/item/chems/hypospray/autoinjector/pouch_auto/dylovene,
+	/obj/item/chems/pill/pouch_pill/dylovene
 		)
 	instructions = {"
 	1) Tear open the emergency medical pack using the easy open tab at the top.\n\
@@ -153,7 +153,7 @@ Single Use Emergency Pouches
 
 	startswith = list(
 	/obj/item/chems/hypospray/autoinjector/antirad,
-	/obj/item/chems/pill/pouch_pill/antitoxins
+	/obj/item/chems/pill/pouch_pill/dylovene
 		)
 	instructions = {"
 	1) Tear open the emergency medical pack using the easy open tab at the top.\n\
@@ -174,8 +174,8 @@ Single Use Emergency Pouches
 /obj/item/chems/pill/pouch_pill/stabilizer
 	chem_type = /decl/material/liquid/stabilizer
 
-/obj/item/chems/pill/pouch_pill/antitoxins
-	chem_type = /decl/material/liquid/antitoxins
+/obj/item/chems/pill/pouch_pill/dylovene
+	chem_type = /decl/material/liquid/dylovene
 
 /obj/item/chems/pill/pouch_pill/dexalin
 	chem_type = /decl/material/liquid/dexalin
@@ -200,9 +200,9 @@ Single Use Emergency Pouches
 	name = "emergency painkiller autoinjector"
 	starts_with = list(/decl/material/liquid/painkillers = 5)
 
-/obj/item/chems/hypospray/autoinjector/pouch_auto/antitoxins
-	name = "emergency antitoxins autoinjector"
-	starts_with = list(/decl/material/liquid/antitoxins = 5)
+/obj/item/chems/hypospray/autoinjector/pouch_auto/dylovene
+	name = "emergency dylovene autoinjector"
+	starts_with = list(/decl/material/liquid/dylovene = 5)
 
 /obj/item/chems/hypospray/autoinjector/pouch_auto/dexalin
 	name = "emergency dexalin autoinjector"

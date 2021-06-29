@@ -3043,7 +3043,7 @@
 /obj/structure/closet/medical_wall{
 	pixel_y = 32
 	},
-/obj/item/chems/glass/bottle/antitoxin{
+/obj/item/chems/glass/bottle/dylovene{
 	pixel_x = -4;
 	pixel_y = 8
 	},

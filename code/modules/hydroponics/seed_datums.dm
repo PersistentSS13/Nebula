@@ -943,7 +943,7 @@
 	name = "carrot"
 	seed_name = "carrot"
 	display_name = "carrot patch"
-	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/eyedrops = list(3,5), /decl/material/liquid/drink/juice/carrot = list(10,20))
+	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/imidazoline = list(3,5), /decl/material/liquid/drink/juice/carrot = list(10,20))
 	kitchen_tag = "carrot"
 
 /datum/seed/carrots/New()
@@ -1171,7 +1171,7 @@
 	name = "kudzu"
 	seed_name = "kudzu"
 	display_name = "kudzu vine"
-	chems = list(/decl/material/liquid/nutriment = list(1,50), /decl/material/liquid/antitoxins = list(1,25))
+	chems = list(/decl/material/liquid/nutriment = list(1,50), /decl/material/liquid/dylovene = list(1,25))
 
 /datum/seed/kudzu/New()
 	..()

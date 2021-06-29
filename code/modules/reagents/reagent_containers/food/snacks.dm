@@ -588,7 +588,7 @@
 /obj/item/chems/food/snacks/brainburger/Initialize()
 	.=..()
 	reagents.add_reagent(/decl/material/liquid/nutriment/protein, 6)
-	reagents.add_reagent(/decl/material/liquid/neuroannealer, 6)
+	reagents.add_reagent(/decl/material/liquid/alkysine, 6)
 
 /obj/item/chems/food/snacks/ghostburger
 	name = "ghost burger"
@@ -1296,7 +1296,7 @@
 		list(
 			/decl/material/liquid/nutriment =           6,
 			/decl/material/liquid/drink/juice/tomato =  5,
-			/decl/material/liquid/eyedrops =            5
+			/decl/material/liquid/imidazoline =            5
 		)
 	)
 
@@ -1600,7 +1600,7 @@
 	.=..()
 	reagents.add_reagent(/decl/material/liquid/nutriment/protein, 4)
 	reagents.add_reagent(/decl/material/liquid/drink/juice/tomato, 5)
-	reagents.add_reagent(/decl/material/liquid/eyedrops, 5)
+	reagents.add_reagent(/decl/material/liquid/imidazoline, 5)
 	reagents.add_reagent(/decl/material/liquid/water, 5)
 
 /obj/item/chems/food/snacks/jelliedtoast
@@ -1793,7 +1793,7 @@
 	bitesize = 2
 /obj/item/chems/food/snacks/carrotfries/Initialize()
 	.=..()
-	reagents.add_reagent(/decl/material/liquid/eyedrops, 3)
+	reagents.add_reagent(/decl/material/liquid/imidazoline, 3)
 
 /obj/item/chems/food/snacks/superbiteburger
 	name = "super bite burger"
@@ -2138,7 +2138,7 @@
 
 /obj/item/chems/food/snacks/sliceable/carrotcake/Initialize()
 	.=..()
-	reagents.add_reagent(/decl/material/liquid/eyedrops, 10)
+	reagents.add_reagent(/decl/material/liquid/imidazoline, 10)
 
 /obj/item/chems/food/snacks/slice/carrotcake
 	name = "carrot cake slice"
@@ -2169,7 +2169,7 @@
 /obj/item/chems/food/snacks/sliceable/braincake/Initialize()
 	.=..()
 	reagents.add_reagent(/decl/material/liquid/nutriment/protein, 25)
-	reagents.add_reagent(/decl/material/liquid/neuroannealer, 10)
+	reagents.add_reagent(/decl/material/liquid/alkysine, 10)
 
 /obj/item/chems/food/snacks/slice/braincake
 	name = "brain cake slice"
@@ -2626,7 +2626,7 @@
 	.=..()
 	reagents.add_reagent(/decl/material/liquid/nutriment/protein, 5)
 	reagents.add_reagent(/decl/material/liquid/nutriment/ketchup, 6)
-	reagents.add_reagent(/decl/material/liquid/eyedrops, 12)
+	reagents.add_reagent(/decl/material/liquid/imidazoline, 12)
 
 /obj/item/chems/food/snacks/slice/vegetablepizza
 	name = "vegetable pizza slice"
@@ -3778,7 +3778,7 @@
 				/decl/material/liquid/amatoxin,
 				/decl/material/liquid/carpotoxin,
 				/decl/material/liquid/zombiepowder,
-				/decl/material/liquid/presyncopics,
+				/decl/material/liquid/cryptobiolin,
 				/decl/material/liquid/psychotropics)), 5)
 
 

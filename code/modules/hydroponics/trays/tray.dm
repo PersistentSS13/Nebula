@@ -48,7 +48,7 @@
 	// Reagent information for process(), consider moving this to a controller along
 	// with cycle information under 'mechanical concerns' at some point.
 	var/static/list/toxic_reagents = list(
-		/decl/material/liquid/antitoxins =         -2,
+		/decl/material/liquid/dylovene =         -2,
 		/decl/material/liquid/fuel/hydrazine =      2.5,
 		/decl/material/liquid/acetone =	            1,
 		/decl/material/liquid/acid =                1.5,

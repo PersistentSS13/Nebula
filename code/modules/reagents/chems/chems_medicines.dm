@@ -1,14 +1,14 @@
-/decl/material/liquid/eyedrops
-	name = "eye drops"
+/decl/material/liquid/imidazoline
+	name = "imidazoline"
 	lore_text = "A soothing balm that helps with minor eye damage."
-	taste_description = "a mild burn"
+	taste_description = "a dazzling kaleidoscope"
 	color = "#c8a5dc"
 	overdose = REAGENTS_OVERDOSE
 	scannable = 1
 	flags = IGNORE_MOB_SIZE
 	value = 1.5
 
-/decl/material/liquid/eyedrops/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/imidazoline/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
 		var/obj/item/organ/internal/eyes/E = H.get_internal_organ(BP_EYES)
@@ -86,9 +86,9 @@
 /decl/material/liquid/adminordrazine/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	M.rejuvenate()
 
-/decl/material/liquid/antitoxins
-	name = "antitoxins"
-	lore_text = "A mix of broad-spectrum antitoxins used to neutralize poisons before they can do significant harm."
+/decl/material/liquid/dylovene
+	name = "dylovene"
+	lore_text = "A mix of broad-spectrum anti-toxins used to neutralize poisons before they can do significant harm."
 	taste_description = "a roll of gauze"
 	color = "#00a000"
 	scannable = 1
@@ -100,7 +100,7 @@
 		/decl/material/liquid/zombiepowder
 	)
 
-/decl/material/liquid/antitoxins/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/dylovene/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	if(remove_generic)
 		ADJ_STATUS(M, STAT_DROWSY, -6 * removed)
 		M.adjust_hallucination(-9 * removed)
@@ -304,8 +304,8 @@
 /decl/material/liquid/tricordrazine/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	M.heal_organ_damage(3 * removed, 3 * removed)
 
-/decl/material/liquid/neuroannealer
-	name = "neuroannealer"
+/decl/material/liquid/alkysine
+	name = "alkysine"
 	lore_text = "A neuroplasticity-assisting compound that helps to lessen damage to neurological tissue after a injury. Can aid in healing brain tissue."
 	taste_description = "bitterness"
 	color = "#ffff66"
@@ -315,7 +315,7 @@
 	flags = IGNORE_MOB_SIZE
 	value = 1.5
 
-/decl/material/liquid/neuroannealer/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/alkysine/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	M.add_chemical_effect(CE_PAINKILLER, 10)
 	M.add_chemical_effect(CE_BRAIN_REGEN, 1)
 	if(ishuman(M))

@@ -197,7 +197,7 @@
 		/decl/material/liquid/antirads,
 		/decl/material/liquid/hyperzine,
 		/decl/material/liquid/antidepressants,
-		/decl/material/liquid/antitoxins,
+		/decl/material/liquid/dylovene,
 		/decl/material/liquid/brute_meds,
 		/decl/material/liquid/burn_meds,
 		/decl/material/liquid/stabilizer
@@ -214,6 +214,6 @@
 		/decl/material/liquid/antibiotics,
 		/decl/material/liquid/painkillers,
 		/decl/material/liquid/tricordrazine,
-		/decl/material/liquid/antitoxins,
+		/decl/material/liquid/dylovene,
 		/decl/material/liquid/stabilizer
 	)

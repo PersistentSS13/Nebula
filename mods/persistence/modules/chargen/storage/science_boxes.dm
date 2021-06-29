@@ -33,7 +33,7 @@
 		/obj/item/storage/pill_bottle/brute_meds = 1,
 		/obj/item/storage/pill_bottle/burn_meds = 1,
 		/obj/item/storage/pill_bottle/oxygen = 1,
-		/obj/item/storage/pill_bottle/antitoxins = 1,
+		/obj/item/storage/pill_bottle/dylovene = 1,
 		/obj/item/storage/pill_bottle/painkillers = 1,
 		/obj/item/storage/pill_bottle/antibiotics = 1,
 		/obj/item/stack/medical/splint = 1

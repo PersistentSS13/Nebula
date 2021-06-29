@@ -350,13 +350,13 @@
 	mode = SYRINGE_INJECT
 	update_icon()
 
-/obj/item/chems/syringe/antitoxin
-	name = "Syringe (anti-toxin)"
-	desc = "Contains anti-toxins."
+/obj/item/chems/syringe/dylovene
+	name = "Syringe (dylovene)"
+	desc = "Contains dylovene."
 
-/obj/item/chems/syringe/antitoxin/Initialize()
+/obj/item/chems/syringe/dylovene/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/liquid/antitoxins, 15)
+	reagents.add_reagent(/decl/material/liquid/dylovene, 15)
 	mode = SYRINGE_INJECT
 	update_icon()
 
@@ -378,7 +378,7 @@
 	. = ..()
 	reagents.add_reagent(/decl/material/liquid/psychoactives, 5)
 	reagents.add_reagent(/decl/material/liquid/hallucinogenics, 5)
-	reagents.add_reagent(/decl/material/liquid/presyncopics, 5)
+	reagents.add_reagent(/decl/material/liquid/cryptobiolin, 5)
 	mode = SYRINGE_INJECT
 	update_icon()
 

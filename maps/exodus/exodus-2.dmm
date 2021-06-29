@@ -35729,7 +35729,7 @@
 	pixel_y = -32
 	},
 /obj/item/chems/syringe/antibiotic,
-/obj/item/storage/pill_bottle/antitox,
+/obj/item/storage/pill_bottle/dylovene,
 /obj/item/storage/pill_bottle/painkillers,
 /obj/structure/table/standard{
 	name = "plastic table frame"
@@ -38551,7 +38551,7 @@
 	pixel_x = -6;
 	pixel_y = 10
 	},
-/obj/item/chems/glass/bottle/antitoxin{
+/obj/item/chems/glass/bottle/dylovene{
 	pixel_x = 5;
 	pixel_y = 5
 	},
@@ -41803,7 +41803,7 @@
 /obj/structure/closet/secure_closet/medical_wall{
 	name = "Pill Cabinet"
 	},
-/obj/item/storage/pill_bottle/antitox,
+/obj/item/storage/pill_bottle/dylovene,
 /obj/item/storage/pill_bottle/painkillers,
 /obj/item/chems/syringe/antibiotic,
 /obj/item/chems/syringe/antibiotic,

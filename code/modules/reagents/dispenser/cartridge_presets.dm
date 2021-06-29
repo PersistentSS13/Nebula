@@ -145,14 +145,14 @@
 	spawn_reagent = /decl/material/liquid/dexalin
 /obj/item/chems/chem_disp_cartridge/tricordrazine
 	spawn_reagent = /decl/material/liquid/tricordrazine
-/obj/item/chems/chem_disp_cartridge/antitoxins
-	spawn_reagent = /decl/material/liquid/antitoxins
+/obj/item/chems/chem_disp_cartridge/dylovene
+	spawn_reagent = /decl/material/liquid/dylovene
 /obj/item/chems/chem_disp_cartridge/antirads
 	spawn_reagent = /decl/material/liquid/antirads
-/obj/item/chems/chem_disp_cartridge/neuroannealer
-	spawn_reagent = /decl/material/liquid/neuroannealer
-/obj/item/chems/chem_disp_cartridge/eyedrops
-	spawn_reagent = /decl/material/liquid/eyedrops
+/obj/item/chems/chem_disp_cartridge/alkysine
+	spawn_reagent = /decl/material/liquid/alkysine
+/obj/item/chems/chem_disp_cartridge/imidazoline
+	spawn_reagent = /decl/material/liquid/imidazoline
 /obj/item/chems/chem_disp_cartridge/brute_meds
 	spawn_reagent = /decl/material/liquid/brute_meds
 /obj/item/chems/chem_disp_cartridge/amphetamines

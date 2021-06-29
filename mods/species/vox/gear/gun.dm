@@ -69,7 +69,7 @@
 	starting_chems = list(
 		/decl/material/liquid/burn_meds,
 		/decl/material/liquid/brute_meds,
-		/decl/material/liquid/antitoxins
+		/decl/material/liquid/dylovene
 	)
 
 /obj/item/gun/projectile/dartgun/vox/raider

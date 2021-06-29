@@ -18,14 +18,14 @@
 	reagents.add_reagent(/decl/material/liquid/stabilizer, 60)
 	update_icon()
 
-/obj/item/chems/glass/bottle/robot/antitoxin
-	name = "internal anti-toxin bottle"
-	desc = "A small bottle of Anti-toxins. Counters poisons, and repairs damage, a wonder drug."
+/obj/item/chems/glass/bottle/robot/dylovene
+	name = "internal dylovene bottle"
+	desc = "A small bottle of dylovene. Counters poisons, and repairs damage, a wonder drug."
 	icon = 'icons/obj/items/chem/bottle.dmi'
 	icon_state = "bottle-4"
-	reagent = /decl/material/liquid/antitoxins
+	reagent = /decl/material/liquid/dylovene
 
-/obj/item/chems/glass/bottle/robot/antitoxin/Initialize()
+/obj/item/chems/glass/bottle/robot/dylovene/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/liquid/antitoxins, 60)
+	reagents.add_reagent(/decl/material/liquid/dylovene, 60)
 	update_icon()

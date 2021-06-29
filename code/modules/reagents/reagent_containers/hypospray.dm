@@ -182,9 +182,9 @@
 		to_chat(user, "<span class='notice'>It is spent.</span>")
 
 /obj/item/chems/hypospray/autoinjector/detox
-	name = "autoinjector (antitox)"
+	name = "autoinjector (dylovene)"
 	band_color = COLOR_GREEN
-	starts_with = list(/decl/material/liquid/antitoxins = 5)
+	starts_with = list(/decl/material/liquid/dylovene = 5)
 
 /obj/item/chems/hypospray/autoinjector/pain
 	name = "autoinjector (painkiller)"
