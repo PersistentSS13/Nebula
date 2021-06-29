@@ -8,7 +8,7 @@
 		/obj/item/stack/medical/splint = 2,
 		/obj/item/stack/medical/advanced/bruise_pack = 10,
 		/obj/item/chems/pill/sugariron = 6,
-		/obj/item/storage/pill_bottle/painkillers = 2,
+		/obj/item/storage/pill_bottle/tramadol = 2,
 		/obj/item/storage/pill_bottle/adrenaline
 		)
 
@@ -22,8 +22,8 @@
 		/obj/item/defibrillator/loaded,
 		/obj/item/stack/medical/advanced/ointment = 10,
 		/obj/item/storage/pill_bottle/kelotane,
-		/obj/item/storage/pill_bottle/painkillers = 2,
-		/obj/item/storage/pill_bottle/antibiotics
+		/obj/item/storage/pill_bottle/tramadol = 2,
+		/obj/item/storage/pill_bottle/spaceacillin
 	)
 
 /obj/structure/closet/crate/med_crate/oxyloss

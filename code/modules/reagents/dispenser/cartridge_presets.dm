@@ -135,8 +135,8 @@
 	spawn_reagent = /decl/material/liquid/adrenaline
 /obj/item/chems/chem_disp_cartridge/retrovirals
 	spawn_reagent = /decl/material/liquid/retrovirals
-/obj/item/chems/chem_disp_cartridge/painkillers
-	spawn_reagent = /decl/material/liquid/painkillers
+/obj/item/chems/chem_disp_cartridge/tramadol
+	spawn_reagent = /decl/material/liquid/tramadol
 /obj/item/chems/chem_disp_cartridge/antiseptic
 	spawn_reagent = /decl/material/liquid/antiseptic
 /obj/item/chems/chem_disp_cartridge/kelotane
@@ -157,9 +157,9 @@
 	spawn_reagent = /decl/material/liquid/bicaridine
 /obj/item/chems/chem_disp_cartridge/amphetamines
 	spawn_reagent = /decl/material/liquid/amphetamines
-/obj/item/chems/chem_disp_cartridge/antibiotics
-	spawn_reagent = /decl/material/liquid/antibiotics
+/obj/item/chems/chem_disp_cartridge/spaceacillin
+	spawn_reagent = /decl/material/liquid/spaceacillin
 /obj/item/chems/chem_disp_cartridge/soporific
 	spawn_reagent = /decl/material/liquid/soporific
-/obj/item/chems/chem_disp_cartridge/stabilizer
-	spawn_reagent = /decl/material/liquid/stabilizer
+/obj/item/chems/chem_disp_cartridge/inaprovaline
+	spawn_reagent = /decl/material/liquid/inaprovaline

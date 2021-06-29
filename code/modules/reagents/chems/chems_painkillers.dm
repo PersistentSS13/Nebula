@@ -1,6 +1,6 @@
 
-/decl/material/liquid/painkillers
-	name = "painkillers"
+/decl/material/liquid/tramadol
+	name = "tramadol"  //known as painkillers on Nebula, paracetamol and oxycodone were removed
 	lore_text = "A highly effective opioid painkiller. Do not mix with alcohol."
 	taste_description = "sourness"
 	color = "#cb68fc"
@@ -13,7 +13,7 @@
 	var/pain_power = 80 //magnitide of painkilling effect
 	var/effective_dose = 0.5 //how many units it need to process to reach max power
 
-/decl/material/liquid/painkillers/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/tramadol/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 
 	var/volume = REAGENT_VOLUME(holder, type)
 	var/effectiveness = 1
@@ -45,7 +45,7 @@
 		M.add_chemical_effect(CE_ALCOHOL_TOXIC, 1)
 		M.add_chemical_effect(CE_BREATHLOSS, 0.1 * boozed) //drinking and opiating makes breathing kinda hard
 
-/decl/material/liquid/painkillers/affect_overdose(var/mob/living/M, var/alien, var/datum/reagents/holder)
+/decl/material/liquid/tramadol/affect_overdose(var/mob/living/M, var/alien, var/datum/reagents/holder)
 	..()
 	M.set_hallucination(120, 30)
 	SET_STATUS_MAX(M, STAT_DRUGGY, 10)
@@ -54,7 +54,7 @@
 	if(isboozed(M))
 		M.add_chemical_effect(CE_BREATHLOSS, 0.2) //Don't drink and OD on opiates folks
 
-/decl/material/liquid/painkillers/proc/isboozed(var/mob/living/carbon/M)
+/decl/material/liquid/tramadol/proc/isboozed(var/mob/living/carbon/M)
 	. = 0
 	var/datum/reagents/ingested = M.get_ingested_reagents()
 	if(ingested)

@@ -28,7 +28,7 @@
 	spawn_cartridges = list(
 			/obj/item/chems/chem_disp_cartridge/adrenaline,
 			/obj/item/chems/chem_disp_cartridge/retrovirals,
-			/obj/item/chems/chem_disp_cartridge/painkillers,
+			/obj/item/chems/chem_disp_cartridge/tramadol,
 			/obj/item/chems/chem_disp_cartridge/antiseptic,
 			/obj/item/chems/chem_disp_cartridge/kelotane,
 			/obj/item/chems/chem_disp_cartridge/dexalin,
@@ -39,7 +39,7 @@
 			/obj/item/chems/chem_disp_cartridge/imidazoline,
 			/obj/item/chems/chem_disp_cartridge/bicaridine,
 			/obj/item/chems/chem_disp_cartridge/amphetamines,
-			/obj/item/chems/chem_disp_cartridge/antibiotics,
+			/obj/item/chems/chem_disp_cartridge/spaceacillin,
 			/obj/item/chems/chem_disp_cartridge/soporific
 		)
 

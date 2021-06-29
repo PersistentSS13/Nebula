@@ -201,8 +201,8 @@
 	charges = list(
 		list("bromide",             "bromide",             /decl/material/liquid/bromide, 80),
 		list("crystallizing agent", "crystallizing agent", /decl/material/liquid/crystal_agent,       80),
-		list("antibiotics",         "antibiotics",         /decl/material/liquid/antibiotics,   80),
-		list("painkillers",         "painkillers",         /decl/material/liquid/painkillers,   80)
+		list("spaceacillin",         "spaceacillin",         /decl/material/liquid/spaceacillin,   80),
+		list("tramadol",            "tramadol",               /decl/material/liquid/tramadol,   80)
 	)
 
 // Rig definitions.

@@ -40,18 +40,18 @@
 	startswith = list(/obj/item/chems/pill/kelotane = 21)
 	wrapper_color = COLOR_SUN
 
-/obj/item/storage/pill_bottle/antibiotics
-	name = "pill bottle (antibiotics)"
+/obj/item/storage/pill_bottle/spaceacillin
+	name = "pill bottle (spaceacillin)"
 	desc = "A theta-lactam antibiotic. Effective against many diseases likely to be encountered in space."
 
-	startswith = list(/obj/item/chems/pill/antibiotics = 14)
+	startswith = list(/obj/item/chems/pill/spaceacillin = 14)
 	wrapper_color = COLOR_PALE_GREEN_GRAY
 
-/obj/item/storage/pill_bottle/painkillers
-	name = "pill bottle (painkillers)"
+/obj/item/storage/pill_bottle/tramadol
+	name = "pill bottle (tramadol)"
 	desc = "Contains pills used to relieve pain."
 
-	startswith = list(/obj/item/chems/pill/painkillers = 14)
+	startswith = list(/obj/item/chems/pill/tramadol = 14)
 	wrapper_color = COLOR_PURPLE_GRAY
 
 //Baycode specific Psychiatry pills.
@@ -77,7 +77,7 @@
 			/obj/item/chems/pill/adrenaline = 6,
 			/obj/item/chems/pill/dylovene = 6,
 			/obj/item/chems/pill/sugariron = 2,
-			/obj/item/chems/pill/painkillers = 2,
+			/obj/item/chems/pill/tramadol = 2,
 			/obj/item/chems/pill/oxygen = 2,
 			/obj/item/chems/pill/kelotane = 2,
 			/obj/item/chems/pill/antirads

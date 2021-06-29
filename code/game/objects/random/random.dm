@@ -142,17 +142,17 @@
 /obj/random/medical/spawn_choices()
 	return list(/obj/random/medical/lite = 21,
 				/obj/item/bodybag = 2,
-				/obj/item/chems/glass/bottle/stabilizer = 2,
+				/obj/item/chems/glass/bottle/inaprovaline = 2,
 				/obj/item/chems/glass/bottle/dylovene = 2,
 				/obj/item/storage/pill_bottle = 2,
-				/obj/item/storage/pill_bottle/painkillers = 1,
+				/obj/item/storage/pill_bottle/tramadol = 1,
 				/obj/item/storage/pill_bottle/antidepressants = 2,
 				/obj/item/storage/pill_bottle/oxygen = 1,
 				/obj/item/storage/pill_bottle/kelotane = 1,
 				/obj/item/storage/pill_bottle/bicaridine = 1,
 				/obj/item/chems/syringe/dylovene = 2,
-				/obj/item/chems/syringe/antibiotic = 1,
-				/obj/item/chems/syringe/stabilizer = 2,
+				/obj/item/chems/syringe/spaceacillin = 1,
+				/obj/item/chems/syringe/inaprovaline = 2,
 				/obj/item/storage/box/freezer = 1,
 				/obj/item/stack/nanopaste = 1)
 
@@ -166,8 +166,8 @@
 /obj/random/medical/lite/spawn_choices()
 	return list(/obj/item/stack/medical/bruise_pack = 4,
 				/obj/item/stack/medical/ointment = 4,
-				/obj/item/storage/pill_bottle/antibiotics = 2,
-				/obj/item/storage/pill_bottle/painkillers = 2,
+				/obj/item/storage/pill_bottle/spaceacillin = 2,
+				/obj/item/storage/pill_bottle/tramadol = 2,
 				/obj/item/stack/medical/advanced/bruise_pack = 2,
 				/obj/item/stack/medical/advanced/ointment = 2,
 				/obj/item/stack/medical/splint = 1,
@@ -206,7 +206,7 @@
 
 /obj/random/contraband/spawn_choices()
 	return list(/obj/item/haircomb = 4,
-				/obj/item/storage/pill_bottle/painkillers = 3,
+				/obj/item/storage/pill_bottle/tramadol = 3,
 				/obj/item/storage/pill_bottle/happy = 2,
 				/obj/item/storage/pill_bottle/zoom = 2,
 				/obj/item/chems/glass/beaker/vial/random/toxin = 1,

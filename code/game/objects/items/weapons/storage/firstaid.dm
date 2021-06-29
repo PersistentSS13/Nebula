@@ -28,8 +28,8 @@
 	startswith = list(
 		/obj/item/stack/medical/bruise_pack = 2,
 		/obj/item/stack/medical/ointment = 2,
-		/obj/item/storage/pill_bottle/antibiotics,
-		/obj/item/storage/pill_bottle/painkillers,
+		/obj/item/storage/pill_bottle/spaceacillin,
+		/obj/item/storage/pill_bottle/tramadol,
 		/obj/item/stack/medical/splint
 		)
 
@@ -109,8 +109,8 @@
 		/obj/item/storage/pill_bottle/kelotane,
 		/obj/item/storage/pill_bottle/oxygen,
 		/obj/item/storage/pill_bottle/dylovene,
-		/obj/item/storage/pill_bottle/painkillers,
-		/obj/item/storage/pill_bottle/antibiotics,
+		/obj/item/storage/pill_bottle/tramadol,
+		/obj/item/storage/pill_bottle/spaceacillin,
 		/obj/item/stack/medical/splint,
 		)
 

@@ -60,7 +60,7 @@
 	. = ..()
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/adrenaline()) 
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/soporific())
-	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/painkillers())
+	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/tramadol())
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/dylovene())
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/dexalin())
 

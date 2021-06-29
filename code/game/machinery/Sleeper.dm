@@ -35,9 +35,9 @@
 
 /obj/machinery/sleeper/standard/Initialize(mapload, d, populate_parts)
 	. = ..()
-	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/stabilizer()) 
+	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/inaprovaline()) 
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/soporific())
-	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/painkillers())
+	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/tramadol())
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/dylovene())
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/dexalin())
 

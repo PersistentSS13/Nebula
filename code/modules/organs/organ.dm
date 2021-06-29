@@ -174,7 +174,7 @@
 /obj/item/organ/proc/handle_germ_effects()
 	//** Handle the effects of infections
 	var/germ_immunity = owner.get_immunity() //reduces the amount of times we need to call this proc
-	var/antibiotics = REAGENT_VOLUME(owner.reagents, /decl/material/liquid/antibiotics)
+	var/antibiotics = REAGENT_VOLUME(owner.reagents, /decl/material/liquid/spaceacillin)
 
 	if (germ_level > 0 && germ_level < INFECTION_LEVEL_ONE/2 && prob(germ_immunity*0.3))
 		germ_level--

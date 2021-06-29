@@ -1043,9 +1043,9 @@
 /obj/item/chems/hypospray,
 /obj/item/chems/hypospray,
 /obj/item/chems/glass/beaker/large,
-/obj/item/chems/glass/bottle/stabilizer,
-/obj/item/chems/glass/bottle/stabilizer,
-/obj/item/chems/glass/bottle/stabilizer,
+/obj/item/chems/glass/bottle/inaprovaline,
+/obj/item/chems/glass/bottle/inaprovaline,
+/obj/item/chems/glass/bottle/inaprovaline,
 /turf/unsimulated/floor{
 	dir = 1;
 	icon_state = "vault"
@@ -3047,13 +3047,13 @@
 	pixel_x = -4;
 	pixel_y = 8
 	},
-/obj/item/chems/glass/bottle/stabilizer{
+/obj/item/chems/glass/bottle/inaprovaline{
 	pixel_x = 4;
 	pixel_y = 7
 	},
 /obj/item/chems/syringe,
-/obj/item/chems/syringe/antibiotic,
-/obj/item/chems/syringe/antibiotic,
+/obj/item/chems/syringe/spaceacillin,
+/obj/item/chems/syringe/spaceacillin,
 /obj/item/chems/ivbag/blood/OMinus,
 /obj/item/chems/ivbag/blood/OMinus,
 /turf/simulated/floor/tiled/white,
@@ -3280,8 +3280,8 @@
 /area/map_template/rescue_base/start)
 "hg" = (
 /obj/structure/table/glass,
-/obj/item/chems/syringe/antibiotic,
-/obj/item/chems/syringe/antibiotic,
+/obj/item/chems/syringe/spaceacillin,
+/obj/item/chems/syringe/spaceacillin,
 /obj/item/stack/medical/advanced/bruise_pack,
 /turf/simulated/floor/tiled/white,
 /area/map_template/rescue_base/start)

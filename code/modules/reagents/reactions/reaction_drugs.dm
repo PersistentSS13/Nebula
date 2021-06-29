@@ -4,10 +4,10 @@
 	required_reagents = list(/decl/material/solid/silicon = 1, /decl/material/solid/potassium = 1, /decl/material/gas/ammonia = 1)
 	result_amount = 3
 
-/datum/chemical_reaction/painkillers
-	name = "Painkillers"
-	result = /decl/material/liquid/painkillers
-	required_reagents = list(/decl/material/liquid/stabilizer = 1, /decl/material/liquid/ethanol = 1, /decl/material/liquid/acetone = 1)
+/datum/chemical_reaction/tramadol
+	name = "Tramadol"
+	result = /decl/material/liquid/tramadol
+	required_reagents = list(/decl/material/liquid/inaprovaline = 1, /decl/material/liquid/ethanol = 1, /decl/material/liquid/acetone = 1)
 	result_amount = 3
 
 /datum/chemical_reaction/antiseptic
@@ -73,7 +73,7 @@
 /datum/chemical_reaction/tricordrazine
 	name = "Tricordrazine"
 	result = /decl/material/liquid/tricordrazine
-	required_reagents = list(/decl/material/liquid/stabilizer = 1, /decl/material/liquid/dylovene = 1)
+	required_reagents = list(/decl/material/liquid/inaprovaline = 1, /decl/material/liquid/dylovene = 1)
 	result_amount = 2
 
 /datum/chemical_reaction/alkysine
@@ -91,7 +91,7 @@
 /datum/chemical_reaction/bicaridine
 	name = "Bicaridine"
 	result = /decl/material/liquid/bicaridine
-	required_reagents = list(/decl/material/liquid/stabilizer = 1, /decl/material/solid/carbon = 1)
+	required_reagents = list(/decl/material/liquid/inaprovaline = 1, /decl/material/solid/carbon = 1)
 	inhibitors = list(/decl/material/liquid/nutriment/sugar = 1) // Messes up with adrenaline
 	result_amount = 2
 
@@ -117,10 +117,10 @@
 	maximum_temperature = -25 CELSIUS
 	mix_message = "The solution becomes a metallic slime."
 
-/datum/chemical_reaction/antibiotics
-	name = "Antibiotics"
-	result = /decl/material/liquid/antibiotics
-	required_reagents = list(/decl/material/liquid/cryptobiolin = 1, /decl/material/liquid/stabilizer = 1)
+/datum/chemical_reaction/spaceacillin
+	name = "Spaceacillin"
+	result = /decl/material/liquid/spaceacillin
+	required_reagents = list(/decl/material/liquid/cryptobiolin = 1, /decl/material/liquid/inaprovaline = 1)
 	result_amount = 2
 
 /datum/chemical_reaction/imidazoline
@@ -234,9 +234,9 @@
 	required_reagents = list(/decl/material/liquid/nutriment/sugar = 1, /decl/material/liquid/amphetamines = 1, /decl/material/liquid/dexalin = 1)
 	result_amount = 3
 
-/datum/chemical_reaction/stabilizer
-	name = "Stabilizer"
-	result = /decl/material/liquid/stabilizer
+/datum/chemical_reaction/inaprovaline
+	name = "Inaprovaline"
+	result = /decl/material/liquid/inaprovaline
 	required_reagents = list(/decl/material/liquid/nutriment/sugar = 1, /decl/material/solid/carbon = 1, /decl/material/liquid/acetone = 1)
 	result_amount = 3
 

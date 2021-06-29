@@ -6,16 +6,16 @@
 	volume = 60
 	var/reagent = ""
 
-/obj/item/chems/glass/bottle/robot/stabilizer
-	name = "internal stabilizer bottle"
-	desc = "A small bottle. Contains stabilizer - used to stabilize patients."
+/obj/item/chems/glass/bottle/robot/inaprovaline
+	name = "internal inaprovaline bottle"
+	desc = "A small bottle. Contains inaprovaline - used to stabilize patients."
 	icon = 'icons/obj/items/chem/bottle.dmi'
 	icon_state = "bottle-4"
-	reagent = /decl/material/liquid/stabilizer
+	reagent = /decl/material/liquid/inaprovaline
 
-/obj/item/chems/glass/bottle/robot/stabilizer/Initialize()
+/obj/item/chems/glass/bottle/robot/inaprovaline/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/liquid/stabilizer, 60)
+	reagents.add_reagent(/decl/material/liquid/inaprovaline, 60)
 	update_icon()
 
 /obj/item/chems/glass/bottle/robot/dylovene
