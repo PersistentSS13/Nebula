@@ -279,9 +279,9 @@
 "aN" = (
 /obj/item/chems/chem_disp_cartridge/acetone,
 /obj/item/chems/chem_disp_cartridge/copper,
-/obj/item/chems/chem_disp_cartridge/eyedrops,
+/obj/item/chems/chem_disp_cartridge/imidazoline,
 /obj/structure/table/rack,
-/obj/item/chems/syringe/antitoxin,
+/obj/item/chems/syringe/dylovene,
 /turf/simulated/floor/tiled/white,
 /area/unishi/chem)
 "aO" = (

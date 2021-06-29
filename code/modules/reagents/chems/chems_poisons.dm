@@ -25,8 +25,8 @@
 	if(dose > 1 * threshold)
 		M.adjustToxLoss(removed)
 
-/decl/material/liquid/presyncopics
-	name = "presyncopics"
+/decl/material/liquid/cryptobiolin
+	name = "cryptobiolin"
 	lore_text = "A compound that causess presyncopic effects in the taker, including confusion and dizzyness."
 	taste_description = "sourness"
 	color = "#000055"
@@ -40,7 +40,7 @@
 	)
 	value = 1.5
 
-/decl/material/liquid/presyncopics/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/cryptobiolin/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	var/drug_strength = 4
 	ADJ_STATUS(M, STAT_DIZZY, drug_strength)
 	SET_STATUS_MAX(M, STAT_CONFUSE, drug_strength * 5)

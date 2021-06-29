@@ -11,7 +11,7 @@
 	product_ads = "Go save some lives!;The best stuff for your medbay.;Only the finest tools.;Natural chemicals!;This stuff saves lives.;Don't you want some?;Ping!"
 	initial_access = list(access_medical_equip)
 	products = list(
-		/obj/item/chems/glass/bottle/antitoxin = 4,
+		/obj/item/chems/glass/bottle/dylovene = 4,
 		/obj/item/chems/glass/bottle/stabilizer = 4,
 		/obj/item/chems/glass/bottle/sedatives = 4,
 		/obj/item/chems/glass/bottle/bromide = 4,
@@ -29,7 +29,7 @@
 		/obj/item/clothing/mask/chewable/candy/lolli/meds = 8,
 		/obj/item/chems/pill/bromide = 3,
 		/obj/item/chems/pill/stox = 4,
-		/obj/item/chems/pill/antitox = 6
+		/obj/item/chems/pill/dylovene = 6
 	)
 	idle_power_usage = 211 //refrigerator - believe it or not, this is actually the average power consumption of a refrigerated vending machine according to NRCan.
 
@@ -51,7 +51,7 @@
 		/obj/item/storage/med_pouch/oxyloss,
 		/obj/item/storage/med_pouch/toxin
 	)
-	contraband = list(/obj/item/chems/syringe/antitoxin = 4,/obj/item/chems/syringe/antibiotic = 4,/obj/item/chems/pill/bromide = 1)
+	contraband = list(/obj/item/chems/syringe/dylovene = 4,/obj/item/chems/syringe/antibiotic = 4,/obj/item/chems/pill/bromide = 1)
 
 /obj/machinery/vending/wallmed2
 	name = "NanoMed Mini"

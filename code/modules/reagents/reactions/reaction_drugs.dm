@@ -1,6 +1,6 @@
-/datum/chemical_reaction/antitoxins
-	name = "Antitoxins"
-	result = /decl/material/liquid/antitoxins
+/datum/chemical_reaction/dylovene
+	name = "Dylovene"
+	result = /decl/material/liquid/dylovene
 	required_reagents = list(/decl/material/solid/silicon = 1, /decl/material/solid/potassium = 1, /decl/material/gas/ammonia = 1)
 	result_amount = 3
 
@@ -13,7 +13,7 @@
 /datum/chemical_reaction/antiseptic
 	name = "Antiseptic"
 	result = /decl/material/liquid/antiseptic
-	required_reagents = list(/decl/material/liquid/ethanol = 1, /decl/material/liquid/antitoxins = 1, /decl/material/liquid/acid/hydrochloric = 1)
+	required_reagents = list(/decl/material/liquid/ethanol = 1, /decl/material/liquid/dylovene = 1, /decl/material/liquid/acid/hydrochloric = 1)
 	result_amount = 3
 
 /datum/chemical_reaction/mutagenics
@@ -46,7 +46,7 @@
 /datum/chemical_reaction/antirads
 	name = "Anti-Radiation Medication"
 	result = /decl/material/liquid/antirads
-	required_reagents = list(/decl/material/solid/metal/radium = 1, /decl/material/liquid/antitoxins = 1)
+	required_reagents = list(/decl/material/solid/metal/radium = 1, /decl/material/liquid/dylovene = 1)
 	result_amount = 2
 
 /datum/chemical_reaction/narcotics
@@ -62,9 +62,9 @@
 	result_amount = 2
 	log_is_important = 1
 
-/datum/chemical_reaction/presyncopics
-	name = "Presyncopics"
-	result = /decl/material/liquid/presyncopics
+/datum/chemical_reaction/cryptobiolin
+	name = "Cryptobiolin"
+	result = /decl/material/liquid/cryptobiolin
 	required_reagents = list(/decl/material/solid/potassium = 1, /decl/material/liquid/acetone = 1, /decl/material/liquid/nutriment/sugar = 1)
 	minimum_temperature = 30 CELSIUS
 	maximum_temperature = 60 CELSIUS
@@ -73,13 +73,13 @@
 /datum/chemical_reaction/tricordrazine
 	name = "Tricordrazine"
 	result = /decl/material/liquid/tricordrazine
-	required_reagents = list(/decl/material/liquid/stabilizer = 1, /decl/material/liquid/antitoxins = 1)
+	required_reagents = list(/decl/material/liquid/stabilizer = 1, /decl/material/liquid/dylovene = 1)
 	result_amount = 2
 
-/datum/chemical_reaction/neuroannealer
-	name = "Neuroannealer"
-	result = /decl/material/liquid/neuroannealer
-	required_reagents = list(/decl/material/liquid/acid/hydrochloric = 1, /decl/material/gas/ammonia = 1, /decl/material/liquid/antitoxins = 1)
+/datum/chemical_reaction/alkysine
+	name = "Alkysine"
+	result = /decl/material/liquid/alkysine
+	required_reagents = list(/decl/material/liquid/acid/hydrochloric = 1, /decl/material/gas/ammonia = 1, /decl/material/liquid/dylovene = 1)
 	result_amount = 2
 
 /datum/chemical_reaction/dexalin
@@ -120,13 +120,13 @@
 /datum/chemical_reaction/antibiotics
 	name = "Antibiotics"
 	result = /decl/material/liquid/antibiotics
-	required_reagents = list(/decl/material/liquid/presyncopics = 1, /decl/material/liquid/stabilizer = 1)
+	required_reagents = list(/decl/material/liquid/cryptobiolin = 1, /decl/material/liquid/stabilizer = 1)
 	result_amount = 2
 
-/datum/chemical_reaction/eyedrops
-	name = "Eye Drops"
-	result = /decl/material/liquid/eyedrops
-	required_reagents = list(/decl/material/solid/carbon = 1, /decl/material/liquid/fuel/hydrazine = 1, /decl/material/liquid/antitoxins = 1)
+/datum/chemical_reaction/imidazoline
+	name = "Imidazoline"
+	result = /decl/material/liquid/imidazoline
+	required_reagents = list(/decl/material/solid/carbon = 1, /decl/material/liquid/fuel/hydrazine = 1, /decl/material/liquid/dylovene = 1)
 	result_amount = 2
 
 /datum/chemical_reaction/sedatives
@@ -157,7 +157,7 @@
 /datum/chemical_reaction/hallucinogenics
 	name = "Hallucinogenics"
 	result = /decl/material/liquid/hallucinogenics
-	required_reagents = list(/decl/material/solid/silicon = 1, /decl/material/liquid/fuel/hydrazine = 1, /decl/material/liquid/antitoxins = 1)
+	required_reagents = list(/decl/material/solid/silicon = 1, /decl/material/liquid/fuel/hydrazine = 1, /decl/material/liquid/dylovene = 1)
 	result_amount = 3
 	mix_message = "The solution takes on an iridescent sheen."
 	minimum_temperature = 75 CELSIUS
@@ -257,6 +257,6 @@
 
 /datum/chemical_reaction/immunobooster
 	result = /decl/material/liquid/immunobooster
-	required_reagents = list(/decl/material/liquid/presyncopics = 1, /decl/material/liquid/antitoxins = 1)
+	required_reagents = list(/decl/material/liquid/cryptobiolin = 1, /decl/material/liquid/dylovene = 1)
 	minimum_temperature = 40 CELSIUS
 	result_amount = 2

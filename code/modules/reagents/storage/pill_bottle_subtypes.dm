@@ -1,8 +1,8 @@
-/obj/item/storage/pill_bottle/antitox
-	name = "pill bottle (antitoxins)"
+/obj/item/storage/pill_bottle/dylovene
+	name = "pill bottle (dylovene)"
 	desc = "Contains pills used to counter toxins."
 
-	startswith = list(/obj/item/chems/pill/antitox = 21)
+	startswith = list(/obj/item/chems/pill/dylovene = 21)
 	wrapper_color = COLOR_GREEN
 
 /obj/item/storage/pill_bottle/brute_meds
@@ -19,11 +19,11 @@
 	startswith = list(/obj/item/chems/pill/oxygen = 21)
 	wrapper_color = COLOR_LIGHT_CYAN
 
-/obj/item/storage/pill_bottle/antitoxins
-	name = "pill bottle (antitoxins)"
+/obj/item/storage/pill_bottle/dylovene
+	name = "pill bottle (dylovene)"
 	desc = "Contains pills used to treat toxic substances in the blood."
 
-	startswith = list(/obj/item/chems/pill/antitoxins = 21)
+	startswith = list(/obj/item/chems/pill/dylovene = 21)
 	wrapper_color = COLOR_GREEN
 
 /obj/item/storage/pill_bottle/adrenaline
@@ -75,7 +75,7 @@
 
 	startswith = list(
 			/obj/item/chems/pill/adrenaline = 6,
-			/obj/item/chems/pill/antitoxins = 6,
+			/obj/item/chems/pill/dylovene = 6,
 			/obj/item/chems/pill/sugariron = 2,
 			/obj/item/chems/pill/painkillers = 2,
 			/obj/item/chems/pill/oxygen = 2,

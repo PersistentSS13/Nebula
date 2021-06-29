@@ -39,7 +39,7 @@
 		filter_effect -= 1
 	if(is_broken())
 		filter_effect -= 2
-	// Robotic organs filter better but don't get benefits from antitoxins for filtering.
+	// Robotic organs filter better but don't get benefits from dylovene for filtering.
 	if(BP_IS_PROSTHETIC(src))
 		filter_effect += 1
 	else if(owner.has_chemical_effect(CE_ANTITOX, 1))

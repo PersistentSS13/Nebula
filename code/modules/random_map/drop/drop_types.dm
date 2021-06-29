@@ -150,7 +150,7 @@ var/global/list/datum/supply_drop_loot/supply_drop
 		/obj/item/storage/firstaid/toxin,
 		/obj/item/storage/firstaid/o2,
 		/obj/item/storage/firstaid/adv,
-		/obj/item/chems/glass/bottle/antitoxin,
+		/obj/item/chems/glass/bottle/dylovene,
 		/obj/item/chems/glass/bottle/stabilizer,
 		/obj/item/chems/glass/bottle/sedatives,
 		/obj/item/storage/box/syringes,

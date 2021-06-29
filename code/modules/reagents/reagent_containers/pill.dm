@@ -86,12 +86,12 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 //We lied - it's pills all the way down
-/obj/item/chems/pill/antitox
-	name = "antitoxins (25u)"
+/obj/item/chems/pill/dylovene
+	name = "dylovene (25u)"
 	desc = "Neutralizes many common toxins."
 	icon_state = "pill1"
-/obj/item/chems/pill/antitox/initialize_reagents()
-	reagents.add_reagent(/decl/material/liquid/antitoxins, 25)
+/obj/item/chems/pill/dylovene/initialize_reagents()
+	reagents.add_reagent(/decl/material/liquid/dylovene, 25)
 
 /obj/item/chems/pill/bromide
 	name = "bromide pill"
@@ -156,12 +156,12 @@
 /obj/item/chems/pill/oxygen/initialize_reagents()
 	reagents.add_reagent(/decl/material/liquid/dexalin, 15)
 
-/obj/item/chems/pill/antitoxins
-	name = "antitoxins (15u)"
+/obj/item/chems/pill/dylovene
+	name = "dylovene (15u)"
 	desc = "A broad-spectrum anti-toxin."
 	icon_state = "pill1"
-/obj/item/chems/pill/antitoxins/initialize_reagents()
-	reagents.add_reagent(/decl/material/liquid/antitoxins, 15)
+/obj/item/chems/pill/dylovene/initialize_reagents()
+	reagents.add_reagent(/decl/material/liquid/dylovene, 15)
 
 
 /obj/item/chems/pill/brute_meds
@@ -235,7 +235,7 @@
 	icon_state = "yellow"
 /obj/item/chems/pill/antirad/initialize_reagents()
 	reagents.add_reagent(/decl/material/liquid/antirads, 5)
-	reagents.add_reagent(/decl/material/liquid/antitoxins, 10)
+	reagents.add_reagent(/decl/material/liquid/dylovene, 10)
 
 
 /obj/item/chems/pill/sugariron

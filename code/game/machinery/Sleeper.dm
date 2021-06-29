@@ -38,7 +38,7 @@
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/stabilizer()) 
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/sedatives())
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/painkillers())
-	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/antitoxins())
+	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/dylovene())
 	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/dexalin())
 
 /obj/machinery/sleeper/Destroy()

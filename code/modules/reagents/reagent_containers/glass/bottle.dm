@@ -99,14 +99,14 @@
 	update_icon()
 
 
-/obj/item/chems/glass/bottle/antitoxin
-	name = "antitoxins bottle"
-	desc = "A small bottle of antitoxins. Counters poisons, and repairs damage. A wonder drug."
+/obj/item/chems/glass/bottle/dylovene
+	name = "dylovene bottle"
+	desc = "A small bottle of dylovene. Counters poisons, and repairs damage. A wonder drug."
 	icon_state = "bottle-4"
 
-/obj/item/chems/glass/bottle/antitoxin/Initialize()
+/obj/item/chems/glass/bottle/dylovene/Initialize()
 	. = ..()
-	reagents.add_reagent(/decl/material/liquid/antitoxins, 60)
+	reagents.add_reagent(/decl/material/liquid/dylovene, 60)
 	update_icon()
 
 

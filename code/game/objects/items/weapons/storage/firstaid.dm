@@ -108,7 +108,7 @@
 		/obj/item/storage/pill_bottle/brute_meds,
 		/obj/item/storage/pill_bottle/burn_meds,
 		/obj/item/storage/pill_bottle/oxygen,
-		/obj/item/storage/pill_bottle/antitoxins,
+		/obj/item/storage/pill_bottle/dylovene,
 		/obj/item/storage/pill_bottle/painkillers,
 		/obj/item/storage/pill_bottle/antibiotics,
 		/obj/item/stack/medical/splint,
