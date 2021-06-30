@@ -83,7 +83,7 @@
 /obj/item/clothing/suit/space/medical
 	name = "medical softsuit"
 	icon = 'mods/persistence/icons/obj/clothing/spacesuits/softsuits/medspacesuit.dmi'
-	desc = "A general use softsuit that sacrafices radiation shielding in turn for enhanced mobility."
+	desc = "A general use softsuit that sacrifices radiation shielding in turn for enhanced mobility."
 	armor = list(
 		bio = ARMOR_BIO_SHIELDED,
 		)
