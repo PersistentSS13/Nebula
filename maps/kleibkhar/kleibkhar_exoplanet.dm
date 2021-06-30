@@ -18,7 +18,7 @@
 	plant_colors = list("#215a00","#195a47","#5a7467","#9eab88","#6e7248", "RANDOM")
 	surface_color = COLOR_DARK_GREEN_GRAY
 	water_color = COLOR_BLUE_GRAY
-	crust_strata = /decl/strata/sedimentary
+	crust_strata = /decl/strata/base_planet
 
 	ruin_tags_whitelist = RUIN_NATURAL | RUIN_WATER
 	features_budget = 0

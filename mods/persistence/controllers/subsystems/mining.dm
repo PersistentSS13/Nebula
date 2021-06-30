@@ -1,38 +1,5 @@
 /datum/random_map/automata/cave_system/outreach
-	minerals_sparse = list(
-		/decl/material/solid/mineral/graphite = 10,
-		/decl/material/solid/mineral/hematite = 25,
-		/decl/material/solid/mineral/sand = 5,
-		/decl/material/solid/mineral/sodiumchloride = 5,
-		/decl/material/solid/mineral/pyrite = 10,
-		/decl/material/solid/mineral/quartz = 5,
-		/decl/material/solid/mineral/clay = 10,
-		/decl/material/solid/mineral/magnetite = 10,
-		/decl/material/solid/mineral/chalcopyrite = 20,
-		/decl/material/solid/mineral/sphalerite = 5,
-		/decl/material/solid/mineral/cassiterite = 5,
-		/decl/material/solid/mineral/potash = 5,
-		/decl/material/solid/mineral/potassium = 5,
-		/decl/material/solid/mineral/cinnabar = 3,
-		/decl/material/solid/mineral/spodumene = 3,
-		/decl/material/solid/ice/aspium = 2,
-		/decl/material/solid/ice/ediroite = 2,
-		/decl/material/solid/ice/lukrite = 2,
-		/decl/material/solid/ice/trigarite = 2
-	)
-	minerals_rich = list(
-		/decl/material/solid/mineral/hematite = 20,
-		/decl/material/solid/mineral/chalcopyrite = 25,
-		/decl/material/solid/mineral/tetrahedrite = 5,
-		/decl/material/solid/mineral/wolframite = 5,
-		/decl/material/solid/mineral/galena = 5,
-		/decl/material/solid/mineral/sperrylite = 3,
-		/decl/material/solid/mineral/calaverite = 2,
-		/decl/material/solid/ice/lukrite = 3,
-		/decl/material/solid/ice/trigarite = 3,
-		/decl/material/solid/ice/hydrate/hydrogen = 2,
-		/decl/material/solid/ice/hydrate/oxygen = 2
-	)
+	var/rich_mineral_turf = /turf/exterior/wall/random/high_chance
 
 /datum/random_map/automata/cave_system/outreach/apply_to_map()
 	if(!origin_x) origin_x = 1
@@ -54,10 +21,8 @@
 		switch (map[tmp_cell])
 			if(DOOR_CHAR)
 				new_path = mineral_turf
-				minerals = pickweight(minerals_sparse)
 			if(EMPTY_CHAR)
-				new_path = mineral_turf
-				minerals = pickweight(minerals_rich)
+				new_path = rich_mineral_turf
 			if(FLOOR_CHAR)
 				new_path = floor_type
 			if(WALL_CHAR)
