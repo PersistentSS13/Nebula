@@ -1,3 +1,6 @@
+/datum/random_map/automata/cave_system/outreach
+	var/rich_mineral_turf = /turf/exterior/wall/random/high_chance
+
 /datum/random_map/automata/cave_system/outreach/apply_to_map()
 	if(!origin_x) origin_x = 1
 	if(!origin_y) origin_y = 1
@@ -18,10 +21,8 @@
 		switch (map[tmp_cell])
 			if(DOOR_CHAR)
 				new_path = mineral_turf
-				minerals = pickweight(minerals_sparse)
 			if(EMPTY_CHAR)
-				new_path = mineral_turf
-				minerals = pickweight(minerals_rich)
+				new_path = rich_mineral_turf
 			if(FLOOR_CHAR)
 				new_path = floor_type
 			if(WALL_CHAR)

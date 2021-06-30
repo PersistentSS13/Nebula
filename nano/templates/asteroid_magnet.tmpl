@@ -1,0 +1,31 @@
+{{if data.error}}
+	<h2> Cannot attract asteroid: </h2><br>
+	{{:data.error}}
+{{else}}
+	<div class="item">
+		<div class="itemLabel">
+			Asteroid Type:
+		</div>
+		<div class="itemContent">
+			{{:data.asteroid_type}}
+		</div>
+	</div>
+	<div class="item">
+		<div class="itemLabel">
+			Asteroid Description:
+		</div>
+		<div class="itemContent">
+			{{:data.asteroid_desc}}
+		</div>
+	</div>
+	<div class="item">
+		<div class="itemContent">
+			{{:helper.link('Toggle Attraction', 'power', {'toggle_attract' : 1}, data.attracting ? 'selected' : null)}}
+		</div>
+	</div>
+	<div class="item">
+        <div class="itemContent">
+            {{:helper.displayBar(data.progress, 0, 100, 'good')}}
+        </div>
+    </div>
+{{/if}}

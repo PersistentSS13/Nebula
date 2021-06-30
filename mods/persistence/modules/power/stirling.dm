@@ -18,7 +18,10 @@
 		/obj/item/stock_parts/micro_laser = 1,
 		/obj/item/stock_parts/capacitor = 1,
 		/obj/item/stack/cable_coil = 15
-		)
+		)	
 	additional_spawn_components = list(
 		/obj/item/stock_parts/power/apc/buildable = 1
 		)
+
+/datum/fabricator_recipe/imprinter/circuit/stirling
+	path = /obj/item/stock_parts/circuitboard/pacman/stirling
