@@ -23,7 +23,7 @@
 		)
 
 //Engineering softsuit
-/obj/item/clothing/head/helmet/space/engineering/alt
+/obj/item/clothing/head/helmet/space/engineering
 	name = "engineering softsuit helmet"
 	icon = 'mods/persistence/icons/obj/clothing/spacesuits/softsuits/engspacehelm.dmi'
 	desc = "A flimsy helmet with basic radiation shielding. Its visor protects the user from bright UV lights."
@@ -32,7 +32,7 @@
 		rad = ARMOR_RAD_RESISTANT
 		)
 
-/obj/item/clothing/suit/space/engineering/alt
+/obj/item/clothing/suit/space/engineering
 	name = "engineering softsuit"
 	icon = 'mods/persistence/icons/obj/clothing/spacesuits/softsuits/engspacesuit.dmi'
 	desc = "A general use softsuit. The cloth fibers on this suit protect the user from minor amounts of radiation."
@@ -50,7 +50,7 @@
 		)
 
 //Security softsuit
-/obj/item/clothing/head/helmet/space/security/alt
+/obj/item/clothing/head/helmet/space/security
 	name= "security softsuit helmet"
 	icon = 'mods/persistence/icons/obj/clothing/spacesuits/softsuits/secspacehelm.dmi'
 	desc = "A flimsy helmet equipped with heat-resistent fabric."
@@ -60,7 +60,7 @@
 		bio = ARMOR_BIO_SHIELDED,
 		)
 
-/obj/item/clothing/suit/space/security/alt
+/obj/item/clothing/suit/space/security
 	name = "security softsuit"
 	icon = 'mods/persistence/icons/obj/clothing/spacesuits/softsuits/secspacesuit.dmi'
 	desc = "A general use softsuit equipped with heat-resistent fabric."
@@ -71,7 +71,7 @@
 		)
 
 //Medical softsuit
-/obj/item/clothing/head/helmet/space/medical/alt
+/obj/item/clothing/head/helmet/space/medical
 	name = "medical softsuit helmet"
 	icon = 'mods/persistence/icons/obj/clothing/spacesuits/softsuits/medspacehelm.dmi'
 	desc = "A flimsy helmet that protects the user just enough to be considered spaceworthy."
@@ -80,7 +80,7 @@
 		)
 	flash_protection = FLASH_PROTECTION_NONE
 
-/obj/item/clothing/suit/space/medical/alt
+/obj/item/clothing/suit/space/medical
 	name = "medical softsuit"
 	icon = 'mods/persistence/icons/obj/clothing/spacesuits/softsuits/medspacesuit.dmi'
 	desc = "A general use softsuit that sacrafices radiation shielding in turn for enhanced mobility."
@@ -101,7 +101,7 @@
 	LAZYSET(slowdown_per_slot, slot_wear_suit_str, 0.5)
 
 //Mining softsuit
-/obj/item/clothing/head/helmet/space/mining/alt
+/obj/item/clothing/head/helmet/space/mining
 	name = "mining softsuit helmet"
 	icon = 'mods/persistence/icons/obj/clothing/spacesuits/softsuits/minerspacehelm.dmi'
 	desc = "A flimsy helmet equipped with extra thick fabric."
@@ -111,7 +111,7 @@
 		rad = ARMOR_RAD_MINOR
 		)
 
-/obj/item/clothing/suit/space/mining/alt
+/obj/item/clothing/suit/space/mining
 	name = "mining softsuit"
 	icon = 'mods/persistence/icons/obj/clothing/spacesuits/softsuits/minerspacesuit.dmi'
 	desc = "A general use softsuit equipped with extra thick fabric."
@@ -130,7 +130,7 @@
 		)
 
 //Science softsuit
-/obj/item/clothing/head/helmet/space/science/alt
+/obj/item/clothing/head/helmet/space/science
 	name = "scientist softsuit helmet"
 	icon = 'mods/persistence/icons/obj/clothing/spacesuits/softsuits/scispacehelm.dmi'
 	desc = "A flimsy helmet that provides basic protection from radiation."
@@ -139,7 +139,7 @@
 		rad = ARMOR_RAD_RESISTANT
 		)
 
-/obj/item/clothing/suit/space/science/alt
+/obj/item/clothing/suit/space/science
 	name = "scientist softsuit"
 	icon = 'mods/persistence/icons/obj/clothing/spacesuits/softsuits/scispacesuit.dmi'
 	desc = "A general use softsuit retrofitted with basic radiation shielding."
