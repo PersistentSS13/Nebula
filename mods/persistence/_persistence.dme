@@ -74,6 +74,7 @@
 #include "modules\cloning\philotic.dm"
 #include "modules\cloning\device_types\cloning_pod.dm"
 #include "modules\cloning\machines\cloning_pod.dm"
+#include "modules\clothing\spacesuits.dm"
 #include "modules\fabrication\_fabricator.dm"
 #include "modules\fabrication\fabricator_build.dm"
 #include "modules\fabrication\fabricator_ui.dm"
