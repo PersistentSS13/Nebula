@@ -4,7 +4,6 @@
 
 /datum/shuttle/New(map_hash, obj/effect/shuttle_landmark/initial_location)
 	if(SSpersistence.loading_world)
-		log_world("Calling new on shuttle [src.name]! Loading world though!")
 		return
 	. = ..()
 
