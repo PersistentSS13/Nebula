@@ -7,3 +7,8 @@
 	if(loc && operating)
 		force_update_channels()
 	power_change()
+
+/obj/machinery/power/apc/init_round_start()
+	if(persistent_id) // Check if this is a loaded APC.
+		return
+	. = ..()

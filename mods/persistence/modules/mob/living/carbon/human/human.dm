@@ -41,6 +41,11 @@
 		if(istype(I))
 			I.screen_loc = gear["loc"]
 
+	move_intents = species.move_intents.Copy()
+	set_move_intent(GET_DECL(move_intents[1]))
+	if(!istype(move_intent))
+		set_next_usable_move_intent()
+
 	regenerate_icons()
 
 /mob/living/carbon/human/before_save()
