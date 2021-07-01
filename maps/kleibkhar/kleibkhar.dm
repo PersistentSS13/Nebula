@@ -6,7 +6,14 @@
 
 	#include "kleibkhar_test.dm"
 	#include "chargen/chargen_areas.dm"
-
+	#include "chargen/chargen.dmm"
+	
+	#include "kleibkhar-1.dmm"
+	#include "kleibkhar-2.dmm"
+	#include "kleibkhar-3.dmm"
+	#include "kleibkhar-4.dmm"
+	#include "kleibkhar-overmap.dmm"
+	
 	#include "premade_shuttle/premade_shuttle.dm"
 
 	#include "kleibkhar_access.dm"
