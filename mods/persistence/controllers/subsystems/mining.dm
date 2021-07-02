@@ -1,4 +1,5 @@
 /datum/random_map/automata/cave_system/outreach
+	floor_type = /turf/exterior/barren/mining
 	var/rich_mineral_turf = /turf/exterior/wall/random/high_chance
 
 /datum/random_map/automata/cave_system/outreach/apply_to_map()
@@ -35,6 +36,14 @@
 		T.ChangeTurf(new_path, minerals)
 		get_additional_spawns(map[tmp_cell], T)
 
+// Mining turfs may have issues finding an owner on load - upon return air, look for the owner if one does not exist
+/turf/exterior/barren/mining/return_air()
+	if(!owner)
+		owner = LAZYACCESS(map_sectors, "[z]")
+		if(!istype(owner))
+			owner = null
+	. = ..()
+
 SUBSYSTEM_DEF(mining)
 	name = "Mining"
 	wait = 1 MINUTES
@@ -42,10 +51,10 @@ SUBSYSTEM_DEF(mining)
 	init_order = SS_INIT_MAPPING - 1
 	runlevels = RUNLEVEL_GAME
 
-	var/regen_interval = 55		// How often in minutes to generate mining levels.
+	var/regen_interval = 90		// How often in minutes to generate mining levels.
 	var/warning_wait = 2   		// How long to wait before regenerating the mining level after a warning.
 	var/warning_message = "The ground begins to shake."
-	var/collapse_message = "The mins collapse o no"
+	var/collapse_message = "A deep rumbling is felt in the ground as the mines collapse!"
 	var/collapse_imminent = FALSE
 	var/last_collapse
 	var/list/generators = list()
@@ -93,7 +102,6 @@ SUBSYSTEM_DEF(mining)
 
 	for(var/z_level in global.using_map.mining_areas)
 		var/datum/random_map/automata/cave_system/outreach/generator = new(null, TRANSITIONEDGE, TRANSITIONEDGE, z_level, world.maxx - TRANSITIONEDGE, world.maxy - TRANSITIONEDGE, FALSE, FALSE, FALSE)
-		generator.minerals_rich = generator.minerals_sparse // No rare materials.
 		generators.Add(generator)
 
 	// for(var/z in global.using_map.mining_areas)

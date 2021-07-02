@@ -20,8 +20,8 @@
 
 	// A list of turfs and their default turfs for serialization optimization.
 	base_turf_by_z = list(
-		"1" = /turf/exterior/barren,
-		"2" = /turf/exterior/barren,
+		"1" = /turf/exterior/barren/mining,
+		"2" = /turf/exterior/barren/mining,
 		"3" = /turf/exterior/kleibkhar_grass,
 		"4" = /turf/exterior/open,
 		"5" = /turf/space
@@ -46,8 +46,8 @@
 
 	// A list of turfs and their default turfs for serialization optimization.
 	base_turf_by_z = list(
-		"4" = /turf/exterior/barren,
-		"5" = /turf/exterior/barren,
+		"4" = /turf/exterior/barren/mining,
+		"5" = /turf/exterior/barren/mining,
 		"6" = /turf/exterior/kleibkhar_grass,
 		"7" = /turf/exterior/open,
 		"8" = /turf/space

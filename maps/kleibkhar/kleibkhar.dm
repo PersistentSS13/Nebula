@@ -3,9 +3,9 @@
 	#include "../../mods/persistence/_persistence.dme"
 	#include "../../mods/species/ascent/_ascent.dme"
 	#include "../../mods/content/xenobiology/_xenobiology.dme"
+	#include "../chargen/chargen_areas.dm"
 
 	#include "kleibkhar_test.dm"
-	#include "chargen/chargen_areas.dm"
 
 	#include "premade_shuttle/premade_shuttle.dm"
 
