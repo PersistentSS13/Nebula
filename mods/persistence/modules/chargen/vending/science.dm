@@ -8,6 +8,7 @@
 	base_type = /obj/machinery/vending/infini/science
 	products = list(
 		/obj/item/chargen_box/science/rnd = 999,
+		/obj/item/chargen_box/science/chem = 999,
 		/obj/item/chargen_box/science/emt = 999,
 		/obj/item/chargen_box/science/doctor = 999,
 		/obj/item/chargen_box/science/surgery = 999,
