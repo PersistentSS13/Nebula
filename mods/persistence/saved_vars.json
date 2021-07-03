@@ -2520,7 +2520,10 @@
 		"vars":[
 			"layer",
 			"bound_height",
-			"dir"
+			"bound_width",
+			"dir",
+			"saved_x",
+			"saved_y"
 		]
 	},
 	{
@@ -3031,14 +3034,14 @@
 			"temperature_alert",
 			"heartbeat",
 			"stamina",
-			"hair_color",
+			"hair_colour",
 			"h_style",
 			"f_style",
 			"eye_colour",
 			"facial_hair_colour",
 			"skin_tone",
 			"skin_base",
-			"skin_color",
+			"skin_colour",
 			"size_multiplier",
 			"damage_multiplier",
 			"lip_style",

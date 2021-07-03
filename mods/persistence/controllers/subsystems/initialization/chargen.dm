@@ -13,7 +13,7 @@ SUBSYSTEM_DEF(chargen)
 	map_z = world.maxz
 
 	report_progress("Loading chargen map data.")
-	var/datum/map_load_metadata/M = maploader.load_map(file("maps/outreach/chargen/chargen.dmm"), 1, 1, map_z)
+	var/datum/map_load_metadata/M = maploader.load_map(file("maps/chargen/chargen.dmm"), 1, 1, map_z)
 	if (M)
 		var/width = M.bounds[4]
 		var/height = M.bounds[5]
@@ -24,7 +24,7 @@ SUBSYSTEM_DEF(chargen)
 				// We already loaded the first one at (1, 1) so skip it 
 				if(x == 1 && y == 1)
 					continue
-				maploader.load_map(file("maps/outreach/chargen/chargen.dmm"), ((x - 1) * width) + 1, ((y - 1) * height) + 1, map_z, no_changeturf = TRUE)
+				maploader.load_map(file("maps/chargen/chargen.dmm"), ((x - 1) * width) + 1, ((y - 1) * height) + 1, map_z, no_changeturf = TRUE)
 				CHECK_TICK
 
 /datum/controller/subsystem/chargen/proc/get_spawn_turf()

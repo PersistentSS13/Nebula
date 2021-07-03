@@ -44,6 +44,7 @@
 	startswith = list(
 		/obj/item/stock_parts/circuitboard/destructive_analyzer = 1,
 		/obj/item/stock_parts/circuitboard/protolathe = 1,
+		/obj/item/stock_parts/circuitboard/circuit_imprinter = 1,
 		/obj/item/clothing/suit/storage/toggle/labcoat = 1
 	)
 
@@ -73,4 +74,10 @@
 	startswith = list(
 		/obj/item/storage/med_pouch/oxyloss = 2,
 		/obj/item/chems/hypospray/autoinjector = 1
+	)
+
+/obj/item/chargen_box/science/chem
+	name = "chemistry starter kit"
+	startswith = list(
+		/obj/item/stock_parts/circuitboard/grinder = 1
 	)

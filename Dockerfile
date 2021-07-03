@@ -39,6 +39,11 @@ COPY .git/HEAD /persistent/.git/HEAD
 COPY .git/logs/HEAD /persistent/.git/logs/HEAD
 COPY --from=test_setup /wait.sh /wait.sh
 COPY --from=compile /persistent/nano/ /persistent/nano/
+
+RUN mkdir -p /persistent/maps/chargen /persistent/maps/kleibkhar
+COPY --from=compile /persistent/maps/kleibkhar/*.dmm /persistent/maps/kleibkhar/
+COPY --from=compile /persistent/maps/chargen/*.dmm /persistent/maps/chargen/
+
 COPY --from=compile /persistent/config/example/* /persistent/config/
 COPY --from=compile /persistent/config/names/* /persistent/config/names/
 COPY --from=compile /persistent/nebula.rsc /persistent/nebula.dmb \
