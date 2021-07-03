@@ -168,7 +168,7 @@
 
 //Emergency softsuit
 /obj/item/clothing/head/helmet/space/emergency/alt
-	name = "emergency softsuit"
+	name = "emergency softsuit helmet"
 	icon = 'mods/persistence/icons/obj/clothing/spacesuits/softsuits/crisisspacehelm.dmi'
 	desc = "A simple helmet with a built in light, smells like mothballs."
 	armor = list(
@@ -186,3 +186,8 @@
 		/obj/item/tank/emergency,
 		/obj/item/suit_cooling_unit
 		)
+
+//We don't need the 4.0 speed debuff that the default variant has
+/obj/item/clothing/suit/space/emergency/alt/Initialize()
+	. = ..()
+	LAZYSET(slowdown_per_slot, slot_wear_suit_str, 1.0)
