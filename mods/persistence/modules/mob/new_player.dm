@@ -86,6 +86,11 @@
 	if(!config.enter_allowed)
 		to_chat(src, SPAN_NOTICE("There is an administrative lock on entering the game!"))
 		return
+	switch(alert("Did you create a character?",,"Yes","No"))
+		if("No")
+			to_chat(src, SPAN_NOTICE("Create a character first!"))
+			return
+
 	if(spawning)
 		return
 	for(var/datum/mind/target_mind in global.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
@@ -188,7 +193,7 @@
 
 	new_character.key = key		//Manually transfer the key to log them in
 
-	
+
 /mob/new_player/Move()
 	return 0
 
