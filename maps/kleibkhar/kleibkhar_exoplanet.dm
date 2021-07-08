@@ -46,6 +46,7 @@
 	generate_habitability()
 	generate_atmosphere()
 	generate_flora()
+	generate_map()
 	generate_planet_image()
 	START_PROCESSING(SSobj, src)
 
@@ -97,6 +98,16 @@
 	skybox_image.pixel_x = rand(0,64)
 	skybox_image.pixel_y = rand(128,256)
 	skybox_image.appearance_flags = RESET_COLOR
+
+/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/generate_map()
+	for(var/zlevel in map_z)
+		var/list/edges
+		edges += block(locate(1, 1, zlevel), locate(TRANSITIONEDGE, maxy, zlevel))
+		edges |= block(locate(maxx-TRANSITIONEDGE, 1, zlevel),locate(maxx, maxy, zlevel))
+		edges |= block(locate(1, 1, zlevel), locate(maxx, TRANSITIONEDGE, zlevel))
+		edges |= block(locate(1, maxy-TRANSITIONEDGE, zlevel),locate(maxx, maxy, zlevel))
+		for(var/turf/T in edges)
+			T.ChangeTurf(/turf/exterior/planet_edge)
 
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/generate_habitability()
 	habitability_class = HABITABILITY_IDEAL

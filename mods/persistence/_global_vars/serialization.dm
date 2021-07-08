@@ -1,6 +1,7 @@
 var/global/list/flatten_types = list()
 var/global/list/saved_vars = initialize_saved_vars()
 var/global/list/blacklisted_vars = list("is_processing", "vars", "active_timers", "type", "parent_type")
+var/global/list/reference_only_vars = list("home_spawn")
 
 /proc/initialize_saved_vars()
 	. = list()

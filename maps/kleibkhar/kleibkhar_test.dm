@@ -4,7 +4,7 @@
 	contact_levels = list(1, 2, 3, 4)
 	player_levels = list(1, 2, 3, 4)
 	saved_levels = list(3, 4)
-	mining_areas = list(1, 2)
+	mining_levels = list(1, 2)
 	sealed_levels = list(5)
 
 	// The overmap itself isn't saved, but it's rebuilt on the same level every time.
@@ -31,7 +31,7 @@
 	contact_levels = list(4, 5, 6, 7)
 	player_levels = list(4, 5, 6, 7)
 	saved_levels = list(6, 7)
-	mining_areas = list(4, 5)
+	mining_levels = list(4, 5)
 	sealed_levels = list(8)
 
 	overmap_z = 8
