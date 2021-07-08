@@ -15,7 +15,7 @@
 "ao" = (/obj/machinery/atmospherics/pipe/simple/visible/cyan{icon_state = "11"; dir = 5},/turf/simulated/floor/tiled/techfloor,/area/kleibkhar/outpost/mining)
 "ap" = (/obj/structure/window/reinforced,/obj/machinery/conveyor_switch{id_tag = "extract_con"; pixel_x = 0; pixel_y = 0},/turf/simulated/floor/tiled/techfloor,/area/kleibkhar/outpost/mining)
 "aq" = (/turf/exterior/planet_edge,/area/exoplanet/kleibkhar)
-"ar" = (/obj/structure/window/reinforced{dir = 1; icon_state = "rwindow"},/obj/machinery/conveyor_switch{id_tag = "con"; pixel_x = 0; pixel_y = 0},/obj/effect/decal/cleanable/dirt,/obj/effect/floor_decal/industrial/outline/yellow,/obj/machinery/atmospherics/pipe/simple/visible/cyan{icon_state = "11"; dir = 5},/obj/machinery/atmospherics/pipe/simple/visible/cyan{icon_state = "11"; dir = 5},/turf/simulated/floor/tiled/techfloor,/area/kleibkhar/outpost/mining)
+"ar" = (/obj/structure/window/reinforced{dir = 1; icon_state = "rwindow"},/obj/machinery/conveyor_switch{id_tag = "con"; pixel_x = 0; pixel_y = 0},/obj/effect/decal/cleanable/dirt,/obj/effect/floor_decal/industrial/outline/yellow,/turf/simulated/floor/tiled/techfloor,/area/kleibkhar/outpost/mining)
 "aN" = (/turf/exterior/concrete,/area/exoplanet/kleibkhar)
 "aX" = (/obj/structure/railing/mapped,/turf/exterior/concrete,/area/exoplanet/kleibkhar)
 "bg" = (/turf/exterior/open,/area/exoplanet/kleibkhar)
