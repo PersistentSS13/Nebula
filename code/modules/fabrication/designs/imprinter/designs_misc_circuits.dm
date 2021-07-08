@@ -128,6 +128,9 @@
 /datum/fabricator_recipe/imprinter/circuit/mining_stacker
 	path = /obj/item/stock_parts/circuitboard/mining_stacker
 
+/datum/fabricator_recipe/imprinter/circuit/mining_extractor
+	path = /obj/item/stock_parts/circuitboard/mining_extractor
+
 /datum/fabricator_recipe/imprinter/circuit/suspension_gen
 	path = /obj/item/stock_parts/circuitboard/suspension_gen
 
