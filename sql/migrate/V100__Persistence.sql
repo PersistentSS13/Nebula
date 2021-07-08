@@ -48,7 +48,6 @@ CREATE TABLE IF NOT EXISTS `z_level` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-DROP TABLE IF EXISTS `limbo`;
 CREATE TABLE IF NOT EXISTS `limbo` (
   `key` longtext NOT NULL,
   `type` varchar(64) NOT NULL,
