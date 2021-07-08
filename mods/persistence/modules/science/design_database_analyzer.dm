@@ -107,7 +107,7 @@
 					possible_recipes[recipe] = tech_delta
 		. = list()
 		var/recipes_to_produce = user.get_skill_value(SKILL_SCIENCE)
-		for(var/i = 0 to recipes_to_produce)
+		for(var/i = 1 to recipes_to_produce)
 			var/datum/fabricator_recipe/recipe = pickweight(possible_recipes)
 			possible_recipes -= recipe
 			.[recipe.name] = recipe.path
