@@ -48,10 +48,13 @@
 
 /serializer/proc/DeserializeList(var/raw_list)
 
-/serializer/proc/QueryAndDeserializeDatum(var/object_id)
+/serializer/proc/QueryAndDeserializeDatum(var/object_id, var/reference_only = FALSE)
 	var/datum/existing = reverse_map["[object_id]"] 
 	if(!isnull(existing))
 		return existing
+	// We check to see if this is a reference only var so that if things are missing from the resolver, this doesn't fail silently.
+	if(reference_only && !resolver.things["[object_id]"])
+		return null
 	return DeserializeDatum(resolver.things["[object_id]"])
 
 /serializer/proc/QueryAndDeserializeList(var/list_id)

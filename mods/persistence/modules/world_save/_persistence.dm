@@ -11,6 +11,9 @@
 	var/should_save = TRUE
 	var/persistent_id		// This value should be constant across save/loads. It is first generated on serialization.
 
+/atom/should_save()
+	return should_save && simulated
+
 /turf
 	var/is_on_fire = FALSE
 

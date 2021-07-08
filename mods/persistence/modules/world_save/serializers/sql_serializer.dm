@@ -50,7 +50,7 @@
 	if(isnull(global.saved_vars[object.type]))
 		return // EXPERIMENTAL. Don't save things without a whitelist.
 
-	var/datum/existing = thing_map["\ref[object]"]
+	var/existing = thing_map["\ref[object]"]
 	if (existing)
 #ifdef SAVE_DEBUG
 		to_world_log("(SerializeThing-Resv) \ref[thing] to [existing]")
@@ -79,7 +79,7 @@
 			z = T.z
 
 #ifdef SAVE_DEBUG
-	to_world_log("(SerializeThing) ('[p_i]','[object.type]',[x],[y],[z],'["ref(object)"])")
+	to_world_log("(SerializeThing) ('[p_i]','[object.type]',[x],[y],[z],'[ref(object)]')")
 #endif
 	thing_inserts.Add("('[p_i]','[object.type]',[x],[y],[z],'[ref(object)]')")
 	inserts_since_commit++
@@ -139,8 +139,12 @@
 			var/datum/VD = VV
 			if(!VD.should_save(object))
 				continue
+			// Reference only vars do not serialize their target objects, and act only as pointers.
+			if(V in global.reference_only_vars)
+				VT = "OBJ"
+				VV = VD.persistent_id ? VD.persistent_id : PERSISTENT_ID
 			// Serialize it complex-like, baby.
-			if(should_flatten(VV))
+			else if(should_flatten(VV))
 				VT = "FLAT_OBJ" // If we flatten an object, the var becomes json. This saves on indexes for simple objects.
 				VV = flattener.SerializeDatum(VV)
 			else
@@ -337,7 +341,7 @@
 				if("LIST")
 					existing.vars[TV.key] = QueryAndDeserializeList(TV.value)
 				if("OBJ")
-					existing.vars[TV.key] = QueryAndDeserializeDatum(TV.value)
+					existing.vars[TV.key] = QueryAndDeserializeDatum(TV.value, TV.key in global.reference_only_vars)
 				if("FLAT_OBJ")
 					existing.vars[TV.key] = flattener.QueryAndDeserializeDatum(TV.value)
 				if("FILE")
@@ -428,7 +432,7 @@
 			query.Execute()
 			if(query.ErrorMsg())
 				to_world_log("VAR SERIALIZATION FAILED: [query.ErrorMsg()].")
-		if(length(element_inserts) > 0)
+		if(length(element_inserts) > 0) 
 			tot_element_inserts += length(element_inserts)
 			query = dbcon.NewQuery("INSERT INTO `list_element`(`list_id`,`key`,`key_type`,`value`,`value_type`) VALUES[jointext(element_inserts, ",")]")
 			query.Execute()

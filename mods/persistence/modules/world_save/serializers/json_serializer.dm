@@ -30,7 +30,11 @@
 			if(should_flatten(VV))
 				results[V] = "FLAT_OBJ#[SerializeDatum(VV)]"
 			else
-				results[V] = "OBJ#[sql.SerializeDatum(VV)]"
+				var/datum/VD = VV
+				if(V in global.reference_only_vars)
+					results[V] = "OBJ#[VD.persistent_id ? VD.persistent_id : PERSISTENT_ID]"
+				else
+					results[V] = "OBJ#[sql.SerializeDatum(VV)]"
 	object.after_save()
 	return "[object.type]|[json_encode(results)]"
 
