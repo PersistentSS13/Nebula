@@ -45,7 +45,7 @@
 	CR.load_from_mob(user)
 	for(var/network_id in SSnetworking.networks)
 		var/datum/computer_network/network = SSnetworking.networks[network_id]
-		if(network.network_id == "outreach")
+		if(network.network_id == "kleibkhar")
 			network.store_file(CR, MF_ROLE_CREW_RECORDS)
 			break
 
@@ -75,12 +75,11 @@
 
 /obj/machinery/cryopod/chargen/set_occupant(mob/living/carbon/occupant, silent)
 	. = ..()
-
 	if(occupant)
 		to_chat(occupant, SPAN_NOTICE("The [src] beeps: Launch procedure initiated. Please wait..."))
 		addtimer(CALLBACK(src, /obj/machinery/cryopod/chargen/proc/send_to_outpost), 5 SECONDS)
 
 /obj/machinery/cryopod/chargen/Process()
-	// Do not apply stasis.
+	return PROCESS_KILL
 
 #undef STARTING_POINTS

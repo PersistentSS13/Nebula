@@ -10,6 +10,7 @@
 	var/tmp_cell
 	var/new_path
 	var/num_applied = 0
+	
 	for (var/turf/T in block(locate(origin_x, origin_y, origin_z), locate(limit_x, limit_y, origin_z)))
 		new_path = null
 		var/area/A = get_area(T)
@@ -51,34 +52,45 @@ SUBSYSTEM_DEF(mining)
 	init_order = SS_INIT_MAPPING - 1
 	runlevels = RUNLEVEL_GAME
 
-	var/regen_interval = 90		// How often in minutes to generate mining levels.
+	var/regen_interval = 270	// How often in minutes to generate mining levels.
 	var/warning_wait = 2   		// How long to wait before regenerating the mining level after a warning.
-	var/warning_message = "The ground begins to shake."
+	var/warning_message = "The ground begins to shake beneath your feet!"
 	var/collapse_message = "A deep rumbling is felt in the ground as the mines collapse!"
 	var/collapse_imminent = FALSE
 	var/last_collapse
 	var/list/generators = list()
 	var/generating_mines = FALSE
 
+
 /datum/map
-	var/list/mining_areas = list()
+	var/list/mining_levels = list()
 
 /area
 	var/ignore_mining_regen = TRUE
 
 /datum/controller/subsystem/mining/Initialize()
-	Regenerate()
+	if(!length(global.using_map.mining_levels))
+		suspend()
+		return
+	//Regenerate()
 	last_collapse = world.timeofday
 
 /datum/controller/subsystem/mining/fire()
 	if(collapse_imminent)
 		if(world.timeofday - last_collapse >= ((regen_interval + warning_wait) * 600))
-			to_world(collapse_message)
+			var/list/z_levels = GetConnectedZlevels(global.using_map.mining_levels[1])
+			for(var/mob/M in global.player_list)
+				if(M.z in z_levels)
+					to_chat(M, SPAN_DANGER(collapse_message))
 			collapse_imminent = FALSE
 			last_collapse = world.timeofday
 			Regenerate()
 	else
 		if(world.timeofday - last_collapse >= regen_interval * 600)
+			var/list/z_levels = GetConnectedZlevels(global.using_map.mining_levels[1])
+			for(var/mob/M in global.player_list)
+				if(M.z in z_levels)
+					to_chat(M, SPAN_DANGER(warning_message))
 			collapse_imminent = TRUE
 			to_world(warning_message)
 
@@ -89,7 +101,7 @@ SUBSYSTEM_DEF(mining)
 	generating_mines = TRUE
 	generators.Cut(1)
 	var/list/eject_mobs = list()
-	for(var/z in global.using_map.mining_areas)
+	for(var/z in global.using_map.mining_levels)
 		for(var/x in 1 to world.maxx)
 			for(var/y in 1 to world.maxy)
 				var/turf/T = locate(x, y, z)
@@ -99,16 +111,10 @@ SUBSYSTEM_DEF(mining)
 						LAZYADD(eject_mobs, M)
 	SpitOutMobs(eject_mobs, 3)
 
-
-	for(var/z_level in global.using_map.mining_areas)
+	for(var/z_level in global.using_map.mining_levels)
 		var/datum/random_map/automata/cave_system/outreach/generator = new(null, TRANSITIONEDGE, TRANSITIONEDGE, z_level, world.maxx - TRANSITIONEDGE, world.maxy - TRANSITIONEDGE, FALSE, FALSE, FALSE)
 		generators.Add(generator)
 
-	// for(var/z in global.using_map.mining_areas)
-	// 	for(var/x in 1 to world.maxx)
-	// 		for(var/y in 1 to world.maxy)
-	// 			var/turf/T = locate(x, y, z)
-	// 			T.update_icon()
 	generating_mines = FALSE
 
 /obj/structure/ladder/updown/mine/climb(mob/M, obj/item/I = null)
@@ -156,3 +162,34 @@ SUBSYSTEM_DEF(mining)
 			M.forceMove(emergency_turf)
 		else
 			M.forceMove(pick(good_turfs))
+
+SUBSYSTEM_DEF(mining_update)
+	name = "Mining (Turf Updates)"
+	init_order = SS_INIT_DEFAULT
+	priority = 20
+	runlevels = RUNLEVELS_DEFAULT
+	wait = 2
+
+	var/list/current_run
+	var/list/turfs_to_update = list()
+
+/datum/controller/subsystem/mining_update/Initialize(start_timeofday)
+	. = ..()
+	current_run = list()
+
+/datum/controller/subsystem/mining_update/fire(resumed)
+	if (!resumed)
+		src.current_run = turfs_to_update.Copy()
+		turfs_to_update.Cut()
+
+	var/list/current_run = src.current_run
+	while(current_run.len)
+		var/turf/exterior/wall/W = current_run[current_run.len]
+		current_run.len--
+		if(!QDELETED(W) && istype(W))
+			W.update_material(FALSE, FALSE)
+
+		CHECK_TICK
+
+	if(!length(turfs_to_update))
+		suspend()

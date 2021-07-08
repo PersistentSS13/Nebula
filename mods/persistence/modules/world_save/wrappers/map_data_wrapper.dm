@@ -1,3 +1,6 @@
+/obj/effect/landmark/map_data/should_save()
+	return TRUE
+
 /datum/wrapper/map_data
 	wrapper_for = /obj/effect/landmark/map_data
 

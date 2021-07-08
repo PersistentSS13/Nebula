@@ -1,3 +1,6 @@
+/obj/machinery/power/apc
+	initial_access = list()
+
 /obj/machinery/power/apc/Initialize(mapload, var/ndir, var/populate_parts = TRUE)
 	var/cur_operating = operating
 	. = ..()

@@ -46,6 +46,9 @@
 	new_character.UpdateAppearance()
 	new_character.sync_organ_dna()
 	
+	new_character.add_language(/decl/language/human/common)
+	new_character.default_language = /decl/language/human/common
+
 	// The body forms 'around' the stack, so reinstall it.
 	if(stack)
 		var/obj/item/organ/O = new_character.get_organ(stack.parent_organ)

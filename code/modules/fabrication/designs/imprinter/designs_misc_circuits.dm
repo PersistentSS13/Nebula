@@ -128,6 +128,9 @@
 /datum/fabricator_recipe/imprinter/circuit/mining_stacker
 	path = /obj/item/stock_parts/circuitboard/mining_stacker
 
+/datum/fabricator_recipe/imprinter/circuit/mining_extractor
+	path = /obj/item/stock_parts/circuitboard/mining_extractor
+
 /datum/fabricator_recipe/imprinter/circuit/suspension_gen
 	path = /obj/item/stock_parts/circuitboard/suspension_gen
 
@@ -208,6 +211,21 @@
 
 /datum/fabricator_recipe/imprinter/circuit/reagent_cooler
 	path = /obj/item/stock_parts/circuitboard/reagent_heater/cooler
+
+/datum/fabricator_recipe/imprinter/circuit/chem_master
+	path = /obj/item/stock_parts/circuitboard/chem_master
+
+/datum/fabricator_recipe/imprinter/circuit/chemical_dispenser
+	path = /obj/item/stock_parts/circuitboard/chemical_dispenser
+
+/datum/fabricator_recipe/imprinter/circuit/chemical_dispenser_alc
+	path = /obj/item/stock_parts/circuitboard/chemical_dispenser/bar_alc
+
+/datum/fabricator_recipe/imprinter/circuit/chemical_dispenser_soft
+	path = /obj/item/stock_parts/circuitboard/chemical_dispenser/bar_soft
+
+/datum/fabricator_recipe/imprinter/circuit/chemical_dispenser_coffee
+	path = /obj/item/stock_parts/circuitboard/chemical_dispenser/bar_coffee
 
 /datum/fabricator_recipe/imprinter/circuit/atmos_control
 	path = /obj/item/stock_parts/circuitboard/atmoscontrol

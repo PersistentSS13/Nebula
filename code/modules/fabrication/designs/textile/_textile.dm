@@ -2,6 +2,7 @@
 	path = /obj/item/clothing/under/color/grey
 	category = "Textiles"
 	fabricator_types = list(FABRICATOR_CLASS_TEXTILE)
+	required_technology = TRUE
 
 /datum/fabricator_recipe/textiles/jeancasual
 	path = /obj/item/clothing/pants/casual
