@@ -91,11 +91,18 @@
 		// This was just invention.
 		var/list/invention_technology = E.get_tech_levels()
 		var/list/possible_recipes = list()
+		var/decl/species/user_species = user.get_species()
+		var/species_path = user_species.type
 		for(var/fab_type in SSfabrication.all_recipes)
 			recipe_loop:
 				for(var/datum/fabricator_recipe/recipe in SSfabrication.all_recipes[fab_type])
 					var/tech_delta = 25 // Used to weight recipes depending on how close they are to the actual tech values of the recipe.
 					// Must be some correspondance between invention technology and required technology.
+					if(istype(recipe, /datum/fabricator_recipe/robotics/robot_component)
+)						continue
+					if(recipe.species_locked)
+						if(!(species_path in recipe.species_locked))
+							continue
 					for(var/recipe_tech in recipe.required_technology)
 						if(!(recipe_tech in invention_technology))
 							continue recipe_loop
