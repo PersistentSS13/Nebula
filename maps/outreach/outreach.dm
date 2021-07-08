@@ -4,6 +4,7 @@
 	#include "../../mods/species/ascent/_ascent.dme"
 	#include "../../mods/content/xenobiology/_xenobiology.dme"
 	#include "../chargen/chargen_areas.dm"
+	#include "../chargen/chargen_objects.dm"
 
 	#include "outreach_test.dm"
 
