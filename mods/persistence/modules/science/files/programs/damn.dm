@@ -1,6 +1,6 @@
 /datum/computer_file/program/damn
 	filename = "damn"
-	filedesc = "Destructrive Analyzer Management Nexus"
+	filedesc = "Destructive Analyzer Management Nexus"
 	extended_desc = "This program allows management of destructive analyzers."
 	program_icon_state = "generic"
 	program_key_state = "generic_key"
@@ -20,11 +20,14 @@
 	)
 	var/datum/file_storage/current_filesource = /datum/file_storage/disk
 
+	var/list/possible_recipes = list() // Recipes to be chosen from the destructive analyzer to make a blueprint out of.
+
 /datum/computer_file/program/damn/on_startup(var/mob/living/user, var/datum/extension/interactive/ntos/new_host)
 	..()
 	for(var/T in file_sources)
 		file_sources[T] = new T(new_host)
 	current_filesource = file_sources[initial(current_filesource)]
+	error = null
 
 /datum/computer_file/program/damn/on_shutdown()
 	for(var/T in file_sources)
@@ -70,7 +73,7 @@
 		var/datum/computer_network/network = computer.get_network()
 		if(!network)
 			return
-		var/list/file_servers = network.get_file_server_tags(user)
+		var/list/file_servers = network.get_file_server_tags(MF_ROLE_DESIGN, user)
 		var/file_server = input(usr, "Choose a fileserver to view files on:", "Select File Server") as null|anything in file_servers
 		if(file_server)
 			var/datum/file_storage/network/N = file_sources[/datum/file_storage/network]
@@ -90,7 +93,11 @@
 		var/datum/extension/network_device/D = network.get_device_by_tag(href_list["PRG_analyze"])
 		var/obj/machinery/destructive_analyzer/DA = D.holder
 		if(DA.loaded_item)
-			DA.process_loaded(user, current_filesource)
+			var/list/returned_recipes = DA.process_loaded(user, current_filesource)
+			if(!islist(returned_recipes))
+				return
+			else
+				possible_recipes |= returned_recipes
 
 	if(href_list["PRG_eject"])
 		. = TOPIC_REFRESH
@@ -103,6 +110,25 @@
 			DA.loaded_item.dropInto(DA.loc)
 			DA.loaded_item = null
 			DA.update_icon()
+
+	if(href_list["PRG_choose_recipe"])
+		. = TOPIC_REFRESH
+		if(!length(possible_recipes))
+			return
+		var/recipe_name = href_list["PRG_choose_recipe"]
+		var/recipe_path = possible_recipes[recipe_name]
+		if(!recipe_path)
+			return
+		var/datum/computer_file/data/blueprint/BP = new(null, recipe_path)
+		if(current_filesource.store_file(BP))
+			to_chat(user, SPAN_NOTICE("The computer pings and reports that through invention it managed to produce a blueprint for [recipe_name]."))
+			possible_recipes.Cut()
+			return
+		else
+			to_chat(user, SPAN_WARNING("The computers beeps, it has insufficient disk space to process its results. Need at least [BP.size] GQ."))
+			QDEL_NULL(BP)
+			return
+
 
 /datum/computer_file/program/damn/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1, var/datum/topic_state/state = global.default_topic_state)
 	. = ..()
@@ -119,6 +145,11 @@
 	if(istype(current_filesource, /datum/file_storage/network))
 		var/datum/file_storage/network/N = current_filesource
 		data["fileserver"] = N.server
+	
+	if(length(possible_recipes))
+		data["possible_recipes"] = list()
+		for(var/recipe_name in possible_recipes)
+			data["possible_recipes"] |= recipe_name
 
 	var/datum/computer_network/network = computer.get_network()
 	if(istype(network))
