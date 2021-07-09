@@ -83,7 +83,7 @@
 				var/list/material_components = list()
 				for(var/material in resources)
 					var/sheets = round(stored_material[material]/round(resources[material]*mat_efficiency))
-					if(isnull(max_sheets) || max_sheets > sheets)
+					if(isnull(max_sheets) || max_sheets < sheets)
 						max_sheets = sheets
 					if(stored_material[material] < round(resources[material]*mat_efficiency))
 						build_option["unavailable"] = 1
