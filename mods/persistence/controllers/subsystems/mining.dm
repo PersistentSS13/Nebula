@@ -72,7 +72,7 @@ SUBSYSTEM_DEF(mining)
 	if(!length(global.using_map.mining_levels))
 		suspend()
 		return
-	//Regenerate()
+	Regenerate()
 	last_collapse = world.timeofday
 
 /datum/controller/subsystem/mining/fire()
