@@ -175,8 +175,6 @@
 					else
 						index++
 
-					// Prevent the whole game from locking up.
-				CHECK_TICK
 			serializer.Commit() // cleanup leftovers.
 			serializer.CommitRefUpdates()
 
@@ -208,8 +206,6 @@
 				else
 					index++
 
-				// Prevent the whole game from locking up.
-				CHECK_TICK
 			serializer.Commit() // cleanup leftovers.
 
 		// Insert our z-level remaps.
