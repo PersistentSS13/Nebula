@@ -13,6 +13,7 @@
 	max_w_class = ITEM_SIZE_LARGE
 	max_storage_space = DEFAULT_BACKPACK_STORAGE
 	open_sound = 'sound/effects/storage/unzip.ogg'
+	material = /decl/material/solid/leather/synth
 
 /obj/item/storage/backpack/equipped()
 	if(!has_extension(src, /datum/extension/appearance))
@@ -167,6 +168,7 @@
 	icon = 'icons/obj/items/storage/backpack/dufflebag.dmi'
 	w_class = ITEM_SIZE_HUGE
 	max_storage_space = DEFAULT_BACKPACK_STORAGE + 10
+	material = /decl/material/solid/leather/synth
 
 /obj/item/storage/backpack/dufflebag/Initialize()
 	. = ..()
@@ -233,6 +235,7 @@
 	name = "satchel"
 	desc = "A trendy looking satchel."
 	icon = 'icons/obj/items/storage/backpack/satchel.dmi'
+	material = /decl/material/solid/leather/synth
 
 /obj/item/storage/backpack/satchel/grey
 	name = "grey satchel"
@@ -379,7 +382,7 @@
 		var/image/I = image(icon, "[ret.icon_state]-[marking_state]")
 		I.color = marking_colour
 		I.appearance_flags |= RESET_COLOR
-		ret.add_overlay(I)	
+		ret.add_overlay(I)
 	return ret
 
 /obj/item/storage/backpack/ert/commander
@@ -414,6 +417,7 @@
 	name = "messenger bag"
 	desc = "A sturdy backpack worn over one shoulder."
 	icon = 'icons/obj/items/storage/backpack/messenger.dmi'
+	material = /decl/material/solid/leather/synth
 
 /obj/item/storage/backpack/messenger/chem
 	name = "pharmacy messenger bag"
