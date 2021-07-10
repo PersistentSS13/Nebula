@@ -79,7 +79,7 @@
 	if(!is_functioning() || !istype(recipe))
 		return
 	multiplier = sanitize_integer(multiplier, 1, 100, 1)
-	if(!ispath(recipe, /obj/item/stack) && multiplier > 1)
+	if(!ispath(recipe.path, /obj/item/stack) && multiplier > 1)
 		multiplier = 1
 
 	// Check if sufficient resources exist.
