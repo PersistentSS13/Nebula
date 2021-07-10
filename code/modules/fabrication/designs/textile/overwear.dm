@@ -22,7 +22,7 @@
 	path = /obj/item/clothing/suit/storage/toggle/hoodie
 
 /datum/fabricator_recipe/textiles/overwear/wintercoat
-    path = /obj/item/clothing/suit/storage/hooded/wintercoat
+	path = /obj/item/clothing/suit/storage/hooded/wintercoat
 
 /datum/fabricator_recipe/textiles/overwear/hoodiealt
 	path = /obj/item/clothing/suit/storage/toggle/hoodie/black
