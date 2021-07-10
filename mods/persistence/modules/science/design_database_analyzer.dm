@@ -101,9 +101,9 @@
 		if(!length(valid_recipes))
 			return FALSE
 		for(var/datum/fabricator_recipe/recipe in valid_recipes)
-			var/tech_delta = 10
 			// Used to weight recipes depending on how close they are to the actual tech values of the recipe.
 			// Must be some correspondance between invention technology and required technology.
+			var/tech_delta = 10
 			for(var/rec_tech in recipe.required_technology)
 				if(!(rec_tech in invention_technology))
 					tech_delta -= recipe.required_technology[rec_tech]
