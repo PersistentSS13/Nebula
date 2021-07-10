@@ -1,3 +1,5 @@
+var/global/list
+
 /obj/machinery/destructive_analyzer/attackby(var/obj/item/O, var/mob/user)
 	if(isrobot(user))
 		return
@@ -69,6 +71,9 @@
 	return possible_recipes
 
 /obj/machinery/destructive_analyzer/proc/process_experiment(var/obj/item/experiment/E, var/mob/user, var/datum/file_storage/file_source)
+	if(!E.wired || !E.welded)
+		return FALSE
+
 	if(E.experiment_id)
 		// This was a proper experiment.
 		// Find the experiment first.
@@ -93,25 +98,22 @@
 		var/list/possible_recipes = list()
 		var/decl/species/user_species = user.get_species()
 		var/species_path = user_species.type
-		for(var/fab_type in SSfabrication.all_recipes)
-			recipe_loop:
-				for(var/datum/fabricator_recipe/recipe in SSfabrication.all_recipes[fab_type])
-					var/tech_delta = 25 // Used to weight recipes depending on how close they are to the actual tech values of the recipe.
-					// Must be some correspondance between invention technology and required technology.
-					if(istype(recipe, /datum/fabricator_recipe/robotics/robot_component)
-)						continue
-					if(recipe.species_locked)
-						if(!(species_path in recipe.species_locked))
-							continue
-					for(var/recipe_tech in recipe.required_technology)
-						if(!(recipe_tech in invention_technology))
-							continue recipe_loop
-					for(var/inv_tech in invention_technology)
-						if(!(inv_tech in recipe.required_technology))
-							continue
-						tech_delta -= abs(recipe.required_technology[inv_tech] - invention_technology[inv_tech])
-					
-					possible_recipes[recipe] = tech_delta
+
+		var/list/valid_recipes = SSfabrication.get_valid_research_recipes(species_path)
+		if(!length(valid_recipes))
+			return FALSE
+		for(var/datum/fabricator_recipe/recipe in valid_recipes)
+			var/tech_delta = 10
+			// Used to weight recipes depending on how close they are to the actual tech values of the recipe.
+			// Must be some correspondance between invention technology and required technology.
+			for(var/rec_tech in recipe.required_technology)
+				if(!(rec_tech in invention_technology))
+					tech_delta -= recipe.required_technology[rec_tech]
+				else
+					tech_delta -= abs(recipe.required_technology[rec_tech] - invention_technology[rec_tech])
+			tech_delta = max(0, tech_delta)
+			if(tech_delta)
+				possible_recipes[recipe] = tech_delta
 		. = list()
 		var/recipes_to_produce = user.get_skill_value(SKILL_SCIENCE)
 		for(var/i = 1 to recipes_to_produce)

@@ -22,6 +22,7 @@
 #include "controllers\subsystems\persistence.dm"
 #include "controllers\subsystems\skills.dm"
 #include "controllers\subsystems\initialization\chargen.dm"
+#include "controllers\subsystems\initialization\fabrication.dm"
 #include "datums\extensions\extensions.dm"
 #include "datums\extensions\lockable.dm"
 #include "datums\extensions\assembly\assembly.dm"
