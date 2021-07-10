@@ -26,7 +26,7 @@
 	var/list/char_set = char.skill_list
 	mob_set.skill_list = char_set.Copy()
 	mob_set.default_value = char.default_value
-	mob_set.points_remaining = 30
+	mob_set.points_remaining = max(STARTING_POINTS + user.mind.origin.remaining_points_offset + user.mind.role.remaining_points_offset, 0)
 	mob_set.on_levels_change()
 
 	user.add_language(/decl/language/human/common)

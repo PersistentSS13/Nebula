@@ -14,6 +14,7 @@
 		SKILL_PILOT = 1,
 		SKILL_EVA	= 1
 	)
+	remaining_points_offset = 0
 
 	text_book_type = /obj/item/book/skill/general/eva/expert
 
@@ -24,6 +25,7 @@
 		SKILL_ENGINES = 1,
 		SKILL_LITERACY = 1
 	)
+	remaining_points_offset = 0
 
 	text_book_type = /obj/item/book/skill/engineering/engines/expert
 
@@ -34,6 +36,7 @@
 		SKILL_ELECTRICAL = 1,
 		SKILL_LITERACY = 1
 	)
+	remaining_points_offset = 0
 
 	text_book_type = /obj/item/book/skill/engineering/electrical/expert
 
@@ -44,6 +47,7 @@
 		SKILL_COMPUTER = 1,
 		SKILL_LITERACY = 1
 	)
+	remaining_points_offset = 0
 
 	text_book_type = /obj/item/book/skill/general/computer/expert
 
@@ -54,6 +58,7 @@
 		SKILL_BOTANY = 1,
 		SKILL_HAULING = 1
 	)
+	remaining_points_offset = 0
 
 	text_book_type = /obj/item/book/skill/service/botany/expert
 
@@ -64,6 +69,7 @@
 		SKILL_MEDICAL = 1,
 		SKILL_LITERACY = 1
 	)
+	remaining_points_offset = 0
 
 	text_book_type = /obj/item/book/skill/medical/medicine/expert
 
@@ -74,6 +80,7 @@
 		SKILL_PILOT = 1,
 		SKILL_LITERACY = 1
 	)
+	remaining_points_offset = 0
 	
 	text_book_type = /obj/item/book/skill/general/pilot/expert
 
@@ -84,6 +91,7 @@
 		SKILL_COMBAT = 1,
 		SKILL_LITERACY = 1
 	)
+	remaining_points_offset = 2
 	
 	text_book_type = /obj/item/book/skill/security/combat/expert
 
@@ -94,6 +102,7 @@
 		SKILL_SCIENCE = 1,
 		SKILL_LITERACY = 1
 	)
+	remaining_points_offset = 0
 
 	text_book_type = /obj/item/book/skill/research/science/expert
 /*
@@ -125,6 +134,7 @@
 		SKILL_FINANCE = 1,
 		SKILL_LITERACY = 1
 	)
+	remaining_points_offset = 0
 
 	text_book_type = /obj/item/book/skill/organizational/finance/expert
 
@@ -135,6 +145,7 @@
 		SKILL_WEAPONS = 1,
 		SKILL_COMBAT = 1
 	)
+	remaining_points_offset = 4
 
 	text_book_type = /obj/item/book/skill/security/weapons/expert
 
@@ -145,6 +156,7 @@
 		SKILL_HAULING = 1,
 		SKILL_CONSTRUCTION = 1
 	)
+	remaining_points_offset = 0
 
 	text_book_type = /obj/item/book/skill/engineering/construction/adept
 
@@ -155,6 +167,7 @@
 		SKILL_FORENSICS = 1,
 		SKILL_LITERACY = 1
 	)
+	remaining_points_offset = 0
 
 	text_book_type = /obj/item/book/skill/security/forensics/expert
 
@@ -165,6 +178,7 @@
 		SKILL_DEVICES = 1,
 		SKILL_LITERACY = 1
 	)
+	remaining_points_offset = 0
 
 	text_book_type = /obj/item/book/skill/research/devices/expert
 
@@ -175,6 +189,7 @@
 		SKILL_CONSTRUCTION = 1,
 		SKILL_ELECTRICAL = 1
 	)
+	remaining_points_offset = 0
 
 	text_book_type = /obj/item/book/skill/engineering/electrical/expert
 
@@ -184,5 +199,6 @@
 	skills = list(
 		SKILL_LITERACY = 1
 	)
+	remaining_points_offset = 4
 
 	text_book_type = /obj/item/book/skill/organizational/literacy/prof
