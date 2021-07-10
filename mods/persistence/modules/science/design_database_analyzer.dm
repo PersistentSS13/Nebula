@@ -1,5 +1,3 @@
-var/global/list
-
 /obj/machinery/destructive_analyzer/attackby(var/obj/item/O, var/mob/user)
 	if(isrobot(user))
 		return
