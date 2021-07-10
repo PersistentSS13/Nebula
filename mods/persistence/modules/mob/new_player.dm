@@ -86,6 +86,7 @@
 	if(!config.enter_allowed)
 		to_chat(src, SPAN_NOTICE("There is an administrative lock on entering the game!"))
 		return
+
 	switch(alert("Did you create a character?",,"Yes","No"))
 		if("No")
 			to_chat(src, SPAN_NOTICE("Create a character first!"))
