@@ -36,18 +36,6 @@
 			/obj/item/chems/glass/bottle/left4zed = 120,
 			/obj/item/chems/glass/bottle/robustharvest = 120),
 		"Leather" = list(
-			/obj/item/storage/wallet/leather = 100,
-			/obj/item/clothing/gloves/thick/botany = 250,
-			/obj/item/storage/belt/utility = 300,
-			/obj/item/storage/backpack/satchel = 400,
-			/obj/item/storage/bag/cash = 400,
-			/obj/item/clothing/shoes/workboots = 400,
-			/obj/item/clothing/shoes/craftable = 400,
-			/obj/item/clothing/shoes/dress = 400,
-			/obj/item/clothing/suit/leathercoat = 500,
-			/obj/item/clothing/suit/storage/toggle/brown_jacket = 500,
-			/obj/item/clothing/suit/storage/toggle/bomber = 500,
-			/obj/item/clothing/suit/storage/hooded/wintercoat = 500,
 			/obj/item/stack/material/bolt/mapped/cloth/ten = 300,
 			/obj/item/stack/material/bolt/mapped/cloth = 30,
 			/obj/item/stack/material/skin/mapped/leather/ten = 300,
@@ -201,7 +189,7 @@
 		var/amt = REAGENT_VOLUME(I.reagents, /decl/material/liquid/nutriment)
 		if(amt < 0.1)
 			points += 1
-		else 
+		else
 			points += amt * 10 * eat_eff
 		qdel(I)
 	if(S)
