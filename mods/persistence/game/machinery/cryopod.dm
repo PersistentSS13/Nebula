@@ -1,5 +1,23 @@
 #define STASIS_CRYO		"cryo"
 
+/obj/machinery/cryopod
+	var/obj/item/radio/intercom/old_intercom
+
+/obj/machinery/cryopod/Initialize()
+	old_intercom = locate() in src
+	
+	// While we could save the occupant var directly, this is much less likely to cause issues with floating mob references.
+	var/mob/living/carbon/human/old_occupant = locate() in src
+	if(old_occupant)
+		occupant = old_occupant
+	..()
+	return INITIALIZE_HINT_LATELOAD
+
+/obj/machinery/cryopod/LateInitialize()
+	. = ..()
+	if(old_intercom)
+		QDEL_NULL(old_intercom)
+
 /obj/machinery/cryopod/robot/despawn_occupant()
 	return
 
@@ -11,7 +29,6 @@
 		if(applies_stasis && iscarbon(occupant) && (world.time > time_entered + 20 SECONDS))
 			var/mob/living/carbon/C = occupant
 			C.SetStasis(40, STASIS_CRYO)
-
 
 /obj/machinery/cryopod/set_occupant(var/mob/living/carbon/occupant, var/silent)
 	src.occupant = occupant
@@ -74,8 +91,10 @@
 		H.home_spawn = src
 		var/datum/mind/occupant_mind = occupant.mind
 		if(occupant_mind)
-			SSpersistence.SerializeOneOff(occupant_mind, occupant_mind.unique_id, LIMBO_MIND, occupant_mind.key, FALSE)
+			SSpersistence.AddToLimbo(occupant_mind, occupant_mind.unique_id, LIMBO_MIND, occupant_mind.key, TRUE)
 			QDEL_NULL(occupant.mind)
+		else
+			return
 	if(occupant.ckey)
 		var/mob/new_player/new_player = new()
 		new_player.ckey = occupant.ckey

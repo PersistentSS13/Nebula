@@ -4,7 +4,7 @@
 	contact_levels = list(1, 2, 3, 4)
 	player_levels = list(1, 2, 3, 4)
 	saved_levels = list(3, 4)
-	mining_areas = list(1, 2)
+	mining_levels = list(1, 2)
 
 	// Hotloading module
 	default_levels = list(
@@ -26,7 +26,7 @@
 	contact_levels = list(4, 5, 6, 7)
 	player_levels = list(4, 5, 6, 7)
 	saved_levels = list(6, 7)
-	mining_areas = list(4, 5)
+	mining_levels = list(4, 5)
 
 	default_levels = list(
 		"4" = "maps/outreach/outreach-1.dmm",

@@ -13,6 +13,19 @@
 	Additional information: {{:data.error}}<br>
 	<i>Please try again. If the problem persists contact your system administrator for assistance.</i>
 	{{:helper.link('Back to menu', null, { "PRG_closefile" : 1 })}}
+{{else data.possible_recipes}}
+	<div style="float:center;width:75%">
+		<h2> This experiment generated the following possible designs. Please select the design you would like to produce. </h2>
+		{{for data.possible_recipes}}
+			<fieldset style="min-height:180px;background-color: #202020;">
+				<legend style="text-align:center">Recipe: {{:value}}</legend> 
+				<div class='item'>
+					{{:helper.link('Choose this recipe', null, { "PRG_choose_recipe" : value }, null)}}
+				</div>
+			</fieldset>
+			<br>
+		{{/for}}
+	</div>
 {{else}}
 	<center><h3>Destructive Analyzers</h3></center>
 	<div style="float:left;width:75%;">

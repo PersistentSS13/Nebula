@@ -16,7 +16,7 @@
 			brainmob.SetName(real_name)
 			brainmob.real_name = real_name
 			brainmob.dna = dna.Clone()
-			brainmob.verbs |= /mob/proc/resleeve
+			brainmob.verbs |= /mob/proc/resleeve  
 			brainmob.verbs |= /mob/proc/death_give_up
 			// brainmob.timeofhostdeath = timeofdeath
 			mind.transfer_to(brainmob)
@@ -40,6 +40,6 @@
 		player.ckey = ckey
 
 		// Permanently remove the player from the limbo list so that the mind datum is removed from the database at next save.
-		SSpersistence.DeleteFromLimbo(mind.unique_id, LIMBO_MIND)
+		SSpersistence.RemoveFromLimbo(mind.unique_id, LIMBO_MIND)
 		QDEL_NULL(mind)
 		qdel_self()

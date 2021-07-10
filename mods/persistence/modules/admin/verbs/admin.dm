@@ -16,6 +16,22 @@
 		return
 	SSmining.Regenerate()
 
+/client/proc/remove_character()
+	set category = "Server"
+	set desc = "Removes any mind with the given ckey from the world, allowing players to respawn in case of bugs."
+	set name = "Remove Character"
+
+	if(!check_rights(R_ADMIN))
+		return
+
+	var/target_ckey = input("Enter the ckey of the character whom you are removing.", "Character Removal")
+	if(!target_ckey)
+		return
+	for(var/datum/mind/M in global.player_minds)
+		if(M.key == target_ckey)
+			SSpersistence.RemoveFromLimbo(M.unique_id, LIMBO_MIND)
+			qdel(M)
+
 /client/proc/database_status()
 	set category = "Server"
 	set desc = "Gives a rundown of the database status"
