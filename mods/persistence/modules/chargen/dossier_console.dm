@@ -118,6 +118,8 @@
 			if(!istype(S))
 				continue
 			fields["skills"] += S.name
+		if(D.remaining_points_offset != 0)
+			fields["skills"] += "Point offset: [D.remaining_points_offset >= 0 ? "+" : ""][D.remaining_points_offset]"
 		fields["skills"] = english_list(fields["skills"])
 
 		if(istype(D, /decl/hierarchy/chargen/origin))

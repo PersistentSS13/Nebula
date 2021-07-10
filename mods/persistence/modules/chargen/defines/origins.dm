@@ -13,6 +13,7 @@
 		SKILL_BOTANY 	= 1,
 		SKILL_LITERACY 	= 1
 	)
+	remaining_points_offset = 0
 
 /decl/hierarchy/chargen/origin/industrial
 	ID = "industrial_world"
@@ -21,6 +22,7 @@
 		SKILL_CONSTRUCTION	= 1,
 		SKILL_LITERACY		= 1
 	)
+	remaining_points_offset = 0
 
 /decl/hierarchy/chargen/origin/asteroid
 	ID = "asteroid_belt"
@@ -29,6 +31,7 @@
 		SKILL_EVA			= 1,
 		SKILL_LITERACY		= 1
 	)
+	remaining_points_offset = 0
 
 /decl/hierarchy/chargen/origin/penal
 	ID = "penal_colony"
@@ -37,6 +40,7 @@
 		SKILL_HAULING		= 1,
 		SKILL_COMBAT		= 1
 	)
+	remaining_points_offset = 2
 
 /decl/hierarchy/chargen/origin/frontier
 	ID = "frontier_world"
@@ -45,6 +49,7 @@
 		SKILL_COOKING		= 1,
 		SKILL_BOTANY		= 1
 	)
+	remaining_points_offset = 0
 
 /decl/hierarchy/chargen/origin/garden
 	ID = "garden_world"
@@ -53,6 +58,7 @@
 		SKILL_FINANCE		= 1,
 		SKILL_LITERACY		= 1
 	)
+	remaining_points_offset = 0
 
 /decl/hierarchy/chargen/origin/nexus
 	ID = "nexus_world"
@@ -61,6 +67,7 @@
 		SKILL_FORENSICS		= 1,
 		SKILL_LITERACY		= 1
 	)
+	remaining_points_offset = 0
 
 /decl/hierarchy/chargen/origin/research
 	ID = "research_station"
@@ -69,6 +76,7 @@
 		SKILL_SCIENCE		= 1,
 		SKILL_LITERACY		= 1
 	)
+	remaining_points_offset = 0
 
 /decl/hierarchy/chargen/origin/high_tech
 	ID = "high_tech_world"
@@ -77,3 +85,4 @@
 		SKILL_DEVICES		= 1,
 		SKILL_LITERACY		= 1
 	)
+	remaining_points_offset = 0
