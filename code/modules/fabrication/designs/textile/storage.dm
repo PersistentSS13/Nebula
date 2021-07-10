@@ -3,19 +3,19 @@
 	path = /obj/item/storage/backpack
 
 /datum/fabricator_recipe/textiles/storage/dufflebag
-    path = /obj/item/storage/backpack/dufflebag
+	path = /obj/item/storage/backpack/dufflebag
 
 /datum/fabricator_recipe/textiles/storage/satchel
-    path = /obj/item/storage/backpack/satchel
+	path = /obj/item/storage/backpack/satchel
 
 /datum/fabricator_recipe/textiles/storage/messenger
-   path = /obj/item/storage/backpack/messenger
+	path = /obj/item/storage/backpack/messenger
 
 /datum/fabricator_recipe/textiles/storage/tool_belt
-    path= /obj/item/storage/belt/utility
+	path= /obj/item/storage/belt/utility
 
 /datum/fabricator_recipe/textiles/storage/wallet
-    path = /obj/item/storage/wallet/leather
+	path = /obj/item/storage/wallet/leather
 
 /datum/fabricator_recipe/textiles/storage/money_bag
-    path = /obj/item/storage/bag/cash
+	path = /obj/item/storage/bag/cash
