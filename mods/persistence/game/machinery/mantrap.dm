@@ -26,6 +26,8 @@
 	. = ..()
 	
 /obj/machinery/mantrap/proc/attempt_enter(var/mob/target, var/mob/user)
+	if(!istype(target))
+		return
 	if(occupant)
 		to_chat(user, SPAN_NOTICE("Someone is already using \the [src]!"))
 		return

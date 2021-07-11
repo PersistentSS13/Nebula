@@ -29,7 +29,9 @@
 		addtimer(CALLBACK(src, .proc/refresh_busy, 1 SECOND))
 		return TRUE
 
+// Returns a list of paths of possible recipes to be selected by the user.
 /obj/machinery/destructive_analyzer/process_loaded(var/mob/user, var/datum/file_storage/file_source)
+	var/list/possible_recipes
 	if(!loaded_item)
 		return
 	// Process the item.
@@ -37,11 +39,14 @@
 	var/datum/computer_network/network = device.get_network()
 	if(!network)
 		return
-
-	var/analyze_successful = FALSE
+	var/analyze_successful
 	if(istype(loaded_item, /obj/item/experiment))
 		// Special handler. We need to disassemble the experiment.
-		analyze_successful = process_experiment(loaded_item, user, file_source)
+		var/experiment_result = process_experiment(loaded_item, user, file_source)
+		if(experiment_result)
+			analyze_successful = TRUE
+			if(islist(experiment_result))
+				possible_recipes = experiment_result
 	else
 		// This is just a normal item.
 		if(!(loaded_item.type in SSfabrication.recipes_by_product_type))
@@ -51,14 +56,9 @@
 		if(!istype(recipe))
 			to_chat(user, SPAN_WARNING("Unable to analyze \the [loaded_item]. Recipe corrupted."))
 			return
-		var/datum/computer_file/data/blueprint/BP = new(null, recipe.path)
-		if(file_source.store_file(BP))
-			analyze_successful = TRUE
-			to_chat(user, SPAN_NOTICE("\The [src] pings and reports that through invention it managed to produce a blueprint for [initial(BP.created_path.name)]."))
-		else
-			to_chat(user, SPAN_WARNING("Insufficient disk space to store blueprint. Need at least [BP.size] GQ."))
-		if(!analyze_successful)
-			QDEL_NULL(BP)
+		possible_recipes = list()
+		possible_recipes[recipe.name] = recipe.path
+		analyze_successful = TRUE
 	if(!analyze_successful)
 		return
 	busy = TRUE
@@ -66,6 +66,7 @@
 	QDEL_NULL(loaded_item)
 	flick("d_analyzer_process", src)
 	addtimer(CALLBACK(src, .proc/refresh_busy, 2 SECONDS))
+	return possible_recipes
 
 /obj/machinery/destructive_analyzer/proc/process_experiment(var/obj/item/experiment/E, var/mob/user, var/datum/file_storage/file_source)
 	if(E.experiment_id)
@@ -88,25 +89,36 @@
 		return FALSE
 	else
 		// This was just invention.
-		var/invention_technology = E.get_tech_levels()
+		var/list/invention_technology = E.get_tech_levels()
 		var/list/possible_recipes = list()
+		var/decl/species/user_species = user.get_species()
+		var/species_path = user_species.type
 		for(var/fab_type in SSfabrication.all_recipes)
-			for(var/datum/fabricator_recipe/recipe in SSfabrication.all_recipes[fab_type])
-				var/tech_delta = 5 // Used to weight recipes depending on how close they are to the actual tech values of the recipe.
-				// Must be some correspondance between invention technology and required technology.
-				for(var/inv_tech in invention_technology)
-					if(!(inv_tech in recipe.required_technology))
-						continue
-					tech_delta += recipe.required_technology[inv_tech]
+			recipe_loop:
+				for(var/datum/fabricator_recipe/recipe in SSfabrication.all_recipes[fab_type])
+					var/tech_delta = 25 // Used to weight recipes depending on how close they are to the actual tech values of the recipe.
+					// Must be some correspondance between invention technology and required technology.
+					if(istype(recipe, /datum/fabricator_recipe/robotics/robot_component)
+)						continue
+					if(recipe.species_locked)
+						if(!(species_path in recipe.species_locked))
+							continue
+					for(var/recipe_tech in recipe.required_technology)
+						if(!(recipe_tech in invention_technology))
+							continue recipe_loop
+					for(var/inv_tech in invention_technology)
+						if(!(inv_tech in recipe.required_technology))
+							continue
+						tech_delta -= abs(recipe.required_technology[inv_tech] - invention_technology[inv_tech])
+					
 					possible_recipes[recipe] = tech_delta
-		var/datum/fabricator_recipe/acquired_recipe = pickweight(possible_recipes)
-		if(!istype(acquired_recipe))
+		. = list()
+		var/recipes_to_produce = user.get_skill_value(SKILL_SCIENCE)
+		for(var/i = 1 to recipes_to_produce)
+			var/datum/fabricator_recipe/recipe = pickweight(possible_recipes)
+			possible_recipes -= recipe
+			.[recipe.name] = recipe.path
+		
+		if(!length(.))
 			to_chat(user, SPAN_NOTICE("\The [src] beeps and reports that no viable design was able to be made from the experiment."))
 			return TRUE // No matching recipes found
-		var/datum/computer_file/data/blueprint/BP = new(null, acquired_recipe.path)
-		if(file_source.store_file(BP))
-			to_chat(user, SPAN_NOTICE("\The [src] pings and reports that through invention it managed to produce a blueprint for [acquired_recipe.name]."))
-			return TRUE
-		else
-			to_chat(user, SPAN_WARNING("\The [src] beeps, it has insufficient disk space to process its results. Need at least [BP.size] GQ."))
-		return FALSE

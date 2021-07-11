@@ -170,7 +170,7 @@
 			return
 
 	var/mob/M = occupant
-	if(M && M.client)
+	if(istype(M) && M.client)
 		M.client.eye = M.client.mob
 		M.client.perspective = MOB_PERSPECTIVE
 		M.unset_sdisability(BLINDED)

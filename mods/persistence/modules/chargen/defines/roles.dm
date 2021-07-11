@@ -182,7 +182,7 @@
 	ID = "educator"
 	name = "Educator"
 	skills = list(
-		SKILL_LITERACY = 1
+		SKILL_LITERACY = 2
 	)
 
 	text_book_type = /obj/item/book/skill/organizational/literacy/prof

@@ -1,6 +1,7 @@
 /obj/machinery/computer/chargen
 	var/ui_template = "chargen.tmpl"
 	var/active_section = "origin"
+	stat_immune = NOPOWER | NOSCREEN | NOINPUT | BROKEN
 	construct_state = /decl/machine_construction/no_build
 
 /obj/machinery/computer/chargen/OnTopic(var/mob/user, var/href_list, var/datum/topic_state/state)
@@ -15,8 +16,8 @@
 			var/new_age = sanitize(input(user, "Enter your age:", "Age", user.mind.age) as text|null)
 			var/age_num = text2num(new_age)
 			if(isnum(age_num))
-				if(age_num < 16)
-					to_chat(user, SPAN_NOTICE("The console beeps: You must be over the mental age of sixteen to participate in the Outreach Outpost program."))
+				if(age_num < 18)
+					to_chat(user, SPAN_NOTICE("The console beeps: You must be over the mental age of eighteen to participate in the [global.using_map.station_name] program."))
 					return
 				user.mind.age = age_num
 			else

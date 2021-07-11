@@ -861,7 +861,8 @@
 		"vars":[
 			"amount",
 			"stacktype",
-			"uses_charge"
+			"uses_charge",
+			"singular_name"
 		]
 	},
 	{
@@ -2868,9 +2869,7 @@
 			"min_speed",
 			"max_speed",
 			"speed",
-			"last_burn",
 			"burn_delay",
-			"last_movement",
 			"fore_dir",
 			"engines",
 			"engines_state",
@@ -4254,7 +4253,8 @@
 		"path":"/obj/machinery/atmospherics/unary/material/extractor",
 		"vars":[
 			"output_container",
-			"input_buffer"
+			"input_buffer",
+			"reagents"
 		]
 	},
 	{
@@ -4268,6 +4268,18 @@
 		"vars":[
 			"reinf_material",
 			"strata"
+		]
+	},
+	{
+		"path":"/obj/input_holder",
+		"vars":[
+			"reagents"
+		]
+	},
+	{
+		"path":"/obj/machinery/destructive_analyzer",
+		"vars":[
+			"loaded_item"
 		]
 	}
 ]

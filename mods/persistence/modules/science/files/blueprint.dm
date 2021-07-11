@@ -20,7 +20,7 @@
 	if(!_created_path)
 		return
 	created_path = _created_path
-	filename = sanitize("[initial(created_path.name)] - [sequential_id("datum/computer_file/data/blueprint")]")
+	filename = sanitize("[initial(created_path.name)] - [replacetext(uniqueness_repository.Generate(/datum/uniqueness_generator/phrase), " ", "_")]")
 	for(var/badchar in list("/","\\",":","*","?","\"","<",">","|","#", ".", " ", ")"))
 		filename = replacetext(filename, badchar, "")
 	filename = replacetext(filename, "(", "-")
