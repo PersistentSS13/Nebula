@@ -87,11 +87,6 @@
 		to_chat(src, SPAN_NOTICE("There is an administrative lock on entering the game!"))
 		return
 
-	switch(alert("Did you create a character?",,"Yes","No"))
-		if("No")
-			to_chat(src, SPAN_NOTICE("Create a character first!"))
-			return
-
 	if(spawning)
 		return
 	for(var/datum/mind/target_mind in global.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
@@ -124,6 +119,11 @@
 		person.key = key
 		qdel(src)
 		return
+
+
+	switch(alert("Are you sure you want to join the game with the character you've created? This cannot be undone!",,"Yes","No"))
+		if("No")
+			return
 
 	create_character()	// Creating a new character based off the player's preferences.
 	qdel(src)
@@ -193,7 +193,6 @@
 	new_character.regenerate_icons()
 
 	new_character.key = key		//Manually transfer the key to log them in
-
 
 /mob/new_player/Move()
 	return 0
