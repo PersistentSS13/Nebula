@@ -163,6 +163,7 @@
 #include "modules\world_save\wrappers\weakref_wrapper.dm"
 #include "modules\world_save\wrappers\map_data_wrapper.dm"
 #include "modules\xgm\xgm_gas_mixture.dm"
+#include "modules\fabrication\designs\textile\overwear.dm"
 // END_INCLUDE
 #endif
 // BEGIN_INTERNALS
