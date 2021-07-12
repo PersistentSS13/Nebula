@@ -46,6 +46,7 @@
 #include "game\objects\items\weapons\storage\backpack.dm"
 #include "game\objects\items\weapons\storage\bag.dm"
 #include "game\objects\items\weapons\storage\belt.dm"
+#include "game\objects\items\weapons\storage\uplink_kits.dm"
 #include "game\objects\items\weapons\storage\wallets.dm"
 #include "game\objects\structures\window.dm"
 #include "game\species\species.dm"
