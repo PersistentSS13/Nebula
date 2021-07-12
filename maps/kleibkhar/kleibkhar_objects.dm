@@ -28,6 +28,14 @@
 	add_paper(P, skip_icon_update = TRUE)
 
 	P = new()
+	P.SetName("Recycle your trash!")
+	P.info = {"<b>Rubbish can be placed into an autolathe.</b>
+	<br>
+	<br>Put your candy wrappers into the autolathe people, stop dropping them on the ground please!
+	<br>"}
+	add_paper(P, skip_icon_update = TRUE)
+
+	P = new()
 	P.SetName("Expand this board")
 	P.info = {"<b>Only YOU can help your community.</b>
 	<br>
@@ -47,7 +55,7 @@
 
 /obj/item/paper/ladder
 	name = "building a Ladder"
-	info = {"\[b\]Hold metal in hand.\[/b\]
+	info = {"\[b\]Hold aluminium in hand.\[/b\]
 
 	Now figure it out, because I can't.
 	\[br\]"}
