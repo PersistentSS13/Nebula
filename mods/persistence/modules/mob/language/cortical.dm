@@ -1,7 +1,7 @@
 /decl/language/cortical
 	name = "Cortical Chat"
 	desc = "An algamation of recorded electrochemical signals and subvocalizations that can be transmitted via PLEXUS to all of those with cortical stacks."
-	key = "c"
+	key = "h"
 	colour = "interface"
 	flags = RESTRICTED | NO_STUTTER | NONVERBAL | HIVEMIND | NO_TALK_MSG | NO_STUTTER
 	shorthand = "CC"
