@@ -8,8 +8,8 @@
 /decl/material/liquid/amphetamines
     name = "hyperzine" //known as amphetamines on Nebula, not to be confused with stimulants which is Neb's methylphenidate
 
-/decl/material/liquid/narcotics
-    name = "impedrezene"
+// /decl/material/liquid/narcotics
+//    name = "impedrezene"
 
 /decl/material/liquid/sedatives
     name = "soporific"
@@ -39,7 +39,7 @@
     name = "citalopram"
 
 /decl/material/liquid/antibiotics
-    name = "spaceacillin"
+//    name = "spaceacillin"
     lore_text = "A theta-lactam antibiotic. Slows progression of diseases. Treats infections."
 
 /decl/material/liquid/retrovirals
@@ -60,11 +60,11 @@
 /decl/material/liquid/painkillers
     name = "tramadol" //known as painkillers on Nebula, paracetamol and oxycodone were removed
 
-/decl/material/liquid/antiseptic
-    name = "sterilizine"
+// /decl/material/liquid/antiseptic
+//   name = "sterilizine"
 
-/decl/material/liquid/paralytics
-    name = "vecuronium_bromide"
+// /decl/material/liquid/paralytics
+//    name = "vecuronium_bromide"
 
 /decl/material/liquid/presyncopics
     name = "cryptobiolin"
@@ -104,8 +104,8 @@
 /obj/item/chems/pill/brute_meds
 	name = "bicaridine (20u)"
 
-/obj/item/chems/pill/antibiotics
-	name = "spaceacillin (10u)"
+// /obj/item/chems/pill/antibiotics
+//	name = "spaceacillin (10u)"
 
 /obj/item/chems/pill/stimulants
 	name = "methylphenidate (15u)"
@@ -120,8 +120,8 @@
 	name = "hyro/dylo (15u)"
 
 //spray bottle
-/obj/item/chems/spray/antiseptic
-	name = "sterilizine spray"
+// /obj/item/chems/spray/antiseptic
+//	name = "sterilizine spray"
 
 //syringes
 /obj/item/chems/syringe/stabilizer
@@ -130,8 +130,8 @@
 /obj/item/chems/syringe/antitoxin
 	name = "Syringe (dylovene)"
 
-/obj/item/chems/syringe/antibiotic
-	name = "Syringe (spaceacillin)"
+// /obj/item/chems/syringe/antibiotic
+//	name = "Syringe (spaceacillin)"
 
 //pill bottles
 /obj/item/storage/pill_bottle/antitox
@@ -149,8 +149,8 @@
 /obj/item/storage/pill_bottle/burn_meds
 	name = "pill bottle (kelotane)"
 
-/obj/item/storage/pill_bottle/antibiotics
-	name = "pill bottle (spaceacillin)"
+// /obj/item/storage/pill_bottle/antibiotics
+//	name = "pill bottle (spaceacillin)"
 
 /obj/item/storage/pill_bottle/painkillers
 	name = "pill bottle (tramadol)"

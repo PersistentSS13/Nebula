@@ -3361,6 +3361,6 @@
 #include "maps\~mapsystem\maps_unit_testing.dm"
 #include "maps\~unit_tests\unit_testing.dm"
 #include "mods\_modpack.dm"
-#include "mods\bay_chems\bay_chems.dm"
+#include "mods\persistence\modules\reagents\bay_chems"
 #include "~code\global_init.dm"
 // END_INCLUDE
