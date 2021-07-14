@@ -31,7 +31,7 @@
 
 	user.add_language(/decl/language/human/common)
 	
-	to_chat(user, SPAN_NOTICE("You have an additional [STARTING_POINTS] skill points to apply to your character. Use the 'Adjust Skills' verb to do so"))
+	to_chat(user, SPAN_NOTICE("You have an additional [mob_set.points_remaining] skill points to apply to your character. Use the 'Adjust Skills' verb to do so"))
 
 	var/obj/starter_book = user.mind.role.text_book_type 
 	
