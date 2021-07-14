@@ -98,15 +98,13 @@
 
 		if(islist(VV) && !isnull(VV))
 			// Complex code for serializing lists...
+			VT = "LIST"
 			if(length(VV) == 0)
 				// Another optimization. Don't need to serialize lists
 				// that have 0 elements.
-#ifdef SAVE_DEBUG
-				to_world_log("(SerializeThingVar-Skip) Zero Length List")
-#endif
-				continue
-			VT = "LIST"
-			VV = SerializeList(VV, object)
+				VV = "EMPTY"
+			else
+				VV = SerializeList(VV, object)
 			if(isnull(VV))
 #ifdef SAVE_DEBUG
 				to_world_log("(SerializeThingVar-Skip) Null List")
@@ -210,7 +208,10 @@
 			KT = "FILE"
 		else if (islist(key))
 			KT = "LIST"
-			KV = SerializeList(key)
+			if(length(key) == 0)
+				KV = "EMPTY"
+			else
+				KV = SerializeList(key)
 		else if(get_wrapper(key))
 			KT = "WRAP"
 			var/wrapper_path = get_wrapper(key)
@@ -253,7 +254,10 @@
 				ET = "FILE"
 			else if (islist(EV))
 				ET = "LIST"
-				EV = SerializeList(EV)
+				if(length(EV) == 0)
+					EV = "EMPTY"
+				else
+					EV = SerializeList(EV)
 			else if(get_wrapper(EV))
 				ET = "WRAP"
 				var/wrapper_path = get_wrapper(EV)
@@ -339,7 +343,11 @@
 					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(TV.value)
 					existing.vars[TV.key] = GD.on_deserialize()
 				if("LIST")
-					existing.vars[TV.key] = QueryAndDeserializeList(TV.value)
+					// This was just an empty list.
+					if(TV.value == "EMPTY")
+						existing.vars[TV.key] = list()
+					else
+						existing.vars[TV.key] = QueryAndDeserializeList(TV.value)
 				if("OBJ")
 					existing.vars[TV.key] = QueryAndDeserializeDatum(TV.value, TV.key in global.reference_only_vars)
 				if("FLAT_OBJ")
@@ -379,7 +387,10 @@
 					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(LE.key)
 					key_value = GD.on_deserialize()
 				if("LIST")
-					key_value = QueryAndDeserializeList(LE.key)
+					if(LE.key == "EMPTY")
+						key_value = list()
+					else
+						key_value = QueryAndDeserializeList(LE.key)
 				if("OBJ")
 					key_value = QueryAndDeserializeDatum(LE.key)
 				if("FLAT_OBJ")
@@ -402,7 +413,10 @@
 					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(LE.value)
 					existing[key_value] = GD.on_deserialize()
 				if("LIST")
-					existing[key_value] = QueryAndDeserializeList(LE.value)
+					if(LE.value == "EMPTY")
+						existing[key_value] = list()
+					else
+						existing[key_value] = QueryAndDeserializeList(LE.value)
 				if("OBJ")
 					existing[key_value] = QueryAndDeserializeDatum(LE.value)
 				if("FLAT_OBJ")
