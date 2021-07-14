@@ -48,6 +48,7 @@
 #include "game\turfs\floor.dm"
 #include "game\turfs\simulated.dm"
 #include "game\turfs\simulated\floor_attackby.dm"
+#include "game\turfs\simulated\walls.dm"
 #include "game\turfs\simulated\wall_attacks.dm"
 #include "game\turfs\turf.dm"
 #include "game\turfs\exterior\exterior_wall.dm"
