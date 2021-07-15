@@ -82,6 +82,7 @@ SUBSYSTEM_DEF(mining)
 			for(var/mob/M in global.player_list)
 				if(M.z in z_levels)
 					to_chat(M, SPAN_DANGER(collapse_message))
+					playsound(M, 'mods/persistence/sound/ambience/mineswarning.ogg', 100, 0)
 			collapse_imminent = FALSE
 			last_collapse = world.timeofday
 			Regenerate()
@@ -91,6 +92,7 @@ SUBSYSTEM_DEF(mining)
 			for(var/mob/M in global.player_list)
 				if(M.z in z_levels)
 					to_chat(M, SPAN_DANGER(warning_message))
+					playsound(M, 'mods/persistence/sound/ambience/mineswarning.ogg', 100, 0)
 			collapse_imminent = TRUE
 			to_world(warning_message)
 
