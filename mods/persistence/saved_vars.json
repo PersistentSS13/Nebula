@@ -1772,13 +1772,12 @@
 			"emagged",
 			"malf_upgraded",
 			"use_power",
-			"component_parts",
 			"uid",
 			"panel_open",
-			"power_components",
 			"anchored",
 			"initial_access",
-			"uncreated_component_parts"
+			"uncreated_component_parts",
+			"construct_state"
 		]
 	},
 	{
