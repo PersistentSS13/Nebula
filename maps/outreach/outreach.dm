@@ -12,6 +12,7 @@
 
 	#include "outreach_access.dm"
 	#include "outreach_areas.dm"
+	#include "outreach_departments.dm"
 	#include "outreach_jobs.dm"
 	#include "outreach_exoplanet.dm"
 

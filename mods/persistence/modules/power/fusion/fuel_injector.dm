@@ -6,9 +6,9 @@
 		return
 	if(cur_assembly)
 		var/amount_left = 0
-		for(var/reagent in cur_assembly.rod_quantities)
-			if(cur_assembly.rod_quantities[reagent] > 0)
-				var/amount = cur_assembly.rod_quantities[reagent] * fuel_usage * injection_rate 
+		for(var/reagent in cur_assembly.matter)
+			if(cur_assembly.matter[reagent] > 0)
+				var/amount = cur_assembly.matter[reagent] * fuel_usage * injection_rate 
 				if(amount < 1)
 					amount = 1
 				var/obj/effect/accelerated_particle/A = new/obj/effect/accelerated_particle(get_turf(src), dir)
@@ -16,8 +16,8 @@
 				A.additional_particles = amount
 				A.move(1)
 				if(cur_assembly)
-					cur_assembly.rod_quantities[reagent] -= amount / fuel_efficiency
-					amount_left += cur_assembly.rod_quantities[reagent]
+					cur_assembly.matter[reagent] -= amount / fuel_efficiency
+					amount_left += cur_assembly.matter[reagent]
 		if(cur_assembly)
 			cur_assembly.percent_depleted = amount_left / cur_assembly.initial_amount
 		flick("injector-emitting",src)

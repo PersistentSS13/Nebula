@@ -172,14 +172,6 @@
 	var/datum/skillset/SS = new_character.skillset 	// Populate the skill_list of the player's skillset so that they can be properly adjusted during gameplay.
 	SS.set_skillset_min()
 
-	new_character.dna.ready_dna(new_character)
-	new_character.dna.b_type = client.prefs.b_type
-	new_character.sync_organ_dna()
-	if(client.prefs.disabilities)
-		// Set defer to 1 if you add more crap here so it only recalculates struc_enzymes once. - N3X
-		new_character.dna.SetSEState(global.GLASSESBLOCK,1,0)
-		new_character.disabilities |= NEARSIGHTED
-
 	// Do the initial caching of the player's body icons.
 	new_character.force_update_limbs()
 	new_character.update_eyes()
@@ -201,34 +193,3 @@
 /mob/new_player/close_spawn_windows()
 	close_browser(src, "window=latechoices") //closes late choices window
 	panel.close()
-
-// Taken and adjusted from jobs.dm to reduce dependencies on subsystems for Persistence. Available gear can be adjusted using loadout_blacklist for the map.
-/proc/apply_custom_loadout(var/mob/living/carbon/human/H)
-
-	if(!H || !H.client)
-		return
-
-	// Equip custom gear loadout.
-	var/list/spawn_in_storage = list()
-	var/list/loadout_taken_slots = list()
-	if(H.client.prefs.Gear())
-		for(var/thing in H.client.prefs.Gear())
-			var/datum/gear/G = gear_datums[thing]
-			if(G)
-				var/permitted = 1
-
-				if(G.whitelisted && (!(H.species.name in G.whitelisted)))
-					permitted = 0
-
-				if(!permitted)
-					to_chat(H, SPAN_WARNING("Your current species or whitelist status does not permit you to spawn with [thing]!"))
-					continue
-
-				if(!G.slot || (G.slot in loadout_taken_slots) || !G.spawn_on_mob(H, H.client.prefs.Gear()[G.display_name]))
-					spawn_in_storage.Add(G)
-				else
-					loadout_taken_slots.Add(G.slot)
-
-	if(spawn_in_storage)
-		for(var/datum/gear/G in spawn_in_storage)
-			G.spawn_in_storage_or_drop(H, H.client.prefs.Gear()[G.display_name])
