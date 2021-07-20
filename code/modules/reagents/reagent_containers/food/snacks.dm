@@ -59,7 +59,7 @@
 		to_chat(C, SPAN_NOTICE("You take a bite of [src]."))
 	if (fullness > 350 && fullness <= 550)
 		to_chat(C, SPAN_NOTICE("You unwillingly chew a bit of [src]."))
-	
+
 /obj/item/chems/food/snacks/feed_sound(mob/user)
 	if(eat_sound)
 		playsound(user, pick(eat_sound), rand(10, 50), 1)
@@ -178,6 +178,17 @@
 
 /obj/item/chems/food/snacks/proc/is_sliceable()
 	return (slices_num && slice_path && slices_num > 0)
+
+/obj/item/chems/food/snacks/proc/on_dry(var/atom/newloc)
+	if(dried_type == type)
+		SetName("dried [name]")
+		color = "#a38463"
+		dry = TRUE
+		if(isloc(newloc))
+			forceMove(newloc)
+		return src
+	. = new dried_type(newloc || get_turf(src))
+	qdel(src)
 
 /obj/item/chems/food/snacks/Destroy()
 	if(contents)
@@ -522,8 +533,8 @@
 	desc = "The food of choice for the veteran. Do <b>NOT</b> overconsume."
 	filling_color = "#6d6d00"
 	heated_reagents = list(
-		/decl/material/liquid/regenerator = 5, 
-		/decl/material/liquid/amphetamines = 0.75, 
+		/decl/material/liquid/regenerator = 5,
+		/decl/material/liquid/amphetamines = 0.75,
 		/decl/material/liquid/stimulants = 0.25
 	)
 	var/has_been_heated = 0 // Unlike the warm var, this checks if the one-time self-heating operation has been used.
@@ -3091,127 +3102,6 @@
 	center_of_mass = @"{'x':16,'y':12}"
 	nutriment_desc = list("raw potato" = 3)
 	nutriment_amt = 3
-
-//Canned Foods - crack open, eat.
-
-/obj/item/chems/food/snacks/canned
-	name = "void can"
-	icon = 'icons/obj/food_canned.dmi'
-	atom_flags = 0
-	var/sealed = TRUE
-
-/obj/item/chems/food/snacks/canned/Initialize()
-	. = ..()
-	if(!sealed)
-		unseal()
-
-/obj/item/chems/food/snacks/canned/examine(mob/user)
-	. = ..()
-	to_chat(user, "It is [sealed ? "" : "un"]sealed.")
-
-/obj/item/chems/food/snacks/canned/proc/unseal()
-	atom_flags |= ATOM_FLAG_OPEN_CONTAINER
-	sealed = FALSE
-	update_icon()
-
-/obj/item/chems/food/snacks/canned/attack_self(var/mob/user)
-	if(sealed)
-		playsound(loc,'sound/effects/canopen.ogg', rand(10,50), 1)
-		to_chat(user, "<span class='notice'>You unseal \the [src] with a crack of metal.</span>")
-		unseal()
-
-/obj/item/chems/food/snacks/canned/on_update_icon()
-	if(!sealed)
-		icon_state = "[initial(icon_state)]-open"
-
-//Just a short line of Canned Consumables, great for treasure in faraway abandoned outposts
-
-/obj/item/chems/food/snacks/canned/beef
-	name = "quadrangled beefium"
-	icon_state = "beef"
-	desc = "Proteins carefully cloned from an extinct species of cattle in a secret facility on the outer rim."
-	trash = /obj/item/trash/beef
-	filling_color = "#663300"
-	center_of_mass = @"{'x':15,'y':9}"
-	nutriment_desc = list("beef" = 1)
-	bitesize = 3
-/obj/item/chems/food/snacks/canned/beef/Initialize()
-	.=..()
-	reagents.add_reagent(/decl/material/liquid/nutriment/protein, 12)
-
-/obj/item/chems/food/snacks/canned/beans
-	name = "baked beans"
-	icon_state = "beans"
-	desc = "Carefully synthethized from soy."
-	trash = /obj/item/trash/beans
-	filling_color = "#ff6633"
-	center_of_mass = @"{'x':15,'y':9}"
-	nutriment_desc = list("beans" = 1)
-	nutriment_amt = 12
-	bitesize = 3
-
-/obj/item/chems/food/snacks/canned/tomato
-	name = "tomato soup"
-	icon_state = "tomato"
-	desc = "Plain old unseasoned tomato soup. This can is older than you are!"
-	trash = /obj/item/trash/tomato
-	filling_color = "#ae0000"
-	center_of_mass = @"{'x':15,'y':9}"
-	nutriment_desc = list("tomato" = 1)
-	bitesize = 3
-	eat_sound = 'sound/items/drink.ogg'
-
-/obj/item/chems/food/snacks/canned/tomato/Initialize()
-	.=..()
-	reagents.add_reagent(/decl/material/liquid/drink/juice/tomato, 12)
-
-
-/obj/item/chems/food/snacks/canned/tomato/feed_sound(var/mob/user)
-	playsound(user.loc, 'sound/items/drink.ogg', rand(10, 50), 1)
-
-/obj/item/chems/food/snacks/canned/spinach
-	name = "spinach"
-	icon_state = "spinach"
-	desc = "Notably has less iron in it than a watermelon."
-	trash = /obj/item/trash/spinach
-	filling_color = "#003300"
-	center_of_mass = @"{'x':15,'y':9}"
-	nutriment_desc = list("sogginess" = 1, "vegetable" = 1)
-	bitesize = 20
-/obj/item/chems/food/snacks/canned/spinach/Initialize()
-	.=..()
-	reagents.add_reagent(/decl/material/liquid/nutriment, 5,
-						/decl/material/liquid/adrenaline, 5,
-						/decl/material/liquid/amphetamines, 5,
-						/decl/material/solid/metal/iron, 5)
-
-//Vending Machine Foods should go here.
-
-/obj/item/chems/food/snacks/canned/caviar
-	name = "canned caviar"
-	icon_state = "fisheggs"
-	desc = "Caviar, or space carp eggs. Carefully faked using alginate, artificial flavoring and salt."
-	trash = /obj/item/trash/fishegg
-	filling_color = "#000000"
-	center_of_mass = @"{'x':15,'y':9}"
-	nutriment_desc = list("fish" = 1, "salt" = 1)
-	nutriment_amt = 6
-	bitesize = 1
-
-/obj/item/chems/food/snacks/canned/caviar/true
-	name = "canned caviar"
-	icon_state = "carpeggs"
-	desc = "Caviar, or space carp eggs. Exceeds the recomended amount of heavy metals in your diet! But very posh."
-	trash = /obj/item/trash/carpegg
-	filling_color = "#330066"
-	center_of_mass = @"{'x':15,'y':9}"
-	nutriment_desc = list("fish" = 1, "salt" = 1, "numbing sensation" = 1)
-	nutriment_amt = 6
-	bitesize = 1
-/obj/item/chems/food/snacks/caviar/true/Initialize()
-	. = ..()
-	reagents.add_reagent(/decl/material/liquid/nutriment/protein, 4)
-	reagents.add_reagent(/decl/material/liquid/carpotoxin, 1)
 
 /obj/item/chems/food/snacks/sosjerky
 	name = "emergency meat jerky"

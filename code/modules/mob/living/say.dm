@@ -152,7 +152,7 @@ var/global/list/channel_to_radio_key = new
 
 	return html_encode(message)
 
-/mob/living/say(var/message, var/decl/language/speaking = null, var/verb="says", var/alt_name="", whispering)
+/mob/living/say(var/message, var/decl/language/speaking, var/verb = "says", var/alt_name = "", whispering)
 	set waitfor = FALSE
 	if(client)
 		if(client.prefs.muted & MUTE_IC)
@@ -186,7 +186,11 @@ var/global/list/channel_to_radio_key = new
 		if(speaking)
 			message = copytext_char(message,2+length_char(speaking.key))
 		else
-			speaking = get_default_language()
+			speaking = get_any_good_language(set_default=TRUE)
+			if (!speaking)
+				to_chat(src, SPAN_WARNING("You don't know a language and cannot speak."))
+				emote("custom", AUDIBLE_MESSAGE, "[pick("grunts", "babbles", "gibbers", "jabbers", "burbles")] aimlessly.")
+				return
 
 	// This is broadcast to all mobs with the language,
 	// irrespective of distance or anything else.
@@ -207,6 +211,7 @@ var/global/list/channel_to_radio_key = new
 	message = trim_left(message)
 	message = handle_autohiss(message, speaking)
 	message = format_say_message(message)
+	message = filter_modify_message(message)
 
 	if(speaking && !speaking.can_be_spoken_properly_by(src))
 		message = speaking.muddle(message)
@@ -326,7 +331,6 @@ var/global/list/channel_to_radio_key = new
 	return 1
 
 /mob/living/proc/say_signlang(var/message, var/verb="gestures", var/decl/language/language)
-	message = filter_modify_message(message)
 	for (var/mob/O in viewers(src, null))
 		O.hear_signlang(message, verb, language, src)
 	return 1

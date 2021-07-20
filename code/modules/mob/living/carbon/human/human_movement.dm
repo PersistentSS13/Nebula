@@ -133,7 +133,7 @@
 		species.handle_exertion(src)
 
 		var/stamina_cost = 0
-		for(var/obj/item/grab/G as anything in get_active_grabs())
+		for(var/obj/item/grab/G AS_ANYTHING in get_active_grabs())
 			stamina_cost -= G.grab_slowdown()
 		stamina_cost = round(stamina_cost)
 		if(stamina_cost < 0)
@@ -161,3 +161,10 @@
 
 /mob/living/carbon/human/can_sprint()
 	return (stamina > 0)
+
+/mob/living/carbon/human/UpdateLyingBuckledAndVerbStatus()
+	var/old_lying = lying
+	. = ..()
+	if(lying && !old_lying && !resting && !buckled) // fell down
+		var/decl/bodytype/B = get_bodytype()
+		playsound(loc, isSynthetic() ? pick(B.synthetic_bodyfall_sounds) : pick(B.bodyfall_sounds), 50, TRUE, -1)

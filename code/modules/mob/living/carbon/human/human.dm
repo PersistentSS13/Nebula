@@ -766,7 +766,7 @@
 	skin_tone = -skin_tone + 35
 
 	// hair
-	var/list/all_hairs = typesof(/datum/sprite_accessory/hair) - /datum/sprite_accessory/hair
+	var/list/all_hairs = subtypesof(/datum/sprite_accessory/hair)
 	var/list/hairs = list()
 
 	// loop through potential hairs
@@ -782,7 +782,7 @@
 		h_style = new_style
 
 	// facial hair
-	var/list/all_fhairs = typesof(/datum/sprite_accessory/facial_hair) - /datum/sprite_accessory/facial_hair
+	var/list/all_fhairs = subtypesof(/datum/sprite_accessory/facial_hair)
 	var/list/fhairs = list()
 
 	for(var/x in all_fhairs)
@@ -1232,8 +1232,10 @@
 		to_chat(src, "<span class='warning'>You cannot reach the floor.</span>")
 		return
 
-	var/direction = input(src,"Which way?","Tile selection") as anything in list("Here","North","South","East","West")
-	if (direction != "Here")
+	var/direction = input(src,"Which way?","Tile selection") as null|anything in list("Here","North","South","East","West")
+	if(!direction)
+		return
+	if(direction != "Here")
 		T = get_step(T,text2dir(direction))
 	if (!istype(T))
 		to_chat(src, "<span class='warning'>You cannot doodle there.</span>")
@@ -1586,7 +1588,12 @@
 			if(org.status & ORGAN_BROKEN)
 				status += "hurts when touched"
 			if(org.status & ORGAN_DEAD)
-				status += "is grey and necrotic"
+				if(BP_IS_PROSTHETIC(org) || BP_IS_CRYSTAL(org))
+					status += "is irrecoverably damaged"
+				else
+					status += "is grey and necrotic"
+			else if(org.damage >= org.max_damage && org.germ_level >= INFECTION_LEVEL_TWO)
+				status += "is likely beyond saving, and has begun to decay"
 			if(!org.is_usable() || org.is_dislocated())
 				status += "dangling uselessly"
 			if(status.len)

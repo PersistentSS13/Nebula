@@ -436,7 +436,7 @@
 		possibleverbs -= H.verbs
 		possibleverbs += "Cancel" 								// ...And one for the bottom
 
-		var/verb = input("Select a verb!", "Verbs",null) as anything in possibleverbs
+		var/verb = input("Select a verb!", "Verbs",null) as null|anything in possibleverbs
 		if(!H)
 			to_chat(usr, "Mob doesn't exist anymore")
 			return
@@ -470,7 +470,7 @@
 			to_chat(usr, "This can only be done to instances of type /mob/living/carbon")
 			return
 
-		var/new_organ = input("Please choose an organ to add.","Organ",null) as null|anything in typesof(/obj/item/organ)-/obj/item/organ
+		var/new_organ = input("Please choose an organ to add.","Organ",null) as null|anything in subtypesof(/obj/item/organ)
 		if(!new_organ) return
 
 		if(!M)
