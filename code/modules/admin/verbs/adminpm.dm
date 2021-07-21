@@ -86,14 +86,14 @@
 
 
 	if(isnull(ticket)) // finally, accept that no ticket exists
-		if(holder && sender_lite.ckey != receiver_lite.ckey)
+		if(holder)
 			ticket = new /datum/ticket(receiver_lite)
 			ticket.take(sender_lite)
 		else
-			to_chat(src, "<span class='notice'>You do not have an open ticket. Please use the adminhelp verb to open a ticket.</span>")
+			to_chat(src, SPAN_WARNING("You do not have an open ticket. Please use the adminhelp verb to open a ticket."))
 			return
 	else if(ticket.status != TICKET_ASSIGNED && sender_lite.ckey == ticket.owner.ckey)
-		to_chat(src, "<span class='notice'>Your ticket is not open for conversation. Please wait for an administrator to receive your adminhelp.</span>")
+		to_chat(src, SPAN_WARNING("Your ticket is not open for conversation. Please wait for an administrator to receive your adminhelp."))
 		return
 
 	// if the sender is an admin and they're not assigned to the ticket, ask them if they want to take/join it, unless the admin is responding to their own ticket
@@ -181,8 +181,9 @@
 //		to_chat(src, "<span class='notice'>[msg]</span>")
 //		return
 
-	log_admin("PM: [key_name(src)]->IRC-[sender]: [msg]")
 	adminmsg2adminirc(src, sender, html_decode(msg))
+	msg = sanitize(msg)
+	log_admin("PM: [key_name(src)]->IRC-[sender]: [msg]")
 	admin_pm_repository.store_pm(src, "IRC-[sender]", msg)
 
 	to_chat(src, "<span class='pm'><span class='out'>" + create_text_tag("pm_out_alt", "PM", src) + " to <span class='name'>[sender]</span>: <span class='message'>[msg]</span></span></span>")

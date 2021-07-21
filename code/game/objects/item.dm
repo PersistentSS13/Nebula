@@ -178,21 +178,23 @@
 	var/desc_comp = "" //For "description composite"
 	desc_comp += "It is a [w_class_description()] item."
 
-	var/list/available_recipes = list()
-	for(var/decl/crafting_stage/initial_stage in SSfabrication.find_crafting_recipes(type))
-		if(initial_stage.can_begin_with(src) && ispath(initial_stage.completion_trigger_type))
-			var/atom/movable/prop = initial_stage.completion_trigger_type
-			if(initial_stage.stack_consume_amount > 1)
-				available_recipes[initial_stage] = "[initial_stage.stack_consume_amount] [initial(prop.name)]\s"
-			else
-				available_recipes[initial_stage] = "\a [initial(prop.name)]"
+	if(user?.get_preference_value(/datum/client_preference/inquisitive_examine) == PREF_ON)
 
-	if(length(available_recipes))
-		desc_comp += "<BR>*--------* <BR>"
-		for(var/decl/crafting_stage/initial_stage in available_recipes)
-			desc_comp += SPAN_NOTICE("With [available_recipes[initial_stage]], you could start making \a [initial_stage.descriptor] out of this.")
-			desc_comp += "<BR>"
-		desc_comp += "*--------*"
+		var/list/available_recipes = list()
+		for(var/decl/crafting_stage/initial_stage in SSfabrication.find_crafting_recipes(type))
+			if(initial_stage.can_begin_with(src) && ispath(initial_stage.completion_trigger_type))
+				var/atom/movable/prop = initial_stage.completion_trigger_type
+				if(initial_stage.stack_consume_amount > 1)
+					available_recipes[initial_stage] = "[initial_stage.stack_consume_amount] [initial(prop.name)]\s"
+				else
+					available_recipes[initial_stage] = "\a [initial(prop.name)]"
+
+		if(length(available_recipes))
+			desc_comp += "<BR>*--------* <BR>"
+			for(var/decl/crafting_stage/initial_stage in available_recipes)
+				desc_comp += SPAN_NOTICE("With [available_recipes[initial_stage]], you could start making \a [initial_stage.descriptor] out of this.")
+				desc_comp += "<BR>"
+			desc_comp += "*--------*"
 
 	if(hasHUD(user, HUD_SCIENCE)) //Mob has a research scanner active.
 		desc_comp += "<BR>*--------* <BR>"
@@ -637,15 +639,14 @@ var/global/list/slot_flags_enumeration = list(
 		var/obj/item/organ/internal/eyes/eyes = H.get_internal_organ(BP_EYES)
 
 		if(H != user)
-			for(var/mob/O in (viewers(M) - user - M))
-				O.show_message(SPAN_DANGER("[M] has been stabbed in the eye with [src] by [user]."), 1)
-			to_chat(M, SPAN_DANGER("[user] stabs you in the eye with [src]!"))
-			to_chat(user, SPAN_DANGER("You stab [M] in the eye with [src]!"))
+
+			M.visible_message(
+				SPAN_DANGER("\The [M] has been stabbed in the eye with \the [src] by \the [user]!"),
+				self_message = SPAN_DANGER("You stab \the [M] in the eye with \the [src]!"))
 		else
-			user.visible_message( \
-				SPAN_DANGER("[user] has stabbed themself with [src]!"), \
-				SPAN_DANGER("You stab yourself in the eyes with [src]!") \
-			)
+			user.visible_message(
+				SPAN_DANGER("\The [user] has stabbed themself with \the [src]!"),
+				self_message = SPAN_DANGER("You stab yourself in the eyes with \the [src]!"))
 
 		eyes.damage += rand(3,4)
 		if(eyes.damage >= eyes.min_bruised_damage)

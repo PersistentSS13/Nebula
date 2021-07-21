@@ -14,20 +14,17 @@
 	material_alteration = MAT_FLAG_ALTERATION_ALL
 	maxhealth = 100
 
+	var/painted_color
 	var/broken =    FALSE
 	var/neighbor_status = 0
 
 /obj/structure/railing/mapped
-	color = COLOR_GUNMETAL
 	anchored = TRUE
-
-/obj/structure/railing/mapped/Initialize()
-	. = ..()
-	color = COLOR_GUNMETAL // They're not painted!
+	color = COLOR_ORANGE
+	painted_color = COLOR_ORANGE
 
 /obj/structure/railing/mapped/no_density
-	density = 0
-
+	density = FALSE
 
 /obj/structure/railing/Process()
 	if(!material || !material.radioactivity)
@@ -56,6 +53,9 @@
 		desc = "A simple [material.solid_name] railing designed to protect against careless trespass."
 	else
 		..()
+
+/obj/structure/railing/update_material_colour(override_colour)
+	. = ..(painted_color || override_colour)
 
 /obj/structure/railing/Destroy()
 	anchored = FALSE

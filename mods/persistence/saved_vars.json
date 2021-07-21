@@ -2606,12 +2606,16 @@
 		"path":"/obj/item/fuel_assembly",
 		"vars":[
 			"material_name",
+			"matter",
 			"percent_depleted",
-			"rod_quantities",
-			"fuel_type",
-			"fuel_colour",
 			"radioactivity",
 			"initial_amount"
+		]
+	},
+	{
+		"path":"/obj/machinery/fuel_compressor",
+		"vars":[
+			"stored_material"
 		]
 	},
 	{
@@ -2628,6 +2632,23 @@
 		"path":"/obj/machinery/computer/fusion",
 		"vars":[
 			"ui_template",
+			"initial_id_tag"
+		]
+	},
+	{
+		"path":"/obj/machinery/atmospherics/unary/fission_core",
+		"vars":[
+			"control_rod_depth",
+			"fuel_rods",
+			"neutron_flux",
+			"neutron_energy",
+			"damage",
+			"initial_id_tag"
+		]
+	},
+	{
+		"path":"/obj/machinery/computer/fission",
+		"vars":[
 			"initial_id_tag"
 		]
 	},

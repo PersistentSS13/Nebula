@@ -85,9 +85,12 @@
 /turf/proc/get_physical_height()
 	return 0
 
+/turf/simulated/floor/get_physical_height()
+	return flooring?.height || 0
+
 /turf/fluid_act(var/datum/reagents/fluids)
 	fluids.touch(src)
-	for(var/atom/movable/AM as anything in get_contained_external_atoms())
+	for(var/atom/movable/AM AS_ANYTHING in get_contained_external_atoms())
 		AM.fluid_act(fluids)
 
 /turf/proc/remove_fluids(var/amount, var/defer_update)

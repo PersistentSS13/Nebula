@@ -59,6 +59,7 @@
 	daycolumn++
 	if(daycolumn > maxx)
 		daycolumn = 0
+
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/generate_planet_image()
 	skybox_image = image('icons/skybox/planet.dmi', "")
 

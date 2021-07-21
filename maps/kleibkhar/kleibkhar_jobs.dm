@@ -6,7 +6,7 @@
 	supervisors = "Your own will and conscience."
 	department_types = list(/decl/department/civilian)
 	outfit_type = /decl/hierarchy/outfit/job/kleibkhar
-	hud_icon = "hudcargotechnician"
+	hud_icon = "hudblank"
 
 /decl/hierarchy/outfit/job/kleibkhar
 	name = OUTFIT_JOB_NAME("Kleibkhar Colonist")
