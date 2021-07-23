@@ -1638,7 +1638,8 @@
 	{
 		"path":"/obj/machinery/power/port_gen",
 		"vars":[
-			"active"
+			"active",
+			"power_output"
 		]
 	},
 	{
@@ -2678,6 +2679,7 @@
 	{
 		"path":"/obj/item/stock_parts/radio",
 		"vars":[
+			"id_tag",
 			"frequency",
 			"filter",
 			"encryption",
@@ -4279,6 +4281,20 @@
 		"path":"/obj/machinery/destructive_analyzer",
 		"vars":[
 			"loaded_item"
+		]
+	},
+	{
+		"path":"/obj/machinery/atmospherics/unary/heater",
+		"vars":[
+			"set_temperature",
+			"power_setting"
+		]
+	},
+	{
+		"path":"/obj/machinery/atmospherics/unary/freezer",
+		"vars":[
+			"set_temperature",
+			"power_setting"
 		]
 	}
 ]
