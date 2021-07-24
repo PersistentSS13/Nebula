@@ -14,8 +14,8 @@
 	overmap_size = 100
 	overmap_event_areas = 250
 
-	allowed_spawns = list("Cryogenic Storage")
-	default_spawn = "Cryogenic Storage"
+	allowed_spawns = list(/decl/spawnpoint/cryo)
+	default_spawn = /decl/spawnpoint/cryo
 
 	shuttle_docked_message = "The shuttle has docked."
 	shuttle_leaving_dock = "The shuttle has departed from home dock."
