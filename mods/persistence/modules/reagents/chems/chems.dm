@@ -1,7 +1,7 @@
 //renames some chems
 
 /decl/material/liquid/eyedrops
-    name = "imidazoline"
+	name = "imidazoline"
     taste_description = "a dazzling kaleidoscope"
 
 /decl/material/liquid/cleaner
