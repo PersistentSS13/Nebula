@@ -2,59 +2,59 @@
 
 /decl/material/liquid/eyedrops
 	name = "imidazoline"
-    taste_description = "a dazzling kaleidoscope"
+	taste_description = "a dazzling kaleidoscope"
 
 /decl/material/liquid/cleaner
-    name = "space cleaner"
+	name = "space cleaner"
 
 /decl/material/liquid/amphetamines
-    name = "hyperzine" //known as amphetamines on Nebula, not to be confused with stimulants which is Neb's methylphenidate
+	name = "hyperzine" //known as amphetamines on Nebula, not to be confused with stimulants which is Neb's methylphenidate
 
 // /decl/material/liquid/narcotics
 //    name = "impedrezene"
 
 /decl/material/liquid/sedatives
-    name = "soporific"
+	name = "soporific"
 
 /decl/material/liquid/hallucinogenics
-    name = "mindbreaker toxin"
+	name = "mindbreaker toxin"
 
 /decl/material/liquid/glowsap/gleam
-    name = "three eye"
+	name = "three eye"
 
 /decl/material/liquid/antirads
-    name = "hyronalin"
+	name = "hyronalin"
 
 /decl/material/liquid/antitoxins
-    name = "dylovene"
+	name = "dylovene"
 
 /decl/material/liquid/stimulants
-    name = "methylphenidate"
+	name = "methylphenidate"
 
 /decl/material/liquid/antidepressants
-    name = "citalopram"
+	name = "citalopram"
 
 /decl/material/liquid/antibiotics
-//    name = "spaceacillin"
-    lore_text = "A theta-lactam antibiotic. Slows progression of diseases. Treats infections."
+//	name = "spaceacillin"
+	lore_text = "A theta-lactam antibiotic. Slows progression of diseases. Treats infections."
 
 /decl/material/liquid/retrovirals
-    name = "ryetalyn"
+	name = "ryetalyn"
 
 /decl/material/liquid/stabilizer
-    name = "inaprovaline"
+	name = "inaprovaline"
 
 /decl/material/liquid/regenerator
-    name = "tricordrazine"
+	name = "tricordrazine"
 
 /decl/material/liquid/neuroannealer
-    name = "alkysine"
+	name = "alkysine"
 
 /decl/material/liquid/oxy_meds
-    name = "dexalin"
+	name = "dexalin"
 
 /decl/material/liquid/painkillers
-    name = "tramadol" //known as painkillers on Nebula, paracetamol and oxycodone were removed
+	name = "tramadol" //known as painkillers on Nebula, paracetamol and oxycodone were removed
 
 // /decl/material/liquid/antiseptic
 //   name = "sterilizine"
@@ -63,21 +63,21 @@
 //    name = "vecuronium_bromide"
 
 /decl/material/liquid/presyncopics
-    name = "cryptobiolin"
+	name = "cryptobiolin"
 
 //autoinjectors
 /obj/item/chems/hypospray/autoinjector/detox
-    name = "autoinjector (dylovene)"
+	name = "autoinjector (dylovene)"
 
 /obj/item/chems/hypospray/autoinjector/pain
-    name = "autoinjector (tramadol)"
+	name = "autoinjector (tramadol)"
 
 /obj/item/chems/hypospray/autoinjector/antirad
-    name = "autoinjector (hyronalin)"
+	name = "autoinjector (hyronalin)"
 
 //pills
 /obj/item/chems/pill/antitox
-    name = "dylovene (25u)"
+	name = "dylovene (25u)"
 
 /obj/item/chems/pill/stox
 	name = "soporific (15u)"
@@ -161,15 +161,15 @@
 //new chems below (mostly taken from Bay)
 
 /decl/material/liquid/bicaridine
-    name = "bicaridine"
-    lore_text = "An advanced chemical for healing physical trauma."
-    taste_description = "metallicness"
-    taste_mult = 3
-    color = "#bf0000"
-    overdose = REAGENTS_OVERDOSE
-    scannable = 1
-    flags = IGNORE_MOB_SIZE
-    value = 4.9
+	name = "bicaridine"
+	lore_text = "An advanced chemical for healing physical trauma."
+	taste_description = "metallicness"
+	taste_mult = 3
+	color = "#bf0000"
+	overdose = REAGENTS_OVERDOSE
+	scannable = 1
+	flags = IGNORE_MOB_SIZE
+	value = 4.9
 
 /decl/material/liquid/bicaridine/affect_overdose(mob/living/M, alien, var/datum/reagents/holder)
 	..()
@@ -185,14 +185,14 @@
 	M.add_chemical_effect(CE_PAINKILLER, 10)
 
 /decl/material/liquid/kelotane
-    name = "kelotane"
-    lore_text = "An advanced chemical for healing burns."
-    taste_description = "bitterness"
-    color = "#ffa800"
-    overdose = REAGENTS_OVERDOSE
-    scannable = 1
-    flags = IGNORE_MOB_SIZE
-    value = 2.9
+	name = "kelotane"
+	lore_text = "An advanced chemical for healing burns."
+	taste_description = "bitterness"
+	color = "#ffa800"
+	overdose = REAGENTS_OVERDOSE
+	scannable = 1
+	flags = IGNORE_MOB_SIZE
+	value = 2.9
 
 /decl/material/liquid/kelotane/affect_blood(mob/living/M, alien, removed, var/datum/reagents/holder)	
 	M.heal_organ_damage(0, 6 * removed)
