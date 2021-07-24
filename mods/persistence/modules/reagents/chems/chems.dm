@@ -1,3 +1,5 @@
+//renames some chems
+
 /decl/material/liquid/eyedrops
     name = "imidazoline"
     taste_description = "a dazzling kaleidoscope"
@@ -22,12 +24,6 @@
 
 /decl/material/liquid/antirads
     name = "hyronalin"
-
-/decl/material/liquid/brute_meds
-    name = "bicaridine"
-
-/decl/material/liquid/burn_meds
-    name = "kelotane"
 
 /decl/material/liquid/antitoxins
     name = "dylovene"
@@ -86,9 +82,6 @@
 /obj/item/chems/pill/stox
 	name = "soporific (15u)"
 
-/obj/item/chems/pill/burn_meds
-	name = "kelotane (15u)"
-
 /obj/item/chems/pill/painkillers
 	name = "tramadol (15u)"
 
@@ -100,9 +93,6 @@
 
 /obj/item/chems/pill/antitoxins
 	name = "dylovene (15u)"
-
-/obj/item/chems/pill/brute_meds
-	name = "bicaridine (20u)"
 
 // /obj/item/chems/pill/antibiotics
 //	name = "spaceacillin (10u)"
@@ -137,17 +127,11 @@
 /obj/item/storage/pill_bottle/antitox
 	name = "pill bottle (dylovene)"
 
-/obj/item/storage/pill_bottle/brute_meds
-	name = "pill bottle (bicaridine)"
-
 /obj/item/storage/pill_bottle/oxygen
 	name = "pill bottle (dexalin)"
 
 /obj/item/storage/pill_bottle/antitoxins
 	name = "pill bottle (dylovene)"
-
-/obj/item/storage/pill_bottle/burn_meds
-	name = "pill bottle (kelotane)"
 
 // /obj/item/storage/pill_bottle/antibiotics
 //	name = "pill bottle (spaceacillin)"
@@ -173,3 +157,71 @@
 
 /obj/item/chems/hypospray/autoinjector/pouch_auto/oxy_meds
 	name = "emergency dexalin autoinjector"
+
+//new chems below (mostly taken from Bay)
+
+/decl/material/liquid/bicaridine
+    name = "bicaridine"
+    lore_text = "An advanced chemical for healing physical trauma."
+    taste_description = "metallicness"
+    taste_mult = 3
+    color = "#bf0000"
+    overdose = REAGENTS_OVERDOSE
+    scannable = 1
+    flags = IGNORE_MOB_SIZE
+    value = 4.9
+
+/decl/material/liquid/bicaridine/affect_overdose(mob/living/M, alien, var/datum/reagents/holder)
+	..()
+	if(ishuman(M))
+		M.add_chemical_effect(CE_BLOCKAGE, (15 + REAGENT_VOLUME(holder, type))/100)
+		var/mob/living/carbon/human/H = M
+		for(var/obj/item/organ/external/E in H.organs)
+			if(E.status & ORGAN_ARTERY_CUT && prob(2 + REAGENT_VOLUME(holder, type) / overdose))
+				E.status &= ~ORGAN_ARTERY_CUT
+
+/decl/material/liquid/bicaridine/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+	M.heal_organ_damage(6 * removed, 0)
+	M.add_chemical_effect(CE_PAINKILLER, 10)
+
+/decl/material/liquid/kelotane
+    name = "kelotane"
+    lore_text = "An advanced chemical for healing burns."
+    taste_description = "bitterness"
+    color = "#ffa800"
+    overdose = REAGENTS_OVERDOSE
+    scannable = 1
+    flags = IGNORE_MOB_SIZE
+    value = 2.9
+
+/decl/material/liquid/kelotane/affect_blood(mob/living/M, alien, removed, var/datum/reagents/holder)	
+	M.heal_organ_damage(0, 6 * removed)
+	M.add_chemical_effect(CE_PAINKILLER, 10)
+
+/decl/material/liquid/dexalinplus
+	name = "dexalin plus"
+	lore_text = "An advanced chemical for treating oxygen deprivation."
+	taste_description = "tasteless slickness"
+	color = "#0040ff"
+	overdose = REAGENTS_OVERDOSE * 0.5
+	scannable = 1
+	flags = IGNORE_MOB_SIZE
+	value = 3.7
+
+/decl/material/liquid/dexalinplus/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+	M.add_chemical_effect(CE_OXYGENATED, 2)
+	holder.remove_reagent(/decl/material/gas/carbon_monoxide, 3 * removed)
+
+/decl/material/liquid/painkillers/oxycodone
+	name = "oxycodone"
+	lore_text = "An advanced painkiller. Don't mix with alcohol."
+	taste_description = "bitterness"
+	color = "#800080"
+	overdose = 20
+	scannable = 1
+	metabolism = 0.05
+	ingest_met = 0.02
+	flags = IGNORE_MOB_SIZE
+	value = 3.1
+	pain_power = 200 //magnitide of painkilling effect
+	effective_dose = 2 //how many units it need to process to reach max power
