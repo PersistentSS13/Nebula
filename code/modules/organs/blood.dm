@@ -342,8 +342,12 @@
 
 	var/blood_volume_mod = max(0, 1 - getOxyLoss()/(species.total_health/2))
 	var/oxygenated_mult = 0
-	if(has_chemical_effect(CE_OXYGENATED, 1))
+	if(has_chemical_effect(CE_OXYGENATED, 1))	//dexalin
 		oxygenated_mult = 0.5
+	else if(has_chemical_effect(CE_OXYGENATED, 2))	//dexalin plus
+		oxygenated_mult = 0.7
+	else if(has_chemical_effect(CE_OXYGENATED, 3))	//ultra dexalin
+		oxygenated_mult = 0.9
 	blood_volume_mod = blood_volume_mod + oxygenated_mult - (blood_volume_mod * oxygenated_mult)
 	blood_volume = blood_volume * blood_volume_mod
 	return min(blood_volume, 100)

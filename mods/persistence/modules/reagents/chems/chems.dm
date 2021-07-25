@@ -50,10 +50,10 @@
 /decl/material/liquid/neuroannealer
 	name = "alkysine"
 
-/decl/material/liquid/oxy_meds
+/decl/material/liquid/oxy_meds	//T1 oxygen chem
 	name = "dexalin"
 
-/decl/material/liquid/painkillers
+/decl/material/liquid/painkillers	//T2 painkiller
 	name = "tramadol" //known as painkillers on Nebula, paracetamol and oxycodone were removed
 
 // /decl/material/liquid/antiseptic
@@ -198,7 +198,7 @@
 	M.heal_organ_damage(0, 6 * removed)
 	M.add_chemical_effect(CE_PAINKILLER, 10)
 
-/decl/material/liquid/dexalinplus
+/decl/material/liquid/dexalinplus	//T2 oxygen chem
 	name = "dexalin plus"
 	lore_text = "An advanced chemical for treating oxygen deprivation."
 	taste_description = "tasteless slickness"
@@ -212,9 +212,9 @@
 	M.add_chemical_effect(CE_OXYGENATED, 2)
 	holder.remove_reagent(/decl/material/gas/carbon_monoxide, 3 * removed)
 
-/decl/material/liquid/painkillers/oxycodone
+/decl/material/liquid/painkillers/oxycodone	//T3 painkiller
 	name = "oxycodone"
-	lore_text = "An advanced painkiller. Don't mix with alcohol."
+	lore_text = "The optimal and exceedingly rare painkiller. Don't mix with alcohol."
 	taste_description = "bitterness"
 	color = "#800080"
 	overdose = 20
@@ -223,5 +223,32 @@
 	ingest_met = 0.02
 	flags = IGNORE_MOB_SIZE
 	value = 3.1
-	pain_power = 200 //magnitide of painkilling effect
+	pain_power = 200 //magnitude of painkilling effect
 	effective_dose = 2 //how many units it need to process to reach max power
+
+/decl/material/liquid/ultradex	//T3 oxygen chem
+	name = "ultra dexalin"
+	lore_text = "The optimal and exceedingly rare chemical for treating oxygen deprivation"
+	color = "#5e4fb3"
+	overdose = REAGENTS_OVERDOSE * 0.5
+	scannable = 1
+	flags = IGNORE_MOB_SIZE
+	value = 3.7
+
+/decl/material/liquid/ultradex/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+	M.add_chemical_effect(CE_OXYGENATED, 3)
+	holder.remove_reagent(/decl/material/gas/carbon_monoxide, 4 * removed)
+
+/decl/material/liquid/painkillers/paracetamol	//T1 painkiller
+	name = "paracetamol"
+	lore_text = "An weak painkiller. Don't mix with alcohol."
+	taste_description = "sickness"
+	color = "#c8a5dc"
+	overdose = 60
+	scannable = 1
+	metabolism = 0.02
+	ingest_met = 0.02
+	flags = IGNORE_MOB_SIZE
+	value = 3.3
+	pain_power = 35 //magnitude of painkilling effect
+	effective_dose = 0.2 //how many units it need to process to reach max power
