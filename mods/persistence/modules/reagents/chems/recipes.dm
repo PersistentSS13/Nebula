@@ -21,7 +21,7 @@
 /datum/chemical_reaction/paracetamol
 	name = "Paracetamol"
 	result = /decl/material/liquid/painkillers/paracetamol
-	required_reagents = list(/decl/material/solid/potassium = 1, /decl/material/liquid/acetone = 1) 
+	required_reagents = list(/decl/material/solid/carbon = 1, /decl/material/solid/potassium = 1) 
 	result_amount = 2
 
 /datum/chemical_reaction/ultradex
