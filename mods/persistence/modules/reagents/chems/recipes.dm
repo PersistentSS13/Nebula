@@ -27,13 +27,13 @@
 /datum/chemical_reaction/ultradex
 	name = "Ultra Dexalin"
 	result = /decl/material/liquid/ultradex
-	required_reagents = list(/decl/material/liquid/dexalinplus = 1, /decl/material/solid/metal/tin = 1)
+	required_reagents = list(/decl/material/liquid/dexalinplus = 1, /decl/material/liquid/nanitefluid = 1)
 	catalysts = list(/decl/material/solid/metal/depleted_uranium = 5)
 	result_amount = 1
 
-/datum/chemical_reaction/oxycodone
-	name = "Oxycodone"
-	result = /decl/material/liquid/painkillers/oxycodone
+/datum/chemical_reaction/morphine
+	name = "Morphine"
+	result = /decl/material/liquid/painkillers/morphine
 	required_reagents = list(/decl/material/liquid/painkillers = 1, /decl/material/solid/metal/zinc = 1)
 	catalysts = list(/decl/material/solid/metal/plutonium = 5)
 	result_amount = 1

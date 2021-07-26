@@ -54,7 +54,7 @@
 	name = "dexalin"
 
 /decl/material/liquid/painkillers	//T2 painkiller
-	name = "tramadol" //known as painkillers on Nebula, paracetamol and oxycodone were removed
+	name = "tramadol"
 
 // /decl/material/liquid/antiseptic
 //   name = "sterilizine"
@@ -212,8 +212,8 @@
 	M.add_chemical_effect(CE_OXYGENATED, 2)
 	holder.remove_reagent(/decl/material/gas/carbon_monoxide, 3 * removed)
 
-/decl/material/liquid/painkillers/oxycodone	//T3 painkiller
-	name = "oxycodone"
+/decl/material/liquid/painkillers/morphine	//T3 painkiller
+	name = "morphine"	//oxycodone
 	lore_text = "The optimal and exceedingly rare painkiller. Don't mix with alcohol."
 	taste_description = "bitterness"
 	color = "#800080"
