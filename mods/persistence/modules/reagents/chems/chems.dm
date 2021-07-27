@@ -28,6 +28,9 @@
 /decl/material/liquid/antitoxins
 	name = "dylovene"
 
+/decl/material/liquid/antitoxins/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+	holder.remove_reagent(/decl/material/liquid/ultradex, 10 * removed)
+
 /decl/material/liquid/stimulants
 	name = "methylphenidate"
 
@@ -219,12 +222,16 @@
 	color = "#800080"
 	overdose = 20
 	scannable = 1
-	metabolism = 0.05
-	ingest_met = 0.02
 	flags = IGNORE_MOB_SIZE
 	value = 3.1
 	pain_power = 200 //magnitude of painkilling effect
 	effective_dose = 2 //how many units it need to process to reach max power
+
+/decl/material/liquid/painkillers/morphine/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+	SET_STATUS_MAX(M, STAT_DROWSY, 10)
+
+/decl/material/liquid/painkillers/morphine/affect_overdose(var/mob/living/M, var/alien, var/datum/reagents/holder)
+	M.adjustToxLoss(10)
 
 /decl/material/liquid/ultradex	//T3 oxygen chem
 	name = "ultra dexalin"
@@ -238,6 +245,9 @@
 /decl/material/liquid/ultradex/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	M.add_chemical_effect(CE_OXYGENATED, 3)
 	holder.remove_reagent(/decl/material/gas/carbon_monoxide, 4 * removed)
+	M.adjustToxLoss(5 * removed)
+	SET_STATUS_MAX(M, STAT_JITTER, 130)
+	SET_STATUS_MAX(M, STAT_DIZZY,  1000)
 
 /decl/material/liquid/painkillers/paracetamol	//T1 painkiller
 	name = "paracetamol"
