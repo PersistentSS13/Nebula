@@ -19,6 +19,8 @@
 				if(age_num < 18)
 					to_chat(user, SPAN_NOTICE("The console beeps: You must be over the mental age of eighteen to participate in the [global.using_map.station_name] program."))
 					return
+				if(age_num > 120)
+					to_chat(user, SPAN_NOTICE("The console beeps: You must be under the age of one hundred twenty to participate in the [global.using_map.station_name] program."))
 				user.mind.age = age_num
 			else
 				to_chat(user, SPAN_NOTICE("The console beeps: '[new_age]' is not a valid number. Please enter a valid number."))
@@ -34,9 +36,11 @@
 		// if("choose_background")
 		// 	active_section = "background"
 		if("submit")
-			if(user.mind.age < 16)
+			if(user.mind.age < 18)
 				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter an age to proceed."))
 				return
+			if(user.mind.age > 120)
+				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter an age to proceed."))
 			if(isnull(user.mind.origin))
 				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter an origin to proceed."))
 				return
