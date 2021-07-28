@@ -17,10 +17,11 @@
 			var/age_num = text2num(new_age)
 			if(isnum(age_num))
 				if(age_num < 18)
-					to_chat(user, SPAN_NOTICE("The console beeps: You must be over the mental age of eighteen to participate in the [global.using_map.station_name] program."))
+					to_chat(user, SPAN_NOTICE("The console beeps: You must be over the age of eighteen to participate in the [global.using_map.station_name] program."))
 					return
 				if(age_num > 120)
 					to_chat(user, SPAN_NOTICE("The console beeps: You must be under the age of one hundred twenty to participate in the [global.using_map.station_name] program."))
+					return
 				user.mind.age = age_num
 			else
 				to_chat(user, SPAN_NOTICE("The console beeps: '[new_age]' is not a valid number. Please enter a valid number."))
@@ -41,6 +42,7 @@
 				return
 			if(user.mind.age > 120)
 				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter an age to proceed."))
+				return
 			if(isnull(user.mind.origin))
 				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter an origin to proceed."))
 				return
