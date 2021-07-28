@@ -51,3 +51,6 @@
 
 /obj/item/screwdriver/gold
 	material = /decl/material/solid/metal/gold
+
+/obj/item/screwdriver/can_engrave()
+	return FALSE
