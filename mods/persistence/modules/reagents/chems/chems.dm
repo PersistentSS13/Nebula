@@ -30,6 +30,7 @@
 
 /decl/material/liquid/antitoxins/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	holder.remove_reagent(/decl/material/liquid/ultradex, 10 * removed)
+	..()
 
 /decl/material/liquid/stimulants
 	name = "methylphenidate"
@@ -218,7 +219,7 @@
 /decl/material/liquid/painkillers/morphine	//T3 painkiller
 	name = "morphine"	//oxycodone
 	lore_text = "The optimal and exceedingly rare painkiller. Don't mix with alcohol."
-	taste_description = "bitterness"
+	taste_description = "numbness"
 	color = "#800080"
 	overdose = 20
 	scannable = 1
@@ -229,13 +230,16 @@
 
 /decl/material/liquid/painkillers/morphine/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	SET_STATUS_MAX(M, STAT_DROWSY, 10)
+	..()
 
 /decl/material/liquid/painkillers/morphine/affect_overdose(var/mob/living/M, var/alien, var/datum/reagents/holder)
-	M.adjustToxLoss(10)
+	M.adjustToxLoss(5)
+	..()
 
 /decl/material/liquid/ultradex	//T3 oxygen chem
 	name = "ultra dexalin"
 	lore_text = "The optimal and exceedingly rare chemical for treating oxygen deprivation"
+	taste_description = "a breath of fresh air"
 	color = "#5e4fb3"
 	overdose = REAGENTS_OVERDOSE * 0.5
 	scannable = 1
