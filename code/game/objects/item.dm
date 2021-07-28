@@ -948,6 +948,6 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 /obj/item/proc/update_clothing_icon()
 	return
 
-// Defaults to sharp items being able to engrave surfaces which can be over ridden via calling the proc and returning FALSE
+// Defaults to sharp items being able to engrave surfaces which can be prevented by overriding the proc and returning FALSE
 /obj/item/proc/can_engrave()
 	return sharp
