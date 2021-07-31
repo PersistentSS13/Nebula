@@ -1,0 +1,27 @@
+Everything is either CC0, or CC attribution
+
+burp1.ogg == 570266__scooterfort__the-best-burp-sample-on-the-internet 
+burp2.ogg == 101182__plingativator__wetbelch4
+burp3.ogg == 215572__airborne80__nice-semi-long-burp
+burp4.ogg == 348968__luciolepri__male-burp
+burp5.ogg == 428137__inspectorj__burp-male-short-a
+burp6.ogg == 444496__breviceps__burp
+burpalien1.ogg == 416968__ohnobones__goblin-burp
+burpalien2.ogg == 541602__thetgrodz__burp
+
+whistle1.ogg == 401335__ckvoiceover__whistling
+whistle2.ogg == 401335__ckvoiceover__whistling
+
+clap1.ogg == 151848__carroll27__clapping
+clap2.ogg == 485937__guyburns__one-person-clapping
+
+chuckle_m1.ogg == 458101__hsmith1986__deep-laugh-chuckle
+chuckle_f1.ogg == 333271__silversatyr__chuckle
+
+cough_m1.ogg == 266019__joedeshon__double-cough-01
+cough_f1.ogg == 151217__owlstorm__cough-3
+
+laugh_f1.ogg == 433921__kalibrk__woman-laugh
+laugh_f2.ogg == 343935__reitanna__laugh88
+laugh_m1.ogg == 450528__arbernaut__male-laughter-01-24bit-48khz
+laugh_m2.ogg == 450528__arbernaut__male-laughter-01-24bit-48khz
