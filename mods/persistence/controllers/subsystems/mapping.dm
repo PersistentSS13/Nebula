@@ -3,14 +3,15 @@
 
 /datum/controller/subsystem/mapping/Initialize(timeofday)
 	. = ..()
-
 	// Load our maps dynamically.
 	for(var/z in global.using_map.default_levels)
 		var/map_file = global.using_map.default_levels[z]
+#ifndef UNIT_TEST
 		if(SSpersistence.SaveExists() && (text2num(z) in SSpersistence.saved_levels))
 			// Load a default map instead.
 			INCREMENT_WORLD_Z_SIZE
 			continue
+#endif
 		maploader.load_map(file(map_file), 1, 1, text2num(z), no_changeturf = TRUE)
 		CHECK_TICK
 
@@ -19,7 +20,7 @@
 	report_progress("Unit testing, so not loading saved map")
 #else
 	report_progress("Loading world save.")
-	
+
 	SSpersistence.LoadWorld()
 #endif
 
