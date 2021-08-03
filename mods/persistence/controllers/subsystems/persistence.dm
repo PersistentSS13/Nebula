@@ -21,15 +21,15 @@
 /datum/controller/subsystem/persistence/proc/SaveExists()
 	if(save_exists)
 		return save_exists
-	var/DBQuery/query = dbcon.NewQuery("SELECT COUNT(*) FROM `thing`;")
-	query.Execute()
-	if(query.NextRow())
-		save_exists = text2num(query.item[1]) > 0
-		in_loaded_world = save_exists
+	save_exists = serializer.save_exists()
+	in_loaded_world = save_exists
 
 /datum/controller/subsystem/persistence/proc/SaveWorld()
 	// Collect the z-levels we're saving and get the turfs!
 	to_world_log("Saving [LAZYLEN(SSpersistence.saved_levels)] z-levels. World size max ([world.maxx],[world.maxy])")
+	sleep(5)
+	serializer._before_serialize()
+
 	var/start = world.timeofday
 	
 	// Launch events
@@ -46,36 +46,62 @@
 		SSair.can_fire = FALSE
 		if (SSair.state != SS_IDLE)
 			report_progress("ZAS Rebuild initiated. Waiting for current air tick to complete before continuing.")
+			sleep(5)
 		while (SSair.state != SS_IDLE)
 			stoplag()
 
 		// Prepare all atmospheres to save.
+		report_progress("Storing pipenet air..")
+		sleep(5)
+		var/time_start_pipenet = REALTIMEOFDAY
 		for(var/datum/pipe_network/net in SSmachines.pipenets)
 			for(var/datum/pipeline/line in net.line_members)
 				line.temporarily_store_air()
+		report_progress("Pipenet air stored in [(REALTIMEOFDAY - time_start_pipenet) / (1 SECOND)]s")
+		sleep(5)
+
+		report_progress("Invalidating all airzones..")
+		sleep(5)
+		var/time_start_airzones = REALTIMEOFDAY
 		while (SSair.zones.len)
 			var/zone/zone = SSair.zones[SSair.zones.len]
 			SSair.zones.len--
 			zone.c_invalidate()
+		report_progress("Invalidated in [(REALTIMEOFDAY - time_start_airzones) / (1 SECOND)]s")
+		sleep(5)
 		
+		report_progress("Adding limbo players minds to limbo..")
+		sleep(5)
+		var/time_start_limbo = REALTIMEOFDAY
 		// Find all the minds gameworld and add any player characters to the limbo list.
 		for(var/datum/mind/char_mind in global.player_minds)
 			var/mob/current_mob = char_mind.current
 			if(!current_mob || !char_mind.key || istype(char_mind.current, /mob/new_player) || !char_mind.finished_chargen)
 				// Just in case, delete this character from limbo.
-				RemoveFromLimbo(char_mind.unique_id, LIMBO_MIND)
+				one_off.RemoveFromLimbo(char_mind.unique_id, LIMBO_MIND)
 				continue
 			// Check to see if the mobs are already being saved.
 			if(!QDELETED(current_mob) && ((current_mob.z in SSpersistence.saved_levels) || (get_area(current_mob) in SSpersistence.saved_areas)))
 				continue
-			AddToLimbo(char_mind, char_mind.unique_id, LIMBO_MIND, char_mind.persistent_id, char_mind.key, FALSE)
+			one_off.AddToLimbo(char_mind, char_mind.unique_id, LIMBO_MIND, char_mind.persistent_id, char_mind.key, FALSE)
+		report_progress("Done adding player minds to limbo in [(REALTIMEOFDAY - time_start_limbo) / (1 SECOND)]s.")
+		sleep(5)
 
+		report_progress("Wiping previous save..")
+		sleep(5)
+		var/time_start_wipe = REALTIMEOFDAY
 		// Wipe the previous save.
 		serializer.WipeSave()
+		report_progress("Done wiping previous save in [(REALTIMEOFDAY - time_start_wipe) / (1 SECOND)]s.")
+		sleep(5)
 
 		//
 		// 	ACTUAL SAVING SECTION
 		//
+
+		report_progress("Preparing z-levels for save..")
+		sleep(5)
+		var/time_start_zprepare= REALTIMEOFDAY
 		// This will prepare z_level translations.
 		var/list/z_transform = list()
 		var/new_z_index = 1
@@ -145,6 +171,12 @@
 		serializer.Commit()
 		area_holder.areas.Cut()
 
+		report_progress("Z-levels prepared for save in [(REALTIMEOFDAY - time_start_zprepare) / (1 SECOND)]s.")
+		sleep(5)
+
+		report_progress("Saving z-level turfs..")
+		sleep(5)
+		var/time_start_zsave= REALTIMEOFDAY
 		// This will save all the turfs/world.
 		var/index = 1
 		for(var/z in saved_levels)
@@ -179,7 +211,12 @@
 			serializer.CommitRefUpdates()
 
 		index = 1
+		report_progress("Z-levels turfs saved in [(REALTIMEOFDAY - time_start_zsave) / (1 SECOND)]s.")
+		sleep(5)
 
+		report_progress("Saving z-level areas..")
+		sleep(5)
+		var/time_start_zarea= REALTIMEOFDAY
 		// Repeat much of the above code in order to save areas marked to be saved that are not in a saved z-level.
 		for(var/area/A in saved_areas)
 			for(var/turf/T in A)
@@ -209,19 +246,12 @@
 			serializer.Commit() // cleanup leftovers.
 
 		// Insert our z-level remaps.
-		var/list/z_inserts = list()
-		var/z_insert_index = 1
-		for(var/z in z_transform)
-			var/datum/persistence/load_cache/z_level/z_level = z_transform[z]
-			z_inserts += "([z_insert_index],[z_level.new_index],[z_level.dynamic],'[z_level.default_turf]','[z_level.metadata]')"
-			z_insert_index++
-		var/DBQuery/query = dbcon.NewQuery("INSERT INTO `z_level` (`id`,`z`,`dynamic`,`default_turf`,`metadata`) VALUES[jointext(z_inserts, ",")]")
-		query.Execute()
-		if(query.ErrorMsg())
-			to_world_log("Z_LEVEL SERIALIZATION FAILED: [query.ErrorMsg()].")
-
+		serializer.save_z_level_remaps(z_transform)
 		serializer.Commit()
 		serializer.CommitRefUpdates()
+
+		report_progress("Z-levels areas saved in [(REALTIMEOFDAY - time_start_zarea) / (1 SECOND)]s.")
+		sleep(5)
 
 		//
 		//	CLEANUP SECTION
@@ -234,23 +264,21 @@
 		if(reallow) config.enter_allowed = 1
 	catch (var/exception/e)
 		to_world_log("Save failed on line [e.line], file [e.file] with message: '[e]'.")
-	to_world("Save complete! Took [(world.timeofday-start)/10]s to save world.")
+	to_world("Save complete! Took [(world.timeofday-start)/ (1 SECOND)]s to save world.")
 	
+	serializer._after_serialize()
+
 	// Launch event for anything that needs to do cleanup post save.
 	events_repository.raise_event(/decl/observ/world_saving_finish_event, src)
 
 /datum/controller/subsystem/persistence/proc/LoadWorld()
+
+	serializer._before_deserialize()
 	try
 		// Loads all data in as part of a version.
-		establish_db_connection()
-		if(!dbcon.IsConnected())
-			return
-
-		var/DBQuery/query = dbcon.NewQuery("SELECT COUNT(*) FROM `thing`;")
-		query.Execute()
-		if(query.NextRow())
-			// total_entries = text2num(query.item[1])
-			to_world_log("Loading [query.item[1]] things from world save.")
+		if(!establish_save_db_connection())
+			CRASH("SSPersistence: Couldn't establish DB connection!")
+		to_world_log("Loading [serializer.count_saved_datums()] things from world save.")
 
 		// We start by loading the cache. This will load everything from SQL into an object structure
 		// and is much faster than live-querying for information.
@@ -330,6 +358,7 @@
 	catch(var/exception/e)
 		to_world_log("Load failed on line [e.line], file [e.file] with message: '[e]'.")
 
+	serializer._after_deserialize()
 	loading_world = FALSE
 
 /datum/controller/subsystem/persistence/proc/AddSavedLevel(var/z)
@@ -345,101 +374,6 @@
 
 /datum/controller/subsystem/persistence/proc/RemoveSavedArea(var/area/A)
 	saved_areas -= A
-
-// Adds the passed object into limbo, saving it into the limbo tables which remain in the database outside of the world.
-// This does not delete the object from the world, which should be handled seperately.
-/datum/controller/subsystem/persistence/proc/AddToLimbo(var/datum/thing, var/key, var/limbo_type, var/metadata, var/modify = TRUE)
-
-	// Check to see if this thing was already placed into limbo. If so, we go ahead and remove the thing from limbo first before reserializing.
-	// When this occurs, it's possible things will be dropped from the database. Avoid serializing things into limbo which will remain in the game world.
-
-	key = sanitizeSQL(key)
-	limbo_type = sanitizeSQL(limbo_type)
-	metadata = sanitizeSQL(metadata)
-
-	// The 'limbo_assoc' column in the database relates every thing, thing_var, and list_element to an instance of limbo insertion.
-	// While it uses the same PERSISTENT_ID format, it's not related to any datum's PERSISTENT_ID.
-	var/limbo_assoc = PERSISTENT_ID
-	var/DBQuery/existing_query = dbcon.NewQuery("SELECT 1 FROM `limbo` WHERE `key` = '[key]' AND `type` = '[limbo_type]'")
-	existing_query.Execute()
-
-	var/DBQuery/insert_query
-	if(existing_query.NextRow()) // There was already something in limbo with this type.
-		if(!modify)
-			return
-		RemoveFromLimbo(key, limbo_type)
-
-	// Get the persistent ID for the "parent" object.
-	if(!thing.persistent_id)
-		thing.persistent_id = PERSISTENT_ID
-	// Insert into the limbo table, a metadata holder that allows for access to the limbo_assoc key by 'type' and 'key'.
-	insert_query = dbcon.NewQuery("INSERT INTO `limbo` (`key`,`type`,`p_id`,`metadata`,`limbo_assoc`) VALUES('[key]', '[limbo_type]', '[thing.persistent_id]', '[metadata]', '[limbo_assoc]')")
-	insert_query.Execute()
-	if(insert_query.ErrorMsg())
-		to_world_log("LIMBO ADDITION FAILED: [insert_query.ErrorMsg()].")
-	
-	one_off.update_indices()
-	one_off.SerializeDatum(thing, null, limbo_assoc)
-	one_off.Commit()
-	one_off.Clear()
-
-// Removes an object from the limbo table. This should always be called after an object is deserialized from limbo into the world.
-/datum/controller/subsystem/persistence/proc/RemoveFromLimbo(var/limbo_key, var/limbo_type)
-	var/DBQuery/limbo_query = dbcon.NewQuery("SELECT `limbo_assoc` FROM `limbo` WHERE `key` = '[limbo_key]' AND `type` = '[limbo_type]';")
-	var/limbo_assoc
-	limbo_query.Execute()
-	if(limbo_query.ErrorMsg())
-		to_world_log("LIMBO QUERY FAILED DURING LIMBO REMOVAL: [limbo_query.ErrorMsg()].")
-	// Acquire the list and thing rows that need to be deleted.
-	if(limbo_query.NextRow())
-		var/list/limbo_items = limbo_query.GetRowData()
-		limbo_assoc = limbo_items["limbo_assoc"]
-	else
-		return // The object wasn't in limbo to begin with.
-	var/DBQuery/delete_query
-	delete_query = dbcon.NewQuery("DELETE FROM `limbo_thing` WHERE `limbo_assoc` = '[limbo_assoc]';")
-	delete_query.Execute()
-	if(delete_query.ErrorMsg())
-		to_world_log("LIMBO DELETION OF THING(S) FAILED: [delete_query.ErrorMsg()].")
-	delete_query = dbcon.NewQuery("DELETE FROM `limbo_thing_var` WHERE `limbo_assoc` = '[limbo_assoc]';")
-	delete_query.Execute()
-	if(delete_query.ErrorMsg())
-		to_world_log("LIMBO DELETION OF VAR(S) FAILED: [delete_query.ErrorMsg()].")
-	delete_query = dbcon.NewQuery("DELETE FROM `limbo_list_element` WHERE `limbo_assoc` = '[limbo_assoc]';")
-	delete_query.Execute()
-	if(delete_query.ErrorMsg())
-		to_world_log("LIMBO DELETION OF LIST ELEMENT(S) FAILED: [delete_query.ErrorMsg()].")
-	delete_query = dbcon.NewQuery("DELETE FROM `limbo` WHERE `limbo_assoc` = '[limbo_assoc]';")
-	delete_query.Execute()
-
-/datum/controller/subsystem/persistence/proc/DeserializeOneOff(var/limbo_key, var/limbo_type, var/remove_after = TRUE)
-	// Hold off on initialization until everthing is finished loading.
-	var/DBQuery/limbo_query = dbcon.NewQuery("SELECT `p_id` FROM `limbo` WHERE `key` = '[limbo_key]' AND `type` = '[limbo_type]';")
-	limbo_query.Execute()
-	if(limbo_query.ErrorMsg())
-		to_world_log("DESERIALIZE ONE-OFF FAILED: [limbo_query.ErrorMsg()].")
-	var/limbo_p_id
-	if(limbo_query.NextRow())
-		var/list/limbo_items = limbo_query.GetRowData()
-		limbo_p_id = limbo_items["p_id"]
-	SSatoms.map_loader_begin()
-	one_off.update_load_cache(limbo_key, limbo_type)
-	var/datum/target = one_off.QueryAndDeserializeDatum(limbo_p_id)
-
-	// Copy pasta for calling after_deserialize on everything we just deserialized.
-	for(var/id in one_off.reverse_map)
-		var/datum/T = one_off.reverse_map[id]
-		T.after_deserialize()
-	
-	// Start initializing whatever we deserialized.
-	SSatoms.map_loader_stop()
-	SSatoms.InitializeAtoms()
-	one_off.CommitRefUpdates()
-	one_off.Clear()
-
-	if(remove_after)
-		RemoveFromLimbo(limbo_key, limbo_type)
-	return target
 
 /hook/roundstart/proc/retally_all_power()
 	for(var/area/A)
@@ -461,3 +395,15 @@
 /datum/controller/subsystem/persistence/show_info(mob/user)
 	to_chat(user, SPAN_INFO("Disabled with persistence modpack (how ironic)..."))
 	return
+
+/datum/controller/subsystem/persistence/proc/AddToLimbo(var/datum/thing, var/key, var/limbo_type, var/metadata, var/modify = TRUE)
+	return one_off.AddToLimbo(thing, key, limbo_type, metadata, modify)
+
+/datum/controller/subsystem/persistence/proc/RemoveFromLimbo(var/limbo_key, var/limbo_type)
+	return one_off.RemoveFromLimbo(limbo_key, limbo_type)
+
+/datum/controller/subsystem/persistence/proc/DeserializeOneOff(var/limbo_key, var/limbo_type, var/remove_after = TRUE)
+	return one_off.RemoveFromLimbo(limbo_key, limbo_type, remove_after)
+
+/datum/controller/subsystem/persistence/proc/print_db_status()
+	return SQLS_Print_DB_STATUS()

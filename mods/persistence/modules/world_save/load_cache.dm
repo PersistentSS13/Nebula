@@ -68,10 +68,12 @@
 /datum/persistence/load_cache/resolver/proc/load_cache()
 	clear_cache()
 
+	if(!establish_save_db_connection())
+		CRASH("Load_Cache: Couldn't establish DB connection!")
 	// Deserialized levels
 	var/start = world.timeofday
-	var/DBQuery/query = dbcon.NewQuery("SELECT `z`,`dynamic`,`default_turf`,`metadata` FROM `z_level`;")
-	query.Execute()
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT `z`,`dynamic`,`default_turf`,`metadata` FROM `[SQLS_TABLE_Z_LEVELS]`;")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "DESERIALIZE Z LEVELS FAILED:")
 	while(query.NextRow())
 		var/items = query.GetRowData()
 		var/datum/persistence/load_cache/z_level/z_level = new(items)
@@ -82,8 +84,8 @@
 
 	// Deserialize the objects
 	start = world.timeofday
-	query = dbcon.NewQuery("SELECT `p_id`,`type`,`x`,`y`,`z` FROM `thing`;")
-	query.Execute()
+	query = dbcon_save.NewQuery("SELECT `p_id`,`type`,`x`,`y`,`z` FROM `[SQLS_TABLE_DATUM]`;")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "DESERIALIZE DATUMS FAILED:")
 	while(query.NextRow())
 		var/items = query.GetRowData()
 		var/datum/persistence/load_cache/thing/T = new(items)
@@ -94,8 +96,8 @@
 
 	// Deserialize vars
 	start = world.timeofday
-	query = dbcon.NewQuery("SELECT `thing_id`,`key`,`type`,`value` FROM `thing_var`;")
-	query.Execute()
+	query = dbcon_save.NewQuery("SELECT `thing_id`,`key`,`type`,`value` FROM `[SQLS_TABLE_DATUM_VARS]`;")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "DESERIALIZE VARS FAILED:")
 	while(query.NextRow())
 		var/items = query.GetRowData()
 		var/datum/persistence/load_cache/thing_var/V = new(items)
@@ -110,8 +112,8 @@
 
 	// Deserialized lists
 	start = world.timeofday
-	query = dbcon.NewQuery("SELECT `list_id`,`key`,`key_type`,`value`,`value_type` FROM `list_element`;")
-	query.Execute()
+	query = dbcon_save.NewQuery("SELECT `list_id`,`key`,`key_type`,`value`,`value_type` FROM `[SQLS_TABLE_LIST_ELEM]`;")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "DESERIALIZE LIST FAILED:")
 	while(query.NextRow())
 		var/items = query.GetRowData()
 		var/datum/persistence/load_cache/list_element/element = new(items)

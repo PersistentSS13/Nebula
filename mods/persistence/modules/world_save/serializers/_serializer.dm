@@ -1,4 +1,5 @@
 #define IS_PROC(X) (findtext("\ref[X]", "0x26"))
+
 /serializer
 	var/datum/persistence/load_cache/resolver/resolver = new()
 
@@ -76,3 +77,22 @@
 	reverse_map.Cut(1)
 	list_map.Cut(1)
 	reverse_list_map.Cut(1)
+
+/serializer/proc/save_exists()
+	return FALSE
+
+/serializer/proc/save_z_level_remaps()
+	return FALSE
+
+/serializer/proc/_before_serialize()
+	return
+/serializer/proc/_before_deserialize()
+	return
+
+/serializer/proc/_after_serialize()
+	return
+/serializer/proc/_after_deserialize()
+	return
+
+/serializer/proc/count_saved_datums()
+	return 
