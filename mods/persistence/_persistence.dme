@@ -166,6 +166,7 @@
 #include "modules\reagents\chems\chems.dm"
 #include "modules\reagents\chems\recipes.dm"
 #include "modules\reagents\reagent_containers\glass\bottle.dm"
+#include "modules\recycling\recycler.dm"
 #include "modules\shuttles\autodock.dm"
 #include "modules\shuttles\landmarks.dm"
 #include "modules\shuttles\shuttle.dm"
