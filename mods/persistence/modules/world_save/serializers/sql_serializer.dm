@@ -1,3 +1,40 @@
+/proc/SQLS_Print_DB_STATUS()
+	if(!establish_save_db_connection())
+		CRASH("Couldn't get DB status, connection failed!")
+
+	var/DBQuery/query = dbcon.NewQuery("SELECT `id`, `z`, `dynamic`, `default_turf` FROM `[SQLS_TABLE_Z_LEVELS]`")
+	query.Execute()
+
+	if(query.ErrorMsg())
+		to_chat(usr, "Error: [query.ErrorMsg()]")
+
+	if(!query.RowCount())
+		to_chat(usr, "No Z data...")
+
+	while(query.NextRow())
+		to_chat(usr, "Z data: (ID: [query.item[1]], Z: [query.item[2]], Dynamic: [query.item[3]], Default Turf: [query.item[4]])")
+
+	query = dbcon.NewQuery("ANALYZE TABLE `list`, `[SQLS_TABLE_LIST_ELEM]`, `[SQLS_TABLE_DATUM]`, `[SQLS_TABLE_DATUM_VARS]`;")
+	query.Execute()
+	
+	if(query.ErrorMsg())
+		to_chat(usr, "Error: [query.ErrorMsg()]")
+
+	query = dbcon.NewQuery("SELECT `TABLE_NAME`, `TABLE_ROWS` FROM information_schema.tables WHERE `TABLE_NAME` IN ('[SQLS_TABLE_LIST_ELEM]', '[SQLS_TABLE_DATUM]', '[SQLS_TABLE_DATUM_VARS]')")
+	query.Execute()
+
+	if(query.ErrorMsg())
+		to_chat(usr, "Error: [query.ErrorMsg()]")
+		return
+
+	while(query.NextRow())
+		to_chat(usr, "Table `[query.item[1]]` Rows: [query.item[2]]")
+
+	close_save_db_connection()
+
+/*
+	Actual serizlizer
+*/
 /serializer/sql
 	var/list_index = 1
 
@@ -39,6 +76,21 @@
 
 /serializer/sql/proc/utf82byond(var/text)
 	return replacetext(text, utf8Char, byondChar)
+
+
+/serializer/sql/_before_serialize()
+	if(!establish_save_db_connection())
+		CRASH("SQL SERIALIZER: Failed to connect to save DB!")
+
+/serializer/sql/_before_deserialize()
+	if(!establish_save_db_connection())
+		CRASH("SQL SERIALIZER: Failed to connect to save DB!")
+
+/serializer/sql/_after_serialize()
+	close_save_db_connection()
+
+/serializer/sql/_after_deserialize()
+	close_save_db_connection()
 
 // Serialize an object datum. Returns the appropriate serialized form of the object. What's outputted depends on the serializer.
 /serializer/sql/SerializeDatum(var/datum/object, var/object_parent)
@@ -89,7 +141,7 @@
 		if(!issaved(object.vars[V]))
 			continue
 		var/VV = object.vars[V]
-		var/VT = "VAR"
+		var/VT = SERIALIZER_TYPE_VAR
 #ifdef SAVE_DEBUG
 		to_world_log("(SerializeThingVar) [V]")
 #endif
@@ -98,11 +150,11 @@
 
 		if(islist(VV) && !isnull(VV))
 			// Complex code for serializing lists...
-			VT = "LIST"
+			VT = SERIALIZER_TYPE_LIST
 			if(length(VV) == 0)
 				// Another optimization. Don't need to serialize lists
 				// that have 0 elements.
-				VV = "EMPTY"
+				VV = SERIALIZER_TYPE_LIST_EMPTY
 			else
 				VV = SerializeList(VV, object)
 			if(isnull(VV))
@@ -111,18 +163,18 @@
 #endif
 				continue
 		else if (isnum(VV))
-			VT = "NUM"
+			VT = SERIALIZER_TYPE_NUM
 		else if (istext(VV))
-			VT = "TEXT"
+			VT = SERIALIZER_TYPE_TEXT
 			VV = byond2utf8(VV)
 		else if (ispath(VV) || IS_PROC(VV)) // After /datum check to avoid high-number obj refs
-			VT = "PATH"
+			VT = SERIALIZER_TYPE_PATH
 		else if (isfile(VV))
-			VT = "FILE"
+			VT = SERIALIZER_TYPE_FILE
 		else if (isnull(VV))
-			VT = "NULL"
+			VT = SERIALIZER_TYPE_NULL
 		else if(get_wrapper(VV))
-			VT = "WRAP"
+			VT = SERIALIZER_TYPE_WRAPPER
 			var/wrapper_path = get_wrapper(VV)
 			var/datum/wrapper/GD = new wrapper_path
 			if(!GD)
@@ -139,14 +191,14 @@
 				continue
 			// Reference only vars do not serialize their target objects, and act only as pointers.
 			if(V in global.reference_only_vars)
-				VT = "OBJ"
+				VT = SERIALIZER_TYPE_DATUM
 				VV = VD.persistent_id ? VD.persistent_id : PERSISTENT_ID
 			// Serialize it complex-like, baby.
 			else if(should_flatten(VV))
-				VT = "FLAT_OBJ" // If we flatten an object, the var becomes json. This saves on indexes for simple objects.
+				VT = SERIALIZER_TYPE_DATUM_FLAT // If we flatten an object, the var becomes json. This saves on indexes for simple objects.
 				VV = flattener.SerializeDatum(VV)
 			else
-				VT = "OBJ"
+				VT = SERIALIZER_TYPE_DATUM
 				VV = SerializeDatum(VV)
 		else
 			// We don't know what this is. Skip it.
@@ -186,8 +238,8 @@
 	inserts_since_commit++
 	list_map[list_ref] = l_i
 	for(var/key in _list)
-		var/ET = "NULL"
-		var/KT = "NULL"
+		var/ET = SERIALIZER_TYPE_NULL
+		var/KT = SERIALIZER_TYPE_NULL
 		var/KV = key
 		var/EV = null
 		if(!isnum(key))
@@ -196,24 +248,24 @@
 			catch
 				EV = null // NBD... No value.
 		if (isnull(key))
-			KT = "NULL"
+			KT = SERIALIZER_TYPE_NULL
 		else if(isnum(key))
-			KT = "NUM"
+			KT = SERIALIZER_TYPE_NUM
 		else if (istext(key))
-			KT = "TEXT"
+			KT = SERIALIZER_TYPE_TEXT
 			key = byond2utf8(key)
 		else if (ispath(key) || IS_PROC(key))
-			KT = "PATH"
+			KT = SERIALIZER_TYPE_PATH
 		else if (isfile(key))
-			KT = "FILE"
+			KT = SERIALIZER_TYPE_FILE
 		else if (islist(key))
-			KT = "LIST"
+			KT = SERIALIZER_TYPE_LIST
 			if(length(key) == 0)
-				KV = "EMPTY"
+				KV = SERIALIZER_TYPE_LIST_EMPTY
 			else
 				KV = SerializeList(key)
 		else if(get_wrapper(key))
-			KT = "WRAP"
+			KT = SERIALIZER_TYPE_WRAPPER
 			var/wrapper_path = get_wrapper(key)
 			var/datum/wrapper/GD = new wrapper_path
 			if(!GD)
@@ -229,10 +281,10 @@
 			if(!key_d.should_save(list_parent))
 				continue
 			if(should_flatten(KV))
-				KT = "FLAT_OBJ" // If we flatten an object, the var becomes json. This saves on indexes for simple objects.
+				KT = SERIALIZER_TYPE_DATUM_FLAT // If we flatten an object, the var becomes json. This saves on indexes for simple objects.
 				KV = flattener.SerializeDatum(KV)
 			else
-				KT = "OBJ"
+				KT = SERIALIZER_TYPE_DATUM
 				KV = SerializeDatum(KV)
 		else
 #ifdef SAVE_DEBUG
@@ -242,24 +294,24 @@
 
 		if(!isnull(key) && !isnull(EV))
 			if(isnum(EV))
-				ET = "NUM"
+				ET = SERIALIZER_TYPE_NUM
 			else if (istext(EV))
-				ET = "TEXT"
+				ET = SERIALIZER_TYPE_TEXT
 				EV = byond2utf8(EV)
 			else if (isnull(EV))
-				ET = "NULL"
+				ET = SERIALIZER_TYPE_NULL
 			else if (ispath(EV) || IS_PROC(EV))
-				ET = "PATH"
+				ET = SERIALIZER_TYPE_PATH
 			else if (isfile(EV))
-				ET = "FILE"
+				ET = SERIALIZER_TYPE_FILE
 			else if (islist(EV))
-				ET = "LIST"
+				ET = SERIALIZER_TYPE_LIST
 				if(length(EV) == 0)
-					EV = "EMPTY"
+					EV = SERIALIZER_TYPE_LIST_EMPTY
 				else
 					EV = SerializeList(EV)
 			else if(get_wrapper(EV))
-				ET = "WRAP"
+				ET = SERIALIZER_TYPE_WRAPPER
 				var/wrapper_path = get_wrapper(EV)
 				var/datum/wrapper/GD = new wrapper_path
 				if(!GD)
@@ -272,10 +324,10 @@
 				EV = flattener.SerializeDatum(GD)
 			else if (istype(EV, /datum))
 				if(should_flatten(EV))
-					ET = "FLAT_OBJ" // If we flatten an object, the var becomes json. This saves on indexes for simple objects.
+					ET = SERIALIZER_TYPE_DATUM_FLAT // If we flatten an object, the var becomes json. This saves on indexes for simple objects.
 					EV = flattener.SerializeDatum(EV)
 				else
-					ET = "OBJ"
+					ET = SERIALIZER_TYPE_DATUM
 					EV = SerializeDatum(EV)
 			else
 				// Don't know what this is. Skip it.
@@ -330,29 +382,29 @@
 #endif
 		try
 			switch(TV.var_type)
-				if("NUM")
+				if(SERIALIZER_TYPE_NUM)
 					existing.vars[TV.key] = text2num(TV.value)
-				if("TEXT")
+				if(SERIALIZER_TYPE_TEXT)
 					TV.value = utf82byond(TV.value)
 					existing.vars[TV.key] = TV.value
-				if("PATH")
+				if(SERIALIZER_TYPE_PATH)
 					existing.vars[TV.key] = text2path(TV.value)
-				if("NULL")
+				if(SERIALIZER_TYPE_NULL)
 					existing.vars[TV.key] = null
-				if("WRAP")
+				if(SERIALIZER_TYPE_WRAPPER)
 					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(TV.value)
 					existing.vars[TV.key] = GD.on_deserialize()
-				if("LIST")
+				if(SERIALIZER_TYPE_LIST)
 					// This was just an empty list.
-					if(TV.value == "EMPTY")
+					if(TV.value == SERIALIZER_TYPE_LIST_EMPTY)
 						existing.vars[TV.key] = list()
 					else
 						existing.vars[TV.key] = QueryAndDeserializeList(TV.value)
-				if("OBJ")
+				if(SERIALIZER_TYPE_DATUM)
 					existing.vars[TV.key] = QueryAndDeserializeDatum(TV.value, TV.key in global.reference_only_vars)
-				if("FLAT_OBJ")
+				if(SERIALIZER_TYPE_DATUM_FLAT)
 					existing.vars[TV.key] = flattener.QueryAndDeserializeDatum(TV.value)
-				if("FILE")
+				if(SERIALIZER_TYPE_FILE)
 					existing.vars[TV.key] = file(TV.value)
 		catch(var/exception/e)
 			to_world_log("Failed to deserialize '[TV.key]' of type '[TV.var_type]' on line [e.line] / file [e.file] for reason: '[e]'.")
@@ -374,54 +426,54 @@
 		// to_world_log("deserializing list element [LE.key_type].")
 		try
 			switch(LE.key_type)
-				if("NULL")
+				if(SERIALIZER_TYPE_NULL)
 					key_value = null
-				if("TEXT")
+				if(SERIALIZER_TYPE_TEXT)
 					LE.key = utf82byond(LE.key)
 					key_value = LE.key
-				if("NUM")
+				if(SERIALIZER_TYPE_NUM)
 					key_value = text2num(LE.key)
-				if("PATH")
+				if(SERIALIZER_TYPE_PATH)
 					key_value = text2path(LE.key)
-				if("WRAP")
+				if(SERIALIZER_TYPE_WRAPPER)
 					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(LE.key)
 					key_value = GD.on_deserialize()
-				if("LIST")
-					if(LE.key == "EMPTY")
+				if(SERIALIZER_TYPE_LIST)
+					if(LE.key == SERIALIZER_TYPE_LIST_EMPTY)
 						key_value = list()
 					else
 						key_value = QueryAndDeserializeList(LE.key)
-				if("OBJ")
+				if(SERIALIZER_TYPE_DATUM)
 					key_value = QueryAndDeserializeDatum(LE.key)
-				if("FLAT_OBJ")
+				if(SERIALIZER_TYPE_DATUM_FLAT)
 					key_value = flattener.QueryAndDeserializeDatum(LE.key)
-				if("FILE")
+				if(SERIALIZER_TYPE_FILE)
 					key_value = file(LE.key)
 
 			switch(LE.value_type)
-				if("NULL")
+				if(SERIALIZER_TYPE_NULL)
 					// This is how lists are made. Everything else is a dict.
 					existing += list(key_value)
-				if("TEXT")
+				if(SERIALIZER_TYPE_TEXT)
 					LE.value = utf82byond(LE.value)
 					existing[key_value] = LE.value
-				if("NUM")
+				if(SERIALIZER_TYPE_NUM)
 					existing[key_value] = text2num(LE.value)
-				if("PATH")
+				if(SERIALIZER_TYPE_PATH)
 					existing[key_value] = text2path(LE.value)
-				if("WRAP")
+				if(SERIALIZER_TYPE_WRAPPER)
 					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(LE.value)
 					existing[key_value] = GD.on_deserialize()
-				if("LIST")
-					if(LE.value == "EMPTY")
+				if(SERIALIZER_TYPE_LIST)
+					if(LE.value == SERIALIZER_TYPE_LIST_EMPTY)
 						existing[key_value] = list()
 					else
 						existing[key_value] = QueryAndDeserializeList(LE.value)
-				if("OBJ")
+				if(SERIALIZER_TYPE_DATUM)
 					existing[key_value] = QueryAndDeserializeDatum(LE.value)
-				if("FLAT_OBJ")
+				if(SERIALIZER_TYPE_DATUM_FLAT)
 					existing[key_value] = flattener.QueryAndDeserializeDatum(LE.value)
-				if("FILE")
+				if(SERIALIZER_TYPE_FILE)
 					existing[key_value] = file(LE.value)
 
 		catch(var/exception/e)
@@ -430,28 +482,21 @@
 	return existing
 
 /serializer/sql/proc/Commit()
-	establish_db_connection()
-	if(!dbcon.IsConnected())
-		return
+	if(!establish_save_db_connection())
+		CRASH("SQL Serializer: Failed to connect to db!")
 
 	var/DBQuery/query
 	try
 		if(length(thing_inserts) > 0)
-			query = dbcon.NewQuery("INSERT INTO `thing`(`p_id`,`type`,`x`,`y`,`z`,`ref`) VALUES[jointext(thing_inserts, ",")] ON DUPLICATE KEY UPDATE `p_id` = `p_id`")
-			query.Execute()
-			if(query.ErrorMsg())
-				to_world_log("THING SERIALIZATION FAILED: [query.ErrorMsg()].")
+			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM]`(`p_id`,`type`,`x`,`y`,`z`,`ref`) VALUES[jointext(thing_inserts, ",")] ON DUPLICATE KEY UPDATE `p_id` = `p_id`")
+			SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "THING SERIALIZATION FAILED:")
 		if(length(var_inserts) > 0)
-			query = dbcon.NewQuery("INSERT INTO `thing_var`(`thing_id`,`key`,`type`,`value`) VALUES[jointext(var_inserts, ",")]")
-			query.Execute()
-			if(query.ErrorMsg())
-				to_world_log("VAR SERIALIZATION FAILED: [query.ErrorMsg()].")
+			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM_VARS]`(`thing_id`,`key`,`type`,`value`) VALUES[jointext(var_inserts, ",")]")
+			SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "VAR SERIALIZATION FAILED:")
 		if(length(element_inserts) > 0) 
 			tot_element_inserts += length(element_inserts)
-			query = dbcon.NewQuery("INSERT INTO `list_element`(`list_id`,`key`,`key_type`,`value`,`value_type`) VALUES[jointext(element_inserts, ",")]")
-			query.Execute()
-			if(query.ErrorMsg())
-				to_world_log("ELEMENT SERIALIZATION FAILED: [query.ErrorMsg()].")
+			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIST_ELEM]`(`list_id`,`key`,`key_type`,`value`,`value_type`) VALUES[jointext(element_inserts, ",")]")
+			SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "ELEMENT SERIALIZATION FAILED:")
 	catch (var/exception/e)
 		to_world_log("World Serializer Failed")
 		to_world_log(e)
@@ -462,9 +507,9 @@
 	inserts_since_commit = 0
 
 /serializer/sql/proc/CommitRefUpdates()
-	establish_db_connection()
-	if(!dbcon.IsConnected())
-		return
+	if(!establish_save_db_connection())
+		CRASH("SQL Serializer: Failed to connect to db!")
+
 	if(length(ref_updates) == 0)
 		inserts_since_ref_update = 0
 		return
@@ -476,11 +521,9 @@
 		var/new_ref = sanitizeSQL(ref_updates[p_id])
 		case_list.Add("WHEN `p_id` = '[p_id]' THEN '[new_ref]'")
 
-	query = dbcon.NewQuery("UPDATE `thing` SET `ref` = CASE [jointext(case_list, " ")] END WHERE `p_id` IN ([jointext(where_list, ", ")])")
-	query.Execute()
-	if(query.ErrorMsg())
-		to_world_log("REFERENCE UPDATE FAILED: [query.ErrorMsg()].")
-	
+	query = dbcon_save.NewQuery("UPDATE `[SQLS_TABLE_DATUM]` SET `ref` = CASE [jointext(case_list, " ")] END WHERE `p_id` IN ([jointext(where_list, ", ")])")
+	SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "REFERENCE UPDATE FAILED:")
+
 	ref_updates.Cut()
 	inserts_since_ref_update = 0
 
@@ -493,20 +536,35 @@
 
 // Deletes all saves from the database.
 /serializer/sql/proc/WipeSave()
-	var/DBQuery/query = dbcon.NewQuery("TRUNCATE TABLE `thing`;")
-	query.Execute()
-	if(query.ErrorMsg())
-		to_world_log("UNABLE TO WIPE PREVIOUS SAVE: [query.ErrorMsg()].")
-	query = dbcon.NewQuery("TRUNCATE TABLE `thing_var`;")
-	query.Execute()
-	if(query.ErrorMsg())
-		to_world_log("UNABLE TO WIPE PREVIOUS SAVE: [query.ErrorMsg()].")
-	query = dbcon.NewQuery("TRUNCATE TABLE `list_element`;")
-	query.Execute()
-	if(query.ErrorMsg())
-		to_world_log("UNABLE TO WIPE PREVIOUS SAVE: [query.ErrorMsg()].")
-	query = dbcon.NewQuery("TRUNCATE TABLE `z_level`;")
-	query.Execute()
-	if(query.ErrorMsg())
-		to_world_log("UNABLE TO WIPE PREVIOUS SAVE: [query.ErrorMsg()].")
+	var/DBQuery/query = dbcon_save.NewQuery("TRUNCATE TABLE `[SQLS_TABLE_DATUM]`;")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO WIPE PREVIOUS SAVE:")
+	query = dbcon_save.NewQuery("TRUNCATE TABLE `[SQLS_TABLE_DATUM_VARS]`;")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO WIPE PREVIOUS SAVE:")
+	query = dbcon_save.NewQuery("TRUNCATE TABLE `[SQLS_TABLE_LIST_ELEM]`;")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO WIPE PREVIOUS SAVE:")
+	query = dbcon_save.NewQuery("TRUNCATE TABLE `[SQLS_TABLE_Z_LEVELS]`;")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO WIPE PREVIOUS SAVE:")
 	Clear()
+
+/serializer/sql/save_exists()
+	return count_saved_datums() > 0
+
+/serializer/sql/save_z_level_remaps(var/list/z_transform)
+	var/list/z_inserts = list()
+	var/z_insert_index = 1
+	for(var/z in z_transform)
+		var/datum/persistence/load_cache/z_level/z_level = z_transform[z]
+		z_inserts += "([z_insert_index],[z_level.new_index],[z_level.dynamic],'[z_level.default_turf]','[z_level.metadata]')"
+		z_insert_index++
+	var/DBQuery/query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_Z_LEVELS]` (`id`,`z`,`dynamic`,`default_turf`,`metadata`) VALUES[jointext(z_inserts, ",")]")
+	SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "Z_LEVEL SERIALIZATION FAILED:")
+	return TRUE
+
+/serializer/sql/count_saved_datums()
+	if(!establish_save_db_connection())
+		CRASH("Couldn't count saved datums, connection failed!")
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT COUNT(*) FROM `[SQLS_TABLE_DATUM]`;")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "COUNT SAVED DATUMS FAILED:")
+	if(query.NextRow())
+		return text2num(query.item[1])
+
