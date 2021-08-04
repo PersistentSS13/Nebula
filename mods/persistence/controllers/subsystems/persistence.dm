@@ -101,7 +101,7 @@
 
 		report_progress("Preparing z-levels for save..")
 		sleep(5)
-		var/time_start_zprepare= REALTIMEOFDAY
+		var/time_start_zprepare = REALTIMEOFDAY
 		// This will prepare z_level translations.
 		var/list/z_transform = list()
 		var/new_z_index = 1
@@ -176,7 +176,7 @@
 
 		report_progress("Saving z-level turfs..")
 		sleep(5)
-		var/time_start_zsave= REALTIMEOFDAY
+		var/time_start_zsave = REALTIMEOFDAY
 		// This will save all the turfs/world.
 		var/index = 1
 		for(var/z in saved_levels)
@@ -216,7 +216,7 @@
 
 		report_progress("Saving z-level areas..")
 		sleep(5)
-		var/time_start_zarea= REALTIMEOFDAY
+		var/time_start_zarea = REALTIMEOFDAY
 		// Repeat much of the above code in order to save areas marked to be saved that are not in a saved z-level.
 		for(var/area/A in saved_areas)
 			for(var/turf/T in A)
@@ -403,7 +403,7 @@
 	return one_off.RemoveFromLimbo(limbo_key, limbo_type)
 
 /datum/controller/subsystem/persistence/proc/DeserializeOneOff(var/limbo_key, var/limbo_type, var/remove_after = TRUE)
-	return one_off.RemoveFromLimbo(limbo_key, limbo_type, remove_after)
+	return one_off.DeserializeOneOff(limbo_key, limbo_type, remove_after)
 
 /datum/controller/subsystem/persistence/proc/print_db_status()
 	return SQLS_Print_DB_STATUS()
