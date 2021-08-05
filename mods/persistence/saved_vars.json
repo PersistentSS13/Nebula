@@ -4466,5 +4466,13 @@
 			"chemical",
 			"blood_data"
 		]
+	},
+	{
+		"path":"/obj/machinery/recycler",
+		"vars":[
+			"bloodied",
+			"eat_dir",
+			"stored_material"
+		]
 	}
 ]

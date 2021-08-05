@@ -1,0 +1,1 @@
+var/global/const/MACHINE_FREQ = 1202
