@@ -520,9 +520,9 @@
 		where_list.Add("'[p_id]'")
 		var/new_ref = sanitizeSQL(ref_updates[p_id])
 		case_list.Add("WHEN `p_id` = '[p_id]' THEN '[new_ref]'")
-
-	query = dbcon_save.NewQuery("UPDATE `[SQLS_TABLE_DATUM]` SET `ref` = CASE [jointext(case_list, " ")] END WHERE `p_id` IN ([jointext(where_list, ", ")])")
-	SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "REFERENCE UPDATE FAILED:")
+	if(length(where_list) && length(case_list))
+		query = dbcon_save.NewQuery("UPDATE `[SQLS_TABLE_DATUM]` SET `ref` = CASE [jointext(case_list, " ")] END WHERE `p_id` IN ([jointext(where_list, ", ")])")
+		SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "REFERENCE UPDATE FAILED:")
 
 	ref_updates.Cut()
 	inserts_since_ref_update = 0
