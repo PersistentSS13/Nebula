@@ -8,7 +8,7 @@
 	name = "dust pile"
 	singular_name = "dust pile"
 	plural_name = "dust pile"
-	icon = 'icon/obj/materials.dmi'
+	icon = 'mods/persistence/icons/obj/materials.dmi'
 	icon_state = "dust"
 	plural_icon_state = "dust-mult"
 	max_icon_state = "dust-max"

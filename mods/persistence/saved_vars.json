@@ -4317,5 +4317,13 @@
 			"set_temperature",
 			"power_setting"
 		]
+	},
+	{
+		"path":"/obj/machinery/recycler",
+		"vars":[
+			"bloodied",
+			"eat_dir",
+			"stored_material"
+		]
 	}
 ]
