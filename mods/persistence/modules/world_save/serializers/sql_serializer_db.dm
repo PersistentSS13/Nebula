@@ -8,6 +8,9 @@ var/global/DBConnection/dbcon_save
 		return setup_save_database_connection()
 	return global.dbcon_save.IsConnected()
 
+/proc/check_save_db_connection()
+	return global.dbcon_save && global.dbcon_save.IsConnected()
+
 /proc/close_save_db_connection()
 	if(global.dbcon_save && global.dbcon_save.IsConnected())
 		return global.dbcon_save.Disconnect()

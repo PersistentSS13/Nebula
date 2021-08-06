@@ -414,7 +414,7 @@
 	SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(delete_query, "LIMBO DELETION FROM LIMBO TABLE FAILED:")
 
 
-/serializer/sql/one_off/proc/DeserializeOneOff(var/limbo_key, var/limbo_type, var/remove_after = TRUE)
+/serializer/sql/one_off/proc/DeserializeOneOff(var/limbo_key, var/limbo_type)
 	// Hold off on initialization until everthing is finished loading.
 	var/DBQuery/limbo_query = dbcon_save.NewQuery("SELECT `p_id` FROM `[SQLS_TABLE_LIMBO]` WHERE `key` = '[limbo_key]' AND `type` = '[limbo_type]';")
 	SQLS_EXECUTE_AND_REPORT_ERROR(limbo_query, "DESERIALIZE ONE-OFF FAILED:")
@@ -436,7 +436,4 @@
 	SSatoms.InitializeAtoms()
 	CommitRefUpdates()
 	Clear()
-
-	if(remove_after)
-		RemoveFromLimbo(limbo_key, limbo_type)
 	return target

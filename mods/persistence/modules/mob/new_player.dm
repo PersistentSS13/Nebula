@@ -89,7 +89,7 @@
 	if(spawning)
 		return
 	for(var/datum/mind/target_mind in global.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
-		if(target_mind.key == key)
+		if(cmptext(target_mind.key, key))
 			if(!target_mind.current || istype(target_mind.current, /mob/new_player))
 				continue
 			transition_to_game()
