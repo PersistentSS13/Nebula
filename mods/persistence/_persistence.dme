@@ -148,6 +148,8 @@
 #include "modules\power\fuel_assembly\fuel_assembly.dm"
 #include "modules\power\fusion\fuel_injector.dm"
 #include "modules\reagents\Chemistry-Holder.dm"
+#include "modules\reagents\chems\chems.dm"
+#include "modules\reagents\chems\recipes.dm"
 #include "modules\science\_defines.dm"
 #include "modules\science\design_database_analyzer.dm"
 #include "modules\science\experimental_device.dm"
