@@ -3386,7 +3386,5 @@
 #include "maps\~mapsystem\maps_unit_testing.dm"
 #include "maps\~unit_tests\unit_testing.dm"
 #include "mods\_modpack.dm"
-#include "mods\persistence\modules\reagents\chems\chems.dm"
-#include "mods\persistence\modules\reagents\chems\recipes.dm"
 #include "~code\global_init.dm"
 // END_INCLUDE
