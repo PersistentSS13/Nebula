@@ -2,7 +2,7 @@
 	if(!establish_save_db_connection())
 		CRASH("Couldn't get DB status, connection failed!")
 
-	var/DBQuery/query = dbcon.NewQuery("SELECT `id`, `z`, `dynamic`, `default_turf` FROM `[SQLS_TABLE_Z_LEVELS]`")
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT `id`, `z`, `dynamic`, `default_turf` FROM `[SQLS_TABLE_Z_LEVELS]`")
 	query.Execute()
 
 	if(query.ErrorMsg())
@@ -14,13 +14,13 @@
 	while(query.NextRow())
 		to_chat(usr, "Z data: (ID: [query.item[1]], Z: [query.item[2]], Dynamic: [query.item[3]], Default Turf: [query.item[4]])")
 
-	query = dbcon.NewQuery("ANALYZE TABLE `list`, `[SQLS_TABLE_LIST_ELEM]`, `[SQLS_TABLE_DATUM]`, `[SQLS_TABLE_DATUM_VARS]`;")
+	query = dbcon_save.NewQuery("ANALYZE TABLE `list`, `[SQLS_TABLE_LIST_ELEM]`, `[SQLS_TABLE_DATUM]`, `[SQLS_TABLE_DATUM_VARS]`;")
 	query.Execute()
 	
 	if(query.ErrorMsg())
 		to_chat(usr, "Error: [query.ErrorMsg()]")
 
-	query = dbcon.NewQuery("SELECT `TABLE_NAME`, `TABLE_ROWS` FROM information_schema.tables WHERE `TABLE_NAME` IN ('[SQLS_TABLE_LIST_ELEM]', '[SQLS_TABLE_DATUM]', '[SQLS_TABLE_DATUM_VARS]')")
+	query = dbcon_save.NewQuery("SELECT `TABLE_NAME`, `TABLE_ROWS` FROM information_schema.tables WHERE `TABLE_NAME` IN ('[SQLS_TABLE_LIST_ELEM]', '[SQLS_TABLE_DATUM]', '[SQLS_TABLE_DATUM_VARS]')")
 	query.Execute()
 
 	if(query.ErrorMsg())
