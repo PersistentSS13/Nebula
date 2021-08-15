@@ -3,11 +3,14 @@
 
 /datum/controller/subsystem/mapping/Initialize(timeofday)
 	. = ..()
+#ifndef UNIT_TEST
+	var/save_exists = SSpersistence.SaveExists()
+#endif
 	// Load our maps dynamically.
 	for(var/z in global.using_map.default_levels)
 		var/map_file = global.using_map.default_levels[z]
 #ifndef UNIT_TEST
-		if(SSpersistence.SaveExists() && (text2num(z) in SSpersistence.saved_levels))
+		if(save_exists && (text2num(z) in SSpersistence.saved_levels))
 			// Load a default map instead.
 			INCREMENT_WORLD_Z_SIZE
 			continue

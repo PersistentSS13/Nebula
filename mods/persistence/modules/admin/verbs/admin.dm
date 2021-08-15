@@ -40,3 +40,12 @@
 	if(!check_rights(R_ADMIN))
 		return
 	SSpersistence.print_db_status()
+
+/client/proc/database_reconect()
+	set category = "Server"
+	set desc = "Force reconnect to the SQL save DB."
+	set name = "Database Force Reconnect"
+
+	if(!check_rights(R_ADMIN))
+		return
+	SQLS_Force_Reconnect()

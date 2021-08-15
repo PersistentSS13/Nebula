@@ -25,17 +25,16 @@
 #define SQLS_TABLE_LIMBO_DATUM_VARS 	"limbo_thing_var"
 #define SQLS_TABLE_LIMBO_LIST_ELEM		"limbo_list_element"
 
-var/global/_sqls_cached_error
 #define SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(QUERY, ERRORMSG)\
-	QUERY.Execute();\
-	_sqls_cached_error = QUERY.ErrorMsg();\
-	if(!QUERY.RowsAffected() || _sqls_cached_error){\
-		to_world_log(ERRORMSG + " '[_sqls_cached_error]'");\
+	if(!QUERY.Execute() || !QUERY.RowsAffected()){\
+		var/errormsg = ERRORMSG + " '[QUERY.ErrorMsg()]'"; \
+		to_world_log(errormsg);\
+		throw new /exception/sql_connection(errormsg, __FILE__, __LINE__); \
 	}
 
 #define SQLS_EXECUTE_AND_REPORT_ERROR(QUERY, ERRORMSG)\
-	QUERY.Execute();\
-	_sqls_cached_error = QUERY.ErrorMsg();\
-	if(_sqls_cached_error){\
-		to_world_log(ERRORMSG + " '[_sqls_cached_error]'");\
+	if(!QUERY.Execute()){\
+		var/errormsg = ERRORMSG + " '[QUERY.ErrorMsg()]'"; \
+		to_world_log(errormsg);\
+		throw new /exception/sql_connection(errormsg, __FILE__, __LINE__); \
 	}
