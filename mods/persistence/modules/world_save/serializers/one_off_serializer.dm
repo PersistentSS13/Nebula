@@ -271,12 +271,12 @@
 
 		if(length(var_inserts) > 0)
 			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIMBO_DATUM_VARS]`(`thing_id`,`key`,`type`,`value`,`limbo_assoc`) VALUES[jointext(var_inserts, ",")]")
-			SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "LIMBO VAR SERIALIZATION FAILED:")
+			SQLS_EXECUTE_AND_REPORT_ERROR(query, "LIMBO VAR SERIALIZATION FAILED:")
 
 		if(length(element_inserts) > 0) 
 			tot_element_inserts += length(element_inserts)
 			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIMBO_LIST_ELEM]`(`list_id`,`key`,`key_type`,`value`,`value_type`,`limbo_assoc`) VALUES[jointext(element_inserts, ",")]")
-			SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "LIMBO ELEMENT SERIALIZATION FAILED:")
+			SQLS_EXECUTE_AND_REPORT_ERROR(query, "LIMBO ELEMENT SERIALIZATION FAILED:")
 
 	catch (var/exception/e)
 		if(istype(e, /exception/sql_connection))
@@ -389,7 +389,7 @@
 	// Insert into the limbo table, a metadata holder that allows for access to the limbo_assoc key by 'type' and 'key'.
 	var/DBQuery/insert_query
 	insert_query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIMBO]` (`key`,`type`,`p_id`,`metadata`,`limbo_assoc`) VALUES('[key]', '[limbo_type]', '[thing.persistent_id]', '[metadata]', '[limbo_assoc]')")
-	SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(insert_query, "LIMBO ADDITION FAILED:")
+	SQLS_EXECUTE_AND_REPORT_ERROR(insert_query, "LIMBO ADDITION FAILED:")
 	
 	update_indices()
 	SerializeDatum(thing, null, limbo_assoc)
@@ -410,16 +410,16 @@
 		return // The object wasn't in limbo to begin with.
 	var/DBQuery/delete_query
 	delete_query = dbcon_save.NewQuery("DELETE FROM `[SQLS_TABLE_LIMBO_DATUM]` WHERE `limbo_assoc` = '[limbo_assoc]';")
-	SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(delete_query, "LIMBO DELETION OF THING(S) FAILED:")
+	SQLS_EXECUTE_AND_REPORT_ERROR(delete_query, "LIMBO DELETION OF THING(S) FAILED:")
 
 	delete_query = dbcon_save.NewQuery("DELETE FROM `[SQLS_TABLE_LIMBO_DATUM_VARS]` WHERE `limbo_assoc` = '[limbo_assoc]';")
-	SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(delete_query, "LIMBO DELETION OF VAR(S) FAILED:")
+	SQLS_EXECUTE_AND_REPORT_ERROR(delete_query, "LIMBO DELETION OF VAR(S) FAILED:")
 
 	delete_query = dbcon_save.NewQuery("DELETE FROM `[SQLS_TABLE_LIMBO_LIST_ELEM]` WHERE `limbo_assoc` = '[limbo_assoc]';")
-	SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(delete_query, "LIMBO DELETION OF LIST ELEMENT(S) FAILED:")
+	SQLS_EXECUTE_AND_REPORT_ERROR(delete_query, "LIMBO DELETION OF LIST ELEMENT(S) FAILED:")
 
 	delete_query = dbcon_save.NewQuery("DELETE FROM `[SQLS_TABLE_LIMBO]` WHERE `limbo_assoc` = '[limbo_assoc]';")
-	SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(delete_query, "LIMBO DELETION FROM LIMBO TABLE FAILED:")
+	SQLS_EXECUTE_AND_REPORT_ERROR(delete_query, "LIMBO DELETION FROM LIMBO TABLE FAILED:")
 
 
 /serializer/sql/one_off/proc/DeserializeOneOff(var/limbo_key, var/limbo_type)

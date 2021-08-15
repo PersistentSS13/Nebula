@@ -498,11 +498,11 @@
 			SQLS_EXECUTE_AND_REPORT_ERROR(query, "THING SERIALIZATION FAILED:")
 		if(length(var_inserts) > 0)
 			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM_VARS]`(`thing_id`,`key`,`type`,`value`) VALUES[jointext(var_inserts, ",")]")
-			SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "VAR SERIALIZATION FAILED:")
+			SQLS_EXECUTE_AND_REPORT_ERROR(query, "VAR SERIALIZATION FAILED:")
 		if(length(element_inserts) > 0) 
 			tot_element_inserts += length(element_inserts)
 			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIST_ELEM]`(`list_id`,`key`,`key_type`,`value`,`value_type`) VALUES[jointext(element_inserts, ",")]")
-			SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "ELEMENT SERIALIZATION FAILED:")
+			SQLS_EXECUTE_AND_REPORT_ERROR(query, "ELEMENT SERIALIZATION FAILED:")
 	catch (var/exception/e)
 		if(istype(e, /exception/sql_connection))
 			last_except = e //Throw it after we clean up
@@ -570,7 +570,7 @@
 		z_inserts += "([z_insert_index],[z_level.new_index],[z_level.dynamic],'[z_level.default_turf]','[z_level.metadata]')"
 		z_insert_index++
 	var/DBQuery/query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_Z_LEVELS]` (`id`,`z`,`dynamic`,`default_turf`,`metadata`) VALUES[jointext(z_inserts, ",")]")
-	SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "Z_LEVEL SERIALIZATION FAILED:")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "Z_LEVEL SERIALIZATION FAILED:")
 	return TRUE
 
 /serializer/sql/count_saved_datums()
