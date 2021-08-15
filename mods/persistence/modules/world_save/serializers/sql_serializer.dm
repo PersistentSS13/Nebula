@@ -1,29 +1,34 @@
+/proc/SQLS_Force_Reconnect()
+	setup_save_database_connection()
+	to_chat(usr, "Forced db connection to be reconnected!")
+	if(!check_save_db_connection())
+		to_chat(usr, SPAN_WARNING("Reconnect failed.."))
+	else
+		to_chat(usr, "Reconnect successful")
+	to_chat(usr, "Running test query SELECT DATABASE();")
+
+	var/DBQuery/dbq = global.dbcon_save.NewQuery("SELECT DATABASE();")
+	if(dbq.Execute() && dbq.NextRow())
+		to_chat(usr, "Test query returned: '[dbq.item[1]]'!") 
+	else 
+		to_chat(usr, SPAN_WARNING("Failed with error: '[dbcon_save.ErrorMsg()]'"))
+
 /proc/SQLS_Print_DB_STATUS()
 	if(!establish_save_db_connection())
-		CRASH("Couldn't get DB status, connection failed!")
+		to_chat(usr, "Couldn't get DB status, connection failed: [dbcon_save.ErrorMsg()]")
+		return
 
 	var/DBQuery/query = dbcon_save.NewQuery("SELECT `id`, `z`, `dynamic`, `default_turf` FROM `[SQLS_TABLE_Z_LEVELS]`")
-	query.Execute()
-
-	if(query.ErrorMsg())
+	if(!query.Execute())
 		to_chat(usr, "Error: [query.ErrorMsg()]")
-
 	if(!query.RowCount())
 		to_chat(usr, "No Z data...")
 
 	while(query.NextRow())
 		to_chat(usr, "Z data: (ID: [query.item[1]], Z: [query.item[2]], Dynamic: [query.item[3]], Default Turf: [query.item[4]])")
 
-	query = dbcon_save.NewQuery("ANALYZE TABLE `list`, `[SQLS_TABLE_LIST_ELEM]`, `[SQLS_TABLE_DATUM]`, `[SQLS_TABLE_DATUM_VARS]`;")
-	query.Execute()
-	
-	if(query.ErrorMsg())
-		to_chat(usr, "Error: [query.ErrorMsg()]")
-
 	query = dbcon_save.NewQuery("SELECT `TABLE_NAME`, `TABLE_ROWS` FROM information_schema.tables WHERE `TABLE_NAME` IN ('[SQLS_TABLE_LIST_ELEM]', '[SQLS_TABLE_DATUM]', '[SQLS_TABLE_DATUM_VARS]')")
-	query.Execute()
-
-	if(query.ErrorMsg())
+	if(!query.Execute())
 		to_chat(usr, "Error: [query.ErrorMsg()]")
 		return
 
@@ -486,10 +491,11 @@
 		CRASH("SQL Serializer: Failed to connect to db!")
 
 	var/DBQuery/query
+	var/exception/last_except
 	try
 		if(length(thing_inserts) > 0)
 			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM]`(`p_id`,`type`,`x`,`y`,`z`,`ref`) VALUES[jointext(thing_inserts, ",")] ON DUPLICATE KEY UPDATE `p_id` = `p_id`")
-			SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "THING SERIALIZATION FAILED:")
+			SQLS_EXECUTE_AND_REPORT_ERROR(query, "THING SERIALIZATION FAILED:")
 		if(length(var_inserts) > 0)
 			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM_VARS]`(`thing_id`,`key`,`type`,`value`) VALUES[jointext(var_inserts, ",")]")
 			SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "VAR SERIALIZATION FAILED:")
@@ -498,13 +504,20 @@
 			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIST_ELEM]`(`list_id`,`key`,`key_type`,`value`,`value_type`) VALUES[jointext(element_inserts, ",")]")
 			SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "ELEMENT SERIALIZATION FAILED:")
 	catch (var/exception/e)
-		to_world_log("World Serializer Failed")
-		to_world_log(e)
+		if(istype(e, /exception/sql_connection))
+			last_except = e //Throw it after we clean up
+		else
+			to_world_log("World Serializer Failed")
+			to_world_log(e)
 
 	thing_inserts.Cut(1)
 	var_inserts.Cut(1)
 	element_inserts.Cut(1)
 	inserts_since_commit = 0
+
+	//Throw after we cleanup
+	if(last_except)
+		throw last_except
 
 /serializer/sql/proc/CommitRefUpdates()
 	if(!establish_save_db_connection())
@@ -522,7 +535,7 @@
 		case_list.Add("WHEN `p_id` = '[p_id]' THEN '[new_ref]'")
 	if(length(where_list) && length(case_list))
 		query = dbcon_save.NewQuery("UPDATE `[SQLS_TABLE_DATUM]` SET `ref` = CASE [jointext(case_list, " ")] END WHERE `p_id` IN ([jointext(where_list, ", ")])")
-		SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "REFERENCE UPDATE FAILED:")
+		SQLS_EXECUTE_AND_REPORT_ERROR(query, "REFERENCE UPDATE FAILED:")
 
 	ref_updates.Cut()
 	inserts_since_ref_update = 0

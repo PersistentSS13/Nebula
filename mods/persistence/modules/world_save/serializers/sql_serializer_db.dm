@@ -1,15 +1,27 @@
 /*
 	A separate db connection for saving that is more thoroughly checked than the default connection.
 */
+//Exception type for sql connection errors specifically
+/exception/sql_connection
+
 var/global/DBConnection/dbcon_save
 
 /proc/establish_save_db_connection()
-	if(!global.dbcon_save || !global.dbcon_save.IsConnected())
+	if(!check_save_db_connection())
 		return setup_save_database_connection()
-	return global.dbcon_save.IsConnected()
+	return check_save_db_connection()
 
 /proc/check_save_db_connection()
 	return global.dbcon_save && global.dbcon_save.IsConnected()
+	// if(!global.dbcon_save || !global.dbcon_save.IsConnected())
+	// 	return FALSE
+	// var/DBQuery/dbq = global.dbcon_save.NewQuery("SELECT DATABASE();")
+	// . = dbq.Execute()
+	// if(!.)
+	// 	to_world_log("check_save_db_connection: failed after execution : '[dbq.ErrorMsg()]'")
+	// 	return FALSE
+	// if(dbq.NextRow())
+	// 	to_world_log("check_save_db_connection: Test query returned '[dbq.item[1]]'")
 
 /proc/close_save_db_connection()
 	if(global.dbcon_save && global.dbcon_save.IsConnected())
@@ -17,11 +29,11 @@ var/global/DBConnection/dbcon_save
 	return !global.dbcon_save || !global.dbcon_save.IsConnected()
 
 /proc/setup_save_database_connection()
-	if(!global.dbcon_save)
-		global.dbcon_save = new()
-
+	if(global.dbcon_save)
+		QDEL_NULL(global.dbcon_save)
+	global.dbcon_save = new()
 	global.dbcon_save.Connect("dbi:mysql:[sqldb]:[sqladdress]:[sqlport]","[sqllogin]","[sqlpass]")
-	. = global.dbcon_save.IsConnected()
+	. = check_save_db_connection()
 	if(.)
 		// Setting encoding and comparison (4-byte UTF-8) for the DB server ~bear1ake
 		var/DBQuery/unicode_query = global.dbcon_save.NewQuery("SET NAMES utf8mb4 COLLATE utf8mb4_general_ci")

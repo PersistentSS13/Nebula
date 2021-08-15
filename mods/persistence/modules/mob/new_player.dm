@@ -100,8 +100,7 @@
 			return
 	// Query for the character associated with this ckey
 	var/DBQuery/char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]'")
-	char_query.Execute()
-	if(char_query.ErrorMsg())
+	if(!char_query.Execute())
 		to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
 	if(char_query.NextRow())
 		var/list/char_items = char_query.GetRowData()

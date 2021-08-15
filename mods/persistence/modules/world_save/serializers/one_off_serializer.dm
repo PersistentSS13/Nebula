@@ -263,10 +263,11 @@
 		CRASH("One-Off Serializer: Couldn't establish DB connection!")
 
 	var/DBQuery/query
+	var/exception/last_except
 	try
 		if(length(thing_inserts) > 0)
 			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIMBO_DATUM]`(`p_id`,`type`,`x`,`y`,`z`,`limbo_assoc`) VALUES[jointext(thing_inserts, ",")] ON DUPLICATE KEY UPDATE `p_id` = `p_id`")
-			SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "LIMBO THING SERIALIZATION FAILED:")
+			SQLS_EXECUTE_AND_REPORT_ERROR(query, "LIMBO THING SERIALIZATION FAILED:")
 
 		if(length(var_inserts) > 0)
 			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIMBO_DATUM_VARS]`(`thing_id`,`key`,`type`,`value`,`limbo_assoc`) VALUES[jointext(var_inserts, ",")]")
@@ -278,13 +279,20 @@
 			SQLS_EXECUTE_ROWCHANGE_AND_REPORT_ERROR(query, "LIMBO ELEMENT SERIALIZATION FAILED:")
 
 	catch (var/exception/e)
-		to_world_log("Limbo Serializer Failed")
-		to_world_log(e)
+		if(istype(e, /exception/sql_connection))
+			last_except = e //Throw it after we clean up
+		else
+			to_world_log("Limbo Serializer Failed")
+			to_world_log(e)
 
 	thing_inserts.Cut(1)
 	var_inserts.Cut(1)
 	element_inserts.Cut(1)
 	inserts_since_commit = 0
+
+	//Throw after we cleanup
+	if(last_except)
+		throw last_except
 
 // Update the indices since we can't be certain what the next ID is across saves.
 // TODO: Replace list indices in general with persistent ID analogues
