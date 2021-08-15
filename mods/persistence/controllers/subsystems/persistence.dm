@@ -192,6 +192,8 @@
 		var/time_start_zsave = REALTIMEOFDAY
 		// This will save all the turfs/world.
 		var/index = 1
+		var/progress = 0
+		var/max_progress = length(saved_levels)
 		for(var/z in saved_levels)
 			var/default_turf = get_base_turf(z)
 			for(var/x in 1 to world.maxx)
@@ -222,6 +224,9 @@
 
 			serializer.Commit() // cleanup leftovers.
 			serializer.CommitRefUpdates()
+			++progress
+			report_progress("Working.. [(progress * 100) / max_progress]%")
+			sleep(3)
 
 		index = 1
 		report_progress("Z-levels turfs saved in [(REALTIMEOFDAY - time_start_zsave) / (1 SECOND)]s.")
