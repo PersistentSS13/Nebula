@@ -1,5 +1,5 @@
 // large amount of fields creates a heavy load on the server, see updateinfolinks() and addtofield()
-#define MAX_FIELDS 50
+#define MAX_FIELDS 75
 
 /*
  * Paper
