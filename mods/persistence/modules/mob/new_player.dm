@@ -89,7 +89,7 @@
 	if(spawning)
 		return
 	for(var/datum/mind/target_mind in global.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
-		if(target_mind.key == key)
+		if(cmptext(target_mind.key, key))
 			if(!target_mind.current || istype(target_mind.current, /mob/new_player))
 				continue
 			transition_to_game()
@@ -100,8 +100,7 @@
 			return
 	// Query for the character associated with this ckey
 	var/DBQuery/char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]'")
-	char_query.Execute()
-	if(char_query.ErrorMsg())
+	if(!char_query.Execute())
 		to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
 	if(char_query.NextRow())
 		var/list/char_items = char_query.GetRowData()

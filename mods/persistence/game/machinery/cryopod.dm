@@ -75,6 +75,7 @@
 
 // Players shoved into this will be removed from the game and added to limbo to be deserialized later.
 /obj/machinery/cryopod/despawner
+	name = "experimental cryopod"
 	time_till_despawn = 20
 
 /obj/machinery/cryopod/despawner/Process()

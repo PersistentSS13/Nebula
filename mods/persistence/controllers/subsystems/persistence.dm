@@ -12,6 +12,8 @@
 
 	var/serializer/sql/serializer = new() // The serializer impl for actually saving.
 	var/serializer/sql/one_off/one_off	= new() // The serializer impl for one off serialization/deserialization.
+	
+	var/list/limbo_removals = list() // Objects which will be removed from limbo on the next save. Format is list(limbo_key, limbo_type)
 
 	var/loading_world = FALSE
 
@@ -70,9 +72,20 @@
 		report_progress("Invalidated in [(REALTIMEOFDAY - time_start_airzones) / (1 SECOND)]s")
 		sleep(5)
 		
+		report_progress("Removing queued limbo objects..")
+		sleep(5)
+
+		var/time_start_limbo_removal = REALTIMEOFDAY
+		for(var/list/queued in limbo_removals)
+			one_off.RemoveFromLimbo(queued[1], queued[2])
+			limbo_removals -= queued
+
+		report_progress("Done removing queued limbo objects in [(REALTIMEOFDAY - time_start_limbo_removal) / (1 SECOND)]s.")
+		sleep(5)
+
 		report_progress("Adding limbo players minds to limbo..")
 		sleep(5)
-		var/time_start_limbo = REALTIMEOFDAY
+		var/time_start_limbo_minds = REALTIMEOFDAY
 		// Find all the minds gameworld and add any player characters to the limbo list.
 		for(var/datum/mind/char_mind in global.player_minds)
 			var/mob/current_mob = char_mind.current
@@ -84,7 +97,7 @@
 			if(!QDELETED(current_mob) && ((current_mob.z in SSpersistence.saved_levels) || (get_area(current_mob) in SSpersistence.saved_areas)))
 				continue
 			one_off.AddToLimbo(char_mind, char_mind.unique_id, LIMBO_MIND, char_mind.persistent_id, char_mind.key, FALSE)
-		report_progress("Done adding player minds to limbo in [(REALTIMEOFDAY - time_start_limbo) / (1 SECOND)]s.")
+		report_progress("Done adding player minds to limbo in [(REALTIMEOFDAY - time_start_limbo_minds) / (1 SECOND)]s.")
 		sleep(5)
 
 		report_progress("Wiping previous save..")
@@ -179,6 +192,8 @@
 		var/time_start_zsave = REALTIMEOFDAY
 		// This will save all the turfs/world.
 		var/index = 1
+		var/progress = 0
+		var/max_progress = length(saved_levels)
 		for(var/z in saved_levels)
 			var/default_turf = get_base_turf(z)
 			for(var/x in 1 to world.maxx)
@@ -209,6 +224,9 @@
 
 			serializer.Commit() // cleanup leftovers.
 			serializer.CommitRefUpdates()
+			++progress
+			report_progress("Working.. [(progress * 100) / max_progress]%")
+			sleep(3)
 
 		index = 1
 		report_progress("Z-levels turfs saved in [(REALTIMEOFDAY - time_start_zsave) / (1 SECOND)]s.")
@@ -352,6 +370,13 @@
 		serializer.CommitRefUpdates() // Clean up any leftovers.
 		serializer.Clear()
 
+		// Clean up limbo by removing any characters present in the gameworld. This may occur if the server does not save after
+		// a player enters limbo.
+
+		// TODO: Generalize this for other things in limbo.
+		for(var/datum/mind/char_mind in global.player_minds)
+			one_off.RemoveFromLimbo(char_mind.unique_id, LIMBO_MIND)
+
 		// Tell the atoms subsystem to not populate parts.
 		//if(turfs_loaded)
 			//SSatoms.adjust_init_arguments = TRUE
@@ -397,13 +422,38 @@
 	return
 
 /datum/controller/subsystem/persistence/proc/AddToLimbo(var/datum/thing, var/key, var/limbo_type, var/metadata, var/modify = TRUE)
-	return one_off.AddToLimbo(thing, key, limbo_type, metadata, modify)
+	var/new_db_connection = FALSE
+	if(!check_save_db_connection())
+		if(!establish_save_db_connection())
+			CRASH("SSPersistence: Couldn't establish DB connection during Limbo Addition!")
+			return
+		new_db_connection = TRUE
+	. = one_off.AddToLimbo(thing, key, limbo_type, metadata, modify)
+	if(new_db_connection)
+		close_save_db_connection()
 
 /datum/controller/subsystem/persistence/proc/RemoveFromLimbo(var/limbo_key, var/limbo_type)
-	return one_off.RemoveFromLimbo(limbo_key, limbo_type)
+	var/new_db_connection = FALSE
+	if(!check_save_db_connection())
+		if(!establish_save_db_connection())
+			CRASH("SSPersistence: Couldn't establish DB connection during Limbo Removal!")
+			return
+	. = one_off.RemoveFromLimbo(limbo_key, limbo_type)
+	if(new_db_connection)
+		close_save_db_connection()
 
 /datum/controller/subsystem/persistence/proc/DeserializeOneOff(var/limbo_key, var/limbo_type, var/remove_after = TRUE)
-	return one_off.DeserializeOneOff(limbo_key, limbo_type, remove_after)
+	var/new_db_connection = FALSE
+	if(!check_save_db_connection())
+		if(!establish_save_db_connection())
+			CRASH("SSPersistence: Couldn't establish DB connection during Limbo Deserialization!")
+			return
+		new_db_connection = TRUE
+	. = one_off.DeserializeOneOff(limbo_key, limbo_type, remove_after)
+	if(remove_after)
+		limbo_removals += list(list(limbo_key, limbo_type))
+	if(new_db_connection)
+		close_save_db_connection()
 
 /datum/controller/subsystem/persistence/proc/print_db_status()
 	return SQLS_Print_DB_STATUS()
