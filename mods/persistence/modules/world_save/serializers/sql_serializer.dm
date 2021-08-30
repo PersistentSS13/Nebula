@@ -101,7 +101,7 @@
 /serializer/sql/SerializeDatum(var/datum/object, var/object_parent)
 	// Check for existing references first. If we've already saved
 	// there's no reason to save again.
-	if(isnull(object) || !object.should_save)
+	if(isnull(object) || !object.should_save())
 		return
 
 	if(isnull(global.saved_vars[object.type]))
@@ -144,6 +144,7 @@
 
 	for(var/V in object.get_saved_vars())
 		if(!issaved(object.vars[V]))
+			to_world_log("BAD SAVED VARIABLE : '[object.type]' cannot have its '[V]' variable saved, since its marked as not saved!")
 			continue
 		var/VV = object.vars[V]
 		var/VT = SERIALIZER_TYPE_VAR
@@ -360,6 +361,8 @@
 #ifdef SAVE_DEBUG
 	var/list/deserialized_vars = list()
 #endif
+	if(!thing)
+		to_world_log("DeserializeDatum(): Got a null thing!")
 
 	// Checking for existing items.
 	var/datum/existing = reverse_map["[thing.p_id]"]
@@ -372,8 +375,11 @@
 		if (!T)
 			to_world_log("Attempting to deserialize onto turf [thing.x],[thing.y],[thing.z] failed. Could not locate turf.")
 			return
-		T.ChangeTurf(thing.thing_type)
-		existing = T
+		//T.ChangeTurf(thing.thing_type) //You really don't want to run this before the other SS are initialized!!!!!!!!!
+		//Its referencing SS AO, SS Lighting, various observer events, etc...
+		T.changing_turf = TRUE
+		qdel(T)
+		existing = new thing.thing_type(T)
 	else
 		// default creation
 		existing = new thing.thing_type()
@@ -386,31 +392,35 @@
 		deserialized_vars.Add("[TV.key]:[TV.var_type]")
 #endif
 		try
-			switch(TV.var_type)
-				if(SERIALIZER_TYPE_NUM)
-					existing.vars[TV.key] = text2num(TV.value)
-				if(SERIALIZER_TYPE_TEXT)
-					TV.value = utf82byond(TV.value)
-					existing.vars[TV.key] = TV.value
-				if(SERIALIZER_TYPE_PATH)
-					existing.vars[TV.key] = text2path(TV.value)
-				if(SERIALIZER_TYPE_NULL)
-					existing.vars[TV.key] = null
-				if(SERIALIZER_TYPE_WRAPPER)
-					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(TV.value)
-					existing.vars[TV.key] = GD.on_deserialize()
-				if(SERIALIZER_TYPE_LIST)
-					// This was just an empty list.
-					if(TV.value == SERIALIZER_TYPE_LIST_EMPTY)
-						existing.vars[TV.key] = list()
-					else
-						existing.vars[TV.key] = QueryAndDeserializeList(TV.value)
-				if(SERIALIZER_TYPE_DATUM)
-					existing.vars[TV.key] = QueryAndDeserializeDatum(TV.value, TV.key in global.reference_only_vars)
-				if(SERIALIZER_TYPE_DATUM_FLAT)
-					existing.vars[TV.key] = flattener.QueryAndDeserializeDatum(TV.value)
-				if(SERIALIZER_TYPE_FILE)
-					existing.vars[TV.key] = file(TV.value)
+			if((TV.key in existing.vars))
+				switch(TV.var_type)
+					if(SERIALIZER_TYPE_NUM)
+						existing.vars[TV.key] = text2num(TV.value)
+					if(SERIALIZER_TYPE_TEXT)
+						TV.value = utf82byond(TV.value)
+						existing.vars[TV.key] = TV.value
+					if(SERIALIZER_TYPE_PATH)
+						existing.vars[TV.key] = text2path(TV.value)
+					if(SERIALIZER_TYPE_NULL)
+						existing.vars[TV.key] = null
+					if(SERIALIZER_TYPE_WRAPPER)
+						var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(TV.value)
+						existing.vars[TV.key] = GD.on_deserialize()
+					if(SERIALIZER_TYPE_LIST)
+						// This was just an empty list.
+						if(TV.value == SERIALIZER_TYPE_LIST_EMPTY)
+							existing.vars[TV.key] = list()
+						else
+							existing.vars[TV.key] = QueryAndDeserializeList(TV.value)
+					if(SERIALIZER_TYPE_DATUM)
+						existing.vars[TV.key] = QueryAndDeserializeDatum(TV.value, TV.key in global.reference_only_vars)
+					if(SERIALIZER_TYPE_DATUM_FLAT)
+						existing.vars[TV.key] = flattener.QueryAndDeserializeDatum(TV.value)
+					if(SERIALIZER_TYPE_FILE)
+						existing.vars[TV.key] = file(TV.value)
+			else 
+				log_warning("Saved var '[TV.key]' ignored since receiving object '[TV.var_type]' doesn't have this variable!")
+				continue
 		catch(var/exception/e)
 			to_world_log("Failed to deserialize '[TV.key]' of type '[TV.var_type]' on line [e.line] / file [e.file] for reason: '[e]'.")
 #ifdef SAVE_DEBUG
@@ -482,7 +492,7 @@
 					existing[key_value] = file(LE.value)
 
 		catch(var/exception/e)
-			to_world_log("Failed to deserialize list element [key_value] on line [e.line] / file [e.file] for reason: [e].")
+			to_world_log("Failed to deserialize list element [key_value] ([LE?.key_type] '[LE.value]') on line [e.line] / file [e.file] for reason: [e].")
 
 	return existing
 
@@ -579,5 +589,6 @@
 	var/DBQuery/query = dbcon_save.NewQuery("SELECT COUNT(*) FROM `[SQLS_TABLE_DATUM]`;")
 	SQLS_EXECUTE_AND_REPORT_ERROR(query, "COUNT SAVED DATUMS FAILED:")
 	if(query.NextRow())
+		testing("counted [query.item[1]] entrie(s) in [SQLS_TABLE_DATUM] table..")
 		return text2num(query.item[1])
 

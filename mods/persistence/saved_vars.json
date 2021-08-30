@@ -1,5 +1,11 @@
 [
 	{
+		"path":"/datum",
+		"vars":[
+			"custom_saved"
+		]
+	},
+	{
 		"path":"/datum/computer_file",
 		"vars":[
 			"holder",
@@ -260,7 +266,6 @@
 		"vars":[
 			"maxHealth",
 			"health",
-			"last_special",
 			"t_oxygen",
 			"t_sl_gas",
 			"t_n2",
@@ -273,19 +278,16 @@
 			"update_slimes",
 			"on_fire",
 			"fire_stacks",
-			"failed_last_breath",
 			"possession_candidate",
 			"eye_blind",
 			"eye_blurry",
 			"ear_damage",
 			"stuttering",
 			"slurring",
-			"last_resist",
 			"auras",
 			"job",
 			"maxHealth",
 			"health",
-			"last_special",
 			"meat_type",
 			"meat_amount",
 			"skin_material",
@@ -325,8 +327,7 @@
 	{
 		"path":"/mob/living/bot/secbot/ed209",
 		"vars":[
-			"shot_delay",
-			"last_shot"
+			"shot_delay"
 		]
 	},
 	{
@@ -356,7 +357,6 @@
 		"path":"/mob/living/bot/medbot",
 		"vars":[
 			"skin",
-			"last_newpatient_speak",
 			"vocal",
 			"reagent_glass",
 			"injection_amount",
@@ -404,21 +404,18 @@
 			"bloodstr",
 			"touching",
 			"losebreath",
-			"coughedtime",
-			"cpr_time",
-			"lastpuke",
 			"nutrition",
 			"hydration",
 			"internal",
-			"last_taste_time",
 			"last_taste_text",
 			"internal_organs",
 			"organs",
 			"organs_by_name",
 			"internal_organs_by_name",
-			"stasis_sources",
 			"stasis_value",
-			"player_triggered_sleeping"
+			"player_triggered_sleeping",
+			"default_language",
+			"species_language"
 		]
 	},
 	{
@@ -563,7 +560,6 @@
 			"bleed_ticks",
 			"can_bleed",
 			"in_stasis",
-			"time_last_used_ability",
 			"return_damage_min",
 			"return_damage_max"
 		]
@@ -812,6 +808,7 @@
 			"vital",
 			"owner",
 			"dna",
+			"ailments",
 			"damage",
 			"min_broken_damage",
 			"rejecting",
@@ -1953,7 +1950,13 @@
 	{
 		"path":"/turf/simulated",
 		"vars":[
-			"decals"
+			"wet",
+			"wet_overlay",
+			"to_be_destroyed",
+			"max_fire_temperature_sustained",
+			"dirt",
+			"decals",
+			"temperature"
 		]
 	},
 	{
@@ -1978,10 +1981,13 @@
 	{
 		"path":"/turf",
 		"vars":[
+			"turf_flags",
 			"level",
 			"holy",
 			"blocks_air",
 			"blessed",
+			"decals",
+			"flood_object",
 			"fluid_can_pass",
 			"flooded",
 			"footstep_type",
@@ -1992,14 +1998,14 @@
 			"pixel_y",
 			"dir",
 			"air",
-			"is_on_fire"
+			"is_on_fire",
+			"prev_type"
 		]
 	},
 	{
 		"path":"/mob",
 		"vars":[
 			"mob_flags",
-			"last_quick_move_time",
 			"mind",
 			"lastKnownIP",
 			"computer_id",
@@ -2478,13 +2484,9 @@
 		"vars":[
 			"burnt",
 			"broken",
-			"icon_state",
 			"flooring_override",
-			"flooring",
-			"initial_flooring",
 			"mineral",
-			"lava",
-			"icon"
+			"lava"
 		]
 	},
 	{
@@ -3047,13 +3049,6 @@
 	{
 		"path":"/mob/living/carbon/human",
 		"vars":[
-			"oxygen_alert",
-			"toxins_alert",
-			"co2_alert",
-			"fire_alert",
-			"pressure_alert",
-			"temperature_alert",
-			"heartbeat",
 			"stamina",
 			"hair_colour",
 			"h_style",
@@ -3085,8 +3080,6 @@
 			"s_store",
 			"voice",
 			"last_dam",
-			"bad_external_organs",
-			"xylophone",
 			"remoteview_target",
 			"hand_blood_color",
 			"flavor_texts",
@@ -3112,14 +3105,18 @@
 			"became_older",
 			"became_younger",
 			"descriptors",
-			"last_smelt",
 			"saved_ckey",
 			"home_spawn",
 			"stance_limbs",
 			"grasp_limbs",
 			"saved_species",
 			"saved_bodytype",
-			"vessel"
+			"vessel",
+			"embedded_flag",
+			"wearing_rig",
+			"appearance_descriptors",
+			"personal_aspects",
+			"pronouns"
 		]
 	},
 	{
@@ -3274,7 +3271,6 @@
 			"SA_para_min",
 			"SA_sleep_min",
 			"breathing",
-			"last_successful_breath",
 			"breath_fail_ratio"
 		]
 	},
@@ -3320,8 +3316,7 @@
 		"path":"/obj/item/organ/internal/stomach",
 		"vars":[
 			"stomach_capacity",
-			"ingested",
-			"next_cramp"
+			"ingested"
 		]
 	},
 	{
@@ -4316,6 +4311,24 @@
 		"vars":[
 			"set_temperature",
 			"power_setting"
+		]
+	},
+	{
+		"path":"/obj/effect/energy_net",
+		"vars":[
+			"health",
+			"countdown",
+			"captured"
+		]
+	},
+	{
+		"path":"/obj/effect/vine",
+		"vars":[
+			"health",
+			"parent",
+			"seed",
+			"plant",
+			"max_growth"
 		]
 	}
 ]
