@@ -398,6 +398,9 @@
 /datum/fabricator_recipe/imprinter/circuit/shipsensors
 	path = /obj/item/stock_parts/circuitboard/shipsensors
 
+/datum/fabricator_recipe/imprinter/circuit/nuclear_cylinder_storage
+	path = /obj/item/stock_parts/circuitboard/nuclear_cylinder_storage
+
 /datum/fabricator_recipe/imprinter/circuit/grinder
 	path = /obj/item/stock_parts/circuitboard/grinder
 
