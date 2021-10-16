@@ -120,7 +120,7 @@
 		return
 
 
-	switch(alert("Are you sure you want to join the game with the character you've created? This cannot be undone!",,"Yes","No"))
+	switch(alert("Are you sure you want to join the game with the character you've created? This cannot be undone!", "Character Creation","Yes","No"))
 		if("No")
 			return
 
