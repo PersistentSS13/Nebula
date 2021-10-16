@@ -8,6 +8,7 @@
 	data["network"] = device.network_tag
 	data["category"] =   show_category
 	data["functional"] = is_functioning()
+	data["filtering"] =  filter_string || "No filter set."
 
 	if(is_functioning())
 		data["color_selectable"] = color_selectable
@@ -65,6 +66,8 @@
 				recipe = BP.get_recipe()
 			else
 				recipe = design
+			if(filter_string && !findtextEx_char(lowertext(recipe.name), lowertext(filter_string)))
+				continue
 			if(!istype(recipe)) // Sanity check
 				continue
 			if(show_category != "All" && show_category != recipe.category || !(fabricator_class in recipe.fabricator_types))

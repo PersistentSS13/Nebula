@@ -51,3 +51,7 @@
 		return
 	else
 		..()
+
+// Disables engraving for wirecutters because agony
+/obj/item/wirecutters/can_engrave()
+	return FALSE

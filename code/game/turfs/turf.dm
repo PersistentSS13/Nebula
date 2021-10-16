@@ -25,6 +25,7 @@
 
 	var/list/decals
 
+	// Used for slowdown.
 	var/movement_delay
 
 	var/fluid_can_pass
@@ -115,6 +116,9 @@
 
 /turf/proc/is_solid_structure()
 	return 1
+
+/turf/proc/movement_delay()
+	return movement_delay
 
 /turf/attack_hand(mob/user)
 	user.setClickCooldown(DEFAULT_QUICK_COOLDOWN)
@@ -312,8 +316,7 @@ var/global/const/enterloopsanity = 100
 	return FALSE
 
 /turf/proc/try_graffiti(var/mob/vandal, var/obj/item/tool)
-
-	if(!tool.sharp || !can_engrave() || vandal.a_intent != I_HELP)
+	if(!tool.can_engrave() || !can_engrave() || vandal.a_intent != I_HELP)
 		return FALSE
 
 	if(jobban_isbanned(vandal, "Graffiti"))

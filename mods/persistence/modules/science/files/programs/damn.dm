@@ -50,7 +50,7 @@
 		var/list/choices = list()
 		for(var/T in file_sources)
 			var/datum/file_storage/FS = file_sources[T]
-			if(FS == current_filesource)
+			if(!FS || FS == current_filesource)
 				continue
 			choices[FS.name] = FS
 		var/file_source = input(usr, "Choose a storage medium to use:", "Select Storage Medium") as null|anything in choices

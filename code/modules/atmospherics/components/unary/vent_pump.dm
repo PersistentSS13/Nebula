@@ -310,7 +310,7 @@
 			return SPAN_WARNING("You cannot unwrench \the [src], turn it off first.")
 		var/turf/T = src.loc
 		var/hidden_pipe_check = FALSE
-		for(var/obj/machinery/atmospherics/node as anything in nodes_to_networks)
+		for(var/obj/machinery/atmospherics/node AS_ANYTHING in nodes_to_networks)
 			if(node.level)
 				hidden_pipe_check = TRUE
 				break
@@ -548,7 +548,7 @@
 	if(!sound_id)
 		sound_id = "[sequential_id("vent_z[z]")]"
 	if(can_pump())
-		sound_token = play_looping_sound(src, sound_id, 'sound/machines/vent_hum.ogg', 10, range = 7, falloff = 4)
+		sound_token = play_looping_sound(src, sound_id, 'sound/machines/vent_hum.ogg', 3, range = 7, falloff = 4)
 	else
 		QDEL_NULL(sound_token)
 

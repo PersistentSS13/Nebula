@@ -17,7 +17,10 @@
 			var/age_num = text2num(new_age)
 			if(isnum(age_num))
 				if(age_num < 18)
-					to_chat(user, SPAN_NOTICE("The console beeps: You must be over the mental age of eighteen to participate in the [global.using_map.station_name] program."))
+					to_chat(user, SPAN_NOTICE("The console beeps: You must be over the age of eighteen to participate in the [global.using_map.station_name] program."))
+					return
+				if(age_num > 120)
+					to_chat(user, SPAN_NOTICE("The console beeps: You must be under the age of one hundred twenty to participate in the [global.using_map.station_name] program."))
 					return
 				user.mind.age = age_num
 			else
@@ -34,7 +37,10 @@
 		// if("choose_background")
 		// 	active_section = "background"
 		if("submit")
-			if(user.mind.age < 16)
+			if(user.mind.age < 18)
+				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter an age to proceed."))
+				return
+			if(user.mind.age > 120)
 				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter an age to proceed."))
 				return
 			if(isnull(user.mind.origin))
@@ -118,6 +124,8 @@
 			if(!istype(S))
 				continue
 			fields["skills"] += S.name
+		if(D.remaining_points_offset != 0)
+			fields["skills"] += "Point offset: [D.remaining_points_offset >= 0 ? "+" : ""][D.remaining_points_offset]"
 		fields["skills"] = english_list(fields["skills"])
 
 		if(istype(D, /decl/hierarchy/chargen/origin))

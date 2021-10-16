@@ -6,7 +6,6 @@
 	var/list/components = list()
 	var/wired = FALSE
 	var/welded = FALSE
-	var/datum/computer_file/code_fragment
 	var/cables_required = 5
 	var/assembly_icon
 	var/experiment_id

@@ -12,6 +12,7 @@
 
 	#include "kleibkhar_access.dm"
 	#include "kleibkhar_areas.dm"
+	#include "kleibkhar_departments.dm"
 	#include "kleibkhar_jobs.dm"
 	#include "kleibkhar_exoplanet.dm"
 	#include "kleibkhar_unit_testing.dm"
