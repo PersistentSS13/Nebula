@@ -1,9 +1,5 @@
 /mob/living/carbon/human
 	var/obj/home_spawn		// The object we last safe-slept on. Used for moving characters to safe locations on loads.
-//#REMOVEME: Retro-compatibility vars
-	var/tmp/saved_species
-	var/tmp/saved_bodytype
-//END REMOVEME
 
 /mob/living/carbon/human/before_save()
 	. = ..()
@@ -30,13 +26,6 @@
 /mob/living/carbon/human/Initialize()
 	if(!persistent_id)
 		return ..()
-//#REMOVEME: Remove this code after the save is updated!!
-	LAZYINITLIST(custom_saved) 
-	if(saved_species)
-		custom_saved["saved_species"] = saved_species
-	if(saved_bodytype)
-		custom_saved["saved_bodytype"] = saved_bodytype
-//END REMOVEME
 	//We are going to "soft" init the specie first so nothing gets overwritten, but everything is initialized
 	set_species(LOAD_CUSTOM_SV("saved_species"), FALSE, TRUE, FALSE, TRUE)
 	set_bodytype(species.get_bodytype_by_name(LOAD_CUSTOM_SV("saved_bodytype")), FALSE)
