@@ -143,7 +143,7 @@
 	return TRUE
 
 /obj/machinery/asteroid_magnet/proc/get_asteroid()
-	var/obj/effect/overmap/visitable/curr_sector = map_sectors["[z]"]
+	var/obj/effect/overmap/visitable/curr_sector = global.overmap_sectors["[z]"]
 	if(!curr_sector)
 		return "Could not find orientation in space!"
 	if(!istype(curr_sector) || istype(curr_sector, /obj/effect/overmap/visitable/ship/landable))

@@ -28,25 +28,25 @@
 	return TRUE
 
 /datum/computer_file/data/blueprint/calculate_size()
-	var/size = ceil(max(1, efficiency + speed + power_efficiency - (instability / 100)) / compression)
+	var/size = CEILING(max(1, efficiency + speed + power_efficiency - (instability / 100)) / compression)
 	var/datum/fabricator_recipe/recipe = get_recipe()
 	if(!recipe)
 		return size
 	for(var/tech in recipe.required_technology)
 		size += recipe.required_technology[tech] / compression
-	return ceil(size) + (complexity ** 2 / compression)
+	return CEILING(size) + (complexity ** 2 / compression)
 
 /datum/computer_file/data/blueprint/proc/get_resources()
 	var/list/resources = list()
 	var/datum/fabricator_recipe/recipe = get_recipe()
 	var/list/building_cost = atom_info_repository.get_matter_for(recipe.path)
 	for(var/mat in building_cost)
-		resources[mat] = ceil(building_cost[mat] / efficiency)
+		resources[mat] = CEILING(building_cost[mat] / efficiency)
 	return resources
 
 /datum/computer_file/data/blueprint/proc/get_build_time()
 	var/datum/fabricator_recipe/recipe = get_recipe()
-	return ceil(recipe.build_time / speed)
+	return CEILING(recipe.build_time / speed)
 
 /datum/computer_file/data/blueprint/proc/generate_experiments(var/mob/user)
 	var/experiments_to_generate = max(0, user.get_skill_value(SKILL_SCIENCE) - length(experiments))

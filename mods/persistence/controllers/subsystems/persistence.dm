@@ -58,7 +58,7 @@
 		var/time_start_pipenet = REALTIMEOFDAY
 		for(var/datum/pipe_network/net in SSmachines.pipenets)
 			for(var/datum/pipeline/line in net.line_members)
-				line.temporarily_store_air()
+				line.temporarily_store_fluids()
 		report_progress("Pipenet air stored in [(REALTIMEOFDAY - time_start_pipenet) / (1 SECOND)]s")
 		sleep(5)
 
@@ -148,8 +148,8 @@
 				z_level.default_turf = get_base_turf(T.z)
 				z_level.index = T.z
 				z_level.dynamic = TRUE
-				if("[T.z]" in map_sectors)
-					var/obj/effect/overmap = map_sectors["[T.z]"]
+				if("[T.z]" in global.overmap_sectors)
+					var/obj/effect/overmap = global.overmap_sectors["[T.z]"]
 					z_level.metadata = "[overmap.x],[overmap.y]"
 				new_z_index++
 				z_level.new_index = new_z_index

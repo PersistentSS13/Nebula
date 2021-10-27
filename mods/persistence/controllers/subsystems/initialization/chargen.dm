@@ -19,8 +19,8 @@ SUBSYSTEM_DEF(chargen)
 		var/height = M.bounds[5]
 
 		report_progress("Created chargen away site at [M.bounds[3]].")
-		for(var/x in 1 to Floor(world.maxx / width))
-			for(var/y in 1 to Floor(world.maxy / height))
+		for(var/x in 1 to FLOOR(world.maxx / width))
+			for(var/y in 1 to FLOOR(world.maxy / height))
 				// We already loaded the first one at (1, 1) so skip it 
 				if(x == 1 && y == 1)
 					continue

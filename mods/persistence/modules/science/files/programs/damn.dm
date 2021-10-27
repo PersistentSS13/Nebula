@@ -22,7 +22,7 @@
 
 	var/list/possible_recipes = list() // Recipes to be chosen from the destructive analyzer to make a blueprint out of.
 
-/datum/computer_file/program/damn/on_startup(var/mob/living/user, var/datum/extension/interactive/ntos/new_host)
+/datum/computer_file/program/damn/on_startup(var/mob/living/user, var/datum/extension/interactive/os/new_host)
 	..()
 	for(var/T in file_sources)
 		file_sources[T] = new T(new_host)

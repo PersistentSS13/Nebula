@@ -15,6 +15,7 @@
 	#include "kleibkhar_departments.dm"
 	#include "kleibkhar_jobs.dm"
 	#include "kleibkhar_exoplanet.dm"
+	#include "kleibkhar_overmap.dm"
 	#include "kleibkhar_unit_testing.dm"
 
 	#define USING_MAP_DATUM /datum/map/kleibkhar

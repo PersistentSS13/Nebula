@@ -5,10 +5,9 @@
 	player_levels = list(1, 2, 3, 4)
 	saved_levels = list(3, 4)
 	mining_levels = list(1, 2)
-	sealed_levels = list(5)
 
 	// The overmap itself isn't saved, but it's rebuilt on the same level every time.
-	overmap_z = 5
+	overmap_ids = list(OVERMAP_ID_SPACE)
 	// Hotloading module
 	default_levels = list(
 		"1" = "maps/kleibkhar/kleibkhar-1.dmm",
@@ -32,9 +31,6 @@
 	player_levels = list(4, 5, 6, 7)
 	saved_levels = list(6, 7)
 	mining_levels = list(4, 5)
-	sealed_levels = list(8)
-
-	overmap_z = 8
 
 	default_levels = list(
 		"4" = "maps/kleibkhar/kleibkhar-1.dmm",
