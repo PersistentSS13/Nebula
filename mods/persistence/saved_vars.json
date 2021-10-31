@@ -1692,7 +1692,18 @@
 			"should_be_mapped",
 			"input_cut",
 			"output_cut",
-			"failure_timer"
+			"failure_timer",
+			"name_tag"
+		]
+	},
+	{
+		"path":"/obj/machinery/power/smes/buildable",
+		"vars":[
+			"safeties_enabled",
+			"failing",
+			"grounding",
+			"RCon",
+			"RCon_tag"
 		]
 	},
 	{
@@ -1775,7 +1786,9 @@
 			"anchored",
 			"initial_access",
 			"uncreated_component_parts",
-			"construct_state"
+			"construct_state",
+			"id_tag",
+			"component_parts"
 		]
 	},
 	{
@@ -3084,8 +3097,6 @@
 			"hand_blood_color",
 			"flavor_texts",
 			"pulling_punches",
-			"full_prosthetic",
-			"robolimb_count",
 			"last_attack",
 			"flash_protection",
 			"equipment_tint_total",

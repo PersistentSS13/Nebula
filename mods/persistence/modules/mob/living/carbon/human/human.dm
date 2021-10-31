@@ -26,28 +26,22 @@
 /mob/living/carbon/human/Initialize()
 	if(!persistent_id)
 		return ..()
-	//We are going to "soft" init the specie first so nothing gets overwritten, but everything is initialized
-	set_species(LOAD_CUSTOM_SV("saved_species"), FALSE, TRUE, FALSE, TRUE)
+	set_species(LOAD_CUSTOM_SV("saved_species"), FALSE)
 	set_bodytype(species.get_bodytype_by_name(LOAD_CUSTOM_SV("saved_bodytype")), FALSE)
 	. = ..()
 	LATE_INIT_IF_SAVED
 
 /decl/species/create_organs(var/mob/living/carbon/human/H)
+	//We don't want to delete the organs we loaded from the save
 	if(!H.persistent_id)
 		. = ..()
-	//We don't want to delete the organs we loaded from the save
+	
 	H.mob_size = mob_size
-	// for(var/obj/item/organ/O in (H.organs|H.internal_organs))
-	// 	O.owner = H
-	// 	post_organ_rejuvenate(O, H)
-	// H.sync_organ_dna()
 
 /mob/living/carbon/human/LateInitialize()
 	. = ..()
 	if(persistent_id)
 		set_move_intent(GET_DECL(LOAD_CUSTOM_SV("saved_move_intent")))
-		// languages.Cut()
-		// update_languages() //Force a language update here
 
 	for(var/obj/item/I in contents)
 		I.hud_layerise()
@@ -62,8 +56,7 @@
 	//Important to regen icons here, since we skipped on that before load!
 	regenerate_icons()
 
-	//Clear saved vars
-	//CLEAR_SV
+	CLEAR_SV //Clear saved vars
 
 // For granting cortical chat on character creation.
 /mob/living/carbon/human/update_languages()	

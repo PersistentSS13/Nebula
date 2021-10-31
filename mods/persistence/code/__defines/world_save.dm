@@ -14,16 +14,8 @@ else{src.custom_saved |= list(VARNAMES);}
 //Load saved var data
 #define LOAD_CUSTOM_SV(VARNAME) src.custom_saved?[VARNAME]
 
-//Deletes temporary saved vars data
-#define CLEAR_SV\ 
-	for(var/k in src.custom_saved){\
-		if(!istype(src.custom_saved[k], /datum)){\
-			continue;\
-		}\
-		if(islist(src.custom_saved[k])){ QDEL_NULL_LIST(src.custom_saved[k]); }\
-		else{ QDEL_NULL(src.custom_saved[k]); }\
-	};\
-	src.custom_saved = null;
+//Deletes temporary saved vars data (Has to be in one line or spacemandm gets mad)
+#define CLEAR_SV for(var/k in src.custom_saved){ if(!istype(src.custom_saved[k], /datum)){continue;}if(islist(src.custom_saved[k])){QDEL_NULL_LIST(src.custom_saved[k]);}else{QDEL_NULL(src.custom_saved[k]);}}; src.custom_saved = null;
 
 //Helper to place at the end of Initialize of saved objects to make sure they lateinit only if they don't get deleted during init and if they were saved!
 #define LATE_INIT_IF_SAVED \
