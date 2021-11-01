@@ -286,7 +286,8 @@
 	return
 
 /obj/item/storage/attack_ghost(mob/user)
-	if(user.client && user.client.holder)
+	var/mob/observer/ghost/G = user
+	if(G.client?.holder || G.antagHUD)
 		show_to(user)
 
 /obj/item/storage/proc/gather_all(var/turf/T, var/mob/user)
@@ -341,7 +342,7 @@
 	if(!istype(scooped))
 		return FALSE
 
-	if(!scooped.holder_type || scooped.buckled || scooped.pinned.len || scooped.mob_size > MOB_SIZE_SMALL || scooped != user || src.loc == scooped)
+	if(!scooped.holder_type || scooped.buckled || LAZYLEN(scooped.pinned) || scooped.mob_size > MOB_SIZE_SMALL || scooped != user || src.loc == scooped)
 		return FALSE
 
 	if(!do_after(user, 1 SECOND, src))

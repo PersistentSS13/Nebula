@@ -14,9 +14,6 @@
 	},
 /turf/simulated/floor/plating,
 /area/shuttle/escape)
-"dI" = (
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
 "eg" = (
 /turf/simulated/wall,
 /area/constructionsite)
@@ -40,7 +37,7 @@
 /turf/simulated/wall/r_wall,
 /area/space)
 "gO" = (
-/obj/structure/table/rack,
+/obj/structure/rack,
 /obj/item/stack/material/reinforced/mapped/plasteel/fifty,
 /obj/item/stack/material/ingot/mapped/copper/fifty,
 /obj/item/stack/material/sheet/mapped/steel/fifty,
@@ -87,7 +84,7 @@
 /turf/simulated/floor/plating,
 /area/shuttle/escape)
 "jB" = (
-/obj/structure/table/rack,
+/obj/structure/rack,
 /obj/item/gun/projectile/automatic/assault_rifle,
 /obj/item/gun/projectile/automatic/assault_rifle,
 /obj/item/gun/projectile/automatic/assault_rifle,
@@ -116,9 +113,10 @@
 	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/constructionsite)
-"mC" = (
-/turf/simulated/floor/tiled/steel_grid,
-/area/constructionsite)
+"oy" = (
+/obj/level_data/main_level,
+/turf/space,
+/area/space)
 "oZ" = (
 /obj/structure/cable,
 /obj/machinery/power/debug_items/infinite_generator,
@@ -149,7 +147,7 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/constructionsite)
 "se" = (
-/obj/structure/table/rack,
+/obj/structure/rack,
 /obj/item/gun/energy/laser,
 /obj/item/gun/energy/laser,
 /obj/item/gun/energy/laser,
@@ -176,7 +174,7 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/constructionsite)
 "tq" = (
-/obj/structure/table/rack,
+/obj/structure/rack,
 /obj/item/gun/projectile/revolver,
 /obj/item/gun/projectile/revolver,
 /obj/item/gun/projectile/revolver,
@@ -311,7 +309,7 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/constructionsite)
 "Nu" = (
-/obj/structure/table/rack,
+/obj/structure/rack,
 /obj/item/gun/projectile/shotgun/pump,
 /obj/item/gun/projectile/shotgun/pump,
 /obj/item/gun/projectile/shotgun/pump,
@@ -325,7 +323,6 @@
 /area/constructionsite)
 "Pw" = (
 /obj/structure/cable{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /obj/machinery/power/apc{
@@ -423,8 +420,6 @@
 /area/constructionsite)
 "ZF" = (
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/floor_decal/corner/orange{
@@ -604,7 +599,7 @@ Hk
 Hk
 Hk
 Hk
-Hk
+oy
 Hk
 Hk
 Hk
@@ -1098,14 +1093,14 @@ fU
 fU
 eg
 EO
-mC
-mC
-mC
-dI
-dI
-dI
-dI
-dI
+qJ
+qJ
+qJ
+qJ
+qJ
+qJ
+qJ
+qJ
 us
 us
 us
@@ -1132,12 +1127,12 @@ fU
 fU
 eg
 EO
-mC
-mC
-mC
+qJ
+qJ
+qJ
 vd
 WF
-dI
+qJ
 fT
 iM
 us
@@ -1166,14 +1161,14 @@ fU
 fU
 eg
 RW
-mC
-mC
-mC
-dI
+qJ
+qJ
+qJ
+qJ
 wB
-dI
+qJ
 wB
-dI
+qJ
 us
 us
 us
@@ -1205,12 +1200,12 @@ tE
 jV
 PA
 wB
-dI
+qJ
 wB
-dI
-dI
-dI
-dI
+qJ
+qJ
+qJ
+qJ
 Zi
 eg
 fU
@@ -1239,11 +1234,11 @@ Vt
 xF
 Sv
 wB
-dI
+qJ
 wB
-dI
-dI
-dI
+qJ
+qJ
+qJ
 gO
 Zi
 eg
@@ -1275,9 +1270,9 @@ Sv
 wB
 Bv
 wB
-dI
-dI
-dI
+qJ
+qJ
+qJ
 cS
 Zi
 eg
@@ -1307,11 +1302,11 @@ Vt
 Vt
 Sv
 wB
-dI
+qJ
 wB
-dI
-dI
-dI
+qJ
+qJ
+qJ
 ck
 Zi
 eg
@@ -1341,11 +1336,11 @@ Wr
 Wr
 jO
 wB
-dI
+qJ
 wB
-dI
-dI
-dI
+qJ
+qJ
+qJ
 jB
 Zi
 eg
@@ -1373,13 +1368,13 @@ RW
 qJ
 qJ
 qJ
-dI
+qJ
 wB
-dI
+qJ
 wB
-dI
-dI
-dI
+qJ
+qJ
+qJ
 tq
 ZW
 eg
@@ -1409,11 +1404,11 @@ qJ
 qJ
 vd
 Af
-dI
+qJ
 Yo
 iM
-dI
-dI
+qJ
+qJ
 se
 Zi
 eg
@@ -1443,11 +1438,11 @@ qJ
 qJ
 wj
 wB
-dI
+qJ
 wB
-dI
-dI
-dI
+qJ
+qJ
+qJ
 Nu
 Zi
 eg

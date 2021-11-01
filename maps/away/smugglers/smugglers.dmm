@@ -21,8 +21,7 @@
 /area/smugglers/base)
 "ag" = (
 /obj/machinery/door/airlock/external{
-	icon_state = "door_closed";
-	locked = 0
+	icon_state = "door_closed"
 	},
 /turf/simulated/floor,
 /area/smugglers/base)
@@ -56,7 +55,6 @@
 	pixel_x = 25
 	},
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/external_air{
-	dir = 2;
 	id_tag = "asteroid_base_dock_pump"
 	},
 /obj/effect/floor_decal/industrial/warning/full,
@@ -83,7 +81,6 @@
 "aq" = (
 /obj/machinery/door/airlock/external{
 	icon_state = "door_closed";
-	locked = 0;
 	name = "Internal Airlock"
 	},
 /turf/simulated/floor,
@@ -92,8 +89,7 @@
 /obj/effect/wallframe_spawn/reinforced,
 /obj/machinery/door/blast/regular,
 /obj/structure/cable{
-	icon_state = "0-2";
-	d2 = 2
+	icon_state = "0-2"
 	},
 /turf/simulated/floor/airless,
 /area/smugglers/base)
@@ -144,13 +140,11 @@
 "ay" = (
 /obj/item/stack/cable_coil{
 	pixel_x = 5;
-	pixel_y = 5;
-	pixel_z = 0
+	pixel_y = 5
 	},
 /obj/item/stack/cable_coil,
 /obj/structure/cable{
-	icon_state = "0-2";
-	d2 = 2
+	icon_state = "0-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/visible/black{
 	dir = 4
@@ -158,7 +152,6 @@
 /obj/machinery/power/apc{
 	dir = 1;
 	name = "north bump";
-	pixel_x = 0;
 	pixel_y = 24
 	},
 /turf/simulated/floor,
@@ -166,15 +159,8 @@
 "az" = (
 /obj/machinery/power/port_gen/pacman,
 /obj/structure/cable{
-	icon_state = "0-2";
-	d2 = 2
+	icon_state = "0-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/visible/black{
-	dir = 4
-	},
-/turf/simulated/floor,
-/area/smugglers/base)
-"aA" = (
 /obj/machinery/atmospherics/pipe/simple/visible/black{
 	dir = 4
 	},
@@ -189,10 +175,7 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2";
-	pixel_y = 0
+	icon_state = "1-2"
 	},
 /turf/simulated/floor,
 /area/smugglers/base)
@@ -201,23 +184,16 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2";
-	pixel_y = 0
+	icon_state = "1-2"
 	},
 /turf/simulated/floor,
 /area/smugglers/base)
 "aD" = (
 /obj/machinery/atmospherics/pipe/manifold/visible/black{
-	icon_state = "map";
 	dir = 1
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
-	icon_state = "1-2";
-	pixel_y = 0
+	icon_state = "1-2"
 	},
 /turf/simulated/floor,
 /area/smugglers/base)
@@ -316,16 +292,12 @@
 	dir = 8
 	},
 /obj/structure/cable{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor,
 /area/smugglers/base)
 "aO" = (
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor,
@@ -333,8 +305,6 @@
 "aP" = (
 /obj/effect/decal/cleanable/blood/drip,
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/item/wirecutters,
@@ -343,32 +313,22 @@
 "aQ" = (
 /obj/structure/cable,
 /obj/structure/cable{
-	d1 = 32;
-	d2 = 4;
 	icon_state = "32-4"
 	},
 /obj/structure/cable{
-	icon_state = "0-2";
 	dir = 4;
-	pixel_y = 0;
-	d1 = 16;
-	d2 = 0
+	icon_state = "0-2"
 	},
 /obj/structure/cable{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor,
 /area/smugglers/base)
 "aR" = (
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor,
@@ -376,13 +336,9 @@
 "aS" = (
 /obj/effect/decal/cleanable/blood/drip,
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor,
@@ -393,14 +349,10 @@
 	pixel_y = 8
 	},
 /obj/structure/cable{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/visible/black,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor,
@@ -419,17 +371,14 @@
 /turf/simulated/floor,
 /area/smugglers/base)
 "aX" = (
-/obj/structure/table/rack{
-	dir = 8;
-	
+/obj/structure/rack{
+	dir = 8
 	},
 /obj/item/clothing/mask/breath,
 /turf/simulated/floor,
 /area/smugglers/base)
 "aY" = (
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor,
@@ -464,17 +413,14 @@
 /area/smugglers/base)
 "be" = (
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/visible/black,
 /turf/simulated/floor,
 /area/smugglers/base)
 "bf" = (
-/obj/structure/table/rack{
-	dir = 8;
-	
+/obj/structure/rack{
+	dir = 8
 	},
 /obj/item/tank/air{
 	pixel_x = 5
@@ -506,8 +452,8 @@
 /obj/random/smokes,
 /obj/random/smokes,
 /obj/effect/floor_decal/industrial/warning{
-	icon_state = "warning";
-	dir = 4
+	dir = 4;
+	icon_state = "warning"
 	},
 /turf/simulated/floor,
 /area/smugglers/base)
@@ -521,9 +467,8 @@
 /turf/simulated/floor,
 /area/smugglers/base)
 "bm" = (
-/obj/structure/table/rack{
-	dir = 8;
-	
+/obj/structure/rack{
+	dir = 8
 	},
 /obj/random/voidsuit,
 /obj/random/voidhelmet,
@@ -543,8 +488,6 @@
 /area/mine/explored)
 "bp" = (
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/light/small{
@@ -595,15 +538,13 @@
 /area/smugglers/base)
 "bt" = (
 /obj/effect/floor_decal/industrial/warning{
-	icon_state = "warning";
-	dir = 4
+	dir = 4;
+	icon_state = "warning"
 	},
 /turf/simulated/floor,
 /area/smugglers/base)
 "bu" = (
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/light/small{
@@ -648,8 +589,6 @@
 /area/smugglers/base)
 "bA" = (
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/machinery/atmospherics/binary/pump{
@@ -660,16 +599,12 @@
 "bB" = (
 /obj/machinery/door/airlock/maintenance,
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor,
 /area/smugglers/office)
 "bC" = (
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -681,13 +616,11 @@
 /obj/item/pen,
 /obj/item/flashlight/lamp,
 /obj/structure/cable{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /obj/machinery/power/apc{
 	dir = 1;
 	name = "north bump";
-	pixel_x = 0;
 	pixel_y = 24
 	},
 /turf/simulated/floor/tiled,
@@ -705,8 +638,8 @@
 /area/smugglers/office)
 "bF" = (
 /obj/effect/floor_decal/industrial/warning{
-	icon_state = "warning";
-	dir = 10
+	dir = 10;
+	icon_state = "warning"
 	},
 /turf/simulated/floor,
 /area/smugglers/base)
@@ -753,8 +686,8 @@
 	dir = 8
 	},
 /obj/machinery/light{
-	icon_state = "tube1";
-	dir = 4
+	dir = 4;
+	icon_state = "tube1"
 	},
 /turf/simulated/floor/tiled,
 /area/smugglers/office)
@@ -784,17 +717,17 @@
 /turf/simulated/floor/tiled,
 /area/smugglers/office)
 "bR" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/random/tech_supply,
 /turf/simulated/floor,
 /area/smugglers/base)
 "bS" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/random/toolbox,
 /turf/simulated/floor,
 /area/smugglers/base)
 "bT" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/random/firstaid,
 /turf/simulated/floor,
 /area/smugglers/base)
@@ -819,7 +752,7 @@
 /turf/simulated/floor/tiled,
 /area/smugglers/office)
 "bY" = (
-/obj/structure/table/rack,
+/obj/structure/rack,
 /obj/item/clothing/head/cowboy_hat,
 /obj/item/clothing/suit/armor/hos/jensen,
 /turf/simulated/floor/tiled,
@@ -836,8 +769,6 @@
 	name = "Restroom"
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor,
@@ -849,8 +780,6 @@
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -860,7 +789,7 @@
 	pixel_y = 30
 	},
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/machinery/microwave{
 	pixel_y = 10
 	},
@@ -944,7 +873,7 @@
 /turf/simulated/floor/tiled,
 /area/smugglers/dorms)
 "cs" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/effect/decal/cleanable/dirt,
 /obj/item/paper/smug_3,
 /obj/item/flame/lighter,
@@ -952,7 +881,7 @@
 /turf/simulated/floor/tiled,
 /area/smugglers/dorms)
 "ct" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/effect/decal/cleanable/dirt,
 /obj/item/cash/c10,
 /obj/random/smokes,
@@ -1002,9 +931,7 @@
 /turf/simulated/floor/tiled,
 /area/smugglers/dorms)
 "cB" = (
-/obj/machinery/light/small{
-	dir = 2
-	},
+/obj/machinery/light/small,
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled,
 /area/smugglers/dorms)
@@ -4636,7 +4563,7 @@ aa
 aa
 ao
 af
-aA
+aG
 aO
 bd
 bd

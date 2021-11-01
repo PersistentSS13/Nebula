@@ -55,7 +55,7 @@ var/global/list/terminal_commands
 // Prints data out, split by page number.
 /datum/terminal_command/proc/print_as_page(list/data, value_name, selected_page, pg_length)
 	. = list()
-	var/max_pages = Ceiling(length(data)/pg_length)
+	var/max_pages = CEILING(length(data)/pg_length)
 	var/pg = clamp(selected_page, 1, max_pages)
 
 	var/start_index = (pg - 1)*pg_length + 1
@@ -183,11 +183,11 @@ Subtypes
 	var/nid = get_nid(text)
 	if(!nid)
 		return
-	var/datum/extension/interactive/ntos/origin = terminal.computer
+	var/datum/extension/interactive/os/origin = terminal.computer
 	if(!origin || !origin.get_network_status())
 		return
 	var/datum/computer_network/network = origin.get_network()
-	var/datum/extension/interactive/ntos/comp = network.get_os_by_nid(nid)
+	var/datum/extension/interactive/os/comp = network.get_os_by_nid(nid)
 	if(!comp || !comp.host_status() || !comp.get_network_status())
 		return
 	var/area/A = get_area(comp.get_physical_host())
@@ -206,12 +206,12 @@ Subtypes
 	if(!nid)
 		. += "ping: Improper syntax. Use ping nid."
 		return
-	var/datum/extension/interactive/ntos/origin = terminal.computer
+	var/datum/extension/interactive/os/origin = terminal.computer
 	if(!origin || !origin.get_network_status())
 		. += "failed. Check network status."
 		return
 	var/datum/computer_network/network = terminal.computer.get_network()
-	var/datum/extension/interactive/ntos/comp = network.get_os_by_nid(nid)
+	var/datum/extension/interactive/os/comp = network.get_os_by_nid(nid)
 	if(!comp || !comp.host_status() || !comp.get_network_status())
 		. += "failed. Target device not responding."
 		return
@@ -229,12 +229,12 @@ Subtypes
 		return "ssh is not supported on remote terminals."
 	if(length(text) < 5)
 		return "ssh: Improper syntax. Use ssh nid."
-	var/datum/extension/interactive/ntos/origin = terminal.computer
+	var/datum/extension/interactive/os/origin = terminal.computer
 	if(!origin || !origin.get_network_status())
 		return "ssh: Check network connectivity."
 	var/nid = text2num(copytext(text, 5))
 	var/datum/computer_network/network = terminal.computer.get_network()
-	var/datum/extension/interactive/ntos/comp = network.get_os_by_nid(nid)
+	var/datum/extension/interactive/os/comp = network.get_os_by_nid(nid)
 	if(comp == origin)
 		return "ssh: Error; can not open remote terminal to self."
 	if(!comp || !comp.host_status() || !comp.get_network_status())
@@ -278,7 +278,7 @@ Subtypes
 		return "cd: Changed to removable disk"
 
 	else if(target == "NETWORK")
-		var/datum/extension/interactive/ntos/origin = terminal.computer
+		var/datum/extension/interactive/os/origin = terminal.computer
 		if(!origin || !origin.get_network_status())
 			return "cd: Check network connectivity."
 		var/datum/computer_network/network = terminal.computer.get_network()
@@ -376,7 +376,7 @@ Subtypes
 		if(error)
 			return "mv: [error]"
 	else
-		var/datum/extension/interactive/ntos/origin = terminal.computer
+		var/datum/extension/interactive/os/origin = terminal.computer
 		if(!origin || !origin.get_network_status())
 			return "mv: Check network connectivity."
 		var/datum/computer_network/network = terminal.computer.get_network()

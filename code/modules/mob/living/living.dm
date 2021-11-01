@@ -71,7 +71,7 @@ default behaviour is:
 			var/mob/living/tmob = AM
 
 			for(var/mob/living/M in range(tmob, 1))
-				if(tmob.pinned.len || (locate(/obj/item/grab, LAZYLEN(tmob.grabbed_by))))
+				if(LAZYLEN(tmob.pinned) || (locate(/obj/item/grab, LAZYLEN(tmob.grabbed_by))))
 					if ( !(world.time % 5) )
 						to_chat(src, "<span class='warning'>[tmob] is restrained, you cannot push past</span>")
 					now_pushing = 0
@@ -448,7 +448,7 @@ default behaviour is:
 	set_stat(CONSCIOUS)
 
 	// make the icons look correct
-	regenerate_icons()
+	update_icon()
 
 	BITSET(hud_updateflag, HEALTH_HUD)
 	BITSET(hud_updateflag, STATUS_HUD)
@@ -469,7 +469,7 @@ default behaviour is:
 		timeofdeath = 0
 
 	stat = CONSCIOUS
-	regenerate_icons()
+	update_icon()
 
 	BITSET(hud_updateflag, HEALTH_HUD)
 	BITSET(hud_updateflag, STATUS_HUD)
@@ -522,10 +522,11 @@ default behaviour is:
 			process_resist()
 
 /mob/living/proc/process_resist()
+
 	//Getting out of someone's inventory.
 	if(istype(src.loc, /obj/item/holder))
 		escape_inventory(src.loc)
-		return
+		return TRUE
 
 	//unbuckling yourself
 	if(buckled)
@@ -537,6 +538,11 @@ default behaviour is:
 		var/obj/structure/C = loc
 		if(C.mob_breakout(src))
 			return TRUE
+
+	// Get rid of someone riding around on you.
+	if(buckled_mob)
+		unbuckle_mob()
+		return TRUE
 
 /mob/living/proc/escape_inventory(obj/item/holder/H)
 	if(H != src.loc) return
@@ -614,10 +620,10 @@ default behaviour is:
 	return null
 
 /mob/living/proc/has_brain()
-	return 1
+	return TRUE
 
-/mob/living/proc/slip(var/slipped_on,stun_duration=8)
-	return 0
+/mob/living/proc/slip(var/slipped_on, stun_duration = 8)
+	return FALSE
 
 /mob/living/carbon/human/canUnEquip(obj/item/I)
 	if(!..())
@@ -630,8 +636,8 @@ default behaviour is:
 
 /mob/living/carbon/get_contained_external_atoms()
 	. = ..()
-	. -= internal_organs
-	. -= organs
+	LAZYREMOVE(., internal_organs)
+	LAZYREMOVE(., organs)
 
 /mob/proc/can_be_possessed_by(var/mob/observer/ghost/possessor)
 	return istype(possessor) && possessor.client
@@ -676,28 +682,30 @@ default behaviour is:
 	to_chat(src, "<span class='notice'>Remember to stay in character for a mob of this type!</span>")
 	return 1
 
-/mob/living/reset_layer()
-	if (jumping)
-		layer = VEHICLE_LOAD_LAYER
-	else if (hiding)
-		layer = HIDING_MOB_LAYER
-	else
-		..()
-
-/mob/living/update_icons()
-	if(auras)
-		overlays |= auras
-
 /mob/living/proc/add_aura(var/obj/aura/aura)
 	LAZYDISTINCTADD(auras,aura)
-	update_icons()
+	update_icon()
 	return 1
 
 /mob/living/proc/remove_aura(var/obj/aura/aura)
 	LAZYREMOVE(auras,aura)
-	update_icons()
+	update_icon()
 	return 1
 
+/mob/living/update_icon()
+	..()
+	compile_overlays()
+
+/mob/living/on_update_icon()
+	SHOULD_CALL_PARENT(TRUE)
+	..()
+	cut_overlays()
+	if(auras)
+		for(var/obj/aura/aura AS_ANYTHING in auras)
+			var/image/A = new()
+			A.appearance = aura
+			add_overlay(A)
+	
 /mob/living/Destroy()
 	if(auras)
 		for(var/a in auras)
@@ -734,14 +742,16 @@ default behaviour is:
 	return TRUE
 
 /mob/living/handle_drowning()
+	var/turf/T = get_turf(src)
 	if(!can_drown() || !loc.is_flooded(lying))
+		return FALSE
+	if(!lying && T.above && !T.above.is_flooded() && T.above.CanZPass(src, UP) && can_overcome_gravity())
 		return FALSE
 	if(prob(5))
 		var/obj/effect/fluid/F = locate() in loc
 		to_chat(src, SPAN_DANGER("You choke and splutter as you inhale [(F?.reagents && F.reagents.get_primary_reagent_name()) || "liquid"]!"))
 		F?.reagents?.trans_to_holder(get_ingested_reagents(), min(F.reagents.total_volume, rand(2,5)))
 
-	var/turf/T = get_turf(src)
 	T.show_bubbles()
 	return TRUE // Presumably chemical smoke can't be breathed while you're underwater.
 
@@ -795,10 +805,20 @@ default behaviour is:
 	magnitude += GET_CHEMICAL_EFFECT(src, effect)
 	LAZYSET(chem_effects, effect, magnitude)
 
+/mob/living/proc/add_chemical_effect_max(var/effect, var/magnitude = 1)
+	magnitude = max(LAZYACCESS(chem_effects, effect), magnitude)
+	LAZYSET(chem_effects, effect, magnitude)
+
+/mob/living/proc/add_chemical_effect_min(var/effect, var/magnitude = 1)
+	var/old_magnitude = LAZYACCESS(chem_effects, effect)
+	if(!isnull(old_magnitude))
+		magnitude = min(old_magnitude, magnitude)
+	LAZYSET(chem_effects, effect, magnitude)
+
 /mob/living/proc/adjust_immunity(var/amt)
 	return
 
-/mob/living/handle_reading_literacy(var/mob/user, var/text_content, var/skip_delays)
+/mob/living/handle_reading_literacy(var/mob/user, var/text_content, var/skip_delays, var/digital = FALSE)
 	if(skill_check(SKILL_LITERACY, SKILL_ADEPT))
 		. = text_content
 	else
@@ -912,3 +932,17 @@ default behaviour is:
 /mob/living/proc/jump_layer_shift_end()
 	jumping = FALSE
 	reset_layer()
+
+/mob/living/proc/get_eye_overlay()
+	return
+
+/mob/living/handle_fall_effect(var/turf/landing)
+	..()
+	apply_fall_damage(landing)
+	if(client)
+		var/area/A = get_area(landing)
+		if(A)
+			A.alert_on_fall(src)
+
+/mob/living/proc/apply_fall_damage(var/turf/landing)
+	adjustBruteLoss(rand(max(1, CEILING(mob_size * 0.33)), max(1, CEILING(mob_size * 0.66))))

@@ -70,8 +70,10 @@
 	update_nearby_tiles()
 	var/turf/location = loc
 	. = ..()
-	for(var/obj/structure/window/W in orange(location, 1))
-		W.update_icon()
+	if(istype(location) && location != loc)
+		for(var/obj/structure/S in orange(location, 1))
+			S.update_connections()
+			S.update_icon()
 
 /obj/structure/window/CanFluidPass(var/coming_from)
 	return (!is_fulltile() && coming_from != dir)
@@ -280,7 +282,9 @@
 		..()
 	return
 
+// TODO: generalize to matter list and parts_type.
 /obj/structure/window/create_dismantled_products(turf/T)
+	SHOULD_CALL_PARENT(FALSE)
 	var/obj/item/stack/material/S = material.create_object(loc, is_fulltile() ? 4 : 2)
 	if(istype(S) && reinf_material)
 		S.reinf_material = reinf_material
@@ -328,6 +332,14 @@
 	set_dir(turn(dir, 90))
 	update_nearby_tiles(need_rebuild=1)
 
+/obj/structure/window/update_nearby_tiles(need_rebuild)
+	. = ..()
+	for(var/obj/structure/S in orange(loc, 1))
+		if(S == src)
+			continue
+		S.update_connections()
+		S.update_icon()
+	
 /obj/structure/window/Move()
 	var/ini_dir = dir
 	update_nearby_tiles(need_rebuild=1)
@@ -430,18 +442,18 @@
 		for(var/i = 1 to 4)
 			var/conn = connections ? connections[i] : "0"
 			if(other_connections && other_connections[i] != "0")
-				I = image(icon, "[basestate]_other_onframe[conn]", dir = 1<<(i-1))
+				I = image(icon, "[basestate]_other_onframe[conn]", dir = BITFLAG(i-1))
 			else
-				I = image(icon, "[basestate]_onframe[conn]", dir = 1<<(i-1))
+				I = image(icon, "[basestate]_onframe[conn]", dir = BITFLAG(i-1))
 			I.color = paint_color
 			overlays += I
 	else
 		for(var/i = 1 to 4)
 			var/conn = connections ? connections[i] : "0"
 			if(other_connections && other_connections[i] != "0")
-				I = image(icon, "[basestate]_other[conn]", dir = 1<<(i-1))
+				I = image(icon, "[basestate]_other[conn]", dir = BITFLAG(i-1))
 			else
-				I = image(icon, "[basestate][conn]", dir = 1<<(i-1))
+				I = image(icon, "[basestate][conn]", dir = BITFLAG(i-1))
 			I.color = paint_color
 			overlays += I
 

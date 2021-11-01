@@ -224,15 +224,6 @@
 /datum/fabricator_recipe/imprinter/circuit/chemical_dispenser
 	path = /obj/item/stock_parts/circuitboard/chemical_dispenser
 
-/datum/fabricator_recipe/imprinter/circuit/chemical_dispenser_alc
-	path = /obj/item/stock_parts/circuitboard/chemical_dispenser/bar_alc
-
-/datum/fabricator_recipe/imprinter/circuit/chemical_dispenser_soft
-	path = /obj/item/stock_parts/circuitboard/chemical_dispenser/bar_soft
-
-/datum/fabricator_recipe/imprinter/circuit/chemical_dispenser_coffee
-	path = /obj/item/stock_parts/circuitboard/chemical_dispenser/bar_coffee
-
 /datum/fabricator_recipe/imprinter/circuit/atmos_control
 	path = /obj/item/stock_parts/circuitboard/atmoscontrol
 
@@ -397,6 +388,9 @@
 
 /datum/fabricator_recipe/imprinter/circuit/shipsensors
 	path = /obj/item/stock_parts/circuitboard/shipsensors
+
+/datum/fabricator_recipe/imprinter/circuit/nuclear_cylinder_storage
+	path = /obj/item/stock_parts/circuitboard/nuclear_cylinder_storage
 
 /datum/fabricator_recipe/imprinter/circuit/grinder
 	path = /obj/item/stock_parts/circuitboard/grinder

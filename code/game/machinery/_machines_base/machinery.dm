@@ -358,10 +358,14 @@ Class Procs:
 
 	var/list/expelled_components = list()
 	for(var/I in component_parts)
-		expelled_components += uninstall_component(I, refresh_parts = FALSE)
+		var/component = uninstall_component(I, refresh_parts = FALSE)
+		if(component)
+			expelled_components += component
 	while(LAZYLEN(uncreated_component_parts))
 		var/path = uncreated_component_parts[1]
-		expelled_components += uninstall_component(path, refresh_parts = FALSE)
+		var/component = uninstall_component(path, refresh_parts = FALSE)
+		if(component)
+			expelled_components += component
 	if(frame)
 		var/datum/extension/parts_stash/stash = get_extension(frame, /datum/extension/parts_stash)
 		if(stash)
@@ -427,8 +431,11 @@ Class Procs:
 		explosion_act(3)
 
 /obj/machinery/Move()
+	var/atom/lastloc = loc
 	. = ..()
 	if(. && !CanFluidPass())
+		if(lastloc)
+			lastloc.fluid_update()
 		fluid_update()
 
 /obj/machinery/get_cell(var/functional_only = TRUE)
@@ -460,7 +467,7 @@ Class Procs:
 
 /obj/machinery/get_contained_external_atoms()
 	. = ..()
-	. -= component_parts
+	LAZYREMOVE(., component_parts)
 
 /obj/machinery/proc/get_auto_access()
 	var/area/A = get_area(src)

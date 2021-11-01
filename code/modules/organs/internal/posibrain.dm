@@ -8,7 +8,7 @@
 	vital = 0
 	force = 1.0
 	w_class = ITEM_SIZE_NORMAL
-	throwforce = 1.0
+	throwforce = 1
 	throw_speed = 3
 	throw_range = 5
 	origin_tech = "{'engineering':4,'materials':4,'wormholes':2,'programming':4}"
@@ -22,6 +22,7 @@
 	)
 	relative_size = 60
 	req_access = list(access_robotics)
+	scale_max_damage_to_species_health = FALSE
 
 	var/mob/living/silicon/sil_brainmob/brainmob = null
 	var/searching = 0
@@ -306,7 +307,8 @@
 	icon_state = "mmi-empty"
 	organ_tag = BP_BRAIN
 	parent_organ = BP_HEAD
-	vital = 1
+	vital = TRUE
+	scale_max_damage_to_species_health = FALSE
 	var/obj/item/mmi/stored_mmi
 	var/datum/mind/persistantMind //Mind that the organ will hold on to after being removed, used for transfer_and_delete
 	var/ownerckey // used in the event the owner is out of body
@@ -351,7 +353,9 @@
 	var/obj/item/organ/external/parent = owner.get_organ(parent_organ)
 	if(istype(parent))
 		removed(user, 0)
-		parent.implants += transfer_and_delete()
+		var/brain = transfer_and_delete()
+		if(brain)
+			LAZYADD(parent.implants, brain)
 
 /obj/item/organ/internal/mmi_holder/removed()
 	if(owner && owner.mind)

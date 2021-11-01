@@ -1,3 +1,5 @@
+var/global/list/materials_by_gas_symbol = list()
+
 /obj/effect/gas_overlay
 	name = "gas"
 	desc = "You shouldn't be clicking this."
@@ -62,6 +64,9 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 
 // Material definition and procs follow.
 /decl/material
+
+	abstract_type = /decl/material
+
 	var/name                      // Prettier name for display.
 	var/adjective_name
 	var/solid_name
@@ -87,6 +92,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 	var/shard_icon                        // Related to above.
 	var/shard_can_repair = 1              // Can shards be turned into sheets with a welder?
 	var/list/recipes                      // Holder for all recipes usable with a sheet of this material.
+	var/list/strut_recipes                // Holder for all the recipes you can build with the struct stack type.
 	var/destruction_desc = "breaks apart" // Fancy string for barricades/tables/objects exploding.
 
 	// Icons
@@ -99,27 +105,29 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 
 	var/door_icon_base = "metal"                         // Door base icon tag. See header.
 	var/table_icon_base = "metal"
-	var/table_reinf = "reinf_metal"
+	var/table_icon_reinforced = "reinf_metal"
+
 	var/list/stack_origin_tech = "{'materials':1}" // Research level for stacks.
 
 	// Attributes
-	var/cut_delay = 0            // Delay in ticks when cutting through this wall.
-	var/radioactivity            // Radiation var. Used in wall and object processing to irradiate surroundings.
-	var/ignition_point           // K, point at which the material catches on fire.
-	var/melting_point = 1800     // K, walls will take damage if they're next to a fire hotter than this
-	var/boiling_point = 3000     // K, point that material will become a gas.
-	var/brute_armor = 2	 		 // Brute damage to a wall is divided by this value if the wall is reinforced by this material.
-	var/burn_armor				 // Same as above, but for Burn damage type. If blank brute_armor's value is used.
-	var/integrity = 150          // General-use HP value for products.
-	var/opacity = 1              // Is the material transparent? 0.5< makes transparent walls/doors.
-	var/explosion_resistance = 5 // Only used by walls currently.
-	var/conductive = 1           // Objects with this var add CONDUCTS to flags on spawn.
-	var/luminescence
-	var/wall_support_value = 30
-	var/sparse_material_weight
-	var/rich_material_weight
-	var/min_fluid_opacity = FLUID_MIN_ALPHA
-	var/max_fluid_opacity = FLUID_MAX_ALPHA
+	var/exoplanet_rarity = MAT_RARITY_MUNDANE // How rare is this material generally?
+	var/cut_delay = 0                         // Delay in ticks when cutting through this wall.
+	var/radioactivity                         // Radiation var. Used in wall and object processing to irradiate surroundings.
+	var/ignition_point                        // K, point at which the material catches on fire.
+	var/melting_point = 1800                  // K, walls will take damage if they're next to a fire hotter than this
+	var/boiling_point = 3000                  // K, point that material will become a gas.
+	var/brute_armor = 2	                      // Brute damage to a wall is divided by this value if the wall is reinforced by this material.
+	var/burn_armor                            // Same as above, but for Burn damage type. If blank brute_armor's value is used.
+	var/integrity = 150                       // General-use HP value for products.
+	var/opacity = 1                           // Is the material transparent? 0.5< makes transparent walls/doors.
+	var/explosion_resistance = 5              // Only used by walls currently.
+	var/conductive = 1                        // Objects with this var add CONDUCTS to flags on spawn.
+	var/luminescence                          // Does this material glow?
+	var/wall_support_value = 30               // Used for checking if a material can function as a wall support.
+	var/sparse_material_weight                // Ore generation constant for rare materials.
+	var/rich_material_weight                  // Ore generation constant for common materials.
+	var/min_fluid_opacity = FLUID_MIN_ALPHA   // How transparent can fluids be?
+	var/max_fluid_opacity = FLUID_MAX_ALPHA   // How opaque can fluids be?
 
 	// Damage values.
 	var/hardness = MAT_VALUE_HARD            // Prob of wall destruction by hulk, used for edge damage in weapons.
@@ -230,31 +238,30 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 	var/absorption_products		  // Transmutes into these reagents following neutron absorption and/or subsequent beta decay. Generally forms heavier reagents.
 	var/fission_products		  // Transmutes into these reagents following fission. Forms lighter reagents, and a lot of heat.
 	var/neutron_production		  // How many neutrons are created per unit per fission event.
-	var/neutron_absorption		  // How many neutrons are absorbed per unit per absorption event. 
+	var/neutron_absorption		  // How many neutrons are absorbed per unit per absorption event.
 	var/fission_heat			  // How much thermal energy per unit per fission event this material releases.
 	var/fission_energy			  // Energy of neutrons released by fission.
 	var/moderation_target		  // The 'target' neutron energy value that the fission environment shifts towards after a moderation event.
 								  // Neutron moderators can only slow down neutrons.
 
 // Placeholders for light tiles and rglass.
-/decl/material/proc/reinforce(var/mob/user, var/obj/item/stack/material/used_stack, var/obj/item/stack/material/target_stack)
-	if(!used_stack.can_use(1))
-		to_chat(user, "<span class='warning'>You need need at least one [used_stack.singular_name] to reinforce [target_stack].</span>")
-		return
-
-	var/needed_sheets = 2 * used_stack.matter_multiplier
-	if(!target_stack.can_use(needed_sheets))
-		to_chat(user, "<span class='warning'>You need need at least [needed_sheets] [target_stack.plural_name] for reinforcement with [used_stack].</span>")
+/decl/material/proc/reinforce(var/mob/user, var/obj/item/stack/material/used_stack, var/obj/item/stack/material/target_stack, var/use_sheets = 1)
+	if(!used_stack.can_use(use_sheets))
+		to_chat(user, SPAN_WARNING("You need need at least one [used_stack.singular_name] to reinforce [target_stack]."))
 		return
 
 	var/decl/material/reinf_mat = used_stack.material
 	if(reinf_mat.integrity <= integrity || reinf_mat.is_brittle())
-		to_chat(user, "<span class='warning'>The [reinf_mat.solid_name] is too structurally weak to reinforce the [name].</span>")
+		to_chat(user, SPAN_WARNING("The [reinf_mat.solid_name] is too structurally weak to reinforce the [name]."))
 		return
 
-	to_chat(user, "<span class='notice'>You reinforce the [target_stack] with the [reinf_mat.solid_name].</span>")
-	used_stack.use(1)
-	var/obj/item/stack/material/S = target_stack.split(needed_sheets)
+	if(!target_stack.can_use(use_sheets))
+		to_chat(user, SPAN_WARNING("You need need at least [use_sheets] [use_sheets == 1 ? target_stack.singular_name : target_stack.plural_name] for reinforcement with [used_stack]."))
+		return
+
+	to_chat(user, SPAN_NOTICE("You reinforce the [target_stack] with [reinf_mat.solid_name]."))
+	used_stack.use(use_sheets)
+	var/obj/item/stack/material/S = target_stack.split(1)
 	S.reinf_material = reinf_mat
 	S.update_strings()
 	S.update_icon()
@@ -264,6 +271,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 		S.dropInto(get_turf(user))
 	else
 		S.dropInto(get_turf(used_stack))
+	S.add_to_stacks(user, TRUE)
 
 // Make sure we have a use name and shard icon even if they aren't explicitly set.
 /decl/material/Initialize()
@@ -282,6 +290,11 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 		shard_icon = shard_type
 	if(!burn_armor)
 		burn_armor = brute_armor
+	if(!gas_symbol)
+		gas_symbol = "[name]_[sequential_id(abstract_type)]"
+	if(!gas_symbol_html)
+		gas_symbol_html = gas_symbol
+	global.materials_by_gas_symbol[gas_symbol] = type
 	generate_armor_values()
 
 	var/list/cocktails = decls_repository.get_decls_of_subtype(/decl/cocktail)
@@ -337,7 +350,9 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 // Used by walls when qdel()ing to avoid neighbor merging.
 /decl/material/placeholder
 	name = "placeholder"
+	uid = "mat_placeholder"
 	hidden_from_codex = TRUE
+	exoplanet_rarity = MAT_RARITY_NOWHERE
 
 // Generic material product (sheets, bricks, etc). Used ALL THE TIME.
 // May return an instance list, a single instance, or nothing if there is no instance produced.
@@ -363,8 +378,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 
 // General wall debris product placement.
 // Not particularly necessary aside from snowflakey cult girders.
-/decl/material/proc/place_dismantled_product(var/turf/target,var/is_devastated)
-	return create_object(target, is_devastated ? 1 : 2)
+/decl/material/proc/place_dismantled_product(var/turf/target, var/is_devastated, var/amount = 2, var/drop_type)
+	amount = is_devastated ? FLOOR(amount * 0.5) : amount
+	if(amount > 0)
+		return create_object(target, amount, object_type = drop_type)
 
 // As above.
 /decl/material/proc/place_shard(var/turf/target)
@@ -422,17 +439,13 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 // This doesn't apply to skin contact - this is for, e.g. extinguishers and sprays. The difference is that reagent is not directly on the mob's skin - it might just be on their clothing.
 /decl/material/proc/touch_mob(var/mob/living/M, var/amount, var/datum/reagents/holder)
 	if(fuel_value && amount && istype(M))
-		M.fire_stacks += Floor((amount * fuel_value)/FLAMMABLE_LIQUID_DIVISOR)
+		M.fire_stacks += FLOOR((amount * fuel_value)/FLAMMABLE_LIQUID_DIVISOR)
 #undef FLAMMABLE_LIQUID_DIVISOR
 
 /decl/material/proc/touch_turf(var/turf/T, var/amount, var/datum/reagents/holder) // Cleaner cleaning, lube lubbing, etc, all go here
 
 	if(REAGENT_VOLUME(holder, type) < FLUID_QDEL_POINT)
 		return
-
-	if(istype(T) && dirtiness <= DIRTINESS_CLEAN)
-		T.clean_blood()
-		T.remove_cleanables()
 
 	if(istype(T, /turf/simulated))
 		var/turf/simulated/wall/W = T
@@ -445,26 +458,6 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 				W.unwet_floor(TRUE)
 			else
 				W.wet_floor(slipperiness)
-		if(dirtiness != DIRTINESS_NEUTRAL)
-			if(dirtiness > DIRTINESS_NEUTRAL)
-				var/obj/effect/decal/cleanable/dirt/dirtoverlay = locate() in W
-				if (!dirtoverlay)
-					dirtoverlay = new /obj/effect/decal/cleanable/dirt(W)
-					dirtoverlay.alpha = REAGENT_VOLUME(holder, src) * dirtiness
-				else
-					dirtoverlay.alpha = min(dirtoverlay.alpha + REAGENT_VOLUME(holder, src) * dirtiness, 255)
-			else
-				if(dirtiness <= DIRTINESS_STERILE)
-					W.germ_level -= min(REAGENT_VOLUME(holder, type)*20, T.germ_level)
-					for(var/obj/item/I in W.contents)
-						I.was_bloodied = null
-					for(var/obj/effect/decal/cleanable/blood/B in W)
-						qdel(B)
-				if(dirtiness <= DIRTINESS_CLEAN)
-					W.dirt = 0
-					if(W.wet > 1 && slipperiness <= 0)
-						W.unwet_floor(FALSE)
-					W.clean_blood()
 
 	if(length(vapor_products))
 		var/volume = REAGENT_VOLUME(holder, type)
@@ -651,7 +644,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 		var/ideal_energy = neutron_interactions[interaction]
 		var/interacted_units_ratio = (Clamp(-((((neutron_energy-ideal_energy)**2)/(neutron_cross_section*1000)) - 100), 0, 100))/100
 		var/interacted_units = round(interacted_units_ratio*total_interacted_units, 0.001)
-		
+
 		if(interacted_units > 0)
 			.[interaction] = interacted_units
 			total_interacted_units -= interacted_units

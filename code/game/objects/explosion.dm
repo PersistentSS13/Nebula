@@ -1,7 +1,7 @@
 //TODO: Flash range does nothing currently
 /proc/explosion(turf/epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog = 1, z_transfer = UP|DOWN)
 	if(config.use_iterative_explosions)
-		. = explosion_iter(epicenter, (devastation_range * 2 + heavy_impact_range + light_impact_range))
+		. = explosion_iter(epicenter, (devastation_range * 2 + heavy_impact_range + light_impact_range), z_transfer)
 	else
 		. = explosion_basic(epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range, adminlog, z_transfer)
 
@@ -102,7 +102,7 @@
 #define SEARCH_DIR(dir) \
 	search_direction = dir;\
 	search_turf = get_step(current_turf, search_direction);\
-	if (istype(search_turf, /turf/simulated)) {\
+	if (isturf(search_turf)) {\
 		turf_queue += search_turf;\
 		dir_queue += search_direction;\
 		power_queue += current_power;\
@@ -138,7 +138,7 @@
 	var/list/dir_queue = list(NORTH, SOUTH, EAST, WEST)
 	var/list/power_queue = list(power, power, power, power)
 
-	var/turf/simulated/current_turf
+	var/turf/current_turf
 	var/turf/search_turf
 	var/origin_direction
 	var/search_direction
@@ -205,7 +205,7 @@
 		if (T.type == /turf/space)	// Equality is faster than istype.
 			reception = EXPLFX_NONE
 
-			for (var/turf/simulated/THING in RANGE_TURFS(M, 1))
+			for (var/turf/THING in RANGE_TURFS(M, 1))
 				reception |= EXPLFX_SHAKE
 				break
 

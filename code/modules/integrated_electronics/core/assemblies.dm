@@ -198,7 +198,7 @@
 
 		if(length(assembly_components) > components_per_page)
 			HTML += "<br>\["
-			for(var/i = 1 to ceil(length(assembly_components)/components_per_page))
+			for(var/i = 1 to CEILING(length(assembly_components)/components_per_page))
 				if((i-1) == interact_page)
 					HTML += " [i]"
 				else
@@ -388,7 +388,7 @@
 	add_allowed_scanner(user.ckey)
 
 	// Make sure we're not on an invalid page
-	interact_page = Clamp(interact_page, 0, ceil(length(assembly_components)/components_per_page)-1)
+	interact_page = Clamp(interact_page, 0, CEILING(length(assembly_components)/components_per_page)-1)
 
 	return TRUE
 
@@ -412,7 +412,7 @@
 
 /obj/item/electronic_assembly/attackby(obj/item/I, mob/user)
 	if(isWrench(I))
-		if(istype(loc, /turf) && (IC_FLAG_ANCHORABLE & circuit_flags))
+		if(isturf(loc) && (IC_FLAG_ANCHORABLE & circuit_flags))
 			user.visible_message("\The [user] wrenches \the [src]'s anchoring bolts [anchored ? "back" : "into position"].")
 			playsound(get_turf(user), 'sound/items/Ratchet.ogg',50)
 			if(user.do_skilled(5 SECONDS, SKILL_CONSTRUCTION, src))

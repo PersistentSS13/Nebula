@@ -47,7 +47,7 @@
 	var/static/list/stored_substances_to_names = list()
 
 	var/list/design_cache = list()
-	var/list/installed_designs
+	var/list/installed_designs = list()
 
 	var/sound_id
 	var/datum/sound_token/sound_token
@@ -132,10 +132,10 @@
 				for(var/tech in db.tech_levels)
 					if(db.tech_levels[tech] > known_tech[tech])
 						known_tech[tech] = db.tech_levels[tech]
-	if(length(known_tech))
-		var/list/unlocked_tech = SSfabrication.get_unlocked_recipes(fabricator_class, known_tech)
-		if(length(unlocked_tech))
-			design_cache |= unlocked_tech
+
+	var/list/unlocked_tech = SSfabrication.get_unlocked_recipes(fabricator_class, known_tech)
+	if(length(unlocked_tech))
+		design_cache |= unlocked_tech
 
 	for(var/datum/fabricator_recipe/R in design_cache)
 		if(!length(R.species_locked))
