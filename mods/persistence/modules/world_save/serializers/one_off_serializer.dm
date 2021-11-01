@@ -51,6 +51,7 @@
 
 	for(var/V in object.get_saved_vars())
 		if(!issaved(object.vars[V]))
+			to_world_log("BAD SAVED VARIABLE : '[object.type]' cannot have its '[V]' variable saved, since its marked as not saved!")
 			continue
 		var/VV = object.vars[V]
 		var/VT = SERIALIZER_TYPE_VAR

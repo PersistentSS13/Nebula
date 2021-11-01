@@ -1,61 +1,54 @@
-/datum/proc/after_save()
+//
+// Datum override
+//
+/datum
+	var/tmp/should_save = TRUE
+	var/persistent_id				// This value should be constant across save/loads. It is first generated on serialization.
+	var/list/custom_saved = null	//Associative list with a name and value to save extra data without creating a new pointless var)
+								 	// Post-load its your responsability to clear it!!!
 
+//Called after a save
+/datum/proc/after_save()
+#ifndef SAVE_DEBUG
+	custom_saved = null //Clear it since its no longer needed
+#endif
+
+//Called before save
 /datum/proc/before_save()
+	custom_saved = null
+
+//Called immediately after the datum has been loaded from save during SSMapping's init.
+// DO NOT call anything relying on other subsystems being initialized in this
+/datum/proc/after_deserialize()
 
 /datum/proc/should_save()
 	return should_save
 
-/datum/proc/after_deserialize()
+/datum/proc/get_saved_vars(var/list/tosave = null)
+	return global.saved_vars[type] || get_default_vars()
 
-/datum
-	var/should_save = TRUE
-	var/persistent_id		// This value should be constant across save/loads. It is first generated on serialization.
+/datum/proc/get_default_vars()
+	testing("called get_default_vars on type '[type]'!")
+	var/savedlist = list()
+	for(var/v in vars)
+		if(issaved(vars[v]) && !(v in global.blacklisted_vars))
+			LAZYADD(savedlist, v)
+	return savedlist
 
+//
+// Common overrides
+//
 /atom/should_save()
-	return should_save && simulated
-
-/turf
-	var/is_on_fire = FALSE
-
-/obj/fire
-	should_save = FALSE
-
-/obj/effect/fake_fire
-	should_save = FALSE
-
-/obj/effect/expl_particles
-	should_save = FALSE
-
-/obj/effect/explosion
-	should_save = FALSE
-
-/datum/effect/system/explosion
-	should_save = FALSE
-
-/atom/movable/lighting_overlay
-	should_save = FALSE
+	return should_save
 
 /atom/movable/openspace/multiplier
 	should_save = FALSE
-
-/obj/effect/shuttle_landmark
-	should_save = TRUE
-
-/obj/effect/floor_decal
-	should_save = TRUE
-
-/obj/effect
-	should_save = FALSE
-
-/obj/effect/landmark/map_data
-	should_save = TRUE
 
 /mob/observer
 	should_save = FALSE
 
 /obj/after_deserialize()
 	..()
-	//queue_icon_update()
 
 /obj/machinery/embedded_controller
 	var/saved_memory
@@ -74,7 +67,7 @@
 
 /obj/item/storage/after_deserialize()
 	..()
-	startswith = 0
+	startswith = null
 
 /obj/item/tank/after_deserialize()
 	..()
@@ -89,23 +82,8 @@
 	var/turf/T = src.loc			// hide if turf is not intact
 	if(level==1) hide(!T.is_plating())
 
-/atom/movable/lighting_overlay/after_deserialize()
-	..()
-	loc = null
-	qdel(src)
-
 /obj/item/tankassemblyproxy
 	should_save = FALSE
-
-/datum/proc/get_saved_vars()
-	return global.saved_vars[type] || get_default_vars()
-
-/datum/proc/get_default_vars()
-	var/savedlist = list()
-	for(var/v in vars)
-		if(issaved(vars[v]) && !(v in global.blacklisted_vars))
-			LAZYADD(savedlist, v)
-	return savedlist
 
 /area/proc/get_turf_coords()
 	var/list/coord_list = list()

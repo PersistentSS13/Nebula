@@ -21,10 +21,10 @@
 	saved_levels = global.using_map.saved_levels
 
 /datum/controller/subsystem/persistence/proc/SaveExists()
-	if(save_exists)
-		return save_exists
-	save_exists = serializer.save_exists()
-	in_loaded_world = save_exists
+	if(!save_exists)
+		save_exists = serializer.save_exists()
+		in_loaded_world = save_exists
+	return save_exists
 
 /datum/controller/subsystem/persistence/proc/SaveWorld()
 	// Collect the z-levels we're saving and get the turfs!
@@ -290,7 +290,6 @@
 	events_repository.raise_event(/decl/observ/world_saving_finish_event, src)
 
 /datum/controller/subsystem/persistence/proc/LoadWorld()
-
 	serializer._before_deserialize()
 	try
 		// Loads all data in as part of a version.
@@ -360,11 +359,16 @@
 				var/datum/T = element
 				if(istype(T, /datum))
 					T.after_deserialize()
+				var/datum/TE
 				try
-					var/datum/TE = _list[element]
+					TE = _list[element]
+				catch
+					continue
+				try
 					if(istype(TE, /datum))
 						TE.after_deserialize()
-				catch // Ignore/eat error. This is just testing for dicts.
+				catch(var/exception/E)
+					to_world_log("TE after_deserialize! [E.name], [E.file] [E.line], [E.desc]")
 
 		serializer.resolver.clear_cache()
 		serializer.CommitRefUpdates() // Clean up any leftovers.
@@ -426,7 +430,6 @@
 	if(!check_save_db_connection())
 		if(!establish_save_db_connection())
 			CRASH("SSPersistence: Couldn't establish DB connection during Limbo Addition!")
-			return
 		new_db_connection = TRUE
 	. = one_off.AddToLimbo(thing, key, limbo_type, metadata, modify)
 	if(new_db_connection)
@@ -437,7 +440,6 @@
 	if(!check_save_db_connection())
 		if(!establish_save_db_connection())
 			CRASH("SSPersistence: Couldn't establish DB connection during Limbo Removal!")
-			return
 	. = one_off.RemoveFromLimbo(limbo_key, limbo_type)
 	if(new_db_connection)
 		close_save_db_connection()
@@ -447,7 +449,6 @@
 	if(!check_save_db_connection())
 		if(!establish_save_db_connection())
 			CRASH("SSPersistence: Couldn't establish DB connection during Limbo Deserialization!")
-			return
 		new_db_connection = TRUE
 	. = one_off.DeserializeOneOff(limbo_key, limbo_type, remove_after)
 	if(remove_after)
