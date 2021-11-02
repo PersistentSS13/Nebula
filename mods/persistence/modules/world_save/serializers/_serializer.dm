@@ -33,7 +33,7 @@
 // Serializes an object. Returns the appropriate serialized form of the object. What's outputted depends on the serializer.
 // object: A thing to serialize.
 // object_parent: That object's parent. Could be a container or other. Optional.
-// z: The z_level of this object. Also optional. Used for reordering z_levels in world saves
+// z: The z_level of this object. Also optional. Used for reordering z_levels in the world save
 /serializer/proc/Serialize(var/object, var/object_parent, var/z)
 	if(islist(object))
 		return SerializeList(object, object_parent)
