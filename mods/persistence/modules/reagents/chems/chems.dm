@@ -271,3 +271,4 @@
 	value = 3.3
 	pain_power = 35 //magnitude of painkilling effect
 	effective_dose = 0.2 //how many units it need to process to reach max power
+	uid = "chem_paracetamol"
