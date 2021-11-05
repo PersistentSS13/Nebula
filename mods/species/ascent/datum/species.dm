@@ -277,8 +277,6 @@
 		/decl/bodytype/serpentid/green
 	)
 
-	preview_icon = 'mods/species/ascent/icons/species/body/serpentid/preview.dmi'
-
 	darksight_range = 8
 	slowdown = -0.5
 	rarity_value = 4
@@ -411,7 +409,6 @@
 					continue
 				if(part)
 					image_key += "[part.bodytype.get_icon_cache_uid(part.owner)]"
-					image_key += "[part.dna.GetUIState(DNA_UI_GENDER)]"
 				if(BP_IS_PROSTHETIC(part))
 					image_key += "2[part.model ? "-[part.model]": ""]"
 				else if(part.status & ORGAN_DEAD)

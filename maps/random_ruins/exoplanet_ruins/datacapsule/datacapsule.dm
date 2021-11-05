@@ -20,13 +20,14 @@
 	corpse_outfits = list(/decl/hierarchy/outfit/zombie_science)
 
 /decl/hierarchy/outfit/zombie_science
-	name = OUTFIT_JOB_NAME("Dead Scientist")
+	name = "Job - Dead Scientist"
 	uniform = /obj/item/clothing/under/color/white
 	suit = /obj/item/clothing/suit/bio_suit/anomaly
 	head = /obj/item/clothing/head/bio_hood/anomaly
 
 /decl/material/liquid/zombie/science
 	name = "isolated corruption"
+	uid = "liquid_corruption_isolated"
 	lore_text = "An incredibly dark, oily substance. Moves very slightly."
 	taste_description = "decayed blood"
 	color = "#800000"

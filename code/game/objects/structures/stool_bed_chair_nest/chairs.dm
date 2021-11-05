@@ -56,11 +56,6 @@
 	set_dir(turn(dir, 90))
 	update_icon()
 
-/obj/structure/bed/chair/set_dir()
-	..()
-	if(buckled_mob)
-		buckled_mob.set_dir(dir)
-
 /obj/structure/bed/chair/padded/red
 	reinf_material = /decl/material/solid/carpet
 /obj/structure/bed/chair/padded/brown
@@ -158,6 +153,7 @@
 	icon_state = "officechair"
 	anchored = 0
 	buckle_movable = 1
+	atom_flags = ATOM_FLAG_WHEELED
 
 /obj/structure/bed/chair/office/Move()
 	. = ..()

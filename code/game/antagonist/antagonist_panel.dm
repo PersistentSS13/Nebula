@@ -39,10 +39,10 @@
 
 	if(flags & ANTAG_HAS_NUKE)
 		dat += "<br><table><tr><td><B>Nuclear disk(s)</B></td></tr>"
-		for(var/obj/item/disk/nuclear/N in world)
+		for(var/obj/item/disk/nuclear/N in global.nuke_disks)
 			dat += "<tr><td>[N.name], "
 			var/atom/disk_loc = N.loc
-			while(!istype(disk_loc, /turf))
+			while(!isturf(disk_loc))
 				if(istype(disk_loc, /mob))
 					var/mob/M = disk_loc
 					dat += "carried by <a href='?src=\ref[caller];adminplayeropts=\ref[M]'>[M.real_name]</a> "

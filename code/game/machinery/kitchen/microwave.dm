@@ -101,8 +101,8 @@
 			to_chat(user, SPAN_WARNING("It's dirty!"))
 			return 1
 	else if(istype(O,/obj/item/chems/glass) || \
-	        istype(O,/obj/item/chems/food/drinks) || \
-	        istype(O,/obj/item/chems/food/condiment) \
+	        istype(O,/obj/item/chems/drinks) || \
+	        istype(O,/obj/item/chems/condiment) \
 		)
 		if (!O.reagents)
 			return 1
@@ -226,7 +226,7 @@
 		return
 
 	if (reagents.total_volume && prob(50)) // 50% chance a liquid recipe gets messy
-		dirty += Ceiling(reagents.total_volume / 10)
+		dirty += CEILING(reagents.total_volume / 10)
 
 	var/decl/recipe/recipe = select_recipe()
 	if (!recipe)
@@ -263,9 +263,8 @@
 	//Any leftover reagents are divided amongst the foods
 	var/total = reagents.total_volume
 	for (var/obj/item/I in cooked_items)
-		if(I.reagents)
-			reagents.trans_to_holder(I.reagents, total/cooked_items.len)
-			I.dropInto(loc) // since eject only ejects ingredients!
+		reagents.trans_to_holder(I.reagents, total/cooked_items.len)
+		I.dropInto(loc) // since eject only ejects ingredients!
 
 	dispose(message = FALSE) //clear out anything left
 
@@ -309,13 +308,13 @@
 		icon_state = "mw1"
 
 	set_light(1, 1.5)
-	soundloop.start()
+	soundloop.start(src)
 	update_icon()
 	SSnano.update_uis(src)
 
 /obj/machinery/microwave/proc/after_finish_loop()
 	set_light(0)
-	soundloop.stop()
+	soundloop.stop(src)
 	update_icon()
 
 /obj/machinery/microwave/proc/stop(var/abort = FALSE)
@@ -420,7 +419,7 @@
 		qdel(O)
 	reagents.clear_reagents()
 	SSnano.update_uis(src)
-	var/obj/item/chems/food/snacks/badrecipe/ffuu = new(src)
+	var/obj/item/chems/food/badrecipe/ffuu = new(src)
 	ffuu.reagents.add_reagent(/decl/material/solid/carbon, amount)
 	ffuu.reagents.add_reagent(/decl/material/liquid/bromide, amount/10)
 	return ffuu
@@ -466,5 +465,5 @@
 	las_rating = total_component_rating_of_type(/obj/item/stock_parts/micro_laser)
 
 	change_power_consumption(initial(active_power_usage) - (cap_rating * 25), POWER_USE_ACTIVE)
-	max_n_of_items = initial(max_n_of_items) + Floor(bin_rating)
+	max_n_of_items = initial(max_n_of_items) + FLOOR(bin_rating)
 	cooking_power = initial(cooking_power) + (las_rating / 3)

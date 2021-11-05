@@ -108,7 +108,7 @@
 	return dist
 
 /proc/get_dist_bounds(var/target, var/source) // Alternative to get_dist for multi-turf objects
-	return Ceiling(bounds_dist(target, source)/world.icon_size) + 1
+	return CEILING(bounds_dist(target, source)/world.icon_size) + 1
 
 /proc/circlerangeturfs(center=usr,radius=3)
 	var/turf/centerturf = get_turf(center)
@@ -482,7 +482,7 @@
 					rstats[i] = environment.vars[stats[i]]
 		else if(istype(T, /turf/simulated))
 			rstats = null // Exclude zone (wall, door, etc).
-		else if(istype(T, /turf))
+		else if(isturf(T))
 			// Should still work.  (/turf/return_air())
 			var/datum/gas_mixture/environment = T.return_air()
 			for(var/i=1;i<=stats.len;i++)
