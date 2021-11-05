@@ -15,7 +15,7 @@
 	var/error
 	var/datum/file_storage/network/current_filesource = /datum/file_storage/network
 
-/datum/computer_file/program/cloning/on_startup(var/mob/living/user, var/datum/extension/interactive/ntos/new_host)
+/datum/computer_file/program/cloning/on_startup(var/mob/living/user, var/datum/extension/interactive/os/new_host)
 	. = ..()
 	current_filesource = new(new_host)
 
