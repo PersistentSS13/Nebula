@@ -12,15 +12,14 @@
 	map_size_x = 50
 	map_size_y = 50
 
+	var/map_file = "maps/kleibkhar/kleibkhar-overmap.dmm"
+
 /datum/overmap/kleibkhar/generate_overmap()
-	// Since the Kleibkhar Overmap is premapped, we just locate it here and set the appropriate vars.
-	// TODO: This can probably be done without having an external .dmm using a few map templates.
-	var/area/overmap_area = locate(map_area_type) in global.areas
-	for(var/turf/T in overmap_area)
-		assigned_z = T.z
-		break
-	if(!assigned_z)
-		CRASH("Kleibkhar Overmap could not locate its assigned z-level!")
+	testing("Building overmap [name]...")
+	INCREMENT_WORLD_Z_SIZE
+	assigned_z = world.maxz
+	testing("Putting [name] on [assigned_z].")
+	maploader.load_map(file(map_file), 1, 1, assigned_z)
 	
 	global.using_map.sealed_levels |= assigned_z
 	testing("Overmap build for [name] complete.")
