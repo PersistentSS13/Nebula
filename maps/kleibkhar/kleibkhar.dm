@@ -8,8 +8,6 @@
 
 	#include "kleibkhar_test.dm"
 
-	#include "premade_shuttle/premade_shuttle.dm"
-
 	#include "kleibkhar_access.dm"
 	#include "kleibkhar_areas.dm"
 	#include "kleibkhar_departments.dm"
