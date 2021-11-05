@@ -2000,7 +2000,6 @@
 			"blocks_air",
 			"blessed",
 			"decals",
-			"flood_object",
 			"fluid_can_pass",
 			"flooded",
 			"footstep_type",
@@ -2111,7 +2110,6 @@
 	{
 		"path":"/atom",
 		"vars":[
-			"visibility",
 			"contents",
 			"blend_mode",
 			"density",
@@ -2122,14 +2120,12 @@
 			"layer",
 			"pixel_x",
 			"pixel_y",
-			"loc",
 			"level"
 		]
 	},
 	{
 		"path":"/obj",
 		"vars":[
-			"visibility",
 			"contents",
 			"dir",
 			"icon",
@@ -2138,7 +2134,6 @@
 			"opacity",
 			"pixel_x",
 			"pixel_y",
-			"loc",
 			"sharp",
 			"edge",
 			"anchor_fall",

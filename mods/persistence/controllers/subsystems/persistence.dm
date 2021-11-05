@@ -58,7 +58,7 @@
 		var/time_start_pipenet = REALTIMEOFDAY
 		for(var/datum/pipe_network/net in SSmachines.pipenets)
 			for(var/datum/pipeline/line in net.line_members)
-				line.temporarily_store_air()
+				line.temporarily_store_fluids()
 		report_progress("Pipenet air stored in [(REALTIMEOFDAY - time_start_pipenet) / (1 SECOND)]s")
 		sleep(5)
 
