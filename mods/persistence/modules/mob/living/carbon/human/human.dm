@@ -54,7 +54,7 @@
 			I.screen_loc = gear["loc"]
 	
 	//Important to regen icons here, since we skipped on that before load!
-	regenerate_icons()
+	refresh_visible_overlays()
 
 	CLEAR_SV //Clear saved vars
 
@@ -70,9 +70,9 @@
 	if(mind && !mind.finished_chargen)
 		return FALSE // We don't save characters who aren't finished CG.
 
-//Don't let it update icons during initialize
+// Don't let it update icons during initialize
 // Can't avoid upstream code from doing it, so just postpone it
-/mob/living/carbon/human/update_icons()
+/mob/living/carbon/human/update_icon()
 	if(!(atom_flags & ATOM_FLAG_INITIALIZED))
 		queue_icon_update() //Queue it later instead
 		return

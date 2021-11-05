@@ -17,5 +17,5 @@
 				return
 		
 		// Move this puppy a new spawn pod.
-		loc = SSchargen.get_spawn_turf()
+		forceMove(SSchargen.get_spawn_turf())
 		SSchargen.assign_spawn_pod(src, loc)
