@@ -40,7 +40,7 @@
 // Mining turfs may have issues finding an owner on load - upon return air, look for the owner if one does not exist
 /turf/exterior/barren/mining/return_air()
 	if(!owner)
-		owner = LAZYACCESS(map_sectors, "[z]")
+		owner = LAZYACCESS(global.overmap_sectors, "[z]")
 		if(!istype(owner))
 			owner = null
 	. = ..()

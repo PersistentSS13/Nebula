@@ -148,8 +148,8 @@
 				z_level.default_turf = get_base_turf(T.z)
 				z_level.index = T.z
 				z_level.dynamic = TRUE
-				if("[T.z]" in map_sectors)
-					var/obj/effect/overmap = map_sectors["[T.z]"]
+				if("[T.z]" in global.overmap_sectors)
+					var/obj/effect/overmap = global.overmap_sectors["[T.z]"]
 					z_level.metadata = "[overmap.x],[overmap.y]"
 				new_z_index++
 				z_level.new_index = new_z_index
