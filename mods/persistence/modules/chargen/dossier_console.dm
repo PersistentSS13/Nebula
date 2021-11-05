@@ -57,7 +57,7 @@
 				for(var/skill in origin.skills)
 					skillset.skill_list[skill] -= origin.skills[skill]
 
-			var/decl/hierarchy/chargen/origin/origins = decls_repository.get_decl(/decl/hierarchy/chargen/origin)
+			var/decl/hierarchy/chargen/origin/origins = GET_DECL(/decl/hierarchy/chargen/origin)
 			for(var/decl/hierarchy/chargen/D in origins.children)
 				if(D.ID == href_list["ref"])
 					// Found.
@@ -70,7 +70,7 @@
 				for(var/skill in role.skills)
 					skillset.skill_list[skill] -= role.skills[skill]
 
-			var/decl/hierarchy/chargen/role/roles = decls_repository.get_decl(/decl/hierarchy/chargen/role)
+			var/decl/hierarchy/chargen/role/roles = GET_DECL(/decl/hierarchy/chargen/role)
 			for(var/decl/hierarchy/chargen/D in roles.children)
 				if(D.ID == href_list["ref"])
 					// Found.
@@ -106,8 +106,8 @@
 	// Populate role & origin choices.
 	.["origins"] = list()
 	.["roles"] = list()
-	var/decl/hierarchy/chargen/origin/origins = decls_repository.get_decl(/decl/hierarchy/chargen/origin)
-	var/decl/hierarchy/chargen/role/roles = decls_repository.get_decl(/decl/hierarchy/chargen/role)
+	var/decl/hierarchy/chargen/origin/origins = GET_DECL(/decl/hierarchy/chargen/origin)
+	var/decl/hierarchy/chargen/role/roles = GET_DECL(/decl/hierarchy/chargen/role)
 	for(var/decl/hierarchy/chargen/D in (roles.children + origins.children))
 		var/list/fields = list(
 			"name" = D.name,
@@ -120,7 +120,7 @@
 		for(var/skill in D.skills)
 			if(!ispath(skill))
 				continue
-			var/decl/hierarchy/skill/S = decls_repository.get_decl(skill)
+			var/decl/hierarchy/skill/S = GET_DECL(skill)
 			if(!istype(S))
 				continue
 			fields["skills"] += S.name

@@ -141,7 +141,7 @@
 	dat += "</center></tt>"
 
 	dat += "<table>"
-	var/decl/hierarchy/skill/skill = decls_repository.get_decl(/decl/hierarchy/skill)
+	var/decl/hierarchy/skill/skill = GET_DECL(/decl/hierarchy/skill)
 	for(var/decl/hierarchy/skill/cat in skill.children)
 		dat += "<tr><th colspan = 4><b>[cat.name]</b>"
 		dat += "</th></tr>"
@@ -210,7 +210,7 @@
 	if(!S.prerequisites)
 		return TRUE
 	for(var/skill_type in S.prerequisites)
-		var/decl/hierarchy/skill/prereq = decls_repository.get_decl(skill_type)
+		var/decl/hierarchy/skill/prereq = GET_DECL(skill_type)
 		var/value = SKILL_MIN + SS.get_value(prereq.type)
 		if(value < S.prerequisites[skill_type])
 			return FALSE

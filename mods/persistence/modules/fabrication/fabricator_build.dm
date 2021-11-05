@@ -59,7 +59,7 @@
 	order.remaining_time = order.build_time
 	order.target_recipe =  blueprint.get_recipe()
 	order.multiplier =     multiplier
-	order.power_usage =    ceil(initial(active_power_usage) / blueprint.power_efficiency)
+	order.power_usage =    CEILING(initial(active_power_usage) / blueprint.power_efficiency)
 	order.instability =    blueprint.instability
 	queued_orders +=       order
 

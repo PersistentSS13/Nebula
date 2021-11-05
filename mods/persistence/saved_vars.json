@@ -4253,7 +4253,7 @@
 		"path":"/datum/wrapper/map_data",
 		"vars":[
 			"height",
-			"loc"
+			"landmark_loc"
 		]
 	},
 	{

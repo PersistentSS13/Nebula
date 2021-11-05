@@ -1,5 +1,5 @@
 /decl/hierarchy/chargen/origin
-	hierarchy_type = /decl/hierarchy/chargen/origin
+	abstract_type = /decl/hierarchy/chargen/origin
 
 /decl/hierarchy/chargen/origin/Initialize()
 	. = ..()
