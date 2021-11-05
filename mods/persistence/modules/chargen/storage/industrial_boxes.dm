@@ -105,7 +105,7 @@
 /obj/item/chargen_box/industrial/stirling
 	name = "DIY stirling generator kit"
 	startswith = list(
-		/obj/item/stock_parts/circuitboard/pacman/stirling = 1,
+		/obj/item/stock_parts/circuitboard/pacman = 1,
 		/obj/item/stock_parts/matter_bin = 1,
 		/obj/item/stock_parts/micro_laser = 1,
 		/obj/item/stock_parts/capacitor = 1,
