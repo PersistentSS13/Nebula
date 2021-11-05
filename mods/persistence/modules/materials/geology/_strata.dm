@@ -44,7 +44,7 @@
 
 /decl/strata/asteroid/iron
 	name = "iron-rich spaceborne rock"
-	base_materials = list(/decl/material/stone/asteroid)
+	base_materials = list(/decl/material/solid/stone/asteroid)
 	ores_sparse = list(
 		/decl/material/solid/hematite = 20,
 		/decl/material/solid/magnetite = 60,
@@ -61,7 +61,7 @@
 
 /decl/strata/asteroid/carbon
 	name = "carbon-rich spaceborne rock"
-	base_materials = list(/decl/material/stone/asteroid)
+	base_materials = list(/decl/material/solid/stone/asteroid)
 	ores_sparse = list(
 		/decl/material/solid/hematite = 10,
 		/decl/material/solid/pitchblende = 5,
@@ -81,7 +81,7 @@
 
 /decl/strata/asteroid/copper
 	name = "copper-rich spaceborne rock"
-	base_materials = list(/decl/material/stone/asteroid)
+	base_materials = list(/decl/material/solid/stone/asteroid)
 	ores_sparse = list(
 		/decl/material/solid/hematite = 5,
 		/decl/material/solid/rutile = 2,
@@ -100,7 +100,7 @@
 
 /decl/strata/asteroid/dense
 	name = "dense spaceborne rock"
-	base_materials = list(/decl/material/stone/asteroid)
+	base_materials = list(/decl/material/solid/stone/asteroid)
 	ores_sparse = list(
 		/decl/material/solid/cassiterite = 50,
 		/decl/material/solid/galena = 25,
@@ -117,7 +117,7 @@
 
 /decl/strata/asteroid/shimmering
 	name = "shimmering spaceborne rock"
-	base_materials = list(/decl/material/stone/asteroid)
+	base_materials = list(/decl/material/solid/stone/asteroid)
 	ores_sparse = list(
 		/decl/material/solid/quartz = 15,
 		/decl/material/solid/pyrite = 60,
@@ -138,7 +138,7 @@
 
 /decl/strata/asteroid/rich
 	name = "mineral rich spaceborne rock"
-	base_materials = list(/decl/material/stone/asteroid)
+	base_materials = list(/decl/material/solid/stone/asteroid)
 	ores_sparse = list(
 		/decl/material/solid/magnetite = 20,
 		/decl/material/solid/metal/gold = 5,

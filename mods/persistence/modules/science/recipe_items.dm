@@ -4,6 +4,6 @@
 	time = 50
 	difficulty = 1
 
-/decl/material/steel/generate_recipes(var/reinforce_material)
+/decl/material/solid/metal/steel/generate_recipes(var/reinforce_material)
 	. = ..()
 	. += new/datum/stack_recipe/experimental_device(src)

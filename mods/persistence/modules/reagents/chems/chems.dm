@@ -174,6 +174,7 @@
 	scannable = 1
 	flags = IGNORE_MOB_SIZE
 	value = 4.9
+	uid = "chem_bicaridine"
 
 /decl/material/liquid/bicaridine/affect_overdose(mob/living/M, alien, var/datum/reagents/holder)
 	..()
@@ -197,6 +198,7 @@
 	scannable = 1
 	flags = IGNORE_MOB_SIZE
 	value = 2.9
+	uid = "chem_kelotane"
 
 /decl/material/liquid/kelotane/affect_blood(mob/living/M, alien, removed, var/datum/reagents/holder)	
 	M.heal_organ_damage(0, 6 * removed)
@@ -211,6 +213,7 @@
 	scannable = 1
 	flags = IGNORE_MOB_SIZE
 	value = 3.7
+	uid = "chem_dexplus"
 
 /decl/material/liquid/dexalinplus/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	M.add_chemical_effect(CE_OXYGENATED, 2)
@@ -227,6 +230,7 @@
 	value = 3.1
 	pain_power = 200 //magnitude of painkilling effect
 	effective_dose = 2 //how many units it need to process to reach max power
+	uid = "chem_morphine"
 
 /decl/material/liquid/painkillers/morphine/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	SET_STATUS_MAX(M, STAT_DROWSY, 10)
@@ -245,6 +249,7 @@
 	scannable = 1
 	flags = IGNORE_MOB_SIZE
 	value = 3.7
+	uid = "chem_ultradex"
 
 /decl/material/liquid/ultradex/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	M.add_chemical_effect(CE_OXYGENATED, 3)
