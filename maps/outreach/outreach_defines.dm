@@ -6,8 +6,6 @@
 	station_name  = "Outreach"
 	station_short = "Outreach"
 
-	overmap_size = 100
-	overmap_event_areas = 250
 
 	allowed_spawns = list(/decl/spawnpoint/cryo)
 	default_spawn = /decl/spawnpoint/cryo
@@ -30,8 +28,6 @@
 	starting_money = 5000
 	department_money = 0
 	salary_modifier = 0.2
-
-	use_overmap = TRUE
 
 /datum/map/outreach/get_map_info()
 	return "You are en route to Outreach, a desolate planet previously targeted for mining operations, but now largely abandoned. Judges - corporate law enforcement - remain in the sector to keep the order. Colonists come from a wide variety of backgrounds, but universally with only the shirt on their backs."
