@@ -105,24 +105,31 @@
 			qdel(src)
 			return
 	// Query for the character associated with this ckey
+	spawning = TRUE
 	var/DBQuery/char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]'")
 	if(!char_query.Execute())
 		to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
 	if(char_query.NextRow())
 		var/list/char_items = char_query.GetRowData()
-		var/datum/mind/target_mind = SSpersistence.DeserializeOneOff(char_items["key"], LIMBO_MIND)
+		var/list/deserialized = SSpersistence.DeserializeOneOff(char_items["key"], LIMBO_MIND)
+		var/datum/mind/target_mind
+		for(var/thing in deserialized)
+			if(istype(thing, /datum/mind))
+				var/datum/mind/check_mind = thing
+				if(cmptext(check_mind.key, key))
+					target_mind = check_mind
+				break
 		if(!target_mind)
 			to_world_log("CHARACTER DESERIALIZATION FAILED: Could not locate key [char_items["key"]] from limbo list.")
 			to_chat(src, SPAN_WARNING("Something has gone wrong while returning you to your body. Contact an admin."))
+			spawning = FALSE
 			return
 		var/mob/person = target_mind.current
 		transition_to_game()
 		to_chat(src, SPAN_NOTICE("A character is already in game."))
-		spawning = TRUE
 		person.key = key
 		qdel(src)
 		return
-
 
 	switch(alert("Are you sure you want to join the game with the character you've created? This cannot be undone!", "Character Confirmation", "Yes", "No"))
 		if("No")
