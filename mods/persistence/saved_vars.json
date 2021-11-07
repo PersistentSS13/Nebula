@@ -42,16 +42,6 @@
 		]
 	},
 	{
-		"path":"/datum/extension/holster",
-		"vars":[
-			"holder",
-			"atom_holder",
-			"storage",
-			"can_holster",
-			"holstered"
-		]
-	},
-	{
 		"path":"/datum/fluidtrack",
 		"vars":[
 			"direction",
@@ -1787,8 +1777,7 @@
 			"initial_access",
 			"uncreated_component_parts",
 			"construct_state",
-			"id_tag",
-			"component_parts"
+			"id_tag"
 		]
 	},
 	{
@@ -2835,6 +2824,14 @@
 			"min_skill_level",
 			"textbook_skills",
 			"last_read_time"
+		]
+	},
+	{
+		"path":"/datum/skill_buff",
+		"vars":[
+			"buffs",
+			"limit",
+			"skillset"
 		]
 	},
 	{
@@ -4093,12 +4090,6 @@
 		]
 	},
 	{
-		"path":"/datum/extension",
-		"vars":[
-			"holder"
-		]
-	},
-	{
 		"path":"/datum/extension/assembly",
 		"vars":[
 			"parts",
@@ -4124,6 +4115,12 @@
 			"key"
 		],
 		"flatten":true
+	},
+	{
+		"path":"/datum/wrapper_holder",
+		"vars":[
+			"wrapped"
+		]
 	},
 	{
 		"path":"/datum/wrapper/area",
@@ -4335,6 +4332,59 @@
 			"seed",
 			"plant",
 			"max_growth"
+		]
+	},
+	{
+		"path":"/datum/wrapper/late/extension",
+		"vars":[
+			"holder_p_id",
+			"extension_saved_vars"
+		],
+		"flatten":true
+	},
+	{
+		"path":"/datum/extension/labels",
+		"vars":[
+			"labels"
+		]
+	},
+	{
+		"path":"/datum/extension/forensic_evidence",
+		"vars":[
+			"evidence",
+			"last_updated"
+		]
+	},
+	{
+		"path":"/datum/forensics",
+		"vars":[
+			"data"
+		]
+	},
+	{
+		"path":"/datum/fingerprint",
+		"vars":[
+			"full_print",
+			"completeness"
+		]
+	},
+	{
+		"path":"/obj/item/evidencebag",
+		"vars":[
+			"stored_item"
+		]
+	},
+	{
+		"path":"/obj/item/forensics/sample",
+		"vars":[
+			"object",
+			"evidence"
+		]
+	},
+	{
+		"path":"/obj/machinery/forensic",
+		"vars":[
+			"sample"
 		]
 	}
 ]

@@ -8,6 +8,8 @@
 
 	var/list/saved_areas	= 	list()
 	var/list/saved_levels 	= 	list()	// Saved levels are saved entirely and optimized with get_base_turf()
+	var/list/saved_extensions = list()  // Extensions mark themselves to be saved on world save.
+
 	var/rent_enabled = FALSE			// Whether or not rent will be required for created sectors.
 
 	var/serializer/sql/serializer = new() // The serializer impl for actually saving.
@@ -16,6 +18,8 @@
 	var/list/limbo_removals = list() // Objects which will be removed from limbo on the next save. Format is list(limbo_key, limbo_type)
 
 	var/loading_world = FALSE
+
+	var/list/late_wrappers = list() // Some wrapped objects need special behavior post-load. This list is cleared post-atom Init.
 
 /datum/controller/subsystem/persistence/Initialize()
 	saved_levels = global.using_map.saved_levels
@@ -173,16 +177,9 @@
 				continue
 			areas_to_serialize |= A
 		areas_to_serialize |= saved_areas
-		// Locate a turf that will always be saved to move or create the area holder
-		var/turf/saved_turf = locate(world.maxx/2, world.maxy/2, global.using_map.saved_levels[1])
-		if(!global.area_holder)
-			global.area_holder = new /atom/movable/area_holder(saved_turf)
-		area_holder.areas = areas_to_serialize
-		area_holder.forceMove(saved_turf)
-		// Just in case, serialize the holder. No need to commit ref updates because the areas are wrapped.
-		serializer.Serialize(area_holder)
+		var/datum/wrapper_holder/area_wrapper_holder = new(areas_to_serialize)
+		serializer.Serialize(area_wrapper_holder)
 		serializer.Commit()
-		area_holder.areas.Cut()
 
 		report_progress("Z-levels prepared for save in [(REALTIMEOFDAY - time_start_zprepare) / (1 SECOND)]s.")
 		sleep(5)
@@ -206,8 +203,8 @@
 						if(!istype(T) || !T.contents || !length(T.contents))
 							continue
 						var/should_skip = TRUE
-						for(var/atom/movable/AM in T.contents)
-							if(AM.should_save())
+						for(var/atom/A AS_ANYTHING in T.contents)
+							if(A.should_save())
 								should_skip = FALSE
 								break // We found a thing that's worth saving.
 						if(should_skip)
@@ -245,7 +242,7 @@
 					if(!istype(T) || !T.contents || !length(T.contents) || !T.should_save)
 						continue
 					var/should_skip = TRUE
-					for(var/atom/movable/AM in T.contents)
+					for(var/atom/AM AS_ANYTHING in T.contents)
 						if(AM.should_save())
 							should_skip = FALSE
 							break // We found a thing that's worth saving.
@@ -271,11 +268,24 @@
 		report_progress("Z-levels areas saved in [(REALTIMEOFDAY - time_start_zarea) / (1 SECOND)]s.")
 		sleep(5)
 
+		report_progress("Saving extensions...")
+		// Now save all the extensions which have marked themselves to be saved.
+		// As with areas, we create a dummy wrapper holder to hold these during load etc.
+		var/datum/wrapper_holder/extension_wrapper_holder = new(saved_extensions)
+		var/time_start_extensions = REALTIMEOFDAY
+		serializer.Serialize(extension_wrapper_holder)
+		serializer.Commit()
+
+		report_progress("Extensions saved in [(REALTIMEOFDAY - time_start_extensions) / (1 SECOND)]s.")
+		sleep(5)
+
 		//
 		//	CLEANUP SECTION
 		//
 		// Clear the refmaps/do other cleanup to end the save.
 		serializer.Clear()
+		// Clear the custom saved list used to keep list refs intact
+		global.custom_saved_lists.Cut()
 		// Reboot air subsystem.
 		SSair.reboot()
 		// Let people back in
@@ -283,7 +293,7 @@
 	catch (var/exception/e)
 		to_world_log("Save failed on line [e.line], file [e.file] with message: '[e]'.")
 	to_world("Save complete! Took [(world.timeofday-start)/ (1 SECOND)]s to save world.")
-	
+	saved_extensions.Cut() // Make extensions re-report if they want to be saved again.
 	serializer._after_serialize()
 
 	// Launch event for anything that needs to do cleanup post save.
@@ -329,8 +339,11 @@
 		for(var/TKEY in serializer.resolver.things)
 			try
 				var/datum/persistence/load_cache/thing/T = serializer.resolver.things[TKEY]
+				if(ispath(T.thing_type, /datum/wrapper_holder)) // Special handling for wrapper holders since they don't have another reference.
+					serializer.DeserializeDatum(T)
+					continue
 				if(!T.x || !T.y || !T.z)
-					continue // This isn't a turf. We can skip it.
+					continue // This isn't a turf or a wrapper holder. We can skip it.
 				serializer.DeserializeDatum(T)
 				turfs_loaded["([T.x], [T.y], [T.z])"] = TRUE
 			catch(var/exception/E)
@@ -389,6 +402,21 @@
 
 	serializer._after_deserialize()
 	loading_world = FALSE
+
+/datum/controller/subsystem/persistence/proc/clear_late_wrapper_queue()
+	if(!length(late_wrappers))
+		return
+	var/new_db_connection = FALSE
+	if(!check_save_db_connection())
+		if(!establish_save_db_connection())
+			CRASH("SSPersistence: Couldn't establish DB connection while clearing wrapper queue!")
+		new_db_connection = TRUE
+	for(var/datum/wrapper/late/L AS_ANYTHING in late_wrappers)
+		L.on_late_load()
+	
+	late_wrappers.Cut()
+	if(new_db_connection)
+		close_save_db_connection()
 
 /datum/controller/subsystem/persistence/proc/AddSavedLevel(var/z)
 	saved_levels |= z
@@ -453,6 +481,28 @@
 	. = one_off.DeserializeOneOff(limbo_key, limbo_type, remove_after)
 	if(remove_after)
 		limbo_removals += list(list(limbo_key, limbo_type))
+	if(new_db_connection)
+		close_save_db_connection()
+
+// Get an object from its p_id via ref tracking. This will not always work if an object is asynchronously deserialized from others.
+// This is also quite slow - if you're trying to locate many objects at once, it's best to use a single query for multiple objects.
+
+/datum/controller/subsystem/persistence/proc/get_object_from_p_id(var/target_p_id)
+	var/new_db_connection = FALSE
+	if(!check_save_db_connection())
+		if(!establish_save_db_connection())
+			CRASH("SSPersistence: Couldn't establish DB connection during Object Lookup!")
+		new_db_connection = TRUE
+	var/DBQuery/world_query = dbcon_save.NewQuery("SELECT `p_id`, `ref` FROM `[SQLS_TABLE_DATUM]` WHERE `p_id` = \"[target_p_id]\";")
+	SQLS_EXECUTE_AND_REPORT_ERROR(world_query, "OBTAINING OBJECT FROM P_ID FAILED:")
+
+	while(world_query.NextRow())
+		var/list/items = world_query.GetRowData()
+		var/datum/existing = locate(items["ref"])
+		if(existing && !QDELETED(existing) && existing.persistent_id == items["p_id"])
+			. = existing
+		break
+	
 	if(new_db_connection)
 		close_save_db_connection()
 
