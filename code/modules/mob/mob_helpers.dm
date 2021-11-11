@@ -331,7 +331,7 @@ It's fairly easy to fix if dealing with single letters but not so much with comp
 		return
 	M.shakecamera = current_time + max(TICKS_PER_RECOIL_ANIM, duration)
 	strength = abs(strength)*PIXELS_PER_STRENGTH_VAL
-	var/steps = min(1, Floor(duration/TICKS_PER_RECOIL_ANIM))-1
+	var/steps = min(1, FLOOR(duration/TICKS_PER_RECOIL_ANIM))-1
 	animate(M.client, pixel_x = rand(-(strength), strength), pixel_y = rand(-(strength), strength), time = TICKS_PER_RECOIL_ANIM, easing = JUMP_EASING|EASE_IN)
 	if(steps)
 		for(var/i = 1 to steps)
@@ -376,7 +376,7 @@ var/global/list/intents = list(I_HELP,I_DISARM,I_GRAB,I_HURT)
 	return FALSE
 
 //change a mob's act-intent. Input the intent as a string such as "help" or use "right"/"left
-/mob/verb/a_intent_change(input as text)
+/mob/proc/a_intent_change(input)
 	set name = "a-intent"
 	set hidden = 1
 
@@ -580,22 +580,22 @@ var/global/list/intents = list(I_HELP,I_DISARM,I_GRAB,I_HURT)
 	return ..(aiMulti)
 
 /mob/proc/refresh_client_images()
-	if(client)
+	if(client && LAZYLEN(client_images))
 		client.images |= client_images
 
 /mob/proc/hide_client_images()
-	if(client)
+	if(client && LAZYLEN(client_images))
 		client.images -= client_images
 
 /mob/proc/add_client_image(var/image)
 	if(image in client_images)
 		return
-	client_images += image
+	LAZYADD(client_images, image)
 	if(client)
 		client.images += image
 
 /mob/proc/remove_client_image(var/image)
-	client_images -= image
+	LAZYREMOVE(client_images, image)
 	if(client)
 		client.images -= image
 

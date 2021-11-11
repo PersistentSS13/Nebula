@@ -53,7 +53,7 @@
 	return ..()
 
 /obj/machinery/smartfridge/proc/accept_check(var/obj/item/O)
-	if(istype(O,/obj/item/chems/food/snacks/grown/) || istype(O,/obj/item/seeds/))
+	if(istype(O,/obj/item/chems/food/grown/) || istype(O,/obj/item/seeds/))
 		return 1
 	return 0
 
@@ -99,7 +99,7 @@
 	icon_contents = "drink"
 
 /obj/machinery/smartfridge/drinks/accept_check(var/obj/item/O)
-	if(istype(O,/obj/item/chems/glass) || istype(O,/obj/item/chems/food/drinks) || istype(O,/obj/item/chems/food/condiment))
+	if(istype(O,/obj/item/chems/glass) || istype(O,/obj/item/chems/drinks) || istype(O,/obj/item/chems/condiment))
 		return 1
 
 /obj/machinery/smartfridge/foods
@@ -110,7 +110,7 @@
 	icon_contents = "food"
 
 /obj/machinery/smartfridge/foods/accept_check(var/obj/item/O)
-	if(istype(O,/obj/item/chems/food/snacks) || istype(O,/obj/item/kitchen/utensil))
+	if(istype(O,/obj/item/chems/food) || istype(O,/obj/item/kitchen/utensil))
 		return 1
 
 /obj/machinery/smartfridge/drying_rack
@@ -119,8 +119,8 @@
 	icon_state = "drying_rack"
 
 /obj/machinery/smartfridge/drying_rack/accept_check(var/obj/item/O)
-	if(istype(O, /obj/item/chems/food/snacks/))
-		var/obj/item/chems/food/snacks/S = O
+	if(istype(O, /obj/item/chems/food/))
+		var/obj/item/chems/food/S = O
 		return !!S.dried_type
 	else if(istype(O, /obj/item/stack/material))
 		return istype(O.material, /decl/material/solid/skin)
@@ -152,8 +152,8 @@
 	for(var/datum/stored_items/I in item_records)
 		for(var/thing in I.instances)
 			var/remove_thing = FALSE
-			if(istype(thing, /obj/item/chems/food/snacks))
-				var/obj/item/chems/food/snacks/S = thing
+			if(istype(thing, /obj/item/chems/food))
+				var/obj/item/chems/food/S = thing
 				if(S.dry || !I.get_specific_product(get_turf(src), S))
 					continue
 				var/result = S.on_dry(get_turf(src))
@@ -170,9 +170,8 @@
 				var/decl/material/solid/skin/skin_mat = skin.material
 				if(!skin_mat.tans_to)
 					continue
-				var/atom/item_to_stock = SSmaterials.create_object(skin_mat.tans_to, get_turf(src), skin.amount)
-				if(istype(item_to_stock))
-					stock_item(item_to_stock, skin.amount)
+				for(var/atom/item_to_stock in SSmaterials.create_object(skin_mat.tans_to, get_turf(src), skin.amount))
+					stock_item(item_to_stock)
 				remove_thing = TRUE
 
 			if(remove_thing)

@@ -6,17 +6,12 @@
 	station_name  = "Kleibkhar Colony"
 	station_short = "Kleibkhar Colony"
 
-	use_overmap = TRUE
 	evac_controller_type = /datum/evacuation_controller/lifepods
 
 	radiation_detected_message = "High levels of radiation have been detected near the surface of %STATION_NAME%. Please move to a shielded area."
 
-	overmap_size = 100
-	overmap_event_areas = 250
-
 	allowed_spawns = list(/decl/spawnpoint/cryo)
 	default_spawn = /decl/spawnpoint/cryo
-
 	shuttle_docked_message = "The shuttle has docked."
 	shuttle_leaving_dock = "The shuttle has departed from home dock."
 	shuttle_called_message = "A scheduled transfer shuttle has been sent."

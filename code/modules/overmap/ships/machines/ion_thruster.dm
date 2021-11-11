@@ -32,6 +32,7 @@
 	desc = "An advanced propulsion device, using energy and minutes amount of gas to generate thrust."
 	icon = 'icons/obj/ship_engine.dmi'
 	icon_state = "nozzle2"
+	density = 1
 	power_channel = ENVIRON
 	idle_power_usage = 100
 	anchored = TRUE
@@ -50,7 +51,7 @@
 		else
 			to_chat(user, SPAN_WARNING("\The [src] flashes an error!"))
 		return TRUE
-	
+
 	. = ..()
 
 /obj/machinery/ion_thruster/proc/burn(var/partial)
@@ -63,6 +64,9 @@
 	cut_overlays()
 	if(!(stat & (NOPOWER | BROKEN)))
 		add_overlay(emissive_overlay(icon, "ion_glow"))
+		z_flags |= ZMM_MANGLE_PLANES
+	else
+		z_flags &= ~ZMM_MANGLE_PLANES
 
 /obj/machinery/ion_thruster/power_change()
 	. = ..()

@@ -24,22 +24,12 @@
 /obj/effect/overmap/visitable/sector/lar_maria,
 /turf/simulated/floor/reinforced,
 /area/space)
-"ag" = (
-/obj/effect/floor_decal/solarpanel,
-/obj/structure/cable/yellow{
-	d2 = 2;
-	icon_state = "0-2"
-	},
-/obj/machinery/power/solar,
-/turf/simulated/floor/reinforced,
-/area/space)
 "ah" = (
 /turf/simulated/wall/r_wall,
 /area/lar_maria/solar_control)
 "ai" = (
 /obj/effect/floor_decal/solarpanel,
 /obj/structure/cable/yellow{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /obj/machinery/power/solar,
@@ -47,122 +37,76 @@
 /area/space)
 "aj" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/reinforced,
 /area/space)
 "ak" = (
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/reinforced,
 /area/space)
 "al" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/reinforced,
 /area/space)
 "am" = (
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/reinforced,
 /area/space)
 "an" = (
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/reinforced,
 /area/space)
 "ao" = (
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/reinforced,
 /area/space)
 "ap" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/reinforced,
 /area/space)
-"aq" = (
-/obj/effect/floor_decal/solarpanel,
-/obj/structure/cable/yellow,
-/obj/machinery/power/solar,
-/turf/simulated/floor/reinforced,
-/area/space)
 "ar" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/reinforced,
 /area/space)
-"as" = (
-/obj/machinery/power/solar_control/autostart,
-/obj/structure/cable/yellow{
-	d2 = 2;
-	icon_state = "0-2"
-	},
-/turf/simulated/floor/plating,
-/area/lar_maria/solar_control)
 "au" = (
 /obj/machinery/power/port_gen/pacman/super,
 /turf/simulated/floor/plating,
@@ -189,7 +133,6 @@
 "az" = (
 /obj/machinery/power/solar_control/autostart,
 /obj/structure/cable/yellow{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /turf/simulated/floor/plating,
@@ -202,7 +145,6 @@
 /area/space)
 "aB" = (
 /obj/structure/cable/yellow{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /obj/machinery/power/tracker{
@@ -212,39 +154,27 @@
 /area/space)
 "aC" = (
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/reinforced,
 /area/space)
 "aD" = (
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/reinforced,
 /area/space)
 "aE" = (
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/machinery/button/access/exterior{
@@ -260,16 +190,12 @@
 	id_tag = "ZHPWestSolar_outer"
 	},
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/plating,
 /area/lar_maria/solar_control)
 "aG" = (
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/external_air{
@@ -296,26 +222,21 @@
 	id_tag = "ZHPWestSolar_inner"
 	},
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/plating,
 /area/lar_maria/solar_control)
 "aI" = (
 /obj/structure/cable/yellow{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/machinery/power/terminal,
 /obj/effect/floor_decal/industrial/warning{
-	icon_state = "warning";
-	dir = 8
+	dir = 8;
+	icon_state = "warning"
 	},
 /obj/machinery/button/access/interior{
 	id_tag = "ZHPWestSolar";
@@ -329,12 +250,9 @@
 /area/lar_maria/solar_control)
 "aK" = (
 /obj/structure/cable/yellow{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/machinery/power/terminal,
@@ -355,8 +273,6 @@
 	id_tag = "ZHPEastSolar_inner"
 	},
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/blood,
@@ -364,8 +280,6 @@
 /area/lar_maria/solar_control)
 "aM" = (
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/external_air{
@@ -393,8 +307,6 @@
 	id_tag = "ZHPEastSolar_outer"
 	},
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/blood,
@@ -402,18 +314,12 @@
 /area/lar_maria/solar_control)
 "aO" = (
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/effect/decal/cleanable/blood,
@@ -426,8 +332,6 @@
 /area/space)
 "aP" = (
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/blood,
@@ -435,8 +339,6 @@
 /area/space)
 "aQ" = (
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/effect/landmark/corpse/lar_maria/test_subject,
@@ -445,33 +347,24 @@
 /area/space)
 "aR" = (
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/reinforced,
 /area/space)
 "aS" = (
 /obj/structure/cable/yellow{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/structure/cable/yellow{
-	d1 = 4;
-	d2 = 8;
 	icon_state = "4-8"
 	},
 /turf/simulated/floor/reinforced,
 /area/space)
 "aT" = (
 /obj/structure/cable/yellow{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /obj/machinery/power/tracker{
@@ -483,25 +376,18 @@
 /obj/effect/floor_decal/solarpanel,
 /obj/machinery/power/solar,
 /obj/structure/cable/yellow{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /turf/simulated/floor/reinforced,
 /area/space)
 "aV" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/reinforced,
@@ -510,7 +396,6 @@
 /obj/effect/floor_decal/solarpanel,
 /obj/machinery/power/solar,
 /obj/structure/cable/yellow{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/reinforced,
@@ -518,24 +403,18 @@
 "aX" = (
 /obj/machinery/power/smes/buildable,
 /obj/structure/cable{
-	icon_state = "0-4";
-	d2 = 4
+	icon_state = "0-4"
 	},
 /turf/simulated/floor/plating,
 /area/lar_maria/solar_control)
 "aY" = (
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/plating,
 /area/lar_maria/solar_control)
 "aZ" = (
 /obj/structure/cable{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/plating,
@@ -546,8 +425,6 @@
 /area/lar_maria/solar_control)
 "bb" = (
 /obj/structure/cable{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /obj/effect/decal/cleanable/blood,
@@ -556,7 +433,6 @@
 "bc" = (
 /obj/machinery/power/smes/buildable,
 /obj/structure/cable{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/plating,
@@ -564,7 +440,6 @@
 "bd" = (
 /obj/effect/floor_decal/solarpanel,
 /obj/structure/cable/yellow{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /obj/machinery/power/solar,
@@ -573,7 +448,6 @@
 "be" = (
 /obj/effect/floor_decal/solarpanel,
 /obj/structure/cable/yellow{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /obj/machinery/power/solar,
@@ -581,8 +455,6 @@
 /area/space)
 "bf" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/reinforced,
@@ -596,8 +468,6 @@
 	dir = 6
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/plating,
@@ -622,8 +492,6 @@
 /area/lar_maria/solar_control)
 "bl" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/reinforced,
@@ -631,8 +499,6 @@
 "bn" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/plating,
@@ -652,8 +518,6 @@
 /area/lar_maria/solar_control)
 "bs" = (
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
@@ -664,7 +528,7 @@
 /turf/simulated/floor/plating,
 /area/lar_maria/solar_control)
 "bu" = (
-/obj/structure/table/rack,
+/obj/structure/rack,
 /obj/random/toolbox,
 /obj/random/material,
 /turf/simulated/floor/plating,
@@ -695,13 +559,9 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/plating,
@@ -711,17 +571,13 @@
 	dir = 8
 	},
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/blood,
 /turf/simulated/floor/plating,
 /area/lar_maria/solar_control)
 "bB" = (
 /obj/machinery/power/apc{
-	dir = 2;
 	name = "south bump";
 	pixel_y = -24
 	},
@@ -729,13 +585,12 @@
 	dir = 8
 	},
 /obj/structure/cable{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/plating,
 /area/lar_maria/solar_control)
 "bC" = (
-/obj/structure/table/rack,
+/obj/structure/rack,
 /obj/random/toolbox,
 /obj/random/smokes,
 /turf/simulated/floor/plating,
@@ -751,8 +606,6 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/door/airlock/engineering,
@@ -764,10 +617,6 @@
 /obj/machinery/door/airlock/engineering,
 /turf/simulated/floor/plating,
 /area/lar_maria/atmos)
-"bH" = (
-/obj/structure/bookcase,
-/turf/simulated/floor/tiled,
-/area/lar_maria/library)
 "bI" = (
 /obj/structure/bookcase,
 /obj/machinery/light{
@@ -786,7 +635,6 @@
 /area/lar_maria/atmos)
 "bK" = (
 /obj/machinery/atmospherics/pipe/manifold/visible/red{
-	icon_state = "map";
 	dir = 1
 	},
 /turf/simulated/floor/plating,
@@ -800,24 +648,22 @@
 "bN" = (
 /obj/machinery/portable_atmospherics/powered/pump,
 /obj/effect/floor_decal/industrial/warning{
-	icon_state = "warning";
-	dir = 10
+	dir = 10;
+	icon_state = "warning"
 	},
 /turf/simulated/floor/plating,
 /area/lar_maria/atmos)
 "bO" = (
 /obj/machinery/portable_atmospherics/powered/scrubber,
 /obj/effect/floor_decal/industrial/warning{
-	icon_state = "warning";
-	dir = 6
+	dir = 6;
+	icon_state = "warning"
 	},
 /turf/simulated/floor/plating,
 /area/lar_maria/atmos)
 "bP" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/plating,
@@ -827,12 +673,12 @@
 /turf/simulated/floor/plating,
 /area/lar_maria/atmos)
 "bR" = (
-/obj/structure/table/rack,
+/obj/structure/rack,
 /obj/random/tool,
 /turf/simulated/floor/plating,
 /area/lar_maria/atmos)
 "bS" = (
-/obj/structure/table/rack,
+/obj/structure/rack,
 /obj/random/tank,
 /obj/random/tool,
 /turf/simulated/floor/plating,
@@ -904,8 +750,8 @@
 /area/lar_maria/library)
 "cg" = (
 /obj/machinery/light{
-	icon_state = "tube1";
-	dir = 4
+	dir = 4;
+	icon_state = "tube1"
 	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/library)
@@ -925,8 +771,6 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/plating,
@@ -975,10 +819,6 @@
 /obj/item/book/manual/stasis,
 /turf/simulated/floor/tiled,
 /area/lar_maria/library)
-"ct" = (
-/obj/structure/bookcase,
-/turf/simulated/floor/tiled,
-/area/lar_maria/library)
 "cu" = (
 /obj/structure/bookcase,
 /obj/item/book/manual/medical_diagnostics_manual,
@@ -987,10 +827,6 @@
 "cv" = (
 /obj/structure/bookcase,
 /obj/item/book/manual/detective,
-/turf/simulated/floor/tiled,
-/area/lar_maria/library)
-"cw" = (
-/obj/structure/bookcase,
 /turf/simulated/floor/tiled,
 /area/lar_maria/library)
 "cx" = (
@@ -1005,7 +841,6 @@
 /area/lar_maria/library)
 "cz" = (
 /obj/machinery/atmospherics/pipe/manifold/visible/red{
-	icon_state = "map";
 	dir = 4
 	},
 /turf/simulated/floor/plating,
@@ -1057,7 +892,7 @@
 /obj/structure/window/basic{
 	dir = 1
 	},
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/paper,
 /turf/simulated/floor/tiled,
 /area/lar_maria/library)
@@ -1077,7 +912,7 @@
 /obj/structure/window/basic{
 	dir = 1
 	},
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/paper_bin,
 /obj/item/pen/red,
 /turf/simulated/floor/tiled,
@@ -1098,7 +933,7 @@
 /obj/structure/window/basic{
 	dir = 1
 	},
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/clothing/head/soft/zhp_cap,
 /turf/simulated/floor/tiled,
 /area/lar_maria/library)
@@ -1109,7 +944,7 @@
 /obj/structure/window/basic{
 	dir = 8
 	},
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/paper/lar_maria/note_2,
 /obj/item/paper/lar_maria/note_3,
 /turf/simulated/floor/tiled,
@@ -1145,8 +980,6 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/plating,
@@ -1201,10 +1034,6 @@
 /mob/living/simple_animal/hostile/lar_maria/guard/ranged,
 /turf/simulated/floor/wood,
 /area/lar_maria/dorms)
-"dd" = (
-/obj/structure/bookcase,
-/turf/simulated/floor/wood,
-/area/lar_maria/dorms)
 "de" = (
 /obj/structure/bed/chair/comfy/brown{
 	dir = 1
@@ -1244,8 +1073,8 @@
 /area/lar_maria/library)
 "dk" = (
 /obj/machinery/light{
-	icon_state = "tube1";
-	dir = 4
+	dir = 4;
+	icon_state = "tube1"
 	},
 /obj/machinery/computer/modular{
 	dir = 8
@@ -1322,13 +1151,13 @@
 /obj/structure/window/basic{
 	dir = 8
 	},
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/folder/blue,
 /turf/simulated/floor/tiled,
 /area/lar_maria/library)
 "dz" = (
 /obj/structure/window/basic,
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/paper_bin,
 /obj/item/pen/blue,
 /obj/item/paper,
@@ -1405,13 +1234,12 @@
 /turf/simulated/floor/tiled,
 /area/lar_maria/library)
 "dM" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/machinery/photocopier/faxmachine,
 /obj/machinery/atmospherics/unary/vent_pump/on,
 /obj/machinery/alarm{
 	dir = 8;
 	pixel_x = 25;
-	pixel_y = 0;
 	req_access = newlist()
 	},
 /turf/simulated/floor/tiled,
@@ -1443,13 +1271,9 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/plating,
@@ -1460,22 +1284,17 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/plating,
 /area/lar_maria/atmos)
 "dS" = (
 /obj/machinery/power/apc{
-	dir = 2;
 	name = "south bump";
 	pixel_y = -24
 	},
 /obj/machinery/atmospherics/pipe/manifold/visible/blue,
 /obj/structure/cable{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/plating,
@@ -1511,7 +1330,7 @@
 /turf/simulated/floor/wood,
 /area/lar_maria/dorms)
 "ea" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/paper_bin,
 /turf/simulated/floor/tiled,
 /area/lar_maria/library)
@@ -1525,12 +1344,12 @@
 /turf/simulated/floor/tiled,
 /area/lar_maria/library)
 "ec" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/pen/blue,
 /turf/simulated/floor/tiled,
 /area/lar_maria/library)
 "ed" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/pen/crayon/orange,
 /obj/item/paper,
 /turf/simulated/floor/tiled,
@@ -1562,9 +1381,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/cable{
-	d2 = 2;
-	icon_state = "0-2";
-	pixel_y = 0
+	icon_state = "0-2"
 	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/library)
@@ -1621,8 +1438,6 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/door/airlock/glass,
@@ -1651,8 +1466,6 @@
 	dir = 8
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -1739,8 +1552,6 @@
 "eO" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -1750,18 +1561,16 @@
 /area/lar_maria/office)
 "eQ" = (
 /obj/machinery/light{
-	icon_state = "tube1";
-	dir = 4
+	dir = 4;
+	icon_state = "tube1"
 	},
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/storage/firstaid/surgery,
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/office)
 "eR" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -1861,9 +1670,7 @@
 	},
 /obj/machinery/atmospherics/unary/vent_scrubber/on,
 /obj/structure/cable{
-	d2 = 2;
-	icon_state = "0-2";
-	pixel_y = 0
+	icon_state = "0-2"
 	},
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_m)
@@ -1879,8 +1686,8 @@
 /area/lar_maria/office)
 "fn" = (
 /obj/machinery/light{
-	icon_state = "tube1";
-	dir = 4
+	dir = 4;
+	icon_state = "tube1"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/effect/decal/cleanable/blood,
@@ -1891,16 +1698,16 @@
 /turf/simulated/floor/tiled,
 /area/lar_maria/office)
 "fp" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/folder/blue,
 /turf/simulated/floor/tiled,
 /area/lar_maria/office)
 "fq" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_m)
 "fr" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/towel,
 /obj/random/soap,
 /turf/simulated/floor/tiled/white,
@@ -1927,8 +1734,6 @@
 	dir = 5
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/tiled/white,
@@ -1944,10 +1749,7 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_m)
@@ -1959,10 +1761,7 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/hallway)
@@ -1971,13 +1770,9 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /turf/simulated/floor/tiled,
@@ -2006,12 +1801,12 @@
 /turf/simulated/floor/tiled,
 /area/lar_maria/office)
 "fD" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/pen/blue,
 /turf/simulated/floor/tiled,
 /area/lar_maria/office)
 "fE" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /turf/simulated/floor/tiled,
 /area/lar_maria/office)
 "fF" = (
@@ -2054,7 +1849,7 @@
 /turf/simulated/floor/tiled,
 /area/lar_maria/hallway)
 "fM" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/random/gloves,
 /turf/simulated/floor/tiled,
 /area/lar_maria/office)
@@ -2074,13 +1869,9 @@
 "fQ" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/tiled,
@@ -2093,19 +1884,18 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/structure/cable{
-	d2 = 8;
 	icon_state = "0-8"
 	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/office)
 "fS" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/paper_bin,
 /obj/item/paper,
 /turf/simulated/floor/tiled,
 /area/lar_maria/office)
 "fT" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/paper/lar_maria/note_9,
 /turf/simulated/floor/tiled,
 /area/lar_maria/office)
@@ -2135,10 +1925,7 @@
 /area/lar_maria/dorms)
 "fZ" = (
 /obj/structure/hygiene/shower{
-	dir = 4;
-	icon_state = "shower";
-	pixel_x = 0;
-	pixel_y = 0
+	dir = 4
 	},
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_m)
@@ -2163,8 +1950,7 @@
 	dir = 8
 	},
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /obj/random/trash,
 /turf/simulated/floor/tiled/white,
@@ -2175,15 +1961,13 @@
 "gf" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/effect/decal/cleanable/blood,
 /turf/simulated/floor/tiled,
 /area/lar_maria/hallway)
 "gg" = (
-/obj/structure/table/rack,
+/obj/structure/rack,
 /obj/random/firstaid,
 /turf/simulated/floor/tiled,
 /area/lar_maria/office)
@@ -2200,8 +1984,6 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -2226,8 +2008,7 @@
 /obj/machinery/atmospherics/unary/vent_pump/on,
 /obj/machinery/alarm{
 	dir = 4;
-	pixel_x = -25;
-	pixel_y = 0
+	pixel_x = -25
 	},
 /turf/simulated/floor/wood,
 /area/lar_maria/dorms)
@@ -2239,9 +2020,7 @@
 	},
 /obj/machinery/atmospherics/unary/vent_scrubber/on,
 /obj/structure/cable{
-	d2 = 2;
-	icon_state = "0-2";
-	pixel_y = 0
+	icon_state = "0-2"
 	},
 /turf/simulated/floor/wood,
 /area/lar_maria/dorms)
@@ -2257,7 +2036,7 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_m)
 "gq" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/towel,
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_m)
@@ -2269,8 +2048,6 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -2295,8 +2072,6 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/wood,
@@ -2320,7 +2095,7 @@
 /turf/simulated/floor/plating,
 /area/lar_maria/hallway)
 "gC" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/random/trash,
 /turf/simulated/floor/plating,
 /area/lar_maria/hallway)
@@ -2343,8 +2118,6 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
@@ -2360,7 +2133,6 @@
 	dir = 4
 	},
 /obj/machinery/alarm{
-	frequency = 1439;
 	pixel_y = 23;
 	req_access = newlist()
 	},
@@ -2393,19 +2165,17 @@
 "gM" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/mess_hall)
 "gN" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/random/snack,
 /turf/simulated/floor/tiled,
 /area/lar_maria/mess_hall)
 "gO" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /turf/simulated/floor/tiled,
 /area/lar_maria/mess_hall)
 "gP" = (
@@ -2422,7 +2192,7 @@
 /turf/simulated/floor/tiled,
 /area/lar_maria/mess_hall)
 "gR" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/trash/plate,
 /obj/item/kitchen/utensil/fork,
 /turf/simulated/floor/tiled,
@@ -2455,7 +2225,6 @@
 /area/lar_maria/mess_hall)
 "gX" = (
 /obj/machinery/alarm{
-	frequency = 1439;
 	pixel_y = 23;
 	req_access = newlist()
 	},
@@ -2488,8 +2257,7 @@
 	dir = 1
 	},
 /obj/machinery/light/small{
-	dir = 4;
-	pixel_y = 0
+	dir = 4
 	},
 /turf/simulated/floor/plating,
 /area/lar_maria/hallway)
@@ -2515,8 +2283,8 @@
 /area/lar_maria/hallway)
 "hh" = (
 /obj/machinery/light{
-	icon_state = "tube1";
-	dir = 4
+	dir = 4;
+	icon_state = "tube1"
 	},
 /turf/simulated/open,
 /area/lar_maria/hallway)
@@ -2528,9 +2296,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/structure/cable{
-	d2 = 2;
-	icon_state = "0-2";
-	pixel_y = 0
+	icon_state = "0-2"
 	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/mess_hall)
@@ -2576,18 +2342,17 @@
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_f)
 "hr" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/random/soap,
 /obj/machinery/atmospherics/unary/vent_scrubber/on,
 /obj/machinery/alarm{
-	frequency = 1439;
 	pixel_y = 23;
 	req_access = newlist()
 	},
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_f)
 "hs" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/towel,
 /obj/machinery/atmospherics/unary/vent_pump/on,
 /turf/simulated/floor/tiled/white,
@@ -2611,8 +2376,7 @@
 /area/lar_maria/hallway)
 "hw" = (
 /obj/structure/cable{
-	icon_state = "0-4";
-	d2 = 4
+	icon_state = "0-4"
 	},
 /obj/effect/floor_decal/industrial/warning{
 	dir = 1
@@ -2621,28 +2385,19 @@
 /area/lar_maria/hallway)
 "hx" = (
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/hallway)
 "hy" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/tiled,
@@ -2652,10 +2407,7 @@
 	dir = 8
 	},
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /obj/effect/landmark/corpse/lar_maria/test_subject,
 /obj/effect/decal/cleanable/blood,
@@ -2666,10 +2418,7 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /obj/random/trash,
 /turf/simulated/floor/tiled,
@@ -2679,10 +2428,7 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /obj/effect/floor_decal/industrial/warning{
 	dir = 1
@@ -2695,10 +2441,7 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /obj/machinery/door/airlock/glass,
 /turf/simulated/floor/tiled,
@@ -2706,14 +2449,9 @@
 "hD" = (
 /obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers,
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/tiled,
@@ -2723,10 +2461,7 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/mess_hall)
@@ -2736,10 +2471,7 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/mess_hall)
@@ -2748,8 +2480,6 @@
 	dir = 9
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/tiled,
@@ -2785,16 +2515,13 @@
 /area/lar_maria/mess_hall)
 "hN" = (
 /obj/structure/hygiene/shower{
-	dir = 4;
-	icon_state = "shower";
-	pixel_x = 0;
-	pixel_y = 0
+	dir = 4
 	},
 /obj/random/trash,
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_f)
 "hO" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/towel,
 /obj/random/soap,
 /turf/simulated/floor/tiled/white,
@@ -2828,8 +2555,6 @@
 /area/lar_maria/hallway)
 "hV" = (
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 2;
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/manifold/hidden/supply{
@@ -2873,8 +2598,7 @@
 /area/lar_maria/mess_hall)
 "ib" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	dir = 9;
-	pixel_y = 0
+	dir = 9
 	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/mess_hall)
@@ -2885,7 +2609,7 @@
 "id" = (
 /obj/structure/table/marble,
 /obj/machinery/door/firedoor,
-/obj/item/chems/food/condiment/flour,
+/obj/item/chems/condiment/flour,
 /obj/item/storage/fancy/egg_box,
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/mess_hall)
@@ -2914,10 +2638,7 @@
 /area/lar_maria/mess_hall)
 "ij" = (
 /obj/structure/hygiene/shower{
-	dir = 4;
-	icon_state = "shower";
-	pixel_x = 0;
-	pixel_y = 0
+	dir = 4
 	},
 /turf/simulated/floor/tiled/white,
 /area/lar_maria/head_f)
@@ -2937,9 +2658,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/cable{
-	d2 = 2;
-	icon_state = "0-2";
-	pixel_y = 0
+	icon_state = "0-2"
 	},
 /obj/machinery/washing_machine,
 /turf/simulated/floor/tiled/white,
@@ -2947,8 +2666,6 @@
 "io" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/structure/cable{
-	d1 = 2;
-	d2 = 4;
 	icon_state = "2-4"
 	},
 /turf/simulated/floor/tiled,
@@ -2958,14 +2675,9 @@
 	dir = 8
 	},
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /turf/simulated/floor/tiled,
@@ -2975,10 +2687,7 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/hallway)
@@ -2987,13 +2696,9 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /obj/machinery/alarm{
-	frequency = 1439;
 	pixel_y = 23;
 	req_access = newlist()
 	},
@@ -3007,10 +2712,7 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/hallway)
@@ -3020,19 +2722,13 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/hallway)
 "iu" = (
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	dir = 4
@@ -3041,8 +2737,6 @@
 /area/lar_maria/hallway)
 "iv" = (
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/random/trash,
@@ -3063,8 +2757,7 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/machinery/alarm{
 	dir = 4;
-	pixel_x = -25;
-	pixel_y = 0
+	pixel_x = -25
 	},
 /turf/simulated/floor/tiled,
 /area/lar_maria/mess_hall)
@@ -3077,12 +2770,12 @@
 /turf/simulated/floor/tiled,
 /area/lar_maria/mess_hall)
 "iA" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/paper/lar_maria/note_3,
 /turf/simulated/floor/tiled,
 /area/lar_maria/mess_hall)
 "iB" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/trash/plate,
 /turf/simulated/floor/tiled,
 /area/lar_maria/mess_hall)
@@ -3128,8 +2821,6 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/effect/decal/cleanable/blood,
@@ -3145,10 +2836,7 @@
 	dir = 4
 	},
 /obj/structure/cable{
-	d1 = 4;
-	d2 = 8;
-	icon_state = "4-8";
-	pixel_x = 0
+	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/blood,
 /turf/simulated/floor/tiled/white,
@@ -3159,8 +2847,6 @@
 	},
 /obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers,
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /obj/effect/decal/cleanable/blood,
@@ -3168,8 +2854,7 @@
 /area/lar_maria/hallway)
 "iL" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	dir = 9;
-	pixel_y = 0
+	dir = 9
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
 	dir = 4
@@ -3239,7 +2924,7 @@
 /turf/simulated/floor/tiled,
 /area/lar_maria/mess_hall)
 "iW" = (
-/obj/structure/table/standard,
+/obj/structure/table,
 /obj/item/clothing/head/soft/zhp_cap,
 /turf/simulated/floor/tiled,
 /area/lar_maria/mess_hall)
@@ -3271,13 +2956,9 @@
 /area/lar_maria/mess_hall)
 "jc" = (
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 4;
 	icon_state = "1-4"
 	},
 /obj/structure/cable/yellow{
-	d1 = 1;
-	d2 = 8;
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/reinforced,
@@ -3332,13 +3013,6 @@
 /obj/structure/grille,
 /turf/simulated/floor/reinforced,
 /area/space)
-"jl" = (
-/obj/machinery/atmospherics/unary/vent_pump/high_volume/external_air{
-	dir = 1;
-	id_tag = "ZHPDock_airlock_pump"
-	},
-/turf/simulated/floor/plating,
-/area/lar_maria/hallway)
 "jm" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/external_air{
 	dir = 1;
@@ -3349,8 +3023,7 @@
 "jn" = (
 /obj/machinery/airlock_sensor{
 	id_tag = "ZHPDock_airlock_sensor";
-	pixel_x = 25;
-	pixel_y = 0
+	pixel_x = 25
 	},
 /turf/simulated/floor/plating,
 /area/lar_maria/hallway)
@@ -3396,17 +3069,12 @@
 "mb" = (
 /obj/structure/lattice,
 /obj/machinery/atmospherics/pipe/zpipe/down/scrubbers{
-	color = "#ff0000";
 	dir = 8
 	},
 /obj/machinery/atmospherics/pipe/zpipe/down/supply{
-	color = "#0000ff";
 	dir = 8
 	},
 /obj/structure/cable{
-	d1 = 1;
-	d2 = 32;
-	dir = 2;
 	icon_state = "32-1"
 	},
 /turf/simulated/open,
@@ -3436,7 +3104,7 @@
 /turf/simulated/floor/plating,
 /area/lar_maria/atmos)
 "qb" = (
-/obj/structure/table/rack,
+/obj/structure/rack,
 /obj/random/tank,
 /obj/random/tool,
 /obj/machinery/light/small{
@@ -3477,8 +3145,8 @@
 "ub" = (
 /obj/machinery/portable_atmospherics/canister/oxygen,
 /obj/effect/floor_decal/industrial/warning{
-	icon_state = "warning";
-	dir = 8
+	dir = 8;
+	icon_state = "warning"
 	},
 /obj/machinery/light/small,
 /turf/simulated/floor/plating,
@@ -3486,15 +3154,12 @@
 "vb" = (
 /obj/structure/hygiene/sink{
 	dir = 4;
-	icon_state = "sink";
-	pixel_x = 11;
-	pixel_y = 0
+	pixel_x = 11
 	},
 /obj/item/storage/mirror{
 	pixel_x = 30
 	},
 /obj/machinery/alarm{
-	frequency = 1439;
 	pixel_y = 23;
 	req_access = newlist()
 	},
@@ -3503,9 +3168,7 @@
 "wb" = (
 /obj/structure/hygiene/sink{
 	dir = 4;
-	icon_state = "sink";
-	pixel_x = 11;
-	pixel_y = 0
+	pixel_x = 11
 	},
 /obj/item/storage/mirror{
 	pixel_x = 30
@@ -3515,7 +3178,6 @@
 /area/lar_maria/head_m)
 "xb" = (
 /obj/structure/hygiene/sink{
-	icon_state = "sink";
 	dir = 8;
 	pixel_x = -12;
 	pixel_y = 2
@@ -18152,9 +17814,9 @@ aa
 aa
 ac
 ad
-ag
+ai
 aj
-aq
+aA
 aC
 aU
 aU
@@ -18354,9 +18016,9 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aD
 aV
 aV
@@ -18556,9 +18218,9 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aC
 aW
 aW
@@ -18758,9 +18420,9 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aC
 ad
 ad
@@ -18960,9 +18622,9 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aC
 aU
 aU
@@ -19162,9 +18824,9 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aD
 aV
 aV
@@ -19364,9 +19026,9 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aC
 aW
 aW
@@ -19566,9 +19228,9 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aC
 ad
 ad
@@ -19768,13 +19430,13 @@ aa
 aa
 ac
 ad
-ag
+ai
 al
-aq
+aA
 aC
-ag
+ai
 aj
-aq
+aA
 ad
 bw
 bw
@@ -19970,13 +19632,13 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aC
-ag
+ai
 ak
-aq
+aA
 ad
 bw
 bw
@@ -20172,17 +19834,17 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aC
-ag
+ai
 ak
-aq
+aA
 ad
 bw
 bw
-bH
+cx
 cc
 cr
 cJ
@@ -20374,17 +20036,17 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aC
-ag
+ai
 ak
-aq
+aA
 ad
 bw
 bw
-bH
+cx
 cd
 cs
 cK
@@ -20576,19 +20238,19 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aC
-ag
+ai
 ak
-aq
+aA
 ad
 bw
 bw
-bH
+cx
 ce
-ct
+cx
 cL
 dh
 cd
@@ -20778,17 +20440,17 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aC
-ag
+ai
 ak
-aq
+aA
 ad
 bw
 bw
-bH
+cx
 cd
 cu
 cM
@@ -20980,17 +20642,17 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aC
-ag
+ai
 ak
-aq
+aA
 ad
 bw
 bw
-bH
+cx
 cd
 cv
 cN
@@ -21182,19 +20844,19 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aC
-ag
+ai
 ak
-aq
+aA
 ad
 bw
 bw
 bI
 cd
-cw
+cx
 cM
 di
 cd
@@ -21384,17 +21046,17 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aC
-ag
+ai
 ak
-aq
+aA
 ad
 bw
 bw
-bH
+cx
 cd
 ce
 cd
@@ -21586,17 +21248,17 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aC
-ag
+ai
 ak
-aq
+aA
 ad
 bw
 bw
-bH
+cx
 cd
 cd
 cd
@@ -21788,17 +21450,17 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aC
-ag
+ai
 ak
-aq
+aA
 ad
 bw
 bw
-bH
+cx
 cf
 cx
 cO
@@ -21990,17 +21652,17 @@ aa
 aa
 ac
 ad
-ag
+ai
 ak
-aq
+aA
 aC
-ag
+ai
 ak
-aq
+aA
 ad
 bw
 bw
-bH
+cx
 cg
 cy
 cP
@@ -23002,7 +22664,7 @@ ac
 ad
 ah
 ah
-as
+az
 aI
 aX
 ah
@@ -23641,7 +23303,7 @@ iP
 je
 jg
 ji
-jl
+jm
 hu
 jo
 jq
@@ -27053,7 +26715,7 @@ bE
 bZ
 co
 cF
-dd
+fW
 dw
 co
 dY

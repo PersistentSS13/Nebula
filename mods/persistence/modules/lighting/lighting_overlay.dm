@@ -3,7 +3,7 @@
 
 /atom/movable/lighting_overlay/after_deserialize()
 	..()
-	loc = null
+	forceMove(null)
 
 /atom/movable/lighting_overlay/Initialize(ml, ...)
 	if(persistent_id)

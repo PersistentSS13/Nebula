@@ -13,6 +13,7 @@
 	start_y = 23
 
 	color = "#407c40"
+	grass_color = "#407c40"
 	planetary_area = /area/exoplanet/grass
 	rock_colors = list(COLOR_ASTEROID_ROCK, COLOR_GRAY80, COLOR_BROWN)
 	plant_colors = list("#215a00","#195a47","#5a7467","#9eab88","#6e7248", "RANDOM")
@@ -126,10 +127,9 @@
 
 /turf/exterior/kleibkhar_grass/Initialize()
 	. = ..()
-	if(global.using_map.use_overmap)
-		var/obj/effect/overmap/visitable/sector/exoplanet/E = map_sectors["[z]"]
-		if(istype(E) && E.grass_color)
-			color = E.grass_color
+	var/obj/effect/overmap/visitable/sector/exoplanet/E = global.overmap_sectors["[z]"]
+	if(istype(E) && E.grass_color)
+		color = E.grass_color
 
 /turf/exterior/kleibkhar_grass/attackby(obj/item/W, mob/user, click_params)
 	. = ..()

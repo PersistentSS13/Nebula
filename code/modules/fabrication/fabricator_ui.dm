@@ -4,7 +4,7 @@
 	var/list/data = list()
 
 	var/datum/extension/network_device/D = get_extension(src, /datum/extension/network_device)
-	data["network"] =    D.network_tag
+	data["network"] =    (D.network_id && D.network_tag)
 	data["category"] =   show_category
 	data["functional"] = is_functioning()
 	data["filtering"] =  filter_string || "No filter set."
@@ -79,7 +79,7 @@
 				build_option["cost"] = "[capitalize(jointext(material_components, ", "))]."
 			if(R.max_amount >= PRINT_MULTIPLIER_DIVISOR && max_sheets >= PRINT_MULTIPLIER_DIVISOR)
 				build_option["multiplier"] = list()
-				for(var/i = 1 to Floor(min(R.max_amount, max_sheets)/PRINT_MULTIPLIER_DIVISOR))
+				for(var/i = 1 to FLOOR(min(R.max_amount, max_sheets)/PRINT_MULTIPLIER_DIVISOR))
 					var/mult = i * PRINT_MULTIPLIER_DIVISOR
 					build_option["multiplier"] += list(list("label" = "x[mult]", "multiplier" = mult))
 			data["build_options"] += list(build_option)

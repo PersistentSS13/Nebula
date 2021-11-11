@@ -69,7 +69,7 @@
 
 	var/decl/material/main_reagent = reagents.get_primary_reagent_decl()
 	if(main_reagent) // TODO: weighted alpha from all reagents, not just primary
-		alpha = Clamp(ceil(255*(reagents.total_volume/FLUID_DEEP)) * main_reagent.opacity, main_reagent.min_fluid_opacity, main_reagent.max_fluid_opacity)
+		alpha = Clamp(CEILING(255*(reagents.total_volume/FLUID_DEEP)) * main_reagent.opacity, main_reagent.min_fluid_opacity, main_reagent.max_fluid_opacity)
 
 	if(reagents.total_volume <= FLUID_PUDDLE)
 		APPLY_FLUID_OVERLAY("puddle")
@@ -119,6 +119,7 @@
 	fluid_initial = 10
 
 // Permaflood overlay.
+var/global/obj/effect/flood/flood_object = new
 /obj/effect/flood
 	name = ""
 	mouse_opacity = 0
@@ -139,3 +140,25 @@
 /obj/effect/flood/Initialize()
 	. = ..()
 	verbs.Cut()
+
+/obj/effect/fluid/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
+	. = ..()
+	if(exposed_temperature >= FLAMMABLE_GAS_MINIMUM_BURN_TEMPERATURE)
+		vaporize_fuel(air)
+
+/obj/effect/fluid/proc/vaporize_fuel(datum/gas_mixture/air)
+	if(!length(reagents?.reagent_volumes) || !istype(air))
+		return
+	var/update_air = FALSE
+	for(var/rtype in reagents.reagent_volumes)
+		var/decl/material/mat = GET_DECL(rtype)
+		if(mat.gas_flags & XGM_GAS_FUEL)
+			var/moles = round(reagents.reagent_volumes[rtype] / REAGENT_UNITS_PER_GAS_MOLE)
+			if(moles > 0)
+				air.adjust_gas(rtype, moles, FALSE)
+				reagents.remove_reagent(round(moles * REAGENT_UNITS_PER_GAS_MOLE))
+				update_air = TRUE
+	if(update_air)
+		air.update_values()
+		return TRUE
+	return FALSE

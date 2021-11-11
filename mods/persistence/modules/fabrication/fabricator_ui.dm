@@ -94,7 +94,7 @@
 				build_option["cost"] = "[capitalize(jointext(material_components, ", "))]."
 			if(recipe.max_amount >= PRINT_MULTIPLIER_DIVISOR && max_sheets >= PRINT_MULTIPLIER_DIVISOR)
 				build_option["multiplier"] = list()
-				for(var/i = 1 to Floor(min(recipe.max_amount, max_sheets)/PRINT_MULTIPLIER_DIVISOR))
+				for(var/i = 1 to FLOOR(min(recipe.max_amount, max_sheets)/PRINT_MULTIPLIER_DIVISOR))
 					var/mult = i * PRINT_MULTIPLIER_DIVISOR
 					build_option["multiplier"] += list(list("label" = "x[mult]", "multiplier" = mult))
 			data["build_options"] += list(build_option)

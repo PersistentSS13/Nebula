@@ -9,7 +9,7 @@
 	hud_icon = "hudblank"
 
 /decl/hierarchy/outfit/job/kleibkhar
-	name = OUTFIT_JOB_NAME("Kleibkhar Colonist")
+	name = "Job - Kleibkhar Colonist"
 	id_type = /obj/item/card/id/network
 	pda_type = null
 	pda_slot = null

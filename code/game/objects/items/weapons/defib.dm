@@ -46,7 +46,7 @@
 			else
 				add_overlay("[icon_state]-powered")
 	if(bcell)
-		var/ratio = Ceiling(bcell.percent()/25) * 25
+		var/ratio = CEILING(bcell.percent()/25) * 25
 		add_overlay("[icon_state]-charge[ratio]")
 	else
 		add_overlay("[icon_state]-nocell")
@@ -424,7 +424,7 @@
 	var/burn_damage = H.electrocute_act(burn_damage_amt*2, src, def_zone = target_zone)
 	if(burn_damage > 15 && H.can_feel_pain())
 		H.emote("scream")
-	var/obj/item/organ/internal/heart/doki = LAZYACCESS(affecting.internal_organs, BP_HEART)
+	var/obj/item/organ/internal/heart/doki = locate(/obj/item/organ/internal/heart) in affecting.internal_organs
 	if(istype(doki) && doki.pulse && !doki.open && prob(10))
 		to_chat(doki, "<span class='danger'>Your [doki] has stopped!</span>")
 		doki.pulse = PULSE_NONE
@@ -437,7 +437,7 @@
 	M.switch_from_dead_to_living_mob_list()
 	M.timeofdeath = 0
 	M.set_stat(UNCONSCIOUS) //Life() can bring them back to consciousness if it needs to.
-	M.regenerate_icons()
+	M.refresh_visible_overlays()
 	M.failed_last_breath = 0 //So mobs that died of oxyloss don't revive and have perpetual out of breath.
 	M.reload_fullscreen()
 

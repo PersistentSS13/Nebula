@@ -16,6 +16,8 @@
 	handle_generic_blending = TRUE
 	tool_interaction_flags = (TOOL_INTERACTION_ANCHOR | TOOL_INTERACTION_DECONSTRUCT)
 	maxhealth = 40
+	parts_amount = 2
+	parts_type = /obj/item/stack/material/strut
 
 	var/paint_color
 	var/stripe_color
@@ -102,9 +104,9 @@
 	for(var/i = 1 to 4)
 		var/conn = connections ? connections[i] : "0"
 		if(other_connections && other_connections[i] != "0")
-			I = image(icon, "frame_other[conn]", dir = 1<<(i-1))
+			I = image(icon, "frame_other[conn]", dir = BITFLAG(i-1))
 		else
-			I = image(icon, "frame[conn]", dir = 1<<(i-1))
+			I = image(icon, "frame[conn]", dir = BITFLAG(i-1))
 		I.color = new_color
 		overlays += I
 

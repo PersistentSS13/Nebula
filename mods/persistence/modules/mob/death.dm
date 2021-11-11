@@ -12,7 +12,7 @@
 		else
 			hide_fullscreens()
 			var/mob/living/limbo/brainmob = new(src)
-			brainmob.loc = null
+			brainmob.forceMove(null)
 			brainmob.SetName(real_name)
 			brainmob.real_name = real_name
 			brainmob.dna = dna.Clone()

@@ -23,15 +23,14 @@
 		set_opacity(initial(opacity))
 	hitsound = material?.hitsound || initial(hitsound)
 	if(maxhealth != -1)
-		maxhealth = initial(maxhealth) + material?.integrity*get_material_health_modifier()
+		maxhealth = initial(maxhealth) + material?.integrity * get_material_health_modifier()
 		if(reinf_material)
 			var/bonus_health = reinf_material.integrity * get_material_health_modifier()
 			maxhealth += bonus_health
 			if(!keep_health)
 				health += bonus_health
 		health = keep_health ? min(health, maxhealth) : maxhealth
-
-	queue_icon_update()
+	update_icon()
 
 /obj/structure/proc/update_material_name(var/override_name)
 	var/base_name = override_name || initial(name)
@@ -56,13 +55,26 @@
 		alpha = initial(alpha)
 
 /obj/structure/proc/create_dismantled_products(var/turf/T)
-	if(parts_type)
-		new parts_type(T, (material && material.type), (reinf_material && reinf_material.type))
-	else 
-		if(material)
-			material.place_dismantled_product(T)
-		if(reinf_material)
-			reinf_material.place_dismantled_product(T)
+	SHOULD_CALL_PARENT(TRUE)
+	if(parts_type && !ispath(parts_type, /obj/item/stack))
+		for(var/i = 1 to max(parts_amount, 1))
+			new parts_type(T, (material && material.type), (reinf_material && reinf_material.type))
+	else
+		for(var/mat in matter)
+			var/decl/material/M = GET_DECL(mat)
+			var/placing
+			if(isnull(parts_amount))
+				placing = (matter[mat] / SHEET_MATERIAL_AMOUNT) * 0.75
+				if(parts_type)
+					placing *= atom_info_repository.get_matter_multiplier_for(parts_type, mat, placing)
+				placing = FLOOR(placing)
+			else
+				placing = parts_amount
+			if(placing > 0)
+				M.place_dismantled_product(T, FALSE, placing, parts_type)
+	matter = null
+	material = null
+	reinf_material = null
 
 /obj/structure/proc/dismantle()
 	SHOULD_CALL_PARENT(TRUE)

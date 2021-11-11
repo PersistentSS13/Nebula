@@ -56,7 +56,7 @@
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
 	slot_flags = SLOT_BACK
 	force = 5.0
-	throwforce = 5.0
+	throwforce = 5
 	throw_speed = 1
 	throw_range = 4
 	w_class = ITEM_SIZE_HUGE
@@ -98,13 +98,16 @@
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
 	slot_flags = SLOT_BACK
 	force = 6.0
-	throwforce = 7.0
+	throwforce = 7
 	throw_range = 3
 	w_class = ITEM_SIZE_HUGE
 	material = /decl/material/solid/metal/plasteel
 	max_block = 50
 	can_block_lasers = TRUE
 	slowdown_general = 1.5
+
+/obj/item/shield/riot/metal/security //A cosmetic difference.
+	icon = 'icons/obj/items/shield/metal_security.dmi'
 
 /obj/item/shield/buckler
 	name = "buckler"
@@ -143,7 +146,7 @@
 	icon_state = "eshield" // eshield1 for expanded
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
 	force = 3.0
-	throwforce = 5.0
+	throwforce = 5
 	throw_speed = 1
 	throw_range = 4
 	w_class = ITEM_SIZE_SMALL
