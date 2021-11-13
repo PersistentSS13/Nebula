@@ -1,10 +1,10 @@
-FROM persistentss13/byond:513-latest as compile
+FROM milkshak3/byond-server:514 as compile
 COPY . /persistent
 WORKDIR /persistent
 RUN scripts/dm.sh nebula.dme
 
 
-FROM persistentss13/byond:513-latest as test_setup
+FROM milkshak3/byond-server:514 as test_setup
 ENV LANG=C.UTF-8 \
 	DEBIAN_FRONTEND=noninteractive \
 	PYENV_ROOT=/pyenv \
@@ -33,7 +33,7 @@ ENV TEST=CODE CI=true
 ENTRYPOINT ["test/run-test.sh"]
 
 
-FROM persistentss13/byond:513-latest as ss13
+FROM milkshak3/byond-server:514 as ss13
 RUN mkdir -p /persistent/data /persistent/config
 COPY .git/HEAD /persistent/.git/HEAD
 COPY .git/logs/HEAD /persistent/.git/logs/HEAD
