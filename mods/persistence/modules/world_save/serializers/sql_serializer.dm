@@ -54,6 +54,7 @@
 	var/inserts_since_commit = 0
 	var/autocommit_threshold = 5000
 
+	var/ref_tracker = TRUE // whevere or not this serializer does reference tracking and adds it to the thing insert list.
 	var/inserts_since_ref_update = 0 // we automatically commit refs to the database in batches on load
 	var/ref_update_threshold = 200
 
@@ -138,7 +139,10 @@
 #ifdef SAVE_DEBUG
 	to_world_log("(SerializeThing) ('[p_i]','[object.type]',[x],[y],[z],'[ref(object)]')")
 #endif
-	thing_inserts.Add("('[p_i]','[object.type]',[x],[y],[z],'[ref(object)]')")
+	if(ref_tracker)
+		thing_inserts.Add("'[p_i]','[object.type]',[x],[y],[z],'[ref(object)]'")
+	else
+		thing_inserts.Add("'[p_i]','[object.type]',[x],[y],[z]")
 	inserts_since_commit++
 	thing_map["\ref[object]"] = p_i
 
@@ -216,20 +220,19 @@
 #ifdef SAVE_DEBUG
 		to_world_log("(SerializeThingVar-Done) ('[p_i]','[V]','[VT]',\"[VV]\")")
 #endif
-		var_inserts.Add("('[p_i]','[V]','[VT]',\"[VV]\")")
+		var_inserts.Add("'[p_i]','[V]','[VT]',\"[VV]\"")
 		inserts_since_commit++
 	object.after_save() // After save hook.
-	if(inserts_since_commit > autocommit_threshold)
+	if(autocommit && inserts_since_commit > autocommit_threshold)
 		Commit()
 	return p_i
 
 
 // Serialize a list. Returns the appropriate serialized form of the list. What's outputted depends on the serializer.
-/serializer/sql/SerializeList(var/list/_list, var/list_parent)
+/serializer/sql/SerializeList(var/list/_list, var/datum/list_parent)
 	if(isnull(_list) || !islist(_list))
 		return
-
-	var/list/existing = list_map["\ref[_list]"]
+	var/existing = list_map["\ref[_list]"]
 	if(existing)
 #ifdef SAVE_DEBUG
 		to_world_log("(SerializeList-Resv) \ref[_list] to [existing]")
@@ -348,7 +351,7 @@
 			to_world_log("(SerializeListElem-Done) ([l_i],\"[KV]\",'[KT]',\"[EV]\",\"[ET]\")")
 #endif	
 		found_element = TRUE
-		element_inserts.Add("([l_i],\"[KV]\",'[KT]',\"[EV]\",\"[ET]\")")
+		element_inserts.Add("[l_i],\"[KV]\",'[KT]',\"[EV]\",\"[ET]\"")
 		inserts_since_commit++
 	
 	if(!found_element) // There wasn't anything that actually needed serializing in this list, so return null.
@@ -504,14 +507,14 @@
 	var/exception/last_except
 	try
 		if(length(thing_inserts) > 0)
-			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM]`(`p_id`,`type`,`x`,`y`,`z`,`ref`) VALUES[jointext(thing_inserts, ",")] ON DUPLICATE KEY UPDATE `p_id` = `p_id`")
+			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM]`(`p_id`,`type`,`x`,`y`,`z`,`ref`) VALUES["(" + jointext(thing_inserts, "),(") + ")"] ON DUPLICATE KEY UPDATE `p_id` = `p_id`")
 			SQLS_EXECUTE_AND_REPORT_ERROR(query, "THING SERIALIZATION FAILED:")
 		if(length(var_inserts) > 0)
-			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM_VARS]`(`thing_id`,`key`,`type`,`value`) VALUES[jointext(var_inserts, ",")]")
+			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM_VARS]`(`thing_id`,`key`,`type`,`value`) VALUES["(" + jointext(var_inserts, "),(") + ")"]")
 			SQLS_EXECUTE_AND_REPORT_ERROR(query, "VAR SERIALIZATION FAILED:")
 		if(length(element_inserts) > 0) 
 			tot_element_inserts += length(element_inserts)
-			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIST_ELEM]`(`list_id`,`key`,`key_type`,`value`,`value_type`) VALUES[jointext(element_inserts, ",")]")
+			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIST_ELEM]`(`list_id`,`key`,`key_type`,`value`,`value_type`) VALUES["(" + jointext(element_inserts, "),(") + ")"]")
 			SQLS_EXECUTE_AND_REPORT_ERROR(query, "ELEMENT SERIALIZATION FAILED:")
 	catch (var/exception/e)
 		if(istype(e, /exception/sql_connection))

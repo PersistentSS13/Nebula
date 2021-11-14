@@ -1,6 +1,7 @@
 /turf/simulated/before_save()
 	. = ..()
-	CUSTOM_SV("fire_level", fire?.firelevel)
+	if(fire)
+		CUSTOM_SV("fire_level", fire?.firelevel)
 	if(zone)
 		c_copy_air()
 
