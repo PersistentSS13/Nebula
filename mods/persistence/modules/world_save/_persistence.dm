@@ -1,6 +1,10 @@
 //
 // Datum override
 //
+
+var/global/list/custom_saved_lists = list() // Custom saved lists are kept here during the save and after their parent nulls them. This
+											// is to ensure the ref of the list is not reused during the save.
+
 /datum
 	var/tmp/should_save = TRUE
 	var/persistent_id				// This value should be constant across save/loads. It is first generated on serialization.
@@ -9,6 +13,7 @@
 
 //Called after a save
 /datum/proc/after_save()
+	custom_saved_lists |= list(custom_saved)
 #ifndef SAVE_DEBUG
 	custom_saved = null //Clear it since its no longer needed
 #endif

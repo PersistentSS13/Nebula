@@ -1,7 +1,8 @@
 
 /turf/simulated/floor/before_save()
 	. = ..()
-	CUSTOM_SV("flooring", ispath(flooring)? flooring : flooring?.type)
+	if(flooring)
+		CUSTOM_SV("flooring", ispath(flooring) ? flooring : flooring?.type)
 
 /turf/simulated/floor/after_deserialize()
 	//#RETROCOMPATIBILITY PATCH: Make sure all the turfs that lost their flooring get it back

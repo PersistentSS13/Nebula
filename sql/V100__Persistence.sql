@@ -63,7 +63,7 @@ DROP TABLE IF EXISTS `limbo`;
 CREATE TABLE IF NOT EXISTS `limbo` (
   `key` longtext NOT NULL,
   `type` varchar(64) NOT NULL,
-  `p_id` varchar(12) NOT NULL,
+  `p_ids` longtext NOT NULL,
   `metadata` varchar(64) DEFAULT NULL,
   `limbo_assoc` varchar(12) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
