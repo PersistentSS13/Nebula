@@ -4,6 +4,7 @@
 	icon_state = "med"
 	icon_deny = "med-deny"
 	icon_vend = "med-vend"
+	markup = 0
 	vend_delay = 18
 	base_type = /obj/machinery/vending/infini/science
 	products = list(
