@@ -4,6 +4,7 @@
 	icon_state = "nutri"
 	icon_deny = "nutri-deny"
 	icon_vend = "nutri-vend"
+	markup = 0
 	vend_delay = 26
 	base_type = /obj/machinery/vending/hydronutrients
 	products = list(
