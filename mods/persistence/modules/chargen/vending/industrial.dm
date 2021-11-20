@@ -24,6 +24,21 @@
 		/obj/item/chargen_box/industrial/stirling = 999
 	)
 	
+/obj/machinery/vending/infini/industrial/basic
+	name = "League Engi-Fab"
+	desc = "A tool synthesizer. This one appears to have the 'material modules' all ripped out."
+	base_type = /obj/machinery/vending/infini/industrial/basic
+	products = list(
+		/obj/item/chargen_box/industrial/engineering = 999,
+		/obj/item/chargen_box/industrial/firefighter = 999,
+		/obj/item/chargen_box/industrial/building = 999,
+		/obj/item/chargen_box/industrial/autolathe = 999,
+		/obj/item/chargen_box/industrial/mining = 999,
+		/obj/item/chargen_box/industrial/pick = 999,
+		/obj/item/chargen_box/industrial/ore_processor = 999,
+		/obj/item/chargen_box/industrial/stirling = 999
+	)
+	
 /obj/machinery/vending/infini/food
 	name = "League Food-o-Mat"
 	desc = "Packaged food synthesizer."
