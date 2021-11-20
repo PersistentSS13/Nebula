@@ -23,3 +23,43 @@
 		/obj/item/chargen_box/industrial/ore_processor = 999,
 		/obj/item/chargen_box/industrial/stirling = 999
 	)
+	
+/obj/machinery/vending/infini/food
+	name = "League Food-o-Mat"
+	desc = "Packaged food synthesizer."
+	markup = 0
+	icon_state = "sustenance"
+	icon_vend = "sustenance"
+	vend_delay = 1
+	base_type = /obj/machinery/vending/infini/food
+	products = list(
+		/obj/item/chargen_box/ration/twinkies = 999,
+		/obj/item/chargen_box/ration/mre = 999,
+		/obj/item/chems/food/can/beef = 999,
+		/obj/item/chems/food/can/beans = 999,
+		/obj/item/chems/food/can/tomato = 999,
+		/obj/item/chems/food/sosjerky = 999,
+		/obj/item/chems/food/no_raisin = 999,
+		/obj/item/chems/food/cheesiehonkers = 999,
+		/obj/item/chems/food/syndicake = 999,
+		/obj/item/chems/food/pistachios = 999,
+		/obj/item/chems/food/lunacake = 999,
+		/obj/item/chems/food/lunacake/mochicake = 999,
+		/obj/item/chems/food/lunacake/mooncake = 999,
+		/obj/item/chems/food/triton = 999,
+		/obj/item/chems/food/saturn = 999,
+		/obj/item/chems/food/pluto = 999,
+		/obj/item/chems/food/venus = 999,
+		/obj/item/chems/food/chips = 999,
+		/obj/item/chems/food/candy = 999,
+		/obj/item/chems/food/tastybread = 999,
+		/obj/item/chems/food/liquidfood = 999,
+		/obj/item/chems/drinks/cans/waterbottle = 999,
+		/obj/item/chems/drinks/cans/iced_tea = 999,
+		/obj/item/chems/drinks/cans/grape_juice = 999,
+		/obj/item/chems/drinks/cans/cola = 999,
+		/obj/item/chems/drinks/cans/space_up = 999,
+		/obj/item/chems/drinks/cans/dr_gibb = 999,
+		/obj/item/chems/drinks/cans/speer = 999,
+		/obj/item/chems/drinks/cans/ale = 999
+	)
