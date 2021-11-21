@@ -29,6 +29,7 @@
 		return
 
 	// If is_brittle() returns true, these are only good for a single strike.
+	. += new/datum/stack_recipe/strut(src)
 	. += new/datum/stack_recipe/ashtray(src)
 	. += new/datum/stack_recipe/ring(src)
 	. += new/datum/stack_recipe/clipboard(src)
