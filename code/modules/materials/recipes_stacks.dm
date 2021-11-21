@@ -97,3 +97,20 @@
 /datum/stack_recipe/tile/metal/pool
 	title = "pool floor tile"
 	result_type = /obj/item/stack/tile/pool
+	
+// handcraftable strut
+	
+/datum/stack_recipe/strut
+	title = "strut"
+	result_type = /obj/item/stack/material/strut
+	req_amount = 2
+	res_amount = 1
+	max_res_amount = 60
+	time = 10
+	difficulty = 2
+
+/datum/stack_recipe/strut/spawn_result(user, location, amount)
+	var/obj/item/stack/S = new result_type(location, amount, use_material)
+	if(user)
+		S.add_to_stacks(user, 1)
+	return S
