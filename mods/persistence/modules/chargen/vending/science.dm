@@ -1,6 +1,6 @@
 /obj/machinery/vending/infini/science
 	name = "NanoSci Plus"
-	desc = "Medical drug & science dispenser."
+	desc = "Science dispenser."
 	icon_state = "med"
 	icon_deny = "med-deny"
 	icon_vend = "med-vend"
