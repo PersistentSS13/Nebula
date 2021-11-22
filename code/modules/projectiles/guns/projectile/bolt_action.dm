@@ -85,9 +85,11 @@
 	scope_zoom = 2
 	fire_delay = 12
 	
+// persistence guns
+	
 /obj/item/gun/projectile/bolt_action/handmade
-	name = "improvised rifle"
-	desc = "A dubious rifle of even dubious-er quality. Packs a decent punch for a piece of shit, but actually working the bullet into the thing is a chore. On top of that, it has horrendous recoil."
+	name = "HM BA 'Militaman'"
+	desc = "A dubious rifle of even dubious-er quality. Packs a decent punch for a piece of shit, but actually working the bullet into the thing is a chore. On top of that, it has horrendous recoil. \ This is a Tier 0 (Makeshift) firearm."
 	icon = 'icons/obj/guns/handmade_boltaction.dmi'
 	force = 10
 	slot_flags = SLOT_BACK
