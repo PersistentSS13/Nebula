@@ -113,6 +113,8 @@
 /obj/item/gun/projectile/shotgun/doublebarrel/sawn/empty
 	starts_loaded = FALSE
 	
+// persistence guns
+
 /obj/item/gun/projectile/shotgun/handmade
 	name = "HM SG 'Slider'"
 	desc = "A simple single-barrel shotgun made from a pipe and some spare parts. Very heavy recoil and difficult to use. \ This is a Tier 0 (Makeshift) firearm."
