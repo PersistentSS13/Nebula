@@ -124,3 +124,9 @@
 	desc = "It's a snappy jumpsuit with a sturdy set of overalls. It is very dirty."
 	name = "shaft miner's jumpsuit"
 	icon = 'icons/clothing/under/jumpsuits/jumpsuit_miner.dmi'
+	
+/obj/item/clothing/under/vagabond
+	desc = "It's an old orange pair of pants and a dirty gray shirt. Nobody reall knows what the little circular doodad does."
+	name = "mischievous outfit"
+	icon = 'icons/clothing/under/vagabond_under.dmi'
+
