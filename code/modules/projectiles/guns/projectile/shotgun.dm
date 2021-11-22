@@ -112,3 +112,23 @@
 
 /obj/item/gun/projectile/shotgun/doublebarrel/sawn/empty
 	starts_loaded = FALSE
+	
+/obj/item/gun/projectile/shotgun/handmade
+	name = "improvised shotgun"
+	desc = "It's little more than a pipe attached to a handle - it can only chamber one shell at a time. Very difficult to fire one-handed."
+	icon = 'icons/obj/guns/shotgun/handmade_shotgun.dmi'
+	load_method = SINGLE_CASING
+	handle_casings = HOLD_CASINGS
+	max_shells = 1
+	w_class = ITEM_SIZE_HUGE
+	force = 10
+	obj_flags =  OBJ_FLAG_CONDUCTIBLE
+	slot_flags = SLOT_BACK
+	caliber = CALIBER_SHOTGUN
+	origin_tech = "{'combat':1,'materials':1}"
+	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
+	screen_shake = 3 // there's no stock! ahhh!!
+	one_hand_penalty = 10
+
+/obj/item/gun/projectile/shotgun/handmade/empty
+	starts_loaded = FALSE
