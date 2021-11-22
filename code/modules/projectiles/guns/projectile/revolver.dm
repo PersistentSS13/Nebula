@@ -68,9 +68,11 @@
 	update_icon()
 	return 1
 	
+// persistence guns
+	
 /obj/item/gun/projectile/revolver/handmade
-	name = "improvised revolver"
-	desc = "A jury-rigged weapon fashioned not too dissimilar a revolver. While usable one-handed, it /really/ doesn't lend itself to it. Chambered in standard pistol ammunition."
+	name = "HM R 'Zippo'"
+	desc = "A jury-rigged weapon fashioned not too dissimilar a revolver. While usable one-handed, it /really/ doesn't lend itself to it. Chambered in standard pistol ammunition. \ This is a Tier 0 (Makeshift) firearm."
 	icon = 'icons/obj/guns/handmade_revolver.dmi'
 	origin_tech = "{'combat':1,'materials':1}"
 	caliber = CALIBER_PISTOL
@@ -83,3 +85,17 @@
 /obj/item/gun/projectile/revolver/handmade/empty
 	starts_loaded = FALSE
 	
+/obj/item/gun/projectile/revolver/chief
+	name = "SS R 'Chief'"
+	desc = "A small revolver intended for use by police forces and for self-defense purposes. Chambered in standard pistol ammunition. \ This is a Tier 1 (Simple) firearm."
+	icon = 'icons/obj/guns/pocket_revolver.dmi'
+	origin_tech = "{'combat':2,'materials':1}"
+	caliber = CALIBER_PISTOL
+	ammo_type = /obj/item/ammo_casing/pistol
+	max_shells = 5
+	fire_delay = 10
+	accuracy = 2
+	one_hand_penalty = 2
+	
+/obj/item/gun/projectile/revolver/chief/empty
+	starts_loaded = FALSE
