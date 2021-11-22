@@ -310,3 +310,10 @@
 	name = "Santa's suit"
 	desc = "Festive!"
 	icon = 'icons/clothing/suit/santa.dmi'
+	
+/obj/item/clothing/suit/vagabond
+	name = "mischievous jacket"
+	desc = "Just looking at this dirty, aged jacket makes you really, /really/ hate hammers. Iron ones, specifically."
+	icon_state = ICON_STATE_WORLD
+	icon = 'icons/clothing/suit/vagabond_jacket.dmi'
+	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_ARMS

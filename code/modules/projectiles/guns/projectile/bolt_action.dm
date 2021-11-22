@@ -84,3 +84,17 @@
 	scoped_accuracy = 8 //increased accuracy over the LWAP because only one shot
 	scope_zoom = 2
 	fire_delay = 12
+	
+/obj/item/gun/projectile/bolt_action/handmade
+	name = "improvised rifle"
+	desc = "A dubious rifle of even dubious-er quality. Packs a decent punch for a piece of shit, but actually working the bullet into the thing is a chore. On top of that, it has horrendous recoil."
+	icon = 'icons/obj/guns/handmade_boltaction.dmi'
+	force = 10
+	slot_flags = SLOT_BACK
+	origin_tech = "{'combat':1,'materials':1}"
+	screen_shake = 2 // WHO DESIGNED THIS GUN???
+	one_hand_penalty = 20 // you really shouldn't try to fire this thing with one hand, man
+	fire_delay = 20
+
+/obj/item/gun/projectile/bolt_action/handmade/empty
+	starts_loaded = FALSE

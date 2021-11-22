@@ -67,3 +67,19 @@
 	cap = FALSE
 	update_icon()
 	return 1
+	
+/obj/item/gun/projectile/revolver/handmade
+	name = "improvised revolver"
+	desc = "A jury-rigged weapon fashioned not too dissimilar a revolver. While usable one-handed, it /really/ doesn't lend itself to it. Chambered in standard pistol ammunition."
+	icon = 'icons/obj/guns/handmade_revolver.dmi'
+	origin_tech = "{'combat':1,'materials':1}"
+	caliber = CALIBER_PISTOL
+	ammo_type = /obj/item/ammo_casing/pistol
+	max_shells = 3
+	fire_delay = 16
+	accuracy = 3
+	one_hand_penalty = 4
+
+/obj/item/gun/projectile/revolver/handmade/empty
+	starts_loaded = FALSE
+	

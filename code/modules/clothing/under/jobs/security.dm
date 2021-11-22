@@ -193,3 +193,15 @@
 		/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_REINFORCEMENT
 	)
 	origin_tech = "{'materials':3,'engineering':1, 'combat':2}"
+
+// ironhammer
+
+/obj/item/clothing/under/security/ironhammer
+	name = "contractor's uniform"
+	desc = "It's got a faded logo of a hammer on the back. Huh."
+	icon = 'icons/clothing/under/ironhammer_under.dmi'
+	
+/obj/item/clothing/under/security/ironhammer/turtleneck
+	name = "contractor's turtleneck"
+	desc = "Sleek. It's got a little hammer logo stitched onto the back of the collar."
+	icon = 'icons/clothing/under/ironhammer_turtleneck.dmi'
