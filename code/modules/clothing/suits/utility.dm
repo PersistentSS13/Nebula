@@ -144,7 +144,7 @@
 		bio = ARMOR_BIO_RESISTANT, 
 		rad = ARMOR_RAD_MINOR
 		)
-	flags_inv = HIDEEARS|HIDEEYES|BLOCKHAIR
+	flags_inv = BLOCKHAIR
 	item_flags = ITEM_FLAG_THICKMATERIAL
 	body_parts_covered = SLOT_HEAD
 	siemens_coefficient = 0.9
@@ -167,7 +167,6 @@
 		bio = ARMOR_BIO_RESISTANT, 
 		rad = ARMOR_RAD_MINOR
 		)
-	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT|HIDETAIL
 	item_flags = ITEM_FLAG_THICKMATERIAL
 	siemens_coefficient = 0.9
 	matter = list(
