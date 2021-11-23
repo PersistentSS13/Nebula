@@ -445,3 +445,11 @@
 	name = "kimono"
 	icon = 'icons/clothing/under/kimono.dmi'
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_ARMS
+	
+// faction uniform
+
+/obj/item/clothing/under/titan
+	desc = "A uniform mass-produced for Titan Industries, an engineering corporation."
+	name = "Titan Industries uniform"
+	icon = 'icons/clothing/under/titan_uniform.dmi'
+	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_ARMS
