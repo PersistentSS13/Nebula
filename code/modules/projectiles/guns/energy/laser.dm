@@ -1,12 +1,13 @@
 /obj/item/gun/energy/laser
-	name = "laser carbine"
-	desc = "A G40E carbine, designed to kill with concentrated energy blasts."
+	name = "UC LG 'Sunshine'"
+	desc = "This United Colonists-manufactured rifle is one of their most famous works, initially used by their footsoldiers and now used by pirates and law enforcement galaxywide. \ This is a Tier 2 (Advanced) firearm."
 	icon = 'icons/obj/guns/laser_carbine.dmi'
 	icon_state = ICON_STATE_WORLD
 	slot_flags = SLOT_LOWER_BODY|SLOT_BACK
 	w_class = ITEM_SIZE_LARGE
 	force = 10
-	one_hand_penalty = 2
+	max_shots = 8
+	one_hand_penalty = 3
 	bulk = GUN_BULK_RIFLE
 	origin_tech = "{'combat':3,'magnets':2}"
 	material = /decl/material/solid/metal/steel
@@ -51,10 +52,10 @@
 			projectile_type = null
 
 /obj/item/gun/energy/captain
-	name = "antique laser gun"
+	name = "BSL LG 'Brown'"
 	icon = 'icons/obj/guns/caplaser.dmi'
 	icon_state = ICON_STATE_WORLD
-	desc = "A rare weapon, handcrafted by a now defunct specialty manufacturer on Luna for a small fortune. It's certainly aged well."
+	desc = "This weapon is one of the few weapons ever created by the BSL that wasn't destroyed when they lost their grip on the Kleibkhar Sector. It is capable of self-recharging, has decent capacity, and is easy to handle. \ This is a Tier 3 (Ultra) firearm."
 	force = 5
 	slot_flags = SLOT_LOWER_BODY //too unusually shaped to fit in a holster
 	w_class = ITEM_SIZE_NORMAL
@@ -65,8 +66,8 @@
 	self_recharge = 1
 
 /obj/item/gun/energy/lasercannon
-	name = "laser cannon"
-	desc = "With the laser cannon, the lasing medium is enclosed in a tube lined with uranium-235 and subjected to high neutron flux in a nuclear reactor core. This incredible technology may help YOU achieve high excitation rates with small laser volumes!"
+	name = "PF LG 'Ball Buster'"
+	desc = "The laser cannon is a design invented by the Pirate Federation, and is a fine example of their ethics - big, scary, and powerful. Although it packs a massive punch, it takes ages to fire and can only hold three shots. \ This is Tier 2 (Advanced) firearm."
 	icon_state = "lasercannon"
 	icon = 'icons/obj/guns/laser_cannon.dmi'
 	icon_state = ICON_STATE_WORLD
@@ -76,9 +77,9 @@
 	w_class = ITEM_SIZE_HUGE
 	projectile_type = /obj/item/projectile/beam/heavylaser
 	charge_cost = 40
-	max_shots = 6
-	accuracy = 2
-	fire_delay = 20
+	max_shots = 3
+	accuracy = 3
+	fire_delay = 30
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/fiberglass = MATTER_AMOUNT_REINFORCEMENT,
