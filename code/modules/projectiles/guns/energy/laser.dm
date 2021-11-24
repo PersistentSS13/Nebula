@@ -66,8 +66,8 @@
 	self_recharge = 1
 
 /obj/item/gun/energy/lasercannon
-	name = "PF LG 'Ball Buster'"
-	desc = "The laser cannon is a design invented by the Pirate Federation, and is a fine example of their ethics - big, scary, and powerful. Although it packs a massive punch, it takes ages to fire and can only hold three shots. \ This is Tier 2 (Advanced) firearm."
+	name = "UC LG 'Alamo'"
+	desc = "Remember the Alamo! A prototype weapon produced by the United Colonists, this imposing laser rifle has impressive capacity for its cost but poor damage output - perfect for drawn-out firefights. \ This is Tier 1 (Simple) firearm."
 	icon_state = "lasercannon"
 	icon = 'icons/obj/guns/laser_cannon.dmi'
 	icon_state = ICON_STATE_WORLD
@@ -75,11 +75,10 @@
 	slot_flags = SLOT_LOWER_BODY|SLOT_BACK
 	one_hand_penalty = 6 //large and heavy
 	w_class = ITEM_SIZE_HUGE
-	projectile_type = /obj/item/projectile/beam/heavylaser
-	charge_cost = 40
-	max_shots = 3
+	projectile_type = /obj/item/projectile/beam/smalllaser
+	max_shots = 12
 	accuracy = 3
-	fire_delay = 30
+	fire_delay = 10
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/fiberglass = MATTER_AMOUNT_REINFORCEMENT,
