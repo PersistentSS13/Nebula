@@ -87,6 +87,15 @@
 /obj/item/gun/projectile/pistol/colt/empty
 	starts_loaded = FALSE
 	
+/obj/item/gun/projectile/pistol/colt/gold
+	name = "PF HG 'Swank'"
+	desc = "In their divine and infinite wisdom, the Pirate Federation decided to figure out how to plate a Colt handgun with gold without having the thing melt. As you can see, they did. Not many of these were made, so they're something of a collector's item. Truly a weapon of utter swank, as the name implies. \ This is a Tier 1 (Simple) firearm. It is also a collector's item."
+	icon = 'icons/obj/guns/colt_gold.dmi'
+	origin_tech = "{'combat':2,'materials':3}"
+
+/obj/item/gun/projectile/pistol/colt/gold/empty
+	starts_loaded = FALSE
+	
 /obj/item/gun/projectile/pistol/traustur
 	name = "UC HG 'Traustur'"
 	desc = "The Traustur is the United Colonist's attempt to remedy some of the problems of the ubiquitous colt. The design has a much lower fire delay, but in exchange has issues with accuracy. \ This is a Tier 1 (Simple) firearm."
