@@ -99,3 +99,16 @@
 	
 /obj/item/gun/projectile/revolver/chief/empty
 	starts_loaded = FALSE
+	
+/obj/item/gun/projectile/revolver/officer
+	name = "SS R 'Officer'"
+	desc = "One of the cheapest 'true' revolvers produced in the Sol System, most often used by low-ranking military officers, hence the name. Packs actual magnum rounds instead of dinky pistol rounds - you could seriously hurt someone with this thing. \ This is a Tier 1 (Simple) firearm."
+	icon = 'icons/obj/guns/officer.dmi'
+	origin_tech = "{'combat':2,'materials':2}"
+	max_shells = 5
+	fire_delay = 10
+	accuracy = -2
+	one_hand_penalty = 3 // bigger boolet so has more recoil
+
+/obj/item/gun/projectile/revolver/officer/empty
+	starts_loaded = FALSE
