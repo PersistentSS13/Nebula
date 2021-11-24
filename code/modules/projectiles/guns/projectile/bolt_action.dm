@@ -100,3 +100,19 @@
 
 /obj/item/gun/projectile/bolt_action/handmade/empty
 	starts_loaded = FALSE
+	
+/obj/item/gun/projectile/bolt_action/rickshaw
+	name = "SS BA 'Rickshaw'"
+	desc = "A design that was mass produced in the Sol System way back in the old World Wars. While ancient, this weapon is still often used by farmers and settlers on the frontier. \ This is a Tier 1 (Simple) firearm."
+	icon = 'icons/obj/guns/rickshaw.dmi'
+	force = 10
+	slot_flags = SLOT_BACK
+	origin_tech = "{'combat':2,'materials':1}"
+	screen_shake = 1
+	max_shells = 3
+	one_hand_penalty = 16
+	fire_delay = 10
+
+/obj/item/gun/projectile/bolt_action/rickshaw/empty
+	starts_loaded = FALSE
+
