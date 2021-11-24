@@ -86,3 +86,30 @@
 
 /obj/item/gun/projectile/pistol/colt/empty
 	starts_loaded = FALSE
+	
+/obj/item/gun/projectile/pistol/traustur
+	name = "UC HG 'Traustur'"
+	desc = "The Traustur is the United Colonist's attempt to remedy some of the problems of the ubiquitous colt. The design has a much lower fire delay, but in exchange has issues with accuracy. \ This is a Tier 1 (Simple) firearm."
+	icon = 'icons/obj/guns/traustur.dmi'
+	fire_delay = 2
+	force = 5
+	accuracy = -2
+	accuracy_power = 2
+	one_hand_penalty = 3
+	origin_tech = "{'combat':2,'materials':1}"
+	ammo_indicator = FALSE
+
+/obj/item/gun/projectile/pistol/traustur/empty
+	starts_loaded = FALSE
+	
+/obj/item/gun/projectile/pistol/holdout/agent
+	name = "UC HF 'Agent'"
+	desc = "The Agent is a weapon often used by undercover police forces in United Colonist controlled territory. While somewhat slow to fire and using weaker ammunition than the average handgun, it can be fit in the pockets for ease of use. \ This is a Tier 1 (Simple) firearm."
+	icon = 'icons/obj/guns/agent.dmi'
+	force = 2 // very tiny
+	ammo_indicator = FALSE
+	fire_delay = 10
+	origin_tech = "{'combat':2,'materials':2}"
+	
+/obj/item/gun/projectile/pistol/holdout/agent/empty
+	starts_loaded = FALSE
