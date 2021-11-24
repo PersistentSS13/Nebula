@@ -79,7 +79,7 @@
 	ammo_type = /obj/item/ammo_casing/pistol
 	max_shells = 3
 	fire_delay = 16
-	accuracy = 3
+	accuracy = -3
 	one_hand_penalty = 4
 
 /obj/item/gun/projectile/revolver/handmade/empty
@@ -94,7 +94,7 @@
 	ammo_type = /obj/item/ammo_casing/pistol
 	max_shells = 5
 	fire_delay = 10
-	accuracy = 2
+	accuracy = -1
 	one_hand_penalty = 2
 	
 /obj/item/gun/projectile/revolver/chief/empty
