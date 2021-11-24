@@ -35,7 +35,7 @@ var/global/list/cortical_stacks = list()
 	global.cortical_stacks |= src
 	robotize()
 	if(owner && istype(owner))
-		cortical_alias = Gibberish(owner.name, 100)
+		cortical_alias = owner.name
 		verbs |= /obj/item/organ/internal/stack/proc/change_cortical_alias
 
 /obj/item/organ/internal/stack/Destroy()
@@ -71,6 +71,7 @@ var/global/list/cortical_stacks = list()
 	update_mind_id()
 	if(owner)
 		owner.add_language(/decl/language/cortical)
+		owner.add_language(/decl/language/human/common)
 
 /obj/item/organ/internal/stack/proc/update_mind_id()
 	if(owner.mind)
