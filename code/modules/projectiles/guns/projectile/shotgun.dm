@@ -160,3 +160,32 @@
 
 /obj/item/gun/projectile/shotgun/double/empty
 	starts_loaded = FALSE
+	
+/obj/item/gun/projectile/shotgun/wall
+	name = "PF SG 'The Wall'"
+	desc = "A weapon of despair, and the Pirate Federation's pride and joy. The Wall is a complete menace of a gun - a six-barreled shotgun, capable of unloading six shells at once into an unlucky victim. Naturally, has awful accuracy and recoil. \ This is a Tier 1 (Simple) firearm."
+	icon = 'icons/obj/guns/the_wall.dmi'
+	load_method = SINGLE_CASING
+	handle_casings = HOLD_CASINGS
+	max_shells = 6
+	w_class = ITEM_SIZE_HUGE
+	accuracy = -3
+	force = 15 // THE WAAAAAAAAAAAALLL
+	obj_flags =  OBJ_FLAG_CONDUCTIBLE
+	slot_flags = SLOT_BACK
+	caliber = CALIBER_SHOTGUN
+	origin_tech = "{'combat':2,'materials':2}"
+	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
+	screen_shake = 4 // AHHHHHHHHHHHHHHHHHHHH
+	one_hand_penalty = 10
+
+	burst_delay = 0
+	firemodes = list(
+		list(mode_name="fire one barrel at a time", burst=1),
+		list(mode_name="fire two barrels at once", burst=2),
+		list(mode_name="fire four goddamn barrels at once", burst=4),
+		list(mode_name="fire six goddamn barrels at once, holy SHIT", burst=6),
+		)
+
+/obj/item/gun/projectile/shotgun/wall/empty
+	starts_loaded = FALSE
