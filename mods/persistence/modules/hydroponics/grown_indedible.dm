@@ -14,6 +14,6 @@
 	if(persistent_id)
 		planttype = plantname
 		if(planttype && !SSplants.seeds[planttype])
-			log_debug("Seems like the seed '[src]' uses isn't loaded yet?? This is bad.")
+			log_debug("'[src]'([x], [y], [z]) uses a seed type that's not in the SSplants seeds list!")
 	. = ..(mapload, planttype)
 	
