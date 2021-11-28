@@ -839,7 +839,6 @@
 	{
 		"path":"/obj/item/seeds",
 		"vars":[
-			"seed",
 			"seed_type"
 		]
 	},
@@ -1549,20 +1548,22 @@
 		"path":"/obj/machinery/portable_atmospherics/hydroponics",
 		"vars":[
 			"base_name",
+			"waterlevel",
+			"nutrilevel",
+			"pestlevel",
+			"weedlevel",
 			"dead",
 			"harvest",
 			"age",
+			"sampled",
+			"yield_mod",
+			"mutation_mod",
+			"toxins",
+			"mutation_level",
+			"tray_light",
 			"health",
-			"lastproduce",
-			"lastcycle",
-			"seed",
-			"toxic_reagents",
-			"nutrient_reagents",
-			"weedkiller_reagents",
-			"pestkiller_reagents",
-			"water_reagents",
-			"beneficial_reagents",
-			"mutagenic_reagents"
+			"closed_system",
+			"seed"
 		]
 	},
 	{
@@ -1740,7 +1741,9 @@
 	{
 		"path":"/obj/machinery/smartfridge",
 		"vars":[
-			"item_records"
+			"item_records",
+			"locked",
+			"scan_id"
 		]
 	},
 	{
@@ -2128,7 +2131,8 @@
 			"anchor_fall",
 			"holographic",
 			"req_access",
-			"buckled_mob"
+			"buckled_mob",
+			"reagents"
 		]
 	},
 	{
@@ -4385,6 +4389,62 @@
 		"path":"/obj/machinery/forensic",
 		"vars":[
 			"sample"
+		]
+	},
+	{
+		"path":"/datum/plantgene",
+		"vars":[
+			"genetype",
+			"values"
+		]
+	},
+	{
+		"path":"/obj/item/chems/food/fruit_slice",
+		"vars":[
+			"seed"
+		]
+	},
+	{
+		"path":"/obj/machinery/botany",
+		"vars":[
+			"seed",
+			"loaded_disk"
+		]
+	},
+	{
+		"path":"/obj/machinery/botany/extractor",
+		"vars":[
+			"genetics",
+			"degradation"
+		]
+	},
+	{
+		"path":"/datum/seed_pile",
+		"vars":[
+			"name",
+			"amount",
+			"seed_type",
+			"seeds",
+			"ID"
+		]
+	},
+	{
+		"path":"/obj/machinery/seed_storage",
+		"vars":[
+			"piles"
+		]
+	},
+	{
+		"path":"/mob/living/simple_animal/mushroom",
+		"vars":[
+			"seed",
+			"harvest_time"
+		]
+	},
+	{
+		"path":"/obj/item/grown",
+		"vars":[
+			"plantname"
 		]
 	}
 ]

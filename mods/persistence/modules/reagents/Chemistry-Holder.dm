@@ -6,3 +6,11 @@
 /datum/reagents/after_deserialize()
 	. = ..()
 	update_total()
+
+//Reimplement this to get rid of the spam on save load
+/atom/create_reagents(var/max_vol)
+	if(reagents)
+		reagents.maximum_volume = max(reagents.maximum_volume, max_vol)
+	else
+		reagents = new/datum/reagents(max_vol, src)
+	return reagents
