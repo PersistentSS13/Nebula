@@ -19,6 +19,10 @@
 
 	lastcycle = LOAD_CUSTOM_SV("saved_last_cycle")
 	lastproduce = LOAD_CUSTOM_SV("saved_last_produce")
+	if(lastcycle)
+		lastcycle += world.time
+	if(lastproduce)
+		lastproduce += world.time
 
 /obj/machinery/portable_atmospherics/hydroponics/Initialize()
 	if(persistent_id)
