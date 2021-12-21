@@ -135,3 +135,9 @@
 	resources = list(
 		/decl/material/solid/metal/titanium =   CEILING((SHEET_MATERIAL_AMOUNT * FABRICATOR_EXTRA_COST_FACTOR)),
 	)
+
+/datum/fabricator_recipe/network_id
+	path = /obj/item/card/id/network
+	fabricator_types = list(
+		FABRICATOR_CLASS_GENERAL
+	)
