@@ -23,6 +23,7 @@
 
 /datum/controller/subsystem/persistence/Initialize()
 	saved_levels = global.using_map.saved_levels
+	saved_areas = global.using_map.saved_areas
 
 /datum/controller/subsystem/persistence/proc/SaveExists()
 	if(!save_exists)
