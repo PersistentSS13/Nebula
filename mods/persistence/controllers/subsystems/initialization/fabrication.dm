@@ -1,39 +1,19 @@
-#define DEFAULT_TECH list( \
-		TECH_MATERIAL = 1, \
-		TECH_ENGINEERING = 1, \
-		TECH_EXOTIC_MATTER = 0, \
-		TECH_POWER = 1, \
-		TECH_WORMHOLES = 0, \
-		TECH_BIO = 0, \
-		TECH_COMBAT = 0, \
-		TECH_MAGNET = 1, \
-		TECH_DATA = 1, \
-		TECH_ESOTERIC = 0 \
-	)
-
 /datum/controller/subsystem/fabrication
-	var/list/valid_research_recipes = list() // Keyed from species->valid recipes
+	var/list/research_recipes = list() // Fabricator class -> recipe
 
-/datum/controller/subsystem/fabrication/proc/get_valid_research_recipes(var/species_path)
-	if(valid_research_recipes[species_path])
-		return valid_research_recipes[species_path]
-	if(!ispath(species_path, /decl/species))
-		return null
-	
-	valid_research_recipes[species_path] = list()
-	for(var/fab_type in all_recipes)
-		for(var/datum/fabricator_recipe/recipe in all_recipes[fab_type])
-			if(istype(recipe, /datum/fabricator_recipe/robotics/robot_component) || istype(recipe, /datum/fabricator_recipe/imprinter/ai))
-				continue
-			// Don't include any auto-unlocked tech - they're not worth researching further.
-			if(!(recipe in locked_recipes[fab_type]))
-				continue
-			if(recipe in get_unlocked_recipes(fab_type, DEFAULT_TECH))
-				continue
-			if(recipe.species_locked)
-				if(!(species_path in recipe.species_locked))
-					continue
-			valid_research_recipes[species_path] |= recipe
-	
-	return valid_research_recipes[species_path]
+/datum/controller/subsystem/fabrication/Initialize()
+	. = ..()
+	for(var/fab_class in all_recipes)
+		var/list/fab_recipes = all_recipes[fab_class]
+		research_recipes[fab_class] = fab_recipes.Copy()
+		if(fab_class in initial_recipes)
+			research_recipes[fab_class] -= initial_recipes[fab_class]
+		
+		research_recipes[fab_class] -= get_unlocked_recipes(fab_class, get_default_initial_tech_levels())
+		
+		for(var/datum/fabricator_recipe/recipe in research_recipes[fab_class])
+			if(TECH_ESOTERIC in recipe.required_technology) // These techs must be unlocked via random chance during iteration
+				research_recipes[fab_class] -= recipe
 
+		if(!length(research_recipes[fab_class]))
+			research_recipes -= fab_class

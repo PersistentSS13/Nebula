@@ -37,5 +37,6 @@
 		for(var/V in extension_saved_vars)
 			var/VV = extension_saved_vars[V]
 			target.vars[V] = VV
+	target.after_deserialize()
 	. = target
 	qdel(src)

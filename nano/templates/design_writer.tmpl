@@ -1,0 +1,189 @@
+{{if data.prog_mode == -1}} <!--Error state-->
+	<h2>An error has occured:</h2>
+	Additional information: {{:data.error}}<br>
+	<i>Please try again. If the problem persists contact your system administrator for assistance.</i>
+	{{:helper.link('Back to menu', null, { "PRG_back" : 1 })}}
+{{else !data.prog_mode}} <!--Recipe listings-->
+	<div class='item'>
+		<div class='itemLabel'>
+			Storage Medium
+		</div>
+		{{:helper.link(data.current_source, null, { "PRG_change_filesource" : 1 }, null)}}
+	</div>
+	{{if data.fileserver}}
+		<div class='item'>
+			<div class='itemLabel'>
+				File Server
+			</div>
+			{{:helper.link(data.fileserver, null, { "PRG_change_fileserver" : 1 }, null)}}
+		</div>
+	{{/if}}
+	<div class='item'>
+		{{:helper.link('Select Design', null, { "PRG_change_design" : 1 }, null)}}
+	</div>
+	<center><h3>Prototypes available:</h3></center>
+	<div class='item'>
+		<div class='itemLabel'>
+			Fabricator Category:
+		</div>
+		{{:helper.link(data.fab_type, null, { "PRG_select_fab_type" : 1 }, null)}}
+	</div>
+	<div class='item'>
+		<div class='itemLabel'>
+			Search:
+		</div>
+		{{:helper.link(data.search_string, null, { "PRG_search" : 1 }, null)}}
+	</div>
+	<hr>
+	<table>
+		<tr><th>Prototype
+		{{for data.recipe_listing}}
+			<tr><td>{{:helper.link(value.name, null, { "PRG_select_recipe" : value.ref})}}
+		{{/for}}
+	</table>
+	{{if data.current_page != 1}}
+		{{:helper.link('<', null, { "PRG_prev_page" : 1 })}}
+	{{/if}}
+	{{if !data.max_page}}
+		{{:helper.link('>', null, { "PRG_next_page" : 1 })}}
+	{{/if}}
+{{else data.prog_mode == 1}} <!--Single Recipe view-->
+	<h2>Prototype: {{:data.current_recipe}}</h2>
+	<div class="item">
+		<div class="itemLabel">
+			Required Materials:
+		</div>
+		<div class="itemContent">
+			<table width = '90%'>
+				<th>Material</th>
+				<th>Amount</th>
+				{{for data.mat_costs}}
+					<tr>
+						<td style = "text-align: center;">{{:value.name}}</td>
+						<td style = "text-align: center;">{{:value.amount}}</td>
+					</tr>
+				{{/for}}
+			</table>
+		</div>
+	</div>
+	<div class="item">
+		<div class="itemLabel">
+			Required Technology:
+		</div>
+		<div class="itemContent">
+			<table width = '90%'>
+				<th>Field</th>
+				<th>Research Points</th>
+				{{for data.research_costs}}
+					<tr>
+						<td>{{:value.name}}</td>
+						<td style = "text-align: center;">{{:value.amount}}</td>
+					</tr>
+				{{/for}}
+			</table>
+		</div>
+	</div>
+	{{:helper.link('Create Design', null, { "PRG_create_design" : 1 })}}
+	{{:helper.link('Back', null, { "PRG_back" : 1})}}
+{{else data.prog_mode == 2}} <!--Design mode-->
+	<h2>Design: {{:data.design_name}}</h2>
+	{{if data.final_desc}}
+		<h3>{{:data.final_desc}}</h3>
+	{{else}}
+		<div style="float:center;width:100%;margin-left:auto;margin-right: auto;">
+			<table><tr>
+				{{for data.theories}}
+					<td>
+						{{if value.discard}}
+							<fieldset style="text-decoration:line-through;min-height:220px;background-color: #202020;border-color:#202020;">
+						{{else value.special}}
+							<fieldset style="min-height:220px;background-color: #202020;border-color:#ff780a;">
+						{{else}}
+							<fieldset style="min-height:220px;background-color: #202020;border-color:#00ff00;">
+						{{/if}}
+							<legend style="text-align:center">{{:value.name}}</legend> 
+							<legend style="text-align:center">{{:value.strength}}</legend>
+							{{:value.desc}}<br>
+							{{:helper.link('Select', null, { "PRG_select_theory" : value.ref}, null)}}
+							{{if !value.special}}
+								{{:helper.link('Discard', null, { "PRG_discard_theory" : value.ref}, null)}}
+							{{/if}}
+						</fieldset>
+					</td>
+				{{/for}}
+			</tr></table>
+		</div>
+		<hr>
+		<table width = '90%'>
+			<th>Field</th>
+			<th>Research Points</th>
+			{{for data.fields}}
+				<tr class="candystripe">
+					<td>
+						{{:value.name}}
+						{{if data.free_points}}
+							{{:helper.link('+', null, { "PRG_add_point" : value.field_id}, null)}}
+						{{/if}}
+					</td>
+					<td>
+						{{if value.req_points == 0}}
+							{{:helper.displayBar(value.points, 0, value.req_points ? value.req_points : 15, 'bad')}} {{:value.points}}/{{:value.req_points}}
+						{{else value.points >= value.req_points}}
+							{{:helper.displayBar(value.points, 0, value.req_points ? value.req_points : 15, 'good')}} {{:value.points}}/{{:value.req_points}}
+						{{else}}
+							{{:helper.displayBar(value.points, 0, value.req_points ? value.req_points : 15, 'average')}} {{:value.points}}/{{:value.req_points}}
+						{{/if}}
+						{{if value.bonus}}
+							<img src='research_bonus.gif'>
+						{{/if}}
+						{{if value.locked}}
+							<img src='research_locked.gif'>
+						{{/if}}
+						{{if value.linked}}
+							<img src='research_linked.gif'>
+						{{/if}}
+					</td>
+				</tr>
+			{{/for}}
+		</table>
+		<div class='item'>
+			<div class='itemLabel'>
+				Remaining research points:
+			</div>
+			<div class="itemContent">
+				{{:data.research_points}}
+			</div>
+		</div>
+		<div class='item'>
+			<div class='itemLabel'>
+				Specifications:
+			</div>
+			<div class='itemContent'>
+				<div class="statusDisplay" style="min-height: 180px;">
+					{{for data.specifications}}
+						{{:value}}<br>
+					{{/for}}
+				</div>
+			</div>
+		</div>
+		</div>
+			<div class='item'>
+				<div class='itemLabel'>
+					Selected Analyzer:
+				</div>
+				<div class='itemContent'>
+					{{:helper.link(data.selected_analyzer, null, { "PRG_change_analyzer" : 1 }, null)}}
+				</div>
+			</div>
+			<div class='item'>
+				<div class='itemLabel'>
+					Loaded Item:
+				</div>
+				<div class='itemContent'>
+					{{:data.loaded_item}}
+				</div>
+			</div>
+		</div>
+	{{/if}}
+	{{:helper.link('Back to menu', null, { "PRG_back" : 1 })}}
+{{/if}}
