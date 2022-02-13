@@ -11,14 +11,23 @@
 	if(!length(design_files)) // Return here to avoid sorting again.
 		return
 
+	add_designs(design_files)
+
+	design_cache = sortTim(design_cache, /proc/cmp_name_asc)
+
+/obj/machinery/fabricator/proc/add_designs(list/files)
 	var/list/new_materials = list()
-	for(var/datum/computer_file/data/design/D AS_ANYTHING in design_files)
+	. = list()
+	for(var/datum/computer_file/data/design/D in files)
 		if(!D.finalized || !D.recipe)
 			continue
 		if(!(fabricator_class in D.recipe.fabricator_types))
 			continue
+		if(D.recipe in design_cache)
+			continue
 		new_materials |= (D.recipe.resources ^ base_storage_capacity)
 		design_cache += D.recipe
+		. += D.recipe
 
 	// This is painful, but the material storage system is pretty inflexible. Adds the materials to both the base capacities and the current
 	// capacities, redoing a lot of work done in Initialize() for the normal materials.
@@ -38,5 +47,3 @@
 
 			base_storage_capacity[mat_path] = SHEET_MATERIAL_AMOUNT * 10
 		RefreshParts()
-
-	design_cache = sortTim(design_cache, /proc/cmp_name_asc)

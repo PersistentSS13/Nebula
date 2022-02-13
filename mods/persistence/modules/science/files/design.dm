@@ -21,6 +21,7 @@
 	var/datum/fabricator_recipe/recipe
 	
 	var/static/list/random_fields = list(TECH_MATERIAL, TECH_POWER, TECH_BIO, TECH_DATA, TECH_ENGINEERING, TECH_EXOTIC_MATTER, TECH_COMBAT, TECH_WORMHOLES)
+	var/is_copy = FALSE // Designs can only be copied once, they cannot be copied from copies.
 
 /datum/computer_file/data/design/New(list/md, datum/fabricator_recipe/template_recipe)
 	. = ..()
@@ -68,7 +69,8 @@
 	. = ..()
 	QDEL_NULL_LIST(theory_options)
 	QDEL_NULL_LIST(specifications)
-	QDEL_NULL(recipe)
+	if(!finalized) // If the design has not been finalized, the recipe should not have any floating references.
+		QDEL_NULL(recipe)
 
 // Select the theory from the options or other sources, and attempt to apply it to the design. If it fails, the option remains until it is satisfied.
 /datum/computer_file/data/design/proc/select_theory(datum/theory/selected, obj/item/analyzed, mob/user)
@@ -96,7 +98,7 @@
 			theory_options -= current_theory
 			qdel(current_theory)
 
-	var/generated_theories = min(MAX_THEORIES, user.get_skill_value(SKILL_SCIENCE))
+	var/generated_theories = clamp(user.get_skill_value(SKILL_SCIENCE), 2, MAX_THEORIES)
 	
 	if(length(theory_options) >= generated_theories)
 		return
@@ -303,6 +305,17 @@
 			)
 		research_data += list(field_data)
 	return research_data
+
+/datum/computer_file/data/design/clone(var/rename = 0)
+	if(!finalized || is_copy) // Only finalized designs can be copied, and only once.
+		return
+
+	var/datum/computer_file/data/design/copy = ..()
+	if(!copy)
+		return
+	copy.recipe = recipe
+	copy.is_copy = TRUE
+	return copy
 
 #undef MAX_THEORIES
 #undef THEORY_GEN_ATTEMPTS

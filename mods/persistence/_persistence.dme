@@ -111,6 +111,7 @@
 #include "modules\emotes\human.dm"
 #include "modules\fabrication\_fabricator.dm"
 #include "modules\fabrication\fabricator_build.dm"
+#include "modules\fabrication\fabricator_intake.dm"
 #include "modules\fabrication\designs\textile\space.dm"
 #include "modules\hydroponics\grown.dm"
 #include "modules\hydroponics\grown_indedible.dm"

@@ -35,18 +35,15 @@
 		{{:helper.link(data.search_string, null, { "PRG_search" : 1 }, null)}}
 	</div>
 	<hr>
+	{{:helper.link('<', null, { "PRG_prev_page" : 1 }, data.current_page == 1 ? 'disabled' : null)}}
+	{{:helper.link('>', null, { "PRG_next_page" : 1 }, data.max_page ? 'disabled' : null)}}
 	<table>
 		<tr><th>Prototype
 		{{for data.recipe_listing}}
 			<tr><td>{{:helper.link(value.name, null, { "PRG_select_recipe" : value.ref})}}
 		{{/for}}
 	</table>
-	{{if data.current_page != 1}}
-		{{:helper.link('<', null, { "PRG_prev_page" : 1 })}}
-	{{/if}}
-	{{if !data.max_page}}
-		{{:helper.link('>', null, { "PRG_next_page" : 1 })}}
-	{{/if}}
+
 {{else data.prog_mode == 1}} <!--Single Recipe view-->
 	<h2>Prototype: {{:data.current_recipe}}</h2>
 	<div class="item">
