@@ -9,7 +9,10 @@
 		"path":"/datum/computer_file",
 		"vars":[
 			"holder",
-			"filename"
+			"filename",
+			"read_access",
+			"write_access",
+			"mod_access"
 		]
 	},
 	{
@@ -4232,7 +4235,7 @@
   {
 		"path":"/obj/item/stock_parts/network_lock",
 		"vars":[
-			"grants",
+			"groups",
 			"initial_network_id",
 			"initial_network_key",
 			"emagged"
@@ -4446,5 +4449,32 @@
 		"vars":[
 			"plantname"
 		]
+	},
+	{
+		"path":"/datum/extension/network_device/acl",
+		"vars":[
+			"group_dict",
+			"all_groups",
+			"allow_submanagement",
+			"parent_account_creation"
+		]
+	},
+	{
+		"path":"/datum/computer_file/data/account",
+		"vars":[
+			"login",
+			"password",
+			"can_login",
+			"suspended",
+			"groups",
+			"parent_groups",
+			"fullname",
+			"inbox",
+			"outbox",
+			"spam",
+			"deleted",
+			"backup"
+		],
+		"flatten":true
 	}
 ]

@@ -61,7 +61,7 @@
 "fq" = (/turf/simulated/floor/tiled/white,/area/kleibkhar/outpost/sleeproom)
 "fs" = (/obj/structure/cable/green{icon_state = "1-2"},/turf/simulated/floor/tiled,/area/kleibkhar/outpost/hallway)
 "fu" = (/obj/machinery/atmospherics/pipe/simple/heat_exchanging{dir = 5},/turf/simulated/floor/tiled/techfloor/grid,/area/kleibkhar/outpost/it)
-"fv" = (/obj/machinery/atmospherics/pipe/simple/heat_exchanging{dir = 9},/obj/machinery/network/acl/kleibkhar,/turf/simulated/floor/bluegrid,/area/kleibkhar/outpost/it)
+"fv" = (/obj/machinery/atmospherics/pipe/simple/heat_exchanging{dir = 9},/obj/machinery/network/acl,/turf/simulated/floor/bluegrid,/area/kleibkhar/outpost/it)
 "fN" = (/obj/structure/cable/green{icon_state = "2-4"},/turf/simulated/floor/tiled/techfloor,/area/kleibkhar/outpost/computer)
 "fO" = (/obj/structure/cable/green{icon_state = "1-8"},/obj/structure/cable/green{icon_state = "4-8"},/obj/structure/cable/green{icon_state = "1-4"},/turf/simulated/floor/plating,/area/kleibkhar/outpost/solar_array)
 "fS" = (/obj/structure/cable/yellow{icon_state = "2-4"},/obj/structure/cable/yellow{icon_state = "2-8"},/turf/simulated/floor/plating,/area/kleibkhar/outpost/solar_array)
