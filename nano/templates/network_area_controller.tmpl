@@ -32,36 +32,66 @@
 	</div>
 	{{if data.selected_area}}
 		<h2>Selected Area: {{:data.area_name}}</h2>
-		{{:helper.link('CLEAR GRANTS', null, { "clear_grants" : 1})}}
 		<hr>
-		<table>
-			<tr><th>Grant
-			<th>Operations
-			{{for data.grants}}
-				<tr><td>{{:value.grant_name}}
-				<td>
-					{{if value.assigned}}
-						{{:helper.link('REMOVE', null, { "remove_grant" : value.grant_name })}}
-					{{else}}
-						{{:helper.link('ASSIGN', null, { "add_grant" : value.grant_name })}}
-					{{/if}}
-			{{/for}}
-		</table>
+		{{if data.parent_groups}}
+			<h2>Parent Groups:</h2>
+			<table>
+				<tr><th>Group
+				<th>Operations
+				{{for data.parent_groups}}
+					<tr><td>{{:helper.link(value.parent_group, null, { "select_parent_group" : value.parent_group })}}
+					<td>
+						{{if value.assigned}}
+							{{:helper.link('REMOVE', null, { "remove_group" : value.parent_group })}}
+						{{else}}
+							{{:helper.link('ASSIGN', null, { "add_group" : value.parent_group })}}
+						{{/if}}
+				{{/for}}
+			</table>
+		{{else data.selected_parent_group}}
+			<h2>Viewing Child Groups for: {{:data.selected_parent_group}}</h2>
+			{{if data.child_groups}}
+				<h2>Child Groups:</h2>
+				<table>
+					<tr><th>Group
+					<th>Operations
+					{{for data.child_groups}}
+						<tr><td>{{:value.child_group}}
+						<td>
+							{{if value.assigned}}
+								{{:helper.link('REMOVE', null, { "remove_group" : value.child_group })}}
+							{{else}}
+								{{:helper.link('ASSIGN', null, { "assign_group" : value.child_group })}}
+							{{/if}}
+					{{/for}}
+				</table>
+			{{else}}
+				<i> No child groups found! </i>
+			{{/if}}
+			<div class='item'>
+				{{:helper.link('Back to parent group listing', null, { "select_parent_group" : null })}}
+			</div>
+		{{else}}
+			{{if data.selected_pattern}}
+				<i>No groups found on network!</i>
+			{{/if}}
+		{{/if}}
+		{{:helper.link('Clear groups', null, { "clear_groups" : 1})}}
 		{{:helper.link('Back to menu', null, { "back" : 1 })}}
 	{{else}}
 		<h2>Available Areas:</h2>
 		<table>
 			<tr><th>Area Name
-			<th>Grants
+			<th>Groups
 			<th>Operations
 			{{for data.areas}}
 				<tr><td>{{:value.area_name}}
-				<td>{{:value.grant_count}}
+				<td>{{:value.group_count}}
 				<td>
 					{{:helper.link('EDIT', null, { "view_area" : value.area_index })}}
 			{{/for}}
 		</table>
 		<hr>
-		{{:helper.link('EDIT AREAS', null, { "create_area" : 1})}}
+		{{:helper.link('Edit areas', null, { "create_area" : 1})}}
 	{{/if}}
 {{/if}}
