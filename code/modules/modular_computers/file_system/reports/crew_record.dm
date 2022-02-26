@@ -246,7 +246,7 @@ FIELD_SHORT("Religion", religion, access_chapel_office, access_change_ids, FALSE
 FIELD_LONG("General Notes (Public)", public_record, null, access_bridge, TRUE)
 
 // MEDICAL RECORDS
-FIELD_LIST("Blood Type", bloodtype, get_all_blood_types(), access_medical, access_medical, TRUE)
+FIELD_LIST("Blood Type", bloodtype, global.blood_types, access_medical, access_medical, TRUE)
 FIELD_LONG("Medical Record", medical_record, access_medical, access_medical, TRUE)
 FIELD_LONG("Known Implants", implants, access_medical, access_medical, TRUE)
 
