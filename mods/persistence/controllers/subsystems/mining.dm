@@ -1,3 +1,5 @@
+/turf/exterior/barren/mining
+
 /datum/random_map/automata/cave_system/outreach
 	floor_type = /turf/exterior/barren/mining
 	var/rich_mineral_turf = /turf/exterior/wall/random/high_chance
@@ -36,14 +38,6 @@
 		num_applied += 1
 		T.ChangeTurf(new_path, minerals)
 		get_additional_spawns(map[tmp_cell], T)
-
-// Mining turfs may have issues finding an owner on load - upon return air, look for the owner if one does not exist
-/turf/exterior/barren/mining/return_air()
-	if(!owner)
-		owner = LAZYACCESS(global.overmap_sectors, "[z]")
-		if(!istype(owner))
-			owner = null
-	. = ..()
 
 SUBSYSTEM_DEF(mining)
 	name = "Mining"
