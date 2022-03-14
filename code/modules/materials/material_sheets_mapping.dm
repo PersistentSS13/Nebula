@@ -44,6 +44,7 @@ STACK_SUBTYPES(iron,           "iron",                          solid/metal/iron
 STACK_SUBTYPES(copper,         "copper",                        solid/metal/copper,         ingot,      null)
 STACK_SUBTYPES(sandstone,      "sandstone",                     solid/stone/sandstone,      brick,      null)
 STACK_SUBTYPES(marble,         "marble",                        solid/stone/marble,         brick,      null)
+STACK_SUBTYPES(graphite,       "graphite",                      solid/graphite,             brick,      null)
 STACK_SUBTYPES(diamond,        "diamond",                       solid/gemstone/diamond,     gemstone,   null)
 STACK_SUBTYPES(uranium,        "uranium",                       solid/metal/uranium,        puck,       null)
 STACK_SUBTYPES(plastic,        "plastic",                       solid/plastic,              panel,      null)
@@ -65,7 +66,6 @@ STACK_SUBTYPES(ebony,          "ebony",                         solid/wood/ebony
 STACK_SUBTYPES(walnut,         "walnut",                        solid/wood/walnut,          plank,      null)
 STACK_SUBTYPES(bamboo,         "bamboo",                        solid/wood/bamboo,          plank,      null)
 STACK_SUBTYPES(yew,            "yew",                           solid/wood/yew,             plank,      null)
-STACK_SUBTYPES(cloth,          "cloth",                         solid/cloth,                bolt,       null)
 STACK_SUBTYPES(cardboard,      "cardboard",                     solid/cardboard,            cardstock,  null)
 STACK_SUBTYPES(leather,        "leather",                       solid/leather,              skin,       null)
 STACK_SUBTYPES(synthleather,   "synthleather",                  solid/leather/synth,        skin,       null)
@@ -85,5 +85,18 @@ STACK_SUBTYPES(redgold,        "red gold",                      solid/metal/redg
 STACK_SUBTYPES(stainlesssteel, "stainless steel",               solid/metal/stainlesssteel, ingot,      null)
 STACK_SUBTYPES(ice,            "ice",                           liquid/water,               cubes,      null)
 
-/decl/material/solid/metal/blackbronze
+STACK_SUBTYPES(cloth,          "cloth",                         solid/cloth,                bolt,       null)
+STACK_SUBTYPES(yellow,         "yellow cloth",                  solid/cloth/yellow,         bolt,       null)
+STACK_SUBTYPES(teal,           "teal cloth",                    solid/cloth/teal,           bolt,       null)
+STACK_SUBTYPES(black,          "black cloth",                   solid/cloth/black,          bolt,       null)
+STACK_SUBTYPES(green,          "green cloth",                   solid/cloth/green,          bolt,       null)
+STACK_SUBTYPES(purple,         "purple cloth",                  solid/cloth/purple,         bolt,       null)
+STACK_SUBTYPES(blue,           "blue cloth",                    solid/cloth/blue,           bolt,       null)
+STACK_SUBTYPES(beige,          "beige cloth",                   solid/cloth/beige,          bolt,       null)
+STACK_SUBTYPES(lime,           "lime cloth",                    solid/cloth/lime,           bolt,       null)
+STACK_SUBTYPES(red,            "red cloth",                     solid/cloth/red,            bolt,       null)
+STACK_SUBTYPES(steel,          "steel",                         solid/metal/steel,          strut,      null)
+STACK_SUBTYPES(aluminium,      "aluminium",                     solid/metal/aluminium,      strut,      null)
+STACK_SUBTYPES(titanium,       "titanium",                      solid/metal/titanium,       strut,      null)
+
 #undef STACK_SUBTYPES

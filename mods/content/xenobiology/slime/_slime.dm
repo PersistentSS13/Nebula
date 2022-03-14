@@ -5,7 +5,7 @@
 /mob/living/slime
 	name = "baby slime"
 	icon = 'mods/content/xenobiology/icons/slimes/slime_baby.dmi'
-	icon_state = "slime"
+	icon_state = ICON_STATE_WORLD
 	pass_flags = PASS_FLAG_TABLE
 	speak_emote = list("chirps")
 	maxHealth = 150
@@ -334,8 +334,11 @@
 		return FALSE
 	. = ..()
 
-/mob/living/slime/airflow_stun()
-	return
+/mob/living/slime/handle_airflow(differential, list/connecting_turfs, repelled)
+	return FALSE
+
+/mob/living/slime/handle_airflow_stun(differential)
+	return FALSE
 
 /mob/living/slime/xenobio_scan_results()
 	var/decl/slime_colour/slime_data = GET_DECL(slime_type)

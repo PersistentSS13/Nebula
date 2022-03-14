@@ -32,11 +32,8 @@
 		obj_flags &= (~OBJ_FLAG_CONDUCTIBLE)
 	update_strings()
 
-/obj/item/stack/material/list_recipes(mob/user, recipes_sublist)
-	if(!material)
-		return
-	recipes = material.get_recipes(reinf_material && reinf_material.type)
-	..() 
+/obj/item/stack/material/get_recipes()
+	return material.get_recipes(reinf_material && reinf_material.type)
 
 /obj/item/stack/material/get_codex_value()
 	return (material && !material.hidden_from_codex) ? "[lowertext(material.solid_name)] (material)" : ..()
@@ -109,19 +106,22 @@
 		update_icon()
 
 /obj/item/stack/material/attackby(var/obj/item/W, var/mob/user)
+
 	if(istype(W, /obj/item/stack/material))
 		if(is_same(W))
-			..()
-		else if(!reinf_material)
+			return ..()
+		if(!reinf_material)
 			material.reinforce(user, W, src)
-		return
-	else if(reinf_material && isWelder(W))
+		return TRUE
+
+	if(reinf_material && reinf_material.default_solid_form && isWelder(W))
 		var/obj/item/weldingtool/WT = W
 		if(WT.isOn() && WT.get_fuel() > 2 && use(2))
 			WT.remove_fuel(2, user)
-			to_chat(user,"<span class='notice'>You recover some [reinf_material.use_name] from the [src].</span>")
+			to_chat(user, SPAN_NOTICE("You recover some [reinf_material.use_name] from \the [src]."))
 			reinf_material.create_object(get_turf(user), 1)
-			return
+			return TRUE
+
 	return ..()
 
 /obj/item/stack/material/on_update_icon()
@@ -323,3 +323,23 @@
 	max_icon_state = "puck-max"
 	stack_merge_type = /obj/item/stack/material/slab
 
+/obj/item/stack/material/strut
+	name = "struts"
+	singular_name = "strut"
+	plural_name = "struts"
+	icon_state = "sheet-strut"
+	plural_icon_state = "sheet-strut-mult"
+	max_icon_state = "sheet-strut-max"
+	stack_merge_type = /obj/item/stack/material/strut
+
+/obj/item/stack/material/strut/cyborg
+	name = "metal strut synthesizer"
+	desc = "A device that makes metal strut."
+	gender = NEUTER
+	matter = null
+	uses_charge = 1
+	charge_costs = list(500)
+	material = /decl/material/solid/metal/steel
+
+/obj/item/stack/material/strut/get_recipes()
+	return material.get_strut_recipes(reinf_material && reinf_material.type)

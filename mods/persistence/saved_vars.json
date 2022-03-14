@@ -1,5 +1,11 @@
 [
 	{
+		"path":"/datum",
+		"vars":[
+			"custom_saved"
+		]
+	},
+	{
 		"path":"/datum/computer_file",
 		"vars":[
 			"holder",
@@ -33,16 +39,6 @@
 			"real_name",
 			"lineage",
 			"species"
-		]
-	},
-	{
-		"path":"/datum/extension/holster",
-		"vars":[
-			"holder",
-			"atom_holder",
-			"storage",
-			"can_holster",
-			"holstered"
 		]
 	},
 	{
@@ -260,7 +256,6 @@
 		"vars":[
 			"maxHealth",
 			"health",
-			"last_special",
 			"t_oxygen",
 			"t_sl_gas",
 			"t_n2",
@@ -273,19 +268,16 @@
 			"update_slimes",
 			"on_fire",
 			"fire_stacks",
-			"failed_last_breath",
 			"possession_candidate",
 			"eye_blind",
 			"eye_blurry",
 			"ear_damage",
 			"stuttering",
 			"slurring",
-			"last_resist",
 			"auras",
 			"job",
 			"maxHealth",
 			"health",
-			"last_special",
 			"meat_type",
 			"meat_amount",
 			"skin_material",
@@ -325,8 +317,7 @@
 	{
 		"path":"/mob/living/bot/secbot/ed209",
 		"vars":[
-			"shot_delay",
-			"last_shot"
+			"shot_delay"
 		]
 	},
 	{
@@ -356,7 +347,6 @@
 		"path":"/mob/living/bot/medbot",
 		"vars":[
 			"skin",
-			"last_newpatient_speak",
 			"vocal",
 			"reagent_glass",
 			"injection_amount",
@@ -404,21 +394,18 @@
 			"bloodstr",
 			"touching",
 			"losebreath",
-			"coughedtime",
-			"cpr_time",
-			"lastpuke",
 			"nutrition",
 			"hydration",
 			"internal",
-			"last_taste_time",
 			"last_taste_text",
 			"internal_organs",
 			"organs",
 			"organs_by_name",
 			"internal_organs_by_name",
-			"stasis_sources",
 			"stasis_value",
-			"player_triggered_sleeping"
+			"player_triggered_sleeping",
+			"default_language",
+			"species_language"
 		]
 	},
 	{
@@ -563,7 +550,6 @@
 			"bleed_ticks",
 			"can_bleed",
 			"in_stasis",
-			"time_last_used_ability",
 			"return_damage_min",
 			"return_damage_max"
 		]
@@ -812,6 +798,7 @@
 			"vital",
 			"owner",
 			"dna",
+			"ailments",
 			"damage",
 			"min_broken_damage",
 			"rejecting",
@@ -852,7 +839,6 @@
 	{
 		"path":"/obj/item/seeds",
 		"vars":[
-			"seed",
 			"seed_type"
 		]
 	},
@@ -1562,20 +1548,22 @@
 		"path":"/obj/machinery/portable_atmospherics/hydroponics",
 		"vars":[
 			"base_name",
+			"waterlevel",
+			"nutrilevel",
+			"pestlevel",
+			"weedlevel",
 			"dead",
 			"harvest",
 			"age",
+			"sampled",
+			"yield_mod",
+			"mutation_mod",
+			"toxins",
+			"mutation_level",
+			"tray_light",
 			"health",
-			"lastproduce",
-			"lastcycle",
-			"seed",
-			"toxic_reagents",
-			"nutrient_reagents",
-			"weedkiller_reagents",
-			"pestkiller_reagents",
-			"water_reagents",
-			"beneficial_reagents",
-			"mutagenic_reagents"
+			"closed_system",
+			"seed"
 		]
 	},
 	{
@@ -1695,7 +1683,18 @@
 			"should_be_mapped",
 			"input_cut",
 			"output_cut",
-			"failure_timer"
+			"failure_timer",
+			"name_tag"
+		]
+	},
+	{
+		"path":"/obj/machinery/power/smes/buildable",
+		"vars":[
+			"safeties_enabled",
+			"failing",
+			"grounding",
+			"RCon",
+			"RCon_tag"
 		]
 	},
 	{
@@ -1742,7 +1741,9 @@
 	{
 		"path":"/obj/machinery/smartfridge",
 		"vars":[
-			"item_records"
+			"item_records",
+			"locked",
+			"scan_id"
 		]
 	},
 	{
@@ -1778,7 +1779,8 @@
 			"anchored",
 			"initial_access",
 			"uncreated_component_parts",
-			"construct_state"
+			"construct_state",
+			"id_tag"
 		]
 	},
 	{
@@ -1953,7 +1955,13 @@
 	{
 		"path":"/turf/simulated",
 		"vars":[
-			"decals"
+			"wet",
+			"wet_overlay",
+			"to_be_destroyed",
+			"max_fire_temperature_sustained",
+			"dirt",
+			"decals",
+			"temperature"
 		]
 	},
 	{
@@ -1978,10 +1986,12 @@
 	{
 		"path":"/turf",
 		"vars":[
+			"turf_flags",
 			"level",
 			"holy",
 			"blocks_air",
 			"blessed",
+			"decals",
 			"fluid_can_pass",
 			"flooded",
 			"footstep_type",
@@ -1992,14 +2002,14 @@
 			"pixel_y",
 			"dir",
 			"air",
-			"is_on_fire"
+			"is_on_fire",
+			"prev_type"
 		]
 	},
 	{
 		"path":"/mob",
 		"vars":[
 			"mob_flags",
-			"last_quick_move_time",
 			"mind",
 			"lastKnownIP",
 			"computer_id",
@@ -2092,7 +2102,6 @@
 	{
 		"path":"/atom",
 		"vars":[
-			"visibility",
 			"contents",
 			"blend_mode",
 			"density",
@@ -2103,14 +2112,12 @@
 			"layer",
 			"pixel_x",
 			"pixel_y",
-			"loc",
 			"level"
 		]
 	},
 	{
 		"path":"/obj",
 		"vars":[
-			"visibility",
 			"contents",
 			"dir",
 			"icon",
@@ -2119,13 +2126,13 @@
 			"opacity",
 			"pixel_x",
 			"pixel_y",
-			"loc",
 			"sharp",
 			"edge",
 			"anchor_fall",
 			"holographic",
 			"req_access",
-			"buckled_mob"
+			"buckled_mob",
+			"reagents"
 		]
 	},
 	{
@@ -2478,13 +2485,9 @@
 		"vars":[
 			"burnt",
 			"broken",
-			"icon_state",
 			"flooring_override",
-			"flooring",
-			"initial_flooring",
 			"mineral",
-			"lava",
-			"icon"
+			"lava"
 		]
 	},
 	{
@@ -2828,6 +2831,14 @@
 		]
 	},
 	{
+		"path":"/datum/skill_buff",
+		"vars":[
+			"buffs",
+			"limit",
+			"skillset"
+		]
+	},
+	{
 		"path":"/obj/effect/overmap/visitable/sector/exoplanet",
 		"vars":[
 			"planetary_area",
@@ -3047,13 +3058,6 @@
 	{
 		"path":"/mob/living/carbon/human",
 		"vars":[
-			"oxygen_alert",
-			"toxins_alert",
-			"co2_alert",
-			"fire_alert",
-			"pressure_alert",
-			"temperature_alert",
-			"heartbeat",
 			"stamina",
 			"hair_colour",
 			"h_style",
@@ -3085,14 +3089,10 @@
 			"s_store",
 			"voice",
 			"last_dam",
-			"bad_external_organs",
-			"xylophone",
 			"remoteview_target",
 			"hand_blood_color",
 			"flavor_texts",
 			"pulling_punches",
-			"full_prosthetic",
-			"robolimb_count",
 			"last_attack",
 			"flash_protection",
 			"equipment_tint_total",
@@ -3112,14 +3112,18 @@
 			"became_older",
 			"became_younger",
 			"descriptors",
-			"last_smelt",
 			"saved_ckey",
 			"home_spawn",
 			"stance_limbs",
 			"grasp_limbs",
 			"saved_species",
 			"saved_bodytype",
-			"vessel"
+			"vessel",
+			"embedded_flag",
+			"wearing_rig",
+			"appearance_descriptors",
+			"personal_aspects",
+			"pronouns"
 		]
 	},
 	{
@@ -3274,7 +3278,6 @@
 			"SA_para_min",
 			"SA_sleep_min",
 			"breathing",
-			"last_successful_breath",
 			"breath_fail_ratio"
 		]
 	},
@@ -3320,8 +3323,7 @@
 		"path":"/obj/item/organ/internal/stomach",
 		"vars":[
 			"stomach_capacity",
-			"ingested",
-			"next_cramp"
+			"ingested"
 		]
 	},
 	{
@@ -4092,12 +4094,6 @@
 		]
 	},
 	{
-		"path":"/datum/extension",
-		"vars":[
-			"holder"
-		]
-	},
-	{
 		"path":"/datum/extension/assembly",
 		"vars":[
 			"parts",
@@ -4123,6 +4119,12 @@
 			"key"
 		],
 		"flatten":true
+	},
+	{
+		"path":"/datum/wrapper_holder",
+		"vars":[
+			"wrapped"
+		]
 	},
 	{
 		"path":"/datum/wrapper/area",
@@ -4247,7 +4249,7 @@
 		"path":"/datum/wrapper/map_data",
 		"vars":[
 			"height",
-			"loc"
+			"landmark_loc"
 		]
 	},
 	{
@@ -4316,6 +4318,133 @@
 		"vars":[
 			"set_temperature",
 			"power_setting"
+		]
+	},
+	{
+		"path":"/obj/effect/energy_net",
+		"vars":[
+			"health",
+			"countdown",
+			"captured"
+		]
+	},
+	{
+		"path":"/obj/effect/vine",
+		"vars":[
+			"health",
+			"parent",
+			"seed",
+			"plant",
+			"max_growth"
+		]
+	},
+	{
+		"path":"/datum/wrapper/late/extension",
+		"vars":[
+			"holder_p_id",
+			"extension_saved_vars"
+		],
+		"flatten":true
+	},
+	{
+		"path":"/datum/extension/labels",
+		"vars":[
+			"labels"
+		]
+	},
+	{
+		"path":"/datum/extension/forensic_evidence",
+		"vars":[
+			"evidence",
+			"last_updated"
+		]
+	},
+	{
+		"path":"/datum/forensics",
+		"vars":[
+			"data"
+		]
+	},
+	{
+		"path":"/datum/fingerprint",
+		"vars":[
+			"full_print",
+			"completeness"
+		]
+	},
+	{
+		"path":"/obj/item/evidencebag",
+		"vars":[
+			"stored_item"
+		]
+	},
+	{
+		"path":"/obj/item/forensics/sample",
+		"vars":[
+			"object",
+			"evidence"
+		]
+	},
+	{
+		"path":"/obj/machinery/forensic",
+		"vars":[
+			"sample"
+		]
+	},
+	{
+		"path":"/datum/plantgene",
+		"vars":[
+			"genetype",
+			"values"
+		]
+	},
+	{
+		"path":"/obj/item/chems/food/fruit_slice",
+		"vars":[
+			"seed"
+		]
+	},
+	{
+		"path":"/obj/machinery/botany",
+		"vars":[
+			"seed",
+			"loaded_disk"
+		]
+	},
+	{
+		"path":"/obj/machinery/botany/extractor",
+		"vars":[
+			"genetics",
+			"degradation"
+		]
+	},
+	{
+		"path":"/datum/seed_pile",
+		"vars":[
+			"name",
+			"amount",
+			"seed_type",
+			"seeds",
+			"ID"
+		]
+	},
+	{
+		"path":"/obj/machinery/seed_storage",
+		"vars":[
+			"piles"
+		]
+	},
+	{
+		"path":"/mob/living/simple_animal/mushroom",
+		"vars":[
+			"seed",
+			"harvest_time"
+		]
+	},
+	{
+		"path":"/obj/item/grown",
+		"vars":[
+			"plantname"
 		]
 	}
 ]

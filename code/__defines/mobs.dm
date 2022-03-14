@@ -256,6 +256,10 @@
 #define SPECIES_ALIEN            "Humanoid"
 #define SPECIES_GOLEM            "Golem"
 
+#define BODY_FLAG_EXCLUDE        BITFLAG(0)
+#define BODY_FLAG_HUMANOID       BITFLAG(1)
+#define BODY_FLAG_MONKEY         BITFLAG(2)
+
 #define BODYTYPE_HUMANOID        "humanoid body"
 #define BODYTYPE_OTHER           "alien body"
 #define BODYTYPE_MONKEY          "small humanoid body"
@@ -297,8 +301,8 @@
 
 #define MOB_FLAG_HOLY_BAD BITFLAG(0)  // If this mob is allergic to holiness
 
-#define MARKING_TARGET_SKIN 0 // Draw a datum/sprite_accessory/marking to the mob's body, eg. tattoos
-#define MARKING_TARGET_HAIR 1 // Draw a datum/sprite_accessory/marking to the mob's hair, eg. ears & horns
+#define MARKING_TARGET_SKIN 0 // Draw a /decl/sprite_accessory/marking to the mob's body, eg. tattoos
+#define MARKING_TARGET_HAIR 1 // Draw a /decl/sprite_accessory/marking to the mob's hair, eg. ears & horns
 
 #define DEXTERITY_NONE            0
 #define DEXTERITY_SIMPLE_MACHINES 1
@@ -321,3 +325,10 @@
 #define PREF_PUB_RECORD "public_record"
 #define PREF_MED_RECORD "med_record"
 #define PREF_GEN_RECORD "gen_record"
+
+// Simple animal icon state flags.
+#define MOB_ICON_HAS_LIVING_STATE BITFLAG(0)
+#define MOB_ICON_HAS_DEAD_STATE   BITFLAG(1)
+#define MOB_ICON_HAS_REST_STATE   BITFLAG(2)
+#define MOB_ICON_HAS_SLEEP_STATE  BITFLAG(3)
+#define MOB_ICON_HAS_GIB_STATE    BITFLAG(4)

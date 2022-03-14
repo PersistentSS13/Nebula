@@ -56,9 +56,9 @@
 	worn_underwear = null
 	QDEL_NULL(attack_selector)
 	LAZYCLEARLIST(smell_cooldown)
-	for(var/organ in organs)
-		qdel(organ)
-	return ..()
+	. = ..()
+	QDEL_NULL_LIST(organs)
+	QDEL_NULL_LIST(internal_organs)
 
 /mob/living/carbon/human/get_ingested_reagents()
 	if(should_have_organ(BP_STOMACH))
@@ -157,7 +157,7 @@
 	L.imp_in = M
 	L.implanted = 1
 	var/obj/item/organ/external/affected = M.organs_by_name[BP_HEAD]
-	affected.implants += L
+	LAZYDISTINCTADD(affected.implants, L)
 	L.part = affected
 	L.implanted(src)
 
@@ -388,8 +388,10 @@
 	var/list/EMP = list()
 	for(var/obj/item/organ/external/limb in limbs)
 		EMP += limb
-		EMP += limb.internal_organs
-		EMP += limb.implants
+		if(LAZYLEN(limb.internal_organs))
+			EMP += limb.internal_organs
+		if(LAZYLEN(limb.implants))
+			EMP += limb.implants
 	for(var/atom/E in EMP)
 		E.emp_act(severity)
 
@@ -766,34 +768,30 @@
 	skin_tone = -skin_tone + 35
 
 	// hair
-	var/list/all_hairs = subtypesof(/datum/sprite_accessory/hair)
+	var/list/all_hairs = decls_repository.get_decls_of_subtype(/decl/sprite_accessory/hair)
 	var/list/hairs = list()
 
 	// loop through potential hairs
 	for(var/x in all_hairs)
-		var/datum/sprite_accessory/hair/H = new x // create new hair datum based on type x
-		hairs.Add(H.name) // add hair name to hairs
-		qdel(H) // delete the hair after it's all done
+		hairs += all_hairs[x]
 
-	var/new_style = input("Please select hair style", "Character Generation",h_style)  as null|anything in hairs
+	var/decl/new_style = input("Please select hair style", "Character Generation",h_style)  as null|anything in hairs
 
 	// if new style selected (not cancel)
-	if (new_style)
-		h_style = new_style
+	if(new_style)
+		h_style = new_style.type
 
 	// facial hair
-	var/list/all_fhairs = subtypesof(/datum/sprite_accessory/facial_hair)
+	var/list/all_fhairs = decls_repository.get_decls_of_subtype(/decl/sprite_accessory/facial_hair)
 	var/list/fhairs = list()
 
 	for(var/x in all_fhairs)
-		var/datum/sprite_accessory/facial_hair/H = new x
-		fhairs.Add(H.name)
-		qdel(H)
+		fhairs += all_fhairs[x]
 
 	new_style = input("Please select facial style", "Character Generation",f_style)  as null|anything in fhairs
 
 	if(new_style)
-		f_style = new_style
+		f_style = new_style.type
 
 	var/new_gender = alert(usr, "Please select gender.", "Character Generation", "Male", "Female", "Neutral")
 	if (new_gender)
@@ -822,7 +820,7 @@
 		src.verbs -= /mob/living/carbon/human/proc/remotesay
 		return
 	var/list/creatures = list()
-	for(var/mob/living/carbon/h in world)
+	for(var/mob/living/carbon/h in global.player_list)
 		creatures += h
 	var/mob/target = input("Who do you want to project your mind to ?") as null|anything in creatures
 	if (isnull(target))
@@ -835,7 +833,7 @@
 		target.show_message("<span class='notice'>You hear a voice that seems to echo around the room: [say]</span>")
 	usr.show_message("<span class='notice'>You project your mind into [target.real_name]: [say]</span>")
 	log_say("[key_name(usr)] sent a telepathic message to [key_name(target)]: [say]")
-	for(var/mob/observer/ghost/G in world)
+	for(var/mob/observer/ghost/G in global.player_list)
 		G.show_message("<i>Telepathic message from <b>[src]</b> to <b>[target]</b>: [say]</i>")
 
 /mob/living/carbon/human/proc/remoteobserve()
@@ -860,7 +858,7 @@
 
 	var/list/mob/creatures = list()
 
-	for(var/mob/living/carbon/h in world)
+	for(var/mob/living/carbon/h in global.living_mob_list_)
 		var/turf/temp_turf = get_turf(h)
 		if((temp_turf.z != 1 && temp_turf.z != 5) || h.stat!=CONSCIOUS) //Not on mining or the station. Or dead
 			continue
@@ -888,13 +886,11 @@
 	reset_blood()
 
 	if(!client || !key) //Don't boot out anyone already in the mob.
-		for (var/obj/item/organ/internal/brain/H in world)
-			if(H.brainmob)
-				if(H.brainmob.real_name == src.real_name)
-					if(H.brainmob.mind)
-						H.brainmob.mind.transfer_to(src)
-						qdel(H)
-
+		for(var/mob/living/carbon/brain/brain in global.player_list) // This is really nasty, does it even work anymore?
+			if(brain.real_name == src.real_name && brain.mind)
+				brain.mind.transfer_to(src)
+				qdel(brain.loc)
+				break
 	losebreath = 0
 	UpdateAppearance()
 	..()
@@ -1088,13 +1084,13 @@
 	if(species.holder_type)
 		holder_type = species.holder_type
 
-	var/decl/pronouns/pronouns = get_pronouns_by_gender(gender)
-	if(!istype(pronouns) || !(pronouns.type in species.available_pronouns))
-		pronouns = pick(species.available_pronouns)
-		set_gender(pronouns.name)
+	var/decl/pronouns/new_pronouns = get_pronouns_by_gender(get_sex())
+	if(!istype(new_pronouns) || !(new_pronouns in species.available_pronouns))
+		new_pronouns = species.default_pronouns
+		set_gender(new_pronouns.name)
 
 	icon_state = lowertext(species.name)
-	set_bodytype(pick(species.available_bodytypes))
+	set_bodytype(species.default_bodytype, TRUE)
 
 	species.create_organs(src)
 	species.handle_post_spawn(src)
@@ -1107,9 +1103,7 @@
 	default_pixel_x = initial(pixel_x) + bodytype.pixel_offset_x
 	default_pixel_y = initial(pixel_y) + bodytype.pixel_offset_y
 	default_pixel_z = initial(pixel_z) + bodytype.pixel_offset_z
-	pixel_x = default_pixel_x
-	pixel_y = default_pixel_y
-	pixel_z = default_pixel_z
+	reset_offsets()
 
 	appearance_descriptors = null
 	if(LAZYLEN(species.appearance_descriptors))
@@ -1347,7 +1341,7 @@
 	var/obj/item/organ/internal/eyes = get_internal_organ(BP_EYES)
 	. = istype(eyes) && eyes.is_usable()
 
-/mob/living/carbon/human/slip(var/slipped_on, stun_duration=8)
+/mob/living/carbon/human/slip(var/slipped_on, stun_duration = 8)
 	if((species.check_no_slip(src)) || (shoes && (shoes.item_flags & ITEM_FLAG_NOSLIP)))
 		return 0
 	return !!(..(slipped_on,stun_duration))
@@ -1676,10 +1670,13 @@
 		return (!L || L.can_drown())
 	return FALSE
 
-/mob/living/carbon/human/get_breath_from_environment(var/volume_needed = STD_BREATH_VOLUME)
-	var/datum/gas_mixture/breath = ..(volume_needed)
+/mob/living/carbon/human/get_breath_from_environment(var/volume_needed = STD_BREATH_VOLUME, var/atom/location = src.loc)
+	var/datum/gas_mixture/breath = ..(volume_needed, location)
 	var/turf/T = get_turf(src)
 	if(istype(T) && T.is_flooded(lying) && should_have_organ(BP_LUNGS))
+		if(T == location) //Can we surface?
+			if(!lying && T.above && !T.above.is_flooded() && T.above.CanZPass(src, UP) && can_overcome_gravity())
+				return ..(volume_needed, T.above)
 		var/can_breathe_water = (istype(wear_mask) && wear_mask.filters_water()) ? TRUE : FALSE
 		if(!can_breathe_water)
 			var/obj/item/organ/internal/lungs/lungs = get_internal_organ(BP_LUNGS)
@@ -1791,11 +1788,9 @@
 		. = TRUE
 	for(var/obj/item/organ/external/E in organs)
 		for(var/mark in E.markings)
-			var/list/marking_data = E.markings[mark]
-			var/datum/sprite_accessory/marking/mark_datum = marking_data["datum"]
+			var/decl/sprite_accessory/marking/mark_datum = GET_DECL(mark)
 			if(mark_datum.flags & HAIR_LOSS_VULNERABLE)
 				E.markings -= mark
-				marking_data.Cut()
 				. = TRUE
 	if(.)
 		update_body()

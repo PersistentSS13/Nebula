@@ -11,6 +11,8 @@
 	handle_generic_blending = TRUE
 	tool_interaction_flags = TOOL_INTERACTION_DECONSTRUCT
 	material = /decl/material/solid/metal/steel
+	parts_type = /obj/item/stack/material/rods
+	parts_amount = 2
 
 	var/hatch_open = FALSE
 	var/decl/flooring/tiling/plated_tile
@@ -61,7 +63,7 @@
 	var/image/I
 	if(!hatch_open)
 		for(var/i = 1 to 4)
-			I = image(icon, "catwalk[connections ? connections[i] : "0"]", dir = 1<<(i-1))
+			I = image(icon, "catwalk[connections ? connections[i] : "0"]", dir = BITFLAG(i-1))
 			overlays += I
 	if(plated_tile)
 		I = image(icon, "plated")
@@ -69,11 +71,10 @@
 		overlays += I
 
 /obj/structure/catwalk/create_dismantled_products(var/turf/T)
-	if(material)
-		material.create_object(get_turf(src), 2, /obj/item/stack/material/rods)
 	if(plated_tile)
 		var/plate_path = plated_tile.build_type
 		new plate_path(T)
+	. = ..()
 
 /obj/structure/catwalk/explosion_act(severity)
 	..()

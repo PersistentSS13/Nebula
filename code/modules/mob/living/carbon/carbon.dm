@@ -81,16 +81,6 @@
 		visible_message(SPAN_DANGER("\The [M] bursts out of \the [src]!"))
 	..()
 
-/mob/living/carbon/attack_hand(mob/user)
-	var/obj/item/organ/external/temp = user.get_organ(user.get_active_held_item_slot())
-	if(!temp)
-		to_chat(user, SPAN_WARNING("You don't have a usable limb!"))
-		return TRUE
-	if(!temp.is_usable())
-		to_chat(user, SPAN_WARNING("You can't use your [temp.name]."))
-		return TRUE
-	. = ..()
-
 /mob/living/carbon/electrocute_act(var/shock_damage, var/obj/source, var/siemens_coeff = 1.0, var/def_zone = null)
 	if(status_flags & GODMODE)	return 0	//godmode
 
@@ -329,14 +319,11 @@
 	..()
 
 /mob/living/carbon/slip(slipped_on, stun_duration = 8)
-	if(!has_gravity())
-		return FALSE
-	if(buckled)
-		return FALSE
-	to_chat(src, SPAN_WARNING("You slipped on [slipped_on]!"))
-	playsound(loc, 'sound/misc/slip.ogg', 50, 1, -3)
-	SET_STATUS_MAX(src, STAT_WEAK, FLOOR(stun_duration/2))
-	return TRUE
+	if(has_gravity() && !buckled && !lying)
+		to_chat(src, SPAN_DANGER("You slipped on [slipped_on]!"))
+		playsound(loc, 'sound/misc/slip.ogg', 50, 1, -3)
+		SET_STATUS_MAX(src, STAT_WEAK, stun_duration)
+		. = TRUE
 
 /mob/living/carbon/get_default_language()
 	. = ..()
@@ -417,9 +404,6 @@
 	for(var/source in stasis_sources)
 		stasis_value += stasis_sources[source]
 	stasis_sources.Cut()
-
-/mob/living/carbon/get_sex()
-	return species.get_sex(src)
 
 /mob/living/carbon/proc/set_nutrition(var/amt)
 	nutrition = Clamp(amt, 0, initial(nutrition))

@@ -24,18 +24,22 @@
 			continue
 		if(islist(VV))
 			results[V] = SerializeList(VV)
+		else if(ispath(VV))
+			results[V] = "[SERIALIZER_TYPE_PATH]#[VV]"
 		else if(istext(VV) || isnum(VV) || isnull(VV))
 			results[V] = VV
 		else if(istype(VV, /datum))
 			if(should_flatten(VV))
-				results[V] = "FLAT_OBJ#[SerializeDatum(VV)]"
+				results[V] = "[SERIALIZER_TYPE_DATUM_FLAT]#[SerializeDatum(VV)]"
 			else
 				var/datum/VD = VV
 				if(V in global.reference_only_vars)
-					results[V] = "OBJ#[VD.persistent_id ? VD.persistent_id : PERSISTENT_ID]"
+					results[V] = "[SERIALIZER_TYPE_DATUM]#[VD.persistent_id ? VD.persistent_id : PERSISTENT_ID]"
 				else
-					results[V] = "OBJ#[sql.SerializeDatum(VV)]"
+					results[V] = "[SERIALIZER_TYPE_DATUM]#[sql.SerializeDatum(VV)]"
+	
 	object.after_save()
+
 	return "[object.type]|[json_encode(results)]"
 
 // Serialize a list. Returns the appropriate serialized form of the list. What's outputted depends on the serializer.
@@ -50,11 +54,13 @@
 			F_K = SerializeList(K)
 		else if(istext(K) || isnum(K) || isnull(K))
 			F_K = K
+		else if(ispath(K))
+			F_K = "[SERIALIZER_TYPE_PATH]#[K]"
 		else if(istype(K, /datum))
 			if(should_flatten(K))
-				F_K = "FLAT_OBJ#[SerializeDatum(K)]"
+				F_K = "[SERIALIZER_TYPE_DATUM_FLAT]#[SerializeDatum(K)]"
 			else
-				F_K = "OBJ#[sql.SerializeDatum(K)]"
+				F_K = "[SERIALIZER_TYPE_DATUM]#[sql.SerializeDatum(K)]"
 		
 		// All byond lists are dicts. Check if this KVP is a dict. or a null type ref.
 		try
@@ -62,13 +68,15 @@
 			// There was a type value.
 			if(islist(V))
 				F_V = SerializeList(V)
+			else if(ispath(V))
+				F_V = "[SERIALIZER_TYPE_PATH]#[V]"
 			else if(istext(V) || isnum(V) || isnull(V))
 				F_V = V
 			else if(istype(V, /datum))
 				if(should_flatten(V))
-					F_V = "FLAT_OBJ#[SerializeDatum(V)]"
+					F_V = "[SERIALIZER_TYPE_DATUM_FLAT]#[SerializeDatum(V)]"
 				else
-					F_V = "OBJ#[sql.SerializeDatum(V)]"
+					F_V = "[SERIALIZER_TYPE_DATUM]#[sql.SerializeDatum(V)]"
 			
 			// Add the list value.
 			final_list[F_K] = F_V
@@ -77,18 +85,20 @@
 			final_list.Add(F_K)
 	return final_list
 
-
 /serializer/json/DeserializeDatum(var/datum/persistence/load_cache/thing/object)
 	throw EXCEPTION("Do not use DeserializeDatum for the JSON Serializer. Use QueryAndDeserializeDatum.")
 
 /serializer/json/proc/JsonDeserializeDatum(var/datum/thing, var/list/thing_vars)
 	for(var/V in thing_vars)
 		var/encoded_value = thing_vars[V]
-		if(istext(encoded_value) && findtext(encoded_value, "OBJ#", 1, 5))
+		if(istext(encoded_value) && findtext(encoded_value, "[SERIALIZER_TYPE_DATUM]#", 1, 5))
 			// This is an object reference.
 			thing.vars[V] = sql.QueryAndDeserializeDatum(copytext(encoded_value, 5))
 			continue
-		if(istext(encoded_value) && findtext(encoded_value, "FLAT_OBJ#", 1, 10))
+		if(istext(encoded_value) && findtext(encoded_value, "[SERIALIZER_TYPE_PATH]#", 1, 6))
+			thing.vars[V] = text2path(copytext(encoded_value, 6))
+			continue
+		if(istext(encoded_value) && findtext(encoded_value, "[SERIALIZER_TYPE_DATUM_FLAT]#", 1, 10))
 			// This is a flattened object
 			thing.vars[V] = QueryAndDeserializeDatum(copytext(encoded_value, 10))
 			continue
@@ -103,17 +113,21 @@
 	var/list/final_list = list()
 	for(var/K in raw_list)
 		var/key = K
-		if(istext(K) && findtext(K, "OBJ#", 1, 5))
+		if(istext(K) && findtext(K, "[SERIALIZER_TYPE_DATUM]#", 1, 5))
 			key = sql.QueryAndDeserializeDatum(copytext(K, 5))
-		else if(istext(K) && findtext(K, "FLAT_OBJ#", 1, 10))
+		else if(istext(K) && findtext(K, "[SERIALIZER_TYPE_PATH]#", 1, 6))
+			key = text2path(copytext(K, 6))
+		else if(istext(K) && findtext(K, "[SERIALIZER_TYPE_DATUM_FLAT]#", 1, 10))
 			key = QueryAndDeserializeDatum(copytext(K, 10))
 		else if(islist(K))
 			key = DeserializeList(K)
 		try
 			var/V = raw_list[K]
-			if(istext(V) && findtext(V, "OBJ#", 1, 5))
+			if(istext(V) && findtext(V, "[SERIALIZER_TYPE_DATUM]#", 1, 5))
 				V = sql.QueryAndDeserializeDatum(copytext(V, 5))
-			else if(istext(K) && findtext(K, "FLAT_OBJ#", 1, 10))
+			else if(istext(V) && findtext(V, "[SERIALIZER_TYPE_PATH]#", 1, 6))
+				V = text2path(copytext(V, 6))
+			else if(istext(V) && findtext(V, "[SERIALIZER_TYPE_DATUM_FLAT]#", 1, 10))
 				V = QueryAndDeserializeDatum(copytext(V, 10))
 			else if(islist(V))
 				V = DeserializeList(V)
@@ -133,3 +147,4 @@
 	var/datum/existing = new thing_type
 	var/list/vars = json_decode(jointext(tokens.Copy(2), "|"))
 	return JsonDeserializeDatum(existing, vars)
+

@@ -38,10 +38,10 @@ var/global/list/aspect_categories = list() // Containers for ease of printing da
 	aspect_cost = 0
 	// End temp set.
 
-	if(!name)
-		return
+	if(ispath(parent))
+		parent = GET_DECL(parent)
 
-	if(category)
+	if(abstract_type != type && category)
 		var/datum/aspect_category/AC = global.aspect_categories[category]
 		if(!istype(AC))
 			AC = new(category)
@@ -49,11 +49,8 @@ var/global/list/aspect_categories = list() // Containers for ease of printing da
 		AC.aspects += src
 		if(AC.hide_from_chargen && available_at_chargen)
 			AC.hide_from_chargen = FALSE
-
-	if(ispath(parent))
-		parent = GET_DECL(parent)
-	if(istype(parent))
-		LAZYDISTINCTADD(parent.children, src)
+		if(istype(parent))
+			LAZYDISTINCTADD(parent.children, src)
 
 /decl/aspect/proc/applies_to_organ(var/organ)
 	return FALSE
@@ -134,7 +131,7 @@ var/global/list/aspect_categories = list() // Containers for ease of printing da
 		if(printed_cat)
 			dat += "<hr>"
 
-	var/datum/browser/written/popup = new((show_to || usr), "aspect_summary_\ref[src]", "Aspect Summary")
+	var/datum/browser/popup = new((show_to || usr), "aspect_summary_\ref[src]", "Aspect Summary")
 	popup.set_content(jointext(dat, null))
 	popup.open()
 

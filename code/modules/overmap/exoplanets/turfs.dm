@@ -12,7 +12,7 @@
 
 /turf/exterior/planet_edge/Initialize()
 	. = ..()
-	var/obj/effect/overmap/visitable/sector/exoplanet/E = map_sectors["[z]"]
+	var/obj/effect/overmap/visitable/sector/exoplanet/E = global.overmap_sectors["[z]"]
 	if(!istype(E))
 		return
 	var/nx = x
@@ -29,7 +29,12 @@
 
 	var/turf/NT = locate(nx, ny, z)
 	if(NT)
-		vis_contents = list(NT)
+		if(flooded)
+			vis_contents = list(NT, global.flood_object)
+		else
+			vis_contents = list(NT)
+	else if(flooded)
+		vis_contents = list(global.flood_object)
 
 	//Need to put a mouse-opaque overlay there to prevent people turning/shooting towards ACTUAL location of vis_content things
 	var/obj/effect/overlay/O = new(src)
@@ -39,7 +44,7 @@
 
 /turf/exterior/planet_edge/Bumped(atom/movable/A)
 	. = ..()
-	var/obj/effect/overmap/visitable/sector/exoplanet/E = map_sectors["[z]"]
+	var/obj/effect/overmap/visitable/sector/exoplanet/E = global.overmap_sectors["[z]"]
 	if(!istype(E))
 		return
 	if(E.planetary_area && istype(loc, world.area))

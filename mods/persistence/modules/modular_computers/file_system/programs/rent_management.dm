@@ -14,7 +14,7 @@
 
 	var/weakref/target_sector
 
-/datum/computer_file/program/rent_management/on_startup(mob/living/user, datum/extension/interactive/ntos/new_host)
+/datum/computer_file/program/rent_management/on_startup(mob/living/user, datum/extension/interactive/os/new_host)
 	. = ..()
 	var/atom/holder = computer.holder
 	if(!holder)

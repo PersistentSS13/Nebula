@@ -185,11 +185,10 @@ var/global/const/NO_EMAG_ACT = -50
 	. = ..()
 	update_icon()
 
-/obj/item/card/id/get_mob_overlay(mob/user_mob, slot, bodypart)
-	var/image/ret = ..()
-	if(ret && detail_color)
-		ret.overlays += overlay_image(ret.icon, "[ret.icon_state]-colors", detail_color, RESET_COLOR)
-	return ret
+/obj/item/card/id/adjust_mob_overlay(var/mob/living/user_mob, var/bodytype,  var/image/overlay, var/slot, var/bodypart)
+	if(overlay && detail_color)
+		overlay.overlays += overlay_image(overlay.icon, "[overlay.icon_state]-colors", detail_color, RESET_COLOR)
+	. = ..()
 
 /obj/item/card/id/on_update_icon()
 	cut_overlays()
@@ -220,7 +219,7 @@ var/global/const/NO_EMAG_ACT = -50
 	if(front && side)
 		send_rsc(user, front, "front.png")
 		send_rsc(user, side, "side.png")
-	var/datum/browser/written/popup = new(user, "idcard", name, 600, 250)
+	var/datum/browser/written_physical/popup = new(user, "idcard", name, 600, 250)
 	popup.set_content(dat())
 	popup.open()
 	return

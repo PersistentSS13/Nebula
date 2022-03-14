@@ -76,7 +76,7 @@
 		return TOPIC_REFRESH 
 
 /obj/machinery/stellar_anchor/proc/launch()
-	var/obj/effect/overmap/origin_sector = map_sectors["[z]"]
+	var/obj/effect/overmap/origin_sector = global.overmap_sectors["[z]"]
 	if(!origin_sector) // Safety check
 		return
 	var/overmap_x = origin_sector.x
@@ -106,7 +106,7 @@
 			if(sector_name == shuttle_tag)
 				LAZYDISTINCTADD(errors, "\The [sector_type] name is already in use by another ship.")
 				. = FALSE
-	var/obj/effect/overmap/origin_sector = map_sectors["[z]"]
+	var/obj/effect/overmap/origin_sector = global.overmap_sectors["[z]"]
 	if(!origin_sector)	// In case a player is launching from an area unknown to the overmap. In normal gameplay this should not occur.
 		LAZYDISTINCTADD(errors, "\The [src] cannot be launched from this location")
 		. = FALSE

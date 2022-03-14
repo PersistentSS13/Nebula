@@ -19,8 +19,9 @@
 	. = ..()
 	
 /obj/effect/overmap/visitable/ship/landable/move_to_starting_location()
+	var/datum/overmap/overmap = global.overmaps_by_name[overmap_id]
 	if(start_x && start_y)
-		forceMove(locate(start_x, start_y, global.using_map.overmap_z))
+		forceMove(locate(start_x, start_y, overmap.assigned_z))
 		return
 	..()
 

@@ -214,7 +214,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/obj/structure/table/standard{
+/obj/structure/table{
 	name = "plastic table frame"
 	},
 /obj/random/tech_supply,
@@ -247,7 +247,6 @@
 /area/map_template/oldpod)
 "aH" = (
 /obj/structure/cable/cyan{
-	d2 = 4;
 	icon_state = "0-4"
 	},
 /obj/item/frame/apc,
@@ -258,8 +257,6 @@
 /area/map_template/oldpod)
 "aI" = (
 /obj/structure/cable/cyan{
-	d1 = 2;
-	d2 = 8;
 	icon_state = "2-8"
 	},
 /obj/effect/decal/cleanable/filth,
@@ -344,7 +341,7 @@
 /obj/structure/window/reinforced{
 	dir = 1
 	},
-/obj/structure/table/standard{
+/obj/structure/table{
 	name = "plastic table frame"
 	},
 /obj/item/storage/firstaid/surgery,
@@ -397,7 +394,6 @@
 	dir = 1
 	},
 /obj/structure/cable/cyan{
-	d2 = 2;
 	icon_state = "0-2"
 	},
 /obj/effect/floor_decal/industrial/warning{
@@ -474,7 +470,7 @@
 /obj/structure/window/reinforced{
 	dir = 8
 	},
-/obj/structure/table/standard{
+/obj/structure/table{
 	name = "plastic table frame"
 	},
 /obj/random/firstaid,

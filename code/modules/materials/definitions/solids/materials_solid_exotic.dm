@@ -1,5 +1,6 @@
 /decl/material/solid/metallic_hydrogen
 	name = "metallic hydrogen"
+	uid = "solid_metallic_hydrogen"
 	lore_text = "When hydrogen is exposed to extremely high pressures and temperatures, such as at the core of gas giants like Jupiter, it can take on metallic properties and - more importantly - acts as a room temperature superconductor. Achieving solid metallic hydrogen at room temperature, though, has proven to be rather tricky."
 	name = "metallic hydrogen"
 	color = "#e6c5de"
@@ -22,17 +23,17 @@
 	gas_molar_mass = 0.002
 	gas_flags = XGM_GAS_FUEL
 	burn_product = /decl/material/liquid/water
-	gas_symbol_html = "H<sub>2</sub>"
-	gas_symbol = "H2"
 	ore_type_value = ORE_EXOTIC
 	ore_data_value = 4
 	dissolves_into = list(
 		/decl/material/liquid/fuel/hydrazine = 1
 	)
 	default_solid_form = /obj/item/stack/material/segment
+	exoplanet_rarity = MAT_RARITY_EXOTIC
 
 /decl/material/solid/exotic_matter
 	name = "exotic matter"
+	uid = "solid_exotic_matter"
 	lore_text = "Hypercrystalline supermatter is a subset of non-baryonic 'exotic' matter. It is found mostly in the heart of large stars, and features heavily in all kinds of fringe physics-defying technology."
 	color = "#ffff00"
 	radioactivity = 20
@@ -62,3 +63,4 @@
 		/decl/material/solid/exotic_matter = 1
 	)
 	default_solid_form = /obj/item/stack/material/segment
+	exoplanet_rarity = MAT_RARITY_EXOTIC

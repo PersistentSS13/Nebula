@@ -33,14 +33,14 @@
 
 	slab_nutrition /= gib_products.len
 
-	var/drop_products = Floor(gib_products.len * 0.35)
+	var/drop_products = FLOOR(gib_products.len * 0.35)
 	for(var/atom/movable/thing in gib_products)
 		if(drop_products)
 			drop_products--
 			qdel(thing)
 		else
 			thing.forceMove(src)
-			if(istype(thing, /obj/item/chems/food/snacks/meat))
-				var/obj/item/chems/food/snacks/meat/slab = thing
+			if(istype(thing, /obj/item/chems/food/meat))
+				var/obj/item/chems/food/meat/slab = thing
 				slab.SetName("[slab_name] [slab.name]")
 				slab.reagents.add_reagent(/decl/material/liquid/nutriment,slab_nutrition)

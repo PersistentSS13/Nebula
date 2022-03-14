@@ -20,9 +20,14 @@
 		output += "<span class='average'><b>The Game Is Loading!</b></span><br><br>"
 	output += "<i>[global.using_map.get_map_info()]</i>"
 	output +="<hr>"
-	output += "<a href='byond://?src=\ref[src];setupCharacter=1'>Set up character</A> "
-	output += "<a href='byond://?src=\ref[src];joinGame=1'>Join game</a><br><br>"
+	if(GAME_STATE < RUNLEVEL_GAME)
+		//Do not let clients design characters before load. It causes issues, and we don't use rounds anyways.
+		output += "<div>Loading...</div>"
+	else
+		output += "<a href='byond://?src=\ref[src];setupCharacter=1'>Set up character</a> "
+		output += "<a href='byond://?src=\ref[src];joinGame=1'>Join game</a>"
 
+	output += "<br><br>"
 	if(check_rights(R_DEBUG, 0, client))
 		output += "<a href='byond://?src=\ref[src];observeGame=1'>Observe</a><br><br>"
 	output += "<a href='byond://?src=\ref[src];refreshPanel=1'>Refresh</a><br><br>"
@@ -86,10 +91,11 @@
 	if(!config.enter_allowed)
 		to_chat(src, SPAN_NOTICE("There is an administrative lock on entering the game!"))
 		return
+
 	if(spawning)
 		return
 	for(var/datum/mind/target_mind in global.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
-		if(target_mind.key == key)
+		if(cmptext(target_mind.key, key))
 			if(!target_mind.current || istype(target_mind.current, /mob/new_player))
 				continue
 			transition_to_game()
@@ -99,24 +105,35 @@
 			qdel(src)
 			return
 	// Query for the character associated with this ckey
+	spawning = TRUE
 	var/DBQuery/char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]'")
-	char_query.Execute()
-	if(char_query.ErrorMsg())
+	if(!char_query.Execute())
 		to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
 	if(char_query.NextRow())
 		var/list/char_items = char_query.GetRowData()
-		var/datum/mind/target_mind = SSpersistence.DeserializeOneOff(char_items["key"], LIMBO_MIND)
+		var/list/deserialized = SSpersistence.DeserializeOneOff(char_items["key"], LIMBO_MIND)
+		var/datum/mind/target_mind
+		for(var/thing in deserialized)
+			if(istype(thing, /datum/mind))
+				var/datum/mind/check_mind = thing
+				if(cmptext(check_mind.key, key))
+					target_mind = check_mind
+				break
 		if(!target_mind)
 			to_world_log("CHARACTER DESERIALIZATION FAILED: Could not locate key [char_items["key"]] from limbo list.")
 			to_chat(src, SPAN_WARNING("Something has gone wrong while returning you to your body. Contact an admin."))
+			spawning = FALSE
 			return
 		var/mob/person = target_mind.current
 		transition_to_game()
 		to_chat(src, SPAN_NOTICE("A character is already in game."))
-		spawning = TRUE
 		person.key = key
 		qdel(src)
 		return
+
+	switch(alert("Are you sure you want to join the game with the character you've created? This cannot be undone!", "Character Confirmation", "Yes", "No"))
+		if("No")
+			return
 
 	create_character()	// Creating a new character based off the player's preferences.
 	qdel(src)
@@ -179,11 +196,10 @@
 	// Do the initial caching of the player's body icons.
 	new_character.force_update_limbs()
 	new_character.update_eyes()
-	new_character.regenerate_icons()
+	new_character.refresh_visible_overlays()
 
 	new_character.key = key		//Manually transfer the key to log them in
 
-	
 /mob/new_player/Move()
 	return 0
 

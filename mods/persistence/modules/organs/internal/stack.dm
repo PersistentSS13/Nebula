@@ -67,7 +67,7 @@ var/global/list/cortical_stacks = list()
 
 /obj/item/organ/internal/stack/replaced()
 	. = ..()
-	qdel(backup)
+	QDEL_NULL(backup)
 	update_mind_id()
 	if(owner)
 		owner.add_language(/decl/language/cortical)
@@ -87,7 +87,7 @@ var/global/list/cortical_stacks = list()
 	// Language will be readded upon placement into a mob with a stack.
 	owner.remove_language(/decl/language/cortical)
 
-	qdel(backup)
+	QDEL_NULL(backup)
 	backup = new()
 	backup.initialize_backup(owner)
 	return ..()

@@ -15,6 +15,8 @@
 	matter = list(/decl/material/solid/fiberglass = MATTER_AMOUNT_REINFORCEMENT)
 	origin_tech = "{'engineering':1}"
 	drop_sound = 'sound/foley/tooldrop1.ogg'
+	z_flags = ZMM_MANGLE_PLANES
+
 	var/lit_colour = COLOR_PALE_ORANGE
 	var/waterproof = FALSE
 	var/welding = 0 	//Whether or not the welding tool is off(0), on(1) or currently welding(2)
@@ -51,11 +53,10 @@
 	QDEL_NULL(tank)
 	return ..()
 
-/obj/item/weldingtool/get_mob_overlay(mob/user_mob, slot, bodypart)
-	var/image/ret = ..()
-	if(ret && welding && check_state_in_icon("[ret.icon_state]-lit", ret.icon))
-		ret.add_overlay(emissive_overlay(ret.icon, "[ret.icon_state]-lit"))
-	return ret
+/obj/item/weldingtool/adjust_mob_overlay(var/mob/living/user_mob, var/bodytype,  var/image/overlay, var/slot, var/bodypart)
+	if(overlay && welding && check_state_in_icon("[overlay.icon_state]-lit", overlay.icon))
+		overlay.add_overlay(emissive_overlay(overlay.icon, "[overlay.icon_state]-lit"))
+	. = ..()
 
 /obj/item/weldingtool/get_heat()
 	. = max(..(), isOn() ? 3800 : 0)
@@ -185,7 +186,7 @@
 			L.IgniteMob()
 		else if(istype(O))
 			O.HandleObjectHeating(src, user, 700)
-		if (istype(location, /turf))
+		if (isturf(location))
 			location.hotspot_expose(700, 50, 1)
 	return
 

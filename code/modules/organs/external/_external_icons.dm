@@ -1,8 +1,5 @@
 var/global/list/limb_icon_cache = list()
 
-/obj/item/organ/external
-	var/tmp/icon_cache_key
-
 /obj/item/organ/external/set_dir(var/direction, var/forced)
 	SHOULD_CALL_PARENT(FALSE)
 	if(forced)
@@ -61,13 +58,13 @@ var/global/list/limb_icon_cache = list()
 	..()
 	//Head markings, duplicated (sadly) below.
 	for(var/M in markings)
-		var/datum/sprite_accessory/marking/mark_style = markings[M]["datum"]
+		var/decl/sprite_accessory/marking/mark_style = GET_DECL(M)
 		if (mark_style.draw_target == MARKING_TARGET_SKIN)
 			var/icon/mark_s = new/icon("icon" = mark_style.icon, "icon_state" = "[mark_style.icon_state]-[organ_tag]")
-			mark_s.Blend(markings[M]["color"], mark_style.blend)
+			mark_s.Blend(markings[M], mark_style.blend)
 			overlays |= mark_s //So when it's not on your body, it has icons
 			mob_icon.Blend(mark_s, mark_style.layer_blend) //So when it's on your body, it has icons
-			icon_cache_key += "[M][markings[M]["color"]]"
+			icon_cache_key += "[M][markings[M]]"
 
 /obj/item/organ/external/proc/update_limb_icon_file()
 	if (BP_IS_PROSTHETIC(src))
@@ -86,7 +83,7 @@ var/global/list/limb_icon_cache = list()
 /obj/item/organ/external/on_update_icon(var/regenerate = 0)
 
 	icon_state = "[icon_name]"
-	icon_cache_key = "[icon_state]_[species ? species.name : "unknown"]"
+	icon_cache_key = "[icon_state]_[species ? species.name : "unknown"][render_alpha]"
 	if(model)
 		icon_cache_key += "_model_[model]"
 
@@ -95,15 +92,19 @@ var/global/list/limb_icon_cache = list()
 
 	//Body markings, does not include head, duplicated (sadly) above.
 	for(var/M in markings)
-		var/datum/sprite_accessory/marking/mark_style = markings[M]["datum"]
+		var/decl/sprite_accessory/marking/mark_style = GET_DECL(M)
 		if (mark_style.draw_target == MARKING_TARGET_SKIN)
 			var/icon/mark_s = new/icon("icon" = mark_style.icon, "icon_state" = "[mark_style.icon_state]-[organ_tag]")
-			mark_s.Blend(markings[M]["color"], mark_style.blend)
+			mark_s.Blend(markings[M], mark_style.blend)
 			overlays |= mark_s //So when it's not on your body, it has icons
 			mob_icon.Blend(mark_s, mark_style.layer_blend) //So when it's on your body, it has icons
-			icon_cache_key += "[M][markings[M]["color"]]"
+			icon_cache_key += "[M][markings[M]]"
 
 	set_dir(EAST, TRUE)
+
+	if(render_alpha < 255)
+		mob_icon += rgb(,,,render_alpha)
+
 	icon = mob_icon
 
 /obj/item/organ/external/proc/get_icon()

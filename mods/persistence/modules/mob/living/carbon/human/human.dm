@@ -1,17 +1,16 @@
 /mob/living/carbon/human
 	var/obj/home_spawn		// The object we last safe-slept on. Used for moving characters to safe locations on loads.
-	var/saved_species		// Whatever species we were, so that everything isn't rebuilt on load.
-	var/saved_bodytype
+
+/mob/living/carbon/human/before_save()
+	. = ..()
+	CUSTOM_SV_LIST(\
+	"saved_move_intent" = move_intent?.type,\
+	"saved_species" = species?.name,\
+	"saved_bodytype" = bodytype?.name)
 
 /mob/living/carbon/human/after_deserialize()
 	. = ..()
-	if(ispath(move_intent))
-		move_intent = decls_repository.get_decl(move_intent)
-	if(saved_species)
-		species = get_species_by_key(saved_species)
-	if(saved_bodytype)
-		set_bodytype(species.get_bodytype_by_name(saved_bodytype))
-
+	backpack_setup = null //Make sure we don't repawn a new backpack
 	if(ignore_persistent_spawn())
 		return
 
@@ -25,12 +24,25 @@
 		forceMove(get_spawn_turf()) // Sorry man. Your bed/cryopod was not set.
 
 /mob/living/carbon/human/Initialize()
-	..()
-	return INITIALIZE_HINT_LATELOAD
+	if(!persistent_id)
+		return ..()
+	set_species(LOAD_CUSTOM_SV("saved_species"), FALSE)
+	set_bodytype(species.get_bodytype_by_name(LOAD_CUSTOM_SV("saved_bodytype")), FALSE)
+	. = ..()
+	LATE_INIT_IF_SAVED
+
+/decl/species/create_organs(var/mob/living/carbon/human/H)
+	//We don't want to delete the organs we loaded from the save
+	if(!H.persistent_id)
+		. = ..()
+	
+	H.mob_size = mob_size
 
 /mob/living/carbon/human/LateInitialize()
 	. = ..()
-	
+	if(persistent_id)
+		set_move_intent(GET_DECL(LOAD_CUSTOM_SV("saved_move_intent")))
+
 	for(var/obj/item/I in contents)
 		I.hud_layerise()
 
@@ -40,18 +52,11 @@
 		var/obj/item/I = get_equipped_item(gear["slot"])
 		if(istype(I))
 			I.screen_loc = gear["loc"]
+	
+	//Important to regen icons here, since we skipped on that before load!
+	refresh_visible_overlays()
 
-	move_intents = species.move_intents.Copy()
-	set_move_intent(GET_DECL(move_intents[1]))
-	if(!istype(move_intent))
-		set_next_usable_move_intent()
-
-	regenerate_icons()
-
-/mob/living/carbon/human/before_save()
-	. = ..()
-	if(species) saved_species = species.name // Caching species key for reference on load.
-	if(bodytype) saved_bodytype = bodytype.name
+	CLEAR_SV //Clear saved vars
 
 // For granting cortical chat on character creation.
 /mob/living/carbon/human/update_languages()	
@@ -64,3 +69,11 @@
 	. = ..()
 	if(mind && !mind.finished_chargen)
 		return FALSE // We don't save characters who aren't finished CG.
+
+// Don't let it update icons during initialize
+// Can't avoid upstream code from doing it, so just postpone it
+/mob/living/carbon/human/update_icon()
+	if(!(atom_flags & ATOM_FLAG_INITIALIZED))
+		queue_icon_update() //Queue it later instead
+		return
+	. = ..()

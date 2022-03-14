@@ -13,6 +13,13 @@
 	desc = "Yummy!"
 	icon = 'icons/obj/food.dmi'
 	icon_state = null
+	randpixel = 6
+	atom_flags = ATOM_FLAG_OPEN_CONTAINER
+	possible_transfer_amounts = null
+	volume = 50
+	center_of_mass = @"{'x':16,'y':16}"
+	w_class = ITEM_SIZE_SMALL
+
 	var/bitesize = 1
 	var/bitecount = 0
 	var/slice_path
@@ -25,13 +32,11 @@
 	var/list/eat_sound = 'sound/items/eatfood.ogg'
 	var/filling_color = "#ffffff" //Used by sandwiches.
 	var/trash = null
-	randpixel = 6
-	possible_transfer_amounts = null
-	volume = 50
-	center_of_mass = @"{'x':16,'y':16}"
-	w_class = ITEM_SIZE_SMALL
 	var/list/attack_products //Items you can craft together. Like bomb making, but with food and less screwdrivers.
 	// Uses format list(ingredient = result_type). The ingredient can be a typepath or a kitchen_tag string (used for mobs or plants)
+
+/obj/item/chems/food/standard_pour_into(mob/user, atom/target)
+	return FALSE
 
 /obj/item/chems/food/Initialize()
 	.=..()
@@ -88,9 +93,6 @@
 	if(!reagents || !reagents.total_volume)
 		to_chat(user, "<span class='danger'>None of [src] left!</span>")
 		qdel(src)
-		return 0
-	if(!ATOM_IS_OPEN_CONTAINER(src))
-		to_chat(user, "<span class='notice'>\The [src] isn't open!</span>")
 		return 0
 	if(istype(M, /mob/living/carbon))
 		//TODO: replace with standard_feed_mob() call.

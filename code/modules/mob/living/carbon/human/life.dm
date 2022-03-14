@@ -517,12 +517,11 @@
 			. += THERMAL_PROTECTION_HAND_RIGHT
 	return min(1,.)
 
-/mob/living/carbon/human/handle_chemicals_in_body()
+/mob/living/carbon/human/apply_chemical_effects()
 	. = ..()
-	if(.)
-		if(has_chemical_effect(CE_GLOWINGEYES, 1))
-			update_eyes()
-		updatehealth()
+	if(has_chemical_effect(CE_GLOWINGEYES, 1))
+		update_eyes()
+		return TRUE
 
 // Check if we should die.
 /mob/living/carbon/human/proc/handle_death_check()
@@ -581,12 +580,16 @@
 
 		//Resting
 		if(resting)
-			ADJ_STATUS(src, STAT_DIZZY, -15)
-			ADJ_STATUS(src, STAT_JITTER, -15)
+			if(HAS_STATUS(src, STAT_DIZZY))
+				ADJ_STATUS(src, STAT_DIZZY, -15)
+			if(HAS_STATUS(src, STAT_JITTER))
+				ADJ_STATUS(src, STAT_JITTER, -15)
 			adjustHalLoss(-3)
 		else
-			ADJ_STATUS(src, STAT_DIZZY, -3)
-			ADJ_STATUS(src, STAT_JITTER, -3)
+			if(HAS_STATUS(src, STAT_DIZZY))
+				ADJ_STATUS(src, STAT_DIZZY, -3)
+			if(HAS_STATUS(src, STAT_JITTER))
+				ADJ_STATUS(src, STAT_JITTER, -3)
 			adjustHalLoss(-1)
 
 		if(HAS_STATUS(src, STAT_DROWSY))

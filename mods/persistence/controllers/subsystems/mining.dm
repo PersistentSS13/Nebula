@@ -40,7 +40,7 @@
 // Mining turfs may have issues finding an owner on load - upon return air, look for the owner if one does not exist
 /turf/exterior/barren/mining/return_air()
 	if(!owner)
-		owner = LAZYACCESS(map_sectors, "[z]")
+		owner = LAZYACCESS(global.overmap_sectors, "[z]")
 		if(!istype(owner))
 			owner = null
 	. = ..()
@@ -103,18 +103,13 @@ SUBSYSTEM_DEF(mining)
 	generating_mines = TRUE
 	generators.Cut(1)
 	var/list/eject_mobs = list()
-	for(var/z in global.using_map.mining_levels)
-		for(var/x in 1 to world.maxx)
-			for(var/y in 1 to world.maxy)
-				var/turf/T = locate(x, y, z)
-				for(var/content in T.contents)
-					if(istype(content, /mob))
-						var/mob/M = content
-						LAZYADD(eject_mobs, M)
+	for(var/mob/M in SSmobs.mob_list)
+		if(M.z in global.using_map.mining_levels)
+			eject_mobs += M
 	SpitOutMobs(eject_mobs, 3)
 
 	for(var/z_level in global.using_map.mining_levels)
-		var/datum/random_map/automata/cave_system/outreach/generator = new(null, TRANSITIONEDGE, TRANSITIONEDGE, z_level, world.maxx - TRANSITIONEDGE, world.maxy - TRANSITIONEDGE, FALSE, FALSE, FALSE)
+		var/datum/random_map/automata/cave_system/outreach/generator = new(TRANSITIONEDGE, TRANSITIONEDGE, z_level, world.maxx - TRANSITIONEDGE, world.maxy - TRANSITIONEDGE, FALSE, FALSE, FALSE)
 		generators.Add(generator)
 
 	generating_mines = FALSE

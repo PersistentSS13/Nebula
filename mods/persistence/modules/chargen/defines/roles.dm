@@ -1,5 +1,5 @@
 /decl/hierarchy/chargen/role
-	hierarchy_type = /decl/hierarchy/chargen/role
+	abstract_type = /decl/hierarchy/chargen/role
 	var/text_book_type = /obj/item/book/skill/organizational/literacy/basic
 
 /decl/hierarchy/chargen/role/Initialize()

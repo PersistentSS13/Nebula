@@ -1,4 +1,5 @@
 #define IS_PROC(X) (findtext("\ref[X]", "0x26"))
+
 /serializer
 	var/datum/persistence/load_cache/resolver/resolver = new()
 
@@ -32,7 +33,7 @@
 // Serializes an object. Returns the appropriate serialized form of the object. What's outputted depends on the serializer.
 // object: A thing to serialize.
 // object_parent: That object's parent. Could be a container or other. Optional.
-// z: The z_level of this object. Also optional. Used for reordering z_levels in world saves
+// z: The z_level of this object. Also optional. Used for reordering z_levels in the world save
 /serializer/proc/Serialize(var/object, var/object_parent, var/z)
 	if(islist(object))
 		return SerializeList(object, object_parent)
@@ -76,3 +77,22 @@
 	reverse_map.Cut(1)
 	list_map.Cut(1)
 	reverse_list_map.Cut(1)
+
+/serializer/proc/save_exists()
+	return FALSE
+
+/serializer/proc/save_z_level_remaps()
+	return FALSE
+
+/serializer/proc/_before_serialize()
+	return
+/serializer/proc/_before_deserialize()
+	return
+
+/serializer/proc/_after_serialize()
+	return
+/serializer/proc/_after_deserialize()
+	return
+
+/serializer/proc/count_saved_datums()
+	return 

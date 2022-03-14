@@ -14,7 +14,7 @@
 		var/list/classes = decls_repository.get_decls_of_subtype(/decl/asteroid_class/)
 		var/list/weighted_classes = list()
 		for(var/c_type in classes)
-			var/decl/asteroid_class/C = decls_repository.get_decl(c_type)
+			var/decl/asteroid_class/C = GET_DECL(c_type)
 			weighted_classes[c_type] = C.weight
 		class = pickweight(weighted_classes)
 	

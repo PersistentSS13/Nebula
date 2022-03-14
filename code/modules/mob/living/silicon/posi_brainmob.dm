@@ -22,7 +22,7 @@
 
 /mob/living/silicon/sil_brainmob/Initialize()
 	. = ..()
-	reagents = new/datum/reagents(1000, src)
+	create_reagents(1000)
 	if(istype(loc, /obj/item/organ/internal/posibrain))
 		container = loc
 	add_language(/decl/language/binary)
@@ -35,7 +35,7 @@
 	return ..()
 
 /mob/living/silicon/sil_brainmob/UpdateLyingBuckledAndVerbStatus()
-	if(container && istype(container, /obj/item/organ/internal/posibrain) && istype(container.loc, /turf))
+	if(container && istype(container, /obj/item/organ/internal/posibrain) && isturf(container.loc))
 		use_me = 1
 
 /mob/living/silicon/sil_brainmob/isSynthetic()

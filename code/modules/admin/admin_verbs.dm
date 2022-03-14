@@ -182,7 +182,6 @@ var/global/list/admin_verbs_debug = list(
 	/client/proc/apply_random_map,
 	/client/proc/overlay_random_map,
 	/client/proc/delete_random_map,
-	/datum/admins/proc/submerge_map,
 	/datum/admins/proc/map_template_load,
 	/datum/admins/proc/map_template_load_new_z,
 	/datum/admins/proc/map_template_upload,
@@ -571,12 +570,18 @@ var/global/list/admin_verbs_mod = list(
 			explosion(epicenter, 2, 3, 4, 4)
 		if("Big Bomb")
 			explosion(epicenter, 3, 5, 7, 5)
+
 		if("Custom Bomb")
-			var/devastation_range = input("Devastation range (in tiles):") as num
-			var/heavy_impact_range = input("Heavy impact range (in tiles):") as num
-			var/light_impact_range = input("Light impact range (in tiles):") as num
-			var/flash_range = input("Flash range (in tiles):") as num
-			explosion(epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range)
+			if(config.use_iterative_explosions)
+				var/power = input(src, "Input power num.", "Power?") as num
+				explosion_iter(get_turf(mob), power, (UP|DOWN))
+			else
+				var/devastation_range = input("Devastation range (in tiles):") as num
+				var/heavy_impact_range = input("Heavy impact range (in tiles):") as num
+				var/light_impact_range = input("Light impact range (in tiles):") as num
+				var/flash_range = input("Flash range (in tiles):") as num
+				explosion(epicenter, devastation_range, heavy_impact_range, light_impact_range, flash_range)
+
 	log_and_message_admins("created an admin explosion at [epicenter.loc].")
 	SSstatistics.add_field_details("admin_verb","DB") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
 
@@ -772,14 +777,14 @@ var/global/list/admin_verbs_mod = list(
 		M.skin_tone =  -M.skin_tone + 35
 
 	// hair
-	var/new_hstyle = input(usr, "Select a hair style", "Grooming")  as null|anything in global.hair_styles_list
+	var/decl/sprite_accessory/new_hstyle = input(usr, "Select a hair style", "Grooming") as null|anything in decls_repository.get_decls_of_subtype(/decl/sprite_accessory/hair)
 	if(new_hstyle)
-		M.h_style = new_hstyle
+		M.h_style = new_hstyle.type
 
 	// facial hair
-	var/new_fstyle = input(usr, "Select a facial hair style", "Grooming")  as null|anything in global.facial_hair_styles_list
+	var/decl/sprite_accessory/new_fstyle = input(usr, "Select a facial hair style", "Grooming")  as null|anything in decls_repository.get_decls_of_subtype(/decl/sprite_accessory/facial_hair)
 	if(new_fstyle)
-		M.f_style = new_fstyle
+		M.f_style = new_fstyle.type
 
 	var/new_gender = alert(usr, "Please select gender.", "Character Generation", "Male", "Female", "Neuter")
 	if (new_gender)

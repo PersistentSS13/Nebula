@@ -23,7 +23,7 @@
 	var/list/data = list()
 	var/obj/effect/overmap/event/meteor/asteroid = get_asteroid()
 	if(istype(asteroid))
-		var/decl/asteroid_class/class = decls_repository.get_decl(asteroid.class)
+		var/decl/asteroid_class/class = GET_DECL(asteroid.class)
 		data["error"] = FALSE
 		data["asteroid_type"] = "[class.name]"
 		data["asteroid_desc"] = "[class.desc]"
@@ -80,7 +80,7 @@
 
 	asteroid.spent = TRUE
 
-	var/decl/asteroid_class/class = decls_repository.get_decl(asteroid.class)
+	var/decl/asteroid_class/class = GET_DECL(asteroid.class)
 	if(!class)
 		return FALSE
 	var/decl/strata/asteroid/asteroid_strata = pick(class.possible_stratas)
@@ -143,7 +143,7 @@
 	return TRUE
 
 /obj/machinery/asteroid_magnet/proc/get_asteroid()
-	var/obj/effect/overmap/visitable/curr_sector = map_sectors["[z]"]
+	var/obj/effect/overmap/visitable/curr_sector = global.overmap_sectors["[z]"]
 	if(!curr_sector)
 		return "Could not find orientation in space!"
 	if(!istype(curr_sector) || istype(curr_sector, /obj/effect/overmap/visitable/ship/landable))

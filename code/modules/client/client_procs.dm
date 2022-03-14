@@ -85,7 +85,7 @@ var/global/list/localhost_addresses = list(
 
 	//Logs all hrefs
 	if(config && config.log_hrefs && global.world_href_log)
-		WRITE_FILE(global.world_href_log, "<small>[time2text(world.timeofday,"hh:mm")] [src] (usr:[usr])</small> || [hsrc ? "[hsrc] " : ""][href]<br>")
+		to_file(global.world_href_log, "<small>[time2text(world.timeofday,"hh:mm")] [src] (usr:[usr])</small> || [hsrc ? "[hsrc] " : ""][href]<br>")
 
 	switch(href_list["_src_"])
 		if("holder")	hsrc = holder
@@ -174,6 +174,8 @@ var/global/list/localhost_addresses = list(
 
 	global.clients += src
 	global.ckey_directory[ckey] = src
+
+	set_right_click_menu_mode(TRUE)
 
 	// Automatic admin rights for people connecting locally.
 	// Concept stolen from /tg/ with deepest gratitude.
@@ -481,19 +483,31 @@ var/global/list/localhost_addresses = list(
 	to_chat(usr, "xDim: [round(text2num(winsize_string) / divisor)]")
 	to_chat(usr, "yDim: [round(text2num(copytext(winsize_string,findtext(winsize_string,"x")+1,0)) / divisor)]")
 
+var/global/const/MIN_VIEW = 15
+var/global/const/MAX_VIEW = 41
 /client/verb/OnResize()
 	set hidden = 1
 
 	var/divisor = text2num(winget(src, "mapwindow.map", "icon-size")) || world.icon_size
-	if(!isnull(config.lock_client_view_x) && !isnull(config.lock_client_view_y))
-		last_view_x_dim = config.lock_client_view_x
-		last_view_y_dim = config.lock_client_view_y
-	else
-		var/winsize_string = winget(src, "mapwindow.map", "size")
-		last_view_x_dim = config.lock_client_view_x || Clamp(CEILING(text2num(winsize_string) / divisor), 15, config.max_client_view_x || 41)
-		last_view_y_dim = config.lock_client_view_y || Clamp(CEILING(text2num(copytext(winsize_string,findtext(winsize_string,"x")+1,0)) / divisor), 15, config.max_client_view_y || 41)
-		if(last_view_x_dim % 2 == 0) last_view_x_dim++
-		if(last_view_y_dim % 2 == 0) last_view_y_dim++
+	var/list/view_components = splittext(winget(src, "mapwindow.map", "size"), "x")
+
+	if(!divisor || !isnum(divisor) || !islist(view_components) || length(view_components) < 2)
+		return // Some kind of malformed winget(), do not proceed.
+
+	// Rescale as needed.
+	var/res_x =    config.lock_client_view_x || CEILING(text2num(view_components[1]) / divisor)
+	var/res_y =    config.lock_client_view_y || CEILING(text2num(view_components[2]) / divisor)
+	var/max_view = config.max_client_view_x  || MAX_VIEW
+
+	last_view_x_dim = Clamp(res_x, MIN_VIEW, max_view)
+	last_view_y_dim = Clamp(res_y, MIN_VIEW, max_view)
+
+	// Ensure we can actually center our view on our eye.
+	if(last_view_x_dim % 2 == 0)
+		last_view_x_dim++
+	if(last_view_y_dim % 2 == 0)
+		last_view_y_dim++
+
 	for(var/check_icon_size in global.valid_icon_sizes)
 		winset(src, "menu.icon[check_icon_size]", "is-checked=false")
 	winset(src, "menu.icon[divisor]", "is-checked=true")
@@ -644,8 +658,11 @@ var/global/list/localhost_addresses = list(
 				if("OOC")
 					winset(src, "default-\ref[key]", "parent=default;name=[key];command=ooc")
 					communication_hotkeys += key
+				if("LOOC")
+					winset(src, "default-\ref[key]", "parent=default;name=[key];command=looc")
+					communication_hotkeys += key
 				if("Me")
-					winset(src, "default-\ref[key]", "parent=default;name=[key];command=me")
+					winset(src, "default-\ref[key]", "parent=default;name=[key];command=.me")
 					communication_hotkeys += key
 
 	// winget() does not work for F1 and F2
@@ -653,3 +670,16 @@ var/global/list/localhost_addresses = list(
 		if(!(key in list("F1","F2")) && !winget(src, "default-\ref[key]", "command"))
 			to_chat(src, "You probably entered the game with a different keyboard layout.\n<a href='?src=\ref[src];reset_macros=1'>Please switch to the English layout and click here to fix the communication hotkeys.</a>")
 			break
+
+/client/proc/get_byond_membership()
+	return prefs?.is_byond_member || IsByondMember()
+
+/client/proc/set_right_click_menu_mode(shift_only)
+	if(shift_only)
+		winset(src, "mapwindow.map", "right-click=true")
+		winset(src, "ShiftUp", "is-disabled=false")
+		winset(src, "Shift", "is-disabled=false")
+	else
+		winset(src, "mapwindow.map", "right-click=false")
+		winset(src, "default.Shift", "is-disabled=true")
+		winset(src, "default.ShiftUp", "is-disabled=true")

@@ -23,7 +23,7 @@
 	if(icon_state == "dust")
 		var/mob/living/carbon/human/H = hit_atom
 		if(istype(H) && H.check_has_eyes() && prob(85))
-			H << "<span class='danger'>Some of \the [src] gets in your eyes!</span>"
+			to_chat(H, SPAN_DANGER("Some of \the [src] gets in your eyes!"))
 			ADJ_STATUS(H, STAT_BLIND, 5)
 			ADJ_STATUS(H, STAT_BLURRY, 10)
 			QDEL_IN(src, 1)
@@ -35,13 +35,13 @@
 
 // Map definitions.
 /obj/item/ore/uranium
-	material = /decl/material/solid/mineral/pitchblende
+	material = /decl/material/solid/pitchblende
 /obj/item/ore/iron
-	material = /decl/material/solid/mineral/hematite
+	material = /decl/material/solid/hematite
 /obj/item/ore/coal
-	material = /decl/material/solid/mineral/graphite
+	material = /decl/material/solid/graphite
 /obj/item/ore/glass
-	material = /decl/material/solid/mineral/sand
+	material = /decl/material/solid/sand
 /obj/item/ore/silver
 	material = /decl/material/solid/metal/silver
 /obj/item/ore/gold
@@ -55,11 +55,11 @@
 /obj/item/ore/slag
 	material = /decl/material/solid/slag
 /obj/item/ore/phosphorite
-	material = /decl/material/solid/mineral/phosphorite
+	material = /decl/material/solid/phosphorite
 /obj/item/ore/aluminium
-	material = /decl/material/solid/mineral/bauxite
+	material = /decl/material/solid/bauxite
 /obj/item/ore/rutile
-	material = /decl/material/solid/mineral/rutile
+	material = /decl/material/solid/rutile
 /obj/item/ore/hydrogen_hydrate
 	material = /decl/material/solid/ice/hydrogen // todo: set back to hydrate when clathrate is added to hydrogen hydrate dname
 /obj/item/ore/methane

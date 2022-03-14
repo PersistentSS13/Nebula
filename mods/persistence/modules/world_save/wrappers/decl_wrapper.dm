@@ -5,4 +5,4 @@
 	key = "[D.type]"
 
 /datum/wrapper/decl/on_deserialize()
-	return decls_repository.get_decl(text2path(key))
+	return GET_DECL(text2path(key))

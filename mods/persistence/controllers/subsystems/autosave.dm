@@ -28,6 +28,7 @@ SUBSYSTEM_DEF(autosave)
 		to_world("<font size=4 color='green'>Beginning save! Server will unpause when save is complete.</font>")
 		if(reset_after_save)
 			to_world("<font size=4 color='red'>Server is resetting after this save!</font>")
+		sleep(20)
 
 		saving = 1
 		for(var/datum/controller/subsystem/S in Master.subsystems)
