@@ -14,6 +14,7 @@
 	admin_verbs_admin.Remove(/client/proc/check_ai_laws)
 	admin_verbs_admin.Remove(/client/proc/rename_silicon)
 	admin_verbs_admin.Remove(/client/proc/manage_silicon_laws)
+	
 	for(var/client/C in global.admins)
 		C.remove_admin_verbs()
 		C.add_admin_verbs()
