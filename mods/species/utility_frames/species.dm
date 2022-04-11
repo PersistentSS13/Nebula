@@ -15,16 +15,17 @@
 	description =           "Simple AI-driven robots are used for many menial or repetitive tasks in human space."
 	cyborg_noun = null
 
+	blood_types = list(/decl/blood_type/coolant)
+
 	available_bodytypes = list(/decl/bodytype/utility_frame)
 	age_descriptor =        /datum/appearance_descriptor/age/utility_frame
 	hidden_from_codex =     FALSE
-	species_flags =         SPECIES_FLAG_NO_PAIN | SPECIES_FLAG_NO_SCAN | SPECIES_FLAG_NO_POISON
+	species_flags =         SPECIES_FLAG_NO_PAIN | SPECIES_FLAG_NO_SCAN | SPECIES_FLAG_NO_POISON | SPECIES_FLAG_SYNTHETIC
 	spawn_flags =           SPECIES_CAN_JOIN
 	appearance_flags =      HAS_SKIN_COLOR | HAS_EYE_COLOR
 	strength =              STR_HIGH
 	warning_low_pressure =  50
 	hazard_low_pressure =  -1
-	blood_color =           COLOR_GRAY15
 	flesh_color =           COLOR_GUNMETAL
 	cold_level_1 =          SYNTH_COLD_LEVEL_1
 	cold_level_2 =          SYNTH_COLD_LEVEL_2
@@ -63,6 +64,10 @@
 		BP_POSIBRAIN = /obj/item/organ/internal/posibrain,
 		BP_EYES = /obj/item/organ/internal/eyes/robot
 	)
+	vital_organs = list(
+		BP_POSIBRAIN = list("path" = /obj/item/organ/internal/posibrain),
+		BP_CHEST     = list("path" = /obj/item/organ/external/chest),
+	)
 
 	exertion_effect_chance = 10
 	exertion_charge_scale = 1
@@ -82,9 +87,6 @@
 	if(istype(eyes))
 		eyes.eye_icon = 'mods/species/utility_frames/icons/eyes.dmi'
 	H.refresh_visible_overlays()
-
-/decl/species/utility_frame/get_blood_name()
-	. = "coolant"
 
 /decl/species/utility_frame/disfigure_msg(var/mob/living/carbon/human/H)
 	. = SPAN_DANGER("The faceplate is dented and cracked!\n")
