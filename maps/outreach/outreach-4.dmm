@@ -151,7 +151,7 @@
 "cU" = (/obj/machinery/atmospherics/unary/vent_pump/on{icon_state = "map_vent_out"; dir = 1},/obj/machinery/light/small,/turf/simulated/floor/carpet/blue2,/area/outreach/outpost/barracks/third)
 "cV" = (/obj/machinery/atmospherics/unary/vent_scrubber/on{icon_state = "map_scrubber_on"; dir = 4},/turf/simulated/floor/plating,/area/outreach/outpost/maint)
 "cW" = (/obj/machinery/atmospherics/pipe/simple/hidden/supply,/obj/structure/cable/green{icon_state = "1-2"},/obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers{icon_state = "map-scrubbers"; dir = 4},/turf/simulated/floor/plating,/area/outreach/outpost/maint)
-"cX" = (/obj/effect/landmark/map_data{height = 4},/obj/effect/overmap/visitable/sector/exoplanet/outreach,/turf/exterior/planet_edge,/area/exoplanet/outreach)
+"cX" = (/obj/abstract/map_data{height = 4},/obj/effect/overmap/visitable/sector/exoplanet/outreach,/turf/exterior/planet_edge,/area/exoplanet/outreach)
 
 (1,1,1) = {"
 cjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcj
