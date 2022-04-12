@@ -27,7 +27,7 @@ var/global/list/player_minds = list()
 	// New mobs tend to have their organs installed before mind is transferred, so we'll double check that the mind_id is correct here.
 	var/mob/living/carbon/human/H = new_character
 	if(istype(H))
-		var/obj/item/organ/internal/stack/S = H.get_internal_organ(BP_STACK)
+		var/obj/item/organ/internal/stack/S = H.get_organ(BP_STACK)
 		if(S)
 			S.update_mind_id()
 

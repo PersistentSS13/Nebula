@@ -35,9 +35,9 @@ SUBSYSTEM_DEF(chargen)
 	A.assigned_to = user
 	chargen_spawns -= location
 
-/obj/effect/landmark/chargen_spawn
+/obj/abstract/landmark/chargen_spawn
 	delete_me = TRUE
 
-/obj/effect/landmark/chargen_spawn/Initialize()
+/obj/abstract/landmark/chargen_spawn/Initialize()
 	chargen_spawns += loc
 	. = ..()

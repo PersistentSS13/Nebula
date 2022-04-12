@@ -17,7 +17,7 @@
 	if(occupant.mind.chargen_stack)
 		var/obj/item/organ/internal/stack/charstack = new()
 		var/obj/item/organ/O = occupant.get_organ(charstack.parent_organ)
-		charstack.replaced(occupant, O)
+		user.add_organ(charstack, O)
 		to_chat(user, SPAN_NOTICE("You have been provided with a Cortical Stack to act as an emergency revival tool."))
 
 	// Updating the mob's skills with the actual chargen choices.

@@ -40,20 +40,17 @@
 		backup = network.get_latest_clone_backup(mind.unique_id, TRUE)
 	if(!istype(backup))
 		return
-	var/mob/living/carbon/human/new_character = new(CP, backup.dna.species)
-	new_character.setDNA(backup.dna)
+	var/mob/living/carbon/human/new_character = new(CP, backup.dna.species, backup.dna)
 	new_character.fully_replace_character_name(backup.dna.real_name)
 	new_character.UpdateAppearance()
 	new_character.sync_organ_dna()
-	
 	new_character.add_language(/decl/language/human/common)
 	new_character.default_language = /decl/language/human/common
 
 	// The body forms 'around' the stack, so reinstall it.
 	if(stack)
 		var/obj/item/organ/O = new_character.get_organ(stack.parent_organ)
-		stack.status &= ~ORGAN_CUT_AWAY
-		stack.replaced(new_character, O)
+		new_character.add_organ(stack, O)
 	else
 		mind.philotic_damage += 10
 

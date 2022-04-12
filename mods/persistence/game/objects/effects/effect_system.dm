@@ -17,7 +17,7 @@
 /obj/effect/floor_decal
 	should_save = TRUE
 
-/obj/effect/landmark/map_data
+/obj/abstract/map_data
 	should_save = TRUE
 
 /obj/effect/flood //Contains reagents data

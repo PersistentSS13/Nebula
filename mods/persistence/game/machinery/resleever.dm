@@ -165,7 +165,7 @@
 			if(!occupant)
 				to_chat(user, "No occupant in \the [src]!")
 				return TOPIC_REFRESH
-			if(occupant.get_internal_organ(BP_STACK))
+			if(occupant.get_organ(BP_STACK))
 				to_chat(user, "Occupant already has a mind.")
 				return TOPIC_REFRESH
 			if(sleeve())
@@ -188,8 +188,7 @@
 	if(lace && occupant)
 		var/obj/item/organ/O = occupant.get_organ(lace.parent_organ)
 		if(istype(O))
-			lace.status &= ~ORGAN_CUT_AWAY //ensure the lace is properly attached
-			lace.replaced(occupant, O)
+			occupant.add_organ(lace, O)
 			lace = null
 			playsound(loc, 'sound/machines/twobeep.ogg', 50, vary = TRUE)
 			visible_message("\The [src] beeps softly as it begins its procedure.", "You hear a beep.", range = 3)
