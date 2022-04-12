@@ -60,3 +60,4 @@ echo "$num executable *.dm? files (expecting exactly 0)"
 [ $num -eq 0 ] || FAILED=1
 
 exit $FAILED
+ 
