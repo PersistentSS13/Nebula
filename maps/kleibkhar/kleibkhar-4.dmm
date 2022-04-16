@@ -1,7 +1,7 @@
 "cc" = (/turf/simulated/floor/plating,/area/exoplanet/kleibkhar)
 "cj" = (/turf/exterior/planet_edge,/area/exoplanet/kleibkhar)
 "cW" = (/turf/exterior/open,/area/exoplanet/kleibkhar)
-"cX" = (/obj/effect/landmark/map_data{height = 4},/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar,/turf/exterior/open,/area/exoplanet/kleibkhar)
+"cX" = (/obj/abstract/map_data{height = 4},/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar,/turf/exterior/open,/area/exoplanet/kleibkhar)
 
 (1,1,1) = {"
 cjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcjcj

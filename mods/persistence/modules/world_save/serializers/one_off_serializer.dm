@@ -127,9 +127,9 @@
 	// Check to see if this thing was already placed into limbo. If so, we go ahead and remove the thing from limbo first before reserializing.
 	// When this occurs, it's possible things will be dropped from the database. Avoid serializing things into limbo which will remain in the game world.
 
-	key = sanitizeSQL(key)
-	limbo_type = sanitizeSQL(limbo_type)
-	metadata = sanitizeSQL(metadata)
+	key = sanitize_sql(key)
+	limbo_type = sanitize_sql(limbo_type)
+	metadata = sanitize_sql(metadata)
 
 	// The 'limbo_assoc' column in the database relates every thing, thing_var, and list_element to an instance of limbo insertion.
 	// While it uses the same PERSISTENT_ID format, it's not related to any datum's PERSISTENT_ID.

@@ -31,12 +31,12 @@
 	. = ..()
 	LATE_INIT_IF_SAVED
 
-/decl/species/create_organs(var/mob/living/carbon/human/H)
-	//We don't want to delete the organs we loaded from the save
-	if(!H.persistent_id)
-		. = ..()
+// /decl/species/create_organs(var/mob/living/carbon/human/H)
+// 	//We don't want to delete the organs we loaded from the save
+// 	if(!H.persistent_id)
+// 		. = ..()
 	
-	H.mob_size = mob_size
+// 	H.mob_size = mob_size
 
 /mob/living/carbon/human/LateInitialize()
 	. = ..()

@@ -216,7 +216,7 @@
 			to_world_log("(SerializeThingVar-Skip) Unknown Var")
 #endif
 			continue
-		VV = sanitizeSQL("[VV]")
+		VV = sanitize_sql("[VV]")
 #ifdef SAVE_DEBUG
 		to_world_log("(SerializeThingVar-Done) ('[p_i]','[V]','[VT]',\"[VV]\")")
 #endif
@@ -344,8 +344,8 @@
 				to_world_log("(SerializeListElem-Skip) Unknown Value")
 #endif
 				continue
-		KV = sanitizeSQL("[KV]")
-		EV = sanitizeSQL("[EV]")
+		KV = sanitize_sql("[KV]")
+		EV = sanitize_sql("[EV]")
 #ifdef SAVE_DEBUG
 		if(verbose_logging)
 			to_world_log("(SerializeListElem-Done) ([l_i],\"[KV]\",'[KT]',\"[EV]\",\"[ET]\")")
@@ -544,7 +544,7 @@
 	var/DBQuery/query
 	for(var/p_id in ref_updates)
 		where_list.Add("'[p_id]'")
-		var/new_ref = sanitizeSQL(ref_updates[p_id])
+		var/new_ref = sanitize_sql(ref_updates[p_id])
 		case_list.Add("WHEN `p_id` = '[p_id]' THEN '[new_ref]'")
 	if(length(where_list) && length(case_list))
 		query = dbcon_save.NewQuery("UPDATE `[SQLS_TABLE_DATUM]` SET `ref` = CASE [jointext(case_list, " ")] END WHERE `p_id` IN ([jointext(where_list, ", ")])")
