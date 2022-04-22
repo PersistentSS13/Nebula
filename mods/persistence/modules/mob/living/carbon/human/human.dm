@@ -4,16 +4,14 @@
 /mob/living/carbon/human/before_save()
 	. = ..()
 	CUSTOM_SV_LIST(\
-	"saved_move_intent" = move_intent?.type,\
-	"saved_species" = species?.name,\
-	"saved_bodytype" = bodytype?.name)
+	"saved_move_intent" = move_intent?.type)
 
 /mob/living/carbon/human/after_deserialize()
 	. = ..()
 	backpack_setup = null //Make sure we don't repawn a new backpack
+
 	if(ignore_persistent_spawn())
 		return
-
 	if(!loc) // We're loading into null-space because we were in an unsaved level or intentionally in limbo. Move them to the last valid spawn.
 		if(istype(home_spawn))
 			if(home_spawn.loc)
@@ -23,20 +21,16 @@
 				QDEL_NULL(home_spawn)
 		forceMove(get_spawn_turf()) // Sorry man. Your bed/cryopod was not set.
 
+/mob/living/carbon/human/setup(species_name, datum/dna/new_dna)
+	//If we're loading from save, go through setup using the existing dna loaded from save
+	if(persistent_id && dna)
+		. = ..(null, dna)
+	else
+		. = ..()
+
 /mob/living/carbon/human/Initialize()
-	if(!persistent_id)
-		return ..()
-	set_species(LOAD_CUSTOM_SV("saved_species"), FALSE)
-	set_bodytype(species.get_bodytype_by_name(LOAD_CUSTOM_SV("saved_bodytype")), FALSE)
 	. = ..()
 	LATE_INIT_IF_SAVED
-
-// /decl/species/create_organs(var/mob/living/carbon/human/H)
-// 	//We don't want to delete the organs we loaded from the save
-// 	if(!H.persistent_id)
-// 		. = ..()
-	
-// 	H.mob_size = mob_size
 
 /mob/living/carbon/human/LateInitialize()
 	. = ..()

@@ -3120,7 +3120,9 @@
 			"wearing_rig",
 			"appearance_descriptors",
 			"personal_aspects",
-			"pronouns"
+			"pronouns",
+			"species",
+			"bodytype"
 		]
 	},
 	{
