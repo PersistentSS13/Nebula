@@ -19,9 +19,10 @@ var/global/list/cortical_stacks = list()
 	parent_organ = BP_HEAD
 	icon_state = "cortical-stack"
 	organ_tag = BP_STACK
-	vital = 1
+	vital = TRUE
 	origin_tech = "{'biotech':4,'materials':4,'magnets':2,'programming':3}"
 	relative_size = 10
+	status = ORGAN_PROSTHETIC
 	
 	var/mind_id
 	var/datum/computer_file/data/cloning/backup
@@ -33,10 +34,6 @@ var/global/list/cortical_stacks = list()
 /obj/item/organ/internal/stack/Initialize()
 	. = ..()
 	global.cortical_stacks |= src
-	robotize()
-	if(owner && istype(owner))
-		cortical_alias = Gibberish(owner.name, 100)
-		verbs |= /obj/item/organ/internal/stack/proc/change_cortical_alias
 
 /obj/item/organ/internal/stack/Destroy()
 	global.cortical_stacks -= src
@@ -65,18 +62,29 @@ var/global/list/cortical_stacks = list()
 /obj/item/organ/internal/stack/getToxLoss()
 	return 0
 
+/obj/item/organ/internal/stack/do_install(mob/living/carbon/human/target, obj/item/organ/external/affected, in_place, update_icon, detached)
+	. = ..()
+	//Since language list gets reset all the time, its better to do this here!
+	if(owner && !(status & ORGAN_CUT_AWAY))
+		owner.add_language(/decl/language/cortical)
+		verbs |= /obj/item/organ/internal/stack/proc/change_cortical_alias
+		if(!cortical_alias)
+			cortical_alias = Gibberish(owner.name, 100)
+
+/obj/item/organ/internal/stack/do_uninstall(in_place, detach, ignore_children, update_icon)
+	//Since language list gets reset all the time, its better to do this here!
+	if(owner)
+		owner.remove_language(/decl/language/cortical)
+		verbs -= /obj/item/organ/internal/stack/proc/change_cortical_alias
+	. = ..()
+
 /obj/item/organ/internal/stack/on_add_effects()
 	. = ..()
 	QDEL_NULL(backup)
 	update_mind_id()
-	if(owner)
-		owner.add_language(/decl/language/cortical)
 
 /obj/item/organ/internal/stack/on_remove_effects(mob/living/last_owner)
 	if(istype(last_owner))
-		// Language will be readded upon placement into a mob with a stack.
-		last_owner.remove_language(/decl/language/cortical)
-
 		QDEL_NULL(backup)
 		backup = new()
 		backup.initialize_backup(last_owner)

@@ -50,14 +50,7 @@
 	//Important to regen icons here, since we skipped on that before load!
 	refresh_visible_overlays()
 
-	CLEAR_SV //Clear saved vars
-
-// For granting cortical chat on character creation.
-/mob/living/carbon/human/update_languages()	
-	. = ..()
-	var/obj/item/organ/internal/stack/stack = (locate() in internal_organs)
-	if(stack)
-		add_language(/decl/language/cortical)
+	CLEAR_ALL_SV //Clear saved vars
 
 /mob/living/carbon/human/should_save()
 	. = ..()
