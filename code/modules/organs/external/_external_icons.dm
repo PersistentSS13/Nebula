@@ -81,6 +81,10 @@ var/global/list/limb_icon_cache = list()
 		icon = bodytype.get_base_icon(owner)
 
 /obj/item/organ/external/on_update_icon(var/regenerate = 0)
+	if(!species)
+		PRINT_STACK_TRACE("External organ '[src]' doesn't have a species!")
+	if(!bodytype)
+		PRINT_STACK_TRACE("External organ '[src]' doesn't have a bodytype!")
 
 	icon_state = "[icon_name]"
 	icon_cache_key = "[icon_state]_[species ? species.name : "unknown"][render_alpha]"
@@ -151,6 +155,10 @@ var/global/list/robot_hud_colours = list("#ffffff","#cccccc","#aaaaaa","#888888"
 	return hud_damage_image
 
 /obj/item/organ/external/proc/apply_colouration(var/icon/applying)
+	if(!species)
+		PRINT_STACK_TRACE("External organ '[src]' doesn't have a species!")
+	if(!bodytype)
+		PRINT_STACK_TRACE("External organ '[src]' doesn't have a bodytype!")
 
 	applying = bodytype.apply_limb_colouration(src, applying)
 	if(status & ORGAN_DEAD)
