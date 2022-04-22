@@ -118,6 +118,7 @@
 #include "modules\mob\living\living.dm"
 #include "modules\mob\living\carbon\_defines.dm"
 #include "modules\mob\living\carbon\life.dm"
+#include "modules\mob\living\carbon\carbon_saving.dm"
 #include "modules\mob\living\carbon\human\human.dm"
 #include "modules\mob\living\carbon\human\login.dm"
 #include "modules\mob\living\carbon\human\logout.dm"
