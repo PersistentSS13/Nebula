@@ -33,7 +33,7 @@ var/global/list/custom_saved_lists = list() // Custom saved lists are kept here 
 	return global.saved_vars[type] || get_default_vars()
 
 /datum/proc/get_default_vars()
-	testing("called get_default_vars on type '[type]'!")
+	log_debug("Called get_default_vars on type '[type]'! Define some saved variables for this type!!")
 	var/savedlist = list()
 	for(var/v in vars)
 		if(issaved(vars[v]) && !(v in global.blacklisted_vars))
