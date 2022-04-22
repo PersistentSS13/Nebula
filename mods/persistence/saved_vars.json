@@ -284,7 +284,8 @@
 			"skin_amount",
 			"bone_material",
 			"bone_amount",
-			"available_maneuvers"
+			"available_maneuvers",
+			"reagents"
 		]
 	},
 	{
