@@ -4139,7 +4139,12 @@
 	{
 		"path":"/obj/effect/decal/cleanable",
 		"vars":[
-			"age"
+			"age",
+			"cleanable_scent",
+			"scent_type",
+			"scent_intensity",
+			"scent_descriptor",
+			"scent_range"
 		]
 	},
 	{
@@ -4445,6 +4450,21 @@
 		"path":"/obj/item/grown",
 		"vars":[
 			"plantname"
+		]
+	},
+	{
+		"path":"/obj/effect/decal/cleanable/blood",
+		"vars":[
+			"base_icon",
+			"basecolor",
+			"amount",
+			"drytime",
+			"dryname",
+			"drydesc",
+			"blood_size",
+			"blood_DNA",
+			"chemical",
+			"blood_data"
 		]
 	}
 ]
