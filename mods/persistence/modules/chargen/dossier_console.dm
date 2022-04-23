@@ -12,19 +12,6 @@
 	var/decl/hierarchy/chargen/origin/origin = user.mind.origin
 
 	switch(href_list["action"])
-		if("choose_age")
-			var/new_age = sanitize(input(user, "Enter your age:", "Age", user.mind.age) as text|null)
-			var/age_num = text2num(new_age)
-			if(isnum(age_num))
-				if(age_num < 18)
-					to_chat(user, SPAN_NOTICE("The console beeps: You must be over the age of eighteen to participate in the [global.using_map.station_name] program."))
-					return
-				if(age_num > 120)
-					to_chat(user, SPAN_NOTICE("The console beeps: You must be under the age of one hundred twenty to participate in the [global.using_map.station_name] program."))
-					return
-				user.mind.age = age_num
-			else
-				to_chat(user, SPAN_NOTICE("The console beeps: '[new_age]' is not a valid number. Please enter a valid number."))
 		if("toggle_stack")
 			user.mind.chargen_stack = !user.mind.chargen_stack
 			return
@@ -32,17 +19,7 @@
 			active_section = "origin"
 		if("choose_role")
 			active_section = "role"
-		// if("choose_traits")
-		// 	active_section = "traits"
-		// if("choose_background")
-		// 	active_section = "background"
 		if("submit")
-			if(user.mind.age < 18)
-				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter an age to proceed."))
-				return
-			if(user.mind.age > 120)
-				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter an age to proceed."))
-				return
 			if(isnull(user.mind.origin))
 				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter an origin to proceed."))
 				return
@@ -96,9 +73,7 @@
 
 	.["active"] = active_section
 	.["finished"] = user.mind.finished_chargen
-	.["age"] = user.mind.age
 	.["map_name"] = global.using_map.station_name
-	// .["species"] = usr.species.name
 	.["stack"] = user.mind.chargen_stack
 	.["origin"] = istype(user.mind.origin) ? user.mind.origin.name : "Not set"
 	.["role"] = istype(user.mind.role) ? user.mind.role.name : "Not set"
