@@ -4,7 +4,13 @@
 /mob/living/carbon/human/before_save()
 	. = ..()
 	CUSTOM_SV_LIST(\
-	"saved_move_intent" = move_intent?.type)
+	"move_intent" = move_intent?.type, \
+	"eye_color" = eye_colour, \
+	"facial_hair_colour" = facial_hair_colour, \
+	"hair_colour" = hair_colour, \
+	"skin_colour" = skin_colour, \
+	"skin_tone" = skin_tone, \
+	)
 
 /mob/living/carbon/human/after_deserialize()
 	. = ..()
@@ -35,7 +41,14 @@
 /mob/living/carbon/human/LateInitialize()
 	. = ..()
 	if(persistent_id)
-		set_move_intent(GET_DECL(LOAD_CUSTOM_SV("saved_move_intent")))
+		set_move_intent(GET_DECL(LOAD_CUSTOM_SV("move_intent")))
+
+		//Apply saved appearance (appearance may differ from DNA)
+		eye_colour         = LOAD_CUSTOM_SV("eye_colour")
+		facial_hair_colour = LOAD_CUSTOM_SV("facial_hair_colour")
+		hair_colour        = LOAD_CUSTOM_SV("hair_colour")
+		skin_colour        = LOAD_CUSTOM_SV("skin_colour")
+		skin_tone          = LOAD_CUSTOM_SV("skin_tone")
 
 	for(var/obj/item/I in contents)
 		I.hud_layerise()
