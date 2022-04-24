@@ -40,26 +40,28 @@
 
 /mob/living/carbon/human/LateInitialize()
 	. = ..()
-	if(persistent_id)
-		set_move_intent(GET_DECL(LOAD_CUSTOM_SV("move_intent")))
+	if(!persistent_id)
+		return 
 
-		//Apply saved appearance (appearance may differ from DNA)
-		eye_colour         = LOAD_CUSTOM_SV("eye_colour")
-		facial_hair_colour = LOAD_CUSTOM_SV("facial_hair_colour")
-		hair_colour        = LOAD_CUSTOM_SV("hair_colour")
-		skin_colour        = LOAD_CUSTOM_SV("skin_colour")
-		skin_tone          = LOAD_CUSTOM_SV("skin_tone")
+	set_move_intent(GET_DECL(LOAD_CUSTOM_SV("move_intent")))
 
-	for(var/obj/item/I in contents)
+	//Apply saved appearance (appearance may differ from DNA)
+	eye_colour         = LOAD_CUSTOM_SV("eye_colour")
+	facial_hair_colour = LOAD_CUSTOM_SV("facial_hair_colour")
+	hair_colour        = LOAD_CUSTOM_SV("hair_colour")
+	skin_colour        = LOAD_CUSTOM_SV("skin_colour")
+	skin_tone          = LOAD_CUSTOM_SV("skin_tone")
+
+	//Force equipped items to refresh their held icon
+	for(var/obj/item/I in get_contained_external_atoms())
 		I.hud_layerise()
 
 	// Refresh the items in contents to make sure they show up.
-	for(var/s in species.hud.gear)
-		var/list/gear = species.hud.gear[s]
-		var/obj/item/I = get_equipped_item(gear["slot"])
-		if(istype(I))
-			I.screen_loc = gear["loc"]
-	
+
+	//Update wounds has to be run this late because it expects the mob to be fully initialized
+	for(var/obj/item/organ/external/limb in get_external_organs())
+		limb.update_wounds()
+
 	//Important to regen icons here, since we skipped on that before load!
 	refresh_visible_overlays()
 

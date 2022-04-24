@@ -442,6 +442,10 @@
 		for(var/obj/item/organ/external/organ in children)
 			organ.do_install(null, src, in_place, update_icon, detached)
 
+	//This proc refers to owner's species and all kind of nasty stuff, so its excluded from in_place
+	if(!in_place)
+		update_wounds()
+
 	//Parent hieracrchy handling
 	if(parent)
 		//Add ourselves to our parent organ's data
@@ -455,7 +459,6 @@
 		
 		if(!in_place)
 			parent.update_wounds()
-			parent.update_damages()
 
 /obj/item/organ/external/proc/drop_equipped_clothing()
 	if(!owner)

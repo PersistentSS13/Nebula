@@ -3180,7 +3180,6 @@
 	{
 		"path":"/obj/item",
 		"vars":[
-			"blood_overlay",
 			"randpixel",
 			"r_speed",
 			"health",
@@ -3222,7 +3221,8 @@
 			"item_icons",
 			"sprite_sheets",
 			"sprite_sheets_obj",
-			"material"
+			"material",
+			"coating"
 		]
 	},
 	{
