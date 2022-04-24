@@ -10,6 +10,8 @@
 	"hair_colour" = hair_colour, \
 	"skin_colour" = skin_colour, \
 	"skin_tone" = skin_tone, \
+	"h_style" = h_style, \
+	"f_style" = f_style, \
 	)
 
 /mob/living/carbon/human/after_deserialize()
@@ -51,6 +53,8 @@
 	hair_colour        = LOAD_CUSTOM_SV("hair_colour")
 	skin_colour        = LOAD_CUSTOM_SV("skin_colour")
 	skin_tone          = LOAD_CUSTOM_SV("skin_tone")
+	h_style            = LOAD_CUSTOM_SV("h_style")
+	f_style            = LOAD_CUSTOM_SV("f_style")
 
 	//Force equipped items to refresh their held icon
 	for(var/obj/item/I in get_contained_external_atoms())
