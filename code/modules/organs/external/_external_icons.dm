@@ -81,11 +81,6 @@ var/global/list/limb_icon_cache = list()
 		icon = bodytype.get_base_icon(owner)
 
 /obj/item/organ/external/on_update_icon(var/regenerate = 0)
-	if(!species)
-		PRINT_STACK_TRACE("External organ '[src]' doesn't have a species!")
-	if(!bodytype)
-		PRINT_STACK_TRACE("External organ '[src]' doesn't have a bodytype!")
-
 	icon_state = "[icon_name]"
 	icon_cache_key = "[icon_state]_[species ? species.name : "unknown"][render_alpha]"
 	if(model)
