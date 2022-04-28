@@ -32,6 +32,7 @@
 /mob/living/carbon/human/setup(species_name, datum/dna/new_dna)
 	//If we're loading from save, go through setup using the existing dna loaded from save
 	if(persistent_id && dna)
+		species = null //Null out the species at this point, so we don't crash set_species()
 		. = ..(null, dna)
 	else
 		. = ..()
@@ -59,8 +60,6 @@
 	//Force equipped items to refresh their held icon
 	for(var/obj/item/I in get_contained_external_atoms())
 		I.hud_layerise()
-
-	// Refresh the items in contents to make sure they show up.
 
 	//Update wounds has to be run this late because it expects the mob to be fully initialized
 	for(var/obj/item/organ/external/limb in get_external_organs())
