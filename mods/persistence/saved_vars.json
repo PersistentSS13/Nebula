@@ -284,7 +284,8 @@
 			"skin_amount",
 			"bone_material",
 			"bone_amount",
-			"available_maneuvers"
+			"available_maneuvers",
+			"reagents"
 		]
 	},
 	{
@@ -387,23 +388,21 @@
 		"vars":[
 			"life_tick",
 			"handcuffed",
-			"surgeries_in_progress",
 			"pose",
-			"chem_effects",
-			"chem_doses",
 			"bloodstr",
 			"touching",
 			"losebreath",
 			"nutrition",
 			"hydration",
 			"internal",
-			"last_taste_text",
-			"internal_organs",
-			"organs",
-			"organs_by_name",
-			"internal_organs_by_name",
+			"species",
+			"bodytype",
+			"organs_by_tag",
 			"stasis_value",
 			"player_triggered_sleeping",
+			"surgeries_in_progress",
+			"chem_effects",
+			"chem_doses",
 			"default_language",
 			"species_language"
 		]
@@ -795,9 +794,10 @@
 			"organ_tag",
 			"parent_organ",
 			"status",
-			"vital",
 			"owner",
 			"dna",
+			"species",
+			"bodytype",
 			"ailments",
 			"damage",
 			"min_broken_damage",
@@ -3180,7 +3180,6 @@
 	{
 		"path":"/obj/item",
 		"vars":[
-			"blood_overlay",
 			"randpixel",
 			"r_speed",
 			"health",
@@ -3222,7 +3221,8 @@
 			"item_icons",
 			"sprite_sheets",
 			"sprite_sheets_obj",
-			"material"
+			"material",
+			"coating"
 		]
 	},
 	{
@@ -4139,7 +4139,12 @@
 	{
 		"path":"/obj/effect/decal/cleanable",
 		"vars":[
-			"age"
+			"age",
+			"cleanable_scent",
+			"scent_type",
+			"scent_intensity",
+			"scent_descriptor",
+			"scent_range"
 		]
 	},
 	{
@@ -4445,6 +4450,21 @@
 		"path":"/obj/item/grown",
 		"vars":[
 			"plantname"
+		]
+	},
+	{
+		"path":"/obj/effect/decal/cleanable/blood",
+		"vars":[
+			"base_icon",
+			"basecolor",
+			"amount",
+			"drytime",
+			"dryname",
+			"drydesc",
+			"blood_size",
+			"blood_DNA",
+			"chemical",
+			"blood_data"
 		]
 	}
 ]

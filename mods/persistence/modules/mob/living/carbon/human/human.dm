@@ -4,16 +4,22 @@
 /mob/living/carbon/human/before_save()
 	. = ..()
 	CUSTOM_SV_LIST(\
-	"saved_move_intent" = move_intent?.type,\
-	"saved_species" = species?.name,\
-	"saved_bodytype" = bodytype?.name)
+	"move_intent" = move_intent?.type, \
+	"eye_color" = eye_colour, \
+	"facial_hair_colour" = facial_hair_colour, \
+	"hair_colour" = hair_colour, \
+	"skin_colour" = skin_colour, \
+	"skin_tone" = skin_tone, \
+	"h_style" = h_style, \
+	"f_style" = f_style, \
+	)
 
 /mob/living/carbon/human/after_deserialize()
 	. = ..()
 	backpack_setup = null //Make sure we don't repawn a new backpack
+
 	if(ignore_persistent_spawn())
 		return
-
 	if(!loc) // We're loading into null-space because we were in an unsaved level or intentionally in limbo. Move them to the last valid spawn.
 		if(istype(home_spawn))
 			if(home_spawn.loc)
@@ -23,47 +29,46 @@
 				QDEL_NULL(home_spawn)
 		forceMove(get_spawn_turf()) // Sorry man. Your bed/cryopod was not set.
 
+/mob/living/carbon/human/setup(species_name, datum/dna/new_dna)
+	//If we're loading from save, go through setup using the existing dna loaded from save
+	if(persistent_id && dna)
+		species = null //Null out the species at this point, so we don't crash set_species()
+		. = ..(null, dna)
+	else
+		. = ..()
+
 /mob/living/carbon/human/Initialize()
-	if(!persistent_id)
-		return ..()
-	set_species(LOAD_CUSTOM_SV("saved_species"), FALSE)
-	set_bodytype(species.get_bodytype_by_name(LOAD_CUSTOM_SV("saved_bodytype")), FALSE)
 	. = ..()
 	LATE_INIT_IF_SAVED
 
-// /decl/species/create_organs(var/mob/living/carbon/human/H)
-// 	//We don't want to delete the organs we loaded from the save
-// 	if(!H.persistent_id)
-// 		. = ..()
-	
-// 	H.mob_size = mob_size
-
 /mob/living/carbon/human/LateInitialize()
 	. = ..()
-	if(persistent_id)
-		set_move_intent(GET_DECL(LOAD_CUSTOM_SV("saved_move_intent")))
+	if(!persistent_id)
+		return 
 
-	for(var/obj/item/I in contents)
+	set_move_intent(GET_DECL(LOAD_CUSTOM_SV("move_intent")))
+
+	//Apply saved appearance (appearance may differ from DNA)
+	eye_colour         = LOAD_CUSTOM_SV("eye_colour")
+	facial_hair_colour = LOAD_CUSTOM_SV("facial_hair_colour")
+	hair_colour        = LOAD_CUSTOM_SV("hair_colour")
+	skin_colour        = LOAD_CUSTOM_SV("skin_colour")
+	skin_tone          = LOAD_CUSTOM_SV("skin_tone")
+	h_style            = LOAD_CUSTOM_SV("h_style")
+	f_style            = LOAD_CUSTOM_SV("f_style")
+
+	//Force equipped items to refresh their held icon
+	for(var/obj/item/I in get_contained_external_atoms())
 		I.hud_layerise()
 
-	// Refresh the items in contents to make sure they show up.
-	for(var/s in species.hud.gear)
-		var/list/gear = species.hud.gear[s]
-		var/obj/item/I = get_equipped_item(gear["slot"])
-		if(istype(I))
-			I.screen_loc = gear["loc"]
-	
+	//Update wounds has to be run this late because it expects the mob to be fully initialized
+	for(var/obj/item/organ/external/limb in get_external_organs())
+		limb.update_wounds()
+
 	//Important to regen icons here, since we skipped on that before load!
 	refresh_visible_overlays()
 
-	CLEAR_SV //Clear saved vars
-
-// For granting cortical chat on character creation.
-/mob/living/carbon/human/update_languages()	
-	. = ..()
-	var/obj/item/organ/internal/stack/stack = (locate() in internal_organs)
-	if(stack)
-		add_language(/decl/language/cortical)
+	CLEAR_ALL_SV //Clear saved vars
 
 /mob/living/carbon/human/should_save()
 	. = ..()
