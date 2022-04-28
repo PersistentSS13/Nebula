@@ -19,7 +19,6 @@
 /decl/cultural_info/culture/synthetic
 	name = "Artificial Intelligence"
 	description = "You are a simple artificial intelligence created by humanity to serve a menial purpose."
-	language = /decl/language/machine
 	secondary_langs = list(
 		/decl/language/machine,
 		/decl/language/human/common,
