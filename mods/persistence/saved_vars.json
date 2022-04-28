@@ -395,6 +395,8 @@
 			"nutrition",
 			"hydration",
 			"internal",
+			"species",
+			"bodytype",
 			"organs_by_tag",
 			"stasis_value",
 			"player_triggered_sleeping",
@@ -3121,9 +3123,7 @@
 			"wearing_rig",
 			"appearance_descriptors",
 			"personal_aspects",
-			"pronouns",
-			"species",
-			"bodytype"
+			"pronouns"
 		]
 	},
 	{
