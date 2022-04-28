@@ -646,7 +646,8 @@
 	if(!new_species_name)
 		CRASH("set_species on mob '[src]' was passed a null species name '[new_species_name]'!")
 	var/new_species = get_species_by_key(new_species_name)
-
+	if(species?.name == new_species_name)
+		return
 	if(!new_species)
 		CRASH("set_species on mob '[src]' was passed a bad species name '[new_species_name]'!")
 
