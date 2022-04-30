@@ -819,7 +819,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 		var/dam_type = BRUTE
 		if(W.damage_type == BURN)
 			dam_type = BURN
-		if(owner && owner.can_autoheal(dam_type))
+		if(owner?.can_autoheal(dam_type))
 			W.heal_damage(heal_amt)
 
 	// sync the organ's damage with its wounds
@@ -1547,5 +1547,5 @@ Note that amputating the affected organ does in fact remove the infection from t
 	. = ..()
 	//Prevent stumps and things that shouldn't be dropped from getting dumped out
 	for(var/obj/item/organ/O in .)
-		if(!O.is_dropable())
+		if(!O.is_droppable())
 			. -= O
