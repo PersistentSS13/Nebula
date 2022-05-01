@@ -68,7 +68,7 @@ SUBSYSTEM_DEF(chargen)
 	A.chargen_landmark = src //Cache the landmark to save some time
 	chargen_areas[A] = 0 //Set the area to free
 	LAZYDISTINCTADD(chargen_landmarks, src)
-	. = ..()
+	return ..()
 
 /obj/abstract/landmark/chargen_spawn/Destroy()
 	var/area/chargen/A = get_area(src)
@@ -82,7 +82,7 @@ SUBSYSTEM_DEF(chargen)
 	var/area/chargen/A = get_area(src)
 	if(istype(A) && SSchargen)
 		SSchargen.release_spawn_pod(A)
-	. = ..()
+	return ..()
 
 //Chargen spawnpoint
 /decl/spawnpoint/chargen/Initialize()
