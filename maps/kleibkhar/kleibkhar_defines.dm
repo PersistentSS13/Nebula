@@ -33,4 +33,4 @@
 	salary_modifier = 0.2
 
 /datum/map/kleibkhar/get_map_info()
-	return "Kleibkhar Independant Colony. A diverse new commercial venture on the fringe."
+	return "Kleibkhar Independent Colony. A diverse new commercial venture on the fringe of known space."
