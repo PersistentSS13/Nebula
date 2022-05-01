@@ -1,5 +1,5 @@
 var/global/list/chargen_areas = list() //List of pod areas, and a number of times assigned was called on a given area for debugging purpose
-var/global/list/chargen_landmarks //List of all the chargen landmarks available for spawn.
+var/global/list/chargen_landmarks = list() //List of all the chargen landmarks available for spawn.
 #define MAX_NB_CHAR_GEN_PODS 20
 
 SUBSYSTEM_DEF(chargen)
@@ -72,14 +72,14 @@ SUBSYSTEM_DEF(chargen)
 		log_warning("[src] is outside of a '/area/chargen' area!! Only place '/obj/abstract/landmark/chargen_spawn' inside a '/area/chargen'!!")
 	A.chargen_landmark = src //Cache the landmark to save some time
 	chargen_areas[A] = 0 //Set the area to free
-	LAZYDISTINCTADD(chargen_landmarks, src)
+	global.chargen_landmarks |= src
 	return ..()
 
 /obj/abstract/landmark/chargen_spawn/Destroy()
 	var/area/chargen/A = get_area(src)
 	if(istype(A) && A.chargen_landmark == src)
 		A.chargen_landmark = null
-	LAZYREMOVE(chargen_landmarks, src)
+	global.chargen_landmarks -= src
 	return ..()
 
 //Annoying stuff
