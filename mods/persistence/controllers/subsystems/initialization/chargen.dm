@@ -85,9 +85,6 @@ SUBSYSTEM_DEF(chargen)
 	. = ..()
 
 //Chargen spawnpoint
-/decl/spawnpoint/chargen
-	name = "Chargen sucks OwO"
-
 /decl/spawnpoint/chargen/Initialize()
 	. = ..()
 	LAZYINITLIST(turfs)
