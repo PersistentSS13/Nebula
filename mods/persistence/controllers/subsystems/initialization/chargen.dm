@@ -26,23 +26,6 @@ SUBSYSTEM_DEF(chargen)
 				maploader.load_map(file("maps/chargen/chargen.dmm"), ((x - 1) * width) + 1, ((y - 1) * height) + 1, map_z, no_changeturf = TRUE)
 				CHECK_TICK
 
-/datum/controller/subsystem/chargen/proc/get_spawn_turf()
-	//Grab first free pod
-	for(var/area/chargen/A in chargen_areas)
-		if(chargen_areas[A] > 0)
-			continue
-		var/obj/abstract/landmark/chargen_spawn/L = locate(/obj/abstract/landmark/chargen_spawn) in A
-		var/turf/spawnturf = L? get_turf(L) : null
-		if(!L)
-			log_warning("Area '[log_info_line(A)]' contains no '/obj/abstract/landmark/chargen_spawn' for spawning characters..")
-			spawnturf = locate(/turf/unsimulated/floor) in A
-		return spawnturf
-
-	var/chargen_warning = "SSChargen: Warning, the system is currently out of spawn pods to spawn new players in!"
-	message_staff(chargen_warning)
-	log_warning(chargen_warning)
-	return null
-
 /datum/controller/subsystem/chargen/proc/assign_spawn_pod(var/area/chargen/pod)
 	chargen_areas[pod] += 1
 
