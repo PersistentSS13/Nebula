@@ -1,4 +1,3 @@
-// var/global/list/chargen_spawns = list()
 var/global/list/chargen_areas = list() //List of pod areas, and a number of times assigned was called on a given area for debugging purpose
 var/global/list/chargen_landmarks //List of all the chargen landmarks available for spawn.
 
