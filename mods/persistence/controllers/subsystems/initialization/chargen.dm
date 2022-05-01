@@ -1,5 +1,6 @@
 var/global/list/chargen_areas = list() //List of pod areas, and a number of times assigned was called on a given area for debugging purpose
 var/global/list/chargen_landmarks //List of all the chargen landmarks available for spawn.
+#define MAX_NB_CHAR_GEN_PODS 20
 
 SUBSYSTEM_DEF(chargen)
 	name = "Chargen"
@@ -18,11 +19,15 @@ SUBSYSTEM_DEF(chargen)
 		var/height = M.bounds[5]
 
 		report_progress("Created chargen away site at [M.bounds[3]].")
+		var/chargen_pod_counter = 1
 		for(var/x in 1 to FLOOR(world.maxx / width))
 			for(var/y in 1 to FLOOR(world.maxy / height))
 				// We already loaded the first one at (1, 1) so skip it 
 				if(x == 1 && y == 1)
 					continue
+				if(chargen_pod_counter >= MAX_NB_CHAR_GEN_PODS)
+					break
+				chargen_pod_counter++
 				maploader.load_map(file("maps/chargen/chargen.dmm"), ((x - 1) * width) + 1, ((y - 1) * height) + 1, map_z, no_changeturf = TRUE)
 				CHECK_TICK
 
@@ -103,3 +108,5 @@ SUBSYSTEM_DEF(chargen)
 
 /datum/job/colonist/get_roundstart_spawnpoint()
 	CRASH("!!!!! datum/job/colonist/get_roundstart_spawnpoint() was called! !!!!!")
+
+#undef MAX_NB_CHAR_GEN_PODS
