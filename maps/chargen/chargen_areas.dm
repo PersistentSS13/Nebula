@@ -22,3 +22,9 @@
 /area/chargen/Destroy()
 	chargen_landmark = null
 	. = ..()
+
+//Don't test these areas, since they have special behaviors
+/datum/map/New()
+	. = ..()
+	LAZYDISTINCTADD(area_purity_test_exempt_areas,  /area/chargen)
+	LAZYDISTINCTADD(area_usage_test_exempted_areas, /area/chargen)
