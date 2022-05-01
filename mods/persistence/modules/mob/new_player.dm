@@ -15,22 +15,24 @@
 	if(!SScharacter_setup.initialized && !force)
 		return // Not ready yet.
 	var/output = list()
-	output += "<div align='center'>"
-	if(GAME_STATE < RUNLEVEL_GAME)
-		output += "<span class='average'><b>The Game Is Loading!</b></span><br><br>"
+	output += "<div style='text-align:center;'>"
 	output += "<i>[global.using_map.get_map_info()]</i>"
 	output +="<hr>"
 	if(GAME_STATE < RUNLEVEL_GAME)
 		//Do not let clients design characters before load. It causes issues, and we don't use rounds anyways.
-		output += "<div>Loading...</div>"
+		output += "<p>Loading...</p>"
 	else
+		output += "<div style='text-align:center;'>"
 		output += "<a href='byond://?src=\ref[src];setupCharacter=1'>Set up character</a> "
 		output += "<a href='byond://?src=\ref[src];joinGame=1'>Join game</a>"
+		output += "</div>"
 
-	output += "<br><br>"
+	output += "<br>"
+	output += "<div style='text-align:center;'>"
 	if(check_rights(R_DEBUG, 0, client))
-		output += "<a href='byond://?src=\ref[src];observeGame=1'>Observe</a><br><br>"
-	output += "<a href='byond://?src=\ref[src];refreshPanel=1'>Refresh</a><br><br>"
+		output += "<a href='byond://?src=\ref[src];observeGame=1'>Observe</a>"
+	output += "<a href='byond://?src=\ref[src];refreshPanel=1'>Refresh</a>"
+	output += "</div>"
 	output += "</div>"
 
 	panel = new(src, "Welcome","Welcome to [global.using_map.full_name]", 560, 280, src)
