@@ -22,7 +22,6 @@
 	return
 
 /obj/machinery/cryopod/despawn_occupant()
-	set waitfor = FALSE
 	return
 
 /obj/machinery/cryopod/set_occupant(var/mob/living/carbon/occupant, var/silent)
@@ -105,8 +104,8 @@
 		//Force despawn when no client
 		if ((time_elapsed < time_till_despawn) && occupant.ckey)
 			return
-		spawn(1)
-			despawn_occupant()
+
+		despawn_occupant()
 
 /obj/machinery/cryopod/despawner/despawn_occupant()
 	set waitfor = FALSE
