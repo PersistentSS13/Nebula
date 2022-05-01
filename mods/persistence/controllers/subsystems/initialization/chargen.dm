@@ -55,7 +55,7 @@ SUBSYSTEM_DEF(chargen)
 
 	//Remove trash from the room
 	pod.run_chargen_cleanup()
-	log_debug("SSChargen: Un-assaigned area '[pod]' with '[chargen_areas[pod]]' assigned users currently!")
+	log_debug("SSChargen: Unassaigned area '[pod]' with '[chargen_areas[pod]]' assigned users currently!")
 
 //Landmark
 /obj/abstract/landmark/chargen_spawn
