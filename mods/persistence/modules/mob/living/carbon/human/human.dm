@@ -20,6 +20,9 @@
 
 	if(ignore_persistent_spawn())
 		return
+
+	//#FIXME: This is kinda clunky and probably shouldn't be in the mob's code, or this early in the mob init.
+	//			Partially because its going to trigger move, onEnter, and etc events before init.
 	if(!loc) // We're loading into null-space because we were in an unsaved level or intentionally in limbo. Move them to the last valid spawn.
 		if(istype(home_spawn))
 			if(home_spawn.loc)
@@ -27,6 +30,7 @@
 				return
 			else // Your bed is in nullspace with you!
 				QDEL_NULL(home_spawn)
+		message_staff("'[src]'(ckey:'[ckey]') loaded into nullspace, without a home_spawn set! Moving into closest valid location.")
 		forceMove(get_spawn_turf()) // Sorry man. Your bed/cryopod was not set.
 
 /mob/living/carbon/human/setup(species_name, datum/dna/new_dna)
@@ -44,7 +48,7 @@
 /mob/living/carbon/human/LateInitialize()
 	. = ..()
 	if(!persistent_id)
-		return 
+		return
 
 	set_move_intent(GET_DECL(LOAD_CUSTOM_SV("move_intent")))
 

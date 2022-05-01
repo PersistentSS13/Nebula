@@ -20,7 +20,7 @@
 		
 /mob/living/carbon/human/proc/get_spawn_turf()
 	var/spawn_turf
-	for(var/obj/machinery/cryopod/outreach/C in SSmachines.machinery)
+	for(var/obj/machinery/cryopod/C in SSmachines.machinery)
 		spawn_turf = locate(C.x, C.y, C.z)
 	if(!spawn_turf)
 		spawn_turf = locate(100,100,3)
@@ -28,6 +28,14 @@
 
 /mob/living/carbon/human/Logout()
 	. = ..()
+	var/area/chargen/A = get_area(get_turf(src))
+	if(istype(A))
+		//If we disconnect in the chargen we delete the mob
+		key = null
+		last_ckey = initial(last_ckey)
+		qdel(src)
+		return
+
 	addtimer(CALLBACK(src, /mob/living/carbon/human/proc/goto_sleep), 5 MINUTES)
 
 	var/obj/bed = locate(/obj/structure/bed) in get_turf(src)
