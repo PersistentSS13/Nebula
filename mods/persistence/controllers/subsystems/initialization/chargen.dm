@@ -101,3 +101,26 @@ SUBSYSTEM_DEF(chargen)
 	if(istype(A) && SSchargen)
 		SSchargen.release_spawn_pod(A)
 	. = ..()
+
+//Chargen spawnpoint
+/decl/spawnpoint/chargen
+	name = "Chargen sucks OwO"
+
+/decl/spawnpoint/chargen/Initialize()
+	. = ..()
+	LAZYINITLIST(turfs)
+	for(var/obj/abstract/landmark/chargen_spawn/C in global.chargen_landmarks)
+		turfs |= get_turf(C)
+
+/decl/spawnpoint/chargen/after_join(mob/victim)
+	var/turf/myturf = get_turf(victim.loc)
+	var/area/chargen/A = get_area(myturf)
+	if(istype(A))
+		SSchargen.assign_spawn_pod(A) //Mark the pod area as reserved
+	else 
+		var/mess = "'[victim]' (CKEY: [victim.ckey]) spawned outside chargen for some reasons."
+		log_warning(mess)
+		message_staff(mess)
+
+/datum/job/colonist/get_roundstart_spawnpoint()
+	CRASH("!!!!! datum/job/colonist/get_roundstart_spawnpoint() was called! !!!!!")
