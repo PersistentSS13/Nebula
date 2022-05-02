@@ -15,22 +15,24 @@
 	if(!SScharacter_setup.initialized && !force)
 		return // Not ready yet.
 	var/output = list()
-	output += "<div align='center'>"
-	if(GAME_STATE < RUNLEVEL_GAME)
-		output += "<span class='average'><b>The Game Is Loading!</b></span><br><br>"
+	output += "<div style='text-align:center;'>"
 	output += "<i>[global.using_map.get_map_info()]</i>"
 	output +="<hr>"
 	if(GAME_STATE < RUNLEVEL_GAME)
 		//Do not let clients design characters before load. It causes issues, and we don't use rounds anyways.
-		output += "<div>Loading...</div>"
+		output += "<p>Loading...</p>"
 	else
+		output += "<div style='text-align:center;'>"
 		output += "<a href='byond://?src=\ref[src];setupCharacter=1'>Set up character</a> "
 		output += "<a href='byond://?src=\ref[src];joinGame=1'>Join game</a>"
+		output += "</div>"
 
-	output += "<br><br>"
+	output += "<br>"
+	output += "<div style='text-align:center;'>"
 	if(check_rights(R_DEBUG, 0, client))
-		output += "<a href='byond://?src=\ref[src];observeGame=1'>Observe</a><br><br>"
-	output += "<a href='byond://?src=\ref[src];refreshPanel=1'>Refresh</a><br><br>"
+		output += "<a href='byond://?src=\ref[src];observeGame=1'>Observe</a>"
+	output += "<a href='byond://?src=\ref[src];refreshPanel=1'>Refresh</a>"
+	output += "</div>"
 	output += "</div>"
 
 	panel = new(src, "Welcome","Welcome to [global.using_map.full_name]", 560, 280, src)
@@ -96,7 +98,7 @@
 		return
 	for(var/datum/mind/target_mind in global.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
 		if(cmptext(target_mind.key, key))
-			if(!target_mind.current || istype(target_mind.current, /mob/new_player))
+			if(!target_mind.current || istype(target_mind.current, /mob/new_player) || QDELETED(target_mind.current))
 				continue
 			transition_to_game()
 			to_chat(src, SPAN_NOTICE("A character is already in game."))
@@ -131,74 +133,14 @@
 		qdel(src)
 		return
 
-	switch(alert("Are you sure you want to join the game with the character you've created? This cannot be undone!", "Character Confirmation", "Yes", "No"))
-		if("No")
-			return
+	//Spare the devs!
+	if(!check_rights(R_DEBUG))
+		switch(alert("Are you sure you want to join the game with the character you've created?", "Character Confirmation", "Yes", "No"))
+			if("No")
+				return
 
-	create_character()	// Creating a new character based off the player's preferences.
+	AttemptLateSpawn(SSjobs.get_by_path(using_map.default_job_type))
 	qdel(src)
-
-/mob/new_player/create_character()
-	spawning = TRUE
-	transition_to_game()
-	var/turf/spawn_turf
-
-	var/used_chargen = FALSE
-	if(chargen_spawns && length(chargen_spawns))
-		spawn_turf = SSchargen.get_spawn_turf()
-		used_chargen = TRUE
-	else
-		for(var/turf/T in global.latejoin_cryo_locations)
-			if(locate(/mob) in T)
-				continue
-			spawn_turf = T
-
-	var/mob/living/carbon/human/new_character
-	var/decl/species/chosen_species
-	if(client.prefs.species)
-		chosen_species = all_species[client.prefs.species]
-
-	if(chosen_species)
-		if(!check_species_allowed(chosen_species))
-			spawning = FALSE //abort
-			return null
-		new_character = new(spawn_turf, chosen_species.name)
-		if(chosen_species.has_organ[BP_POSIBRAIN] && client && client.prefs.is_shackled)
-			var/obj/item/organ/internal/posibrain/B = new_character.get_organ(BP_POSIBRAIN)
-			if(B)	B.shackle(client.prefs.get_lawset())
-
-	if(!new_character)
-		new_character = new(spawn_turf)
-		if(used_chargen)
-			SSchargen.assign_spawn_pod(new_character, spawn_turf)
-
-	new_character.lastarea = get_area(spawn_turf)
-	client.prefs.copy_to(new_character)
-
-	if(mind)
-		mind.active = 0 //we wish to transfer the key manually
-		mind.original = new_character
-		var/memory = client.prefs.records[PREF_MEM_RECORD]
-		mind.StoreMemory(memory)
-		mind.transfer_to(new_character)					//won't transfer key since the mind is not active
-
-	var/datum/job/job = SSjobs.get_by_path(/datum/job/colonist) // Hacky way to get players equipped with a basic uniform and their accounts set up.
-	job.setup_account(new_character)
-	job.equip(new_character)
-
-	var/datum/skillset/SS = new_character.skillset 	// Populate the skill_list of the player's skillset so that they can be properly adjusted during gameplay.
-	SS.set_skillset_min()
-	
-	new_character.dna.ready_dna(new_character)
-	new_character.dna.b_type = client.prefs.b_type
-	new_character.sync_organ_dna()
-	
-	// Do the initial caching of the player's body icons.
-	new_character.force_update_limbs()
-	new_character.update_eyes()
-	new_character.refresh_visible_overlays()
-
-	new_character.key = key		//Manually transfer the key to log them in
 
 /mob/new_player/Move()
 	return 0

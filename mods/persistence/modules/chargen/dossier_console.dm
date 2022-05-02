@@ -1,10 +1,42 @@
-/obj/machinery/computer/chargen
-	var/ui_template = "chargen.tmpl"
-	var/active_section = "origin"
-	stat_immune = NOPOWER | NOSCREEN | NOINPUT | BROKEN
-	construct_state = /decl/machine_construction/no_build
+//Simple structure displaying a nanoui on interact
+/obj/structure/fake_computer
+	name = "computer"
+	icon = 'icons/obj/computer.dmi'
+	icon_state = "computer"
+	density = TRUE
+	anchored = TRUE
 
-/obj/machinery/computer/chargen/OnTopic(var/mob/user, var/href_list, var/datum/topic_state/state)
+/obj/structure/fake_computer/attack_hand(mob/user)
+	ui_interact(user)
+
+/obj/structure/fake_computer/on_update_icon()
+	cut_overlays()
+	icon = initial(icon)
+	icon_state = initial(icon_state)
+
+	//Slap on the screen overlay
+	var/image/screen_overlay = image(icon, "generic", layer)
+	screen_overlay.appearance_flags |= RESET_COLOR
+	add_overlay(screen_overlay)
+
+	//Slap on the keyboard overlay
+	var/image/keyboard_overlay = image(icon, "generic_key", layer)
+	keyboard_overlay.appearance_flags |= RESET_COLOR
+	add_overlay(keyboard_overlay)
+
+	//Light it up
+	set_light(2, 1, light_color)
+
+/obj/structure/fake_computer/CouldUseTopic(var/mob/user)
+	..()
+	playsound(src, "keyboard", 40)
+
+//Chargen console
+/obj/structure/fake_computer/chargen
+	var/active_section = "origin"
+	should_save = FALSE
+
+/obj/structure/fake_computer/chargen/OnTopic(var/mob/user, var/href_list, var/datum/topic_state/state)
 	. = TOPIC_REFRESH
 
 	var/datum/skillset/skillset = user.mind.chargen_skillset
@@ -55,14 +87,7 @@
 					for(var/skill in D.skills)
 						skillset.skill_list[skill] += D.skills[skill]
 
-/obj/machinery/computer/chargen/proc/build_ui_data()
-	var/mob/user
-	var/area/chargen/A = get_area(loc)
-	if(istype(A))
-		user = A.assigned_to
-	else
-		return list()
-
+/obj/structure/fake_computer/chargen/proc/build_ui_data(var/mob/user)
 	if(!istype(user.mind.chargen_skillset))
 		user.mind.chargen_skillset = new(user)
 		for(var/decl/hierarchy/skill in global.skills)
@@ -108,26 +133,11 @@
 		else
 			.["roles"] += list(fields)
 
-
-/obj/machinery/computer/chargen/interface_interact(var/mob/user)
-	ui_interact(user)
-	return TRUE
-
-/obj/machinery/computer/chargen/ui_interact(var/mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
-	if(ui_template)
-		var/list/data = build_ui_data()
-		ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
-		if (!ui)
-			ui = new(user, src, ui_key, ui_template, name, 800, 600)
-			ui.set_initial_data(data)
-			ui.open()
-			ui.set_auto_update(1)
-
-/decl/machine_construction/no_build
-	needs_board = "computer"
-	cannot_print = TRUE
-
-/obj/item/stock_parts/circuitboard/computer_chargen
-	name = "circuitboard (dossier console)"
-	build_path = /obj/machinery/computer/chargen
-	
+/obj/structure/fake_computer/chargen/ui_interact(var/mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
+	var/list/data = build_ui_data(user)
+	ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
+	if (!ui)
+		ui = new(user, src, ui_key, "chargen.tmpl", name, 800, 600)
+		ui.set_initial_data(data)
+		ui.open()
+		ui.set_auto_update(1)

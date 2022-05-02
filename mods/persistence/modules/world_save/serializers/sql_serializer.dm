@@ -147,6 +147,9 @@
 	thing_map["\ref[object]"] = p_i
 
 	for(var/V in object.get_saved_vars())
+		if(!(V in object.vars))
+			to_world_log("BAD SAVED VARIABLE : '[object.type]' cannot have its '[V]' variable saved, since it does not exist!")
+			continue
 		if(!issaved(object.vars[V]))
 			to_world_log("BAD SAVED VARIABLE : '[object.type]' cannot have its '[V]' variable saved, since its marked as not saved!")
 			continue
