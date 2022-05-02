@@ -133,6 +133,12 @@
 		qdel(src)
 		return
 
+	//Spare the devs!
+	if(!check_rights(R_DEBUG))
+		switch(alert("Are you sure you want to join the game with the character you've created?", "Character Confirmation", "Yes", "No"))
+			if("No")
+				return
+
 	AttemptLateSpawn(SSjobs.get_by_path(using_map.default_job_type))
 	qdel(src)
 
