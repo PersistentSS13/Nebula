@@ -289,7 +289,7 @@ var/global/list/time_prefs_fixed = list()
 		return TRUE
 	if(href_list["finish"])
 		if(!real_name)
-			to_chat(user, "<span class='danger'>The must set a unique character name to continue.</span>")
+			to_chat(usr, "<span class='danger'>The must set a unique character name to continue.</span>")
 			return
 		save_preferences()
 		save_character()
