@@ -293,12 +293,12 @@ var/global/list/time_prefs_fixed = list()
 			return
 		save_preferences()
 		save_character()
-		switch(alert("Are you sure you want to finalize join the game with the character you've created?", "Character Confirmation", "Yes", "No"))
+		switch(alert("Are you sure you want to finalize your character and join the game with the character you've created?", "Character Confirmation", "Yes", "No"))
 			if("No")
 				return
 		if(isnewplayer(client.mob))
 			var/mob/new_player/M = client.mob
-			M.AttemptLateSpawnOutreach(SSjobs.get_by_path(using_map.default_job_type))
+			M.AttemptLateSpawnOutreach(SSjobs.get_by_path(/datum/job/colonist))
 			close_char_dialog(usr)
 
 	if(href_list["save"])

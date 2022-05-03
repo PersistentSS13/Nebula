@@ -163,12 +163,6 @@
 		to_chat(usr, "<span class='notice'>There is an administrative lock on entering the game!</span>")
 		return 0
 
-	if(!job || !job.is_available(client))
-		alert("[job.title] is not available. Please try another.")
-		return 0
-	if(job.is_restricted(client.prefs, src))
-		return
-
 	var/decl/spawnpoint/spawnpoint = job.get_spawnpoint(client)
 	if(!spawnpoint)
 		to_chat(src, alert("That spawnpoint is unavailable. Please try another."))
@@ -181,11 +175,6 @@
 
 	if(!SSjobs.check_unsafe_spawn(src, spawn_turf))
 		return
-
-	// Just in case someone stole our position while we were waiting for input from alert() proc
-	if(!job || !job.is_available(client))
-		to_chat(src, alert("[job.title] is not available. Please try another."))
-		return 0
 
 	SSjobs.assign_role(src, job.title, 1)
 
