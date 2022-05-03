@@ -1,9 +1,3 @@
-#define EQUIP_PREVIEW_LOADOUT 1
-#define EQUIP_PREVIEW_JOB 2
-#define EQUIP_PREVIEW_ALL (EQUIP_PREVIEW_LOADOUT|EQUIP_PREVIEW_JOB)
-
-#define SAVE_RESET -1
-
 /* PLACEHOLDER VERB UNTIL SAVE INIT (or whatever the issue is) IS FIXED */
 var/global/list/time_prefs_fixed = list()
 /client/verb/fix_preferences()
