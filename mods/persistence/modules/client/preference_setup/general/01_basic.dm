@@ -84,10 +84,10 @@
 			. += "<span class='linkOn'>[capitalize(G.name)]</span>"
 		else
 			. += "<a href='?src=\ref[src];gender=\ref[G]'>[capitalize(G.name)]</a>"
-    /**
+/**
 	var/decl/spawnpoint/spawnpoint = GET_DECL(pref.spawnpoint)
 	. += "<br><b>Spawn point</b>: <a href='?src=\ref[src];spawnpoint=1'>[spawnpoint.name]</a>"
-    **/
+**/
 	. = jointext(.,null)
 
 /datum/category_item/player_setup_item/physical/basic/OnTopic(var/href,var/list/href_list, var/mob/user)
