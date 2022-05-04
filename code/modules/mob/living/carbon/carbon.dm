@@ -1,18 +1,20 @@
 /mob/living/carbon/Initialize()
 	//setup reagent holders
-	if(!bloodstr && !reagents)
+	if(!bloodstr)
 		bloodstr = new/datum/reagents/metabolism(120, src, CHEM_INJECT)
+	if(!reagents)
 		reagents = bloodstr
 	if(!touching)
 		touching = new/datum/reagents/metabolism(1000, src, CHEM_TOUCH)
-		
+
 	if (!default_language && species_language)
 		default_language = species_language
 	. = ..()
 
 /mob/living/carbon/Destroy()
 	QDEL_NULL(touching)
-	bloodstr = null // We don't qdel(bloodstr) because it's the same as qdel(reagents)
+	QDEL_NULL(bloodstr)
+	reagents = null //We assume reagents is a reference to bloodstr here
 	delete_organs()
 	QDEL_NULL_LIST(hallucinations)
 	if(loc)
@@ -207,7 +209,7 @@
 	src.throw_mode_off()
 	if(src.stat || !target)
 		return
-	if(target.type == /obj/screen) 
+	if(target.type == /obj/screen)
 		return
 
 	if(!item)
@@ -507,7 +509,7 @@
 					break
 			if(!is_poison)
 				valid_tank = TRUE
-			
+
 		if(valid_tank && (!selected_obj || selected_obj.air_contents.gas[breathes_gas] <  checking.air_contents.gas[breathes_gas]))
 			selected_obj =  checking
 			selected_slot = slot_name

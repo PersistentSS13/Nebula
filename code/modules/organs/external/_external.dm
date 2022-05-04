@@ -100,12 +100,12 @@
 		F.completeness = rand(10,90)
 		forensics.add_data(/datum/forensics/fingerprints, F)
 
-/obj/item/organ/external/Initialize(mapload, material_key, datum/dna/given_dna)	
+/obj/item/organ/external/Initialize(mapload, material_key, datum/dna/given_dna)
 	. = ..()
 	if(. == INITIALIZE_HINT_QDEL)
 		return
 	if(isnull(pain_disability_threshold))
-		pain_disability_threshold = (max_damage * 0.75)	
+		pain_disability_threshold = (max_damage * 0.75)
 
 /obj/item/organ/external/Destroy()
 	//Update the hierarchy BEFORE clearing all the vars and refs
@@ -265,55 +265,77 @@
 			E.update_icon()
 			return
 
-	//Allow removing sub-limbs
-	if(istype(W,/obj/item/circular_saw) && LAZYLEN(children))
-		var/list/removables = get_limbs_recursive(TRUE)
-		if(LAZYLEN(removables))
-			var/obj/item/organ/external/removing = pick(removables)
-			if(do_after(user, 3 SECONDS, removing, FALSE))
-				removing.do_uninstall()
-				removing.forceMove(get_turf(user))
-				compile_icon()
-				update_icon()
-				removing.compile_icon()
-				removing.update_icon()
-				if(user.get_empty_hand_slot())
-					user.put_in_hands(removing)
-				user.visible_message(SPAN_DANGER("<b>[user]</b> cuts off \the [removing] from [src] with [W]!"))
-				return
-			else
-				user.visible_message(SPAN_DANGER("<b>[user]</b> stops trying to cut \the [removing]."))
-				return
+	//Remove sub-limbs
+	if(W.get_tool_quality(TOOL_SAW) && LAZYLEN(children) && try_saw_off_child(W, user))
+		return
+	//Remove internal items/organs/implants
+	if(try_remove_internal_item(W, user))
+		return
+	..()
 
+//Handles removing internal organs/implants/items still in the detached limb.
+/obj/item/organ/external/proc/try_remove_internal_item(var/obj/item/W, var/mob/user)
 	switch(stage)
 		if(0)
 			if(W.sharp)
 				user.visible_message(SPAN_DANGER("<b>[user]</b> cuts [src] open with [W]!"))
 				stage++
-				return
+				return TRUE
 		if(1)
 			if(istype(W))
 				user.visible_message(SPAN_DANGER("<b>[user]</b> cracks [src] open like an egg with [W]!"))
 				stage++
-				return
+				return TRUE
 		if(2)
 			if(W.sharp || istype(W,/obj/item/hemostat) || isWirecutter(W))
-				var/list/removables = get_contents_recursive()
-				if(LAZYLEN(removables))
-					var/obj/item/removing = pick(removables)
-					if(istype(removing, /obj/item/organ))
-						var/obj/item/organ/O = removing
-						O.do_uninstall()
-					removing.forceMove(get_turf(user))
+				var/list/radial_buttons = make_item_radial_menu_choices(get_contents_recursive())
+				if(LAZYLEN(radial_buttons))
+					var/obj/item/removing = show_radial_menu(user, src, radial_buttons, radius = 42, require_near = TRUE, use_labels = TRUE, check_locs = list(src))
+					if(removing)
+						if(istype(removing, /obj/item/organ))
+							var/obj/item/organ/O = removing
+							O.do_uninstall()
+						removing.forceMove(get_turf(user))
 
-					if(user.get_empty_hand_slot())
-						user.put_in_hands(removing)
-					user.visible_message(SPAN_DANGER("<b>[user]</b> extracts [removing] from [src] with [W]!"))
+						if(user.get_empty_hand_slot())
+							user.put_in_hands(removing)
+						user.visible_message(SPAN_DANGER("<b>[user]</b> extracts [removing] from [src] with [W]!"))
 				else
 					user.visible_message(SPAN_DANGER("<b>[user]</b> fishes around fruitlessly in [src] with [W]."))
-				return
-	..()
+				return TRUE
+	return FALSE
 
+//Handles removing child limbs from the detached limb.
+/obj/item/organ/external/proc/try_saw_off_child(var/obj/item/W, var/mob/user)
+
+	//Add icons to radial menu
+	var/list/radial_buttons = make_item_radial_menu_choices(get_limbs_recursive(TRUE))
+	if(!LAZYLEN(radial_buttons))
+		return
+
+	//Display radial menu
+	var/obj/item/organ/external/removing = show_radial_menu(user, src, radial_buttons, radius = 42, require_near = TRUE, use_labels = TRUE, check_locs = list(src))
+	if(!istype(removing))
+		return TRUE
+
+	var/cutting_result = !W.do_tool_interaction(TOOL_SAW, user, src, W.get_tool_speed(TOOL_SAW) * 3 SECONDS, SPAN_DANGER("<b>[user]</b> starts cutting off \the [removing] from [src] with \the [W]!") )
+	//Check if the limb is still in the hierarchy
+	if(cutting_result == 1 || !(removing in get_limbs_recursive(TRUE)))
+		if(cutting_result != -1)
+			user.visible_message(SPAN_DANGER("<b>[user]</b> stops trying to cut \the [removing]."))
+		return TRUE
+
+	//Actually remove it
+	removing.do_uninstall()
+	removing.forceMove(get_turf(user))
+	compile_icon()
+	update_icon()
+	removing.compile_icon()
+	removing.update_icon()
+	if(user.get_empty_hand_slot())
+		user.put_in_hands(removing)
+	user.visible_message(SPAN_DANGER("<b>[user]</b> cuts off \the [removing] from [src] with [W]!"))
+	return TRUE
 
 /**
  *  Get a list of contents of this organ and all the child organs
@@ -337,7 +359,9 @@
 		if(no_stumps && child.is_stump())
 			continue
 		all_limbs += child
-		all_limbs.Add(child.get_limbs_recursive(no_stumps))
+		var/list/sublimbs = child.get_limbs_recursive(no_stumps)
+		if(sublimbs)
+			all_limbs += sublimbs
 	return all_limbs
 
 /obj/item/organ/external/proc/is_dislocated()
@@ -436,13 +460,13 @@
 		if(istype(affected))
 			if(parent_organ != affected.organ_tag)
 				log_warning("obj/item/organ/external/do_install(): The parent organ in the parameters '[affected]'('[affected.organ_tag]') doesn't match the expected parent organ ('[parent_organ]') for '[src]'!")
-			parent = affected 
+			parent = affected
 
 		//When no owner, make sure we update all our children. Everything else should be implicitely at the right place
 		for(var/obj/item/organ/external/organ in children)
 			organ.do_install(null, src, in_place, update_icon, detached)
 
-	//This proc refers to owner's species and all kind of nasty stuff, so its excluded from in_place
+	//This proc refers to owner's species and all kind of risky stuff, so it cannot be done in_place
 	if(!in_place)
 		update_wounds()
 
@@ -456,7 +480,7 @@
 			if(W.limb_tag == organ_tag)
 				qdel(W) //Removes itself from parent.wounds
 				break
-		
+
 		if(!in_place)
 			parent.update_wounds()
 
@@ -1228,18 +1252,18 @@ Note that amputating the affected organ does in fact remove the infection from t
 		//Handling for decl
 		R = company
 		company = R.type
-	else 
+	else
 		//Handling for paths
 		if(!ispath(company))
 			PRINT_STACK_TRACE("Limb [type] robotize() was supplied a null or non-decl manufacturer: '[company]'")
 			company = /decl/prosthetics_manufacturer
 		R = GET_DECL(company)
-	
+
 	//If can't install fallback to default
 	if(!R.check_can_install(organ_tag, (owner?.get_bodytype_category() || global.using_map.default_bodytype), (owner?.get_species_name() || global.using_map.default_species)))
 		company = /decl/prosthetics_manufacturer
 		R = GET_DECL(/decl/prosthetics_manufacturer)
-		
+
 	model = company
 	name = "[R ? R.modifier_string : "robotic"] [initial(name)]"
 	desc = "[R.desc] It looks like it was produced by [R.name]."
@@ -1326,7 +1350,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 	var/mob/living/carbon/human/victim = owner //parent proc clears owner
 	if(!(. = ..()))
 		return
-	
+
 	if(victim)
 		if(in_place)
 			//When removing in place, we don't bother with moving child organs and implants, we just clear the refs
