@@ -1,14 +1,10 @@
-/datum/category_collection/player_setup_collection/New(var/datum/preferences/preferences)
-	src.preferences = preferences
-	categories = new()
-	categories_by_name = new()
-	for(var/category_type in typesof(category_group_type))
-		if(category_type in preferences.skipped_menus)
-			continue
-		var/datum/category_group/category = category_type
-		if(initial(category.name))
-			category = new category(src)
-			categories += category
-			categories_by_name[category.name] = category
-	categories = sortTim(categories, /proc/cmp_category_groups)
-	selected_category = categories[1]
+/datum/category_collection/player_setup_collection/proc/header()
+	var/dat = ""
+	for(var/datum/category_group/player_setup_category/PS in categories)
+		if(is_type_in_list(PS, hidden_categories))
+			continue //Skip categories we don't wanna display
+		if(PS == selected_category)
+			dat += "[PS.name] "	// TODO: Check how to properly mark a href/button selected in a classic browser window
+		else
+			dat += "<a href='?src=\ref[src];category=\ref[PS]'>[PS.name]</a> "
+	return dat
