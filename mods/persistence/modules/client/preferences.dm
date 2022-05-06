@@ -71,7 +71,7 @@
 				return
 		if(isnewplayer(client.mob))
 			var/mob/new_player/M = client.mob
-			AttemptLateSpawn(SSjobs.get_by_path(global.using_map.default_job_type))
+			M.AttemptLateSpawn(SSjobs.get_by_path(global.using_map.default_job_type))
 			close_char_dialog(usr)
 
 	if(href_list["save"])
