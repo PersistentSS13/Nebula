@@ -7,7 +7,7 @@
 		/datum/category_group/player_setup_category/global_preferences,\
 	)
 
-/datum/category_collection/player_setup_collection/proc/header()
+/datum/category_collection/player_setup_collection/header()
 	var/dat = ""
 	for(var/datum/category_group/player_setup_category/PS in categories)
 		if(is_type_in_list(PS, hidden_categories))
