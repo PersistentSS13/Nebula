@@ -27,9 +27,37 @@
 	name = "\improper Cloning Room"
 	icon_state = "green"
 
+/area/kleibkhar/outpost/infirmary
+	name = "infirmary"
+	icon_state = "medbay"
+
+/area/kleibkhar/outpost/infirmary/surgery
+	name = "surgery room"
+	icon_state = "surgery"
+
+/area/kleibkhar/outpost/infirmary/storage
+	name = "storage room"
+	icon_state = "storage"
+
 /area/kleibkhar/outpost/solar_array
 	name = "\improper Solar Maintenance"
 	icon_state = "SolarcontrolS"
+
+/area/kleibkhar/outpost/mess_hall
+	name = "mess hall"
+	icon_state = "cafetaria"
+
+/area/kleibkhar/outpost/custodial
+	name = "custodial cabinet"
+	icon_state = "janitor"
+
+/area/kleibkhar/outpost/hydroponics
+	name = "hydroponics"
+	icon_state = "hydro"
+
+/area/kleibkhar/outpost/washroom
+	name = "washroom"
+	icon_state = "restrooms"
 
 /area/exoplanet/kleibkhar/mines
 	name = "Deep Underground"
