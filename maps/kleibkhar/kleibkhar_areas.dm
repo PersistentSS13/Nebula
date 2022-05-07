@@ -1,14 +1,16 @@
 /area/exoplanet/kleibkhar
 	name = "Kleibkhar"
+	area_flags = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED
 
 /area/kleibkhar/outpost
+	area_flags = AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED
 
 /area/kleibkhar/outpost/sleeproom
 	name = "Cyrogenic Storage"
 	icon_state = "cryo"
 
 /area/kleibkhar/outpost/hallway
-	name = "\improper Hallways"
+	name = "Hallways"
 	icon_state = "hallC1"
 
 /area/kleibkhar/outpost/computer
@@ -16,20 +18,24 @@
 	icon_state = "green"
 
 /area/kleibkhar/outpost/it
-	name = "\improper Server Room"
+	name = "Server Room"
 	icon_state = "server"
 
 /area/kleibkhar/outpost/mining
-	name = "\improper Ore Processing Room"
+	name = "Ore Processing Room"
 	icon_state = "green"
 
 /area/kleibkhar/outpost/cloning
-	name = "\improper Cloning Room"
+	name = "Cloning Room"
 	icon_state = "green"
 
 /area/kleibkhar/outpost/infirmary
 	name = "infirmary"
 	icon_state = "medbay"
+
+/area/kleibkhar/outpost/infirmary/exam
+	name = "examination room"
+	icon_state = "exam_room"
 
 /area/kleibkhar/outpost/infirmary/surgery
 	name = "surgery room"
@@ -40,7 +46,7 @@
 	icon_state = "storage"
 
 /area/kleibkhar/outpost/solar_array
-	name = "\improper Solar Maintenance"
+	name = "Solar Maintenance"
 	icon_state = "SolarcontrolS"
 
 /area/kleibkhar/outpost/mess_hall
