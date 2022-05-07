@@ -1,7 +1,6 @@
 /datum/preferences
 
 	var/datum/browser/charpanel
-	var/list/skipped_menus = list(/datum/category_group/player_setup_category/record_preferences, /datum/category_group/player_setup_category/occupation_preferences, /datum/category_group/player_setup_category/appearance_preferences, /datum/category_group/player_setup_category/law_pref)
 
 /datum/preferences/get_content(mob/user)
 
@@ -41,7 +40,7 @@
 		return
 
 	winshow(user, "preferences_window", TRUE)
-	var/datum/browser/popup = new(user, "preferences_browser", "Character Setup", 800, 800)
+	charpanel = new(user, "preferences_browser", "Character Setup", 800, 800)
 	var/content = {"
 	<script type='text/javascript'>
 		function update_content(data){
@@ -52,10 +51,8 @@
 		<div id='content'>[get_content(user)]</div>
 	</body></html>
 	"}
-	popup.set_content(content)
-	popup.open(FALSE) // Skip registring onclose on the browser panel
-	charpanel = popup
-	onclose(user, "preferences_window", src) // We want to register on the window itself
+	charpanel.set_content(content)
+	charpanel.open() // Skip registring onclose on the browser panel
 
 /datum/preferences/Topic(href, list/href_list)
 	if(..())
@@ -70,9 +67,10 @@
 			if("No")
 				return
 		if(isnewplayer(client.mob))
+			close_char_dialog(usr)
 			var/mob/new_player/M = client.mob
 			M.AttemptLateSpawn(SSjobs.get_by_path(global.using_map.default_job_type))
-			close_char_dialog(usr)
+			
 
 	if(href_list["save"])
 		save_preferences()

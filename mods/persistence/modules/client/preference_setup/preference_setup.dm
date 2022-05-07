@@ -1,5 +1,6 @@
 /datum/category_collection/player_setup_collection
 	var/static/list/hidden_categories = list(\
+		/datum/category_group/player_setup_category/appearance_preferences,\
 		/datum/category_group/player_setup_category/occupation_preferences,\
 		/datum/category_group/player_setup_category/record_preferences, \
 		/datum/category_group/player_setup_category/law_pref,\
