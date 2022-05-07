@@ -11,7 +11,8 @@
 /obj/effect/overmap/visitable/ship/landable/Initialize()
 	if(!SSshuttle.shuttles[shuttle] && persistent_id)
 		if(saved_landmark && saved_areas)
-			new /datum/shuttle/autodock/overmap/created(null, saved_landmark, saved_areas.Copy(), shuttle)
+			var/list/shuttle_args = list(saved_landmark, saved_areas.Copy(), shuttle)
+			SSshuttle.initialize_shuttle(/datum/shuttle/autodock/overmap/created, null, shuttle_args)
 		else
 			log_warning("Landable ship could not rebuild shuttle!")
 	saved_landmark = null

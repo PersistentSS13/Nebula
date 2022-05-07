@@ -61,6 +61,7 @@
 #include "game\turfs\simulated\walls.dm"
 #include "game\turfs\simulated\wall_attacks.dm"
 #include "game\turfs\turf.dm"
+#include "game\turfs\exterior\_exterior.dm"
 #include "game\turfs\exterior\exterior_wall.dm"
 #include "game\turfs\flooring\flooring.dm"
 #include "game\turfs\flooring\flooring_premade.dm"
