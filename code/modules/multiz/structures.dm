@@ -272,23 +272,57 @@
 		underlays.Cut()
 
 /obj/structure/stairs
-	name = "stairs"
-	desc = "Stairs leading to another deck.  Not too useful if the gravity goes out."
-	icon = 'icons/obj/stairs.dmi'
-	density = 0
-	opacity = 0
-	anchored = 1
-	layer = RUNE_LAYER
+	name            = "stairs"
+	desc            = "Stairs leading to another deck. Not too useful if the gravity goes out."
+	icon            = 'icons/obj/stairs.dmi'
+	density         = FALSE
+	opacity         = FALSE
+	anchored        = TRUE
+	layer           = RUNE_LAYER
 
-/obj/structure/stairs/Initialize()
+/obj/structure/stairs/short
+	bound_height = 32
+	bound_width = 32
+
+/obj/structure/stairs/Initialize(var/ml)
 	for(var/turf/turf in locs)
 		var/turf/above = GetAbove(turf)
 		if(!istype(above))
 			warning("Stair created without level above: ([loc.x], [loc.y], [loc.z])")
 			return INITIALIZE_HINT_QDEL
-		if(!above.is_open())
+		if(!above.is_open() && ml) //Only do that on map load plz
 			above.ChangeTurf(/turf/simulated/open)
 	. = ..()
+	update_icon()
+
+/obj/structure/stairs/on_update_icon()
+	. = ..()
+
+	//Reset all to default
+	bound_width  = 32 //Bound is one tile per default
+	bound_height = 32 //
+	bound_x      = initial(bound_x)
+	bound_y      = initial(bound_x)
+	pixel_x      = initial(pixel_x)
+	pixel_y      = initial(pixel_y)
+
+	//Then tweak depending on direction
+	switch(dir)
+		if(NORTH)
+			bound_height = 64
+			bound_y = -32
+			pixel_y = -32
+
+		if(SOUTH)
+			bound_height = 64
+
+		if(EAST)
+			bound_width  = 64
+			bound_x = -32
+			pixel_x = -32
+
+		if(WEST)
+			bound_width = 64
 
 /obj/structure/stairs/CheckExit(atom/movable/mover, turf/target)
 	if(get_dir(loc, target) == dir && upperStep(mover.loc))
@@ -318,31 +352,3 @@
 
 /obj/structure/stairs/CanPass(obj/mover, turf/source, height, airflow)
 	return airflow || !density
-
-// type paths to make mapping easier.
-/obj/structure/stairs/north
-	dir = NORTH
-	bound_height = 64
-	bound_y = -32
-	pixel_y = -32
-
-/obj/structure/stairs/south
-	dir = SOUTH
-	bound_height = 64
-
-/obj/structure/stairs/east
-	dir = EAST
-	bound_width = 64
-	bound_x = -32
-	pixel_x = -32
-
-/obj/structure/stairs/west
-	dir = WEST
-	bound_width = 64
-
-/obj/structure/stairs/short
-	bound_height = 32
-	bound_width = 32
-
-/obj/structure/stairs/short/west
-	dir = WEST
