@@ -71,3 +71,11 @@
 	if(istype(door, /obj/machinery/door/airlock))
 		var/obj/machinery/door/airlock/airlock = door
 		secure = airlock.secured_wires
+
+/obj/item/weapon/airlock_electronics/keypad_electronics
+ 	name = "keypad airlock electronics"
+ 	icon = 'icons/obj/doors/door_assembly.dmi'
+ 	icon_state = "door_electronics_keypad"
+ 	w_class = 2 //It should be tiny! -Agouri
+ 	desc = "An upgraded version airlock electronics board, with a keypad to lock the door."
+ 	matter = list(MATERIAL_STEEL = 50,MATERIAL_GLASS = 50)
