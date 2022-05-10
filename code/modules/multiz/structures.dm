@@ -352,3 +352,13 @@
 
 /obj/structure/stairs/CanPass(obj/mover, turf/source, height, airflow)
 	return airflow || !density
+
+//Temporary types before upstream merge stairs
+/obj/structure/stairs/west
+	dir = WEST
+/obj/structure/stairs/east
+	dir = EAST
+/obj/structure/stairs/north
+	dir = NORTH
+/obj/structure/stairs/south
+	dir = SOUTH
