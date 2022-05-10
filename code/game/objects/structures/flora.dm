@@ -7,6 +7,16 @@
 	layer = ABOVE_HUMAN_LAYER
 	var/protects_against_weather = FALSE
 
+/obj/structure/flora/tree/attackby(var/obj/item/I, mob/user)
+	if(I.sharp && I.edge && (I.force > 1) )
+		visible_message(SPAN_NOTICE("\The [user] starts chopping at \the [src] with \a [I]."), SPAN_NOTICE("You begin chopping \the [src]."))
+		if(do_after(user, 5 SECONDS))
+			visible_message(SPAN_NOTICE("\The [user] fell \the [src]!"), SPAN_NOTICE("You fell \the [src]."))
+			playsound(src, 'sound/effects/plants/tree_fall.ogg', 40, TRUE, 2, 1)
+			qdel(src)
+		return
+	. = ..()
+
 /obj/structure/flora/tree/pine
 	name = "pine tree"
 	icon = 'icons/obj/flora/pinetrees.dmi'
@@ -40,7 +50,14 @@
 /obj/structure/flora/grass
 	name = "grass"
 	icon = 'icons/obj/flora/snowflora.dmi'
-	anchored = 1
+	anchored = TRUE
+
+/obj/structure/flora/grass/attackby(var/obj/item/I, mob/user)
+	if(I.sharp && I.force > 1)
+		playsound(src, 'sound/effects/plants/brush_leaves.ogg', 35, TRUE, 0, 8)
+		qdel(src)
+		return
+	. = ..()
 
 /obj/structure/flora/grass/brown
 	icon_state = "snowgrass1bb"
@@ -70,11 +87,18 @@
 	name = "bush"
 	icon = 'icons/obj/flora/snowflora.dmi'
 	icon_state = "snowbush1"
-	anchored = 1
+	anchored = TRUE
 
 /obj/structure/flora/bush/Initialize()
 	. = ..()
 	icon_state = "snowbush[rand(1, 6)]"
+
+/obj/structure/flora/bush/attackby(var/obj/item/I, mob/user)
+	if(I.sharp && I.force > 1)
+		playsound(src, 'sound/effects/plants/brush_leaves.ogg', 35, TRUE, 0, 8)
+		qdel(src)
+		return
+	. = ..()
 
 /obj/structure/flora/pottedplant
 	name = "potted plant"
@@ -88,7 +112,14 @@
 	name = "bush"
 	icon = 'icons/obj/flora/ausflora.dmi'
 	icon_state = "firstbush_1"
-	anchored = 1
+	anchored = TRUE
+
+/obj/structure/flora/ausbushes/attackby(var/obj/item/I, mob/user)
+	if(I.sharp && I.force > 1)
+		playsound(src, 'sound/effects/plants/brush_leaves.ogg', 35, TRUE, 0, 8)
+		qdel(src)
+		return
+	. = ..()
 
 /obj/structure/flora/ausbushes/Initialize()
 	. = ..()
