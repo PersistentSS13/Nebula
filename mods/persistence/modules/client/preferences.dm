@@ -61,6 +61,29 @@
 		if(!real_name)
 			to_chat(usr, "<span class='danger'>The must set a unique character name to continue.</span>")
 			return
+		var/DBQuery/char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata2` = '[real_name]'")
+		if(!char_query.Execute())
+			to_world_log("DUPLICATE NAME CHECK DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
+		if(char_query.NextRow())
+			to_chat(usr, "<span class='danger'>[real_name] is already a name in use! Please select a different name.</span>")
+			real_name = null
+			return
+		var/slots = 2
+		if(check_rights(R_DEBUG) || check_rights(R_ADMIN))
+			slots+=2
+		var/count = 0
+		char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[client_ckey]'")
+		if(!char_query.Execute())
+			to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
+		for(var/i=1,i>=slots,i++)
+			if(char_query.NextRow()) count++
+		if(count >= slots)
+			to_chat(usr, "<span class='danger'>You already have the maximum amount of characters. You must delete one to create another.</span>")
+			real_name = null
+			if(isnewplayer(client.mob))
+				close_char_dialog(usr)
+			return
+
 		save_preferences()
 		save_character()
 		switch(alert("Are you sure you want to finalize your character and join the game with the character you've created?", "Character Confirmation", "Yes", "No"))

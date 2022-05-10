@@ -1,3 +1,5 @@
+#define CHARSELECTLOAD 1
+#define CHARSELECTDELETE 2
 /mob/new_player
 	universal_speak = TRUE
 
@@ -11,6 +13,8 @@
 
 	virtual_mob = null // Hear no evil, speak no evil
 
+	var/datum/browser/charselect
+	var/selected_char_name
 /mob/new_player/show_lobby_menu(force = FALSE)
 	if(!SScharacter_setup.initialized && !force)
 		return // Not ready yet.
@@ -24,7 +28,8 @@
 	else
 		output += "<div style='text-align:center;'>"
 		output += "<a href='byond://?src=\ref[src];setupCharacter=1'>Create a new Character</a> "
-		output += "<a href='byond://?src=\ref[src];joinGame=1'>Join game</a>"
+		output += "<a href='byond://?src=\ref[src];joinGame=1'>Select a Character</a><br><br>"
+		output += "<a href='byond://?src=\ref[src];deleteCharacter=1'>Delete a Character</a>"
 		output += "</div>"
 
 	output += "<br>"
@@ -55,9 +60,12 @@
 	if(href_list["setupCharacter"])
 		newCharacterPanel()
 		return 0
-
+		 
+	if(href_list["deleteCharacter"])
+		characterSelect(CHARSELECTDELETE)
+		return 0
 	if(href_list["joinGame"])
-		joinGame()
+		characterSelect(CHARSELECTLOAD)
 		return 0
 
 	if(href_list["observeGame"])
@@ -78,16 +86,79 @@
 		panel.close()
 		show_lobby_menu()
 
+	if(href_list["Load"])
+		selected_char_name = href_list["Load"]
+		if(charselect)
+			charselect.close()
+			charselect = null
+		joinGame()
+
+	if(href_list["Delete"])
+		var/char_name = href_list["Delete"]	
+		if(charselect)
+			charselect.close()
+			charselect = null
+		if(input("Are you SURE you want to delete [char_name]? THIS IS PERMANENT. Enter the character\'s full name to confirm.", "DELETE A CHARACTER", "") == char_name)
+			var/DBQuery/char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]' AND `metadata2` = '[char_name]'")
+			if(!char_query.Execute())
+				to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
+			if(char_query.NextRow())
+				var/list/char_items = char_query.GetRowData()
+				var/char_key = char_items["key"]
+				SSpersistence.RemoveFromLimbo(char_key, LIMBO_MIND)
+				to_chat(src, SPAN_NOTICE("Character Delete Completed."))
+			else
+				to_chat(src, SPAN_NOTICE("Delete Failed! Contact a developer."))
+
 /mob/new_player/proc/newCharacterPanel()
 	for(var/mob/M in SSmobs.mob_list)
 		if(M.loc && !istype(M, /mob/new_player) && (M.saved_ckey == ckey || M.saved_ckey == "@[ckey]"))
 			to_chat(src, SPAN_NOTICE("You already have a character in game!"))
 			return
+			
 	if(!check_rights(R_DEBUG))
 		client.prefs.real_name = null	// This will force players to set a new character name every time they open character creator
 										// Meaning they cant just click finalize as soon as they open the character creator. They are forced to engage.
 	client.prefs.open_setup_window(src)
 	return
+
+/mob/new_player/proc/characterSelect(var/func = CHARSELECTLOAD)
+	if(func == CHARSELECTLOAD)
+		for(var/datum/mind/target_mind in global.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
+			if(cmptext(target_mind.key, key))
+				if(!target_mind.current || istype(target_mind.current, /mob/new_player) || QDELETED(target_mind.current))
+					continue
+				transition_to_game()
+				to_chat(src, SPAN_NOTICE("A character is already in game."))
+				spawning = TRUE
+				target_mind.current.key = key
+				qdel(src)
+				return
+	var/func_text = "Load"
+	if(func == CHARSELECTDELETE)
+		func_text = "Delete"
+	var/slots = 2
+	if(check_rights(R_DEBUG) || check_rights(R_ADMIN))
+		slots+=2
+	var/output = list()
+	output += "<div style='text-align:center;'>"
+	output += "Select a character to [func_text].<br><br>"
+	var/DBQuery/char_query = dbcon.NewQuery("SELECT `metadata2` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]'")
+	if(!char_query.Execute())
+		to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
+	for(var/i=1, i<=slots, i++)
+		if(char_query.NextRow())
+			var/list/char_items = char_query.GetRowData()
+			var/char_name = char_items["metadata2"]
+			if(char_name)
+				output += "<a href='byond://?src=\ref[src];[func_text]=[char_name]'>[char_name]</a><br>"
+		else
+			output += "*Open Slot*<br>"
+	output += "</div>"
+	charselect = new(src, "[func_text]","[func_text] a character.", 280, 300, src)
+	charselect.set_content(JOINTEXT(output))
+	charselect.open()
+
 
 /mob/new_player/proc/joinGame()
 	if(GAME_STATE < RUNLEVEL_GAME)
@@ -98,6 +169,10 @@
 		return
 
 	if(spawning)
+		to_chat(src, SPAN_NOTICE("Already set to spawning."))
+		return
+	if(!selected_char_name)
+		to_chat(src, SPAN_NOTICE("No Selected char name!"))
 		return
 	for(var/datum/mind/target_mind in global.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
 		if(cmptext(target_mind.key, key))
@@ -111,7 +186,7 @@
 			return
 	// Query for the character associated with this ckey
 	spawning = TRUE
-	var/DBQuery/char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]'")
+	var/DBQuery/char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]' AND `metadata2` = '[selected_char_name]'")
 	if(!char_query.Execute())
 		to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
 	if(char_query.NextRow())
@@ -131,11 +206,11 @@
 			return
 		var/mob/person = target_mind.current
 		transition_to_game()
-		to_chat(src, SPAN_NOTICE("A character is already in game."))
 		person.key = key
 		qdel(src)
 		return
-	to_chat(src, SPAN_NOTICE("You have no saved characters. Create a new Character to begin."))
+	to_chat(src, SPAN_NOTICE("Load Failed! Contact a developer."))
+	spawning = FALSE
 	return
 
 /mob/new_player/Move()
