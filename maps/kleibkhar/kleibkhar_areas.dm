@@ -1,6 +1,8 @@
 /area/exoplanet/kleibkhar
 	name = "Kleibkhar"
 	area_flags = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED
+	dynamic_lighting = FALSE
+	base_turf = /turf/exterior/barren
 
 /area/kleibkhar/outpost
 	area_flags = AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED

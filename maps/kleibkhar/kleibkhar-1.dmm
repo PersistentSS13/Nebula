@@ -1,9 +1,9 @@
 "a" = (/turf/exterior/barren/mining,/area/exoplanet/kleibkhar/mines/depth_2)
 "b" = (/turf/exterior/barren/mining,/area/exoplanet/kleibkhar/mines/exits)
 "c" = (/turf/unsimulated/wall,/area/exoplanet/kleibkhar/mines/exits)
-"d" = (/obj/structure/stairs/west,/obj/structure/railing/mapped{dir = 1; icon_state = "railing0-1"},/turf/exterior/barren/mining,/area/exoplanet/kleibkhar/mines/exits)
+"d" = (/obj/structure/railing/mapped{dir = 1; icon_state = "railing0-1"},/obj/structure/stairs{icon_state = ""; dir = 8},/turf/exterior/barren/mining,/area/exoplanet/kleibkhar/mines/exits)
 "e" = (/obj/structure/railing/mapped{dir = 1; icon_state = "railing0-1"},/turf/exterior/barren/mining,/area/exoplanet/kleibkhar/mines/exits)
-"f" = (/obj/structure/stairs/west,/obj/structure/railing/mapped,/turf/exterior/barren/mining,/area/exoplanet/kleibkhar/mines/exits)
+"f" = (/obj/structure/railing/mapped,/obj/structure/stairs{icon_state = ""; dir = 8},/turf/exterior/barren/mining,/area/exoplanet/kleibkhar/mines/exits)
 "g" = (/obj/structure/railing/mapped,/turf/exterior/barren/mining,/area/exoplanet/kleibkhar/mines/exits)
 "h" = (/turf/exterior/planet_edge,/area/exoplanet/kleibkhar/mines/depth_2)
 
