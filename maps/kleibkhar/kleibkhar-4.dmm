@@ -58,10 +58,10 @@
 /turf/exterior/open,
 /area/exoplanet/kleibkhar)
 "ai" = (
+/obj/machinery/atmospherics/unary/outlet_injector/cabled/on,
 /obj/structure/cable{
 	icon_state = "0-2"
 	},
-/obj/machinery/atmospherics/unary/outlet_injector/cabled/on,
 /turf/simulated/floor,
 /area/kleibkhar/atmos_pump)
 "aj" = (
@@ -227,9 +227,9 @@
 /turf/simulated/floor,
 /area/kleibkhar/atmos_pump)
 "aB" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/obj/structure/cable{
-	icon_state = "2-8"
+/obj/machinery/atmospherics/pipe/simple/hidden/yellow{
+	icon_state = "11";
+	dir = 10
 	},
 /turf/simulated/floor,
 /area/exoplanet/kleibkhar)
@@ -263,13 +263,20 @@
 	},
 /turf/simulated/floor,
 /area/exoplanet/kleibkhar)
-"aT" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 10
+"aF" = (
+/obj/structure/cable{
+	icon_state = "2-8"
 	},
+/obj/machinery/atmospherics/pipe/simple/hidden/universal,
 /turf/simulated/floor,
 /area/exoplanet/kleibkhar)
+"aG" = (
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/universal,
+/turf/simulated/floor,
+/area/kleibkhar/atmos_pump)
 "aW" = (
 /obj/structure/cable{
 	icon_state = "32-4"
@@ -12112,8 +12119,8 @@ cW
 cW
 cW
 cW
-aa
 ai
+aG
 aw
 ay
 aa
@@ -16565,8 +16572,8 @@ aa
 aa
 aa
 aa
-aT
 aB
+aF
 aD
 aE
 aa
