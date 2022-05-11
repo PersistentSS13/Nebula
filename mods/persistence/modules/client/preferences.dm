@@ -61,6 +61,9 @@
 		if(!real_name)
 			to_chat(usr, "<span class='danger'>The must set a unique character name to continue.</span>")
 			return
+		switch(alert("Are you sure you want to finalize your character and join the game with the character you've created?", "Character Confirmation", "Yes", "No"))
+			if("No")
+				return
 		var/DBQuery/char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata2` = '[real_name]'")
 		if(!char_query.Execute())
 			to_world_log("DUPLICATE NAME CHECK DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
@@ -86,9 +89,7 @@
 
 		save_preferences()
 		save_character()
-		switch(alert("Are you sure you want to finalize your character and join the game with the character you've created?", "Character Confirmation", "Yes", "No"))
-			if("No")
-				return
+		
 		if(isnewplayer(client.mob))
 			close_char_dialog(usr)
 			var/mob/new_player/M = client.mob
