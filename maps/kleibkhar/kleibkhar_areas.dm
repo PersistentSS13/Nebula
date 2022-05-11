@@ -1,9 +1,6 @@
-/area/exoplanet/kleibkhar
-	name = "Kleibkhar"
-	area_flags = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED
-	dynamic_lighting = FALSE
-	base_turf = /turf/exterior/barren
-
+//
+// Outpost Interior
+//
 /area/kleibkhar/outpost
 	area_flags = AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED
 
@@ -16,7 +13,7 @@
 	icon_state = "hallC1"
 
 /area/kleibkhar/outpost/computer
-	name = "computer room"
+	name = "Computer Room"
 	icon_state = "green"
 
 /area/kleibkhar/outpost/it
@@ -32,19 +29,19 @@
 	icon_state = "green"
 
 /area/kleibkhar/outpost/infirmary
-	name = "infirmary"
+	name = "Infirmary"
 	icon_state = "medbay"
 
 /area/kleibkhar/outpost/infirmary/exam
-	name = "examination room"
+	name = "Examination Room"
 	icon_state = "exam_room"
 
 /area/kleibkhar/outpost/infirmary/surgery
-	name = "surgery room"
+	name = "Surgery Room"
 	icon_state = "surgery"
 
 /area/kleibkhar/outpost/infirmary/storage
-	name = "storage room"
+	name = "Storage Room"
 	icon_state = "storage"
 
 /area/kleibkhar/outpost/solar_array
@@ -52,20 +49,33 @@
 	icon_state = "SolarcontrolS"
 
 /area/kleibkhar/outpost/mess_hall
-	name = "mess hall"
+	name = "Mess Hall"
 	icon_state = "cafetaria"
 
 /area/kleibkhar/outpost/custodial
-	name = "custodial cabinet"
+	name = "Custodial Cabinet"
 	icon_state = "janitor"
 
 /area/kleibkhar/outpost/hydroponics
-	name = "hydroponics"
+	name = "Hydroponics"
 	icon_state = "hydro"
 
 /area/kleibkhar/outpost/washroom
-	name = "washroom"
+	name = "Washroom"
 	icon_state = "restrooms"
+
+/area/kleibkhar/atmos_pump
+	name = "Atmospheric Exchanger"
+	icon_state = "atmos"
+
+//
+// Planet Exterior
+//
+/area/exoplanet/kleibkhar
+	name = "Kleibkhar"
+	area_flags = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED
+	dynamic_lighting = FALSE
+	base_turf = /turf/exterior/barren
 
 /area/exoplanet/kleibkhar/mines
 	name = "Deep Underground"

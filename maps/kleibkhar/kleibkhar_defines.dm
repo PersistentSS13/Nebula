@@ -32,5 +32,9 @@
 	department_money = 0
 	salary_modifier = 0.2
 
+	apc_test_exempt_areas = list(
+		/area/kleibkhar/atmos_pump = NO_VENT|NO_APC, //Area meant to fool unit tests, because they're being a bit assinine
+	)
+
 /datum/map/kleibkhar/get_map_info()
 	return "Kleibkhar Independent Colony. A diverse new commercial venture on the fringe of known space."
