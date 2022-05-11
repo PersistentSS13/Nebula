@@ -23,7 +23,7 @@
 		output += "<p>Loading...</p>"
 	else
 		output += "<div style='text-align:center;'>"
-		output += "<a href='byond://?src=\ref[src];setupCharacter=1'>Set up character</a> "
+		output += "<a href='byond://?src=\ref[src];setupCharacter=1'>Create a new Character</a> "
 		output += "<a href='byond://?src=\ref[src];joinGame=1'>Join game</a>"
 		output += "</div>"
 
@@ -83,6 +83,9 @@
 		if(M.loc && !istype(M, /mob/new_player) && (M.saved_ckey == ckey || M.saved_ckey == "@[ckey]"))
 			to_chat(src, SPAN_NOTICE("You already have a character in game!"))
 			return
+	if(!check_rights(R_DEBUG))
+		client.prefs.real_name = null	// This will force players to set a new character name every time they open character creator
+										// Meaning they cant just click finalize as soon as they open the character creator. They are forced to engage.
 	client.prefs.open_setup_window(src)
 	return
 
@@ -132,15 +135,8 @@
 		person.key = key
 		qdel(src)
 		return
-
-	//Spare the devs!
-	if(!check_rights(R_DEBUG))
-		switch(alert("Are you sure you want to join the game with the character you've created?", "Character Confirmation", "Yes", "No"))
-			if("No")
-				return
-
-	AttemptLateSpawn(SSjobs.get_by_path(using_map.default_job_type))
-	qdel(src)
+	to_chat(src, SPAN_NOTICE("You have no saved characters. Create a new Character to begin."))
+	return
 
 /mob/new_player/Move()
 	return 0
