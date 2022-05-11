@@ -478,3 +478,6 @@
 
 /datum/fabricator_recipe/imprinter/circuit/docking_beacon
 	path = /obj/item/stock_parts/circuitboard/docking_beacon
+
+/datum/fabricator_recipe/imprinter/circuit/cortical_stack_resleever
+	path = /obj/item/stock_parts/circuitboard/resleever
