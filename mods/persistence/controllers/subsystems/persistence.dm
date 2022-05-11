@@ -14,7 +14,7 @@
 
 	var/serializer/sql/serializer = new() // The serializer impl for actually saving.
 	var/serializer/sql/one_off/one_off	= new() // The serializer impl for one off serialization/deserialization.
-	
+
 	var/list/limbo_removals = list() // Objects which will be removed from limbo on the next save. Format is list(limbo_key, limbo_type)
 
 	var/loading_world = FALSE
@@ -37,7 +37,7 @@
 	serializer._before_serialize()
 
 	var/start = world.timeofday
-	
+
 	// Launch events
 
 	events_repository.raise_event(/decl/observ/world_saving_start_event, src)
@@ -75,7 +75,7 @@
 			zone.c_invalidate()
 		report_progress("Invalidated in [(REALTIMEOFDAY - time_start_airzones) / (1 SECOND)]s")
 		sleep(5)
-		
+
 		report_progress("Removing queued limbo objects..")
 		sleep(5)
 
@@ -100,7 +100,7 @@
 			// Check to see if the mobs are already being saved.
 			if(!QDELETED(current_mob) && ((current_mob.z in SSpersistence.saved_levels) || (get_area(current_mob) in SSpersistence.saved_areas)))
 				continue
-			one_off.AddToLimbo(char_mind, char_mind.unique_id, LIMBO_MIND, char_mind.persistent_id, char_mind.key, FALSE)
+			one_off.AddToLimbo(char_mind, char_mind.unique_id, LIMBO_MIND, char_mind.persistent_id, char_mind.key, char_mind.current.real_name, FALSE)
 		report_progress("Done adding player minds to limbo in [(REALTIMEOFDAY - time_start_limbo_minds) / (1 SECOND)]s.")
 		sleep(5)
 
@@ -165,7 +165,7 @@
 			var/datum/persistence/load_cache/z_level/z_level = z_transform[z]
 			serializer.z_map["[z_level.index]"] = z_level.new_index
 		serializer.z_index = new_z_index
-		
+
 		// Now we find all the area datums themselves that need to be saved, since keeping references on the turfs is a huge waste of space.
 		var/list/areas_to_serialize = list()
 		for(var/area/A in global.areas)
@@ -413,7 +413,7 @@
 		new_db_connection = TRUE
 	for(var/datum/wrapper/late/L AS_ANYTHING in late_wrappers)
 		L.on_late_load()
-	
+
 	late_wrappers.Cut()
 	if(new_db_connection)
 		close_save_db_connection()
@@ -453,13 +453,13 @@
 	to_chat(user, SPAN_INFO("Disabled with persistence modpack (how ironic)..."))
 	return
 
-/datum/controller/subsystem/persistence/proc/AddToLimbo(var/datum/thing, var/key, var/limbo_type, var/metadata, var/modify = TRUE)
+/datum/controller/subsystem/persistence/proc/AddToLimbo(var/datum/thing, var/key, var/limbo_type, var/metadata, var/metadata2, var/modify = TRUE)
 	var/new_db_connection = FALSE
 	if(!check_save_db_connection())
 		if(!establish_save_db_connection())
 			CRASH("SSPersistence: Couldn't establish DB connection during Limbo Addition!")
 		new_db_connection = TRUE
-	. = one_off.AddToLimbo(thing, key, limbo_type, metadata, modify)
+	. = one_off.AddToLimbo(thing, key, limbo_type, metadata, metadata2, modify)
 	if(new_db_connection)
 		close_save_db_connection()
 
@@ -502,7 +502,7 @@
 		if(existing && !QDELETED(existing) && existing.persistent_id == items["p_id"])
 			. = existing
 		break
-	
+
 	if(new_db_connection)
 		close_save_db_connection()
 

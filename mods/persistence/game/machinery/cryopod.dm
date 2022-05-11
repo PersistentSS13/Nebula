@@ -5,7 +5,7 @@
 
 /obj/machinery/cryopod/Initialize()
 	old_intercom = locate() in src
-	
+
 	// While we could save the occupant var directly, this is much less likely to cause issues with floating mob references.
 	var/mob/living/carbon/human/old_occupant = locate() in src
 	if(old_occupant)
@@ -97,10 +97,10 @@
 			C.SetStasis(2)
 
 		var/time_elapsed = world.time - time_entered
-		var/time_left = round((time_till_despawn - time_elapsed) / (1 SECOND)) 
+		var/time_left = round((time_till_despawn - time_elapsed) / (1 SECOND))
 		if((time_left > 0) && ((time_left % 5) == 0))
 			to_chat(occupant, SPAN_NOTICE("[time_left] seconds left until transfer to deep storage.."))
-		
+
 		//Force despawn when no client
 		if ((time_elapsed < time_till_despawn) && occupant.ckey)
 			return
@@ -125,7 +125,7 @@
 		H.home_spawn = src
 		var/datum/mind/occupant_mind = occupant.mind
 		if(occupant_mind)
-			SSpersistence.AddToLimbo(occupant_mind, occupant_mind.unique_id, LIMBO_MIND, occupant_mind.key, TRUE)
+			SSpersistence.AddToLimbo(occupant_mind, occupant_mind.unique_id, LIMBO_MIND, occupant_mind.key, occupant_mind.current.real_name, TRUE)
 			QDEL_NULL(occupant.mind)
 		else
 			return

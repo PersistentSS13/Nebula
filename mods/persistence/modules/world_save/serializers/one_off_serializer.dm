@@ -122,7 +122,7 @@
 		LAZYADD(resolver.lists["[items["list_id"]]"], element)
 		resolver.lists_cached++
 
-/serializer/sql/one_off/proc/AddToLimbo(var/list/things, var/key, var/limbo_type, var/metadata, var/modify = TRUE)
+/serializer/sql/one_off/proc/AddToLimbo(var/list/things, var/key, var/limbo_type, var/metadata, var/metadata2, var/modify = TRUE)
 
 	// Check to see if this thing was already placed into limbo. If so, we go ahead and remove the thing from limbo first before reserializing.
 	// When this occurs, it's possible things will be dropped from the database. Avoid serializing things into limbo which will remain in the game world.
@@ -130,6 +130,7 @@
 	key = sanitize_sql(key)
 	limbo_type = sanitize_sql(limbo_type)
 	metadata = sanitize_sql(metadata)
+	metadata2 = sanitize_sql(metadata2)
 
 	// The 'limbo_assoc' column in the database relates every thing, thing_var, and list_element to an instance of limbo insertion.
 	// While it uses the same PERSISTENT_ID format, it's not related to any datum's PERSISTENT_ID.
@@ -167,7 +168,7 @@
 	var/encoded_p_ids = json_encode(thing_p_ids)
 	// Insert into the limbo table, a metadata holder that allows for access to the limbo_assoc key by 'type' and 'key'.
 	var/DBQuery/insert_query
-	insert_query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIMBO]` (`key`,`type`,`p_ids`,`metadata`,`limbo_assoc`) VALUES('[key]', '[limbo_type]', '[encoded_p_ids]', '[metadata]', '[limbo_assoc]')")
+	insert_query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIMBO]` (`key`,`type`,`p_ids`,`metadata`,`limbo_assoc`, `metadata2`) VALUES('[key]', '[limbo_type]', '[encoded_p_ids]', '[metadata]', '[limbo_assoc]', '[metadata2]')")
 	SQLS_EXECUTE_AND_REPORT_ERROR(insert_query, "LIMBO ADDITION FAILED:")
 
 	Clear()

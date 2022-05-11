@@ -22,7 +22,7 @@ SUBSYSTEM_DEF(chargen)
 		var/chargen_pod_counter = 1
 		for(var/x in 1 to FLOOR(world.maxx / width))
 			for(var/y in 1 to FLOOR(world.maxy / height))
-				// We already loaded the first one at (1, 1) so skip it 
+				// We already loaded the first one at (1, 1) so skip it
 				if(x == 1 && y == 1)
 					continue
 				if(chargen_pod_counter >= MAX_NB_CHAR_GEN_PODS)
@@ -38,7 +38,7 @@ SUBSYSTEM_DEF(chargen)
 	if(!pod.chargen_landmark)
 		log_warning("Chargen pod '[pod]' has not landmark set!")
 		return
-	
+
 	//Because spawnpoints don't have a proc to return turfs and instead just share their turf var to grab the available turfs, we gotta change the spawnpoint :D
 	var/decl/spawnpoint/chargen/C = GET_DECL(/decl/spawnpoint/chargen)
 	if(C)
@@ -101,11 +101,11 @@ SUBSYSTEM_DEF(chargen)
 	var/area/chargen/A = get_area(myturf)
 	if(istype(A))
 		SSchargen.assign_spawn_pod(A) //Mark the pod area as reserved
-	else 
+	else
 		var/mess = "'[victim]' (CKEY: [victim.ckey]) spawned outside chargen for some reasons."
 		log_warning(mess)
 		message_staff(mess)
-	SSpersistence.AddToLimbo(victim.mind, victim.mind.unique_id, LIMBO_MIND, victim.mind.key, TRUE)
+	SSpersistence.AddToLimbo(victim.mind, victim.mind.unique_id, LIMBO_MIND, victim.mind.key, victim.mind.current.real_name, TRUE)
 
 /datum/job/colonist/get_roundstart_spawnpoint()
 	CRASH("!!!!! datum/job/colonist/get_roundstart_spawnpoint() was called! !!!!!")
