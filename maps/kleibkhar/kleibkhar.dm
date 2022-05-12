@@ -9,8 +9,6 @@
 	#include "../chargen/chargen_areas.dm"
 	#include "../chargen/chargen_objects.dm"
 
-	#include "kleibkhar_test.dm"
-
 	#include "kleibkhar_access.dm"
 	#include "kleibkhar_areas.dm"
 	#include "kleibkhar_departments.dm"

@@ -69,19 +69,15 @@
 /turf/simulated/floor,
 /area/kleibkhar/outpost/mining)
 "al" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 10
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 10
+/obj/structure/closet/crate/trashcart,
+/obj/effect/decal/cleanable/cobweb,
+/obj/machinery/power/apc/super{
+	icon_state = "apc0";
+	dir = 1
 	},
 /obj/structure/cable{
-	icon_state = "2-8"
+	icon_state = "0-2"
 	},
-/obj/machinery/cell_charger,
-/obj/structure/table,
 /turf/simulated/floor/tiled/techfloor,
 /area/kleibkhar/outpost/mining)
 "am" = (
@@ -1004,15 +1000,18 @@
 /area/kleibkhar/outpost/infirmary/storage)
 "cE" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	dir = 2;
-	icon_state = "11-scrubbers"
+	icon_state = "11-scrubbers";
+	dir = 10
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/obj/structure/cable{
-	icon_state = "1-2"
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 10
 	},
 /obj/machinery/cell_charger,
 /obj/structure/table,
+/obj/structure/cable{
+	icon_state = "1-8"
+	},
 /turf/simulated/floor/tiled/techfloor,
 /area/kleibkhar/outpost/mining)
 "cF" = (
@@ -1226,22 +1225,8 @@
 	icon_state = "11-scrubbers"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/obj/structure/rack,
-/obj/item/shovel,
-/obj/item/shovel,
-/obj/item/stack/flag/red,
-/obj/item/storage/ore,
-/obj/item/storage/ore,
-/obj/item/pickaxe,
-/obj/structure/cable{
-	icon_state = "1-2"
-	},
-/obj/item/radio/intercom{
-	dir = 4;
-	icon_state = "intercom";
-	pixel_x = -24
-	},
-/obj/item/hoist_kit,
+/obj/machinery/cell_charger,
+/obj/structure/table,
 /turf/simulated/floor/tiled/techfloor,
 /area/kleibkhar/outpost/mining)
 "dh" = (
@@ -1288,8 +1273,23 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/kleibkhar/outpost/computer)
 "dn" = (
-/obj/structure/closet/crate/trashcart,
-/obj/effect/decal/cleanable/cobweb,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	dir = 2;
+	icon_state = "11-scrubbers"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/structure/rack,
+/obj/item/shovel,
+/obj/item/shovel,
+/obj/item/stack/flag/red,
+/obj/item/storage/ore,
+/obj/item/storage/ore,
+/obj/item/pickaxe,
+/obj/item/hoist_kit,
+/obj/machinery/light{
+	dir = 8;
+	icon_state = "tube_map"
+	},
 /turf/simulated/floor/tiled/techfloor,
 /area/kleibkhar/outpost/mining)
 "do" = (
@@ -1399,15 +1399,16 @@
 /area/kleibkhar/outpost/mess_hall)
 "dz" = (
 /obj/effect/floor_decal/industrial/hatch/yellow,
-/obj/machinery/power/apc/super{
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
 	dir = 2;
 	icon_state = "11-scrubbers"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/obj/structure/cable,
+/obj/item/radio/intercom{
+	dir = 4;
+	icon_state = "intercom";
+	pixel_x = -24
+	},
 /turf/simulated/floor/tiled/techfloor,
 /area/kleibkhar/outpost/mining)
 "dA" = (
@@ -1422,6 +1423,9 @@
 /obj/machinery/vending/cola,
 /turf/simulated/floor/tiled,
 /area/kleibkhar/outpost/mess_hall)
+"dC" = (
+/turf/simulated/floor/plating,
+/area/exoplanet/kleibkhar/supply_shuttle_dock)
 "dD" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -1652,6 +1656,12 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /turf/simulated/floor/tiled/monotile,
 /area/kleibkhar/outpost/hallway)
+"ed" = (
+/obj/effect/shuttle_landmark/supply/station{
+	dir = 8
+	},
+/turf/simulated/floor/plating,
+/area/exoplanet/kleibkhar/supply_shuttle_dock)
 "ee" = (
 /obj/structure/cable{
 	icon_state = "4-8"
@@ -2630,8 +2640,8 @@
 /turf/exterior/barren,
 /area/exoplanet/kleibkhar)
 "gs" = (
-/obj/structure/boulder,
-/turf/exterior/mud/dark,
+/obj/structure/sign/warning/docking_area,
+/turf/simulated/wall/concrete,
 /area/exoplanet/kleibkhar)
 "gt" = (
 /obj/effect/wallframe_spawn/reinforced,
@@ -3348,6 +3358,13 @@
 	},
 /turf/simulated/floor/plating,
 /area/exoplanet/kleibkhar)
+"hY" = (
+/obj/effect/floor_decal/industrial/warning/dust{
+	icon_state = "warning_dust";
+	dir = 1
+	},
+/turf/simulated/floor/plating,
+/area/exoplanet/kleibkhar)
 "hZ" = (
 /obj/machinery/bodyscanner{
 	icon_state = "body_scanner_0";
@@ -3534,9 +3551,19 @@
 /turf/exterior/concrete,
 /area/exoplanet/kleibkhar)
 "iy" = (
-/obj/effect/floor_decal/industrial/outline/yellow,
-/obj/effect/decal/cleanable/dirt,
-/turf/exterior/concrete,
+/obj/machinery/conveyor{
+	dir = 8;
+	icon_state = "conveyor0";
+	id_tag = "_cargo_shuttle_conveyors"
+	},
+/turf/simulated/floor/plating,
+/area/kleibkhar/outpost/cargo/warehouse)
+"iz" = (
+/obj/effect/floor_decal/industrial/warning/dust{
+	icon_state = "warning_dust";
+	dir = 8
+	},
+/turf/simulated/floor/plating,
 /area/exoplanet/kleibkhar)
 "iA" = (
 /obj/structure/hygiene/sink{
@@ -3558,6 +3585,428 @@
 /obj/effect/decal/writing,
 /turf/simulated/wall/concrete,
 /area/kleibkhar/outpost/mining)
+"iC" = (
+/obj/effect/floor_decal/industrial/warning/dust{
+	icon_state = "warning_dust";
+	dir = 9
+	},
+/turf/simulated/floor/plating,
+/area/exoplanet/kleibkhar)
+"iD" = (
+/obj/effect/floor_decal/industrial/warning/dust{
+	icon_state = "warning_dust";
+	dir = 4
+	},
+/turf/simulated/floor/plating,
+/area/exoplanet/kleibkhar)
+"iE" = (
+/obj/effect/floor_decal/industrial/warning/dust{
+	icon_state = "warning_dust";
+	dir = 5
+	},
+/turf/simulated/floor/plating,
+/area/exoplanet/kleibkhar)
+"iF" = (
+/obj/effect/floor_decal/industrial/warning/dust,
+/turf/simulated/floor/plating,
+/area/exoplanet/kleibkhar)
+"iG" = (
+/obj/structure/sign/warning/docking_area{
+	icon_state = "securearea";
+	dir = 8
+	},
+/turf/simulated/wall/concrete,
+/area/exoplanet/kleibkhar)
+"iH" = (
+/turf/simulated/wall/concrete,
+/area/kleibkhar/outpost/cargo)
+"iI" = (
+/turf/simulated/wall/concrete,
+/area/exoplanet/kleibkhar)
+"iJ" = (
+/obj/machinery/door/blast/shutters{
+	id_tag = "_k_cargo_outer_shutter"
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo)
+"iK" = (
+/obj/machinery/door/airlock/glass/civilian{
+	icon_state = "closed";
+	dir = 2
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo)
+"iL" = (
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo)
+"iM" = (
+/obj/machinery/button/blast_door{
+	dir = 4;
+	id_tag = "_k_cargo_dock_shutter";
+	pixel_x = -24
+	},
+/obj/effect/floor_decal/industrial/warning/dust,
+/turf/exterior/barren,
+/area/kleibkhar/outpost/cargo/warehouse)
+"iN" = (
+/obj/machinery/button/blast_door{
+	id_tag = "_k_cargo_outer_shutter";
+	pixel_y = 24
+	},
+/obj/machinery/atmospherics/unary/vent_scrubber/on,
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo)
+"iO" = (
+/obj/effect/wallframe_spawn/reinforced/bare,
+/turf/simulated/floor,
+/area/kleibkhar/outpost/cargo)
+"iP" = (
+/obj/machinery/door/airlock/glass/civilian{
+	icon_state = "closed";
+	dir = 8
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo)
+"iQ" = (
+/obj/machinery/button/blast_door{
+	dir = 1;
+	icon_state = "blastctrl";
+	id_tag = "_k_cargo_inner_shutter";
+	pixel_y = -24
+	},
+/obj/machinery/atmospherics/unary/vent_pump/on{
+	icon_state = "map_vent_out";
+	dir = 1
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo)
+"iR" = (
+/obj/effect/wallframe_spawn/reinforced/bare,
+/obj/machinery/atmospherics/pipe/zpipe/up/supply{
+	icon_state = "up-supply";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/zpipe/up/scrubbers{
+	icon_state = "up-scrubbers";
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/obj/structure/cable{
+	icon_state = "16-0"
+	},
+/turf/simulated/floor,
+/area/kleibkhar/outpost/cargo)
+"iS" = (
+/obj/machinery/door/blast/shutters{
+	id_tag = "_k_cargo_inner_shutter"
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo/warehouse)
+"iT" = (
+/turf/simulated/wall/concrete,
+/area/kleibkhar/outpost/cargo/warehouse)
+"iU" = (
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo/warehouse)
+"iV" = (
+/obj/machinery/button/blast_door{
+	id_tag = "_k_cargo_inner_shutter";
+	pixel_y = 24
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo/warehouse)
+"iW" = (
+/obj/effect/floor_decal/industrial/loading{
+	dir = 4
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo/warehouse)
+"iX" = (
+/obj/machinery/door/blast/shutters{
+	dir = 8;
+	icon_state = "shutter1";
+	id_tag = "_k_cargo_dock_shutter"
+	},
+/obj/machinery/conveyor{
+	dir = 8;
+	icon_state = "conveyor0";
+	id_tag = "_cargo_shuttle_conveyors"
+	},
+/turf/simulated/floor/tiled/steel_ridged,
+/area/kleibkhar/outpost/cargo/warehouse)
+"iY" = (
+/obj/machinery/button/blast_door{
+	dir = 4;
+	id_tag = "_k_cargo_dock_shutter";
+	pixel_x = -24
+	},
+/obj/effect/floor_decal/industrial/warning/dust{
+	icon_state = "warning_dust";
+	dir = 1
+	},
+/turf/exterior/barren,
+/area/kleibkhar/outpost/cargo/warehouse)
+"iZ" = (
+/obj/effect/floor_decal/industrial/outline/yellow,
+/turf/simulated/floor/tiled/techfloor/grid,
+/area/kleibkhar/outpost/cargo/warehouse)
+"ja" = (
+/obj/machinery/conveyor{
+	dir = 8;
+	icon_state = "conveyor0";
+	id_tag = "_cargo_shuttle_conveyors"
+	},
+/obj/machinery/door/blast/shutters{
+	dir = 8;
+	icon_state = "shutter1";
+	id_tag = "_k_cargo_dock_shutter"
+	},
+/turf/simulated/floor/tiled/steel_ridged,
+/area/kleibkhar/outpost/cargo/warehouse)
+"jb" = (
+/obj/machinery/alarm{
+	dir = 4;
+	pixel_x = -24
+	},
+/obj/machinery/status_display/supply_display{
+	pixel_y = 28
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo)
+"jc" = (
+/obj/machinery/alarm{
+	dir = 4;
+	pixel_x = -24
+	},
+/obj/machinery/status_display/supply_display{
+	pixel_y = 28
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo/warehouse)
+"jd" = (
+/obj/effect/wallframe_spawn/reinforced/bare,
+/turf/simulated/floor,
+/area/kleibkhar/outpost/cargo/warehouse)
+"je" = (
+/obj/machinery/door/airlock/glass/civilian{
+	icon_state = "closed";
+	dir = 8
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo/warehouse)
+"jf" = (
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo)
+"jg" = (
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo/warehouse)
+"jh" = (
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/turf/exterior/barren,
+/area/exoplanet/kleibkhar)
+"ji" = (
+/obj/effect/floor_decal/industrial/warning/dust{
+	icon_state = "warning_dust";
+	dir = 10
+	},
+/turf/simulated/floor/plating,
+/area/exoplanet/kleibkhar)
+"jj" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	dir = 4;
+	icon_state = "11-supply"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	dir = 4;
+	icon_state = "11-scrubbers"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo)
+"jk" = (
+/obj/machinery/computer/modular/preset/supply_public{
+	icon_state = "computer";
+	dir = 8
+	},
+/obj/machinery/light{
+	icon_state = "tube_map";
+	dir = 4
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo)
+"jl" = (
+/obj/effect/floor_decal/industrial/outline/yellow,
+/obj/machinery/light{
+	dir = 8;
+	icon_state = "tube_map"
+	},
+/turf/simulated/floor/tiled/techfloor/grid,
+/area/kleibkhar/outpost/cargo/warehouse)
+"jm" = (
+/obj/machinery/light{
+	icon_state = "tube_map";
+	dir = 4
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo/warehouse)
+"jn" = (
+/obj/effect/floor_decal/industrial/warning/dust{
+	icon_state = "warning_dust";
+	dir = 6
+	},
+/turf/simulated/floor/plating,
+/area/exoplanet/kleibkhar)
+"jo" = (
+/obj/structure/sign/warning/docking_area{
+	icon_state = "securearea";
+	dir = 1
+	},
+/turf/simulated/wall/concrete,
+/area/exoplanet/kleibkhar)
+"ju" = (
+/obj/machinery/light_switch{
+	pixel_y = 24
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo)
+"jv" = (
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/obj/machinery/light_switch{
+	dir = 1;
+	icon_state = "light0";
+	pixel_y = -24
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo/warehouse)
+"jw" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	dir = 4;
+	icon_state = "11-supply"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	dir = 4;
+	icon_state = "11-scrubbers"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo)
+"jx" = (
+/obj/machinery/atmospherics/pipe/manifold/hidden/supply{
+	icon_state = "map-supply";
+	dir = 1
+	},
+/obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers,
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo)
+"jy" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 10
+	},
+/obj/structure/cable{
+	icon_state = "2-8"
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo)
+"jz" = (
+/obj/machinery/light{
+	dir = 8;
+	icon_state = "tube_map"
+	},
+/obj/machinery/power/apc{
+	icon_state = "apc0";
+	dir = 8
+	},
+/obj/structure/cable,
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo)
+"jA" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo)
+"jB" = (
+/obj/machinery/conveyor_switch{
+	id_tag = "_cargo_shuttle_conveyors"
+	},
+/obj/machinery/button/blast_door{
+	dir = 8;
+	id_tag = "_k_cargo_dock_shutter";
+	pixel_x = 24
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo/warehouse)
+"jC" = (
+/obj/effect/wallframe_spawn/reinforced/bare,
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/simulated/floor,
+/area/kleibkhar/outpost/cargo/warehouse)
+"jD" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 5
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 9
+	},
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo/warehouse)
+"jE" = (
+/obj/machinery/atmospherics/unary/vent_pump/on{
+	icon_state = "map_vent_out";
+	dir = 4
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo/warehouse)
+"jF" = (
+/obj/machinery/atmospherics/unary/vent_scrubber/on{
+	icon_state = "map_scrubber_on";
+	dir = 8
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo/warehouse)
+"jG" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/structure/cable{
+	icon_state = "1-2"
+	},
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo/warehouse)
+"jH" = (
+/obj/machinery/power/apc/super,
+/obj/structure/cable,
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo/warehouse)
 "ry" = (
 /turf/simulated/floor/tiled/techfloor,
 /area/kleibkhar/outpost/computer)
@@ -10775,6 +11224,14 @@ ih
 ih
 ih
 ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
 eG
 gX
 gX
@@ -10790,14 +11247,6 @@ gX
 gX
 gX
 he
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -10977,6 +11426,14 @@ ih
 ih
 ih
 ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
 gT
 gN
 fh
@@ -10992,14 +11449,6 @@ fh
 fh
 gQ
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -11179,6 +11628,14 @@ ih
 ih
 ih
 ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
 gT
 gD
 hP
@@ -11194,14 +11651,6 @@ hP
 hP
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -11381,6 +11830,14 @@ ih
 ih
 ih
 ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
 gT
 gD
 eg
@@ -11396,14 +11853,6 @@ eA
 eE
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -11583,6 +12032,14 @@ ih
 ih
 ih
 ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
 gT
 gD
 JN
@@ -11598,14 +12055,6 @@ hx
 hx
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -11785,6 +12234,14 @@ ih
 ih
 ih
 ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
 gT
 gO
 gz
@@ -11800,14 +12257,6 @@ gz
 gz
 gR
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -11987,6 +12436,14 @@ ih
 ih
 ih
 ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
 gT
 gD
 hP
@@ -12002,14 +12459,6 @@ hP
 hP
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -12189,6 +12638,14 @@ ih
 ih
 ih
 ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
 gT
 gD
 eg
@@ -12204,14 +12661,6 @@ eA
 eE
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -12385,6 +12834,14 @@ ft
 ft
 ft
 bl
+bl
+bl
+ih
+ih
+ih
+ih
+ih
+ih
 ih
 ih
 ih
@@ -12406,14 +12863,6 @@ hx
 hx
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -12583,11 +13032,19 @@ bl
 bl
 ft
 ft
+ft
+ft
+ft
+ft
+ft
 bl
-ft
-ft
-ft
-bl
+ih
+ih
+ih
+ih
+ih
+ih
+ih
 ih
 ih
 ih
@@ -12608,14 +13065,6 @@ gz
 gz
 gR
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -12786,11 +13235,19 @@ bl
 bl
 bl
 bl
-ft
-ft
-ft
-ft
 bl
+bl
+bl
+bl
+bl
+bl
+ih
+ih
+ih
+ih
+ih
+ih
+ih
 ih
 ih
 ih
@@ -12810,14 +13267,6 @@ hP
 hP
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -12985,14 +13434,22 @@ cj
 cj
 cj
 cj
-gq
-bl
-ft
-ft
-gs
-ft
-ft
-bl
+gY
+iH
+iH
+iR
+iH
+iT
+iT
+iT
+iT
+iT
+iT
+iT
+iT
+iT
+iT
+iT
 ih
 ih
 ih
@@ -13012,14 +13469,6 @@ eA
 eE
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -13187,14 +13636,22 @@ cs
 cj
 cj
 cj
-bl
-bl
-bl
-ft
-ft
-bl
-ih
-ih
+gF
+iH
+jb
+jj
+jz
+iT
+jc
+iU
+iZ
+jl
+iZ
+jl
+iZ
+jl
+iZ
+iT
 ih
 ih
 ih
@@ -13214,14 +13671,6 @@ hx
 hx
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -13387,16 +13836,24 @@ ix
 bg
 bg
 fz
-iy
-iy
-bl
-ft
-ft
-ft
-ft
-ft
-bl
-ih
+cj
+cj
+dR
+iJ
+jf
+jw
+jf
+iS
+jg
+iU
+iZ
+iZ
+iZ
+iZ
+iZ
+iZ
+iZ
+iT
 ih
 ih
 ih
@@ -13416,14 +13873,6 @@ gz
 gz
 gR
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -13589,16 +14038,24 @@ ix
 bg
 bg
 fz
-iy
-iy
-bl
-ft
-ft
-ft
-ft
-bl
-ih
-ih
+cj
+cj
+dR
+iJ
+jf
+jw
+jf
+iS
+jg
+iU
+iZ
+iZ
+iZ
+iZ
+iZ
+iZ
+iZ
+iT
 ih
 ih
 ih
@@ -13618,14 +14075,6 @@ hP
 hP
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -13793,14 +14242,22 @@ cz
 aN
 cj
 cj
-bl
-ft
-gk
-ft
-ft
-bl
-ih
-ih
+aN
+iH
+iN
+jx
+iQ
+iT
+iV
+iU
+iU
+iU
+iU
+iU
+iU
+jE
+iU
+iT
 ih
 ih
 ih
@@ -13820,14 +14277,6 @@ eA
 eE
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -13995,14 +14444,22 @@ aN
 aN
 aN
 cj
-bl
-ft
-ft
-ft
-bl
-bl
-ih
-ih
+aN
+iK
+iL
+jy
+jA
+jC
+jG
+jG
+jG
+jG
+jG
+jG
+jG
+jD
+jH
+iT
 ih
 ih
 ih
@@ -14022,14 +14479,6 @@ hx
 hx
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -14197,14 +14646,22 @@ aN
 aN
 aN
 aN
-bl
-ft
-ft
-ft
-bl
-ih
-ih
-ih
+gE
+iH
+ju
+jf
+jk
+jd
+iW
+iW
+iW
+iW
+iW
+jB
+jm
+jF
+jv
+iT
 ih
 ih
 ih
@@ -14224,14 +14681,6 @@ gz
 gz
 gR
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -14399,14 +14848,22 @@ aN
 aN
 aN
 aN
-bl
-ft
-gr
-bl
-ih
-ih
-ih
-ih
+gY
+iH
+iO
+iP
+iH
+iT
+iX
+iX
+ja
+ja
+ja
+iT
+iT
+jd
+je
+iT
 ih
 ih
 ih
@@ -14426,14 +14883,6 @@ hP
 hP
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -14602,13 +15051,21 @@ aN
 aN
 aN
 gY
+iI
 bl
-ih
-ih
-ih
-ih
-ih
-ih
+jh
+bl
+iM
+iy
+iy
+iy
+iy
+iy
+iY
+bl
+bl
+jh
+iI
 ih
 ih
 ih
@@ -14628,14 +15085,6 @@ eA
 eE
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -14804,13 +15253,21 @@ aN
 aN
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
+iI
+bl
+bl
+bl
+ae
+iy
+iy
+iy
+iy
+iy
+es
+bl
+bl
+bl
+iI
 ih
 ih
 ih
@@ -14830,14 +15287,6 @@ hx
 hx
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -15006,13 +15455,21 @@ gW
 aN
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
+iI
+bl
+bl
+bl
+ae
+iy
+iy
+iy
+iy
+iy
+es
+bl
+bl
+bl
+iI
 ih
 ih
 ih
@@ -15032,14 +15489,6 @@ gz
 gz
 gR
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -15208,13 +15657,21 @@ iB
 gT
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
+gs
+bl
+iC
+iz
+iz
+iy
+iy
+iy
+iy
+iy
+iz
+iz
+ji
+bl
+jo
 ih
 ih
 ih
@@ -15234,14 +15691,6 @@ hP
 hP
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -15398,10 +15847,10 @@ bl
 bl
 ih
 aa
-dn
 al
 cE
 dg
+dn
 dz
 dF
 aS
@@ -15410,13 +15859,21 @@ aa
 gT
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
+iI
+bl
+hY
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+iF
+bl
+iI
 ih
 ih
 ih
@@ -15436,14 +15893,6 @@ eA
 eE
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -15612,13 +16061,21 @@ af
 gT
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
+iI
+bl
+hY
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+iF
+bl
+iI
 ih
 ih
 ih
@@ -15638,14 +16095,6 @@ hx
 hx
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -15814,13 +16263,21 @@ af
 gT
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
+iI
+bl
+hY
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+iF
+bl
+iI
 ih
 ih
 ih
@@ -15840,14 +16297,6 @@ gz
 gz
 gR
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -16016,13 +16465,21 @@ aa
 gT
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
+iI
+bl
+hY
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+iF
+bl
+iI
 ih
 ih
 ih
@@ -16042,14 +16499,6 @@ hP
 hP
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -16218,13 +16667,21 @@ aa
 gT
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
+iI
+bl
+hY
+dC
+dC
+dC
+dC
+ed
+dC
+dC
+dC
+dC
+iF
+bl
+iI
 ih
 ih
 ih
@@ -16244,14 +16701,6 @@ eA
 eE
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -16420,13 +16869,21 @@ af
 gT
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
+iI
+bl
+hY
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+iF
+bl
+iI
 ih
 ih
 ih
@@ -16446,14 +16903,6 @@ hx
 hx
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -16622,13 +17071,21 @@ af
 gT
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
+iI
+bl
+hY
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+iF
+bl
+iI
 ih
 ih
 ih
@@ -16648,14 +17105,6 @@ gz
 gz
 gR
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -16824,13 +17273,21 @@ aa
 gT
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
+iI
+bl
+hY
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+iF
+bl
+iI
 ih
 ih
 ih
@@ -16850,14 +17307,6 @@ hP
 hP
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -17026,13 +17475,21 @@ aa
 gT
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
+iI
+bl
+hY
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+dC
+iF
+bl
+iI
 ih
 ih
 ih
@@ -17052,14 +17509,6 @@ eA
 eE
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -17228,13 +17677,21 @@ af
 gT
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
+gs
+bl
+iE
+iD
+iD
+iD
+iD
+iD
+iD
+iD
+iD
+iD
+jn
+bl
+jo
 eG
 gX
 gX
@@ -17254,14 +17711,6 @@ hx
 hx
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -17430,13 +17879,21 @@ af
 gT
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
+iI
+bl
+bl
+bl
+bl
+bl
+bl
+bl
+bl
+bl
+bl
+bl
+bl
+bl
+iI
 gT
 gE
 gW
@@ -17456,14 +17913,6 @@ gJ
 gJ
 gR
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -17632,13 +18081,21 @@ aa
 gT
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
+iI
+bl
+bl
+bl
+bl
+bl
+bl
+bl
+bl
+bl
+bl
+bl
+bl
+bl
+iI
 gT
 gY
 cJ
@@ -17658,14 +18115,6 @@ hP
 hP
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -17834,13 +18283,21 @@ aa
 gT
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
+iI
+iI
+iI
+iI
+iI
+iI
+iI
+iG
+iI
+iI
+iI
+iI
+iI
+iI
+iI
 gT
 gY
 bb
@@ -17860,14 +18317,6 @@ eA
 eE
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -18043,6 +18492,14 @@ ih
 ih
 ih
 ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
 gT
 gY
 cJ
@@ -18062,14 +18519,6 @@ hx
 hx
 gM
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -18245,6 +18694,14 @@ dH
 dH
 ft
 ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
 gT
 gY
 cJ
@@ -18264,14 +18721,6 @@ gA
 gA
 gS
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -18447,6 +18896,14 @@ ih
 ih
 ih
 ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
+ih
 gT
 gF
 gX
@@ -18466,14 +18923,6 @@ aN
 aN
 aN
 gY
-ih
-ih
-ih
-ih
-ih
-ih
-ih
-ih
 ih
 ih
 ih
@@ -18649,6 +19098,14 @@ gX
 gX
 gX
 gX
+gX
+gX
+gX
+gX
+gX
+gX
+gX
+gX
 hd
 aN
 aN
@@ -18668,14 +19125,6 @@ aN
 aN
 aN
 gF
-gX
-gX
-gX
-gX
-gX
-gX
-gX
-gX
 gX
 gX
 gX

@@ -50,7 +50,7 @@
 
 /area/kleibkhar/outpost/mess_hall
 	name = "Mess Hall"
-	icon_state = "cafetaria"
+	icon_state = "crew_quarters"
 
 /area/kleibkhar/outpost/custodial
 	name = "Custodial Cabinet"
@@ -63,6 +63,14 @@
 /area/kleibkhar/outpost/washroom
 	name = "Washroom"
 	icon_state = "restrooms"
+
+/area/kleibkhar/outpost/cargo
+	name = "Cargo Office"
+	icon_state = "quart"
+
+/area/kleibkhar/outpost/cargo/warehouse
+	name = "Warehouse"
+	icon_state = "quartstorage"
 
 /area/kleibkhar/atmos_pump
 	name = "Atmospheric Exchanger"
@@ -92,3 +100,8 @@
 
 /area/exoplanet/kleibkhar/mines/exits
 	icon_state = "exit"
+
+/area/exoplanet/kleibkhar/supply_shuttle_dock
+	name = "Supply Shuttle Dock"
+	icon_state = "yellow"
+	base_turf = /turf/simulated/floor/plating
