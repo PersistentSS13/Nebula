@@ -9,6 +9,7 @@
 	#include "../chargen/chargen_areas.dm"
 	#include "../chargen/chargen_objects.dm"
 
+	#include "kleibkhar_zlevels.dm"
 	#include "kleibkhar_access.dm"
 	#include "kleibkhar_areas.dm"
 	#include "kleibkhar_departments.dm"
@@ -18,6 +19,7 @@
 	#include "kleibkhar_unit_testing.dm"
 	#include "kleibkhar_turf.dm"
 	#include "kleibkhar_events.dm"
+	#include "kleibkhar_supply.dm"
 
 	#define USING_MAP_DATUM /datum/map/kleibkhar
 #elif !defined(MAP_OVERRIDE)
