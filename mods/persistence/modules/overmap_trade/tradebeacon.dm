@@ -1,21 +1,33 @@
+/datum/beacon_import
+	var/name = "Beacon Import"
+	var/price_per_purchase = 1
+	var/unit_per_purchase = 1
+	var/container_type
+	var/unit_type
+	
+/datum/beacon_export
+	var/name = "Beacon Export"
+	var/price_per_purchase = 1
+	var/unit_per_purchase = 1
+	var/unit_type
+	
 /obj/machinery/trade_beacon
 	name = "trade beacon"
-	desc = "An large broadcasting array meant to control trade between the Outreach system and the wider galaxy. ."
+	desc = "An large broadcasting array meant to control trade between the Outreach system and the wider galaxy."
 	icon = 'icons/obj/jukebox_new.dmi'
 	icon_state = "jukebox3-nopower"
-	var/state_base = "jukebox3"
 	anchored = 1
 	density = 1
 	power_channel = EQUIP
-	idle_power_usage = 10
-	active_power_usage = 100
+	idle_power_usage = 0
+	active_power_usage = 0
 	clicksound = 'sound/machines/buttonbeep.ogg'
-	pixel_x = -8
-
 	uncreated_component_parts = null
 	stat_immune = 0
 	construct_state = /decl/machine_construction/default/panel_closed
-  var/state = 1
+	var/list/imports = list()
+	var/list/exports = list()
+	
 /obj/machinery/trade_beacon/interface_interact()
   ui_interact(user)
 	return TRUE
