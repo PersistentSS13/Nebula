@@ -1,0 +1,47 @@
+<!-- 
+Title: Trade Beacon UI
+Used In File(s): mods\persistence\modules\overmap_trade\trade_beacon.dm
+ -->
+
+<H3>{{:data.title}}</H3>
+
+<div class='item'>
+		<div class='itemLabel'>
+			Linked Network:
+		</div>
+		<div class='itemContent'>
+			{{:data.network}}
+		</div>
+</div>
+<div class='item'>
+		<div class='itemLabel'>
+			Tax Rate:
+		</div>
+		<div class='itemContent'>
+			{{:data.tax}}%
+		</div>
+</div>
+<br><hr><br>
+{{if data.authed}}
+	<div class='item'>
+			<div class='itemLabel'>
+				Tax Rate:
+			</div>
+			<div class='itemContent'>
+				{{:data.tax}}%
+			</div>
+	</div>
+	
+
+{{else}}
+	<div class='item'>
+			<div class='itemLabel'>
+				Tax Rate:
+			</div>
+			<div class='itemContent'>
+				{{:data.tax}}%
+			</div>
+	</div>
+{{/if}}
+<br><br>
+{{:helper.link('Disconnect from Network', '', {'disconnect' : '1'}, null)}}
