@@ -8,6 +8,7 @@
 	#include "../../mods/content/xenobiology/_xenobiology.dme"
 	#include "../chargen/chargen_areas.dm"
 	#include "../chargen/chargen_objects.dm"
+	#include "../utility/cargo_shuttle_tmpl.dm"
 
 	#include "kleibkhar_zlevels.dm"
 	#include "kleibkhar_access.dm"
