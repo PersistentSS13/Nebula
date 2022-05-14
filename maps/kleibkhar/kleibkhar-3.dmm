@@ -3750,7 +3750,7 @@
 /area/kleibkhar/outpost/cargo/warehouse)
 "iZ" = (
 /obj/effect/floor_decal/industrial/outline/yellow,
-/turf/simulated/floor/tiled/techfloor/grid,
+/turf/simulated/floor/tiled,
 /area/kleibkhar/outpost/cargo/warehouse)
 "ja" = (
 /obj/machinery/conveyor{
@@ -3849,7 +3849,7 @@
 	dir = 8;
 	icon_state = "tube_map"
 	},
-/turf/simulated/floor/tiled/techfloor/grid,
+/turf/simulated/floor/tiled,
 /area/kleibkhar/outpost/cargo/warehouse)
 "jm" = (
 /obj/machinery/light{
