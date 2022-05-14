@@ -4,3 +4,5 @@
 	area_coherency_test_exempt_areas += /area/kleibkhar/atmos_pump
 	area_coherency_test_exempt_areas += /area/kleibkhar/outpost/cargo/warehouse
 	apc_test_exempt_areas[/area/kleibkhar/atmos_pump] = NO_SCRUBBER|NO_APC //Area meant to fool unit tests, because they're being a bit assinine
+	apc_test_exempt_areas[/area/kleibkhar/outpost/it] = NO_SCRUBBER|NO_VENT
+	apc_test_exempt_areas[/area/kleibkhar/outpost/solar_array] = NO_SCRUBBER|NO_VENT
