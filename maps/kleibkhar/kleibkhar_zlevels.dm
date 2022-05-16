@@ -11,7 +11,8 @@
 		"1" = "maps/kleibkhar/kleibkhar-1.dmm",
 		"2" = "maps/kleibkhar/kleibkhar-2.dmm",
 		"3" = "maps/kleibkhar/kleibkhar-3.dmm",
-		"4" = "maps/kleibkhar/kleibkhar-4.dmm"
+		"4" = "maps/kleibkhar/kleibkhar-4.dmm",
+		"5" = "maps/utility/cargo_shuttle_tmpl.dmm",
 	)
 
 	// A list of turfs and their default turfs for serialization optimization.
@@ -19,7 +20,8 @@
 		"1" = /turf/exterior/barren/mining,
 		"2" = /turf/exterior/barren/mining,
 		"3" = /turf/exterior/kleibkhar_grass,
-		"4" = /turf/exterior/open
+		"4" = /turf/exterior/open,
+		"5" = /turf/space,
 	)
 #else
 	station_levels = list(4, 5, 6, 7)
@@ -32,7 +34,8 @@
 		"4" = "maps/kleibkhar/kleibkhar-1.dmm",
 		"5" = "maps/kleibkhar/kleibkhar-2.dmm",
 		"6" = "maps/kleibkhar/kleibkhar-3.dmm",
-		"7" = "maps/kleibkhar/kleibkhar-4.dmm"
+		"7" = "maps/kleibkhar/kleibkhar-4.dmm",
+		"8" = "maps/utility/cargo_shuttle_tmpl.dmm",
 	)
 
 	// A list of turfs and their default turfs for serialization optimization.
@@ -40,6 +43,7 @@
 		"4" = /turf/exterior/barren/mining,
 		"5" = /turf/exterior/barren/mining,
 		"6" = /turf/exterior/kleibkhar_grass,
-		"7" = /turf/exterior/open
+		"7" = /turf/exterior/open,
+		"8" = /turf/space,
 	)
 #endif
