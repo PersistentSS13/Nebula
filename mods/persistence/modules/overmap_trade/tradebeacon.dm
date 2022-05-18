@@ -1,11 +1,4 @@
-/datum/beacon_import
-	var/name = "Beacon Import"
-	var/price_per_purchase = 1
-	var/unit_per_purchase = 1
-	var/container_type
-	var/unit_type
-	
-/datum/beacon_export
+	/datum/beacon_export
 	var/name = "Beacon Export"
 	var/price_per_purchase = 1
 	var/unit_per_purchase = 1
@@ -27,6 +20,8 @@
 	construct_state = /decl/machine_construction/default/panel_closed
 	var/list/imports = list()
 	var/list/exports = list()
+	var/list/category_names = list()
+	var/list/category_contents = list()
 	
 /obj/machinery/trade_beacon/interface_interact()
   ui_interact(user)
@@ -72,3 +67,42 @@
 		ui = new(user, src, ui_key, "trade_beacon.tmpl", "Trade Beacon", 440, 600)
 		ui.set_initial_data(data)
 		ui.open()
+
+/obj/machinery/trade_beacon/proc/get_category_contents()
+	if(!category_contents || !category_contents.len)
+		generate_categories()
+	return catogry_contents
+
+/obj/machinery/trade_beacon/proc/get_category_contents()
+	if(!category_names || !category_names.len)
+		generate_categories()
+	return catogry_names
+
+/obj/machinery/trade_beacon/proc/generate_categories()
+	category_names.Cut()
+	category_contents.Cut()
+	var/decl/hierarchy/supply_pack/root = GET_DECL(/decl/hierarchy/supply_pack)
+	var/decl/currency/cur = GET_DECL(global.using_map.default_currency)
+	for(var/decl/hierarchy/supply_pack/sp in root.children)
+		var/found = 0
+		if(!sp.is_category())
+			continue // No children
+		var/list/category[0]
+		for(var/decl/hierarchy/supply_pack/spc in sp.get_descendents())
+			if((spc.hidden || spc.contraband || !spc.sec_available()) && !emagged || !(spc.type in imports))
+				continue
+			category.Add(list(list(
+				"name" = spc.name,
+				"cost" = cur.format_value(spc.cost),
+				"ref" = "\ref[spc]"
+			)))
+			found = 1
+		if(found)
+			category_names.Add(sp.name)
+			category_contents[sp.name] = category
+
+/obj/machinery/trade_beacon/Outreach
+	imports = list(
+		/decl/hierarchy/supply_pack/materials/steel50,
+		/decl/hierarchy/supply_pack/materials/alum50
+	)
