@@ -3,7 +3,7 @@
 	var/price_per_purchase = 1
 	var/unit_per_purchase = 1
 	var/unit_type
-	
+
 /obj/machinery/trade_beacon
 	name = "trade beacon"
 	desc = "An large broadcasting array meant to control trade between the Outreach system and the wider galaxy."
@@ -26,12 +26,8 @@
 	var/lore = "A generic trade beacon not associated to any particular owner."
 	var/showing_contents_of_ref
 	var/list/contents_of_order = list()
-	
-	
-/obj/machinery/trade_beacon/interface_interact()
-  ui_interact(user)
-	return TRUE
-
+	var/screen = 1
+	var/selected_category
 
 /obj/machinery/trade_beacon/powered()
 	return 1
@@ -42,17 +38,17 @@
 /obj/machinery/trade_beacon/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
 	user.set_machine(src)
 	var/list/data = list()
-	data["state"] = state
-	var/name
-	data["categories"] = category_names
-	if(selected_category)
-		data["category"] = selected_category
-		data["possible_purchases"] = category_contents[selected_category]
-		if(showing_contents_of_ref)
-			data["showing_contents_of"] = showing_contents_of_ref
-			data["contents_of_order"] = contents_of_order
+	if(screen == 1)
+		data["categories"] = category_names
+		if(selected_category)
+			data["category"] = selected_category
+			data["possible_purchases"] = category_contents[selected_category]
+			if(showing_contents_of_ref)
+				data["showing_contents_of"] = showing_contents_of_ref
+				data["contents_of_order"] = contents_of_order
+	if(screen == 2)
 
-	
+
 	ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if (!ui)
 		ui = new(user, src, ui_key, "trade_beacon.tmpl", "Trade Beacon", 440, 600)
@@ -60,7 +56,6 @@
 		ui.open()
 
 /obj/machinery/trade_beacon/Topic(href, href_list)
-var/mob/user = usr
 	if(..())
 		return 1
 
@@ -74,45 +69,21 @@ var/mob/user = usr
 
 	if(href_list["hide_contents"])
 		clear_order_contents()
-		
+
 	if(href_list["change_tax"])
 		// tax handling here
-		
-	if(href_list["hide_contents"])
-		clear_order_contents()
 
+	if(href_list["set_screen"])
+		clear_order_contents()
+		screen = text2num(href_list["set_screen"])
+		return 1
 	// Items requiring cargo access go below this entry. Other items go above.
 	if(!check_access(access_cargo))
 		return 1
 
-
-
-
-/datum/nano_module/supply/proc/generate_categories()
-	category_names.Cut()
-	category_contents.Cut()
-	var/decl/hierarchy/supply_pack/root = GET_DECL(/decl/hierarchy/supply_pack)
-	var/decl/currency/cur = GET_DECL(global.using_map.default_currency)
-	for(var/decl/hierarchy/supply_pack/sp in root.children)
-		if(!sp.is_category())
-			continue // No children
-		category_names.Add(sp.name)
-		var/list/category[0]
-		for(var/decl/hierarchy/supply_pack/spc in sp.get_descendents())
-			if((spc.hidden || spc.contraband || !spc.sec_available()) && !emagged)
-				continue
-			category.Add(list(list(
-				"name" = spc.name,
-				"cost" = cur.format_value(spc.cost),
-				"ref" = "\ref[spc]"
-			)))
-		category_contents[sp.name] = category
-
-
-
-
-
-
+/obj/machinery/trade_beacon/proc/clear_order_contents()
+	contents_of_order.Cut()
+	showing_contents_of_ref = null
 
 
 /obj/machinery/trade_beacon/proc/generate_order_contents(var/order_ref)
@@ -146,12 +117,8 @@ var/mob/user = usr
 /obj/machinery/trade_beacon/proc/get_category_contents()
 	if(!category_contents || !category_contents.len)
 		generate_categories()
-	return catogry_contents
+	return category_contents
 
-/obj/machinery/trade_beacon/proc/get_category_contents()
-	if(!category_names || !category_names.len)
-		generate_categories()
-	return catogry_names
 
 /obj/machinery/trade_beacon/proc/generate_categories()
 	category_names.Cut()
@@ -164,7 +131,7 @@ var/mob/user = usr
 			continue // No children
 		var/list/category[0]
 		for(var/decl/hierarchy/supply_pack/spc in sp.get_descendents())
-			if((spc.hidden || spc.contraband || !spc.sec_available()) && !emagged || !(spc.type in imports))
+			if((spc.hidden || !(spc.type in imports)))
 				continue
 			category.Add(list(list(
 				"name" = spc.name,
@@ -177,10 +144,9 @@ var/mob/user = usr
 			category_contents[sp.name] = category
 
 /obj/machinery/trade_beacon/Outreach
-	owner_name = "Nanotrasen" 
+	owner_name = "Nanotrasen"
 	lore = "Nanotrasen go brrrrrrrrrrrr"
 	imports = list(
-	
 		/decl/hierarchy/supply_pack/materials/steel50,
 		/decl/hierarchy/supply_pack/materials/alum50,
 		/decl/hierarchy/supply_pack/materials/glass50,
@@ -202,7 +168,7 @@ var/mob/user = usr
 		/decl/hierarchy/supply_pack/materials/walnut25,
 		/decl/hierarchy/supply_pack/materials/ebony25,
 		/decl/hierarchy/supply_pack/materials/yew25,
-		
+
 		/decl/hierarchy/supply_pack/supply/toner,
 		/decl/hierarchy/supply_pack/supply/cardboard_sheets,
 		/decl/hierarchy/supply_pack/supply/stickies,
@@ -210,17 +176,17 @@ var/mob/user = usr
 		/decl/hierarchy/supply_pack/supply/tapes,
 		/decl/hierarchy/supply_pack/supply/taperolls,
 		/decl/hierarchy/supply_pack/supply/bogrolls,
-		
+
 		/decl/hierarchy/supply_pack/engineering/electrical,
 		/decl/hierarchy/supply_pack/engineering/mechanical,
 		/decl/hierarchy/supply_pack/engineering/pacman_parts,
 		/decl/hierarchy/supply_pack/engineering/voidsuit_engineering,
-		
+
 		/decl/hierarchy/supply_pack/flooring/carpetbrown,
 		/decl/hierarchy/supply_pack/flooring/white_tiles,
-		/decl/hierarchy/supply_pack/flooring/dark_tiles
-		
-		/decl/hierarchy/supply_pack/medical/medical,	
+		/decl/hierarchy/supply_pack/flooring/dark_tiles,
+
+		/decl/hierarchy/supply_pack/medical/medical,
 		/decl/hierarchy/supply_pack/medical/atk,
 		/decl/hierarchy/supply_pack/medical/abk,
 		/decl/hierarchy/supply_pack/medical/trauma,
@@ -235,7 +201,7 @@ var/mob/user = usr
 		/decl/hierarchy/supply_pack/medical/scanner_module,
 		/decl/hierarchy/supply_pack/medical/defib,
 		/decl/hierarchy/supply_pack/medical/autocomp,
-		
+
 		/decl/hierarchy/supply_pack/galley/food,
 		/decl/hierarchy/supply_pack/galley/beef,
 		/decl/hierarchy/supply_pack/galley/eggs,
@@ -245,22 +211,20 @@ var/mob/user = usr
 		/decl/hierarchy/supply_pack/galley/party,
 		/decl/hierarchy/supply_pack/galley/beer_dispenser,
 		/decl/hierarchy/supply_pack/galley/soda_dispenser,
-		
+
 		/decl/hierarchy/supply_pack/operations/orebox,
 		/decl/hierarchy/supply_pack/operations/bureaucracy,
 		/decl/hierarchy/supply_pack/operations/voidsuit_engineering,
-		
+
 		/decl/hierarchy/supply_pack/nonessent/painters,
 		/decl/hierarchy/supply_pack/nonessent/artscrafts,
 		/decl/hierarchy/supply_pack/nonessent/card_packs,
 		/decl/hierarchy/supply_pack/nonessent/instruments,
 		/decl/hierarchy/supply_pack/nonessent/llamps,
 		/decl/hierarchy/supply_pack/nonessent/chaplaingear,
-		
+
 		/decl/hierarchy/supply_pack/custodial/janitor,
 		/decl/hierarchy/supply_pack/custodial/cleaning,
 		/decl/hierarchy/supply_pack/custodial/mousetrap,
 		/decl/hierarchy/supply_pack/custodial/janitorbiosuits
-		
-		
 	)

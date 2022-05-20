@@ -160,6 +160,7 @@
 #include "modules\overmap\exoplanets\_exoplanet.dm"
 #include "modules\overmap\exoplanets\turfs.dm"
 #include "modules\overmap\ships\landable.dm"
+#include "modules\overmap_trade\tradebeacon.dm"
 #include "modules\power\apc.dm"
 #include "modules\power\port_gen.dm"
 #include "modules\power\smes.dm"

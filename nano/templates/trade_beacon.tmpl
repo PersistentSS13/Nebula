@@ -22,7 +22,8 @@ Used In File(s): mods\persistence\modules\overmap_trade\trade_beacon.dm
 	</div>
 </div>
 <br><hr><br>
-<h2>Products available at this beacon</h2>
+{{:helper.link('View Imports', 'cart', {'set_screen' : 1}, data.screen == 1 ? 'selected' : null)}}
+{{:helper.link('View Exports', 'calculator', {'set_screen' : 2}, data.screen == 2 ? 'selected' : null)}}
 {{for data.categories}}
 	{{:helper.link(value, null, {'select_category' : value}, data.category == value ? 'selected' : null)}}
 {{/for}}
