@@ -14,13 +14,16 @@
 							/obj/item/stock_parts/power/apc/buildable = 1,
 	)
 
+/datum/fabricator_recipe/imprinter/circuit/cortical_stack_resleever
+	path = /obj/item/stock_parts/circuitboard/resleever
+
 /obj/machinery/resleever
 	name = "Cortical Stack Resleever"
 	desc = "It's a machine that allows cortical stacks to be sleeved into new bodies."
 	icon = 'icons/obj/Cryogenic2.dmi'
 	icon_state = "body_scanner_0"
-	anchored = 1
-	density = 1
+	anchored = TRUE
+	density = TRUE
 	idle_power_usage = 10
 	active_power_usage = 4 KILOWATTS // A CT scan machine uses 1-15 kW depending on the model and equipment involved.
 

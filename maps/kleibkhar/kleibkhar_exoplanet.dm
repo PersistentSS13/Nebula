@@ -1,4 +1,3 @@
-#define KLEIBKHAR_GRASS_EDGE_LAYER    (53 * 0.001)
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar
 	name = "\proper Kleibkhar"
 	desc = "A habitable border-world, home to a recent dime-a-dozen corporate colony."
@@ -116,48 +115,3 @@
 
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/get_atmosphere_color()
 	return COLOR_OFF_WHITE
-
-/turf/exterior/kleibkhar_grass
-	name = "wild grass"
-	icon = 'icons/turf/exterior/wildgrass.dmi'
-	icon_edge_layer = KLEIBKHAR_GRASS_EDGE_LAYER
-	icon_has_corners = TRUE
-	color = "#799c4b"
-	footstep_type = /decl/footsteps/grass
-
-/turf/exterior/kleibkhar_grass/Initialize()
-	. = ..()
-	var/obj/effect/overmap/visitable/sector/exoplanet/E = global.overmap_sectors["[z]"]
-	if(istype(E) && E.grass_color)
-		color = E.grass_color
-
-/turf/exterior/kleibkhar_grass/attackby(obj/item/W, mob/user, click_params)
-	. = ..()
-	if(istype(W, /obj/item/minihoe))
-		if(!user.skill_check(SKILL_BOTANY, SKILL_ADEPT))
-			to_chat(user, SPAN_WARNING("You can't tell the grass from any useful plants!"))
-			return TRUE
-		to_chat(user, SPAN_NOTICE("You begin cutting through \the [src] in search of seeds."))
-		if(do_after(user,40, src))
-			if(prob(80))
-				to_chat(user, SPAN_NOTICE("You weren't able to find any seeds!"))
-				return TRUE
-			var/rand_path = pick(subtypesof(/obj/item/seeds))
-			var/rand_seeds = new rand_path(src)
-			user.put_in_hands(rand_seeds)
-			to_chat(user, SPAN_NOTICE("You manage to locate and package some seeds!"))
-		return TRUE
-
-/turf/exterior/kleibkhar_grass/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
-	if((temperature > T0C + 200 && prob(5)) || temperature > T0C + 1000)
-		melt()
-
-/turf/exterior/kleibkhar_grass/melt()
-	if(icon_state != "scorched")
-		SetName("scorched ground")
-		icon_state = "scorched"
-		icon_edge_layer = -1
-		footstep_type = /decl/footsteps/asteroid
-		color = null
-
-#undef KLEIBKHAR_GRASS_EDGE_LAYER
