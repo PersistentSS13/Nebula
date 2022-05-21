@@ -1,0 +1,16 @@
+
+SAVED_VAR(/datum/fabricator_build_order, target_recipe)
+SAVED_VAR(/datum/fabricator_build_order, multiplier)
+SAVED_VAR(/datum/fabricator_build_order, remaining_time)
+SAVED_VAR(/datum/fabricator_build_order, earmarked_materials)
+
+SAVED_VAR(/obj/machinery/fabricator, stored_material)
+SAVED_VAR(/obj/machinery/fabricator, base_icon_state)
+SAVED_VAR(/obj/machinery/fabricator, panel_image)
+SAVED_VAR(/obj/machinery/fabricator, queued_orders)
+SAVED_VAR(/obj/machinery/fabricator, currently_building)
+SAVED_VAR(/obj/machinery/fabricator, storage_capacity)
+SAVED_VAR(/obj/machinery/fabricator, show_category)
+SAVED_VAR(/obj/machinery/fabricator, fab_status_flags)
+SAVED_VAR(/obj/machinery/fabricator, mat_efficiency)
+SAVED_VAR(/obj/machinery/fabricator, build_time_multiplier)

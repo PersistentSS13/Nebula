@@ -10,6 +10,8 @@ var/global/list/custom_saved_lists = list() // Custom saved lists are kept here 
 	var/persistent_id				// This value should be constant across save/loads. It is first generated on serialization.
 	var/list/custom_saved = null	//Associative list with a name and value to save extra data without creating a new pointless var)
 								 	// Post-load its your responsability to clear it!!!
+SAVED_VAR(/datum, persistent_id)
+SAVED_VAR(/datum, custom_saved)
 
 //Called after a save
 /datum/proc/after_save()
@@ -30,7 +32,8 @@ var/global/list/custom_saved_lists = list() // Custom saved lists are kept here 
 	return should_save
 
 /datum/proc/get_saved_vars(var/list/tosave = null)
-	return global.saved_vars[type] || get_default_vars()
+	var/decl/saved_variables/SV = get_saved_decl(type)
+	return SV?.get_saved_variables() || get_default_vars()
 
 /datum/proc/get_default_vars()
 	log_debug("Called get_default_vars on type '[type]'! Define some saved variables for this type!!")

@@ -9,8 +9,8 @@
 
 	var/DBQuery/dbq = global.dbcon_save.NewQuery("SELECT DATABASE();")
 	if(dbq.Execute() && dbq.NextRow())
-		to_chat(usr, "Test query returned: '[dbq.item[1]]'!") 
-	else 
+		to_chat(usr, "Test query returned: '[dbq.item[1]]'!")
+	else
 		to_chat(usr, SPAN_WARNING("Failed with error: '[dbcon_save.ErrorMsg()]'"))
 
 /proc/SQLS_Print_DB_STATUS()
@@ -60,7 +60,7 @@
 
 	// Add the flatten serializer.
 	var/serializer/json/flattener
-	
+
 	var/static/byondChar			// byondChar isn't unicode valid, so we have to get this at runtime
 	var/static/utf8Char = "\uF811"	// this is a Private Use character in utf8 that we can use as a replacement
 
@@ -72,7 +72,7 @@
 /serializer/sql/New()
 	..()
 	flattener = new(src)
-	
+
 	if(isnull(byondChar))
 		byondChar = copytext_char("\improper", 1, 2)
 
@@ -86,10 +86,12 @@
 /serializer/sql/_before_serialize()
 	if(!establish_save_db_connection())
 		CRASH("SQL SERIALIZER: Failed to connect to save DB!")
+	LAZYCLEARLIST(serialization_time_spent_type)
 
 /serializer/sql/_before_deserialize()
 	if(!establish_save_db_connection())
 		CRASH("SQL SERIALIZER: Failed to connect to save DB!")
+	LAZYCLEARLIST(serialization_time_spent_type)
 
 /serializer/sql/_after_serialize()
 	close_save_db_connection()
@@ -97,15 +99,15 @@
 /serializer/sql/_after_deserialize()
 	close_save_db_connection()
 
+/**Keep a tally of the time taken to save each datum types */
+var/global/list/serialization_time_spent_type
+
 // Serialize an object datum. Returns the appropriate serialized form of the object. What's outputted depends on the serializer.
 /serializer/sql/SerializeDatum(var/datum/object, var/object_parent)
 	// Check for existing references first. If we've already saved
 	// there's no reason to save again.
 	if(isnull(object) || !object.should_save())
 		return
-
-	if(isnull(global.saved_vars[object.type]))
-		return // EXPERIMENTAL. Don't save things without a whitelist.
 
 	var/existing = thing_map["\ref[object]"]
 	if (existing)
@@ -115,6 +117,7 @@
 #endif
 		return existing
 
+	var/time_before_serialize = REALTIMEOFDAY
 	// Thing didn't exist. Create it.
 	var/p_i = object.persistent_id ? object.persistent_id : PERSISTENT_ID
 	object.persistent_id = p_i
@@ -123,7 +126,11 @@
 	var/y = 0
 	var/z = 0
 
+	var/before_before_save = REALTIMEOFDAY
 	object.before_save() // Before save hook.
+	if((REALTIMEOFDAY - before_before_save) > 5 SECONDS)
+		to_world_log("before_save() took [(REALTIMEOFDAY - before_before_save) / (1 SECOND)] to exacute on type [object.type]!")
+
 	if(ispath(object.type, /turf))
 		var/turf/T = object
 		x = T.x
@@ -145,25 +152,17 @@
 	inserts_since_commit++
 	thing_map["\ref[object]"] = p_i
 
-	for(var/V in object.get_saved_vars())
-		var/VV
-		// This is terrible, but the only way to check this without looping over vars.
-		// TODO: Remove after the saved_vars rework
-		try
-		
-			VV = object.vars[V]
-		catch
-			#ifdef SAVE_DEBUG
-				to_world_log("BAD SAVED VARIABLE : '[object.type]' cannot have its '[V]' variable saved, since it does not exist!")
-			#endif
+	for(var/V in get_saved_variables_for(object.type))
+		if(!(V in object.vars))
+			to_world_log("BAD SAVED VARIABLE : '[object.type]' cannot have its '[V]' variable saved, since it does not exist!")
 			continue
-		
+
 		if(!issaved(object.vars[V]))
 			#ifdef SAVE_DEBUG
 				to_world_log("BAD SAVED VARIABLE : '[object.type]' cannot have its '[V]' variable saved, since its marked as not saved!")
 			#endif
 			continue
-		
+
 		var/VT = SERIALIZER_TYPE_VAR
 #ifdef SAVE_DEBUG
 		to_world_log("(SerializeThingVar) [V]")
@@ -235,11 +234,18 @@
 #endif
 		var_inserts.Add("'[p_i]','[V]','[VT]',\"[VV]\"")
 		inserts_since_commit++
+
+	var/before_after_save = REALTIMEOFDAY
 	object.after_save() // After save hook.
+	if((REALTIMEOFDAY - before_after_save) > 5 SECONDS)
+		to_world_log("after_save() took [(REALTIMEOFDAY - before_after_save) / (1 SECOND)] to exacute on type [object.type]!")
+
 	if(autocommit && inserts_since_commit > autocommit_threshold)
 		Commit()
-	return p_i
 
+	//Tally up statistices
+	LAZYSET(serialization_time_spent_type, object.type, LAZYACCESS(serialization_time_spent_type, object.type) + (REALTIMEOFDAY - time_before_serialize))
+	return p_i
 
 // Serialize a list. Returns the appropriate serialized form of the list. What's outputted depends on the serializer.
 /serializer/sql/SerializeList(var/list/_list, var/datum/list_parent)
@@ -362,11 +368,11 @@
 #ifdef SAVE_DEBUG
 		if(verbose_logging)
 			to_world_log("(SerializeListElem-Done) ([l_i],\"[KV]\",'[KT]',\"[EV]\",\"[ET]\")")
-#endif	
+#endif
 		found_element = TRUE
 		element_inserts.Add("[l_i],\"[KV]\",'[KT]',\"[EV]\",\"[ET]\"")
 		inserts_since_commit++
-	
+
 	if(!found_element) // There wasn't anything that actually needed serializing in this list, so return null.
 		list_index--
 		list_map -= list_ref
@@ -434,7 +440,7 @@
 						existing.vars[TV.key] = flattener.QueryAndDeserializeDatum(TV.value)
 					if(SERIALIZER_TYPE_FILE)
 						existing.vars[TV.key] = file(TV.value)
-			else 
+			else
 				log_warning("Saved var '[TV.key]' ignored since receiving object '[TV.var_type]' doesn't have this variable!")
 				continue
 		catch(var/exception/e)
@@ -525,7 +531,7 @@
 		if(length(var_inserts) > 0)
 			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM_VARS]`(`thing_id`,`key`,`type`,`value`) VALUES["(" + jointext(var_inserts, "),(") + ")"]")
 			SQLS_EXECUTE_AND_REPORT_ERROR(query, "VAR SERIALIZATION FAILED:")
-		if(length(element_inserts) > 0) 
+		if(length(element_inserts) > 0)
 			tot_element_inserts += length(element_inserts)
 			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIST_ELEM]`(`list_id`,`key`,`key_type`,`value`,`value_type`) VALUES["(" + jointext(element_inserts, "),(") + ")"]")
 			SQLS_EXECUTE_AND_REPORT_ERROR(query, "ELEMENT SERIALIZATION FAILED:")
@@ -607,4 +613,3 @@
 	if(query.NextRow())
 		testing("counted [query.item[1]] entrie(s) in [SQLS_TABLE_DATUM] table..")
 		return text2num(query.item[1])
-

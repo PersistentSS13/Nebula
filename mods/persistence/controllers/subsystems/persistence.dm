@@ -286,18 +286,28 @@
 		serializer.Clear()
 		// Clear the custom saved list used to keep list refs intact
 		global.custom_saved_lists.Cut()
-		// Reboot air subsystem.
-		SSair.reboot()
 		// Let people back in
 		if(reallow) config.enter_allowed = 1
 	catch (var/exception/e)
 		to_world_log("Save failed on line [e.line], file [e.file] with message: '[e]'.")
+
 	to_world("Save complete! Took [(world.timeofday-start)/ (1 SECOND)]s to save world.")
 	saved_extensions.Cut() // Make extensions re-report if they want to be saved again.
 	serializer._after_serialize()
 
 	// Launch event for anything that needs to do cleanup post save.
 	events_repository.raise_event(/decl/observ/world_saving_finish_event, src)
+
+	//Print out detailed statistics on what time was spent on what types
+	var/list/saved_types_stats = list()
+	for(var/key in global.serialization_time_spent_type)
+		var/time_spent = global.serialization_time_spent_type[key]
+		saved_types_stats += "\t[time_spent / (1 SECOND)] second(s)\t\t'[key]'"
+	to_world_log("Time spent per type:")
+	to_world_log(jointext(saved_types_stats, "\n"))
+
+	// Reboot air subsystem.
+	SSair.reboot()
 
 /datum/controller/subsystem/persistence/proc/LoadWorld()
 	serializer._before_deserialize()

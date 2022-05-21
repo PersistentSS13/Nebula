@@ -76,3 +76,19 @@
 		. = ..(mapload, src.shuttle_name) // Used the loaded shuttle_name for tagging and shuttle restriction.
 	else
 		. = ..()
+
+SAVED_VAR(/obj/effect/overmap/visitable/ship, moving_state)
+SAVED_VAR(/obj/effect/overmap/visitable/ship, vessel_size)
+SAVED_VAR(/obj/effect/overmap/visitable/ship, burn_delay)
+SAVED_VAR(/obj/effect/overmap/visitable/ship, fore_dir)
+SAVED_VAR(/obj/effect/overmap/visitable/ship, engines)
+SAVED_VAR(/obj/effect/overmap/visitable/ship, skill_needed)
+SAVED_VAR(/obj/effect/overmap/visitable/ship, operator_skill)
+
+SAVED_VAR(/obj/effect/overmap/visitable/ship/landable, shuttle)
+SAVED_VAR(/obj/effect/overmap/visitable/ship/landable, landmark)
+SAVED_VAR(/obj/effect/overmap/visitable/ship/landable, multiz)
+SAVED_VAR(/obj/effect/overmap/visitable/ship/landable, status)
+SAVED_VAR(/obj/effect/overmap/visitable/ship/landable, saved_landmark)
+SAVED_VAR(/obj/effect/overmap/visitable/ship/landable, saved_areas)
+SAVED_VAR(/obj/effect/overmap/visitable/ship/landable, use_mapped_z_levels)
