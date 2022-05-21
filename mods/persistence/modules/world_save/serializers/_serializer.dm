@@ -69,7 +69,8 @@
 /serializer/proc/should_flatten(var/datum/object)
 	if(isnull(object))
 		return FALSE
-	return object.type in global.flatten_types
+	var/decl/saved_variables/SV = get_saved_decl(object.type)
+	return (SV?.should_flatten)
 
 /serializer/proc/Clear()
 	z_index = -1
