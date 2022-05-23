@@ -1,0 +1,38 @@
+//////////////////////////////////////////
+// Save Overrides
+//////////////////////////////////////////
+//Overrides that have nowhere else to go.
+
+///obj/machinery/embedded_controller
+/obj/machinery/embedded_controller
+	var/saved_memory
+
+/obj/machinery/embedded_controller/before_save()
+	..()
+	saved_memory = program.memory
+
+/obj/machinery/embedded_controller/after_deserialize()
+	..()
+	if(saved_memory)
+		program.memory = saved_memory
+
+///datum/computer_file/report
+/datum/computer_file/report/after_deserialize()
+	..()
+	for(var/datum/report_field/field in fields)
+		field.owner = src
+
+//
+// Content Spawning Override
+//
+/obj/item/storage/after_deserialize()
+	..()
+	startswith = null
+
+/obj/item/tank/after_deserialize()
+	..()
+	starting_pressure = 0
+
+/obj/item/extinguisher/after_deserialize()
+	..()
+	starting_water = 0

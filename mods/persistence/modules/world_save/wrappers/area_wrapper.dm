@@ -49,3 +49,10 @@
 		var/turf/T = locate(text2num(coords[1]), text2num(coords[2]), new_z)
 		A.contents.Add(T)
 	return A
+
+//Add this proc
+/area/proc/get_turf_coords()
+	var/list/coord_list = list()
+	for(var/turf/T in contents)
+		coord_list.Add("[T.x],[T.y],[T.z]")
+	return coord_list
