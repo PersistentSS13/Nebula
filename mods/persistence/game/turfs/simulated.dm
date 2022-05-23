@@ -5,16 +5,8 @@
 	if(zone)
 		c_copy_air()
 
-// /turf/simulated/after_deserialize()
-	// . = ..()
-	// for(var/decal in decals)
-	// 	overlays += decal
-
 /turf/simulated/Initialize(ml)
 	. = ..()
-	if(persistent_id)
-		add_overlay(decals)
-
 	//We setup fires only when atmos is up and working
 	if(LOAD_CUSTOM_SV("fire_level"))
 		LATE_INIT_IF_SAVED
