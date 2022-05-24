@@ -74,15 +74,9 @@ SAVED_VAR(/obj/item/organ/internal/mmi_holder, ownerckey)
 
 SAVED_VAR(/obj/item/organ/internal/posibrain, shackle)
 
-SAVED_VAR(/obj/item/organ/internal/eyes/insectoid/serpentid, eyes_shielded)
-
-SAVED_VAR(/obj/item/organ/internal/stomach/vox, stored_matter)
-
 SAVED_VAR(/obj/item/organ/external/head, draw_eyes)
 SAVED_VAR(/obj/item/organ/external/head, glowing_eyes)
 SAVED_VAR(/obj/item/organ/external/head, can_intake_reagents)
 SAVED_VAR(/obj/item/organ/external/head, has_lips)
 SAVED_VAR(/obj/item/organ/external/head, forehead_graffiti)
 SAVED_VAR(/obj/item/organ/external/head, graffiti_style)
-
-SAVED_VAR(/obj/item/organ/external/groin/insectoid/mantid, existing_webs)
