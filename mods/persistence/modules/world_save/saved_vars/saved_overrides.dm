@@ -22,6 +22,16 @@
 	for(var/datum/report_field/field in fields)
 		field.owner = src
 
+//Don't create more shit on reloads
+/obj/machinery/power/tracker/Make(var/obj/item/solar_assembly/S)
+	if(persistent_id)
+		return
+	. = ..()
+/obj/machinery/power/solar/Make(var/obj/item/solar_assembly/S)
+	if(persistent_id)
+		return
+	. = ..()
+
 //
 // Content Spawning Override
 //
