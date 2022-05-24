@@ -129,7 +129,7 @@ var/global/list/serialization_time_spent_type
 	var/before_before_save = REALTIMEOFDAY
 	object.before_save() // Before save hook.
 	if((REALTIMEOFDAY - before_before_save) > 5 SECONDS)
-		to_world_log("before_save() took [(REALTIMEOFDAY - before_before_save) / (1 SECOND)] to exacute on type [object.type]!")
+		to_world_log("before_save() took [(REALTIMEOFDAY - before_before_save) / (1 SECOND)] to execute on type [object.type]!")
 
 	if(ispath(object.type, /turf))
 		var/turf/T = object
@@ -244,7 +244,12 @@ var/global/list/serialization_time_spent_type
 		Commit()
 
 	//Tally up statistices
-	LAZYSET(serialization_time_spent_type, object.type, LAZYACCESS(serialization_time_spent_type, object.type) + (REALTIMEOFDAY - time_before_serialize))
+	var/datum/serialization_stat/st = LAZYACCESS(serialization_time_spent_type, object.type)
+	if(!st)
+		st = new
+		LAZYSET(serialization_time_spent_type, object.type, st)
+	st.time_spent += (REALTIMEOFDAY - time_before_serialize)
+	st.nb_instances++ 
 	return p_i
 
 // Serialize a list. Returns the appropriate serialized form of the list. What's outputted depends on the serializer.
