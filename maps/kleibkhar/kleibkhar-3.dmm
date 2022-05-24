@@ -27,7 +27,7 @@
 /turf/exterior/barren,
 /area/exoplanet/kleibkhar)
 "af" = (
-/obj/effect/wallframe_spawn/reinforced/titanium,
+/obj/effect/wallframe_spawn/reinforced,
 /turf/simulated/floor,
 /area/kleibkhar/outpost/mining)
 "ag" = (
@@ -51,7 +51,7 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/kleibkhar/outpost/mining)
 "ak" = (
-/obj/effect/wallframe_spawn/reinforced/titanium,
+/obj/effect/wallframe_spawn/reinforced,
 /obj/machinery/atmospherics/pipe/zpipe/up/scrubbers{
 	icon_state = "up-scrubbers";
 	dir = 4
@@ -217,23 +217,15 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/kleibkhar/outpost/mining)
 "aD" = (
-/obj/machinery/door/airlock/glass/medical{
-	icon_state = "closed";
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	dir = 4;
-	icon_state = "11-scrubbers"
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	dir = 4;
-	icon_state = "11-supply"
-	},
+/obj/machinery/door/airlock/medical,
 /obj/structure/cable{
-	icon_state = "4-8"
+	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/effect/floor_decal/industrial/hatch/blue,
 /turf/simulated/floor/tiled/white,
-/area/kleibkhar/outpost/cloning)
+/area/kleibkhar/outpost/infirmary/storage)
 "aE" = (
 /obj/machinery/material_processing/unloader{
 	input_turf = 8;
@@ -344,12 +336,15 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/kleibkhar/outpost/mining)
 "aR" = (
-/obj/machinery/door/airlock/double/glass/mining{
-	dir = 8;
-	icon_state = "closed"
+/obj/machinery/door/airlock/glass/medical,
+/obj/structure/cable{
+	icon_state = "1-2"
 	},
-/turf/simulated/floor/tiled/techfloor,
-/area/kleibkhar/outpost/mining)
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/effect/floor_decal/industrial/hatch/blue,
+/turf/simulated/floor/tiled/white,
+/area/kleibkhar/outpost/infirmary/surgery)
 "aS" = (
 /obj/effect/floor_decal/industrial/hatch/yellow,
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
@@ -430,7 +425,7 @@
 /turf/simulated/floor/plating,
 /area/kleibkhar/outpost/solar_array)
 "bc" = (
-/obj/effect/wallframe_spawn/reinforced/titanium,
+/obj/effect/wallframe_spawn/reinforced,
 /obj/structure/cable{
 	icon_state = "0-4"
 	},
@@ -459,7 +454,7 @@
 /turf/simulated/floor/plating,
 /area/kleibkhar/outpost/solar_array)
 "bf" = (
-/obj/effect/wallframe_spawn/reinforced/titanium,
+/obj/effect/wallframe_spawn/reinforced,
 /turf/simulated/floor,
 /area/kleibkhar/outpost/solar_array)
 "bg" = (
@@ -489,7 +484,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/effect/wallframe_spawn/reinforced/titanium,
+/obj/effect/wallframe_spawn/reinforced,
 /turf/simulated/floor,
 /area/kleibkhar/outpost/solar_array)
 "bk" = (
@@ -613,7 +608,7 @@
 /turf/simulated/floor/tiled/white,
 /area/kleibkhar/outpost/infirmary/exam)
 "bC" = (
-/obj/effect/wallframe_spawn/reinforced/titanium,
+/obj/effect/wallframe_spawn/reinforced,
 /turf/simulated/floor,
 /area/kleibkhar/outpost/sleeproom)
 "bD" = (
@@ -709,7 +704,7 @@
 /turf/simulated/floor/tiled/white,
 /area/kleibkhar/outpost/sleeproom)
 "bT" = (
-/obj/effect/wallframe_spawn/reinforced/titanium,
+/obj/effect/wallframe_spawn/reinforced,
 /obj/machinery/door/firedoor,
 /turf/simulated/floor,
 /area/kleibkhar/outpost/mess_hall)
@@ -1137,25 +1132,35 @@
 /turf/simulated/wall/concrete,
 /area/kleibkhar/outpost/infirmary)
 "cV" = (
-/obj/effect/wallframe_spawn/reinforced/titanium,
+/obj/effect/wallframe_spawn/reinforced,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
 /turf/simulated/floor,
 /area/kleibkhar/outpost/infirmary)
 "cW" = (
-/obj/effect/wallframe_spawn/reinforced/titanium,
+/obj/effect/wallframe_spawn/reinforced,
 /turf/simulated/floor,
 /area/kleibkhar/outpost/infirmary)
 "cX" = (
-/obj/machinery/door/airlock/glass/medical,
-/obj/structure/cable{
-	icon_state = "1-2"
+/obj/machinery/door/airlock/glass/medical{
+	icon_state = "closed";
+	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	dir = 4;
+	icon_state = "11-scrubbers"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	dir = 4;
+	icon_state = "11-supply"
+	},
+/obj/structure/cable{
+	icon_state = "4-8"
+	},
+/obj/effect/floor_decal/industrial/hatch/blue,
 /turf/simulated/floor/tiled/white,
-/area/kleibkhar/outpost/infirmary)
+/area/kleibkhar/outpost/cloning)
 "cY" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/green{
 	icon_state = "11";
@@ -1164,7 +1169,7 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/kleibkhar/outpost/computer)
 "cZ" = (
-/obj/effect/wallframe_spawn/reinforced/titanium,
+/obj/effect/wallframe_spawn/reinforced,
 /turf/simulated/floor,
 /area/kleibkhar/outpost/hallway)
 "da" = (
@@ -1230,14 +1235,15 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/kleibkhar/outpost/mining)
 "dh" = (
-/obj/machinery/door/airlock/medical,
+/obj/machinery/door/airlock/glass/medical,
 /obj/structure/cable{
 	icon_state = "1-2"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/effect/floor_decal/industrial/hatch/blue,
 /turf/simulated/floor/tiled/white,
-/area/kleibkhar/outpost/infirmary/storage)
+/area/kleibkhar/outpost/infirmary)
 "di" = (
 /obj/effect/floor_decal/industrial/warning/dust/corner{
 	icon_state = "warningcorner_dust";
@@ -1496,7 +1502,7 @@
 /turf/simulated/floor/tiled,
 /area/kleibkhar/outpost/mess_hall)
 "dO" = (
-/obj/effect/wallframe_spawn/reinforced/titanium,
+/obj/effect/wallframe_spawn/reinforced,
 /obj/machinery/atmospherics/pipe/zpipe/up/scrubbers{
 	icon_state = "up-scrubbers";
 	dir = 1
@@ -1638,11 +1644,9 @@
 /turf/simulated/floor/tiled/white,
 /area/kleibkhar/outpost/sleeproom)
 "ea" = (
-/obj/machinery/door/airlock/glass/medical,
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/turf/simulated/floor/tiled/white,
-/area/kleibkhar/outpost/infirmary)
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/turf/simulated/floor/tiled/techfloor,
+/area/kleibkhar/outpost/mining)
 "eb" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -2640,15 +2644,17 @@
 /turf/exterior/barren,
 /area/exoplanet/kleibkhar)
 "gs" = (
-/obj/structure/sign/warning/docking_area,
-/turf/simulated/wall/concrete,
+/obj/structure/sign/warning/docking_area{
+	pixel_y = 32
+	},
+/turf/exterior/barren,
 /area/exoplanet/kleibkhar)
 "gt" = (
 /obj/effect/wallframe_spawn/reinforced,
 /turf/simulated/floor,
 /area/kleibkhar/outpost/infirmary/exam)
 "gu" = (
-/obj/effect/wallframe_spawn/reinforced/titanium,
+/obj/effect/wallframe_spawn/reinforced,
 /obj/machinery/door/firedoor,
 /obj/structure/cable{
 	icon_state = "0-8"
@@ -3039,7 +3045,7 @@
 /turf/simulated/floor/tiled,
 /area/kleibkhar/outpost/mess_hall)
 "hr" = (
-/obj/effect/wallframe_spawn/reinforced/titanium,
+/obj/effect/wallframe_spawn/reinforced,
 /turf/simulated/floor,
 /area/kleibkhar/outpost/hydroponics)
 "hs" = (
@@ -3169,14 +3175,13 @@
 /turf/simulated/floor/tiled/white,
 /area/kleibkhar/outpost/infirmary/surgery)
 "hH" = (
-/obj/machinery/door/airlock/glass/medical,
-/obj/structure/cable{
-	icon_state = "1-2"
+/obj/machinery/door/airlock/double/glass/mining{
+	dir = 8;
+	icon_state = "closed"
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/turf/simulated/floor/tiled/white,
-/area/kleibkhar/outpost/infirmary/surgery)
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/turf/simulated/floor/tiled/techfloor,
+/area/kleibkhar/outpost/mining)
 "hI" = (
 /obj/machinery/light{
 	dir = 8;
@@ -3407,7 +3412,7 @@
 /turf/simulated/floor/tiled/monotile,
 /area/kleibkhar/outpost/hallway)
 "ig" = (
-/obj/effect/wallframe_spawn/reinforced/titanium,
+/obj/effect/wallframe_spawn/reinforced,
 /obj/machinery/atmospherics/pipe/simple/heat_exchanging/junction{
 	icon_state = "11";
 	dir = 1
@@ -3477,7 +3482,7 @@
 /turf/simulated/floor/tiled/white,
 /area/kleibkhar/outpost/infirmary/exam)
 "ip" = (
-/obj/effect/wallframe_spawn/reinforced/titanium,
+/obj/effect/wallframe_spawn/reinforced,
 /turf/simulated/floor,
 /area/kleibkhar/outpost/it)
 "iq" = (
@@ -3612,10 +3617,11 @@
 /area/exoplanet/kleibkhar)
 "iG" = (
 /obj/structure/sign/warning/docking_area{
+	dir = 8;
 	icon_state = "securearea";
-	dir = 8
+	pixel_x = 32
 	},
-/turf/simulated/wall/concrete,
+/turf/exterior/barren,
 /area/exoplanet/kleibkhar)
 "iH" = (
 /turf/simulated/wall/concrete,
@@ -3624,11 +3630,12 @@
 /turf/simulated/wall/concrete,
 /area/exoplanet/kleibkhar)
 "iJ" = (
-/obj/machinery/door/blast/shutters{
-	id_tag = "_k_cargo_outer_shutter"
-	},
-/turf/simulated/floor/tiled,
-/area/kleibkhar/outpost/cargo)
+/obj/machinery/door/airlock/glass/medical,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/effect/floor_decal/industrial/hatch/blue,
+/turf/simulated/floor/tiled/white,
+/area/kleibkhar/outpost/infirmary)
 "iK" = (
 /obj/machinery/door/airlock/glass/civilian{
 	icon_state = "closed";
@@ -3661,10 +3668,10 @@
 /turf/simulated/floor,
 /area/kleibkhar/outpost/cargo)
 "iP" = (
-/obj/machinery/door/airlock/glass/civilian{
-	icon_state = "closed";
-	dir = 8
+/obj/machinery/door/blast/shutters{
+	id_tag = "_k_cargo_outer_shutter"
 	},
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled,
 /area/kleibkhar/outpost/cargo)
 "iQ" = (
@@ -3699,11 +3706,13 @@
 /turf/simulated/floor,
 /area/kleibkhar/outpost/cargo)
 "iS" = (
-/obj/machinery/door/blast/shutters{
-	id_tag = "_k_cargo_inner_shutter"
+/obj/machinery/door/airlock/glass/civilian{
+	icon_state = "closed";
+	dir = 8
 	},
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled,
-/area/kleibkhar/outpost/cargo/warehouse)
+/area/kleibkhar/outpost/cargo)
 "iT" = (
 /turf/simulated/wall/concrete,
 /area/kleibkhar/outpost/cargo/warehouse)
@@ -3790,10 +3799,10 @@
 /turf/simulated/floor,
 /area/kleibkhar/outpost/cargo/warehouse)
 "je" = (
-/obj/machinery/door/airlock/glass/civilian{
-	icon_state = "closed";
-	dir = 8
+/obj/machinery/door/blast/shutters{
+	id_tag = "_k_cargo_inner_shutter"
 	},
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled,
 /area/kleibkhar/outpost/cargo/warehouse)
 "jf" = (
@@ -3867,11 +3876,20 @@
 /area/exoplanet/kleibkhar)
 "jo" = (
 /obj/structure/sign/warning/docking_area{
+	dir = 1;
 	icon_state = "securearea";
-	dir = 1
+	pixel_y = -32
 	},
-/turf/simulated/wall/concrete,
+/turf/exterior/barren,
 /area/exoplanet/kleibkhar)
+"jp" = (
+/obj/machinery/door/airlock/glass/civilian{
+	icon_state = "closed";
+	dir = 8
+	},
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/turf/simulated/floor/tiled,
+/area/kleibkhar/outpost/cargo/warehouse)
 "ju" = (
 /obj/machinery/light_switch{
 	pixel_y = 24
@@ -13839,11 +13857,11 @@ fz
 cj
 cj
 dR
-iJ
+iP
 jf
 jw
 jf
-iS
+je
 jg
 iU
 iZ
@@ -14041,11 +14059,11 @@ fz
 cj
 cj
 dR
-iJ
+iP
 jf
 jw
 jf
-iS
+je
 jg
 iU
 iZ
@@ -14851,7 +14869,7 @@ aN
 gY
 iH
 iO
-iP
+iS
 iH
 iT
 iX
@@ -14862,7 +14880,7 @@ ja
 iT
 iT
 jd
-je
+jp
 iT
 ih
 ih
@@ -15650,15 +15668,15 @@ ak
 af
 aa
 aa
-ai
-aR
+ea
+hH
 aa
 iB
 gT
 aN
 gY
+iI
 gs
-bl
 iC
 iz
 iz
@@ -15670,8 +15688,8 @@ iy
 iz
 iz
 ji
-bl
 jo
+iI
 ih
 ih
 ih
@@ -17677,8 +17695,8 @@ af
 gT
 aN
 gY
+iI
 gs
-bl
 iE
 iD
 iD
@@ -17690,8 +17708,8 @@ iD
 iD
 iD
 jn
-bl
 jo
+iI
 eG
 gX
 gX
@@ -18088,7 +18106,7 @@ bl
 bl
 bl
 bl
-bl
+iG
 bl
 bl
 bl
@@ -18290,7 +18308,7 @@ iI
 iI
 iI
 iI
-iG
+iI
 iI
 iI
 iI
@@ -23522,16 +23540,16 @@ aU
 eO
 cL
 do
-dh
+aD
 fR
 av
 fW
 fP
-cX
+dh
 fU
 dD
 eq
-ea
+iJ
 ec
 ee
 dI
@@ -23928,7 +23946,7 @@ aY
 aY
 aY
 aA
-aD
+cX
 hm
 aA
 bJ
@@ -24734,7 +24752,7 @@ ev
 hv
 hA
 hF
-hH
+aR
 hL
 hT
 ic
