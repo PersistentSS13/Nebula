@@ -301,8 +301,8 @@
 	//Print out detailed statistics on what time was spent on what types
 	var/list/saved_types_stats = list()
 	for(var/key in global.serialization_time_spent_type)
-		var/time_spent = global.serialization_time_spent_type[key]
-		saved_types_stats += "\t[time_spent / (1 SECOND)] second(s)\t\t'[key]'"
+		var/datum/serialization_stat/statistics = global.serialization_time_spent_type[key]
+		saved_types_stats += "\t[statistics.time_spent / (1 SECOND)] second(s)\t[statistics.nb_instances]\tinstance(s)\t\t'[key]'"
 	to_world_log("Time spent per type:")
 	to_world_log(jointext(saved_types_stats, "\n"))
 
@@ -518,3 +518,12 @@
 
 /datum/controller/subsystem/persistence/proc/print_db_status()
 	return SQLS_Print_DB_STATUS()
+
+//Stats datum
+/datum/serialization_stat
+	var/time_spent   = 0
+	var/nb_instances = 0
+/datum/serialization_stat/New(var/_time_spent = 0, var/_nb_instances = 0)
+	. = ..()
+	time_spent   = _time_spent
+	nb_instances = _nb_instances
