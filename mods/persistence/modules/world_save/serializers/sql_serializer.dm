@@ -103,7 +103,7 @@
 var/global/list/serialization_time_spent_type
 
 // Serialize an object datum. Returns the appropriate serialized form of the object. What's outputted depends on the serializer.
-/serializer/sql/SerializeDatum(var/datum/object, var/object_parent)
+/serializer/sql/SerializeDatum(var/datum/object, var/atom/object_parent)
 	// Check for existing references first. If we've already saved
 	// there's no reason to save again.
 	if(isnull(object) || !object.should_save())
@@ -116,6 +116,12 @@ var/global/list/serialization_time_spent_type
 		CHECK_TICK
 #endif
 		return existing
+
+	//locs check, to make sure we're saving a multi-tile object only on its original turf
+	if(isturf(object_parent) && ismovable(object))
+		var/atom/movable/am = object
+		if(length(am.locs) > 1 && (am.loc != object_parent))
+			return
 
 	var/time_before_serialize = REALTIMEOFDAY
 	// Thing didn't exist. Create it.
