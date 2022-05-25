@@ -1,12 +1,12 @@
 /datum/beacon_export
 	var/name = "Beacon Export"
-	var/price_per_purchase = 1
+	var/price_per_unit = 0
 	var/unit_per_purchase = 1
 	var/unit_type
 
 /obj/machinery/trade_beacon
 	name = "trade beacon"
-	desc = "An large broadcasting array meant to control trade between the Outreach system and the wider galaxy."
+	desc = "A large broadcasting array meant to control trade between the Outreach system and the wider galaxy."
 	icon = 'icons/obj/jukebox_new.dmi'
 	icon_state = "jukebox3-nopower"
 	anchored = 1
@@ -28,6 +28,8 @@
 	var/list/contents_of_order = list()
 	var/screen = 1
 	var/selected_category
+	var/list/exports_nano = list()
+ 	var/network_key
 
 /obj/machinery/trade_beacon/powered()
 	return 1
@@ -38,7 +40,12 @@
 /obj/machinery/trade_beacon/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
 	user.set_machine(src)
 	var/list/data = list()
+	data["title"] = name
+	var/decl/currency/cur = GET_DECL(global.using_map.default_currency)
+	data["currency"] = cur.name
+
 	if(screen == 1)
+		get_category_contents()
 		data["categories"] = category_names
 		if(selected_category)
 			data["category"] = selected_category
@@ -47,7 +54,8 @@
 				data["showing_contents_of"] = showing_contents_of_ref
 				data["contents_of_order"] = contents_of_order
 	if(screen == 2)
-
+		get_exports_nano()
+		data["exports"] = exports_nano
 
 	ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
 	if (!ui)
@@ -77,6 +85,7 @@
 		clear_order_contents()
 		screen = text2num(href_list["set_screen"])
 		return 1
+
 	// Items requiring cargo access go below this entry. Other items go above.
 	if(!check_access(access_cargo))
 		return 1
@@ -120,6 +129,12 @@
 	return category_contents
 
 
+/obj/machinery/trade_beacon/proc/get_exports_nano()
+	if(!exports_nano || !exports_nano.len)
+		generate_exports_list()
+	return exports_nano
+
+
 /obj/machinery/trade_beacon/proc/generate_categories()
 	category_names.Cut()
 	category_contents.Cut()
@@ -142,6 +157,17 @@
 		if(found)
 			category_names.Add(sp.name)
 			category_contents[sp.name] = category
+
+
+/obj/machinery/trade_beacon/proc/generate_exports_list()
+	exports_nano.Cut()
+	var/decl/currency/cur = GET_DECL(global.using_map.default_currency)
+	for(var/datum/beacon_export/export in exports)
+		category.Add(list(list(
+			"name" = export.name,
+			"cost" = cur.format_value(spc.price_per_unit),
+		)))
+
 
 /obj/machinery/trade_beacon/Outreach
 	owner_name = "Nanotrasen"
