@@ -30,13 +30,13 @@
 	if (I || istype(W, /obj/item/cash))
 		attack_hand(user)
 		return TRUE
-	if(isMultitool(W) || isWirecutter(W))
-		return // REJECT!
+	if(IS_MULTITOOL(W) || IS_WIRECUTTER(W))
+		return // No hacking.
 	if((user.a_intent == I_HELP) && attempt_to_stock(W, user))
 		return TRUE
 	if((. = component_attackby(W, user)))
 		return
-	if((obj_flags & OBJ_FLAG_ANCHORABLE) && isWrench(W))
+	if((obj_flags & OBJ_FLAG_ANCHORABLE) && IS_WRENCH(W))
 		return
 
 /obj/machinery/vending/infini/OnTopic(mob/user, href_list, datum/topic_state/state)

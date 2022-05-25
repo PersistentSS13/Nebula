@@ -29,7 +29,7 @@
 	name = "dylovene"
 
 /decl/material/liquid/antitoxins/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
-	holder.remove_reagent(/decl/material/liquid/ultradex, 10 * removed)
+	holder.remove_reagent(/decl/material/liquid/dexalinultra, 10 * removed)
 	..()
 
 /decl/material/liquid/stimulants
@@ -240,8 +240,8 @@
 	M.adjustToxLoss(5)
 	..()
 
-/decl/material/liquid/ultradex	//T3 oxygen chem
-	name = "ultra dexalin"
+/decl/material/liquid/dexalinultra	//T3 oxygen chem
+	name = "dexalin ultra"
 	lore_text = "The optimal and exceedingly rare chemical for treating oxygen deprivation"
 	taste_description = "a breath of fresh air"
 	color = "#5e4fb3"
@@ -249,9 +249,9 @@
 	scannable = 1
 	flags = IGNORE_MOB_SIZE
 	value = 3.7
-	uid = "chem_ultradex"
+	uid = "chem_ansodex"
 
-/decl/material/liquid/ultradex/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
+/decl/material/liquid/dexalinultra/affect_blood(var/mob/living/M, var/alien, var/removed, var/datum/reagents/holder)
 	M.add_chemical_effect(CE_OXYGENATED, 3)
 	holder.remove_reagent(/decl/material/gas/carbon_monoxide, 4 * removed)
 	M.adjustToxLoss(5 * removed)

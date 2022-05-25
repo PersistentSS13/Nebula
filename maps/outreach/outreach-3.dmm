@@ -10,7 +10,7 @@
 "aj" = (/obj/machinery/light{icon_state = "tube_map"; dir = 1},/turf/simulated/floor/wood/mahogany,/area/outreach/outpost/barracks/second)
 "ak" = (/obj/structure/bed/padded,/obj/item/bedsheet/blue,/turf/simulated/floor/carpet/blue2,/area/outreach/outpost/barracks/second)
 "al" = (/obj/machinery/atmospherics/pipe/simple/hidden/supply,/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,/turf/simulated/floor/carpet/blue2,/area/outreach/outpost/barracks/second)
-"am" = (/obj/structure/railing/mapped{icon_state = "railing0-1"; dir = 4},/obj/structure/stairs/north{icon_state = ""; dir = 1},/turf/simulated/floor/wood/mahogany,/area/outreach/outpost/barracks/second)
+"am" = (/obj/structure/railing/mapped{icon_state = "railing0-1"; dir = 4},/obj/structure/stairs/long/north{icon_state = ""; dir = 1},/turf/simulated/floor/wood/mahogany,/area/outreach/outpost/barracks/second)
 "an" = (/obj/machinery/atm{pixel_x = 24},/turf/simulated/floor/wood/mahogany{icon_state = "wood_broken2"},/area/outreach/outpost/barracks/second)
 "ao" = (/obj/machinery/light{icon_state = "tube_map"; dir = 1},/obj/machinery/atmospherics/pipe/simple/visible/universal{icon_state = "map_universal"; dir = 4},/turf/simulated/floor/plating,/area/outreach/outpost/atmospherics)
 "ap" = (/obj/structure/cable/green{icon_state = "4-8"},/obj/machinery/door/airlock/security{name = "Judge Office"},/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{dir = 4},/obj/machinery/atmospherics/pipe/simple/hidden/supply{dir = 4},/turf/simulated/floor/tiled,/area/outreach/outpost/hallway)

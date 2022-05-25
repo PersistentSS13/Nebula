@@ -10,7 +10,7 @@
 	dir = 1;
 	icon_state = "railing0-1"
 	},
-/obj/structure/stairs/west,
+/obj/structure/stairs/long/west,
 /turf/exterior/barren/mining,
 /area/exoplanet/kleibkhar/mines/exits)
 "d" = (
@@ -28,7 +28,7 @@
 /area/exoplanet/kleibkhar/mines/exits)
 "g" = (
 /obj/structure/railing/mapped,
-/obj/structure/stairs/west,
+/obj/structure/stairs/long/west,
 /turf/exterior/barren/mining,
 /area/exoplanet/kleibkhar/mines/exits)
 "h" = (
