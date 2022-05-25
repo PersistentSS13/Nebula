@@ -177,7 +177,7 @@
 	return ..()
 
 /obj/item/organ/internal/posibrain/do_install(mob/living/carbon/human/target, obj/item/organ/external/affected, in_place, update_icon, detached)
-	if(!(. = ..())) 
+	if(!(. = ..()))
 		return
 	if(istype(owner))
 		SetName(initial(name)) //Reset the organ's name to stay coherent if we're put back into someone's skull
@@ -248,7 +248,7 @@
 		return 0
 	return cell && cell.use(amount)
 
-/obj/item/organ/internal/cell/proc/get_power_drain()	
+/obj/item/organ/internal/cell/proc/get_power_drain()
 	var/damage_factor = 1 + 10 * damage/max_damage
 	return servo_cost * damage_factor
 
@@ -272,7 +272,7 @@
 		cell.emp_act(severity)
 
 /obj/item/organ/internal/cell/attackby(obj/item/W, mob/user)
-	if(isScrewdriver(W))
+	if(IS_SCREWDRIVER(W))
 		if(open)
 			open = 0
 			to_chat(user, "<span class='notice'>You screw the battery panel in place.</span>")
@@ -280,7 +280,7 @@
 			open = 1
 			to_chat(user, "<span class='notice'>You unscrew the battery panel.</span>")
 
-	if(isCrowbar(W))
+	if(IS_CROWBAR(W))
 		if(open)
 			if(cell)
 				user.put_in_hands(cell)
@@ -321,10 +321,13 @@
 
 /obj/item/organ/internal/mmi_holder/Destroy()
 	stored_mmi = null
+	persistantMind = null
 	return ..()
 
-/obj/item/organ/internal/mmi_holder/Initialize(mapload, var/internal)
-	. = ..()
+/obj/item/organ/internal/mmi_holder/do_install(mob/living/carbon/human/target, obj/item/organ/external/affected, in_place)
+	if(status & ORGAN_CUT_AWAY || !(. = ..()))
+		return
+
 	if(!stored_mmi)
 		stored_mmi = new(src)
 	update_from_mmi()

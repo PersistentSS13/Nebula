@@ -82,6 +82,13 @@
 // Parameters: None
 // Description: Updates icon of this object. Uses icon state variables.
 /obj/machinery/door/blast/on_update_icon()
+
+	if(set_dir_on_update)
+		if(connections & (NORTH|SOUTH))
+			set_dir(EAST)
+		else
+			set_dir(SOUTH)
+
 	if(density)
 		if(stat & BROKEN)
 			icon_state = icon_state_closed_broken
@@ -145,7 +152,7 @@
 /obj/machinery/door/blast/attackby(obj/item/C, mob/user)
 	add_fingerprint(user, 0, C)
 	if(!panel_open) //Do this here so the door won't change state while prying out the circuit
-		if(isCrowbar(C) || (istype(C, /obj/item/twohanded/fireaxe) && C:wielded == 1))
+		if(IS_CROWBAR(C) || (istype(C, /obj/item/twohanded/fireaxe) && C:wielded == 1))
 			if(((stat & NOPOWER) || (stat & BROKEN)) && !( operating ))
 				to_chat(user, "<span class='notice'>You begin prying at \the [src]...</span>")
 				if(do_after(user, 2 SECONDS, src))
@@ -217,6 +224,15 @@
 	set waitfor = FALSE
 	sleep(5 SECONDS)
 	close()
+
+/obj/machinery/door/blast/dismantle()
+	var/obj/structure/door_assembly/da = ..()
+	. = da
+
+	da.anchored = 1
+	da.state = 1
+	da.created_name = name
+	da.update_icon()
 
 /decl/public_access/public_method/close_door_delayed
 	name = "delayed close door"

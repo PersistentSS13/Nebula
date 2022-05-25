@@ -75,6 +75,8 @@ var/global/list/time_prefs_fixed = list()
 
 /datum/preferences/Destroy()
 	. = ..()
+	QDEL_NULL(player_setup)
+	QDEL_NULL(panel)
 	QDEL_LIST_ASSOC_VAL(char_render_holders)
 
 /datum/preferences/proc/setup()
@@ -373,8 +375,6 @@ var/global/list/time_prefs_fixed = list()
 
 	character.h_style = h_style
 	character.f_style = f_style
-
-	character.species.handle_limbs_setup(character)
 
 	QDEL_NULL_LIST(character.worn_underwear)
 	character.worn_underwear = list()

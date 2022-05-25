@@ -32,7 +32,6 @@ var/global/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 	var/list/map_levels              // Z-levels available to various consoles, such as the crew monitor. Defaults to station_levels if unset.
 
 	var/list/base_turf_by_z = list() // Custom base turf by Z-level. Defaults to world.turf for unlisted Z-levels
-	var/list/usable_email_tlds = list("freemail.net")
 
 	var/base_floor_type = /turf/simulated/floor/airless // The turf type used when generating floors between Z-levels at startup.
 	var/base_floor_area                                 // Replacement area, if a base_floor_type is generated. Leave blank to skip.
@@ -420,3 +419,15 @@ var/global/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 /datum/map/proc/populate_overmap_events()
 	for(var/overmap_id in global.overmaps_by_name)
 		SSmapping.overmap_event_handler.create_events(global.overmaps_by_name[overmap_id])
+
+/datum/map/proc/get_zlevel_name(var/z)
+	z = "[z]"
+	if(!z)
+		return "Unknown Sector"
+	var/obj/abstract/level_data/level = global.levels_by_z[z]
+	if(level?.level_name)
+		return level.level_name
+	var/obj/effect/overmap/overmap_entity = global.overmap_sectors[z]
+	if(overmap_entity?.name)
+		return overmap_entity.name
+	return "Sector #[z]"
