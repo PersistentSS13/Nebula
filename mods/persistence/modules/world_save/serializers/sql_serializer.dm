@@ -525,7 +525,16 @@ var/global/list/serialization_time_spent_type
 					existing[key_value] = file(LE.value)
 
 		catch(var/exception/e)
-			to_world_log("Failed to deserialize list element [key_value] ([LE?.key_type] '[LE.value]') on line [e.line] / file [e.file] for reason: [e].")
+			var/cur_val = ""
+			if(LE)
+				var/datum/casted = LE?.key
+				cur_val += "('[LE?.key]'([LE?.key_type] [istype(casted)? casted.type : null])"
+				if(LE.value)
+					casted = LE?.value
+					cur_val += " = '[LE?.value]'([LE?.value_type] [istype(casted)? casted.type : null]))"
+				else 
+					cur_val += ")"
+			to_world_log("Failed to deserialize list element [cur_val] on line [e.line] / file [e.file] for reason: [e].")
 
 	return existing
 
