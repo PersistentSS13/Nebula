@@ -41,9 +41,12 @@ var/global/list/cached_sv_child_to_last_ancestor = list()
 /**
  * Helper proc to return a list of saved vars names for a given type of datum/atom.
 */
+var/global/get_saved_variables_lookup_time_total = 0
 /proc/get_saved_variables_for(var/path)
+	var/time_bef = REALTIMEOFDAY
 	var/decl/saved_variables/SV = get_saved_decl(path)
-	return SV?.get_saved_variables()
+	. = SV?.get_saved_variables()
+	get_saved_variables_lookup_time_total += (REALTIMEOFDAY - time_bef)
 
 /////////////////////////////////////////
 // Saved Variables decl
