@@ -303,8 +303,8 @@
 	for(var/key in global.serialization_time_spent_type)
 		var/datum/serialization_stat/statistics = global.serialization_time_spent_type[key]
 		saved_types_stats += "\t[statistics.time_spent / (1 SECOND)] second(s)\t[statistics.nb_instances]\tinstance(s)\t\t'[key]'"
-	to_world_log("Time spent per type:")
-	to_world_log(jointext(saved_types_stats, "\n"))
+	to_world_log("Time spent per type:\n[jointext(saved_types_stats, "\n")]")
+	to_world_log("Total time spent doing saved variables lookups: [global.get_saved_variables_lookup_time_total / (1 SECOND)] second(s).")
 
 	// Reboot air subsystem.
 	SSair.reboot()
