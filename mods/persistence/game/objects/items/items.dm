@@ -1,15 +1,16 @@
-SAVED_VAR(/obj/item, randpixel)
-SAVED_VAR(/obj/item, r_speed)
 SAVED_VAR(/obj/item, health)
-SAVED_VAR(/obj/item, burning)
+
+//Used by things that can be collapsed and put into other inv slots
 SAVED_VAR(/obj/item, slot_flags)
-SAVED_VAR(/obj/item, master)
+
+//Used by clothing that covers or not the face and can be toggled
 SAVED_VAR(/obj/item, flags_inv)
 SAVED_VAR(/obj/item, body_parts_covered)
+
+//Used by things becoming airtight or not
 SAVED_VAR(/obj/item, item_flags)
+
+//Used by things like rig suits
 SAVED_VAR(/obj/item, canremove)
-SAVED_VAR(/obj/item, allowed)
-SAVED_VAR(/obj/item, use_alt_layer)
-SAVED_VAR(/obj/item, sprite_sheets)
 SAVED_VAR(/obj/item, material)
 SAVED_VAR(/obj/item, coating)
