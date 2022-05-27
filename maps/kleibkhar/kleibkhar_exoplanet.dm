@@ -1,11 +1,10 @@
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar
 	name = "\proper Kleibkhar"
 	desc = "A habitable border-world, home to a recent dime-a-dozen corporate colony."
-	planetary_area = /area/exoplanet/kleibkhar
-	lightlevel = 0.6
+	lightlevel = 1.0
 	daycycle = 25 MINUTES
 	daycycle_column_delay = 10 SECONDS
-	night = TRUE
+	night = FALSE
 	daycolumn = 1
 
 	start_x = 27
@@ -13,7 +12,7 @@
 
 	color = "#407c40"
 	grass_color = "#407c40"
-	planetary_area = /area/exoplanet/grass
+	planetary_area = /area/exoplanet/kleibkhar
 	rock_colors = list(COLOR_ASTEROID_ROCK, COLOR_GRAY80, COLOR_BROWN)
 	plant_colors = list("#215a00","#195a47","#5a7467","#9eab88","#6e7248", "RANDOM")
 	surface_color = COLOR_DARK_GREEN_GRAY
@@ -51,11 +50,11 @@
 	START_PROCESSING(SSobj, src)
 
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/update_daynight()
-	var/light = 0.05
+	var/light = 0.1
 	if(!night)
-		light = 0.5
-	for(var/turf/exterior/T in block(locate(daycolumn, TRANSITIONEDGE, max(map_z)), locate(daycolumn,maxy - TRANSITIONEDGE, max(map_z))))
-		T.set_light(light, 0.1, 2)
+		light = lightlevel
+	for(var/turf/exterior/T in block(locate(daycolumn, TRANSITIONEDGE, max(map_z)), locate(daycolumn, maxy - TRANSITIONEDGE, max(map_z))))
+		T.set_light(MINIMUM_USEFUL_LIGHT_RANGE, light)
 	daycolumn++
 	if(daycolumn > maxx)
 		daycolumn = 0
