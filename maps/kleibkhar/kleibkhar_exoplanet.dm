@@ -114,3 +114,6 @@
 
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/get_atmosphere_color()
 	return COLOR_OFF_WHITE
+
+/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/get_target_temperature()
+	return T20C + 8 //Warm-ish
