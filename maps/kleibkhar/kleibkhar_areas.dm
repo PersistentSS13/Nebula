@@ -90,9 +90,15 @@
 	name = "Kleibkhar"
 	icon_state = "green"
 	area_flags = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED | AREA_FLAG_EXTERNAL
-	base_turf = /area/exoplanet/kleibkhar
-	open_turf = /turf/exterior/barren
+	base_turf = /turf/exterior/barren
+	open_turf = /turf/exterior/barren //For now
 	is_outside = OUTSIDE_YES
+
+/area/exoplanet/kleibkhar/sky
+	name = "Up Above"
+	icon_state = "blueold"
+	base_turf = /turf/exterior/open
+	open_turf = /turf/exterior/open
 
 /area/exoplanet/kleibkhar/mines
 	name = "Deep Underground"
