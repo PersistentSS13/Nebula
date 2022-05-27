@@ -1,3 +1,6 @@
+/proc/cmp_serialization_stats_dsc(var/datum/serialization_stat/S1, var/datum/serialization_stat/S2)
+	return S2.time_spent - S1.time_spent
+
 /datum/controller/subsystem/persistence
 	name = "Persistence"
 	init_order = SS_INIT_EARLY
@@ -300,6 +303,7 @@
 
 	//Print out detailed statistics on what time was spent on what types
 	var/list/saved_types_stats = list()
+	global.serialization_time_spent_type = sortTim(global.serialization_time_spent_type, /proc/cmp_serialization_stats_dsc, 1)
 	for(var/key in global.serialization_time_spent_type)
 		var/datum/serialization_stat/statistics = global.serialization_time_spent_type[key]
 		saved_types_stats += "\t[statistics.time_spent / (1 SECOND)] second(s)\t[statistics.nb_instances]\tinstance(s)\t\t'[key]'"
