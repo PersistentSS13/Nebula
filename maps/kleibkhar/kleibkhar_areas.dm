@@ -107,6 +107,7 @@
 	is_outside = OUTSIDE_NO
 	base_turf = /turf/exterior/barren
 	open_turf = /turf/exterior/open
+	area_flags = AREA_FLAG_IS_NOT_PERSISTENT | AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED
 
 /area/exoplanet/kleibkhar/mines/depth_1
 	icon_state = "cave"
@@ -118,10 +119,11 @@
 
 /area/exoplanet/kleibkhar/mines/exits
 	icon_state = "exit"
+	area_flags = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED
 
 /area/exoplanet/kleibkhar/supply_shuttle_dock
 	name = "Supply Shuttle Dock"
 	icon_state = "yellow"
 	base_turf = /turf/simulated/floor/plating //Needed for shuttles
 	open_turf = /turf/exterior/barren
-	area_flags = AREA_FLAG_IS_NOT_PERSISTENT
+	area_flags = AREA_FLAG_IS_NOT_PERSISTENT | AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED | AREA_FLAG_EXTERNAL
