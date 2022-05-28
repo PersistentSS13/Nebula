@@ -210,7 +210,7 @@ var/global/list/serialization_time_spent_type
 			if(!GD.key)
 				// Wrapper is null.
 				continue
-			VV = flattener.SerializeDatum(GD)
+			VV = flattener.SerializeDatum(GD, object)
 		else if (istype(VV, /datum))
 			var/datum/VD = VV
 			if(!VD.should_save(object))
@@ -222,10 +222,10 @@ var/global/list/serialization_time_spent_type
 			// Serialize it complex-like, baby.
 			else if(should_flatten(VV))
 				VT = SERIALIZER_TYPE_DATUM_FLAT // If we flatten an object, the var becomes json. This saves on indexes for simple objects.
-				VV = flattener.SerializeDatum(VV)
+				VV = flattener.SerializeDatum(VV, object)
 			else
 				VT = SERIALIZER_TYPE_DATUM
-				VV = SerializeDatum(VV)
+				VV = SerializeDatum(VV, object)
 		else
 			// We don't know what this is. Skip it.
 #ifdef SAVE_DEBUG
