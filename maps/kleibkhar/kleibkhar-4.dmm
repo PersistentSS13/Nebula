@@ -179,7 +179,7 @@
 	dir = 4
 	},
 /turf/simulated/floor,
-/area/exoplanet/kleibkhar/sky)
+/area/kleibkhar/atmos_pump)
 "av" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/yellow{
 	icon_state = "11";
@@ -189,7 +189,7 @@
 	icon_state = "0-2"
 	},
 /turf/simulated/floor,
-/area/exoplanet/kleibkhar/sky)
+/area/kleibkhar/atmos_pump)
 "aw" = (
 /obj/structure/railing/mapped{
 	icon_state = "railing_preview";
@@ -212,14 +212,10 @@
 	icon_state = "1-2"
 	},
 /turf/simulated/floor,
-/area/exoplanet/kleibkhar/sky)
+/area/kleibkhar/atmos_pump)
 "az" = (
-/obj/machinery/atmospherics/unary/vent_pump/cabled/siphon/on{
-	icon_state = "map_vent_in";
-	dir = 4
-	},
 /turf/simulated/floor,
-/area/exoplanet/kleibkhar/sky)
+/area/kleibkhar/atmos_pump)
 "aA" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
@@ -233,7 +229,7 @@
 	icon_state = "0-2"
 	},
 /turf/simulated/floor,
-/area/exoplanet/kleibkhar/sky)
+/area/kleibkhar/atmos_pump)
 "aB" = (
 /obj/structure/lattice,
 /obj/structure/railing/mapped,
@@ -598,6 +594,13 @@
 /obj/structure/railing/mapped,
 /turf/simulated/floor,
 /area/exoplanet/kleibkhar/sky)
+"bm" = (
+/obj/machinery/atmospherics/unary/vent_pump/cabled/siphon/on{
+	icon_state = "map_vent_in";
+	dir = 4
+	},
+/turf/simulated/floor,
+/area/kleibkhar/atmos_pump)
 
 (1,1,1) = {"
 aa
@@ -16664,8 +16667,8 @@ ag
 ag
 ag
 au
-ah
 az
+bm
 aD
 ag
 ag
