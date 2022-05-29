@@ -399,7 +399,7 @@ var/global/list/serialization_time_spent_type
 		if (!T)
 			to_world_log("Attempting to deserialize onto turf [thing.x],[thing.y],[thing.z] failed. Could not locate turf.")
 			return
-		
+
 		//Don't use change turf, or it'll regen ao and shadows and create weird artifacts
 		T.changing_turf = TRUE
 		qdel(T)
