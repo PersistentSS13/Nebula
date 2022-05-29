@@ -13,9 +13,6 @@
 	. = ..()
 	initial_access = list() // Remove initial_access so that access isn't wiped on load.
 
-/obj/machinery/power/tracker/after_deserialize()
-	. = ..()
-	connect_to_network() //There's a powernet mismatch sometimes after loading the tracker
 
 
 SAVED_VAR(/obj/machinery, stat)
@@ -25,7 +22,6 @@ SAVED_VAR(/obj/machinery, use_power)
 SAVED_VAR(/obj/machinery, uid)
 SAVED_VAR(/obj/machinery, panel_open)
 SAVED_VAR(/obj/machinery, uncreated_component_parts)
-//SAVED_VAR(/obj/machinery, component_parts)
 SAVED_VAR(/obj/machinery, construct_state)
 SAVED_VAR(/obj/machinery, id_tag)
 SAVED_VAR(/obj/machinery, req_access)
