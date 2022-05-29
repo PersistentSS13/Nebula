@@ -95,10 +95,12 @@
 	ignore_mining_regen = FALSE
 
 /area/exoplanet/kleibkhar/mines/depth_2
+	name = "Deepest Underground"
 	icon_state = "cave"
 	ignore_mining_regen = FALSE
 
 /area/exoplanet/kleibkhar/mines/exits
+	name = "Mine Exit"
 	icon_state = "exit"
 
 /area/exoplanet/kleibkhar/supply_shuttle_dock
