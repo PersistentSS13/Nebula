@@ -73,7 +73,7 @@ SAVED_VAR(/obj/item/stock_parts/power/terminal, terminal_dir)
 
 SAVED_VAR(/obj/item/stock_parts/computer/charge_stick_slot,  stored_stick)
 
-SAVED_VAR(/obj/item/stock_parts/network_receiver/network_lock, grants)
+SAVED_VAR(/obj/item/stock_parts/network_receiver/network_lock, groups)
 SAVED_VAR(/obj/item/stock_parts/network_receiver/network_lock, initial_network_id)
 SAVED_VAR(/obj/item/stock_parts/network_receiver/network_lock, initial_network_key)
 SAVED_VAR(/obj/item/stock_parts/network_receiver/network_lock, emagged)
