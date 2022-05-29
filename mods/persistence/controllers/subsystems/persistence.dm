@@ -101,7 +101,11 @@
 				one_off.RemoveFromLimbo(char_mind.unique_id, LIMBO_MIND)
 				continue
 			// Check to see if the mobs are already being saved.
-			if(!QDELETED(current_mob) && ((current_mob.z in SSpersistence.saved_levels) || (get_area(current_mob) in SSpersistence.saved_areas)))
+			var/area/MA = get_area(current_mob)
+			if(!QDELETED(current_mob) && istype(MA) && \
+				(!(MA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT) || \
+				  (MA in SSpersistence.saved_areas) || \
+				  (current_mob.z in SSpersistence.saved_levels)))
 				continue
 			one_off.AddToLimbo(char_mind, char_mind.unique_id, LIMBO_MIND, char_mind.key, char_mind.current.real_name, FALSE)
 		report_progress("Done adding player minds to limbo in [(REALTIMEOFDAY - time_start_limbo_minds) / (1 SECOND)]s.")
@@ -208,10 +212,6 @@
 					//Ignore non-saved areas
 					var/area/TA = T.loc 
 					if(istype(TA) && (TA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT))
-						for(var/mob/living/L in T)
-							if(!L.ckey && !L.last_ckey)
-								continue
-							serializer.Serialize(L, null, z) //Save any player controlled mobs in non-saved areas
 						continue
 					
 					//Save anything else

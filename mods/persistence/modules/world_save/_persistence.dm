@@ -37,8 +37,3 @@ SAVED_VAR(/datum, custom_saved)
 /**Used to check and override whether an entity should be saved. */
 /datum/proc/should_save()
 	return should_save
-
-/**Returns a list of saved variables for this entity type. */
-/datum/proc/get_saved_vars()
-	var/decl/saved_variables/SV = get_saved_decl(type)
-	return SV?.get_saved_variables()

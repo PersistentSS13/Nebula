@@ -15,7 +15,7 @@
 	// Here we load all the saved vars into a list to be manually inserted into the extension later.
 	// This list is itself serialized, so we don't need to check for var types etc. but we repeat some optimizations that wouldn't overwise be done
 	// since the vars are in a list and not on the parent object.
-	for(var/V in object.get_saved_vars())
+	for(var/V in get_saved_variables_for(object.type))
 		if(!issaved(object.vars[V]))
 			continue
 		var/VV = object.vars[V]

@@ -89,6 +89,16 @@ var/global/get_saved_variables_lookup_time_total = 0
 		make_saved_variables() //Generate cache if needed
 	return cached
 
+/**Will test the instance of the given object if its the object we're holding the saved vars for. Will returns FALSE if something is wrong with the variables.*/
+/decl/saved_variables/proc/test_variables(var/datum/instance)
+	if(!ispath(instance.type, type_path))
+		return FALSE
+	for(var/v in get_saved_variables())
+		if(!issaved(instance.vars[v]))
+			log_warning("BAD SAVED VARIABLE: [type_path]'s [v] variable is marked as saved even though its either marked const or tmp, or otherwise forbidden to save!")
+			return FALSE
+	return TRUE
+
 /////////////////////////////////////////
 // Defined Base Types
 /////////////////////////////////////////

@@ -6,7 +6,7 @@
 
 /**
  * Clears all saved variables for this particular type and its children.
- * Useful when you don't care about saving the state of some things.
+ * Useful when you don't care about saving the state of some things, and just want them to be instantiated from scratch on load.
  */
 #define SAVED_INSTANCIATE_ONLY(CLASSPATH) /decl/saved_variables##CLASSPATH/make_saved_variables(list/saved){if(length(cached)){cached.Cut();}}
 
