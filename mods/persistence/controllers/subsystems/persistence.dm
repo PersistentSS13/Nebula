@@ -100,7 +100,7 @@
 			// Check to see if the mobs are already being saved.
 			if(!QDELETED(current_mob) && ((current_mob.z in SSpersistence.saved_levels) || (get_area(current_mob) in SSpersistence.saved_areas)))
 				continue
-			one_off.AddToLimbo(char_mind, char_mind.unique_id, LIMBO_MIND, char_mind.persistent_id, char_mind.key, char_mind.current.real_name, FALSE)
+			one_off.AddToLimbo(char_mind, char_mind.unique_id, LIMBO_MIND, char_mind.key, char_mind.current.real_name, FALSE)
 		report_progress("Done adding player minds to limbo in [(REALTIMEOFDAY - time_start_limbo_minds) / (1 SECOND)]s.")
 		sleep(5)
 

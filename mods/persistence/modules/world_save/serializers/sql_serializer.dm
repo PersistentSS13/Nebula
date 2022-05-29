@@ -60,7 +60,6 @@
 
 	// Add the flatten serializer.
 	var/serializer/json/flattener
-
 	
 	var/static/byondChar			// byondChar isn't unicode valid, so we have to get this at runtime
 	var/static/utf8Char = "\uF811"	// this is a Private Use character in utf8 that we can use as a replacement
@@ -147,13 +146,24 @@
 	thing_map["\ref[object]"] = p_i
 
 	for(var/V in object.get_saved_vars())
-		if(!(V in object.vars))
-			to_world_log("BAD SAVED VARIABLE : '[object.type]' cannot have its '[V]' variable saved, since it does not exist!")
+		var/VV
+		// This is terrible, but the only way to check this without looping over vars.
+		// TODO: Remove after the saved_vars rework
+		try
+		
+			VV = object.vars[V]
+		catch
+			#ifdef SAVE_DEBUG
+				to_world_log("BAD SAVED VARIABLE : '[object.type]' cannot have its '[V]' variable saved, since it does not exist!")
+			#endif
 			continue
+		
 		if(!issaved(object.vars[V]))
-			to_world_log("BAD SAVED VARIABLE : '[object.type]' cannot have its '[V]' variable saved, since its marked as not saved!")
+			#ifdef SAVE_DEBUG
+				to_world_log("BAD SAVED VARIABLE : '[object.type]' cannot have its '[V]' variable saved, since its marked as not saved!")
+			#endif
 			continue
-		var/VV = object.vars[V]
+		
 		var/VT = SERIALIZER_TYPE_VAR
 #ifdef SAVE_DEBUG
 		to_world_log("(SerializeThingVar) [V]")
