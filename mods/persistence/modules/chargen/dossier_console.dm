@@ -59,6 +59,10 @@
 				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter a role to proceed."))
 				return
 			user.mind.finished_chargen = TRUE
+			var/area/A = get_area(src)
+			var/obj/machinery/cryopod/chargen/pod = locate() in A
+			if(pod)
+				pod.ready_for_mingebag()
 		if("unsubmit")
 			user.mind.finished_chargen = FALSE
 		if("confirm_origin")
