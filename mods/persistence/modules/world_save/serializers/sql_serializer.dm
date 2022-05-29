@@ -410,9 +410,11 @@ var/global/list/serialization_time_spent_type
 	existing.persistent_id = thing.p_id // Upon deserialization we reapply the persistent_id in the thing table to save space.
 	reverse_map["[thing.p_id]"] = existing
 
-	//Remove vars not in existing.vars we got in thing.thing_vars
+	//Remove vars not in our currently saved vars, since they're validated, we won't ever load a missing variable this way
+	// Which is enormously faster than comparing to the object's vars var.
+	var/list/saved = get_saved_variables_for(existing.type)
 	for(var/datum/persistence/load_cache/thing_var/TV in thing.thing_vars)
-		if(!(TV.key in existing.vars))
+		if(!(TV.key in saved))
 			thing.thing_vars -= TV
 			log_warning("Saved var '[TV.key]' ignored since receiving object '[TV.var_type]' doesn't have this variable!")
 

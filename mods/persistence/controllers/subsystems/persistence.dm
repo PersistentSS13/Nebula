@@ -103,8 +103,8 @@
 			// Check to see if the mobs are already being saved.
 			var/area/MA = get_area(current_mob)
 			if(!QDELETED(current_mob) && istype(MA) && \
-				(!(MA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT) || \
-				  (MA in SSpersistence.saved_areas) || \
+				!(MA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT) && \
+				  ((MA in SSpersistence.saved_areas) || \
 				  (current_mob.z in SSpersistence.saved_levels)))
 				continue
 			one_off.AddToLimbo(char_mind, char_mind.unique_id, LIMBO_MIND, char_mind.key, char_mind.current.real_name, FALSE)
