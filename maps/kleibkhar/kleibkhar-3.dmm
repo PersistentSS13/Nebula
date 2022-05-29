@@ -515,7 +515,7 @@
 /turf/simulated/wall/concrete,
 /area/kleibkhar/outpost/computer)
 "bp" = (
-/obj/machinery/network/acl/kleibkhar,
+/obj/machinery/network/acl,
 /obj/machinery/atmospherics/pipe/simple/heat_exchanging{
 	dir = 10
 	},

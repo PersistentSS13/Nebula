@@ -25,6 +25,10 @@
 
 	has_gravity = A.has_gravity
 
+/datum/wrapper/area/after_save()
+	. = ..()
+	turfs.Cut()
+
 /datum/wrapper/area/on_deserialize()	
 	// Check for areas that have already been deserialized to prevent duplicate areas.
 	for(var/area/pre_area)

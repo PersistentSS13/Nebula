@@ -9,7 +9,10 @@
 		"path":"/datum/computer_file",
 		"vars":[
 			"holder",
-			"filename"
+			"filename",
+			"read_access",
+			"write_access",
+			"mod_access"
 		]
 	},
 	{
@@ -1589,7 +1592,7 @@
 		]
 	},
 	{
-		"path":"/obj/machinery/power/emitter",
+		"path":"/obj/machinery/emitter",
 		"vars":[
 			"active",
 			"locked",
@@ -1604,14 +1607,14 @@
 		]
 	},
 	{
-		"path":"/obj/machinery/power/port_gen",
+		"path":"/obj/machinery/port_gen",
 		"vars":[
 			"active",
 			"power_output"
 		]
 	},
 	{
-		"path":"/obj/machinery/power/shield_generator",
+		"path":"/obj/machinery/shield_generator",
 		"vars":[
 			"shield_modes",
 			"mitigation_em",
@@ -2374,7 +2377,7 @@
 		]
 	},
 	{
-		"path":"/obj/machinery/power/port_gen/pacman",
+		"path":"/obj/machinery/port_gen/pacman",
 		"vars":[
 			"sheets",
 			"operating_temperature",
@@ -2558,7 +2561,7 @@
 		]
 	},
 	{
-		"path":"/obj/machinery/power/fusion_core",
+		"path":"/obj/machinery/fusion_core",
 		"vars":[
 			"owned_field",
 			"field_strength",
@@ -2657,7 +2660,7 @@
 		]
 	},
 	{
-		"path":"/obj/machinery/power/turbine",
+		"path":"/obj/machinery/turbine",
 		"vars":[
 			"compressor",
 			"outturf",
@@ -2712,7 +2715,7 @@
 		]
 	},
 	{
-		"path":"/obj/machinery/power/emitter/gyrotron",
+		"path":"/obj/machinery/emitter/gyrotron",
 		"vars":[
 			"initial_id_tag",
 			"rate",
@@ -4196,7 +4199,7 @@
 		]
 	},
 	{
-		"path":"/obj/machinery/power/rad_collector",
+		"path":"/obj/machinery/rad_collector",
 		"vars":[
 			"health",
 			"melted",
@@ -4216,7 +4219,7 @@
   {
 		"path":"/obj/item/stock_parts/network_lock",
 		"vars":[
-			"grants",
+			"groups",
 			"initial_network_id",
 			"initial_network_key",
 			"emagged"
@@ -4445,5 +4448,32 @@
 			"chemical",
 			"blood_data"
 		]
+	},
+	{
+		"path":"/datum/extension/network_device/acl",
+		"vars":[
+			"group_dict",
+			"all_groups",
+			"allow_submanagement",
+			"parent_account_creation"
+		]
+	},
+	{
+		"path":"/datum/computer_file/data/account",
+		"vars":[
+			"login",
+			"password",
+			"can_login",
+			"suspended",
+			"groups",
+			"parent_groups",
+			"fullname",
+			"inbox",
+			"outbox",
+			"spam",
+			"deleted",
+			"backup"
+		],
+		"flatten":true
 	}
 ]

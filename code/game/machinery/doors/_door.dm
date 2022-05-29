@@ -277,7 +277,7 @@
 
 		return TRUE
 
-	if(repairing && isWelder(I))
+	if(repairing && IS_WELDER(I))
 		if(!density)
 			to_chat(user, "<span class='warning'>\The [src] must be closed before you can repair it.</span>")
 			return TRUE
@@ -294,7 +294,7 @@
 				repairing = null
 		return TRUE
 
-	if(repairing && isCrowbar(I))
+	if(repairing && IS_CROWBAR(I))
 		to_chat(user, "<span class='notice'>You remove \the [repairing].</span>")
 		playsound(src.loc, 'sound/items/Crowbar.ogg', 100, 1)
 		repairing.dropInto(user.loc)
@@ -543,6 +543,9 @@
 	for(var/obj/item/stock_parts/access_lock/lock in get_all_components_of_type(/obj/item/stock_parts/access_lock))
 		if(lock.locked && length(lock.req_access))
 			. |= lock.req_access
+
+	for(var/obj/item/stock_parts/network_receiver/network_lock/lock in get_all_components_of_type(/obj/item/stock_parts/network_receiver/network_lock))
+		. |= lock.get_req_access()
 
 /obj/machinery/door/do_simple_ranged_interaction(var/mob/user)
 	if((!requiresID() || allowed(null)) && can_operate(user) && can_open_manually)

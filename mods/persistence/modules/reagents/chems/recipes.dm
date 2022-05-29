@@ -24,9 +24,9 @@
 	required_reagents = list(/decl/material/solid/carbon = 1, /decl/material/solid/potassium = 1) 
 	result_amount = 2
 
-/decl/chemical_reaction/ultradex
-	name = "Ultra Dexalin"
-	result = /decl/material/liquid/ultradex
+/decl/chemical_reaction/dexalinultra
+	name = "Dexalin Ultra"
+	result = /decl/material/liquid/dexalinultra
 	required_reagents = list(/decl/material/liquid/dexalinplus = 1, /decl/material/liquid/nanitefluid = 1)
 	catalysts = list(/decl/material/solid/metal/depleted_uranium = 5)
 	result_amount = 1

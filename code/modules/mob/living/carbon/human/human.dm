@@ -37,6 +37,7 @@
 	global.human_mob_list -= src
 	worn_underwear = null
 	QDEL_NULL(attack_selector)
+	QDEL_NULL(vessel)
 	LAZYCLEARLIST(smell_cooldown)
 	. = ..()
 
@@ -1018,7 +1019,7 @@
 				status += "MISSING"
 			if(org.status & ORGAN_MUTATED)
 				status += "misshapen"
-			if(org.dislocated == 2)
+			if(org.is_dislocated())
 				status += "dislocated"
 			if(org.status & ORGAN_BROKEN)
 				status += "hurts when touched"
@@ -1327,13 +1328,14 @@
 		dna.ready_dna(src) //regen dna filler only if we haven't forced the dna already
 
 	species.handle_pre_spawn(src)
-	apply_species_cultural_info()
-	apply_species_appearance()
 	if(!LAZYLEN(get_external_organs()))
 		species.create_missing_organs(src) //Syncs DNA when adding organs
+	apply_species_cultural_info()
+	apply_species_appearance()
 	species.handle_post_spawn(src)
 
 	UpdateAppearance() //Apply dna appearance to mob, causes DNA to change because filler values are regenerated
+	//Prevent attempting to create blood container if its already setup
 	if(!vessel)
 		reset_blood()
 
@@ -1349,3 +1351,11 @@
 //Runs last after setup and after the parent init has been executed.
 /mob/living/carbon/human/proc/post_setup(var/species_name = null, var/datum/dna/new_dna = null)
 	refresh_visible_overlays() //Do this exactly once per setup
+
+/mob/living/carbon/human/handle_flashed(var/obj/item/flash/flash, var/flash_strength)
+	var/safety = eyecheck()
+	if(safety < FLASH_PROTECTION_MODERATE)
+		flash_strength = round(getFlashMod() * flash_strength)
+		if(safety > FLASH_PROTECTION_NONE)
+			flash_strength = (flash_strength / 2)
+	. = ..()
