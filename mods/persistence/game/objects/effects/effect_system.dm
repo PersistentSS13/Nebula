@@ -58,3 +58,6 @@
 
 /obj/effect/razorweb
 	should_save = TRUE
+
+/obj/effect/geyser
+	should_save = TRUE
