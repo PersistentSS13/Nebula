@@ -27,6 +27,11 @@
 /obj/machinery/vending/infini/industrial/basic
 	name = "Constructo-matic Standard"
 	desc = "An engineering vendor that synthesizes basic engineering equipment. Unfortunately, this one lacks the correct modules to print building materials."
+	markup = 0
+	icon_state = "tool"
+	icon_deny = "tool-deny"
+	icon_vend = "tool-vend"
+	vend_delay = 11
 	base_type = /obj/machinery/vending/infini/industrial/basic
 	products = list(
 		/obj/item/chargen_box/industrial/engineering = 999,
