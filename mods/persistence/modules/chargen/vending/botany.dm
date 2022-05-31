@@ -16,7 +16,7 @@
 	
 /obj/machinery/vending/infini/food
 	name = "Brownstone Solutions Snack-o-Matic"
-	desc = "A groundbreaking innovation in bluespace technology. Synthesizes and teleports packaged food from the nearest Brownstone Solutions facility to this vendor for you to enjoy."
+	desc = "Advanced packaged food synthesizer. Uses electricity and hyper-technology to create food almost instantly. Brought to you by Brownstone Solutions, Inc."
 	markup = 0
 	icon_state = "nutri"
 	icon_vend = "nutri-vend"
