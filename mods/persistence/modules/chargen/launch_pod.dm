@@ -8,6 +8,20 @@
 	global.latejoin_locations |= get_turf(src)
 	global.latejoin_cryo_locations |= get_turf(src)
 
+/obj/machinery/cryopod/chargen/Initialize()
+	. = ..()
+	icon_state = occupied_icon_state //Those starts closed
+
+/obj/machinery/cryopod/chargen/proc/ready_for_mingebag()
+	set_light(10, 1, COLOR_CYAN_BLUE)
+	icon_state = base_icon_state
+	if(open_sound)
+		playsound(src, open_sound, 40)
+
+/obj/machinery/cryopod/chargen/proc/unready()
+	icon_state = occupied_icon_state
+	set_light(0, null)
+
 // Chargen pod
 /obj/machinery/cryopod/chargen/proc/send_to_outpost()
 	if(!istype(occupant))
@@ -48,6 +62,7 @@
 			break
 
 	//Free up the chargen pod
+	unready()
 	SSchargen.release_spawn_pod(get_area(src))
 
 	for(var/turf/T in global.latejoin_cryo_locations)
