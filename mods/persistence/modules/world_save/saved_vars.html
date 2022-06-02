@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <base href="../../../../../../../../" />
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;world_save&#x2F;saved_vars.dm - Space Station 13 - Nebula13</title>
+</head>
+<body>
+<header>
+    <a href="index.html">Space Station 13 - Nebula13</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+ &mdash; <a href="maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.html#define">Define Details</a></header>
+<main>
+<h1>maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm 
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3211f1cf0f453dca9e3175b227d7ddf76159c8a2/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;world_save&#x2F;saved_vars.dm"/></a></h1>
+
+<table class="summary" cellspacing="0">
+        <tr><th><a href="maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.html#define/GET_SAVED_DECL_FOR">GET_SAVED_DECL_FOR</a></th><td>Turns type path into a path to that type's saved variables singleton datum 
+Not meant to be used elsewhere.</td></tr>
+        <tr><th>/var/<a href="global.html#var/SAVED_VARIABLES_TYPE">SAVED_VARIABLES_TYPE</a></th>
+                <td>Base type of the saved vars datum</td></tr>
+        <tr><th>/var/<a href="global.html#var/cached_sv_child_to_last_ancestor">cached_sv_child_to_last_ancestor</a></th>
+                <td>Caches the last ancestor that has defined saved variables for a given type. So we don't spend too much time during lookups</td></tr>
+        <tr><th>/proc/<a href="global.html#proc/get_saved_decl">get_saved_decl</a></th>
+                <td>Helper proc to return the saved_variables datum for a given type path.
+! If we end up here, we couldn't find saved vars for our specific type, and we haven't cached an ancestor type to use the saved vars of instead. !!</td></tr>
+        <tr><th>/var/<a href="global.html#var/get_saved_variables_lookup_time_total">get_saved_variables_lookup_time_total</a></th>
+                <td>Helper proc to return a list of saved vars names for a given type of datum/atom.</td></tr>
+        <tr><th><a href="decl&#x2F;saved_variables.html">&#x2F;decl&#x2F;saved_variables</a></th><td>Singleton datum for holding saved variables info for a given type.
+Don't define one of those manually, and instead use the macros. 
+Objects of this type expect the path of the entity they contain info on to have their full path in the datum subtype's path. (Ex: /mob/living -&gt; /decl/saved_variables/mob/living )</td></tr></table><h2 id="define">Define Details</h2>
+<h3 id="define/GET_SAVED_DECL_FOR"><aside class="declaration">#define </aside>GET_SAVED_DECL_FOR
+            <aside>(P)</aside>
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3211f1cf0f453dca9e3175b227d7ddf76159c8a2/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L5">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;world_save&#x2F;saved_vars.dm 5"/></a>
+    </h3>
+    <p>Turns type path into a path to that type's saved variables singleton datum 
+Not meant to be used elsewhere.</p></main>
+<footer>
+    nebula.dme
+    <a href="https://github.com/PersistentSS13/Nebula/tree/3211f1cf0f453dca9e3175b227d7ddf76159c8a2">3211f1c</a>
+        (dev) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.4.1</a></footer>
+</body>
+</html>
