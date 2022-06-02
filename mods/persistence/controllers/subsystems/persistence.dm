@@ -1,3 +1,6 @@
+/proc/cmp_serialization_stats_dsc(var/datum/serialization_stat/S1, var/datum/serialization_stat/S2)
+	return S2.time_spent - S1.time_spent
+
 /datum/controller/subsystem/persistence
 	name = "Persistence"
 	init_order = SS_INIT_EARLY
@@ -98,7 +101,11 @@
 				one_off.RemoveFromLimbo(char_mind.unique_id, LIMBO_MIND)
 				continue
 			// Check to see if the mobs are already being saved.
-			if(!QDELETED(current_mob) && ((current_mob.z in SSpersistence.saved_levels) || (get_area(current_mob) in SSpersistence.saved_areas)))
+			var/area/MA = get_area(current_mob)
+			if(!QDELETED(current_mob) && istype(MA) && \
+				!(MA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT) && \
+				  ((MA in SSpersistence.saved_areas) || \
+				  (current_mob.z in SSpersistence.saved_levels)))
 				continue
 			one_off.AddToLimbo(char_mind, char_mind.unique_id, LIMBO_MIND, char_mind.key, char_mind.current.real_name, FALSE)
 		report_progress("Done adding player minds to limbo in [(REALTIMEOFDAY - time_start_limbo_minds) / (1 SECOND)]s.")
@@ -199,9 +206,16 @@
 					var/turf/T = locate(x,y,z)
 					// This if statement, while complex, checks to see if we should save this turf.
 					// Turfs not saved become their default_turf after deserialization.
-					if(!istype(T) || istype(T, default_turf) || !T.should_save)
-						if(!istype(T) || !T.contents || !length(T.contents))
-							continue
+					if(!istype(T) || !LAZYLEN(T.contents))
+						continue
+					
+					//Ignore non-saved areas
+					var/area/TA = T.loc 
+					if(istype(TA) && (TA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT))
+						continue
+					
+					//Save anything else
+					if(istype(T, default_turf) || !T.should_save)
 						var/should_skip = TRUE
 						for(var/atom/A as anything in T.contents)
 							if(A.should_save())
@@ -286,18 +300,29 @@
 		serializer.Clear()
 		// Clear the custom saved list used to keep list refs intact
 		global.custom_saved_lists.Cut()
-		// Reboot air subsystem.
-		SSair.reboot()
 		// Let people back in
 		if(reallow) config.enter_allowed = 1
 	catch (var/exception/e)
 		to_world_log("Save failed on line [e.line], file [e.file] with message: '[e]'.")
+
 	to_world("Save complete! Took [(world.timeofday-start)/ (1 SECOND)]s to save world.")
 	saved_extensions.Cut() // Make extensions re-report if they want to be saved again.
 	serializer._after_serialize()
 
 	// Launch event for anything that needs to do cleanup post save.
 	events_repository.raise_event(/decl/observ/world_saving_finish_event, src)
+
+	//Print out detailed statistics on what time was spent on what types
+	var/list/saved_types_stats = list()
+	global.serialization_time_spent_type = sortTim(global.serialization_time_spent_type, /proc/cmp_serialization_stats_dsc, 1)
+	for(var/key in global.serialization_time_spent_type)
+		var/datum/serialization_stat/statistics = global.serialization_time_spent_type[key]
+		saved_types_stats += "\t[statistics.time_spent / (1 SECOND)] second(s)\t[statistics.nb_instances]\tinstance(s)\t\t'[key]'"
+	to_world_log("Time spent per type:\n[jointext(saved_types_stats, "\n")]")
+	to_world_log("Total time spent doing saved variables lookups: [global.get_saved_variables_lookup_time_total / (1 SECOND)] second(s).")
+
+	// Reboot air subsystem.
+	SSair.reboot()
 
 /datum/controller/subsystem/persistence/proc/LoadWorld()
 	serializer._before_deserialize()
@@ -508,3 +533,12 @@
 
 /datum/controller/subsystem/persistence/proc/print_db_status()
 	return SQLS_Print_DB_STATUS()
+
+//Stats datum
+/datum/serialization_stat
+	var/time_spent   = 0
+	var/nb_instances = 0
+/datum/serialization_stat/New(var/_time_spent = 0, var/_nb_instances = 0)
+	. = ..()
+	time_spent   = _time_spent
+	nb_instances = _nb_instances

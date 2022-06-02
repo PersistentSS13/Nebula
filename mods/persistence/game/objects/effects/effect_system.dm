@@ -16,6 +16,10 @@
 
 /obj/effect/floor_decal
 	should_save = TRUE
+/obj/effect/decal
+	should_save = TRUE
+/obj/effect/overlay
+	should_save = TRUE
 
 /obj/abstract/map_data
 	should_save = TRUE
@@ -26,9 +30,6 @@
 	should_save = TRUE
 
 /obj/effect/spider
-	should_save = TRUE
-
-/obj/effect/overlay
 	should_save = TRUE
 
 /obj/effect/spresent

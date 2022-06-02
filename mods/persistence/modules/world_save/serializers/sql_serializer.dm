@@ -9,8 +9,8 @@
 
 	var/DBQuery/dbq = global.dbcon_save.NewQuery("SELECT DATABASE();")
 	if(dbq.Execute() && dbq.NextRow())
-		to_chat(usr, "Test query returned: '[dbq.item[1]]'!") 
-	else 
+		to_chat(usr, "Test query returned: '[dbq.item[1]]'!")
+	else
 		to_chat(usr, SPAN_WARNING("Failed with error: '[dbcon_save.ErrorMsg()]'"))
 
 /proc/SQLS_Print_DB_STATUS()
@@ -60,7 +60,7 @@
 
 	// Add the flatten serializer.
 	var/serializer/json/flattener
-	
+
 	var/static/byondChar			// byondChar isn't unicode valid, so we have to get this at runtime
 	var/static/utf8Char = "\uF811"	// this is a Private Use character in utf8 that we can use as a replacement
 
@@ -72,7 +72,7 @@
 /serializer/sql/New()
 	..()
 	flattener = new(src)
-	
+
 	if(isnull(byondChar))
 		byondChar = copytext_char("\improper", 1, 2)
 
@@ -86,10 +86,12 @@
 /serializer/sql/_before_serialize()
 	if(!establish_save_db_connection())
 		CRASH("SQL SERIALIZER: Failed to connect to save DB!")
+	LAZYCLEARLIST(serialization_time_spent_type)
 
 /serializer/sql/_before_deserialize()
 	if(!establish_save_db_connection())
 		CRASH("SQL SERIALIZER: Failed to connect to save DB!")
+	LAZYCLEARLIST(serialization_time_spent_type)
 
 /serializer/sql/_after_serialize()
 	close_save_db_connection()
@@ -97,15 +99,15 @@
 /serializer/sql/_after_deserialize()
 	close_save_db_connection()
 
+/**Keep a tally of the time taken to save each datum types */
+var/global/list/serialization_time_spent_type
+
 // Serialize an object datum. Returns the appropriate serialized form of the object. What's outputted depends on the serializer.
-/serializer/sql/SerializeDatum(var/datum/object, var/object_parent)
+/serializer/sql/SerializeDatum(var/datum/object, var/atom/object_parent)
 	// Check for existing references first. If we've already saved
 	// there's no reason to save again.
 	if(isnull(object) || !object.should_save())
 		return
-
-	if(isnull(global.saved_vars[object.type]))
-		return // EXPERIMENTAL. Don't save things without a whitelist.
 
 	var/existing = thing_map["\ref[object]"]
 	if (existing)
@@ -115,6 +117,13 @@
 #endif
 		return existing
 
+	//locs check, to make sure we're saving a multi-tile object only on its original turf
+	if(isturf(object_parent) && ismovable(object))
+		var/atom/movable/am = object
+		if(length(am.locs) > 1 && (am.loc != object_parent))
+			return
+
+	var/time_before_serialize = REALTIMEOFDAY
 	// Thing didn't exist. Create it.
 	var/p_i = object.persistent_id ? object.persistent_id : PERSISTENT_ID
 	object.persistent_id = p_i
@@ -123,7 +132,11 @@
 	var/y = 0
 	var/z = 0
 
+	var/before_before_save = REALTIMEOFDAY
 	object.before_save() // Before save hook.
+	if((REALTIMEOFDAY - before_before_save) > 5 SECONDS)
+		to_world_log("before_save() took [(REALTIMEOFDAY - before_before_save) / (1 SECOND)] to execute on type [object.type]!")
+
 	if(ispath(object.type, /turf))
 		var/turf/T = object
 		x = T.x
@@ -145,25 +158,8 @@
 	inserts_since_commit++
 	thing_map["\ref[object]"] = p_i
 
-	for(var/V in object.get_saved_vars())
-		var/VV
-		// This is terrible, but the only way to check this without looping over vars.
-		// TODO: Remove after the saved_vars rework
-		try
-		
-			VV = object.vars[V]
-		catch
-			#ifdef SAVE_DEBUG
-				to_world_log("BAD SAVED VARIABLE : '[object.type]' cannot have its '[V]' variable saved, since it does not exist!")
-			#endif
-			continue
-		
-		if(!issaved(object.vars[V]))
-			#ifdef SAVE_DEBUG
-				to_world_log("BAD SAVED VARIABLE : '[object.type]' cannot have its '[V]' variable saved, since its marked as not saved!")
-			#endif
-			continue
-		
+	for(var/V in get_saved_variables_for(object.type))
+		var/VV = object.vars[V]
 		var/VT = SERIALIZER_TYPE_VAR
 #ifdef SAVE_DEBUG
 		to_world_log("(SerializeThingVar) [V]")
@@ -207,7 +203,7 @@
 			if(!GD.key)
 				// Wrapper is null.
 				continue
-			VV = flattener.SerializeDatum(GD)
+			VV = flattener.SerializeDatum(GD, object)
 		else if (istype(VV, /datum))
 			var/datum/VD = VV
 			if(!VD.should_save(object))
@@ -219,10 +215,10 @@
 			// Serialize it complex-like, baby.
 			else if(should_flatten(VV))
 				VT = SERIALIZER_TYPE_DATUM_FLAT // If we flatten an object, the var becomes json. This saves on indexes for simple objects.
-				VV = flattener.SerializeDatum(VV)
+				VV = flattener.SerializeDatum(VV, object)
 			else
 				VT = SERIALIZER_TYPE_DATUM
-				VV = SerializeDatum(VV)
+				VV = SerializeDatum(VV, object)
 		else
 			// We don't know what this is. Skip it.
 #ifdef SAVE_DEBUG
@@ -235,11 +231,23 @@
 #endif
 		var_inserts.Add("'[p_i]','[V]','[VT]',\"[VV]\"")
 		inserts_since_commit++
+
+	var/before_after_save = REALTIMEOFDAY
 	object.after_save() // After save hook.
+	if((REALTIMEOFDAY - before_after_save) > 5 SECONDS)
+		to_world_log("after_save() took [(REALTIMEOFDAY - before_after_save) / (1 SECOND)] to exacute on type [object.type]!")
+
 	if(autocommit && inserts_since_commit > autocommit_threshold)
 		Commit()
-	return p_i
 
+	//Tally up statistices
+	var/datum/serialization_stat/st = LAZYACCESS(serialization_time_spent_type, object.type)
+	if(!st)
+		st = new
+		LAZYSET(serialization_time_spent_type, object.type, st)
+	st.time_spent += (REALTIMEOFDAY - time_before_serialize)
+	st.nb_instances++
+	return p_i
 
 // Serialize a list. Returns the appropriate serialized form of the list. What's outputted depends on the serializer.
 /serializer/sql/SerializeList(var/list/_list, var/datum/list_parent)
@@ -362,11 +370,11 @@
 #ifdef SAVE_DEBUG
 		if(verbose_logging)
 			to_world_log("(SerializeListElem-Done) ([l_i],\"[KV]\",'[KT]',\"[EV]\",\"[ET]\")")
-#endif	
+#endif
 		found_element = TRUE
 		element_inserts.Add("[l_i],\"[KV]\",'[KT]',\"[EV]\",\"[ET]\"")
 		inserts_since_commit++
-	
+
 	if(!found_element) // There wasn't anything that actually needed serializing in this list, so return null.
 		list_index--
 		list_map -= list_ref
@@ -391,8 +399,8 @@
 		if (!T)
 			to_world_log("Attempting to deserialize onto turf [thing.x],[thing.y],[thing.z] failed. Could not locate turf.")
 			return
-		//T.ChangeTurf(thing.thing_type) //You really don't want to run this before the other SS are initialized!!!!!!!!!
-		//Its referencing SS AO, SS Lighting, various observer events, etc...
+
+		//Don't use change turf, or it'll regen ao and shadows and create weird artifacts
 		T.changing_turf = TRUE
 		qdel(T)
 		existing = new thing.thing_type(T)
@@ -401,6 +409,15 @@
 		existing = new thing.thing_type()
 	existing.persistent_id = thing.p_id // Upon deserialization we reapply the persistent_id in the thing table to save space.
 	reverse_map["[thing.p_id]"] = existing
+
+	//Remove vars not in our currently saved vars, since they're validated, we won't ever load a missing variable this way
+	// Which is enormously faster than comparing to the object's vars var.
+	var/list/saved = get_saved_variables_for(existing.type)
+	for(var/datum/persistence/load_cache/thing_var/TV in thing.thing_vars)
+		if(!(TV.key in saved))
+			thing.thing_vars -= TV
+			log_warning("Saved var '[TV.key]' ignored since receiving object '[TV.var_type]' doesn't have this variable!")
+
 	// Fetch all the variables for the thing.
 	for(var/datum/persistence/load_cache/thing_var/TV in thing.thing_vars)
 		// Each row is a variable on this object.
@@ -408,35 +425,32 @@
 		deserialized_vars.Add("[TV.key]:[TV.var_type]")
 #endif
 		try
-			if((TV.key in existing.vars))
-				switch(TV.var_type)
-					if(SERIALIZER_TYPE_NUM)
-						existing.vars[TV.key] = text2num(TV.value)
-					if(SERIALIZER_TYPE_TEXT)
-						TV.value = utf82byond(TV.value)
-						existing.vars[TV.key] = TV.value
-					if(SERIALIZER_TYPE_PATH)
-						existing.vars[TV.key] = text2path(TV.value)
-					if(SERIALIZER_TYPE_NULL)
-						existing.vars[TV.key] = null
-					if(SERIALIZER_TYPE_WRAPPER)
-						var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(TV.value)
-						existing.vars[TV.key] = GD.on_deserialize()
-					if(SERIALIZER_TYPE_LIST)
-						// This was just an empty list.
-						if(TV.value == SERIALIZER_TYPE_LIST_EMPTY)
-							existing.vars[TV.key] = list()
-						else
-							existing.vars[TV.key] = QueryAndDeserializeList(TV.value)
-					if(SERIALIZER_TYPE_DATUM)
-						existing.vars[TV.key] = QueryAndDeserializeDatum(TV.value, TV.key in global.reference_only_vars)
-					if(SERIALIZER_TYPE_DATUM_FLAT)
-						existing.vars[TV.key] = flattener.QueryAndDeserializeDatum(TV.value)
-					if(SERIALIZER_TYPE_FILE)
-						existing.vars[TV.key] = file(TV.value)
-			else 
-				log_warning("Saved var '[TV.key]' ignored since receiving object '[TV.var_type]' doesn't have this variable!")
-				continue
+			switch(TV.var_type)
+				if(SERIALIZER_TYPE_NUM)
+					existing.vars[TV.key] = text2num(TV.value)
+				if(SERIALIZER_TYPE_TEXT)
+					TV.value = utf82byond(TV.value)
+					existing.vars[TV.key] = TV.value
+				if(SERIALIZER_TYPE_PATH)
+					existing.vars[TV.key] = text2path(TV.value)
+				if(SERIALIZER_TYPE_NULL)
+					existing.vars[TV.key] = null
+				if(SERIALIZER_TYPE_WRAPPER)
+					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(TV.value)
+					existing.vars[TV.key] = GD.on_deserialize()
+				if(SERIALIZER_TYPE_LIST)
+					// This was just an empty list.
+					if(TV.value == SERIALIZER_TYPE_LIST_EMPTY)
+						existing.vars[TV.key] = list()
+					else
+						existing.vars[TV.key] = QueryAndDeserializeList(TV.value)
+				if(SERIALIZER_TYPE_DATUM)
+					existing.vars[TV.key] = QueryAndDeserializeDatum(TV.value, TV.key in global.reference_only_vars)
+				if(SERIALIZER_TYPE_DATUM_FLAT)
+					existing.vars[TV.key] = flattener.QueryAndDeserializeDatum(TV.value)
+				if(SERIALIZER_TYPE_FILE)
+					existing.vars[TV.key] = file(TV.value)
+
 		catch(var/exception/e)
 			to_world_log("Failed to deserialize '[TV.key]' of type '[TV.var_type]' on line [e.line] / file [e.file] for reason: '[e]'.")
 #ifdef SAVE_DEBUG
@@ -508,7 +522,16 @@
 					existing[key_value] = file(LE.value)
 
 		catch(var/exception/e)
-			to_world_log("Failed to deserialize list element [key_value] ([LE?.key_type] '[LE.value]') on line [e.line] / file [e.file] for reason: [e].")
+			var/cur_val = ""
+			if(LE)
+				var/datum/casted = LE?.key
+				cur_val += "('[LE?.key]'([LE?.key_type] [istype(casted)? casted.type : null])"
+				if(LE.value)
+					casted = LE?.value
+					cur_val += " = '[LE?.value]'([LE?.value_type] [istype(casted)? casted.type : null]))"
+				else
+					cur_val += ")"
+			to_world_log("Failed to deserialize list element [cur_val] on line [e.line] / file [e.file] for reason: [e].")
 
 	return existing
 
@@ -525,7 +548,7 @@
 		if(length(var_inserts) > 0)
 			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM_VARS]`(`thing_id`,`key`,`type`,`value`) VALUES["(" + jointext(var_inserts, "),(") + ")"]")
 			SQLS_EXECUTE_AND_REPORT_ERROR(query, "VAR SERIALIZATION FAILED:")
-		if(length(element_inserts) > 0) 
+		if(length(element_inserts) > 0)
 			tot_element_inserts += length(element_inserts)
 			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIST_ELEM]`(`list_id`,`key`,`key_type`,`value`,`value_type`) VALUES["(" + jointext(element_inserts, "),(") + ")"]")
 			SQLS_EXECUTE_AND_REPORT_ERROR(query, "ELEMENT SERIALIZATION FAILED:")
@@ -607,4 +630,3 @@
 	if(query.NextRow())
 		testing("counted [query.item[1]] entrie(s) in [SQLS_TABLE_DATUM] table..")
 		return text2num(query.item[1])
-
