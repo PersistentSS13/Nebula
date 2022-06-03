@@ -16,7 +16,8 @@
 		return
 	var/list/results = list()
 	object.before_save()
-	for(var/V in object.get_saved_vars())
+
+	for(var/V in get_saved_variables_for(object.type))
 		if(!issaved(object.vars[V]))
 			continue
 		var/VV = object.vars[V]

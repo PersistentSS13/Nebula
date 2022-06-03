@@ -1,8 +1,14 @@
 //
 // Outpost Interior
 //
-/area/kleibkhar/outpost
+/area/kleibkhar
+	name = "DONT USE ME"
+	icon_state = "toilet"
 	area_flags = AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED
+
+/area/kleibkhar/outpost
+	name = "Outpost"
+	base_turf = /turf/exterior/barren
 
 /area/kleibkhar/outpost/sleeproom
 	name = "Cyrogenic Storage"
@@ -75,20 +81,33 @@
 /area/kleibkhar/atmos_pump
 	name = "Atmospheric Exchanger"
 	icon_state = "atmos"
+	is_outside = OUTSIDE_YES
 
 //
 // Planet Exterior
 //
 /area/exoplanet/kleibkhar
 	name = "Kleibkhar"
-	area_flags = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED
-	dynamic_lighting = FALSE
+	icon_state = "green"
+	area_flags = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED | AREA_FLAG_EXTERNAL
 	base_turf = /turf/exterior/barren
+	open_turf = /turf/exterior/barren //For now
+	is_outside = OUTSIDE_YES
+
+/area/exoplanet/kleibkhar/sky
+	name = "Up Above"
+	icon_state = "blueold"
+	base_turf = /turf/exterior/open
+	open_turf = /turf/exterior/open
 
 /area/exoplanet/kleibkhar/mines
 	name = "Deep Underground"
-	icon_state = "unknown"
+	icon_state = "cave"
 	ignore_mining_regen = TRUE
+	is_outside = OUTSIDE_NO
+	base_turf = /turf/exterior/barren
+	open_turf = /turf/exterior/open
+	area_flags = AREA_FLAG_IS_NOT_PERSISTENT | AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED
 
 /area/exoplanet/kleibkhar/mines/depth_1
 	icon_state = "cave"
@@ -100,8 +119,11 @@
 
 /area/exoplanet/kleibkhar/mines/exits
 	icon_state = "exit"
+	area_flags = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED
 
 /area/exoplanet/kleibkhar/supply_shuttle_dock
 	name = "Supply Shuttle Dock"
 	icon_state = "yellow"
-	base_turf = /turf/simulated/floor/plating
+	base_turf = /turf/simulated/floor/plating //Needed for shuttles
+	open_turf = /turf/exterior/barren
+	area_flags = AREA_FLAG_IS_NOT_PERSISTENT | AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED | AREA_FLAG_EXTERNAL

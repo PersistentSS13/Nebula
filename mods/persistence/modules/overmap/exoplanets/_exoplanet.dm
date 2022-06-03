@@ -9,3 +9,11 @@
 
 /obj/effect/overmap/visitable/sector/exoplanet/on_saving_end()
 	forceMove(old_loc)
+
+/turf/Initialize(mapload, ...)
+	. = ..()
+	if(persistent_id)
+		//A bit of a fix for planetary areas being generally shit
+		var/obj/effect/overmap/visitable/sector/exoplanet/EXO = LAZYACCESS(global.overmap_sectors, "[z]")
+		if(istype(EXO) && EXO.planetary_area && istype(loc, world.area))
+			ChangeArea(src, EXO.planetary_area)

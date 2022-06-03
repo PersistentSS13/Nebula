@@ -298,7 +298,7 @@ About the new airlock wires panel:
 
 	if(set_dir_on_update)
 		if(connections & (NORTH|SOUTH))
-			set_dir(EAST)
+			set_dir(WEST)
 		else
 			set_dir(SOUTH)
 

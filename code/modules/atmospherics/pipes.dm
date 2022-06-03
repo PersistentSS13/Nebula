@@ -79,7 +79,7 @@
 	qdel(parent)
 	..()
 	var/turf/T = loc
-	if(level == 1 && !T.is_plating())
+	if(level == 1 && isturf(T) && !T.is_plating())
 		hide(1)
 
 /obj/machinery/atmospherics/pipe/return_air()
@@ -193,7 +193,7 @@
 /obj/machinery/atmospherics/pipe/Process()
 	if(!parent) //This should cut back on the overhead calling build_network thousands of times per cycle
 		..()
-	else if(parent.air.compare(loc.return_air()))
+	else if(parent.air?.compare(loc?.return_air()))
 		update_sound(0)
 		. = PROCESS_KILL
 	else if(leaking)
