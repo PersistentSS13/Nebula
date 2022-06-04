@@ -100,3 +100,41 @@
 	desc = "A G40E carbine, designed to kill with concentrated energy blasts. Uses removable energy cells."
 	power_supply = null
 	accepts_cell_type = /obj/item/cell/gun
+
+// persistence guns
+
+/obj/item/gun/energy/laser/handmade
+	name = "HM LG 'Bug Zapper'"
+	desc = "A cobbled-together mass of electronic components, duct tape, and hope. Low damage and capacity, but uses energy instead of bullets. Favored by impoverished settlers and bandits galaxywide."
+	icon = 'icons/obj/guns/makeshift_laser.dmi'
+	slot_flags = SLOT_LOWER_BODY|SLOT_BACK
+	w_class = ITEM_SIZE_LARGE
+	one_hand_penalty = 5
+	max_shots = 4
+	fire_delay = 15
+	origin_tech = "{'combat':1,'magnets':1}"
+	projectile_type = /obj/item/projectile/beam/smalllaser
+
+/obj/item/gun/energy/laser/settler
+	name = "UC LG 'Settler'"
+	desc = "A utilitarian laser pistol invented by frontier settlers when ammunition became too scarce for practical use. While weak, it is easy to handle one-handed and has decent capacity."
+	icon = 'icons/obj/guns/laspistol.dmi'
+	slot_flags = SLOT_LOWER_BODY
+	w_class = ITEM_SIZE_NORMAL
+	one_hand_penalty = 1
+	max_shots = 6
+	fire_delay = 10
+	origin_tech = "{'combat':2,'magnets':2}"
+	projectile_type = /obj/item/projectile/beam/smalllaser
+
+/obj/item/gun/energy/laser/footman
+	name = "UC LG 'Footman'"
+	desc = "A cheap, mass-produced laser rifle invented by a group of fringe colonists for use in their militas. It packs a decent punch, but is large and difficult to use one-handed."
+	icon = 'icons/obj/guns/lasrifle.dmi'
+	slot_flags = SLOT_LOWER_BODY|SLOT_BACK
+	w_class = ITEM_SIZE_LARGE
+	one_hand_penalty = 6
+	max_shots = 5
+	fire_delay = 12
+	origin_tech = "{'combat':2,'magnets':3}"
+	projectile_type = /obj/item/projectile/beam/midlaser
