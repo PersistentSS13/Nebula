@@ -112,3 +112,49 @@
 
 /obj/item/gun/projectile/shotgun/doublebarrel/sawn/empty
 	starts_loaded = FALSE
+	
+// persistence guns
+
+/obj/item/gun/projectile/shotgun/handmade
+	name = "HM SG 'Slider'"
+	desc = "A simple single-barrel shotgun made from a pipe and some spare parts. Very heavy recoil and difficult to use."
+	icon = 'icons/obj/guns/shotgun/handmade_shotgun.dmi'
+	load_method = SINGLE_CASING
+	handle_casings = HOLD_CASINGS
+	max_shells = 1
+	w_class = ITEM_SIZE_HUGE
+	force = 10
+	slot_flags = SLOT_BACK
+	caliber = CALIBER_SHOTGUN
+	origin_tech = "{'combat':1,'materials':1}"
+	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
+	screen_shake = 3
+	one_hand_penalty = 20
+
+/obj/item/gun/projectile/shotgun/handmade/empty
+	starts_loaded = FALSE
+
+/obj/item/gun/projectile/shotgun/double
+	name = "SS SG 'Bouncer'"
+	desc = "An classic shotgun model of ancient design. This firearm boasts two steel barrels that can fire independently or together. Used by barmen and apocalypse survivors galaxy-wide. This model can't be sawn off."
+	icon = 'icons/obj/guns/shotgun/eris_doublebarrel.dmi'
+	load_method = SINGLE_CASING
+	handle_casings = HOLD_CASINGS
+	max_shells = 2
+	w_class = ITEM_SIZE_HUGE
+	force = 10
+	obj_flags =  OBJ_FLAG_CONDUCTIBLE
+	slot_flags = SLOT_BACK
+	caliber = CALIBER_SHOTGUN
+	origin_tech = "{'combat':2,'materials':1}"
+	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
+	screen_shake = 2
+	one_hand_penalty = 10
+	burst_delay = 0
+	firemodes = list(
+		list(mode_name="fire one barrel at a time", burst=1),
+		list(mode_name="fire both barrels at once", burst=2),
+		)
+
+/obj/item/gun/projectile/shotgun/double/empty
+	starts_loaded = FALSE
