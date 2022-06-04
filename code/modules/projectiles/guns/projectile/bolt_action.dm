@@ -84,3 +84,25 @@
 	scoped_accuracy = 8 //increased accuracy over the LWAP because only one shot
 	scope_zoom = 2
 	fire_delay = 12
+	
+// persistence guns
+
+/obj/item/gun/projectile/bolt_action/handmade
+	name = "HM BA 'Militaman'"
+	desc = "A dubious rifle of even dubious-er quality. Packs a decent punch for what it's made of, but actually working the bullet into the thing is a chore. On top of that, it has horrendous recoil."
+	icon = 'icons/obj/guns/handmade_boltaction.dmi'
+	force = 10
+	slot_flags = SLOT_BACK
+	origin_tech = "{'combat':1,'materials':1}"
+	caliber = CALIBER_RIFLE
+	handle_casings = HOLD_CASINGS
+	load_method = SINGLE_CASING
+	max_shells = 1
+	ammo_type = /obj/item/ammo_casing/shell
+	screen_shake = 3
+	one_hand_penalty = 25
+	fire_delay = 12
+	accuracy = 1
+
+/obj/item/gun/projectile/bolt_action/handmade/empty
+	starts_loaded = FALSE
