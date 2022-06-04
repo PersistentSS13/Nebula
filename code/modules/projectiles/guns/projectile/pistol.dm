@@ -70,3 +70,19 @@
 	icon = 'icons/obj/guns/holdout_pistol_silencer.dmi'
 	icon_state = ICON_STATE_WORLD
 	w_class = ITEM_SIZE_SMALL
+	
+// persistence guns yo
+	
+/obj/item/gun/projectile/pistol/colt
+	name = "SS HG 'Colt'"
+	desc = "One of the most simple handguns out there, often used by low-budget security forces or civilians. The design itself is at least several hundred years old, but it's reliability and ubiquity means many modern companies still produce it to this day."
+	icon = 'icons/obj/guns/colt.dmi'
+	fire_delay = 10
+	force = 5
+	accuracy_power = 5
+	one_hand_penalty = 3
+	origin_tech = "{'combat':2,'materials':1}"
+	ammo_indicator = FALSE // old fashioned, gotta take out the mag to see ammo
+
+/obj/item/gun/projectile/pistol/colt/empty
+	starts_loaded = FALSE
