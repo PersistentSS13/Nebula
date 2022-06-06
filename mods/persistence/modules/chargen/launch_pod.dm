@@ -49,17 +49,21 @@
 		to_chat(user, SPAN_NOTICE("You have brought with you a textbook related to your specialty. It can increase your skills temporarily by reading it, or permanently through dedicated study. It's highly valuable, so don't lose it!"))
 		user.equip_to_slot_or_store_or_drop(new starter_book(user), slot_in_backpack_str)
 
-	// Find the Outreach network, and create the crew record for convenience.
-	//Crew record is created on spawn, just reuse it
+	// Find the starting network, and create the crew record + user account for convenience.
+	
+	// Crew record is created on spawn, just reuse it
 	var/datum/computer_file/report/crew_record/CR = get_crewmember_record(user.real_name)
 	if(!CR)
-		CRASH("obj/machinery/cryopod/chargen/proc/send_to_outpost(): Missing crew record for '[user.real_name]'(Ckey:'[user.ckey]')!")
+		error("obj/machinery/cryopod/chargen/proc/send_to_outpost(): Missing crew record for '[user.real_name]'(Ckey:'[user.ckey]')!")
 	//#FIXME: Should probably be done in a proc in SSnetworking instead
-	for(var/network_id in SSnetworking.networks)
+	
+	var/network_id = global.using_map.spawn_network
+	if(network_id)
 		var/datum/computer_network/network = SSnetworking.networks[network_id]
-		if(network.network_id == "kleibkhar")
+		if(network)
 			network.store_file(CR, MF_ROLE_CREW_RECORDS)
-			break
+			
+			network.create_account(user, user.real_name, null, user.real_name, null, TRUE)
 
 	//Free up the chargen pod
 	unready()
