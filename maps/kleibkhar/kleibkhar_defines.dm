@@ -32,7 +32,5 @@
 	department_money = 0
 	salary_modifier = 0.2
 
-	spawn_network = "kleibkhar"
-
 /datum/map/kleibkhar/get_map_info()
 	return "Kleibkhar Independent Colony. A diverse new commercial venture on the fringe of known space."
