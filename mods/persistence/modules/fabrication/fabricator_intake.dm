@@ -1,8 +1,4 @@
 /obj/machinery/fabricator/attackby(obj/item/O, mob/user)
-	. = ..()
-	if(.)
-		return
-	
 	if(user.a_intent != I_HURT)
 		if(istype(O, /obj/item/stock_parts/computer/hard_drive/portable))
 			var/obj/item/stock_parts/computer/hard_drive/portable/disk = O
@@ -12,3 +8,5 @@
 			else
 				visible_message(SPAN_WARNING("\The [user] inserts \the [O] into \the [src], but the fabricator spits it back out after a moment, producing an error tone."))
 			return
+
+	. = ..()

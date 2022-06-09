@@ -2,9 +2,9 @@
 	var/archetype
 	var/strength
 
-	var/list/increased_fields // Fields which are increased/have a flag added to them by this theory
+	var/list/increased_fields // Fields which are increased by this theory
 	var/list/decreased_fields // Fields which are decreased by this theory.
-
+	var/list/flagged_fields   // Fields which are flagged/otherwise affected by the theory.
 	var/list/specifications // Specifications, if any, which will be applied to the design upon finalization.
 
 	var/list/added_fields  // Fields the theory adds to the design.
@@ -23,6 +23,11 @@
 			decreased_fields = list()
 			for(var/i in 1 to theory_info.decreased_fields)
 				decreased_fields += pick_n_take(picked_fields)
+		
+		if(theory_info.flagged_fields)
+			flagged_fields = list()
+			for(var/i in 1 to theory_info.flagged_fields)
+				flagged_fields += pick_n_take(picked_fields)
 
 		var/list/picked_specifications = length(spec_types) ? spec_types : theory_info.specification_choices
 		if(length(picked_specifications))
@@ -52,13 +57,13 @@
 		for(var/field in added_fields)
 			target.add_field(field)
 	target.apply_specifications(specifications)
-	theory_info.affect_design(target, strength, increased_fields, decreased_fields, analyzed)
+	theory_info.affect_design(target, strength, increased_fields, decreased_fields, flagged_fields, analyzed)
 	return THEORY_SUCCESS
 
 /datum/theory/proc/get_description()
 	var/decl/theory_type/theory_info = GET_DECL(archetype)
 	var/list/desc = list()
-	desc += theory_info.get_description(strength, increased_fields, decreased_fields)
+	desc += theory_info.get_description(strength, increased_fields, decreased_fields, flagged_fields)
 	if(length(specifications))
 		for(var/datum/specification/spec in specifications)
 			desc += spec.get_description()

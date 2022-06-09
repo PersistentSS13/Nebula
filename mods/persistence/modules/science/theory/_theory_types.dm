@@ -37,6 +37,8 @@ var/global/list/cached_theories_by_tier = list()
 	
 	var/increased_fields = 0 // Number of fields to be increased that must be passed from theory.
 	var/decreased_fields = 0 // Number of fields to be decreased that must be passed from theory.
+	var/flagged_fields   = 0 // Number of fields to be flagged/some other effect that must be passed from theory.
+
 	var/min_tier = 1         // The minimum tier a design must be to access this theory.
 	var/list/specification_choices // List of specification types possibly associated with this theory
 
@@ -46,9 +48,9 @@ var/global/list/cached_theories_by_tier = list()
 /decl/theory_type/proc/check_requirements(datum/computer_file/data/design/target, obj/item/analyzed)
 	return THEORY_SUCCESS
 
-/decl/theory_type/proc/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, obj/item/analyzed)
+/decl/theory_type/proc/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, list/flagged, obj/item/analyzed)
 
-/decl/theory_type/proc/get_description(strength, list/increased, list/decreased)
+/decl/theory_type/proc/get_description(strength, list/increased, list/decreased, list/flagged)
 
 /decl/theory_type/is_abstract()
 	. = ..()
@@ -67,10 +69,10 @@ var/global/list/cached_theories_by_tier = list()
 	rel_power = 3
 	is_category = FALSE
 
-/decl/theory_type/starter/hypothesis/get_description(strength, list/increased, list/decreased)
+/decl/theory_type/starter/hypothesis/get_description(strength, list/increased, list/decreased, list/flagged)
 	return "Generate a new hypothesis related to the technology. Gain [strength] points assignable in any field"
 
-/decl/theory_type/starter/hypothesis/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, obj/item/analyzed)
+/decl/theory_type/starter/hypothesis/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, list/flagged, obj/item/analyzed)
 	target.free_points += strength
 
 /decl/theory_type/starter/experiment
@@ -79,10 +81,10 @@ var/global/list/cached_theories_by_tier = list()
 	is_starter = TRUE
 	is_category = FALSE
 
-/decl/theory_type/starter/experiment/get_description(strength, list/increased, list/decreased)
+/decl/theory_type/starter/experiment/get_description(strength, list/increased, list/decreased, list/flagged)
 	return "Perform some preliminary experiments. Distribute [strength] research points randomly among all fields"
 
-/decl/theory_type/starter/experiment/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, obj/item/analyzed)
+/decl/theory_type/starter/experiment/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, list/flagged, obj/item/analyzed)
 	var/remaining_points = strength
 	while(remaining_points > 0 && target.remaining_points)
 		var/field = pick(target.research_levels)
@@ -96,7 +98,7 @@ var/global/list/cached_theories_by_tier = list()
 	rel_power = 2
 	is_category = FALSE
 
-/decl/theory_type/starter/analyze/get_description(strength, list/increased, list/decreased)
+/decl/theory_type/starter/analyze/get_description(strength, list/increased, list/decreased, list/flagged)
 	return "Analyze another object using the destructive analyzer. Distribute [strength] research points randomly among the analyzed objects own research fields"
 
 /decl/theory_type/starter/analyze/check_requirements(datum/computer_file/data/design/target, obj/item/analyzed)
@@ -104,7 +106,7 @@ var/global/list/cached_theories_by_tier = list()
 		return THEORY_NEEDS_ITEM
 	return THEORY_SUCCESS
 
-/decl/theory_type/starter/analyze/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, obj/item/analyzed)
+/decl/theory_type/starter/analyze/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, list/flagged, obj/item/analyzed)
 	if(!analyzed || !analyzed.origin_tech)
 		return
 	var/list/target_fields = cached_json_decode(analyzed.origin_tech)
@@ -117,16 +119,22 @@ var/global/list/cached_theories_by_tier = list()
 		if(remaining_points == prev_points)
 			break
 
+	var/obj/machinery/destructive_analyzer/analyzer = analyzed.loc
+	if(istype(analyzer))
+		analyzer.process_loaded()
+	else
+		analyzed.physically_destroyed()
+
 /decl/theory_type/reevaluate
 	name = "Reevaluate"
 	uid = "reevaluate_theory"
 	decreased_fields = 1
 
-/decl/theory_type/reevaluate/get_description(strength, list/increased, list/decreased)
+/decl/theory_type/reevaluate/get_description(strength, list/increased, list/decreased, list/flagged)
 	var/target_field = decreased[1]
 	return "Reevaluate and discard some of your previous findings. Regain [strength] research points from [tech_id_to_name[target_field]]"
 
-/decl/theory_type/reevaluate/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, obj/item/analyzed)
+/decl/theory_type/reevaluate/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, list/flagged, obj/item/analyzed)
 	var/target_field = decreased[1]
 	target.remove_points(target_field, strength)
 
@@ -134,10 +142,10 @@ var/global/list/cached_theories_by_tier = list()
 	name = "Refine findings"
 	uid = "refine_theory"
 
-/decl/theory_type/refine/get_description(strength, list/increased, list/decreased)
+/decl/theory_type/refine/get_description(strength, list/increased, list/decreased, list/flagged)
 	return "Refine your previous findings. Distribute [strength] research points into the field with the most research points"
 
-/decl/theory_type/refine/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, obj/item/analyzed)
+/decl/theory_type/refine/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, list/flagged, obj/item/analyzed)
 	var/target_field = target.get_highest_field()
 	target.add_points(target_field, strength)
 
@@ -145,10 +153,10 @@ var/global/list/cached_theories_by_tier = list()
 	name = "Narrow scope"
 	uid = "narrow_theory"
 
-/decl/theory_type/narrow_scope/get_description(strength, list/increased, list/decreased)
+/decl/theory_type/narrow_scope/get_description(strength, list/increased, list/decreased, list/flagged)
 	return "Narrow the scope of your research. Regain [strength] research points from the field with the least research points"
 
-/decl/theory_type/narrow_scope/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, obj/item/analyzed)
+/decl/theory_type/narrow_scope/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, list/flagged, obj/item/analyzed)
 	var/target_field = target.get_lowest_field()
 	target.remove_points(target_field, strength)
 
@@ -156,10 +164,10 @@ var/global/list/cached_theories_by_tier = list()
 	name = "Broaden scope"
 	uid = "broaden_theory"
 
-/decl/theory_type/broaden_scope/get_description(strength, list/increased, list/decreased)
+/decl/theory_type/broaden_scope/get_description(strength, list/increased, list/decreased, list/flagged)
 	return "Broaden the scope of your research. Regain [strength] research points from the field with the most research points"
 
-/decl/theory_type/broaden_scope/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, obj/item/analyzed)
+/decl/theory_type/broaden_scope/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, list/flagged, obj/item/analyzed)
 	var/target_field = target.get_highest_field()
 	target.remove_points(target_field, strength)
 
@@ -178,7 +186,7 @@ var/global/list/cached_theories_by_tier = list()
 				remaining_points -= 1
 	return points_increases
 
-/decl/theory_type/crunch_data/get_description(strength, list/increased, list/decreased)
+/decl/theory_type/crunch_data/get_description(strength, list/increased, list/decreased, list/flagged)
 	var/list/points_increases = get_increased_fields(strength, increased)
 	var/list/description_lines = list()
 	for(var/field in points_increases)
@@ -186,7 +194,7 @@ var/global/list/cached_theories_by_tier = list()
 		description_lines += "[points] research points into [tech_id_to_name[field]]"
 	return "Analyze some data you've collected. Distribute [english_list(description_lines)]"
 
-/decl/theory_type/crunch_data/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, obj/item/analyzed)
+/decl/theory_type/crunch_data/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, list/flagged, obj/item/analyzed)
 	var/list/points_increases = get_increased_fields(strength, increased)
 	for(var/field in points_increases)
 		var/points = points_increases[field]
@@ -197,7 +205,7 @@ var/global/list/cached_theories_by_tier = list()
 	uid = "integrate_theory"
 	increased_fields = 2
 
-/decl/theory_type/crunch_data/integrate/get_description(strength, list/increased, list/decreased)
+/decl/theory_type/crunch_data/integrate/get_description(strength, list/increased, list/decreased, list/flagged)
 	var/list/points_increases = get_increased_fields(strength, increased)
 	var/list/description_lines = list()
 	for(var/field in points_increases)
@@ -210,7 +218,7 @@ var/global/list/cached_theories_by_tier = list()
 	uid = "broad_spectrum_theory"
 	increased_fields = 3
 
-/decl/theory_type/crunch_data/broad_spectrum/get_description(strength, list/increased, list/decreased)
+/decl/theory_type/crunch_data/broad_spectrum/get_description(strength, list/increased, list/decreased, list/flagged)
 	var/list/points_increases = get_increased_fields(strength, increased)
 	var/list/description_lines = list()
 	for(var/field in points_increases)
@@ -221,57 +229,57 @@ var/global/list/cached_theories_by_tier = list()
 /decl/theory_type/prediction
 	name = "Testable prediction"
 	uid = "prediction_theory"
-	increased_fields = 1
+	flagged_fields = 1
 
-/decl/theory_type/prediction/get_description(strength, list/increased, list/decreased)
-	return "Make some testable predictions. The next effect on [tech_id_to_name[increased[1]]] will be doubled"
+/decl/theory_type/prediction/get_description(strength, list/increased, list/decreased, list/flagged)
+	return "Make some testable predictions. The next effect on [tech_id_to_name[flagged[1]]] will be doubled"
 
-/decl/theory_type/prediction/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, obj/item/analyzed)
-	target.add_field_flag(increased[1], FIELD_BONUS)
+/decl/theory_type/prediction/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, list/flagged, obj/item/analyzed)
+	target.add_field_flag(flagged[1], FIELD_BONUS)
 
 /decl/theory_type/holistic
 	name = "Holistic methods"
 	uid = "holistic_theory"
-	increased_fields = 2
+	flagged_fields = 2
 
-/decl/theory_type/holistic/get_description(strength, list/increased, list/decreased)
-	return "Proceed with holistic methods. Link the fields [tech_id_to_name[increased[1]]] and [tech_id_to_name[increased[2]]], causing the next effect on either to affect both"
+/decl/theory_type/holistic/get_description(strength, list/increased, list/decreased, list/flagged)
+	return "Proceed with holistic methods. Link the fields [tech_id_to_name[flagged[1]]] and [tech_id_to_name[flagged[2]]], causing the next effect on either to affect both"
 
-/decl/theory_type/holistic/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, obj/item/analyzed)
-	for(var/field in increased)
+/decl/theory_type/holistic/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, list/flagged, obj/item/analyzed)
+	for(var/field in flagged)
 		target.add_field_flag(field, FIELD_LINKED)
 
 /decl/theory_type/lock
 	name = "Set in stone"
 	uid = "lock_theory"
-	increased_fields = 1
+	flagged_fields = 1
 
-/decl/theory_type/lock/get_description(strength, list/increased, list/decreased)
-	return "Set some of your work in stone. The next effect on [tech_id_to_name[increased[1]]] will have no effect"
+/decl/theory_type/lock/get_description(strength, list/increased, list/decreased, list/flagged)
+	return "Set some of your work in stone. The next effect on [tech_id_to_name[flagged[1]]] will have no effect"
 
-/decl/theory_type/lock/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, obj/item/analyzed)
-	for(var/field in increased)
+/decl/theory_type/lock/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, list/flagged, obj/item/analyzed)
+	for(var/field in flagged)
 		target.add_field_flag(field, FIELD_LOCKED)
 
 /decl/theory_type/paradigm
 	name = "Paradigm shift"
 	uid = "paradigm_theory"
-	increased_fields = 2
+	flagged_fields = 2
 
-/decl/theory_type/paradigm/get_description(strength, list/increased, list/decreased)
-	return "Adjust your approach to your findings thus far. Swap the values of [tech_id_to_name[increased[1]]] and [tech_id_to_name[increased[2]]]. Field flags will have no effect"
+/decl/theory_type/paradigm/get_description(strength, list/increased, list/decreased, list/flagged)
+	return "Adjust your approach to your findings thus far. Swap the values of [tech_id_to_name[flagged[1]]] and [tech_id_to_name[flagged[2]]]. Field flags will have no effect"
 
-/decl/theory_type/paradigm/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, obj/item/analyzed)
-	ASSERT(!(length(increased) % 2))
-	var/list/prev_points[length(increased)]
+/decl/theory_type/paradigm/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, list/flagged, obj/item/analyzed)
+	ASSERT(!(length(flagged) % 2))
+	var/list/prev_points[length(flagged)]
 	// Remove points from all fields first.
-	for(var/i in 1 to length(increased))
-		var/field = increased[i]
+	for(var/i in 1 to length(flagged))
+		var/field = flagged[i]
 		prev_points[i] = target.research_levels[field]
-		target.remove_points(field, prev_points[field], TRUE)
+		target.remove_points(field, prev_points[i], TRUE)
 	// Now readd them to their neighbor
-	for(var/i in 1 to length(increased))
-		var/field = increased[i]
+	for(var/i in 1 to length(flagged))
+		var/field = flagged[i]
 		var/dir = (i % 2) ? 1 : -1 // Odd indices look foward, even indices look backward.
 		target.add_points(field, prev_points[i + dir], TRUE)
 
@@ -280,20 +288,19 @@ var/global/list/cached_theories_by_tier = list()
 	uid = "breakthough_theory"
 	rel_power = 3
 
-/decl/theory_type/breakthrough/get_description(strength, list/increased, list/decreased)
+/decl/theory_type/breakthrough/get_description(strength, list/increased, list/decreased, list/flagged)
 	return "Find a new breakthrough in your research. Gain [strength] points assignable in any field"
 
-/decl/theory_type/breakthrough/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, obj/item/analyzed)
+/decl/theory_type/breakthrough/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, list/flagged, obj/item/analyzed)
 	target.free_points += strength
 
 /decl/theory_type/analyze
 	name = "Destructive analysis"
 	uid = "dest_analyze_theory"
-	is_starter = TRUE
 	rel_power = 2
 	is_category = FALSE
 
-/decl/theory_type/analyze/get_description(strength, list/increased, list/decreased)
+/decl/theory_type/analyze/get_description(strength, list/increased, list/decreased, list/flagged)
 	return "Analyze another object using the destructive analyzer. Distribute [strength] research points randomly among the analyzed objects own research fields"
 
 /decl/theory_type/analyze/check_requirements(datum/computer_file/data/design/target, obj/item/analyzed)
@@ -301,7 +308,7 @@ var/global/list/cached_theories_by_tier = list()
 		return THEORY_NEEDS_ITEM
 	return THEORY_SUCCESS
 
-/decl/theory_type/analyze/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, obj/item/analyzed)
+/decl/theory_type/analyze/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, list/flagged, obj/item/analyzed)
 	if(!analyzed || !analyzed.origin_tech)
 		return
 	var/list/target_fields = cached_json_decode(analyzed.origin_tech)
@@ -313,6 +320,13 @@ var/global/list/cached_theories_by_tier = list()
 			remaining_points -= 1
 		if(remaining_points == prev_points)
 			break
+
+	// TODO: Make this less snowflakey.
+	var/obj/machinery/destructive_analyzer/analyzer = analyzed.loc
+	if(istype(analyzer))
+		analyzer.process_loaded()
+	else
+		analyzed.physically_destroyed()
 
 /decl/theory_type/concluding
 	name = "Conclusion"
@@ -326,7 +340,7 @@ var/global/list/cached_theories_by_tier = list()
 		/decl/specification_type/instability
 		)
 
-/decl/theory_type/concluding/get_description(strength, list/increased, list/decreased)
+/decl/theory_type/concluding/get_description(strength, list/increased, list/decreased, list/flagged)
 	return "Conclude this portion of your research. Finalize your design if all research requirements have been satisfied, or add [POINTS_PER_TIER] research points"
 
 /decl/theory_type/concluding/check_requirements(datum/computer_file/data/design/target, obj/item/analyzed)
@@ -336,7 +350,7 @@ var/global/list/cached_theories_by_tier = list()
 		return THEORY_CANNOT_PROGRESS
 	return THEORY_SUCCESS
 
-/decl/theory_type/concluding/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, obj/item/analyzed)
+/decl/theory_type/concluding/affect_design(datum/computer_file/data/design/target, strength, list/increased, list/decreased, list/flagged, obj/item/analyzed)
 	target.progress_tier()
 
 /decl/theory_type/concluding/tier2

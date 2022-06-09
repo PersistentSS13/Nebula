@@ -21,7 +21,7 @@
 	QDEL_NULL_LIST(item_specifications)
 
 /obj/item/unfinished_assembly/attackby(obj/item/W, mob/user)
-	if(isScrewdriver(W))
+	if(IS_SCREWDRIVER(W))
 		to_chat(user, SPAN_NOTICE("You begin attempting to manually finish the assembly with \the [W]."))
 		if(do_after(user, 5 SECONDS))
 			screwdrivered = TRUE
@@ -53,3 +53,9 @@
 /obj/item/unfinished_assembly/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
 	. = ..()
 	fired = max(fired, exposed_temperature)
+
+// Saved vars
+SAVED_VAR(/obj/item/unfinished_assembly, created_path)
+SAVED_VAR(/obj/item/unfinished_assembly, item_specifications)
+SAVED_VAR(/obj/item/unfinished_assembly, screwdrivered)
+SAVED_VAR(/obj/item/unfinished_assembly, fired)

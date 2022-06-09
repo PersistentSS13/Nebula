@@ -49,7 +49,7 @@
 			if(length(theory_options) >= MAX_THEORIES)
 				break
 			var/decl/theory_type/theory_decl = theory_types[theory]
-			if(length(research_requirements) < (theory_decl.increased_fields + theory_decl.decreased_fields))
+			if(length(research_requirements) < (theory_decl.increased_fields + theory_decl.decreased_fields + theory_decl.flagged_fields))
 				continue
 
 			var/list/theory_fields = picked_fields.Copy()
@@ -98,7 +98,7 @@
 			theory_options -= current_theory
 			qdel(current_theory)
 
-	var/generated_theories = clamp(user.get_skill_value(SKILL_SCIENCE), 2, MAX_THEORIES)
+	var/generated_theories = clamp(user.get_skill_value(SKILL_SCIENCE) + 1, 2, MAX_THEORIES)
 	
 	if(length(theory_options) >= generated_theories)
 		return
@@ -116,6 +116,10 @@
 		if(!theory_decl.allow_dupl)
 			theory_paths -= theory_path
 		if(theory_decl.is_abstract())
+			continue
+		
+		// Some quality of life, don't generate theories which increase fields if we don't have any more points.
+		if(remaining_points == 0 && theory_decl.increased_fields)
 			continue
 		// Determine what specifications are valid for this design.
 		var/list/spec_types = theory_decl.specification_choices
@@ -211,11 +215,11 @@
 	var/self_amount = amount // If a field is linked to another, it takes the original amount.
 	if(!ignore_flags)
 		flags = field_flags[field]
-	
-	if(flags & FIELD_BONUS)
-		self_amount *= 2
-	if(flags & FIELD_LOCKED)
-		self_amount = 0
+
+		if(flags & FIELD_BONUS)
+			self_amount *= 2
+		if(flags & FIELD_LOCKED)
+			self_amount = 0
 	var/added_points = min(remaining_points, self_amount)
 	research_levels[field] += added_points
 	remaining_points -= added_points
@@ -229,10 +233,13 @@
 		field_flags[field] = 0 // Reset the flags on the target field because they're one time use.
 	return added_points
 
-/datum/computer_file/data/design/proc/remove_points(field, amount)
+/datum/computer_file/data/design/proc/remove_points(field, amount, ignore_flags = FALSE)
 	if(!(field in research_levels))
 		return
-	var/flags = field_flags[field]
+	var/flags
+	if(!ignore_flags)
+		flags = field_flags[field]
+	
 	if(flags & FIELD_BONUS)
 		amount *= 2
 	if(flags & FIELD_LOCKED)
@@ -319,3 +326,22 @@
 
 #undef MAX_THEORIES
 #undef THEORY_GEN_ATTEMPTS
+
+// Saved vars
+
+SAVED_VAR(/datum/computer_file/data/design, research_levels)
+SAVED_VAR(/datum/computer_file/data/design, field_flags)
+SAVED_VAR(/datum/computer_file/data/design, research_requirements)
+SAVED_VAR(/datum/computer_file/data/design, tier)
+SAVED_VAR(/datum/computer_file/data/design, remaining_points)
+SAVED_VAR(/datum/computer_file/data/design, free_points)
+SAVED_VAR(/datum/computer_file/data/design, specifications)
+SAVED_VAR(/datum/computer_file/data/design, finalized)
+SAVED_VAR(/datum/computer_file/data/design, recipe)
+
+
+
+
+
+
+

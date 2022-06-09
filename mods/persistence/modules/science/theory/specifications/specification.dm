@@ -28,8 +28,8 @@
 				materials += pick_n_take(default_materials)
 
 /datum/specification/Destroy(force)
+	LAZYCLEARLIST(materials)
 	. = ..()
-	materials.Cut()
 
 /datum/specification/after_deserialize()
 	. = ..()
@@ -84,7 +84,7 @@
 	if(length(added_specifications))
 		specifications = added_specifications.Copy()
 
-	for(var/datum/specification/spec AS_ANYTHING in specifications)
+	for(var/datum/specification/spec as anything in specifications)
 		auto_process = max(auto_process, spec.auto_process)
 		process_on_install = max(process_on_install, spec.process_on_install)
 	
@@ -93,7 +93,7 @@
 
 /datum/extension/specification_holder/after_deserialize()
 	. = ..()
-	for(var/datum/specification/spec AS_ANYTHING in specifications)
+	for(var/datum/specification/spec as anything in specifications)
 		auto_process = max(auto_process, spec.auto_process)
 		process_on_install = max(process_on_install, spec.process_on_install)
 	
@@ -106,7 +106,7 @@
 
 /datum/extension/specification_holder/proc/specifications_act()
 	. = TRUE
-	for(var/datum/specification/spec AS_ANYTHING in specifications)
+	for(var/datum/specification/spec as anything in specifications)
 		. = min(., spec.specification_act(holder))
 	
 	// Snowflakey check so we don't have to process unfinished assemblies seperately
@@ -116,3 +116,12 @@
 
 /datum/extension/specification_holder/Process()
 	spec_passed = specifications_act()
+
+// Saved vars
+
+SAVED_VAR(/datum/specification, archetype)
+SAVED_VAR(/datum/specification, strength)
+SAVED_VAR(/datum/specification, materials)
+
+SAVED_VAR(/datum/extension/specification_holder, specifications)
+
