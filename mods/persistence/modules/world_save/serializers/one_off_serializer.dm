@@ -145,7 +145,7 @@
 	if(!islist(things))
 		things = list(things)
 
-	// Prepare the wrapper holder for possbile extensions.
+	// Prepare the wrapper holder for possible extensions.
 	extension_wrapper_holder = new()
 	// Begin serialization of parent objects.
 	update_indices()
