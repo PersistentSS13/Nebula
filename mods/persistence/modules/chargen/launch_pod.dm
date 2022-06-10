@@ -88,6 +88,10 @@
 		to_chat(user, SPAN_DANGER("UNABLE TO FIND SUITABLE LOCATION, CONTACT AN ADMIN!"))
 		message_admins(SPAN_DANGER("UNABLE TO FIND SUITABLE CRYO SPAWN LOCATION FOR CKEY:'[user.ckey]'([user.name])! CREATE A CRYOPOD."))
 
+	// Finally, add the mob to limbo for safety. Mark for removal on the next save.
+	SSpersistence.AddToLimbo(user.mind, user.mind.unique_id, LIMBO_MIND, user.mind.key, user.mind.current.real_name, TRUE)
+	SSpersistence.limbo_removals += list(list(user.mind.unique_id, LIMBO_MIND))
+
 /obj/machinery/cryopod/chargen/check_occupant_allowed(mob/M)
 	. = ..()
 	if(!.)

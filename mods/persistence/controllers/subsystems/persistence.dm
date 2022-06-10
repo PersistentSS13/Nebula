@@ -85,7 +85,7 @@
 		var/time_start_limbo_removal = REALTIMEOFDAY
 		for(var/list/queued in limbo_removals)
 			one_off.RemoveFromLimbo(queued[1], queued[2])
-			limbo_removals -= queued
+			limbo_removals -= list(queued)
 
 		report_progress("Done removing queued limbo objects in [(REALTIMEOFDAY - time_start_limbo_removal) / (1 SECOND)]s.")
 		sleep(5)
@@ -100,14 +100,14 @@
 				// Just in case, delete this character from limbo.
 				one_off.RemoveFromLimbo(char_mind.unique_id, LIMBO_MIND)
 				continue
+			if(QDELETED(current_mob))
+				continue
 			// Check to see if the mobs are already being saved.
 			var/area/MA = get_area(current_mob)
-			if(!QDELETED(current_mob) && istype(MA) && \
-				!(MA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT) && \
-				  ((MA in SSpersistence.saved_areas) || \
-				  (current_mob.z in SSpersistence.saved_levels)))
-				continue
-			one_off.AddToLimbo(char_mind, char_mind.unique_id, LIMBO_MIND, char_mind.key, char_mind.current.real_name, FALSE)
+			if(istype(MA) && !(MA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT))
+				if(((MA in SSpersistence.saved_areas) || (current_mob.z in SSpersistence.saved_levels)))
+					continue
+			one_off.AddToLimbo(char_mind, char_mind.unique_id, LIMBO_MIND, char_mind.key, char_mind.current.real_name, TRUE)
 		report_progress("Done adding player minds to limbo in [(REALTIMEOFDAY - time_start_limbo_minds) / (1 SECOND)]s.")
 		sleep(5)
 
@@ -485,6 +485,10 @@
 			CRASH("SSPersistence: Couldn't establish DB connection during Limbo Addition!")
 		new_db_connection = TRUE
 	. = one_off.AddToLimbo(thing, key, limbo_type, metadata, metadata2, modify)
+	if(.) // Clear it from the queued removals.
+		for(var/list/queued in limbo_removals)
+			if(queued[1] == key && queued[2] == limbo_type)
+				limbo_removals -= list(queued)
 	if(new_db_connection)
 		close_save_db_connection()
 

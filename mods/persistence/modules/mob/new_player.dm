@@ -99,7 +99,14 @@
 			charselect.close()
 			charselect = null
 		if(input("Are you SURE you want to delete [char_name]? THIS IS PERMANENT. Enter the character\'s full name to confirm.", "DELETE A CHARACTER", "") == char_name)
-			var/DBQuery/char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]' AND `metadata2` = '[char_name]'")
+			
+			var/new_db_connection = FALSE
+			if(!check_save_db_connection())
+				if(!establish_save_db_connection())
+					CRASH("new_player: Couldn't establish DB connection while deleting a character!")
+				new_db_connection = TRUE
+			
+			var/DBQuery/char_query = dbcon_save.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]' AND `metadata2` = '[char_name]'")
 			if(!char_query.Execute())
 				to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
 			if(char_query.NextRow())
@@ -109,6 +116,9 @@
 				to_chat(src, SPAN_NOTICE("Character Delete Completed."))
 			else
 				to_chat(src, SPAN_NOTICE("Delete Failed! Contact a developer."))
+			
+			if(new_db_connection)
+				close_save_db_connection()
 
 /mob/new_player/proc/newCharacterPanel()
 	for(var/mob/M in SSmobs.mob_list)
@@ -143,7 +153,15 @@
 	var/output = list()
 	output += "<div style='text-align:center;'>"
 	output += "Select a character to [func_text].<br><br>"
-	var/DBQuery/char_query = dbcon.NewQuery("SELECT `metadata2` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]'")
+
+	var/new_db_connection = FALSE
+	if(!check_save_db_connection())
+		if(!establish_save_db_connection())
+			CRASH("new_player: Couldn't establish DB connection while selecting a character!")
+		new_db_connection = TRUE
+
+
+	var/DBQuery/char_query = dbcon_save.NewQuery("SELECT `metadata2` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]'")
 	if(!char_query.Execute())
 		to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
 	for(var/i=1, i<=slots, i++)
@@ -159,6 +177,8 @@
 	charselect.set_content(JOINTEXT(output))
 	charselect.open()
 
+	if(new_db_connection)
+		close_save_db_connection()
 
 /mob/new_player/proc/joinGame()
 	if(GAME_STATE < RUNLEVEL_GAME)
@@ -185,8 +205,14 @@
 			qdel(src)
 			return
 	// Query for the character associated with this ckey
+	var/new_db_connection = FALSE
+	if(!check_save_db_connection())
+		if(!establish_save_db_connection())
+			CRASH("new_player: Couldn't establish DB connection while joining as character!")
+		new_db_connection = TRUE
+
 	spawning = TRUE
-	var/DBQuery/char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]' AND `metadata2` = '[selected_char_name]'")
+	var/DBQuery/char_query = dbcon_save.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]' AND `metadata2` = '[selected_char_name]'")
 	if(!char_query.Execute())
 		to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
 	if(char_query.NextRow())
@@ -203,14 +229,24 @@
 			to_world_log("CHARACTER DESERIALIZATION FAILED: Could not locate key [char_items["key"]] from limbo list.")
 			to_chat(src, SPAN_WARNING("Something has gone wrong while returning you to your body. Contact an admin."))
 			spawning = FALSE
+
+			if(new_db_connection)
+				close_save_db_connection()
+
 			return
 		var/mob/person = target_mind.current
 		transition_to_game()
 		person.key = key
 		qdel(src)
+		
+		if(new_db_connection)
+			close_save_db_connection()
 		return
 	to_chat(src, SPAN_NOTICE("Load Failed! Contact a developer."))
 	spawning = FALSE
+
+	if(new_db_connection)
+		close_save_db_connection()
 	return
 
 /mob/new_player/Move()

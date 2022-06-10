@@ -125,7 +125,12 @@
 		H.home_spawn = src
 		var/datum/mind/occupant_mind = occupant.mind
 		if(occupant_mind)
-			SSpersistence.AddToLimbo(occupant_mind, occupant_mind.unique_id, LIMBO_MIND, occupant_mind.key, occupant_mind.current.real_name, TRUE)
+			var/success = SSpersistence.AddToLimbo(occupant_mind, occupant_mind.unique_id, LIMBO_MIND, occupant_mind.key, occupant_mind.current.real_name, TRUE)
+			if(!success)
+				to_chat(occupant, SPAN_WARNING("Something has gone wrong while deserializing your character. Contact an admin!"))
+				self_eject()
+				audible_message("\The [src] emits a series of warning tones before ejecting the occupant!")
+				return
 			QDEL_NULL(occupant.mind)
 		else
 			return

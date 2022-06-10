@@ -153,8 +153,12 @@
 		SerializeDatum(thing, null, limbo_assoc)
 	if(length(extension_wrapper_holder.wrapped))
 		SerializeDatum(extension_wrapper_holder, null, limbo_assoc)
-
-	Commit(limbo_assoc)
+	
+	try
+		Commit(limbo_assoc)
+	catch (var/exception/e)
+		Clear()
+		throw e
 
 	// Get the persistent ID for the "parent" objects.
 	var/list/thing_p_ids = list()
@@ -169,8 +173,29 @@
 	// Insert into the limbo table, a metadata holder that allows for access to the limbo_assoc key by 'type' and 'key'.
 	var/DBQuery/insert_query
 	insert_query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIMBO]` (`key`,`type`,`p_ids`,`metadata`,`limbo_assoc`, `metadata2`) VALUES('[key]', '[limbo_type]', '[encoded_p_ids]', '[metadata]', '[limbo_assoc]', '[metadata2]')")
-	SQLS_EXECUTE_AND_REPORT_ERROR(insert_query, "LIMBO ADDITION FAILED:")
-
+	
+	try
+		SQLS_EXECUTE_AND_REPORT_ERROR(insert_query, "LIMBO ADDITION FAILED:")
+	catch (var/exception/insert_e)
+		Clear()
+		throw insert_e
+	
+	// Final check, ensure each passed thing has been added to the limbo table
+	var/DBQuery/check_query
+	check_query = dbcon_save.NewQuery("SELECT COUNT(*) FROM `[SQLS_TABLE_LIMBO_DATUM]` WHERE `limbo_assoc` = '[limbo_assoc]' AND `p_id` IN ('[jointext(thing_p_ids, "', '")]');")
+	
+	try
+		SQLS_EXECUTE_AND_REPORT_ERROR(check_query, "LIMBO CHECK FAILED:")
+	catch (var/exception/check_e)
+		Clear()
+		RemoveFromLimbo(key, limbo_type)
+		throw check_e
+	
+	if(check_query.NextRow())
+		if(text2num(check_query.item[1]) == length(thing_p_ids))
+			. = TRUE // Success!
+		else
+			RemoveFromLimbo(key, limbo_type) // If we failed, remove any rows still in the database.
 	Clear()
 
 // Removes an object from the limbo table. This should always be called after an object is deserialized from limbo into the world.
