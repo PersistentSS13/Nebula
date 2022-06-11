@@ -6,7 +6,10 @@
 	var/list/turfs
 	var/has_gravity
 
-/datum/wrapper/area/on_serialize(var/area/A)
+// TODO: All of this is terrible, and needs to be rewritten to handle references to areas and to
+// prevent massive strings from being in the database.
+
+/datum/wrapper/area/on_serialize(var/area/A, var/serializer/curr_serializer)
 	key = "[A.type]"
 	name = A.name
 
@@ -29,7 +32,7 @@
 	. = ..()
 	turfs.Cut()
 
-/datum/wrapper/area/on_deserialize()	
+/datum/wrapper/area/on_deserialize(var/serializer/curr_serializer)	
 	// Check for areas that have already been deserialized to prevent duplicate areas.
 	for(var/area/pre_area)
 		if("[pre_area.type]" == key && pre_area.name == name)
