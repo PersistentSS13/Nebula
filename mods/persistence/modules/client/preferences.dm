@@ -64,6 +64,11 @@
 		switch(alert("Are you sure you want to finalize your character and join the game with the character you've created?", "Character Confirmation", "Yes", "No"))
 			if("No")
 				return
+		for(var/datum/mind/other_mind in global.player_minds)
+			if(other_mind.name == real_name)
+				to_chat(usr, "<span class='danger'>[real_name] is already a name in use! Please select a different name.</span>")
+				real_name = null
+				return
 		var/DBQuery/char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata2` = '[real_name]'")
 		if(!char_query.Execute())
 			to_world_log("DUPLICATE NAME CHECK DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
