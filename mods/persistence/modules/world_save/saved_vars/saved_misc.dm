@@ -517,8 +517,6 @@ SAVED_VAR(/obj/item/assembly_holder, a_right)
 SAVED_VAR(/obj/item/assembly_holder, special_assembly)
 SAVED_VAR(/obj/item/assembly_holder, master)
 
-SAVED_VAR(/obj/item/tank, master)
-
 SAVED_VAR(/obj/item/flashlight, on)
 
 SAVED_VAR(/obj/item/lightreplacer, uses)
@@ -667,16 +665,6 @@ SAVED_VAR(/obj/item/storage/belt, use_alt_layer)
 SAVED_VAR(/obj/item/storage/internal, master_item)
 
 SAVED_VAR(/obj/item/storage/wallet, front_id)
-
-SAVED_VAR(/obj/item/tank, air_contents)
-SAVED_VAR(/obj/item/tank, distribute_pressure)
-SAVED_VAR(/obj/item/tank, integrity)
-SAVED_VAR(/obj/item/tank, valve_welded)
-SAVED_VAR(/obj/item/tank, proxyassembly)
-SAVED_VAR(/obj/item/tank, volume)
-SAVED_VAR(/obj/item/tank, manipulated_by)
-SAVED_VAR(/obj/item/tank, leaking)
-SAVED_VAR(/obj/item/tank, wired)
 
 SAVED_VAR(/obj/item/weldingtool, tank)
 
