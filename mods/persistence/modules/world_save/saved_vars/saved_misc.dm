@@ -108,7 +108,7 @@ SAVED_VAR(/datum/fluidtrack, direction)
 SAVED_VAR(/datum/fluidtrack, basecolor)
 SAVED_VAR(/datum/fluidtrack, crusty)
 
-SAVED_VAR(/datum/gas_mixture, serialized_gas)
+SAVED_VAR(/datum/gas_mixture, gas)
 SAVED_VAR(/datum/gas_mixture, temperature)
 SAVED_VAR(/datum/gas_mixture, total_moles)
 SAVED_VAR(/datum/gas_mixture, volume)
