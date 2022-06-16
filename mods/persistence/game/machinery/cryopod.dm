@@ -2,6 +2,7 @@
 
 /obj/machinery/cryopod
 	var/obj/item/radio/intercom/old_intercom
+	var/despawning = FALSE
 
 /obj/machinery/cryopod/Initialize()
 	old_intercom = locate() in src
@@ -25,6 +26,7 @@
 	return
 
 /obj/machinery/cryopod/set_occupant(var/mob/living/carbon/occupant, var/silent)
+	despawning = FALSE
 	src.occupant = occupant
 	if(!occupant)
 		SetName(initial(name))
@@ -96,6 +98,9 @@
 			var/mob/living/carbon/C = occupant
 			C.SetStasis(2)
 
+		if(despawning)
+			return
+
 		var/time_elapsed = world.time - time_entered
 		var/time_left = round((time_till_despawn - time_elapsed) / (1 SECOND))
 		if((time_left > 0) && ((time_left % 5) == 0))
@@ -116,6 +121,8 @@
 	if(!occupant)
 		return
 
+	despawning = TRUE
+
 	var/role_alt_title = occupant.mind ? occupant.mind.role_alt_title : "Unknown"
 	log_and_message_admins("[key_name(occupant)] ([role_alt_title]) entered cryostorage.")
 	announce.autosay("[occupant.real_name], [role_alt_title], [on_store_message]", "[on_store_name]")
@@ -125,14 +132,21 @@
 		H.home_spawn = src
 		var/datum/mind/occupant_mind = occupant.mind
 		if(occupant_mind)
-			SSpersistence.AddToLimbo(occupant_mind, occupant_mind.unique_id, LIMBO_MIND, occupant_mind.key, occupant_mind.current.real_name, TRUE)
+			var/success = SSpersistence.AddToLimbo(occupant_mind, occupant_mind.unique_id, LIMBO_MIND, occupant_mind.key, occupant_mind.current.real_name, TRUE)
+			if(!success)
+				to_chat(occupant, SPAN_WARNING("Something has gone wrong while deserializing your character. Contact an admin!"))
+				log_and_message_admins("\The cryopod at ([x], [y], [z]) failed to despawn the occupant [occupant]!")
+				audible_message("\The [src] emits a series of warning tones!")
+				return // We don't set despawning here in order to keep the mob safe without continuously retrying despawns.
 			QDEL_NULL(occupant.mind)
 		else
+			despawning = FALSE
 			return
 	if(occupant.ckey)
 		var/mob/new_player/new_player = new()
 		new_player.ckey = occupant.ckey
 
+	despawning = FALSE
 	// Delete the mob.
 	occupant.forceMove(null)
 	qdel(occupant)
