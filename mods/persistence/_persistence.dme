@@ -191,6 +191,8 @@
 #include "modules\power\fission\core_control.dm"
 #include "modules\power\fuel_assembly\fuel_assembly.dm"
 #include "modules\power\fusion\fuel_injector.dm"
+#include "modules\projectiles\ammunition.dm"
+#include "modules\projectiles\guns\projectile.dm"
 #include "modules\reagents\Chemistry-Holder.dm"
 #include "modules\reagents\chems\chems.dm"
 #include "modules\reagents\chems\recipes.dm"
