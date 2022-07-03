@@ -14,7 +14,7 @@
 		for(var/key in object.extensions)
 			var/datum/extension/E = object.extensions[key]
 			if(istype(E) && E.should_save())
-				extension_wrapper_holder.wrapped += E
+				extension_wrapper_holder.wrapped |= E
 
 /serializer/sql/one_off/Commit(limbo_assoc)
 	if(!establish_save_db_connection())
@@ -238,10 +238,12 @@
 	for(var/target_p_id in limbo_p_ids)
 		targets |= QueryAndDeserializeDatum(target_p_id)
 	// Copy pasta for calling after_deserialize on everything we just deserialized.
-	for(var/id in reverse_map)
-		var/datum/T = reverse_map[id]
+	for(var/p_id in reverse_map)
+		var/datum/T = reverse_map[p_id]
 		T.after_deserialize()
-	CommitRefUpdates()
+
+		SSpersistence.limbo_refs[p_id] = ref(T)
+
 	// Start initializing whatever we deserialized.
 	SSatoms.map_loader_stop()
 	SSatoms.InitializeAtoms()
