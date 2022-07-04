@@ -1423,7 +1423,7 @@
 /area/kleibkhar/outpost/mess_hall)
 "dC" = (
 /turf/simulated/floor/plating,
-/area/exoplanet/kleibkhar/supply_shuttle_dock)
+/area/exoplanet/kleibkhar_supply_shuttle_dock)
 "dD" = (
 /obj/structure/cable{
 	icon_state = "1-2"
@@ -1657,7 +1657,7 @@
 	dir = 8
 	},
 /turf/simulated/floor/plating,
-/area/exoplanet/kleibkhar/supply_shuttle_dock)
+/area/exoplanet/kleibkhar_supply_shuttle_dock)
 "ee" = (
 /obj/structure/cable{
 	icon_state = "4-8"

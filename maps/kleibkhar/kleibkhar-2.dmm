@@ -1,10 +1,10 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
 "aa" = (
 /turf/exterior/barren/mining,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "ab" = (
 /turf/simulated/wall/elevator,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "ac" = (
 /obj/structure/railing/mapped{
 	dir = 1;
@@ -12,29 +12,29 @@
 	},
 /obj/structure/stairs/long/west,
 /turf/exterior/barren/mining,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "ad" = (
 /obj/structure/railing/mapped{
 	dir = 1;
 	icon_state = "railing0-1"
 	},
 /turf/exterior/barren/mining,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "ae" = (
 /turf/exterior/barren/mining,
-/area/exoplanet/kleibkhar/mines/depth_1)
+/area/exoplanet/kleibkhar_mines/depth_1)
 "af" = (
 /turf/exterior/open,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "ag" = (
 /obj/structure/railing/mapped,
 /obj/structure/stairs/long/west,
 /turf/exterior/barren/mining,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "ah" = (
 /obj/structure/railing/mapped,
 /turf/exterior/barren/mining,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "ai" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -45,10 +45,10 @@
 	icon_state = "2-4"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aj" = (
 /turf/exterior/planet_edge,
-/area/exoplanet/kleibkhar/mines/depth_1)
+/area/exoplanet/kleibkhar_mines/depth_1)
 "ak" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -59,7 +59,7 @@
 	icon_state = "2-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "al" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -70,7 +70,7 @@
 	icon_state = "1-4"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "am" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/floor_decal/industrial/warning/dust{
@@ -81,7 +81,7 @@
 	icon_state = "4-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "an" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -92,7 +92,7 @@
 	icon_state = "1-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "ap" = (
 /obj/machinery/light/small/emergency/cabled,
 /obj/effect/decal/cleanable/dirt,
@@ -100,11 +100,11 @@
 	icon_state = "0-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aq" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "ar" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -122,7 +122,7 @@
 	icon_state = "0-4"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "as" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -140,7 +140,7 @@
 	icon_state = "0-4"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "at" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -148,12 +148,12 @@
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "au" = (
 /obj/effect/floor_decal/industrial/hatch/yellow,
 /obj/effect/decal/cleanable/dirt,
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "av" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -161,7 +161,7 @@
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aw" = (
 /obj/effect/floor_decal/industrial/warning/dust/corner{
 	icon_state = "warningcorner_dust";
@@ -172,7 +172,7 @@
 	icon_state = "1-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "ax" = (
 /obj/effect/floor_decal/industrial/warning/dust/corner{
 	icon_state = "warningcorner_dust";
@@ -183,7 +183,7 @@
 	icon_state = "1-4"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "ay" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -201,7 +201,7 @@
 	icon_state = "0-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "az" = (
 /obj/effect/floor_decal/industrial/warning/dust/corner{
 	icon_state = "warningcorner_dust";
@@ -209,23 +209,23 @@
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aA" = (
 /obj/structure/sign/deck/first{
 	pixel_y = 24
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aB" = (
 /obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aC" = (
 /obj/effect/floor_decal/industrial/warning/dust/corner,
 /obj/effect/decal/cleanable/dirt,
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aD" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -236,7 +236,7 @@
 	icon_state = "1-2"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aE" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -247,7 +247,7 @@
 	icon_state = "1-2"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aF" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -261,14 +261,14 @@
 	icon_state = "1-4"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aG" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aH" = (
 /obj/structure/sign/deck/first{
 	pixel_y = 24
@@ -285,7 +285,7 @@
 	icon_state = "4-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aI" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -299,7 +299,7 @@
 	icon_state = "2-4"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aJ" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -317,7 +317,7 @@
 	icon_state = "0-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aK" = (
 /obj/structure/railing/mapped{
 	icon_state = "railing_preview";
@@ -329,12 +329,12 @@
 	icon_state = "0-4"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aL" = (
 /obj/structure/railing/mapped,
 /obj/effect/decal/cleanable/dirt,
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aM" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/railing/mapped{
@@ -342,12 +342,12 @@
 	icon_state = "railing0-1"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aN" = (
 /obj/effect/floor_decal/industrial/warning/dust,
 /obj/effect/decal/cleanable/dirt,
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aO" = (
 /obj/structure/railing/mapped{
 	icon_state = "railing_preview";
@@ -362,7 +362,7 @@
 	icon_state = "2-4"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aP" = (
 /obj/structure/railing/mapped{
 	dir = 1;
@@ -370,7 +370,7 @@
 	},
 /obj/effect/decal/cleanable/dirt,
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aQ" = (
 /obj/structure/railing/mapped,
 /obj/effect/decal/cleanable/dirt,
@@ -382,7 +382,7 @@
 	icon_state = "railing0-1"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aR" = (
 /obj/structure/sign/deck/first{
 	pixel_y = 24
@@ -397,14 +397,14 @@
 	icon_state = "0-4"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aS" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aT" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -416,7 +416,7 @@
 	icon_state = "0-4"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aU" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -431,7 +431,7 @@
 	icon_state = "0-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aW" = (
 /obj/effect/floor_decal/industrial/warning/dust,
 /obj/effect/decal/cleanable/dirt,
@@ -439,7 +439,7 @@
 	icon_state = "4-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aX" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -450,7 +450,7 @@
 	icon_state = "4-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "aZ" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -465,7 +465,7 @@
 	icon_state = "0-4"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "ba" = (
 /obj/effect/floor_decal/industrial/warning/dust/corner{
 	icon_state = "warningcorner_dust";
@@ -476,7 +476,7 @@
 	icon_state = "2-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "bb" = (
 /obj/effect/floor_decal/industrial/warning/dust/corner,
 /obj/effect/decal/cleanable/dirt,
@@ -484,7 +484,7 @@
 	icon_state = "2-4"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "bc" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -496,7 +496,7 @@
 	icon_state = "0-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "bf" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/floor_decal/industrial/warning/dust,
@@ -504,7 +504,7 @@
 	icon_state = "4-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "bh" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -522,7 +522,7 @@
 	icon_state = "0-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "bj" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -536,7 +536,7 @@
 	icon_state = "1-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "bk" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -550,7 +550,7 @@
 	icon_state = "2-8"
 	},
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "bl" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable/yellow{
@@ -558,18 +558,18 @@
 	},
 /obj/structure/cable/yellow,
 /turf/exterior/concrete/reinforced,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "bm" = (
 /obj/structure/lattice,
 /turf/exterior/open,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 "bn" = (
 /obj/structure/lattice,
 /obj/structure/cable/yellow{
 	icon_state = "32-1"
 	},
 /turf/exterior/open,
-/area/exoplanet/kleibkhar/mines/exits)
+/area/exoplanet/kleibkhar_mines/exits)
 
 (1,1,1) = {"
 aj

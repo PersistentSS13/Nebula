@@ -27,7 +27,7 @@
 /obj/effect/shuttle_landmark/supply/station
 	landmark_tag = "nav_cargo_station"
 	docking_controller = "cargo_bay"
-	base_area = /area/exoplanet/kleibkhar/supply_shuttle_dock
+	base_area = /area/exoplanet/kleibkhar_supply_shuttle_dock
 	base_turf = /turf/simulated/floor/plating
 
 //supply
