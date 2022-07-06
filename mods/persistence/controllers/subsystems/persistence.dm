@@ -150,7 +150,7 @@
 
 		// Go through all of our saved areas and save those, too.
 		for(var/area/A in saved_areas)
-			for(var/turf/T in A)
+			for(var/turf/T in A)				
 				if("[T.z]" in z_transform)
 					continue
 				// Turf exists in an area outside of saved_levels.
@@ -166,27 +166,13 @@
 				z_level.new_index = new_z_index
 				z_transform["[T.z]"] = z_level
 
-		new_z_index++
+		
 		// Now we rebuild our z_level metadata list into the serializer for it to remap everything for us.
 		for(var/z in z_transform)
 			var/datum/persistence/load_cache/z_level/z_level = z_transform[z]
 			serializer.z_map["[z_level.index]"] = z_level.new_index
+		new_z_index++
 		serializer.z_index = new_z_index
-
-		// Now we find all the area datums themselves that need to be saved, since keeping references on the turfs is a huge waste of space.
-		var/list/areas_to_serialize = list()
-		for(var/area/A in global.areas)
-			if(istype(A, world.area))
-				continue
-			var/turf/T = locate() in A.contents
-			// Because cross Z-level areas should not exist except on the planet, this should be ok.
-			if(!T || !(T.z in saved_levels))
-				continue
-			areas_to_serialize |= A
-		areas_to_serialize |= saved_areas
-		var/datum/wrapper_holder/area_wrapper_holder = new(areas_to_serialize)
-		serializer.Serialize(area_wrapper_holder)
-		serializer.Commit()
 
 		report_progress("Z-levels prepared for save in [(REALTIMEOFDAY - time_start_zprepare) / (1 SECOND)]s.")
 		sleep(5)
@@ -198,19 +184,36 @@
 		var/index = 1
 		var/progress = 0
 		var/max_progress = length(saved_levels)
+
 		for(var/z in saved_levels)
 			var/default_turf = get_base_turf(z)
-			for(var/x in 1 to world.maxx)
-				for(var/y in 1 to world.maxy)
+			var/datum/persistence/load_cache/z_level/z_level = z_transform["[z]"]
+				
+			var/last_area_type
+			var/last_area_name
+			var/area_turf_count = 0
+
+			// We iterate horizontally, since saved turfs 'in' area contents are iterated over in the same way.
+			for(var/y in 1 to world.maxy)
+				for(var/x in 1 to world.maxx)
 					// Get the thing to serialize and serialize it.
 					var/turf/T = locate(x,y,z)
+					var/area/TA = T.loc
+
+					if(last_area_type != TA.type || last_area_name != TA.name)
+						if(area_turf_count > 0)
+							z_level.areas += list(list("[last_area_type]", sanitize_sql(last_area_name), area_turf_count))
+						last_area_type = TA.type
+						last_area_name = TA.name
+						area_turf_count = 1
+					else
+						area_turf_count++
+
 					// This if statement, while complex, checks to see if we should save this turf.
 					// Turfs not saved become their default_turf after deserialization.
 					if(!istype(T) || !LAZYLEN(T.contents))
 						continue
-					
 					//Ignore non-saved areas
-					var/area/TA = T.loc 
 					if(istype(TA) && (TA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT))
 						continue
 					
@@ -232,6 +235,8 @@
 						index = 1
 					else
 						index++
+			if(last_area_type)
+				z_level.areas += list(list("[last_area_type]", sanitize_sql(last_area_name), area_turf_count))
 
 			serializer.Commit() // cleanup leftovers.
 			serializer.CommitRefUpdates()
@@ -247,7 +252,11 @@
 		sleep(5)
 		var/time_start_zarea = REALTIMEOFDAY
 		// Repeat much of the above code in order to save areas marked to be saved that are not in a saved z-level.
+		var/list/area_chunks = list()
 		for(var/area/A in saved_areas)
+			var/datum/persistence/load_cache/area_chunk/area_chunk = new()
+			area_chunk.area_type = A.type
+			area_chunk.name = A.name
 			for(var/turf/T in A)
 				if(T.z in saved_levels)
 					continue
@@ -262,6 +271,10 @@
 							break // We found a thing that's worth saving.
 					if(should_skip)
 						continue // Skip this tile. Not worth saving.
+				
+				var/new_z = serializer.z_map["[T.z]"]
+				if(new_z)
+					area_chunk.turfs += "[T.x],[T.y],[new_z]"
 				serializer.Serialize(T, null, T.z)
 
 				// Don't save every single tile.
@@ -272,10 +285,15 @@
 				else
 					index++
 
+			if(length(area_chunk.turfs))
+				area_chunks += area_chunk
+
 			serializer.Commit() // cleanup leftovers.
 
 		// Insert our z-level remaps.
 		serializer.save_z_level_remaps(z_transform)
+		if(length(area_chunks))
+			serializer.save_area_chunks(area_chunks)
 		serializer.Commit()
 		serializer.CommitRefUpdates()
 
@@ -377,16 +395,71 @@
 		to_world_log("Load complete! Took [(world.timeofday-start)/10]s to load [length(serializer.resolver.things)] things. Loaded [LAZYLEN(turfs_loaded)] turfs.")
 		in_loaded_world = LAZYLEN(turfs_loaded) > 0
 
-		to_world_log("Adding default turfs...")
-		start = world.timeofday
-		for(var/datum/persistence/load_cache/z_level/z_level in serializer.resolver.z_levels)
-			if(z_level.default_turf && !ispath(z_level.default_turf, /turf/space))
-				for(var/turf/T in block(locate(1, 1, z_level.new_index), locate(world.maxx, world.maxy, z_level.new_index)))
-					if(turfs_loaded["([T.x], [T.y], [T.z])"])
-						continue
-					T.ChangeTurf(z_level.default_turf)
-		to_world_log("Default turfs complete! Took [(world.timeofday-start)/10]s.")
+		var/list/area_dict = list() // Dictionary of list(type, name) -> area instance
+		for(var/area/A in global.areas)
+			area_dict["[A.type], [A.name]"] = A 
 
+		to_world_log("Adding default turfs and areas...")
+		start = world.timeofday
+
+		for(var/datum/persistence/load_cache/z_level/z_level in serializer.resolver.z_levels)
+			var/change_turf = z_level.default_turf && !ispath(z_level.default_turf, /turf/space)
+			
+			// Create the areas in the z-level if they don't already exist.
+			for(var/list/area_chunk in z_level.areas)
+				var/area/area_instance = area_dict["[area_chunk[1]], [area_chunk[2]]"]
+				if(!area_instance)
+					var/new_type = text2path(area_chunk[1])
+					var/area/new_area = new new_type 
+					new_area.name = area_chunk[2]
+					area_dict["[new_area.type], [area_chunk[2]]"] = new_area
+			// The areas are split into horizontal chunks with the area type and name corresponding to a certain amount of tiles in a row.
+			var/chunk_index = 1
+			var/list/current_area_chunk
+			var/area/current_area
+			var/turf_count = 1
+			if(z_level.areas.len)
+				current_area_chunk = z_level.areas[chunk_index]
+				current_area = area_dict["[current_area_chunk[1]], [current_area_chunk[2]]"]
+
+			for(var/turf/T in block(locate(1, 1, z_level.new_index), locate(world.maxx, world.maxy, z_level.new_index)))
+				if(current_area)
+					current_area.contents += T
+					turf_count++
+					if(turf_count > current_area_chunk[3])
+						chunk_index++
+						// All the chunks are done. Most likely we're on the last tile of the z-level but just in case allow the loop
+						// to continue.
+						if(chunk_index > z_level.areas.len)
+							current_area = null
+							current_area_chunk = null
+						else
+							current_area_chunk = z_level.areas[chunk_index]
+							current_area = area_dict["[current_area_chunk[1]], [current_area_chunk[2]]"]
+							turf_count = 1
+				if(change_turf && !turfs_loaded["([T.x], [T.y], [T.z])"])
+					T.ChangeTurf(z_level.default_turf)
+		to_world_log("Default turfs and areas complete! Took [(world.timeofday-start)/10]s.")
+		
+		to_world_log("Adding other areas...")
+		start = world.timeofday
+		for(var/datum/persistence/load_cache/area_chunk/area_chunk in serializer.resolver.area_chunks)
+			var/area/new_area = area_dict["[area_chunk.area_type], [area_chunk.name]"]
+			if(!new_area)
+				new_area = new area_chunk.area_type
+				new_area.name = area_chunk.name
+				area_dict["[area_chunk.area_type], [area_chunk.name]"] = new_area
+
+			for(var/turf_chunk in area_chunk.turfs)
+				var/list/coords = splittext(turf_chunk, ",")
+				// Adjust to new index.
+				coords[3] = serializer.z_map[coords[3]]
+				var/turf/T = locate(text2num(coords[1]), text2num(coords[2]), coords[3])
+				new_area.contents += T
+
+		to_world_log("Adding other areas complete! Took [(world.timeofday-start)/10]s.")
+
+		area_dict.Cut()
 		// Cleanup the cache. It uses a *lot* of memory.
 		for(var/id in serializer.reverse_map)
 			var/datum/T = serializer.reverse_map[id]

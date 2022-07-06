@@ -48,6 +48,14 @@ CREATE TABLE IF NOT EXISTS `z_level` (
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
+CREATE TABLE IF NOT EXISTS `areas` (
+	`id` int NOT NULL AUTO_INCREMENT,
+	`type` longtext NOT NULL,
+	`name` longtext NOT NULL,
+	`turfs` longtext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
+
 CREATE TABLE IF NOT EXISTS `limbo` (
   `key` longtext NOT NULL,
   `type` varchar(64) NOT NULL,

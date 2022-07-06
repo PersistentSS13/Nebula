@@ -327,8 +327,6 @@ SAVED_VAR(/datum/wrapper,  key)
 SAVED_VAR(/datum/wrapper_holder,  wrapped)
 
 SAVED_VAR(/datum/wrapper/area, name)
-SAVED_VAR(/datum/wrapper/area, turfs)
-SAVED_VAR(/datum/wrapper/area, has_gravity)
 
 SAVED_VAR(/datum/wrapper/map_data, height)
 SAVED_VAR(/datum/wrapper/map_data, landmark_loc)
