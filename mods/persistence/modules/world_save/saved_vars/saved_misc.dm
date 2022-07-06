@@ -466,9 +466,6 @@ SAVED_VAR(/mob/living/simple_animal/hostile, return_damage_max)
 
 SAVED_VAR(/obj/item/ammo_casing, BB)
 
-SAVED_VAR(/obj/item/clothing/accessory/storage, slots)
-SAVED_VAR(/obj/item/clothing/accessory/storage, hold)
-
 SAVED_VAR(/obj/item/clothing/head/welding, up)
 
 SAVED_VAR(/obj/item/clothing/shoes/magboots, magpulse)
@@ -479,11 +476,6 @@ SAVED_VAR(/obj/item/clothing/suit/space/void, tank)
 
 SAVED_VAR(/obj/item/clothing/suit/storage, pockets)
 SAVED_VAR(/obj/item/clothing/suit/storage, slots)
-
-SAVED_VAR(/obj/item/clothing, tint)
-SAVED_VAR(/obj/item/clothing, accessories)
-SAVED_VAR(/obj/item/clothing, ironed_state)
-SAVED_VAR(/obj/item/clothing, smell_state)
 
 SAVED_VAR(/obj/item/assembly/mousetrap, armed)
 

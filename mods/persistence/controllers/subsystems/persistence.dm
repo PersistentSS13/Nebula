@@ -19,6 +19,8 @@
 	var/serializer/sql/one_off/one_off	= new() // The serializer impl for one off serialization/deserialization.
 
 	var/list/limbo_removals = list() // Objects which will be removed from limbo on the next save. Format is list(limbo_key, limbo_type)
+	var/list/limbo_refs = list()	 // Objects which are deserialized out of limbo don't have their refs in the database immediately, so we add them here until the next save
+									 // Format is p_id -> ref
 
 	var/loading_world = FALSE
 
@@ -87,6 +89,7 @@
 			one_off.RemoveFromLimbo(queued[1], queued[2])
 			limbo_removals -= list(queued)
 
+		limbo_refs.Cut()
 		report_progress("Done removing queued limbo objects in [(REALTIMEOFDAY - time_start_limbo_removal) / (1 SECOND)]s.")
 		sleep(5)
 
@@ -588,8 +591,16 @@
 
 // Get an object from its p_id via ref tracking. This will not always work if an object is asynchronously deserialized from others.
 // This is also quite slow - if you're trying to locate many objects at once, it's best to use a single query for multiple objects.
-
 /datum/controller/subsystem/persistence/proc/get_object_from_p_id(var/target_p_id)
+	
+	// Check to see if the object has been deserialized from limbo and not yet added to the normal tables.
+	if(target_p_id in limbo_refs)
+		var/datum/existing = locate(limbo_refs[target_p_id])
+		if(existing && !QDELETED(existing) && existing.persistent_id == target_p_id)
+			return existing
+		limbo_refs -= target_p_id
+
+	// If it was in limbo_refs we shouldn't find it in the normal tables, but we'll check anyway.
 	var/new_db_connection = FALSE
 	if(!check_save_db_connection())
 		if(!establish_save_db_connection())
