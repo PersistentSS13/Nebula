@@ -10,15 +10,17 @@
 // Rebuild the shuttle on load.
 /obj/effect/overmap/visitable/ship/landable/Initialize()
 	if(!SSshuttle.shuttles[shuttle] && persistent_id)
-		if(saved_landmark && saved_areas)
+		if(saved_areas)
+			if(!get_turf(saved_landmark)) // The landmark was not saved in place, move it.
+				saved_landmark.forceMove(get_turf(src))
 			var/list/shuttle_args = list(saved_landmark, saved_areas.Copy(), shuttle)
 			SSshuttle.initialize_shuttle(/datum/shuttle/autodock/overmap/created, null, shuttle_args)
 		else
-			log_warning("Landable ship could not rebuild shuttle!")
+			log_warning("Landable ship [src] could not rebuild shuttle!")
 	saved_landmark = null
 	saved_areas.Cut()
 	. = ..()
-	
+
 /obj/effect/overmap/visitable/ship/landable/move_to_starting_location()
 	var/datum/overmap/overmap = global.overmaps_by_name[overmap_id]
 	if(start_x && start_y)
@@ -38,17 +40,24 @@
 	if(!ship_shuttle || !ship_shuttle.current_location)
 		log_error("Could not move the landable ship [src] into its current location!")
 		return
+	var/turf/shuttle_turf // Locate a safe turf to place the landable ship where it will save.
 	if(check_rent())
 		if(ship_shuttle.current_location == landmark)
 			use_mapped_z_levels = TRUE
 			for(var/ship_z in map_z)
 				SSpersistence.AddSavedLevel(ship_z)
+
+			shuttle_turf = get_turf(ship_shuttle.current_location) // If the entire z-level is saving, the landmark of the shuttle certainly will as well.
 		else
 			for(var/area/A in ship_shuttle.shuttle_area)
 				SSpersistence.AddSavedArea(A)
+				if(!shuttle_turf)
+					// This is somewhat slow, but it's a safe way to ensure the ship is saved.
+					shuttle_turf = locate(/turf) in A
 		saved_areas = ship_shuttle.shuttle_area.Copy()
 		saved_landmark = ship_shuttle.current_location
-	forceMove(get_turf(ship_shuttle.current_location))
+
+	forceMove(shuttle_turf)
 
 /obj/effect/overmap/visitable/ship/landable/on_saving_end()
 	use_mapped_z_levels = initial(use_mapped_z_levels)
