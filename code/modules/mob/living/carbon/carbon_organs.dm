@@ -1,5 +1,7 @@
-/mob/living/carbon/get_organ(var/organ_tag)
-	return LAZYACCESS(organs_by_tag, organ_tag)
+/mob/living/carbon/get_organ(var/organ_tag, var/expected_type)
+	var/obj/item/organ = LAZYACCESS(organs_by_tag, organ_tag)
+	if(!expected_type || istype(organ, expected_type))
+		return organ
 
 /mob/living/carbon/get_external_organs()
 	return external_organs
@@ -48,9 +50,6 @@
 	if(!(. = ..()))
 		return
 
-	if(client)
-		client.screen -= O
-	
 	LAZYREMOVE(organs_by_tag, O.organ_tag)
 	if(O.is_internal())
 		LAZYREMOVE(internal_organs, O)

@@ -210,12 +210,6 @@
 	if(user.zone_sel.selecting != BP_MOUTH) //in case it is ever used as a surgery tool
 		return ..()
 
-/obj/item/chems/AltClick(var/mob/user)
-	if(possible_transfer_amounts)
-		set_amount_per_transfer_from_this()
-	else
-		return ..()
-
 /obj/item/chems/examine(mob/user)
 	. = ..()
 	if(!reagents)
@@ -229,3 +223,20 @@
 /obj/item/chems/shatter(consumed)
 	reagents.splash(get_turf(src), reagents.total_volume)
 	. = ..()
+
+/obj/item/chems/get_alt_interactions(var/mob/user)
+	. = ..()
+	LAZYADD(., /decl/interaction_handler/set_transfer/chems)
+
+/decl/interaction_handler/set_transfer/chems
+	expected_target_type = /obj/item/chems
+
+/decl/interaction_handler/set_transfer/chems/is_possible(var/atom/target, var/mob/user)
+	. = ..()
+	if(.)
+		var/obj/item/chems/C = target
+		return !!C.possible_transfer_amounts
+
+/decl/interaction_handler/set_transfer/chems/invoked(var/atom/target, var/mob/user)
+	var/obj/item/chems/C = target
+	C.set_amount_per_transfer_from_this()

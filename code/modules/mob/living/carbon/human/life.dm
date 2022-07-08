@@ -125,7 +125,7 @@
 
 	if(species_organ)
 		var/active_breaths = 0
-		var/obj/item/organ/internal/lungs/L = get_organ(species_organ)
+		var/obj/item/organ/internal/lungs/L = get_organ(species_organ, /obj/item/organ/internal/lungs)
 		if(L)
 			active_breaths = L.active_breathing
 		..(active_breaths)
@@ -181,7 +181,7 @@
 	//Vision
 	var/obj/item/organ/vision
 	if(species.vision_organ)
-		vision = get_organ(species.vision_organ)
+		vision = GET_INTERNAL_ORGAN(src, species.vision_organ)
 
 	if(!species.vision_organ) // Presumably if a species has no vision organs, they see via some other means.
 		set_status(STAT_BLIND, 0)
@@ -211,7 +211,6 @@
 			heal_organ_damage(0,1)
 
 	// DNA2 - Gene processing.
-	// The HULK stuff that was here is now in the hulk gene.
 	for(var/datum/dna/gene/gene in dna_genes)
 		if(!gene.block)
 			continue
@@ -267,31 +266,38 @@
 			var/list/limbs = get_external_organs()
 			if(!isSynthetic() && LAZYLEN(limbs))
 				var/obj/item/organ/external/O = pick(limbs)
-				if(istype(O)) 
+				if(istype(O))
 					O.add_autopsy_data("Radiation Poisoning", damage)
 
 	/** breathing **/
 
 /mob/living/carbon/human/handle_chemical_smoke(var/datum/gas_mixture/environment)
-	if(wear_mask && (wear_mask.item_flags & ITEM_FLAG_BLOCK_GAS_SMOKE_EFFECT))
-		return
-	if(glasses && (glasses.item_flags & ITEM_FLAG_BLOCK_GAS_SMOKE_EFFECT))
-		return
-	if(head && (head.item_flags & ITEM_FLAG_BLOCK_GAS_SMOKE_EFFECT))
-		return
+	for(var/slot in global.standard_headgear_slots)
+		var/obj/item/gear = get_equipped_item(slot)
+		if(istype(gear) && (gear.item_flags & ITEM_FLAG_BLOCK_GAS_SMOKE_EFFECT))
+			return
 	..()
 
 /mob/living/carbon/human/get_breath_from_internal(volume_needed=STD_BREATH_VOLUME)
 	if(internal)
 
 		var/obj/item/tank/rig_supply
-		if(istype(back,/obj/item/rig))
-			var/obj/item/rig/rig = back
-			if(!rig.offline && (rig.air_supply && internal == rig.air_supply))
-				rig_supply = rig.air_supply
+		var/obj/item/rig/rig = get_equipped_item(slot_back_str)
+		if(istype(rig) && !rig.offline && (rig.air_supply && internal == rig.air_supply))
+			rig_supply = rig.air_supply
 
-		if (!rig_supply && (!contents.Find(internal) || !((wear_mask && (wear_mask.item_flags & ITEM_FLAG_AIRTIGHT)) || (head && (head.item_flags & ITEM_FLAG_AIRTIGHT)))))
-			set_internals(null)
+		if(!rig_supply)
+			if(!contents.Find(internal))
+				set_internals(null)
+			else
+				var/found_mask = FALSE
+				for(var/slot in global.airtight_slots)
+					var/obj/item/gear = get_equipped_item(slot)
+					if(gear && (gear.item_flags & ITEM_FLAG_AIRTIGHT))
+						found_mask = TRUE
+						break
+				if(!found_mask)
+					set_internals(null)
 
 		if(internal)
 			return internal.remove_air_volume(volume_needed)
@@ -304,7 +310,7 @@
 	if(!species_organ)
 		return
 
-	var/obj/item/organ/internal/lungs/L = get_organ(species_organ)
+	var/obj/item/organ/internal/lungs/L = get_organ(species_organ, /obj/item/organ/internal/lungs)
 	if(!L || nervous_system_failure())
 		failed_last_breath = 1
 	else
@@ -460,8 +466,9 @@
 /mob/living/carbon/human/proc/get_heat_protection_flags(temperature) //Temperature is the temperature you're being exposed to.
 	. = 0
 	//Handle normal clothing
-	for(var/obj/item/clothing/C in list(head,wear_suit,w_uniform,shoes,gloves,wear_mask))
-		if(C)
+	for(var/slot in global.standard_clothing_slots)
+		var/obj/item/clothing/C = get_equipped_item(slot)
+		if(istype(C))
 			if(C.max_heat_protection_temperature && C.max_heat_protection_temperature >= temperature)
 				. |= C.heat_protection
 			if(C.accessories.len)
@@ -473,8 +480,9 @@
 /mob/living/carbon/human/proc/get_cold_protection_flags(temperature)
 	. = 0
 	//Handle normal clothing
-	for(var/obj/item/clothing/C in list(head,wear_suit,w_uniform,shoes,gloves,wear_mask))
-		if(C)
+	for(var/slot in global.standard_clothing_slots)
+		var/obj/item/clothing/C = get_equipped_item(slot)
+		if(istype(C))
 			if(C.min_cold_protection_temperature && C.min_cold_protection_temperature <= temperature)
 				. |= C.cold_protection
 			if(C.accessories.len)
@@ -531,7 +539,7 @@
 // Check if we should die.
 /mob/living/carbon/human/proc/handle_death_check()
 	if(should_have_organ(BP_BRAIN))
-		var/obj/item/organ/internal/brain/brain = get_organ(BP_BRAIN)
+		var/obj/item/organ/internal/brain = GET_INTERNAL_ORGAN(src, BP_BRAIN)
 		if(!brain || (brain.status & ORGAN_DEAD))
 			return TRUE
 	return species.handle_death_check(src)
@@ -608,6 +616,7 @@
 					SET_STATUS_MAX(src, STAT_ASLEEP, 5)
 
 		// If you're dirty, your gloves will become dirty, too.
+		var/obj/item/gloves = get_equipped_item(slot_gloves_str)
 		if(gloves && germ_level > gloves.germ_level && prob(10))
 			gloves.germ_level += 1
 
@@ -745,8 +754,8 @@
 				else							hydration_icon.icon_state = "hydration4"
 
 		if(isSynthetic())
-			var/obj/item/organ/internal/cell/C = get_organ(BP_CELL)
-			if (istype(C))
+			var/obj/item/organ/internal/cell/C = get_organ(BP_CELL, /obj/item/organ/internal/cell)
+			if(C)
 				var/chargeNum = Clamp(CEILING(C.percent()/25), 0, 4)	//0-100 maps to 0-4, but give it a paranoid clamp just in case.
 				cells.icon_state = "charge[chargeNum]"
 			else
@@ -813,7 +822,7 @@
 	// Puke if toxloss is too high
 	var/vomit_score = 0
 	for(var/tag in list(BP_LIVER,BP_KIDNEYS))
-		var/obj/item/organ/internal/I = get_organ(tag)
+		var/obj/item/organ/internal/I = GET_INTERNAL_ORGAN(src, tag)
 		if(I)
 			vomit_score += I.damage
 		else if (should_have_organ(tag))
@@ -945,8 +954,10 @@
 	if (BITTEST(hud_updateflag, ID_HUD) && hud_list[ID_HUD])
 		var/image/holder = hud_list[ID_HUD]
 		holder.icon_state = "hudunknown"
-		if(wear_id)
-			var/obj/item/card/id/I = wear_id.GetIdCard()
+		
+		var/obj/item/id = get_equipped_item(slot_wear_id_str)
+		if(id)
+			var/obj/item/card/id/I = id.GetIdCard()
 			if(I)
 				var/datum/job/J = SSjobs.get_by_title(I.GetJobName())
 				if(J)
@@ -958,8 +969,9 @@
 		var/image/holder = hud_list[WANTED_HUD]
 		holder.icon_state = "hudblank"
 		var/perpname = name
-		if(wear_id)
-			var/obj/item/card/id/I = wear_id.GetIdCard()
+		var/obj/item/id = get_equipped_item(slot_wear_id_str)
+		if(id)
+			var/obj/item/card/id/I = id.GetIdCard()
 			if(I)
 				perpname = I.registered_name
 

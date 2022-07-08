@@ -63,7 +63,7 @@
 /obj/item/clothing/mask/monitor/equipped()
 	..()
 	var/mob/living/carbon/human/H = loc
-	if(istype(H) && H.wear_mask == src)
+	if(istype(H) && H.get_equipped_item(slot_wear_mask_str) == src)
 		canremove = 0
 		to_chat(H, SPAN_NOTICE("\The [src] connects to your display output."))
 
@@ -74,7 +74,7 @@
 /obj/item/clothing/mask/monitor/mob_can_equip(var/mob/living/carbon/human/user, var/slot)
 	. = ..()
 	if(. && (slot == slot_head_str || slot == slot_wear_mask_str))
-		var/obj/item/organ/external/E = user.get_organ(BP_HEAD)
+		var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(user, BP_HEAD)
 		if(!istype(E) || !BP_IS_PROSTHETIC(E))
 			to_chat(user, SPAN_WARNING("You must have a robotic head to install this upgrade."))
 			return FALSE
@@ -93,7 +93,7 @@
 	if(!istype(H) || H != usr)
 		return
 
-	if(H.wear_mask != src)
+	if(H.get_equipped_item(slot_wear_mask_str) != src)
 		to_chat(usr, "<span class='warning'>You have not installed \the [src] yet.</span>")
 		return
 
@@ -104,7 +104,7 @@
 		options[i] = radial_button
 
 	var/choice = show_radial_menu(usr, usr, options, radius = 42, require_near = TRUE, tooltips = TRUE)
-	if(choice && (H.wear_mask == src) && !QDELETED(src) && !H.incapacitated(INCAPACITATION_DISABLED))
+	if(choice && (H.get_equipped_item(slot_wear_mask_str) == src) && !QDELETED(src) && !H.incapacitated(INCAPACITATION_DISABLED))
 		monitor_state_index = choice
 		update_icon()
 

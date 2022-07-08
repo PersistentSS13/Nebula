@@ -47,8 +47,12 @@
 		PRINT_STACK_TRACE("Warning: [src]([type]) initialized multiple times!")
 	atom_flags |= ATOM_FLAG_INITIALIZED
 
-	if(light_power && light_range)
+	if (light_range && light_power)
+		if (ambient_light)
+			update_ambient_light(TRUE)
 		update_light()
+	else if (ambient_light)
+		update_ambient_light(FALSE)
 
 	if(dynamic_lighting)
 		luminosity = 0
@@ -72,20 +76,12 @@
 	if(flooded && !density)
 		make_flooded(TRUE)
 
-	initialize_ambient_light(mapload)
-
 	return INITIALIZE_HINT_NORMAL
 
 /turf/examine(mob/user, distance, infix, suffix)
 	. = ..()
 	if(user && weather)
 		weather.examine(user)
-
-/turf/proc/initialize_ambient_light(var/mapload)
-	return
-
-/turf/proc/update_ambient_light(var/mapload)
-	return
 
 /turf/Destroy()
 
@@ -94,7 +90,9 @@
 
 	changing_turf = FALSE
 
-	remove_cleanables()
+	if (contents.len > !!lighting_overlay)
+		remove_cleanables()
+
 	REMOVE_ACTIVE_FLUID_SOURCE(src)
 
 	if (ao_queued)
@@ -173,6 +171,9 @@
 
 	if(istype(W, /obj/item/grab))
 		var/obj/item/grab/G = W
+		if (G.affecting == G.assailant)
+			return TRUE
+
 		step(G.affecting, get_dir(G.affecting.loc, src))
 		return TRUE
 
@@ -437,7 +438,7 @@ var/global/const/enterloopsanity = 100
 	if(flooded)
 		LAZYADD(., global.flood_object)
 
-/**Whether we can place a cable here 
+/**Whether we can place a cable here
  * If you cannot build a cable will return an error code explaining why you cannot.
 */
 /turf/proc/cannot_build_cable()

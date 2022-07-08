@@ -26,6 +26,7 @@
 		/obj/item/flame,
 		/obj/item/paper,
 		/obj/item/paper_bundle,
+		/obj/item/passport,
 		/obj/item/pen,
 		/obj/item/photo,
 		/obj/item/chems/dropper,
@@ -88,32 +89,13 @@
 		tiny_image.appearance_flags = RESET_COLOR
 		overlays += tiny_image
 
-/obj/item/storage/wallet/GetIdCard()
-	return front_id
+/obj/item/storage/wallet/GetIdCards()
+	. = ..()
+	if(istype(front_id))
+		LAZYDISTINCTADD(., front_id)
 
 /obj/item/storage/wallet/GetChargeStick()
 	return front_stick
-
-/obj/item/storage/wallet/GetAccess()
-	var/obj/item/I = GetIdCard()
-	if(I)
-		return I.GetAccess()
-	else
-		return ..()
-
-
-/obj/item/storage/wallet/AltClick(mob/user)
-	if (user != loc || user.incapacitated() || !ishuman(user))
-		return ..()
-
-	var/obj/item/card/id/id = GetIdCard()
-	if (istype(id))
-		remove_from_storage(id)
-		user.put_in_hands(id)
-		return
-
-	return ..()
-
 
 /obj/item/storage/wallet/random/Initialize()
 	. = ..()
@@ -162,3 +144,20 @@
 		if(src)
 			icon_state = initial(icon_state)
 			update_icon()
+
+/obj/item/storage/wallet/get_alt_interactions(var/mob/user)
+	. = ..()
+	LAZYADD(., /decl/interaction_handler/remove_id/wallet)
+
+/decl/interaction_handler/remove_id/wallet
+	expected_target_type = /obj/item/storage/wallet
+
+/decl/interaction_handler/remove_id/wallet/is_possible(atom/target, mob/user, obj/item/prop)
+	. = ..() && ishuman(user)
+	
+/decl/interaction_handler/remove_id/wallet/invoked(atom/target, mob/user, obj/item/prop)
+	var/obj/item/storage/wallet/W = target
+	var/obj/item/card/id/id = W.GetIdCard()
+	if (istype(id))
+		W.remove_from_storage(id)
+		user.put_in_hands(id)

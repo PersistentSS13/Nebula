@@ -20,10 +20,10 @@
 	var/blocked_by_gloves = TRUE
 
 /decl/natural_attack/claws/is_usable(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/zone)
-	return (!user.gloves || !blocked_by_gloves)
+	return (!user.get_equipped_item(slot_gloves_str) || !blocked_by_gloves)
 
 /decl/natural_attack/claws/show_attack(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/zone, var/attack_damage)
-	var/obj/item/organ/external/affecting = istype(target) && zone && target.get_organ(zone)
+	var/obj/item/organ/external/affecting = istype(target) && zone && GET_EXTERNAL_ORGAN(target, zone)
 	if(!affecting)
 		return ..()
 
@@ -100,7 +100,7 @@
 	return damage
 
 /decl/natural_attack/stomp/weak/show_attack(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/zone, var/attack_damage)
-	var/obj/item/organ/external/affecting = istype(target) && zone && target.get_organ(zone)
+	var/obj/item/organ/external/affecting = istype(target) && zone && GET_EXTERNAL_ORGAN(target, zone)
 	if(affecting)
 		user.visible_message(SPAN_WARNING("\The [user] jumped up and down on \the [target]'s [affecting.name]!"))
 	else
@@ -112,31 +112,25 @@
 	attack_noun = list ("tail")
 	name = "tail swipe"
 	usable_with_limbs = list(BP_GROIN)
+	var/static/list/can_hit_zones = list(
+		BP_L_LEG, 
+		BP_R_LEG, 
+		BP_L_FOOT, 
+		BP_R_FOOT, 
+		BP_GROIN
+	)
 
 /decl/natural_attack/tail/is_usable(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/zone) //ensures that you can't tail someone in the skull
-
-	if(!(zone in list(BP_L_LEG, BP_R_LEG, BP_L_FOOT, BP_R_FOOT, BP_GROIN)))
-
-		return 0
-
-	var/obj/item/organ/external/E = user.get_organ(BP_L_FOOT)
-
-	if(E && !E.is_stump())
-
-		return 1
-
-
-	E = user.get_organ(BP_R_FOOT)
-
-	if(E && !E.is_stump())
-
-		return 1
-
-	return 0
+	if(!(zone in can_hit_zones))
+		return FALSE
+	for(var/bp in list(BP_L_FOOT, BP_R_FOOT))
+		if(GET_EXTERNAL_ORGAN(user, bp))
+			return TRUE
+	return FALSE
 
 /decl/natural_attack/tail/show_attack(var/mob/living/carbon/human/user, var/mob/living/carbon/human/target, var/zone, var/attack_damage)
 
-	var/obj/item/organ/external/affecting = istype(target) && zone && target.get_organ(zone)
+	var/obj/item/organ/external/affecting = istype(target) && zone && GET_EXTERNAL_ORGAN(target, zone)
 	if(!affecting)
 		return ..()
 

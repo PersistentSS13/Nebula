@@ -14,6 +14,7 @@
 
 	// Status tracking.
 	var/status = 0                         // Various status flags (such as robotic)
+	var/organ_properties = 0               // A flag for telling what capabilities this organ has. ORGAN_PROP_PROSTHETIC, ORGAN_PROP_CRYSTAL, etc..
 	var/vital                              // Lose a vital limb, die immediately.
 
 	// Reference data.
@@ -35,12 +36,12 @@
 /obj/item/organ/Destroy()
 	if(owner)
 		owner.remove_organ(src, FALSE, FALSE, TRUE, TRUE, FALSE) //Tell our parent we're unisntalling in place
+		owner = null
 	else
 		do_uninstall(TRUE, FALSE, FALSE, FALSE) //Don't ignore children here since we might own/contain them
-	owner = null
-	dna = null
 	species = null
 	bodytype = null
+	QDEL_NULL(dna)
 	QDEL_NULL_LIST(ailments)
 	return ..()
 
@@ -59,22 +60,11 @@
 //Third rgument may be a dna datum; if null will be set to holder's dna.
 /obj/item/organ/Initialize(mapload, material_key, var/datum/dna/given_dna)
 	. = ..(mapload, material_key)
-	if(. == INITIALIZE_HINT_QDEL)
-		return
-	
-	if(max_damage)
-		absolute_max_damage = max_damage
-		min_broken_damage = FLOOR(absolute_max_damage / 2)
-	else
-		absolute_max_damage = min_broken_damage * 2
-		max_damage = absolute_max_damage
-
-	if(!BP_IS_PROSTHETIC(src))
-		setup_as_organic(given_dna)
-	else
-		setup_as_prosthetic()
-
-	update_icon()
+	if(. != INITIALIZE_HINT_QDEL)
+		if(!BP_IS_PROSTHETIC(src))
+			setup_as_organic(given_dna)
+		else
+			setup_as_prosthetic()
 
 /obj/item/organ/proc/setup_as_organic(var/datum/dna/given_dna)
 	//Null DNA setup
@@ -86,7 +76,8 @@
 				given_dna = owner.dna //Grab our owner's dna if we don't have any, and they have
 			else
 				//The owner having no DNA can be a valid reason to keep our dna null in some cases
-				dna = null
+				log_debug("obj/item/organ/setup_as_organic(): [src] had null dna, with a owner with null dna!")
+				dna = null //#TODO: Not sure that's really legal
 				return
 		else
 			//If we have NO OWNER and given_dna, just make one up for consistency
@@ -99,7 +90,7 @@
 
 //Allows specialization of roboticize() calls on initialization meant to be used when loading prosthetics
 // NOTE: This wouldn't be necessary if prothetics were a subclass
-/obj/item/organ/proc/setup_as_prosthetic(var/forced_model = /decl/prosthetics_manufacturer)
+/obj/item/organ/proc/setup_as_prosthetic()
 	if(!species)
 		if(owner?.species)
 			set_species(owner.species)
@@ -107,9 +98,9 @@
 			set_species(global.using_map.default_species)
 
 	if(istype(material))
-		robotize(forced_model, apply_material = material.type)
+		robotize(apply_material = material.type)
 	else 
-		robotize(forced_model)
+		robotize()
 	return TRUE
 
 //Called on initialization to add the neccessary reagents
@@ -120,8 +111,7 @@
 	reagents.add_reagent(/decl/material/liquid/nutriment/protein, reagents.maximum_volume)
 
 /obj/item/organ/proc/set_dna(var/datum/dna/new_dna)
-	if(!new_dna)
-		return
+	QDEL_NULL(dna)
 	dna = new_dna.Clone()
 	if(!blood_DNA)
 		blood_DNA = list()
@@ -137,11 +127,18 @@
 	if(!species)
 		species = get_species_by_key(global.using_map.default_species)
 		PRINT_STACK_TRACE("Invalid species. Expected a valid species name as string, was: [log_info_line(specie_name)]")
+
 	bodytype = owner?.bodytype || species.default_bodytype
 	species.resize_organ(src)
 
 	// Adjust limb health proportinate to total species health.
 	var/total_health_coefficient = scale_max_damage_to_species_health ? (species.total_health / DEFAULT_SPECIES_HEALTH) : 1
+
+	//Use initial value to prevent scaling down each times we change the species during init
+	absolute_max_damage = initial(absolute_max_damage)
+	min_broken_damage = initial(min_broken_damage)
+	max_damage = initial(max_damage)
+
 	if(absolute_max_damage)
 		absolute_max_damage = max(1, FLOOR(absolute_max_damage * total_health_coefficient))
 		min_broken_damage = max(1, FLOOR(absolute_max_damage * 0.5))
@@ -149,6 +146,8 @@
 		min_broken_damage = max(1, FLOOR(min_broken_damage * total_health_coefficient))
 		absolute_max_damage = max(1, FLOOR(min_broken_damage * 2))
 	max_damage = absolute_max_damage // resets scarring, but ah well
+
+	reset_status()
 
 /obj/item/organ/proc/die()
 	damage = max_damage
@@ -249,7 +248,7 @@
 		owner.bodytemperature += between(0, (fever_temperature - T20C)/BODYTEMP_COLD_DIVISOR + 1, fever_temperature - owner.bodytemperature)
 
 	if (germ_level >= INFECTION_LEVEL_TWO)
-		var/obj/item/organ/external/parent = owner.get_organ(parent_organ)
+		var/obj/item/organ/external/parent = GET_EXTERNAL_ORGAN(owner, parent_organ)
 		//spread germs
 		if (antibiotics < 5 && parent.germ_level < germ_level && ( parent.germ_level < INFECTION_LEVEL_ONE*2 || prob(owner.immunity_weakness() * 0.3) ))
 			parent.germ_level++
@@ -290,14 +289,18 @@
 	qdel(src)
 
 /obj/item/organ/proc/rejuvenate(var/ignore_prosthetic_prefs)
+	SHOULD_CALL_PARENT(TRUE)
 	damage = 0
-	status = initial(status)
-	if(ignore_prosthetic_prefs && ishuman(owner) && owner.client && owner.client.prefs && owner.client.prefs.real_name == owner.real_name)
+	reset_status()
+	if(!ignore_prosthetic_prefs && owner?.client?.prefs && owner.client.prefs.real_name == owner.real_name)
 		for(var/decl/aspect/aspect as anything in owner.personal_aspects)
 			if(aspect.applies_to_organ(organ_tag))
 				aspect.apply(owner)
-	if(species)
-		species.post_organ_rejuvenate(src, owner)
+
+/obj/item/organ/proc/reset_status()
+	status = initial(status)
+	if(species) // qdel clears species ref
+		species.apply_species_organ_modifications(src)
 
 //Germs
 /obj/item/organ/proc/handle_antibiotics()
@@ -325,19 +328,16 @@
 	if (can_recover())
 		damage = between(0, damage - round(amount, 0.1), max_damage)
 
-/obj/item/organ/proc/robotize(var/company = /decl/prosthetics_manufacturer, var/skip_prosthetics = 0, var/keep_organs = 0, var/apply_material = /decl/material/solid/metal/steel, var/check_bodytype, var/check_species)
-	status = ORGAN_PROSTHETIC
+/obj/item/organ/proc/robotize(var/company, var/skip_prosthetics = 0, var/keep_organs = 0, var/apply_material = /decl/material/solid/metal/steel, var/check_bodytype, var/check_species)
+	BP_SET_PROSTHETIC(src)
 	QDEL_NULL(dna)
 	reagents?.clear_reagents()
 	material = GET_DECL(apply_material)
 	matter = null
 	create_matter()
 
-/obj/item/organ/proc/mechassist() //Used to add things like pacemakers, etc
-	status = ORGAN_ASSISTED
-
 /obj/item/organ/attack(var/mob/target, var/mob/user)
-	if(status & ORGAN_PROSTHETIC || !istype(target) || !istype(user) || (user != target && user.a_intent == I_HELP))
+	if(BP_IS_PROSTHETIC(src) || !istype(target) || !istype(user) || (user != target && user.a_intent == I_HELP))
 		return ..()
 
 	if(alert("Do you really want to use this organ as food? It will be useless for anything else afterwards.",,"Ew, no.","Bon appetit!") == "Ew, no.")
@@ -373,8 +373,6 @@
 	. = list()
 	if(BP_IS_CRYSTAL(src))
 		. += tag ? "<span class='average'>Crystalline</span>" : "Crystalline"
-	else if(BP_IS_ASSISTED(src))
-		. += tag ? "<span class='average'>Assisted</span>" : "Assisted"
 	else if(BP_IS_PROSTHETIC(src))
 		. += tag ? "<span class='average'>Mechanical</span>" : "Mechanical"
 	if(status & ORGAN_CUT_AWAY)
@@ -523,7 +521,6 @@ var/global/list/ailment_reference_cache = list()
 /obj/item/organ/proc/do_uninstall(var/in_place = FALSE, var/detach = FALSE, var/ignore_children = FALSE, var/update_icon = TRUE)
 	action_button_name = null
 	screen_loc = null
-	owner = null
 	rejecting = null
 	for(var/datum/ailment/ailment in ailments)
 		if(ailment.timer_id)
@@ -533,6 +530,8 @@ var/global/list/ailment_reference_cache = list()
 	//When we detach, we set the ORGAN_CUT_AWAY flag on, depending on whether the organ supports it or not
 	if(detach)
 		set_detached(TRUE)
+	else 
+		owner = null
 	return src
 
 //Events handling for checks and effects that should happen when removing the organ through interactions. Called by the owner mob.
@@ -553,11 +552,3 @@ var/global/list/ailment_reference_cache = list()
 //Some checks to avoid doing type checks for nothing
 /obj/item/organ/proc/is_internal()
 	return FALSE
-
-//Used to tell stumps from other organs. Stumps don't behave like regular organs, and require special handling.
-/obj/item/organ/proc/is_stump()
-	return FALSE
-
-//Used to override organ drop behavior, so we don't drop organs that shouldn't be dropped into the world, like stumps and root limbs, or wrappers
-/obj/item/organ/proc/is_droppable()
-	return TRUE

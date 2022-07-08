@@ -278,6 +278,7 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 	var/preview_icon_width = 64
 	var/preview_icon_height = 64
 	var/preview_icon_path
+	var/preview_outfit = /decl/hierarchy/outfit/job/generic/assistant
 
 /decl/species/Initialize()
 
@@ -434,8 +435,9 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 		organ_data["descriptor"] = initial(limb_path.name)
 
 /decl/species/proc/equip_survival_gear(var/mob/living/carbon/human/H, var/box_type = /obj/item/storage/box/survival)
-	if(istype(H.get_equipped_item(slot_back_str), /obj/item/storage/backpack))
-		H.equip_to_slot_or_del(new box_type(H.back), slot_in_backpack_str)
+	var/obj/item/storage/backpack/backpack = H.get_equipped_item(slot_back_str)
+	if(istype(backpack))
+		H.equip_to_slot_or_del(new box_type(backpack), slot_in_backpack_str)
 	else
 		H.put_in_hands_or_del(new box_type(H))
 
@@ -452,10 +454,9 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 
 //Checks if an existing limbs is the species default
 /decl/species/proc/is_default_limb(var/obj/item/organ/external/E)
-	// We don't have ^^ (logical XOR), so !x != !y will suffice.
-	if(!(species_flags & SPECIES_FLAG_CRYSTALLINE) != !BP_IS_CRYSTAL(E))
+	if((species_flags & SPECIES_FLAG_CRYSTALLINE) && !BP_IS_CRYSTAL(E))
 		return FALSE
-	if(!(species_flags & SPECIES_FLAG_SYNTHETIC) != !BP_IS_PROSTHETIC(E))
+	if((species_flags & SPECIES_FLAG_SYNTHETIC) && !BP_IS_PROSTHETIC(E))
 		return FALSE
 	for(var/tag in has_limbs)
 		if(E.organ_tag == tag)
@@ -466,7 +467,7 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 
 /decl/species/proc/is_missing_vital_organ(var/mob/living/carbon/human/H)
 	for(var/tag in vital_organs)
-		var/obj/item/organ/internal/I = H.get_organ(tag)
+		var/obj/item/organ/internal/I = GET_INTERNAL_ORGAN(H, tag)
 		var/list/organ_data = vital_organs[tag]
 		//#TODO: whenever we implement having several organs of the same type change this to check for the minimum amount!
 		if(!I || !ispath(I.type, organ_data["path"]))
@@ -504,25 +505,23 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 
 	//Create missing limbs
 	for(var/limb_type in has_limbs)
-		if(H.get_organ(limb_type)) //Skip existing
+		if(GET_EXTERNAL_ORGAN(H, limb_type)) //Skip existing
 			continue
 		var/list/organ_data = has_limbs[limb_type]
 		var/limb_path = organ_data["path"]
 		var/obj/item/organ/external/E = new limb_path(H, null, H.dna) //explicitly specify the dna
 		H.add_organ(E, null, FALSE, FALSE)
-		post_organ_rejuvenate(E, H)
 
 	//Create missing internal organs
 	for(var/organ_tag in has_organ)
-		if(H.get_organ(organ_tag)) //Skip existing
+		if(GET_INTERNAL_ORGAN(H, organ_tag)) //Skip existing
 			continue
 		var/organ_type = has_organ[organ_tag]
 		var/obj/item/organ/O = new organ_type(H, null, H.dna)
 		if(organ_tag != O.organ_tag)
 			warning("[O.type] has a default organ tag \"[O.organ_tag]\" that differs from the species' organ tag \"[organ_tag]\". Updating organ_tag to match.")
 			O.organ_tag = organ_tag
-		H.add_organ(O, H.get_organ(O.parent_organ), FALSE, FALSE)
-		post_organ_rejuvenate(O, H)
+		H.add_organ(O, GET_EXTERNAL_ORGAN(H, O.parent_organ), FALSE, FALSE)
 
 /decl/species/proc/add_base_auras(var/mob/living/carbon/human/H)
 	if(base_auras)
@@ -722,11 +721,13 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 /decl/species/proc/get_move_trail(var/mob/living/carbon/human/H)
 	if(H.lying)
 		return /obj/effect/decal/cleanable/blood/tracks/body
-	if(H.shoes || (H.wear_suit && (H.wear_suit.body_parts_covered & SLOT_FEET)))
-		var/obj/item/clothing/shoes = (H.wear_suit && (H.wear_suit.body_parts_covered & SLOT_FEET)) ? H.wear_suit : H.shoes // suits take priority over shoes
+	var/obj/item/clothing/suit = H.get_equipped_item(slot_wear_suit_str)
+	if(istype(suit) && (suit.body_parts_covered & SLOT_FEET))
+		return suit.move_trail
+	var/obj/item/clothing/shoes = H.get_equipped_item(slot_shoes_str)
+	if(istype(shoes))
 		return shoes.move_trail
-	else
-		return move_trail
+	return move_trail
 
 /decl/species/proc/handle_trail(var/mob/living/carbon/human/H, var/turf/simulated/T)
 	return
@@ -737,9 +738,10 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 /decl/species/proc/disarm_attackhand(var/mob/living/carbon/human/attacker, var/mob/living/carbon/human/target)
 	attacker.do_attack_animation(target)
 
-	if(target.w_uniform)
-		target.w_uniform.add_fingerprint(attacker)
-	var/obj/item/organ/external/affecting = target.get_organ(ran_zone(attacker.zone_sel.selecting, target = target))
+	var/obj/item/uniform = target.get_equipped_item(slot_w_uniform_str)
+	if(uniform)
+		uniform.add_fingerprint(attacker)
+	var/obj/item/organ/external/affecting = GET_EXTERNAL_ORGAN(target, ran_zone(attacker.zone_sel.selecting, target = target))
 
 	var/list/holding = list(target.get_active_hand() = 60)
 	for(var/thing in target.get_inactive_held_items())
@@ -861,9 +863,12 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 		if(31 to 45)	. = 4
 		else			. = 8
 
-/decl/species/proc/post_organ_rejuvenate(var/obj/item/organ/org, var/mob/living/carbon/human/H)
-	if(org && (org.species ? (org.species.species_flags & SPECIES_FLAG_CRYSTALLINE) : (species_flags & SPECIES_FLAG_CRYSTALLINE)))
-		org.status |= (ORGAN_BRITTLE|ORGAN_CRYSTAL)
+// This should only ever be called via the species set on the organ; calling it across species will cause weirdness.
+/decl/species/proc/apply_species_organ_modifications(var/obj/item/organ/org, var/mob/living/carbon/human/H)
+	SHOULD_CALL_PARENT(TRUE)
+	if(species_flags & SPECIES_FLAG_CRYSTALLINE)
+		org.status |= ORGAN_BRITTLE
+		org.organ_properties |= ORGAN_PROP_CRYSTAL
 
 /decl/species/proc/check_no_slip(var/mob/living/carbon/human/H)
 	if(can_overcome_gravity(H))
@@ -891,7 +896,7 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 		var/synthetic = H.isSynthetic()
 		if (synthetic)
 			if (exertion_charge_scale)
-				var/obj/item/organ/internal/cell/cell = H.get_organ(BP_CELL)
+				var/obj/item/organ/internal/cell/cell = H.get_organ(BP_CELL, /obj/item/organ/internal/cell)
 				if (cell)
 					cell.use(cell.get_power_drain() * exertion_charge_scale)
 		else
@@ -939,13 +944,21 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 /decl/species/proc/get_preview_icon()
 	if(!preview_icon)
 
+		// TODO: generate an icon based on all available bodytypes.
+
 		var/mob/living/carbon/human/dummy/mannequin/mannequin = get_mannequin("#species_[ckey(name)]")
 		if(mannequin)
 
 			mannequin.change_species(name)
 			customize_preview_mannequin(mannequin)
 
-			preview_icon = getFlatIcon(mannequin)
+			preview_icon = icon(mannequin.bodytype.icon_template)
+			var/mob_width = preview_icon.Width()
+			preview_icon.Scale((mob_width * 2)+16, preview_icon.Height()+16)
+
+			preview_icon.Blend(getFlatIcon(mannequin, defdir = SOUTH, always_use_defdir = TRUE), ICON_OVERLAY, 8, 8)
+			preview_icon.Blend(getFlatIcon(mannequin, defdir = WEST,  always_use_defdir = TRUE), ICON_OVERLAY, mob_width+8, 8)
+
 			preview_icon.Scale(preview_icon.Width() * 2, preview_icon.Height() * 2)
 			preview_icon_width = preview_icon.Width()
 			preview_icon_height = preview_icon.Height()

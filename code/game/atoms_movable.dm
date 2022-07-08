@@ -10,7 +10,7 @@
 	var/buckle_dir = 0
 	var/buckle_lying = -1             // bed-like behavior, forces mob.lying = buckle_lying if != -1
 	var/buckle_pixel_shift            // ex. @"{'x':0,'y':0,'z':0}" //where the buckled mob should be pixel shifted to, or null for no pixel shift control
-	var/buckle_require_restraints = 0 // require people to be handcuffed before being able to buckle. eg: pipes
+	var/buckle_require_restraints = 0 // require people to be cuffed before being able to buckle. eg: pipes
 	var/buckle_require_same_tile = FALSE
 	var/buckle_sound
 	var/mob/living/buckled_mob = null
@@ -202,19 +202,19 @@
 		if(isturf(loc))
 			buckled_mob.glide_size = glide_size // Setting loc apparently does animate with glide size.
 			buckled_mob.forceMove(loc)
-			refresh_buckled_mob()
+			refresh_buckled_mob(0)
 		else
 			unbuckle_mob()
 
 /atom/movable/set_dir(ndir)
 	. = ..()
 	if(.)
-		refresh_buckled_mob()
+		refresh_buckled_mob(0)
 
-/atom/movable/proc/refresh_buckled_mob()
+/atom/movable/proc/refresh_buckled_mob(var/delay_offset_anim = 4)
 	if(buckled_mob)
 		buckled_mob.set_dir(buckle_dir || dir)
-		buckled_mob.reset_offsets(4)
+		buckled_mob.reset_offsets(delay_offset_anim)
 		buckled_mob.reset_plane_and_layer()
 
 /atom/movable/Move(...)
@@ -229,7 +229,7 @@
 			if(isturf(loc))
 				buckled_mob.glide_size = glide_size // Setting loc apparently does animate with glide size.
 				buckled_mob.forceMove(loc)
-				refresh_buckled_mob()
+				refresh_buckled_mob(0)
 			else
 				unbuckle_mob()
 
@@ -384,7 +384,7 @@
 	return buckled_mob
 
 /atom/movable/proc/can_buckle_mob(var/mob/living/dropping)
-	. = (can_buckle && istype(dropping) && !dropping.buckled && !dropping.buckled_mob && !buckled_mob)
+	. = (can_buckle && istype(dropping) && !dropping.buckled && !dropping.anchored && !dropping.buckled_mob && !buckled_mob)
 
 /atom/movable/receive_mouse_drop(atom/dropping, mob/living/user)
 	. = ..()
@@ -492,3 +492,28 @@
 
 /atom/movable/proc/try_make_grab(var/mob/living/user, var/defer_hand = FALSE)
 	return istype(user) && CanPhysicallyInteract(user) && !user.lying && user.make_grab(src)
+
+/atom/movable/get_alt_interactions(var/mob/user)
+	. = ..()
+	if(config.expanded_alt_interactions)
+		LAZYADD(., list(
+			/decl/interaction_handler/look,
+			/decl/interaction_handler/grab
+		))
+
+/decl/interaction_handler/look
+	name = "Examine"
+	expected_user_type = /mob
+	interaction_flags = 0
+
+/decl/interaction_handler/look/invoked(atom/target, mob/user, obj/item/prop)
+	target.examine(user, get_dist(user, target))
+
+/decl/interaction_handler/grab
+	name = "Grab"
+	expected_target_type = /atom/movable
+	interaction_flags = INTERACTION_NEEDS_PHYSICAL_INTERACTION | INTERACTION_NEEDS_TURF
+
+/decl/interaction_handler/grab/invoked(atom/target, mob/user, obj/item/prop)
+	var/atom/movable/AM = target
+	AM.try_make_grab(user, defer_hand = TRUE)

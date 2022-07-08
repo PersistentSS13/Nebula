@@ -4,8 +4,8 @@
 /mob/living/carbon/human/get_movement_delay(var/travel_dir)
 	var/tally = ..()
 
-	var/obj/item/organ/external/H = get_organ(BP_GROIN) // gets species slowdown, which can be reset by robotize()
-	if(istype(H))
+	var/obj/item/organ/external/H = GET_EXTERNAL_ORGAN(src, BP_GROIN) // gets species slowdown, which can be reset by robotize()
+	if(H)
 		tally += H.slowdown
 
 	tally += species.handle_movement_delay_special(src)
@@ -26,7 +26,7 @@
 
 	if(istype(buckled, /obj/structure/bed/chair/wheelchair))
 		for(var/organ_name in list(BP_L_HAND, BP_R_HAND, BP_L_ARM, BP_R_ARM))
-			var/obj/item/organ/external/E = get_organ(organ_name)
+			var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, organ_name)
 			tally += E ? E.get_movement_delay(4) : 4
 	else
 		var/total_item_slowdown = -1
@@ -41,7 +41,7 @@
 		tally += total_item_slowdown
 
 		for(var/organ_name in list(BP_L_LEG, BP_R_LEG, BP_L_FOOT, BP_R_FOOT))
-			var/obj/item/organ/external/E = get_organ(organ_name)
+			var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, organ_name)
 			tally += E ? E.get_movement_delay(4) : 4
 
 	if(shock_stage >= 10 || get_stamina() <= 0)
@@ -55,9 +55,6 @@
 
 	if(facing_dir)
 		tally += 3 // Locking direction will slow you down.
-
-	if(MUTATION_FAT in src.mutations)
-		tally += 1.5
 
 	if (bodytemperature < species.cold_discomfort_level)
 		tally += (species.cold_discomfort_level - bodytemperature) / 10 * 1.75
@@ -98,10 +95,11 @@
 	. = ..()
 
 /mob/living/carbon/human/proc/get_jetpack()
+	var/obj/item/back = get_equipped_item(slot_back_str)
 	if(back)
 		if(istype(back,/obj/item/tank/jetpack))
 			return back
-		else if(istype(back,/obj/item/rig))
+		if(istype(back,/obj/item/rig))
 			var/obj/item/rig/rig = back
 			for(var/obj/item/rig_module/maneuvering_jets/module in rig.installed_modules)
 				return module.jets
@@ -123,6 +121,7 @@
 /mob/living/carbon/human/Check_Shoegrip()
 	if(species.check_no_slip(src))
 		return 1
+	var/obj/item/shoes = get_equipped_item(slot_shoes_str)
 	if(shoes && (shoes.item_flags & ITEM_FLAG_NOSLIP) && istype(shoes, /obj/item/clothing/shoes/magboots))  //magboots + dense_object = no floating
 		return 1
 	return 0
@@ -151,7 +150,7 @@
 	for(var/obj/item/cane/C in get_held_items())
 		crutches++
 	for(var/organ_name in list(BP_L_LEG, BP_R_LEG, BP_L_FOOT, BP_R_FOOT))
-		var/obj/item/organ/external/E = get_organ(organ_name)
+		var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, organ_name)
 		if(E && (E.is_dislocated() || E.is_broken()))
 			if(crutches)
 				crutches--

@@ -8,6 +8,8 @@
 	extended_desc = "This program connects to shield generators and monitors their statuses."
 	ui_header = "shield.gif"
 	network_destination = "shields monitoring system"
+	requires_network = 1
+	requires_network_feature = NET_FEATURE_SYSTEMCONTROL
 	size = 10
 	category = PROG_ENG
 
@@ -76,7 +78,7 @@
 			var/list/temp = list(list(
 				"shield_status" = S.running,
 				"shield_ref" = any2ref(S),
-				"area" = A.name))
+				"area" = A.proper_name))
 			shields_info.Add(temp)
 		data["shields"] = shields_info
 

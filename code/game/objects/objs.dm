@@ -170,11 +170,6 @@
 /obj/proc/can_embed()
 	return is_sharp(src)
 
-/obj/AltClick(mob/user)
-	if(obj_flags & OBJ_FLAG_ROTATABLE)
-		rotate(user)
-	..()
-
 /obj/examine(mob/user)
 	. = ..()
 	if((obj_flags & OBJ_FLAG_ROTATABLE))
@@ -209,3 +204,21 @@
 
 /obj/get_mob()
 	return buckled_mob
+
+/obj/get_alt_interactions(var/mob/user)
+	. = ..()
+	LAZYADD(., /decl/interaction_handler/rotate)
+
+/decl/interaction_handler/rotate
+	name = "Rotate"
+	expected_target_type = /obj
+
+/decl/interaction_handler/rotate/is_possible(atom/target, mob/user, obj/item/prop)
+	. = ..()
+	if(.)
+		var/obj/O = target
+		. = !!(O.obj_flags & OBJ_FLAG_ROTATABLE)
+
+/decl/interaction_handler/rotate/invoked(atom/target, mob/user, obj/item/prop)
+	var/obj/O = target
+	O.rotate(user)

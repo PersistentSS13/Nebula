@@ -104,7 +104,7 @@
 		return
 
 	var/turf/T = loc
-	if(!T.CanZPass(src, DOWN) || !below.CanZPass(src, DOWN))
+	if(!T.CanZPass(src, DOWN))
 		return
 
 	// No gravity in space, apparently.
@@ -247,8 +247,8 @@
 	if(prob(skill_fail_chance(SKILL_HAULING, 40, SKILL_EXPERT, 2)))
 		var/list/victims = list()
 		for(var/tag in list(BP_L_FOOT, BP_R_FOOT, BP_L_ARM, BP_R_ARM))
-			var/obj/item/organ/external/E = get_organ(tag)
-			if(E && !E.is_stump() && !E.is_dislocated() && (E.limb_flags & ORGAN_FLAG_CAN_DISLOCATE) && !BP_IS_PROSTHETIC(E))
+			var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, tag)
+			if(E && !E.is_dislocated() && (E.limb_flags & ORGAN_FLAG_CAN_DISLOCATE) && !BP_IS_PROSTHETIC(E))
 				victims += E
 		if(victims.len)
 			var/obj/item/organ/external/victim = pick(victims)
@@ -261,8 +261,7 @@
 		return FALSE
 
 	var/turf/T = get_turf(A)
-	var/turf/above = GetAbove(src)
-	if(above && T.Adjacent(bound_overlay) && above.CanZPass(src, UP)) //Certain structures will block passage from below, others not
+	if(T.Adjacent(bound_overlay) && T.CanZPass(src, UP)) //Certain structures will block passage from below, others not
 		if(loc.has_gravity() && !can_overcome_gravity())
 			return FALSE
 
