@@ -13,8 +13,6 @@
 		PRINT_STACK_TRACE("Duplicate overmap datum instantiated: [type], [name], [overmaps_by_name[name]]")
 	global.overmaps_by_name[name] = src
 
-	..()
-
 /datum/overmap/proc/late_initialize()
 	generate_overmap()
 	testing("Overmap build for [name] complete.")
