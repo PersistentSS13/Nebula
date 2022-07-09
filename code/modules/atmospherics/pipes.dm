@@ -61,7 +61,7 @@
 
 /obj/machinery/atmospherics/pipe/proc/update_sound(var/playing)
 	if(playing && !sound_token)
-		sound_token = play_looping_sound(src, SOUND_ID, "sound/machines/pipeleak.ogg", volume = 8, range = 3, falloff = 1, prefer_mute = TRUE)
+		sound_token = play_looping_sound(src, SOUND_ID, 'sound/machines/pipeleak.ogg', volume = 8, range = 3, falloff = 1, prefer_mute = TRUE)
 	else if(!playing && sound_token)
 		QDEL_NULL(sound_token)
 
@@ -120,6 +120,8 @@
 		if(liquid_temporary)
 			liquid_temporary.trans_to(loc, liquid_temporary.total_volume)
 			liquid_temporary = null
+	if(leaking)
+		STOP_PROCESSING_MACHINE(src, MACHINERY_PROCESS_SELF)
 	. = ..()
 
 /obj/machinery/atmospherics/pipe/deconstruction_pressure_check()

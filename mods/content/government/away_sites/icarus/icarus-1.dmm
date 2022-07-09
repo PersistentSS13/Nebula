@@ -33,7 +33,7 @@
 /turf/simulated/floor/wood,
 /area/icarus/vessel)
 "al" = (
-/obj/structure/flora/ausbushes/palebush,
+/obj/structure/flora/bush/palebush,
 /turf/exterior/wildgrass,
 /area/icarus/open)
 "am" = (
@@ -298,7 +298,7 @@
 /area/icarus/vessel)
 "bn" = (
 /obj/structure/noticeboard{
-	pixel_y = -25
+	default_pixel_y = -25
 	},
 /obj/machinery/atmospherics/unary/vent_pump/on{
 	dir = 4;

@@ -468,10 +468,10 @@
 	set name = "Spawn Material Stack"
 	if(!check_rights(R_DEBUG)) return
 
-	var/material = input("Select material to spawn") as null|anything in SSmaterials.materials_by_name
+	var/decl/material/material = input("Select material to spawn") as null|anything in SSmaterials.materials
 	if(!material)
 		return
-	SSmaterials.create_object(material, get_turf(mob), 50)
+	SSmaterials.create_object(material.type, get_turf(mob), 50)
 
 /client/proc/force_ghost_trap_trigger()
 	set category = "Debug"
@@ -533,6 +533,8 @@
 		if(I.failures)
 			. += "<li>Failures: [I.failures]</li>"
 		. += "<li>qdel() Count: [I.qdels]</li>"
+		if(I.early_destroy)
+			. += "<li>Early destroy count: [I.early_destroy]</li>"
 		. += "<li>Destroy() Cost: [I.destroy_time]ms</li>"
 		if(I.hard_deletes)
 			. += "<li>Total Hard Deletes [I.hard_deletes]</li>"

@@ -25,9 +25,9 @@
 /datum/unit_test/species_organ_creation/proc/check_internal_organs(var/mob/living/carbon/human/H, var/decl/species/species)
 	. = 1
 	for(var/organ_tag in species.has_organ)
-		var/obj/item/organ/internal/I = H.get_organ(organ_tag)
+		var/obj/item/organ/I = GET_INTERNAL_ORGAN(H, organ_tag)
 		if(!istype(I))
-			fail("[species.name] failed to register internal organ for tag \"[organ_tag]\" to internal_organs_by_name.")
+			fail("[species.name] failed to register internal organ for tag \"[organ_tag]\" to organ list.")
 			. = 0
 			continue
 		if(!(I in H.get_internal_organs()))
@@ -49,7 +49,7 @@
 /datum/unit_test/species_organ_creation/proc/check_external_organs(var/mob/living/carbon/human/H, var/decl/species/species)
 	. = 1
 	for(var/organ_tag in species.has_limbs)
-		var/obj/item/organ/external/E = H.get_organ(organ_tag)
+		var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(H, organ_tag)
 		if(!istype(E))
 			fail("[species.name] failed to register external organ for tag \"[organ_tag]\" to organs_by_name.")
 			. = 0
@@ -77,7 +77,7 @@
 	for(var/obj/item/organ/external/E in external_organs)
 		if(!E.parent_organ)
 			continue
-		var/obj/item/organ/external/parent = H.get_organ(E.parent_organ)
+		var/obj/item/organ/external/parent = GET_EXTERNAL_ORGAN(H, E.parent_organ)
 		if(!istype(parent))
 			fail("[species.name] external organ [E] could not find its parent in organs_by_name. Parent tag was \"[E.parent_organ]\".")
 			. = 0
@@ -100,7 +100,7 @@
 			fail("[species.name] internal organ [I] did not have a parent_organ tag.")
 			. = 0
 			continue
-		var/obj/item/organ/external/parent = H.get_organ(I.parent_organ)
+		var/obj/item/organ/external/parent = GET_EXTERNAL_ORGAN(H, I.parent_organ)
 		if(!istype(parent))
 			fail("[species.name] internal organ [I] could not find its parent in organs_by_name. Parent tag was \"[I.parent_organ]\".")
 			. = 0
@@ -140,11 +140,11 @@
 	if(!(I in H.get_internal_organs()))
 		fail("[H.species.name] internal organ [I] not in internal_organs.")
 		return 0
-	var/found = H.get_organ(I.organ_tag)
+	var/found = GET_INTERNAL_ORGAN(H, I.organ_tag)
 	if(I != found)
-		fail("[H.species.name] internal organ [I] not in internal_organs_by_name. Organ tag was \"[I.organ_tag]\", found [found? found : "nothing"] instead.")
+		fail("[H.species.name] internal organ [I] not in organ list. Organ tag was \"[I.organ_tag]\", found [found? found : "nothing"] instead.")
 		return 0
-	var/obj/item/organ/external/parent = H.get_organ(I.parent_organ)
+	var/obj/item/organ/external/parent = GET_EXTERNAL_ORGAN(H, I.parent_organ)
 	if(!istype(parent))
 		fail("[H.species.name] internal organ [I] could not find its parent in organs_by_name. Parent tag was \"[I.parent_organ]\".")
 		return 0
@@ -157,9 +157,9 @@
 	if(I in H.get_internal_organs())
 		fail("[H.species.name] internal organ [I] was not removed from internal_organs.")
 		return 0
-	var/found = H.get_organ(I.organ_tag)
+	var/found = GET_INTERNAL_ORGAN(H, I.organ_tag)
 	if(found)
-		fail("[H.species.name] internal organ [I] was not removed from internal_organs_by_name. Organ tag was \"[I.organ_tag]\".")
+		fail("[H.species.name] internal organ [I] was not removed from organ list. Organ tag was \"[I.organ_tag]\".")
 		return 0
 	if(I in old_parent.internal_organs)
 		fail("[H.species.name] internal organ [I] was not removed from parent's internal_organs. Parent was [old_parent].")
@@ -170,9 +170,9 @@
 	if(!(E in H.get_external_organs()))
 		fail("[H.species.name] external organ [E] not in organs.")
 		return 0
-	var/found = H.get_organ(E.organ_tag)
+	var/found = GET_EXTERNAL_ORGAN(H, E.organ_tag)
 	if(E != found)
-		fail("[H.species.name] external organ [E] not in organs_by_name. Organ tag was \"[E.organ_tag]\", found [found? found : "nothing"] instead.")
+		fail("[H.species.name] external organ [E] not in organ list. Organ tag was \"[E.organ_tag]\", found [found? found : "nothing"] instead.")
 		return 0
 	if(E.parent_organ)
 		var/obj/item/organ/external/parent = E.parent
@@ -191,7 +191,7 @@
 	if(E in H.get_external_organs())
 		fail("[H.species.name] external organ [E] was not removed from organs.")
 		return 0
-	var/found = H.get_organ(E.organ_tag)
+	var/found = GET_EXTERNAL_ORGAN(H, E.organ_tag)
 	if(found)
 		fail("[H.species.name] external organ [E] was not removed from organs_by_name. Organ tag was \"[E.organ_tag]\".")
 		return 0
@@ -206,7 +206,7 @@
 		fail("[H.species.name] internal organ [I] failed initial presence check.")
 		return 0
 
-	var/obj/item/organ/external/parent = H.get_organ(I.parent_organ)
+	var/obj/item/organ/external/parent = GET_EXTERNAL_ORGAN(H, I.parent_organ)
 
 	H.remove_organ(I)
 	if(!check_internal_organ_removed(H, I, parent))
@@ -258,140 +258,3 @@
 		pass("All organs were removed and replaced correctly.")
 
 	return 1
-
-// ==============================================================================
-// Stumps shall not drop
-// ==============================================================================
-/datum/unit_test/stumps_shall_not_drop
-	name = "ORGAN: Stumps Shall Not Drop From a Gibbed Mob or Severed Limbs."
-
-/datum/unit_test/stumps_shall_not_drop/proc/find_stumps()
-	var/list/found_stumps
-	//Look for stumps that aren't deleted
-	for(var/obj/item/organ/external/stump/O in world)
-		if(!QDELETED(O))
-			LAZYDISTINCTADD(found_stumps, O)
-	return found_stumps
-
-/datum/unit_test/stumps_shall_not_drop/proc/fill_limb_with_stumps(var/obj/item/organ/external/E)
-	for(var/obj/item/organ/external/C in E.children)
-		//Gib child limbs to create stumps on our target organ
-		if(C.limb_flags & ORGAN_FLAG_CAN_AMPUTATE)
-			C.dismember(FALSE, DISMEMBER_METHOD_BLUNT, FALSE, TRUE)
-
-/datum/unit_test/stumps_shall_not_drop/proc/do_cleanup(var/mob/living/carbon/human/H)
-	if(H && !QDELETED(H))
-		qdel(H)
-	for(var/obj/item/organ/O in (locate(/obj/item/organ) in world))
-		qdel(O)
-
-//Check whether using the proper tool on a removed limb to extract the contents drops any stumps
-/datum/unit_test/stumps_shall_not_drop/proc/test_removed_limb_dropping_stumps_on_interact(var/mob/living/carbon/human/H, var/mob/living/carbon/human/tester, var/list/details)
-	. = TRUE
-	details.Cut()
-
-	var/list/limbs_to_test
-	for(var/obj/item/organ/external/O in H.get_external_organs())
-		if(isnull(O.parent_organ) || !LAZYLEN(O.children) || !(O.limb_flags & ORGAN_FLAG_CAN_AMPUTATE))
-			continue //We don't want the root limb since it won't gib, or limbs with no child
-		fill_limb_with_stumps(O)
-		//Amputate the limb via edge damage so it doesn't get gibbed
-		O.dismember(FALSE, DISMEMBER_METHOD_EDGE, FALSE, TRUE)
-		LAZYDISTINCTADD(limbs_to_test, O)
-
-	//Test every single limbs we removed
-	var/obj/item/scalpel/tool = tester.get_active_hand() 
-	for(var/obj/item/organ/external/E in limbs_to_test)
-		//Skip to the actual part where we remove things
-		E.stage = 2
-
-		//Poke it enough times to remove everything inside at least once
-		for(var/i = 0, i < LAZYLEN(E.contents), i++)
-			E.attackby(tool, tester)
-
-		//Look for any dropped stumps
-		var/list/found_stumps = find_stumps()
-		if(LAZYLEN(found_stumps))
-			details[E.organ_tag] = "Found [LAZYLEN(found_stumps)] stumps after extracting from removed limb type '[E.type]'!"
-			. = FALSE
-
-	//Cleanup
-	do_cleanup(H)
-
-//Gib a limb with stumps inside and see if the stumps were dropped
-/datum/unit_test/stumps_shall_not_drop/proc/test_gibbing_limbs(var/mob/living/carbon/human/H, var/list/details)
-	. = TRUE
-	details.Cut()
-
-	//Gib limbs that have child stumps
-	for(var/obj/item/organ/external/O in H.get_external_organs())
-		if(isnull(O.parent_organ) || !LAZYLEN(O.children) || !(O.limb_flags & ORGAN_FLAG_CAN_AMPUTATE))
-			continue //We don't want the root limb since it won't gib, or limbs with no child
-		fill_limb_with_stumps(O)
-		//Then gib the part we just placed stumps on
-		O.dismember(FALSE, DISMEMBER_METHOD_BLUNT, FALSE, TRUE)
-
-		//Look for any dropped stumps
-		var/list/found_stumps = find_stumps()
-		if(LAZYLEN(found_stumps))
-			. = FALSE
-			details[O.organ_tag] = "Found [LAZYLEN(found_stumps)] stumps after gibbing limb type '[O.type]' with child stumps!"
-
-	//Cleanup
-	do_cleanup(H)
-
-//Gibs a mob with stumps inside and see if any were dropped
-/datum/unit_test/stumps_shall_not_drop/proc/test_gibbing(var/mob/living/carbon/human/H, var/list/details)
-	. = TRUE
-	details.Cut()
-
-	//Remove all limbs via dismember to create stumps
-	for(var/obj/item/organ/external/O in H.get_external_organs())
-		if(isnull(O.parent_organ) || !(O.limb_flags & ORGAN_FLAG_CAN_AMPUTATE))
-			continue //We don't want the root limb since it won't gib
-		O.dismember(FALSE, DISMEMBER_METHOD_BLUNT, FALSE, TRUE)
-	
-	//Then gib the mob, so it releases its contents
-	if(!QDELETED(H))
-		H.gib()
-	
-	//Look for any dropped stumps
-	var/list/found_stumps = find_stumps()
-	if(LAZYLEN(found_stumps))
-		details["msg"] = "Found [LAZYLEN(found_stumps)] stumps after amputating all limbs, and gibbing human of species '[H.species?.name]'!"
-		. = FALSE
-	
-	//Cleanup
-	do_cleanup(H)
-
-/datum/unit_test/stumps_shall_not_drop/start_test()
-	var/list/details = list()
-
-	//Equip our tester
-	var/mob/living/carbon/human/dummy/tester = new(null, SPECIES_HUMAN)
-	var/obj/item/scalpel/tool = new/obj/item/scalpel(tester)
-	tester.put_in_active_hand(tool)
-
-	//Run the tests
-	for(var/decl/species/species in get_all_species())
-
-		if(!test_gibbing(new/mob/living/carbon/human(null, species.name), details))
-			var/failtext = ""
-			for(var/k in details)
-				failtext = "[failtext]\n[k]: [details[k]]"
-			fail(failtext)
-
-		if(!test_gibbing_limbs(new/mob/living/carbon/human(null, species.name), details))
-			var/failtext = ""
-			for(var/k in details)
-				failtext = "[failtext]\n[k]: [details[k]]"
-			fail(failtext)
-
-		if(!test_removed_limb_dropping_stumps_on_interact(new/mob/living/carbon/human(null, species.name), tester, details))
-			var/failtext = ""
-			for(var/k in details)
-				failtext = "[failtext]\n[k]: [details[k]]"
-			fail(failtext)
-
-	pass("All stumps tested were not dropped!")
-	return TRUE

@@ -13,6 +13,8 @@
 	ui_header = "smmon_0.gif"
 	read_access = list(access_engine)
 	network_destination = "supermatter monitoring system"
+	requires_network = 1
+	requires_network_feature = NET_FEATURE_SYSTEMCONTROL
 	size = 5
 	category = PROG_ENG
 	var/last_status = 0
@@ -168,7 +170,7 @@
 				continue
 
 			SMS.Add(list(list(
-			"area_name" = A.name,
+			"area_name" = A.proper_name,
 			"integrity" = process_data_output(engine_skill, S.get_integrity()),
 			"uid" = S.uid
 			)))

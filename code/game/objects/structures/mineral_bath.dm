@@ -27,7 +27,7 @@
 
 /obj/structure/mineral_bath/proc/enter_bath(var/mob/living/patient, var/mob/user)
 
-	if(!istype(patient))
+	if(!istype(patient) || patient.anchored)
 		return FALSE
 
 	var/self_drop = (user == patient)
@@ -109,7 +109,7 @@
 		// Replace limbs for crystalline species.
 		if((H.species.species_flags & SPECIES_FLAG_CRYSTALLINE) && prob(10))
 			for(var/limb_type in H.species.has_limbs)
-				var/obj/item/organ/external/E = H.get_organ(limb_type)
+				var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(H, limb_type)
 				if(E && !E.is_usable() && !(E.limb_flags & ORGAN_FLAG_HEALS_OVERKILL))
 					H.remove_organ(E)
 					qdel(E)
@@ -119,7 +119,6 @@
 					var/limb_path = organ_data["path"]
 					var/obj/item/organ/O = new limb_path(H)
 					organ_data["descriptor"] = O.name
-					H.species.post_organ_rejuvenate(O, H)
 					to_chat(occupant, "<span class='notice'>You feel your [O.name] reform in the crystal bath.</span>")
 					H.update_body()
 					repaired_organ = TRUE

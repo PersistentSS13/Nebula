@@ -1,3 +1,9 @@
+/obj/item/modular_computer/get_contained_external_atoms()
+	. = ..()
+	var/datum/extension/assembly/assembly = get_extension(src, /datum/extension/assembly)
+	if(assembly)
+		LAZYREMOVE(., assembly.parts)
+
 /obj/item/modular_computer/Process()
 	var/datum/extension/assembly/assembly = get_extension(src, /datum/extension/assembly)
 	if(assembly)
@@ -67,7 +73,7 @@
 	install_default_programs()
 
 /obj/item/modular_computer/Destroy()
-	QDEL_NULL_LIST(terminals)
+	shutdown_computer(loud = FALSE)
 	STOP_PROCESSING(SSobj, src)
 	if(istype(stored_pen))
 		QDEL_NULL(stored_pen)
@@ -123,11 +129,12 @@
 		if(user)
 			ui_interact(user)
 
-/obj/item/modular_computer/GetIdCard()
+/obj/item/modular_computer/GetIdCards()
+	. = ..()
 	var/datum/extension/assembly/assembly = get_extension(src, /datum/extension/assembly)
 	var/obj/item/stock_parts/computer/card_slot/card_slot = assembly.get_component(PART_CARD)
 	if(card_slot && card_slot.can_broadcast && istype(card_slot.stored_card) && card_slot.check_functionality())
-		return card_slot.stored_card
+		LAZYDISTINCTADD(., card_slot.stored_card)
 
 /obj/item/modular_computer/GetChargeStick()
 	var/datum/extension/assembly/assembly = get_extension(src, /datum/extension/assembly)

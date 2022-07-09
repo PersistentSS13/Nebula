@@ -50,21 +50,6 @@
 				return TRUE
 	. = ..()
 
-/obj/item/storage/AltClick(mob/user)
-	if(!canremove)
-		return
-
-	if(!Adjacent(user))
-		return
-
-	if(!(ishuman(user) || isrobot(user) || issmall(user)))
-		return
-	
-	if(user.incapacitated(INCAPACITATION_DISRUPTED))
-		return
-	
-	open(user)
-
 /obj/item/storage/proc/return_inv()
 
 	var/list/L = list(  )
@@ -283,14 +268,12 @@
 /obj/item/storage/attack_hand(mob/user)
 	if(ishuman(user))
 		var/mob/living/carbon/human/H = user
-		if(H.l_store == src && !H.get_active_hand())	//Prevents opening if it's in a pocket.
-			H.put_in_hands(src)
-			H.l_store = null
-			return
-		if(H.r_store == src && !H.get_active_hand())
-			H.put_in_hands(src)
-			H.r_store = null
-			return
+		for(var/slot in global.pocket_slots)
+			var/obj/item/pocket = H.get_equipped_item(slot)
+			if(pocket == src && !H.get_active_hand()) //Prevents opening if it's in a pocket.
+				H.unEquip(src)
+				H.put_in_hands(src)
+				return
 
 	if (src.loc == user)
 		src.open(user)
@@ -472,3 +455,22 @@
 /obj/item/proc/get_storage_cost()
 	//If you want to prevent stuff above a certain w_class from being stored, use max_w_class
 	return BASE_STORAGE_COST(w_class)
+
+/obj/item/storage/get_alt_interactions(mob/user)
+	. = ..()
+	LAZYADD(., /decl/interaction_handler/storage_open)
+
+/decl/interaction_handler/storage_open
+	name = "Open Storage"
+	expected_target_type = /obj/item/storage
+	incapacitation_flags = INCAPACITATION_DISRUPTED
+
+/decl/interaction_handler/storage_open/is_possible(atom/target, mob/user, obj/item/prop)
+	. = ..() && (ishuman(user) || isrobot(user) || issmall(user))
+	if(.)
+		var/obj/item/storage/S = target
+		. = S.canremove
+
+/decl/interaction_handler/storage_open/invoked(atom/target, mob/user, obj/item/prop)
+	var/obj/item/storage/S = target
+	S.open(user)

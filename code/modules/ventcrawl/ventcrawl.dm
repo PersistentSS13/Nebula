@@ -41,13 +41,14 @@ var/global/list/ventcrawl_machinery = list(
 	return (carried_item in get_internal_organs()) || ..()
 
 /mob/living/carbon/human/is_allowed_vent_crawl_item(var/obj/item/carried_item)
-	var/obj/item/organ/internal/stomach/stomach = get_organ(BP_STOMACH)
+	var/obj/item/organ/internal/stomach = GET_INTERNAL_ORGAN(src, BP_STOMACH)
 	if(stomach && (carried_item in stomach.contents))
 		return TRUE
 	if(carried_item in get_external_organs())
 		return TRUE
-	if(carried_item in list(w_uniform, gloves, glasses, wear_mask, l_ear, r_ear, belt, l_store, r_store))
-		return TRUE
+	for(var/slot in list(slot_w_uniform_str, slot_glasses_str, slot_glasses_str, slot_wear_mask_str, slot_l_ear_str, slot_r_ear_str, slot_belt_str, slot_l_store_str, slot_r_store_str))
+		if(get_equipped_item(slot) == carried_item)
+			return TRUE
 	if(carried_item in get_held_items())
 		return carried_item.w_class <= ITEM_SIZE_NORMAL
 	return ..()

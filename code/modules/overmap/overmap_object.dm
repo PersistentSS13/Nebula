@@ -27,6 +27,11 @@ var/global/list/overmap_unknown_ids = list()
 
 	var/overmap_id = OVERMAP_ID_SPACE
 
+/obj/effect/overmap/proc/get_heading_angle()
+	. = round(Atan2(speed[2], speed[1]))
+	if(. < 0) // Speeds can be negative so invert the degree value.
+		. += 360
+
 /obj/effect/overmap/touch_map_edge(var/overmap_id)
 	return
 
@@ -96,7 +101,7 @@ var/global/list/overmap_unknown_ids = list()
 /obj/effect/overmap/proc/get_speed()
 	return round(sqrt(speed[1] ** 2 + speed[2] ** 2), SHIP_MOVE_RESOLUTION)
 
-/obj/effect/overmap/proc/get_heading()
+/obj/effect/overmap/proc/get_heading_dir()
 	var/res = 0
 	if(MOVING(speed[1], min_speed))
 		if(speed[1] > 0)
@@ -162,16 +167,23 @@ var/global/list/overmap_unknown_ids = list()
 
 
 /obj/effect/overmap/proc/decelerate()
-	if(((speed[1]) || (speed[2])) && can_burn())
-		if (speed[1])
-			var/partial_power = Clamp(speed[1] / (get_delta_v() / KM_OVERMAP_RATE), 0, 1)
-			var/delta_v = get_delta_v(TRUE, partial_power) / KM_OVERMAP_RATE
-			adjust_speed(-SIGN(speed[1]) * min(delta_v, abs(speed[1])), 0)
-		if (speed[2])
-			var/partial_power = Clamp(speed[2] / (get_delta_v() / KM_OVERMAP_RATE), 0, 1)
-			var/delta_v = get_delta_v(TRUE, partial_power) / KM_OVERMAP_RATE
-			adjust_speed(0, -SIGN(speed[2]) * min(delta_v, abs(speed[2])))
+	if(!can_burn())
+		return
+
+	var/burn = FALSE
+	. = list(0, 0)
+	for(var/i = 1 to 2)
+		var/spd = speed[i]
+		var/abs_spd = abs(spd)
+		if(abs_spd)
+			var/partial_power = Clamp(abs_spd / (get_delta_v() / KM_OVERMAP_RATE), 0, 1)
+			var/delta_v = min(get_delta_v(TRUE, partial_power) / KM_OVERMAP_RATE, abs_spd)
+			.[i] = -SIGN(spd) * delta_v
+			burn = TRUE
+
+	if(burn)
 		last_burn = world.time
+		adjust_speed(.[1], .[2])
 
 /obj/effect/overmap/proc/handle_overmap_pixel_movement()
 	pixel_x = position[1] * (world.icon_size/2)
@@ -179,3 +191,6 @@ var/global/list/overmap_unknown_ids = list()
 
 /obj/effect/overmap/proc/get_delta_v()
 	return
+
+/obj/effect/overmap/proc/get_vessel_mass() //Same as above.
+	return vessel_mass

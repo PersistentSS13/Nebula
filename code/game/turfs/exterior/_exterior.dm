@@ -25,11 +25,11 @@
 		owner = null
 	else
 		//Must be done here, as light data is not fully carried over by ChangeTurf (but overlays are).
-		set_light(owner.lightlevel)
 		if(owner.planetary_area && istype(loc, world.area))
 			ChangeArea(src, owner.planetary_area)
 
 	. = ..(mapload)	// second param is our own, don't pass to children
+	setup_environmental_lighting()
 
 	if (no_update_icon)
 		return
@@ -45,6 +45,9 @@
 			else
 				T.update_icon()
 
+/turf/exterior/is_floor()
+	return !density && !is_open()
+
 /turf/exterior/ChangeTurf(var/turf/N, var/tell_universe = TRUE, var/force_lighting_update = FALSE, var/keep_air = FALSE, var/keep_outside = FALSE)
 	var/last_affecting_heat_sources = affecting_heat_sources
 	var/turf/exterior/ext = ..()
@@ -52,22 +55,20 @@
 		ext.affecting_heat_sources = last_affecting_heat_sources
 	return ext
 
-/turf/exterior/initialize_ambient_light(var/mapload)
-	update_ambient_light(mapload)
-
-/turf/exterior/update_ambient_light(var/mapload)
-	if(is_outside())
-		if(owner) // Exoplanets do their own lighting shenanigans.
-			//Must be done here, as light data is not fully carried over by ChangeTurf (but overlays are).
-			set_light(owner.lightlevel)
+/turf/exterior/proc/setup_environmental_lighting()
+	if (is_outside())
+		if (owner)
+			set_ambient_light(COLOR_WHITE, owner.lightlevel)
 			return
-		if(config.starlight)
-			var/area/A = get_area(src)
-			if(A.show_starlight)
-				set_light(config.starlight, 0.75, l_color = SSskybox.background_color)
-				return
-	if(!mapload)
-		set_light(0)
+
+		if (config.starlight)
+			var/area/A = loc
+			if (A.show_starlight)
+				set_ambient_light(SSskybox.background_color)
+			else if (ambient_light)
+				clear_ambient_light()
+	else if (ambient_light)
+		clear_ambient_light()
 
 /turf/exterior/is_plating()
 	return !density
@@ -107,12 +108,10 @@
 
 /turf/exterior/attackby(obj/item/C, mob/user)
 
-	if(diggable && istype(C,/obj/item/shovel))
-		visible_message(SPAN_NOTICE("\The [user] starts digging at \the [src]."))
-		if(do_after(user, 50))
-			to_chat(user, SPAN_NOTICE("You dig a deep pit."))
+	if(diggable && IS_SHOVEL(C))
+		if(C.do_tool_interaction(TOOL_SHOVEL, user, src, 5 SECONDS))
 			new /obj/structure/pit(src)
-			diggable = 0
+			diggable = FALSE
 		else
 			to_chat(user, SPAN_NOTICE("You stop shoveling."))
 		return TRUE

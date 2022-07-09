@@ -29,7 +29,7 @@ meteor_act
 	return blocked
 
 /mob/living/carbon/human/stun_effect_act(var/stun_amount, var/agony_amount, var/def_zone)
-	var/obj/item/organ/external/affected = get_organ(def_zone)
+	var/obj/item/organ/external/affected = GET_EXTERNAL_ORGAN(src, def_zone)
 	if(!affected)
 		return
 
@@ -62,13 +62,15 @@ meteor_act
 	if(!def_zone)
 		def_zone = ran_zone()
 	if(!istype(def_zone))
-		def_zone = get_organ(def_zone)
+		def_zone = GET_EXTERNAL_ORGAN(src, def_zone)
 	if(!def_zone)
 		return ..()
 
 	. = list()
-	var/list/protective_gear = list(head, wear_mask, wear_suit, w_uniform, gloves, shoes)
-	for(var/obj/item/clothing/gear in protective_gear)
+	for(var/slot in global.standard_clothing_slots)
+		var/obj/item/clothing/gear = get_equipped_item(slot)
+		if(!istype(gear))
+			continue
 		if(gear.accessories.len)
 			for(var/obj/item/clothing/accessory/bling in gear.accessories)
 				if(bling.body_parts_covered & def_zone.body_part)
@@ -89,9 +91,8 @@ meteor_act
 		return 1.0
 
 	var/siemens_coefficient = max(species.siemens_coefficient,0)
-
-	var/list/clothing_items = list(head, wear_mask, wear_suit, w_uniform, gloves, shoes) // What all are we checking?
-	for(var/obj/item/clothing/C in clothing_items)
+	for(var/slot in global.standard_clothing_slots)
+		var/obj/item/clothing/C = get_equipped_item(slot)
 		if(istype(C) && (C.body_parts_covered & def_zone.body_part)) // Is that body part being targeted covered?
 			siemens_coefficient *= C.siemens_coefficient
 
@@ -99,25 +100,26 @@ meteor_act
 
 /mob/living/carbon/human/proc/check_head_coverage()
 
-	var/list/body_parts = list(head, wear_mask, wear_suit, w_uniform)
-	for(var/bp in body_parts)
-		if(!bp)	continue
+	for(var/slot in global.standard_headgear_slots)
+		var/bp = get_equipped_item(slot)
 		if(bp && istype(bp ,/obj/item/clothing))
 			var/obj/item/clothing/C = bp
 			if(C.body_parts_covered & SLOT_HEAD)
-				return 1
-	return 0
+				return TRUE
+	return FALSE
 
 //Used to check if they can be fed food/drinks/pills
 /mob/living/carbon/human/check_mouth_coverage()
-	var/list/protective_gear = list(head, wear_mask, wear_suit, w_uniform)
-	for(var/obj/item/gear in protective_gear)
+	for(var/slot in global.standard_headgear_slots)
+		var/obj/item/gear = get_equipped_item(slot)
 		if(istype(gear) && (gear.body_parts_covered & SLOT_FACE) && !(gear.item_flags & ITEM_FLAG_FLEXIBLEMATERIAL))
 			return gear
 
 /mob/living/carbon/human/proc/check_shields(var/damage = 0, var/atom/damage_source = null, var/mob/attacker = null, var/def_zone = null, var/attack_text = "the attack")
 	var/list/checking_slots = get_held_items()
-	LAZYDISTINCTADD(checking_slots, wear_suit)
+	var/obj/item/suit = get_equipped_item(slot_wear_suit_str)
+	if(suit)
+		LAZYDISTINCTADD(checking_slots, suit)
 	for(var/obj/item/shield in checking_slots)
 		if(shield.handle_shield(src, damage, damage_source, attacker, def_zone, attack_text))
 			return TRUE
@@ -146,15 +148,15 @@ meteor_act
 	if(check_shields(I.force, I, user, target_zone, "the [I.name]"))
 		return null
 
-	var/obj/item/organ/external/affecting = get_organ(hit_zone)
-	if (!affecting || affecting.is_stump())
+	var/obj/item/organ/external/affecting = GET_EXTERNAL_ORGAN(src, hit_zone)
+	if (!affecting)
 		to_chat(user, "<span class='danger'>They are missing that limb!</span>")
 		return null
 
 	return hit_zone
 
 /mob/living/carbon/human/hit_with_weapon(obj/item/I, mob/living/user, var/effective_force, var/hit_zone)
-	var/obj/item/organ/external/affecting = get_organ(hit_zone)
+	var/obj/item/organ/external/affecting = GET_EXTERNAL_ORGAN(src, hit_zone)
 	if(!affecting)
 		return //should be prevented by attacked_with_item() but for sanity.
 
@@ -170,7 +172,7 @@ meteor_act
 	return standard_weapon_hit_effects(I, user, effective_force, hit_zone)
 
 /mob/living/carbon/human/standard_weapon_hit_effects(obj/item/I, mob/living/user, var/effective_force, var/hit_zone)
-	var/obj/item/organ/external/affecting = get_organ(hit_zone)
+	var/obj/item/organ/external/affecting = GET_EXTERNAL_ORGAN(src, hit_zone)
 	if(!affecting)
 		return 0
 
@@ -240,12 +242,15 @@ meteor_act
 
 		switch(hit_zone)
 			if(BP_HEAD)
-				if(wear_mask)
-					wear_mask.add_blood(src)
+				var/obj/item/mask = get_equipped_item(slot_wear_mask_str)
+				if(mask)
+					mask.add_blood(src)
 					update_inv_wear_mask(0)
+				var/obj/item/head = get_equipped_item(slot_head_str)
 				if(head)
 					head.add_blood(src)
 					update_inv_head(0)
+				var/obj/item/glasses = get_equipped_item(slot_glasses_str)
 				if(glasses && prob(33))
 					glasses.add_blood(src)
 					update_inv_glasses(0)
@@ -262,11 +267,12 @@ meteor_act
 		if(istype(location, /turf/simulated))
 			location.add_blood(src)
 		if(hit_zone)
-			organ = get_organ(hit_zone)
-		var/list/bloody = get_covering_equipped_items(organ.body_part)
-		for(var/obj/item/clothing/C in bloody)
-			C.add_blood(src)
-			C.update_clothing_icon()
+			organ = GET_EXTERNAL_ORGAN(src, hit_zone)
+		if(organ)
+			var/list/bloody = get_covering_equipped_items(organ.body_part)
+			for(var/obj/item/clothing/C in bloody)
+				C.add_blood(src)
+				C.update_clothing_icon()
 
 /mob/living/carbon/human/proc/attack_joint(var/obj/item/organ/external/organ, var/obj/item/W, var/effective_force, var/dislocate_mult, var/blocked)
 	if(!organ || organ.is_dislocated() || !(organ.limb_flags & ORGAN_FLAG_CAN_DISLOCATE) || blocked >= 100)
@@ -283,7 +289,7 @@ meteor_act
 	return 0
 
 /mob/living/carbon/human/emag_act(var/remaining_charges, mob/user, var/emag_source)
-	var/obj/item/organ/external/affecting = get_organ(user.zone_sel.selecting)
+	var/obj/item/organ/external/affecting = GET_EXTERNAL_ORGAN(src, user.zone_sel.selecting)
 	if(!affecting || !affecting.is_robotic())
 		to_chat(user, "<span class='warning'>That limb isn't robotic.</span>")
 		return -1
@@ -329,7 +335,7 @@ meteor_act
 			else if(shield_check)
 				return
 
-		var/obj/item/organ/external/affecting = (zone && get_organ(zone))
+		var/obj/item/organ/external/affecting = (zone && GET_EXTERNAL_ORGAN(src, zone))
 		if(!affecting)
 			visible_message(SPAN_NOTICE("\The [O] misses \the [src] narrowly!"))
 			return
@@ -369,7 +375,7 @@ meteor_act
 /mob/living/carbon/human/embed(var/obj/O, var/def_zone=null, var/datum/wound/supplied_wound)
 	if(!def_zone) ..()
 
-	var/obj/item/organ/external/affecting = get_organ(def_zone)
+	var/obj/item/organ/external/affecting = GET_EXTERNAL_ORGAN(src, def_zone)
 	if(affecting)
 		affecting.embed(O, supplied_wound = supplied_wound)
 
@@ -382,11 +388,13 @@ meteor_act
 	update_inv_gloves()		//updates on-mob overlays for bloody hands and/or bloody gloves
 
 /mob/living/carbon/human/proc/bloody_body(var/mob/living/source)
-	if(wear_suit)
-		wear_suit.add_blood(source)
+	var/obj/item/gear = get_equipped_item(slot_wear_suit_str)
+	if(gear)
+		gear.add_blood(source)
 		update_inv_wear_suit(0)
-	if(w_uniform)
-		w_uniform.add_blood(source)
+	gear = get_equipped_item(slot_w_uniform_str)
+	if(gear)
+		gear.add_blood(source)
 		update_inv_w_uniform(0)
 
 /mob/living/carbon/human/proc/handle_suit_punctures(var/damtype, var/damage, var/def_zone)
@@ -395,15 +403,14 @@ meteor_act
 	if(damtype != BURN && damtype != BRUTE) return
 
 	// The rig might soak this hit, if we're wearing one.
-	if(back && istype(back,/obj/item/rig))
-		var/obj/item/rig/rig = back
+	var/obj/item/rig/rig = get_equipped_item(slot_back_str)
+	if(istype(rig))
 		rig.take_hit(damage)
 
 	// We may also be taking a suit breach.
-	if(!wear_suit) return
-	if(!istype(wear_suit,/obj/item/clothing/suit/space)) return
-	var/obj/item/clothing/suit/space/SS = wear_suit
-	SS.create_breaches(damtype, damage)
+	var/obj/item/clothing/suit/space/suit = get_equipped_item(slot_wear_suit_str)
+	if(istype(suit))
+		suit.create_breaches(damtype, damage)
 
 /mob/living/carbon/human/reagent_permeability()
 	var/perm = 0
@@ -503,28 +510,26 @@ meteor_act
 //Checks that the species has a "head" (brain containing organ) and that hit_zone refers to it.
 /mob/living/carbon/human/proc/headcheck(var/target_zone, var/brain_tag = BP_BRAIN)
 
-	var/obj/item/organ/affecting = get_organ(brain_tag)
-
 	target_zone = check_zone(target_zone, src)
-	if(!affecting || affecting.parent_organ != target_zone)
-		return 0
+
+	var/obj/item/organ/internal/brain = GET_INTERNAL_ORGAN(src, brain_tag)
+	if(!brain || brain.parent_organ != target_zone)
+		return FALSE
 
 	//if the parent organ is significantly larger than the brain organ, then hitting it is not guaranteed
-	var/obj/item/organ/parent = get_organ(target_zone)
-	if(!parent)
-		return 0
-
-	if(parent.w_class > affecting.w_class + 1)
-		return prob(100 / 2**(parent.w_class - affecting.w_class - 1))
-
-	return 1
+	var/obj/item/organ/external/head = GET_EXTERNAL_ORGAN(src, target_zone)
+	if(!head)
+		return FALSE
+	if(head.w_class > brain.w_class + 1)
+		return prob(100 / 2**(head.w_class - brain.w_class - 1))
+	return TRUE
 
 ///eyecheck()
 ///Returns a number between -1 to 2
 /mob/living/carbon/human/eyecheck()
 	var/total_protection = flash_protection
 	if(species.has_organ[species.vision_organ])
-		var/obj/item/organ/internal/eyes/I = get_organ(species.vision_organ)
+		var/obj/item/organ/internal/eyes/I = get_organ(species.vision_organ, /obj/item/organ/internal/eyes)
 		if(!I?.is_usable())
 			return FLASH_PROTECTION_MAJOR
 		total_protection = I.get_total_protection(flash_protection)
@@ -534,14 +539,14 @@ meteor_act
 
 /mob/living/carbon/human/flash_eyes(var/intensity = FLASH_PROTECTION_MODERATE, override_blindness_check = FALSE, affect_silicon = FALSE, visual = FALSE, type = /obj/screen/fullscreen/flash)
 	if(species.has_organ[species.vision_organ])
-		var/obj/item/organ/internal/eyes/I = get_organ(species.vision_organ)
-		if(!isnull(I))
+		var/obj/item/organ/internal/eyes/I = get_organ(species.vision_organ, /obj/item/organ/internal/eyes)
+		if(I)
 			I.additional_flash_effects(intensity)
 	return ..()
 
 /mob/living/carbon/human/proc/getFlashMod()
 	if(species.vision_organ)
-		var/obj/item/organ/internal/eyes/I = get_organ(species.vision_organ)
+		var/obj/item/organ/internal/eyes/I = get_organ(species.vision_organ, /obj/item/organ/internal/eyes)
 		if(istype(I))
 			return I.flash_mod
 	return species.flash_mod

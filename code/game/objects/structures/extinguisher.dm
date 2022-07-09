@@ -32,7 +32,7 @@
 		return
 	if (ishuman(user))
 		var/mob/living/carbon/human/H = user
-		var/obj/item/organ/external/temp = H.get_organ(H.get_active_held_item_slot())
+		var/obj/item/organ/external/temp = GET_EXTERNAL_ORGAN(H, H.get_active_held_item_slot())
 		if(temp && !temp.is_usable())
 			to_chat(user, "<span class='notice'>You try to move your [temp.name], but cannot!</span>")
 			return
@@ -59,11 +59,6 @@
 	else
 		icon_state = "extinguisher_empty"
 
-/obj/structure/extinguisher_cabinet/AltClick(var/mob/user)
-	if(CanPhysicallyInteract(user))
-		opened = !opened
-		update_icon()
-
 /obj/structure/extinguisher_cabinet/do_simple_ranged_interaction(var/mob/user)
 	if(has_extinguisher)
 		has_extinguisher.dropInto(loc)
@@ -73,3 +68,16 @@
 		opened = !opened
 	update_icon()
 	return TRUE
+
+/obj/structure/extinguisher_cabinet/get_alt_interactions(var/mob/user)
+	. = ..()
+	LAZYADD(., /decl/interaction_handler/extinguisher_cabinet_open)
+
+/decl/interaction_handler/extinguisher_cabinet_open
+	name = "Open/Close"
+	expected_target_type = /obj/structure/extinguisher_cabinet
+
+/decl/interaction_handler/extinguisher_cabinet_open/invoked(var/atom/target, var/mob/user)
+	var/obj/structure/extinguisher_cabinet/C = target
+	C.opened = !C.opened
+	C.update_icon()

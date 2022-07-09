@@ -63,7 +63,7 @@
 	var/block = 0
 	var/accurate = 0
 	var/hit_zone = H.zone_sel.selecting
-	var/obj/item/organ/external/affecting = get_organ(hit_zone)
+	var/obj/item/organ/external/affecting = GET_EXTERNAL_ORGAN(src, hit_zone)
 
 	// See what attack they use
 	var/decl/natural_attack/attack = H.get_unarmed_attack(src, hit_zone)
@@ -78,7 +78,7 @@
 	H.last_attack = world.time
 
 
-	if(!affecting || affecting.is_stump())
+	if(!affecting)
 		to_chat(user, SPAN_DANGER("They are missing that limb!"))
 		return TRUE
 
@@ -154,9 +154,6 @@
 	real_damage += attack.get_unarmed_damage(H)
 	real_damage *= damage_multiplier
 	rand_damage *= damage_multiplier
-	if(MUTATION_HULK in H.mutations)
-		real_damage *= 2 // Hulks do twice the damage
-		rand_damage *= 2
 	real_damage = max(1, real_damage)
 	// Apply additional unarmed effects.
 	attack.apply_effects(H, src, rand_damage, hit_zone)
@@ -221,11 +218,11 @@
 
 	if(is_asystole())
 		if(prob(5 + 5 * (SKILL_EXPERT - pumping_skill)))
-			var/obj/item/organ/external/chest = get_organ(BP_CHEST)
+			var/obj/item/organ/external/chest = GET_EXTERNAL_ORGAN(src, BP_CHEST)
 			if(chest)
 				chest.fracture()
 
-		var/obj/item/organ/internal/heart/heart = get_organ(BP_HEART)
+		var/obj/item/organ/internal/heart/heart = get_organ(BP_HEART, /obj/item/organ/internal/heart)
 		if(heart)
 			heart.external_pump = list(world.time, 0.4 + 0.1*pumping_skill + rand(-0.1,0.1))
 
@@ -246,23 +243,26 @@
 			to_chat(H, SPAN_WARNING("They don't have a mouth, you cannot do mouth-to-mouth resuscitation!"))
 			return TRUE
 
-		if((H.head && (H.head.body_parts_covered & SLOT_FACE)) || (H.wear_mask && (H.wear_mask.body_parts_covered & SLOT_FACE)))
-			to_chat(H, SPAN_WARNING("You need to remove your mouth covering for mouth-to-mouth resuscitation!"))
-			return TRUE
+		for(var/slot in global.airtight_slots)
+			var/obj/item/gear = H.get_equipped_item(slot)
+			if(gear && (gear.body_parts_covered & SLOT_FACE))
+				to_chat(H, SPAN_WARNING("You need to remove your mouth covering for mouth-to-mouth resuscitation!"))
+				return TRUE
 
-		if((head && (head.body_parts_covered & SLOT_FACE)) || (wear_mask && (wear_mask.body_parts_covered & SLOT_FACE)))
-			to_chat(H, SPAN_WARNING("You need to remove \the [src]'s mouth covering for mouth-to-mouth resuscitation!"))
-			return TRUE
+		for(var/slot in global.airtight_slots)
+			var/obj/item/gear = get_equipped_item(slot)
+			if(gear && (gear.body_parts_covered & SLOT_FACE))
+				to_chat(H, SPAN_WARNING("You need to remove \the [src]'s mouth covering for mouth-to-mouth resuscitation!"))
+				return TRUE
 
-		if(!H.get_organ(H.species.breathing_organ))
+		if(!GET_INTERNAL_ORGAN(H, H.species.breathing_organ))
 			to_chat(H, SPAN_WARNING("You need lungs for mouth-to-mouth resuscitation!"))
 			return TRUE
 
 		if(!need_breathe())
 			return TRUE
 
-		var/obj/item/organ/internal/lungs/L = get_organ(species.breathing_organ)
-
+		var/obj/item/organ/internal/lungs/L = get_organ(species.breathing_organ, /obj/item/organ/internal/lungs)
 		if(!L)
 			return
 
@@ -297,7 +297,7 @@
 	Changing targeted zones should also stop do_mob(), preventing you from applying pressure to more than one body part at once.
 */
 /mob/living/carbon/human/proc/apply_pressure(mob/living/user, var/target_zone)
-	var/obj/item/organ/external/organ = get_organ(target_zone)
+	var/obj/item/organ/external/organ = GET_EXTERNAL_ORGAN(src, target_zone)
 	if(!organ || !(organ.status & (ORGAN_BLEEDING|ORGAN_ARTERY_CUT)) || BP_IS_PROSTHETIC(organ))
 		return 0
 

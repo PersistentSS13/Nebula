@@ -384,7 +384,6 @@ SAVED_VAR(/mob/living/bot/farmbot, removes_dead)
 SAVED_VAR(/mob/living/bot/farmbot, tank)
 
 SAVED_VAR(/mob/living/carbon, life_tick)
-SAVED_VAR(/mob/living/carbon, handcuffed)
 SAVED_VAR(/mob/living/carbon, pose)
 SAVED_VAR(/mob/living/carbon, bloodstr)
 SAVED_VAR(/mob/living/carbon, touching)

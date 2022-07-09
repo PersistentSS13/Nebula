@@ -18,7 +18,7 @@
 	var/overheated = FALSE
 
 /obj/machinery/network/Initialize()
-	set_extension(src, network_device_type, initial_network_id, initial_network_key, NETWORK_CONNECTION_STRONG_WIRELESS)
+	set_extension(src, network_device_type, initial_network_id, initial_network_key, RECEIVER_STRONG_WIRELESS)
 	. = ..()
 
 /obj/machinery/network/populate_parts(full_populate)
@@ -36,7 +36,7 @@
 /obj/machinery/network/on_update_icon()
 	icon_state = initial(icon_state)
 	if(panel_open)
-		icon_state = "[icon_state]_o" 
+		icon_state = "[icon_state]_o"
 	if(!operable())
 		icon_state = "[icon_state]_off"
 
@@ -116,7 +116,7 @@
 	if(!D)
 		return
 	if(operable())
-		D.connect()
+		SSnetworking.queue_connection(D) // must queue, due to router race conditions
 	else
 		D.disconnect()
 

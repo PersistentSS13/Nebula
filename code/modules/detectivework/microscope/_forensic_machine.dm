@@ -108,11 +108,20 @@
 	remover.put_in_hands(sample)
 	clear_sample()
 
-/obj/machinery/forensic/AltClick()
-	remove_sample(usr)
-
 /obj/machinery/forensic/handle_mouse_drop(var/atom/over, var/mob/user)
 	if(user == over)
 		remove_sample(usr)
 		return TRUE
 	. = ..()
+
+/obj/machinery/forensic/get_alt_interactions(var/mob/user)
+	. = ..()
+	LAZYADD(., /decl/interaction_handler/forensics_remove_sample)
+
+/decl/interaction_handler/forensics_remove_sample
+	name = "Remove Sample"
+	expected_target_type = /obj/machinery/forensic
+
+/decl/interaction_handler/forensics_remove_sample/invoked(var/atom/target, var/mob/user)
+	var/obj/machinery/forensic/F = target
+	F.remove_sample(usr)

@@ -17,22 +17,26 @@
 			user.zone_sel.icon_state = "zone_sel"
 
 	//exosuits and helmets obscure our view and stuff.
-	if(wear_suit)
-		skipgloves = wear_suit.flags_inv & HIDEGLOVES
-		skipsuitstorage = wear_suit.flags_inv & HIDESUITSTORAGE
-		skipjumpsuit = wear_suit.flags_inv & HIDEJUMPSUIT
-		skipshoes = wear_suit.flags_inv & HIDESHOES
+	var/obj/item/suit = get_equipped_item(slot_wear_suit_str)
+	if(suit)
+		skipgloves = suit.flags_inv & HIDEGLOVES
+		skipsuitstorage = suit.flags_inv & HIDESUITSTORAGE
+		skipjumpsuit = suit.flags_inv & HIDEJUMPSUIT
+		skipshoes = suit.flags_inv & HIDESHOES
 
+
+	var/obj/item/head = get_equipped_item(slot_head_str)
 	if(head)
 		skipmask = head.flags_inv & HIDEMASK
 		skipeyes = head.flags_inv & HIDEEYES
 		skipears = head.flags_inv & HIDEEARS
 		skipface = head.flags_inv & HIDEFACE
 
-	if(wear_mask)
-		skipeyes |= wear_mask.flags_inv & HIDEEYES
-		skipears |= wear_mask.flags_inv & HIDEEARS
-		skipface |= wear_mask.flags_inv & HIDEFACE
+	var/obj/item/mask = get_equipped_item(slot_wear_mask_str)
+	if(mask)
+		skipeyes |= mask.flags_inv & HIDEEYES
+		skipears |= mask.flags_inv & HIDEEARS
+		skipface |= mask.flags_inv & HIDEFACE
 
 	//no accuately spotting headsets from across the room.
 	if(distance > 3)
@@ -70,87 +74,96 @@
 	msg += "<br>"
 
 	//uniform
-	if(w_uniform && !skipjumpsuit)
-		msg += "[G.He] [G.is] wearing [w_uniform.get_examine_line()].\n"
+	var/obj/item/uniform = get_equipped_item(slot_w_uniform_str)
+	if(uniform && !skipjumpsuit)
+		msg += "[G.He] [G.is] wearing [uniform.get_examine_line()].\n"
 
 	//head
 	if(head)
 		msg += "[G.He] [G.is] wearing [head.get_examine_line()] on [G.his] head.\n"
 
 	//suit/armour
-	if(wear_suit)
-		msg += "[G.He] [G.is] wearing [wear_suit.get_examine_line()].\n"
+	if(suit)
+		msg += "[G.He] [G.is] wearing [suit.get_examine_line()].\n"
 		//suit/armour storage
-		if(s_store && !skipsuitstorage)
-			msg += "[G.He] [G.is] carrying [s_store.get_examine_line()] on [G.his] [wear_suit.name].\n"
+		if(!skipsuitstorage)
+			var/obj/item/stored = get_equipped_item(slot_s_store_str)
+			if(stored)
+				msg += "[G.He] [G.is] carrying [stored.get_examine_line()] on [G.his] [suit.name].\n"
 
 	//back
+	var/obj/item/back = get_equipped_item(slot_back_str)
 	if(back)
 		msg += "[G.He] [G.has] [back.get_examine_line()] on [G.his] back.\n"
 
 	//held items
 	for(var/bp in held_item_slots)
 		var/datum/inventory_slot/inv_slot = LAZYACCESS(held_item_slots, bp)
-		var/obj/item/organ/external/E = get_organ(bp)
 		if(inv_slot?.holding)
-			msg += "[G.He] [G.is] holding [inv_slot.holding.get_examine_line()] in [G.his] [E.name].\n"
+			var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, bp)
+			if(E)
+				msg += "[G.He] [G.is] holding [inv_slot.holding.get_examine_line()] in [G.his] [E.name].\n"
 
 	//gloves
+	var/obj/item/gloves = get_equipped_item(slot_gloves_str)
 	if(gloves && !skipgloves)
 		msg += "[G.He] [G.has] [gloves.get_examine_line()] on [G.his] hands.\n"
 	else
 		var/list/jazzhands = get_hands_organs()
 		var/datum/reagents/coating
 		for(var/obj/item/organ/external/E in jazzhands)
-			if(!E.is_stump() && E.coating)
+			if(E.coating)
 				coating = E.coating
 				break
 		if(coating)
 			msg += "There's <font color='[coating.get_color()]'>something on [G.his] hands</font>!\n"
 
 	//belt
+	var/obj/item/belt = get_equipped_item(slot_belt_str)
 	if(belt)
 		msg += "[G.He] [G.has] [belt.get_examine_line()] about [G.his] waist.\n"
 
 	//shoes
+	var/obj/item/shoes = get_equipped_item(slot_shoes_str)
 	if(shoes && !skipshoes)
 		msg += "[G.He] [G.is] wearing [shoes.get_examine_line()] on [G.his] feet.\n"
 	else
 		var/datum/reagents/coating
 		for(var/bp in list(BP_L_FOOT, BP_R_FOOT))
-			var/obj/item/organ/external/E = get_organ(bp)
-			if(E && !E.is_stump() && E.coating)
+			var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, bp)
+			if(E && E.coating)
 				coating = E.coating
 				break
 		if(coating)
 			msg += "There's <font color='[coating.get_color()]'>something on [G.his] feet</font>!\n"
 
 	//mask
-	if(wear_mask && !skipmask)
-		msg += "[G.He] [G.has] [wear_mask.get_examine_line()] on [G.his] face.\n"
+	if(mask && !skipmask)
+		msg += "[G.He] [G.has] [mask.get_examine_line()] on [G.his] face.\n"
 
 	//eyes
-	if(glasses && !skipeyes)
-		msg += "[G.He] [G.has] [glasses.get_examine_line()] covering [G.his] eyes.\n"
+	if(!skipeyes)
+		var/obj/item/glasses = get_equipped_item(slot_glasses_str)
+		if(glasses)
+			msg += "[G.He] [G.has] [glasses.get_examine_line()] covering [G.his] eyes.\n"
 
-	//left ear
-	if(l_ear && !skipears)
-		msg += "[G.He] [G.has] [l_ear.get_examine_line()] on [G.his] left ear.\n"
-
-	//right ear
-	if(r_ear && !skipears)
-		msg += "[G.He] [G.has] [r_ear.get_examine_line()] on [G.his] right ear.\n"
+	if(!skipears)
+		var/obj/item/ear = get_equipped_item(slot_l_ear_str)
+		if(ear)
+			msg += "[G.He] [G.has] [ear.get_examine_line()] on [G.his] left ear.\n"
+		ear = get_equipped_item(slot_r_ear_str)
+		if(ear)
+			msg += "[G.He] [G.has] [ear.get_examine_line()] on [G.his] right ear.\n"
 
 	//ID
-	if(wear_id)
-		msg += "[G.He] [G.is] wearing [wear_id.get_examine_line()].\n"
+	var/obj/item/id = get_equipped_item(slot_wear_id_str)
+	if(id)
+		msg += "[G.He] [G.is] wearing [id.get_examine_line()].\n"
 
-	//handcuffed?
-	if(handcuffed)
-		if(istype(handcuffed, /obj/item/handcuffs/cable))
-			msg += "<span class='warning'>[G.He] [G.is] [html_icon(handcuffed)] restrained with cable!</span>\n"
-		else
-			msg += "<span class='warning'>[G.He] [G.is] [html_icon(handcuffed)] handcuffed!</span>\n"
+	//handcuffs?
+	var/obj/item/cuffs = get_equipped_item(slot_handcuffed_str)
+	if(cuffs)
+		msg += "<span class='warning'>[G.He] [G.is] [html_icon(cuffs)] restrained with \the [cuffs]!</span>\n"
 
 	//buckled
 	if(buckled)
@@ -167,7 +180,7 @@
 
 	//Disfigured face
 	if(!skipface) //Disfigurement only matters for the head currently.
-		var/obj/item/organ/external/head/E = get_organ(BP_HEAD)
+		var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, BP_HEAD)
 		if(E && (E.status & ORGAN_DISFIGURED)) //Check to see if we even have a head and if the head's disfigured.
 			if(E.species) //Check to make sure we have a species
 				msg += E.species.disfigure_msg(src)
@@ -176,12 +189,9 @@
 
 	//splints
 	for(var/organ in list(BP_L_LEG, BP_R_LEG, BP_L_ARM, BP_R_ARM))
-		var/obj/item/organ/external/o = get_organ(organ)
+		var/obj/item/organ/external/o = GET_EXTERNAL_ORGAN(src, organ)
 		if(o && o.splinted && o.splinted.loc == o)
 			msg += "<span class='warning'>[G.He] [G.has] \a [o.splinted] on [G.his] [o.name]!</span>\n"
-
-	if(mSmallsize in mutations)
-		msg += "[G.He] [G.is] small halfling!\n"
 
 	if (src.stat)
 		msg += "<span class='warning'>[G.He] [G.is]n't responding to anything around [G.him] and seems to be unconscious.</span>\n"
@@ -214,7 +224,7 @@
 	if (admin_paralyzed)
 		msg += SPAN_OCCULT("OOC: [G.He] [G.has] been paralyzed by staff. Please avoid interacting with [G.him] unless cleared to do so by staff.") + "\n"
 
-	var/obj/item/organ/external/head/H = get_organ(BP_HEAD)
+	var/obj/item/organ/external/head/H = get_organ(BP_HEAD, /obj/item/organ/external/head)
 	if(istype(H) && H.forehead_graffiti && H.graffiti_style)
 		msg += "<span class='notice'>[G.He] [G.has] \"[H.forehead_graffiti]\" written on [G.his] [H.name] in [H.graffiti_style]!</span>\n"
 
@@ -232,7 +242,7 @@
 
 		var/list/organ_data = species.has_limbs[organ_tag]
 		var/organ_descriptor = organ_data["descriptor"]
-		var/obj/item/organ/external/E = get_organ(organ_tag)
+		var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, organ_tag)
 
 		if(!E)
 			wound_flavor_text[organ_descriptor] = "<b>[G.He] [G.is] missing [G.his] [organ_descriptor].</b>\n"
@@ -244,8 +254,8 @@
 			applying_pressure = "<span class='info'>[G.He] [G.is] applying pressure to [G.his] [E.name].</span><br>"
 
 		var/obj/item/clothing/hidden
-		var/list/clothing_items = list(head, wear_mask, wear_suit, w_uniform, gloves, shoes)
-		for(var/obj/item/clothing/C in clothing_items)
+		for(var/slot in global.standard_clothing_slots)
+			var/obj/item/clothing/C = get_equipped_item(slot)
 			if(istype(C) && (C.body_parts_covered & E.body_part))
 				hidden = C
 				break
@@ -256,16 +266,11 @@
 					hidden_bleeders[hidden] = list()
 				hidden_bleeders[hidden] += E.name
 		else
-			if(E.is_stump())
-				wound_flavor_text[E.name] += "<b>[G.He] [G.has] a stump where [G.his] [organ_descriptor] should be.</b>\n"
-				if(LAZYLEN(E.wounds) && E.parent)
-					wound_flavor_text[E.name] += "[G.He] [G.has] [E.get_wounds_desc()] on [G.his] [E.parent.name].<br>"
-			else
-				if(!is_synth && BP_IS_PROSTHETIC(E) && (E.parent && !BP_IS_PROSTHETIC(E.parent) && !BP_IS_ASSISTED(E.parent)))
-					wound_flavor_text[E.name] = "[G.He] [G.has] a [E.name].\n"
-				var/wounddesc = E.get_wounds_desc()
-				if(wounddesc != "nothing")
-					wound_flavor_text[E.name] += "[G.He] [G.has] [wounddesc] on [G.his] [E.name].<br>"
+			if(!is_synth && BP_IS_PROSTHETIC(E) && (E.parent && !BP_IS_PROSTHETIC(E.parent)))
+				wound_flavor_text[E.name] = "[G.He] [G.has] a [E.name].\n"
+			var/wounddesc = E.get_wounds_desc()
+			if(wounddesc != "nothing")
+				wound_flavor_text[E.name] += "[G.He] [G.has] [wounddesc] on [G.his] [E.name].<br>"
 		if(!hidden || distance <=1)
 			if(E.is_dislocated())
 				wound_flavor_text[E.name] += "[G.His] [E.joint] is dislocated!<br>"
@@ -310,9 +315,9 @@
 		var/perpname = "wot"
 		var/criminal = "None"
 
-		var/obj/item/card/id/id = GetIdCard()
-		if(istype(id))
-			perpname = id.registered_name
+		var/obj/item/card/id/check_id = GetIdCard()
+		if(istype(check_id))
+			perpname = check_id.registered_name
 		else
 			perpname = src.name
 
@@ -330,9 +335,9 @@
 		var/perpname = "wot"
 		var/medical = "None"
 
-		var/obj/item/card/id/id = GetIdCard()
-		if(istype(id))
-			perpname = id.registered_name
+		var/obj/item/card/id/check_id = GetIdCard()
+		if(istype(check_id))
+			perpname = check_id.registered_name
 		else
 			perpname = src.name
 
@@ -377,7 +382,7 @@
 	return
 
 /mob/living/carbon/human/getHUDsource(hudtype)
-	var/obj/item/clothing/glasses/G = glasses
+	var/obj/item/clothing/glasses/G = get_equipped_item(slot_glasses_str)
 	if(!istype(G))
 		return
 	if(G.hud_type & hudtype)

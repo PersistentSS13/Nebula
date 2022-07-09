@@ -91,11 +91,6 @@ default behaviour is:
 				now_pushing = 0
 				return
 			if(tmob.a_intent != I_HELP)
-				if(istype(tmob, /mob/living/carbon/human) && (MUTATION_FAT in tmob.mutations))
-					if(prob(40) && !(MUTATION_FAT in src.mutations))
-						to_chat(src, "<span class='danger'>You fail to push [tmob]'s fat ass out of the way.</span>")
-						now_pushing = 0
-						return
 				for(var/obj/item/shield/riot/shield in tmob.get_held_items())
 					if(prob(99))
 						now_pushing = 0
@@ -390,10 +385,9 @@ default behaviour is:
 		buckled.unbuckle_mob()
 	if(iscarbon(src))
 		var/mob/living/carbon/C = src
-
-		if (C.handcuffed && !initial(C.handcuffed))
-			C.drop_from_inventory(C.handcuffed)
-		C.handcuffed = initial(C.handcuffed)
+		var/obj/item/cuffs = get_equipped_item(slot_handcuffed_str)
+		if (cuffs)
+			C.unEquip(cuffs)
 	BITSET(hud_updateflag, HEALTH_HUD)
 	BITSET(hud_updateflag, STATUS_HUD)
 	BITSET(hud_updateflag, LIFE_HUD)
@@ -481,13 +475,14 @@ default behaviour is:
 /mob/living/carbon/basic_revival(var/repair_brain = TRUE)
 	if(repair_brain && should_have_organ(BP_BRAIN))
 		repair_brain = FALSE
-		var/obj/item/organ/internal/brain/brain = get_organ(BP_BRAIN)
-		if(brain.damage > (brain.max_damage/2))
-			brain.damage = (brain.max_damage/2)
-		if(brain.status & ORGAN_DEAD)
-			brain.status &= ~ORGAN_DEAD
-			START_PROCESSING(SSobj, brain)
-		brain.update_icon()
+		var/obj/item/organ/internal/brain/brain = get_organ(BP_BRAIN, /obj/item/organ/internal/brain)
+		if(brain)
+			if(brain.damage > (brain.max_damage/2))
+				brain.damage = (brain.max_damage/2)
+			if(brain.status & ORGAN_DEAD)
+				brain.status &= ~ORGAN_DEAD
+				START_PROCESSING(SSobj, brain)
+			brain.update_icon()
 	..(repair_brain)
 
 /mob/living/proc/UpdateDamageIcon()
@@ -535,11 +530,6 @@ default behaviour is:
 				mygrabs -= G
 				qdel(G)
 				continue
-			if(!destination.CanZPass(G.affecting, direction))
-				to_chat(src, SPAN_WARNING("The [G.affecting] you were pulling bumps up against \the [destination]."))
-				mygrabs -= G
-				qdel(G)
-				continue
 			for(var/atom/A in destination)
 				if(!A.CanMoveOnto(G.affecting, start, 1.5, direction))
 					to_chat(src, SPAN_WARNING("\The [A] blocks the [G.affecting] you were pulling."))
@@ -564,8 +554,8 @@ default behaviour is:
 	. = ..()
 	if(.)
 		handle_grabs_after_move(old_loc, Dir)
-		if (s_active && !( s_active in contents ) && get_turf(s_active) != get_turf(src))	//check !( s_active in contents ) first so we hopefully don't have to call get_turf() so much.
-			s_active.close(src)
+		if (active_storage && !( active_storage in contents ) && get_turf(active_storage) != get_turf(src))	//check !( active_storage in contents ) first so we hopefully don't have to call get_turf() so much.
+			active_storage.close(src)
 
 /mob/living/verb/resist()
 	set name = "Resist"
@@ -693,11 +683,8 @@ default behaviour is:
 
 /mob/living/carbon/get_contained_external_atoms()
 	. = ..()
-	LAZYREMOVE(., get_organs())
-	//Since organs are cleared on destroy, add this separate check here
-	for(var/obj/item/organ/O in .)
-		if(!O.is_droppable())
-			LAZYREMOVE(., O)
+	if(.)
+		LAZYREMOVE(., get_organs())
 
 /mob/proc/can_be_possessed_by(var/mob/observer/ghost/possessor)
 	return istype(possessor) && possessor.client
@@ -805,7 +792,7 @@ default behaviour is:
 	var/turf/T = get_turf(src)
 	if(!can_drown() || !loc.is_flooded(lying))
 		return FALSE
-	if(!lying && T.above && !T.above.is_flooded() && T.above.CanZPass(src, UP) && can_overcome_gravity())
+	if(!lying && T.above && T.above.is_open() && !T.above.is_flooded() && can_overcome_gravity())
 		return FALSE
 	if(prob(5))
 		var/obj/effect/fluid/F = locate() in loc
@@ -948,7 +935,7 @@ default behaviour is:
 	return "Living"
 
 /mob/living/handle_mouse_drop(atom/over, mob/user)
-	if(user == src && user != over)
+	if(!anchored && user == src && user != over)
 
 		if(isturf(over))
 			var/turf/T = over
@@ -1031,11 +1018,7 @@ default behaviour is:
 		if(!hud_used.hide_actions_toggle)
 			hud_used.hide_actions_toggle = new(hud_used)
 			hud_used.hide_actions_toggle.UpdateIcon()
-
-		if(!hud_used.hide_actions_toggle.moved)
-			hud_used.hide_actions_toggle.screen_loc = hud_used.ButtonNumberToScreenCoords(1)
-			//hud_used.SetButtonCoords(hud_used.hide_actions_toggle,1)
-
+		hud_used.hide_actions_toggle.screen_loc = hud_used.ButtonNumberToScreenCoords(1)
 		client.screen += hud_used.hide_actions_toggle
 		return
 
@@ -1043,11 +1026,11 @@ default behaviour is:
 	for(var/datum/action/A in actions)
 		button_number++
 		if(A.button == null)
-			var/obj/screen/movable/action_button/N = new(hud_used)
+			var/obj/screen/action_button/N = new(hud_used)
 			N.owner = A
 			A.button = N
 
-		var/obj/screen/movable/action_button/B = A.button
+		var/obj/screen/action_button/B = A.button
 
 		B.UpdateIcon()
 
@@ -1055,18 +1038,13 @@ default behaviour is:
 		B.desc = A.UpdateDesc()
 
 		client.screen += B
-
-		if(!B.moved)
-			B.screen_loc = hud_used.ButtonNumberToScreenCoords(button_number)
-			//hud_used.SetButtonCoords(B,button_number)
+		B.screen_loc = hud_used.ButtonNumberToScreenCoords(button_number)
 
 	if(button_number > 0)
 		if(!hud_used.hide_actions_toggle)
 			hud_used.hide_actions_toggle = new(hud_used)
 			hud_used.hide_actions_toggle.InitialiseIcon(src)
-		if(!hud_used.hide_actions_toggle.moved)
-			hud_used.hide_actions_toggle.screen_loc = hud_used.ButtonNumberToScreenCoords(button_number+1)
-			//hud_used.SetButtonCoords(hud_used.hide_actions_toggle,button_number+1)
+		hud_used.hide_actions_toggle.screen_loc = hud_used.ButtonNumberToScreenCoords(button_number+1)
 		client.screen += hud_used.hide_actions_toggle
 
 /mob/living/handle_fall_effect(var/turf/landing)
@@ -1079,3 +1057,33 @@ default behaviour is:
 
 /mob/living/proc/apply_fall_damage(var/turf/landing)
 	adjustBruteLoss(rand(max(1, CEILING(mob_size * 0.33)), max(1, CEILING(mob_size * 0.66))))
+
+/mob/living/get_alt_interactions(mob/user)
+	. = ..()
+	LAZYADD(., /decl/interaction_handler/admin_kill)
+
+/decl/interaction_handler/admin_kill
+	name = "Admin Kill"
+	expected_user_type = /mob/observer
+	expected_target_type = /mob/living
+	interaction_flags = 0
+
+/decl/interaction_handler/admin_kill/is_possible(atom/target, mob/user, obj/item/prop)
+	. = ..()
+	if(.)
+		if(!check_rights(R_INVESTIGATE, 0, user)) 
+			return FALSE
+		var/mob/living/M = target
+		if(M.stat == DEAD)
+			return FALSE
+
+/decl/interaction_handler/admin_kill/invoked(atom/target, mob/user, obj/item/prop)
+	var/mob/living/M = target
+	var/key_name = key_name(M)
+	if(alert(user, "Do you wish to kill [key_name]?", "Kill \the [M]?", "No", "Yes") != "Yes")
+		return FALSE
+	if(!is_possible(target, user, prop))
+		to_chat(user, SPAN_NOTICE("You were unable to kill [key_name]."))
+		return FALSE
+	M.death()
+	log_and_message_admins("\The [user] admin-killed [key_name].")

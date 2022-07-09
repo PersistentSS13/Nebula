@@ -35,6 +35,7 @@
 
 	if(!should_have_organ(BP_HEART))
 		vessel.clear_reagents()
+		vessel.maximum_volume = 0
 		return
 
 	if(vessel.total_volume < species.blood_volume)
@@ -97,8 +98,9 @@
 						var/blinding = FALSE
 						if(ran_zone() == BP_HEAD)
 							blinding = TRUE
-							for(var/obj/item/I in list(H.head, H.glasses, H.wear_mask))
-								if(I && (I.body_parts_covered & SLOT_EYES))
+							for(var/slot in global.standard_headgear_slots)
+								var/obj/item/I = H.get_equipped_item(slot)
+								if(istype(I) && (I.body_parts_covered & SLOT_EYES))
 									blinding = FALSE
 									break
 						if(blinding)
@@ -161,6 +163,8 @@
 
 //Transfers blood from container ot vessels
 /mob/living/carbon/proc/inject_blood(var/amount, var/datum/reagents/donor)
+	if(!species.blood_volume)
+		return //Don't divide by 0
 	var/injected_data = REAGENT_DATA(donor, species.blood_reagent)
 	var/chems = LAZYACCESS(injected_data, "trace_chem")
 	for(var/C in chems)
@@ -284,11 +288,11 @@
 
 //Percentage of maximum blood volume.
 /mob/living/carbon/human/proc/get_blood_volume()
-	return round((vessel.total_volume/species.blood_volume)*100)
+	return species.blood_volume? round((vessel.total_volume/species.blood_volume)*100) : 0
 
 //Percentage of maximum blood volume, affected by the condition of circulation organs
 /mob/living/carbon/human/proc/get_blood_circulation()
-	var/obj/item/organ/internal/heart/heart = get_organ(BP_HEART)
+	var/obj/item/organ/internal/heart/heart = get_organ(BP_HEART, /obj/item/organ/internal/heart)
 	var/blood_volume = get_blood_volume()
 	if(!heart)
 		return 0.25 * blood_volume

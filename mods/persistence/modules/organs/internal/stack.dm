@@ -22,7 +22,7 @@ var/global/list/cortical_stacks = list()
 	vital = TRUE
 	origin_tech = "{'biotech':4,'materials':4,'magnets':2,'programming':3}"
 	relative_size = 10
-	status = ORGAN_PROSTHETIC
+	organ_properties = ORGAN_PROP_PROSTHETIC
 	
 	var/mind_id
 	var/datum/computer_file/data/cloning/backup

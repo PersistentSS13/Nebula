@@ -6,7 +6,8 @@
 	. = ..()
 	if(persistent_id && istype(loc, /obj/machinery))
 		var/obj/machinery/M = loc
-		M.install_component(src, FALSE, TRUE)
+		if(!(src in M.component_parts))
+			M.install_component(src, FALSE, TRUE)
 
 /obj/item/stock_parts/on_install(obj/machinery/machine)
 	. = ..()

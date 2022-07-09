@@ -6,6 +6,7 @@
 
 /decl/psionic_power/coercion
 	faculty = PSI_COERCION
+	abstract_type = /decl/psionic_power/coercion
 
 /decl/psionic_power/coercion/invoke(var/mob/living/user, var/mob/living/target)
 	if (!istype(target))
@@ -132,7 +133,7 @@
 		for(var/bp in target.held_item_slots)
 			var/datum/inventory_slot/inv_slot = target.held_item_slots[bp]
 			if(inv_slot?.holding?.simulated && prob(75) && target.unEquip(inv_slot.holding))
-				var/obj/item/organ/external/E = target.get_organ(bp)
+				var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(target, bp)
 				target.visible_message(SPAN_DANGER("\The [target] drops what they were holding as their [E ? E.name : "hand"] spasms!"))
 		return TRUE
 

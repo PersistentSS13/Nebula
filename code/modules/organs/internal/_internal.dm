@@ -15,8 +15,6 @@
 /obj/item/organ/internal/Initialize(mapload, material_key, datum/dna/given_dna)
 	if(!alive_icon)
 		alive_icon = initial(icon_state)
-	if(max_damage)
-		min_bruised_damage = FLOOR(max_damage / 4)
 	. = ..()
 
 /obj/item/organ/internal/set_species(species_name)
@@ -46,7 +44,7 @@
 	//Make sure we're removed from whatever parent organ we have, either in a mob or not
 	var/obj/item/organ/external/affected
 	if(owner)
-		affected = owner.get_organ(parent_organ)
+		affected = GET_EXTERNAL_ORGAN(owner, parent_organ)
 	else if(istype(loc, /obj/item/organ/external))
 		var/obj/item/organ/external/E = loc
 		if(E.organ_tag == parent_organ)
@@ -59,7 +57,7 @@
 
 	//Remove it from the implants if we are fully removing, or add it to the implants if we are detaching
 	if(affected)
-		if(status & ORGAN_CUT_AWAY)
+		if((status & ORGAN_CUT_AWAY) && detach)
 			LAZYDISTINCTADD(affected.implants, src)
 		else
 			LAZYREMOVE(affected.implants, src) 
@@ -72,7 +70,7 @@
 /obj/item/organ/internal/is_usable()
 	return ..() && !is_broken()
 
-/obj/item/organ/internal/robotize(var/company = /decl/prosthetics_manufacturer, var/skip_prosthetics = 0, var/keep_organs = 0, var/apply_material = /decl/material/solid/metal/steel, var/check_bodytype, var/check_species)
+/obj/item/organ/internal/robotize(var/company, var/skip_prosthetics = 0, var/keep_organs = 0, var/apply_material = /decl/material/solid/metal/steel, var/check_bodytype, var/check_species)
 	. = ..()
 	min_bruised_damage += 5
 	min_broken_damage += 10
@@ -107,7 +105,7 @@
 
 		//only show this if the organ is not robotic
 		if(owner && can_feel_pain() && parent_organ && (amount > 5 || prob(10)))
-			var/obj/item/organ/external/parent = owner.get_organ(parent_organ)
+			var/obj/item/organ/external/parent = GET_EXTERNAL_ORGAN(owner, parent_organ)
 			if(parent && !silent)
 				var/degree = ""
 				if(is_bruised())
@@ -132,8 +130,6 @@
 			. = "necrotic [.]"
 	if(BP_IS_CRYSTAL(src))
 		. = "crystalline "
-	else if(BP_IS_ASSISTED(src))
-		. = "assisted "
 	else if(BP_IS_PROSTHETIC(src))
 		. = "mechanical "
 	. = "[.][name]"
