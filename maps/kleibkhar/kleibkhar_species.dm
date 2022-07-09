@@ -15,3 +15,9 @@
 
 /decl/species/human/tritonian
 	spawn_flags = SPECIES_IS_RESTRICTED | SPECIES_IS_WHITELISTED
+
+/decl/species/skrell
+	spawn_flags = SPECIES_IS_WHITELISTED | SPECIES_IS_RESTRICTED
+
+/decl/language/skrell/casteless
+	key = "m"
