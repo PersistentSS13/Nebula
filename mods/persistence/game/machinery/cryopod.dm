@@ -58,7 +58,6 @@
 		items -= occupant
 		occupant.set_status(STAT_ASLEEP, 0) // Reset the sleepiness of the player so they're not permasleeping when they get out of cryo.
 		occupant.set_status(STAT_DROWSY, 10)
-	if(announce) items -= announce
 
 	for(var/obj/item/W in items)
 		W.dropInto(loc)
@@ -125,7 +124,8 @@
 
 	var/role_alt_title = occupant.mind ? occupant.mind.role_alt_title : "Unknown"
 	log_and_message_admins("[key_name(occupant)] ([role_alt_title]) entered cryostorage.")
-	announce.autosay("[occupant.real_name], [role_alt_title], [on_store_message]", "[on_store_name]")
+	var/obj/item/radio/announcer = get_global_announcer()
+	announcer.autosay("[occupant.real_name], [role_alt_title], [on_store_message]", "[on_store_name]")
 
 	var/mob/living/carbon/human/H = occupant
 	if(istype(H))

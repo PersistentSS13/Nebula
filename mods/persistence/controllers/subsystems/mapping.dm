@@ -24,8 +24,10 @@
 	
 	// Persistence overmaps use premapped overmaps at the moment, so we override here to delay building the overmaps until appropriate.
 	loaded_maps = TRUE
-	if(!length(global.overmaps_by_name))
-		global.using_map.create_overmaps()
+	if(length(global.overmaps_by_name))
+		for(var/name in global.overmaps_by_name)
+			var/datum/overmap/O = global.overmaps_by_name[name]
+			O.late_initialize()
 	// Build the list of static persisted levels from our map.
 #ifdef UNIT_TEST
 	report_progress("Unit testing, so not loading saved map")

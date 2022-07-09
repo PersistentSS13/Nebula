@@ -1,9 +1,11 @@
+#define SS_INIT_PERSISTENCE 18.5
+
 /proc/cmp_serialization_stats_dsc(var/datum/serialization_stat/S1, var/datum/serialization_stat/S2)
 	return S2.time_spent - S1.time_spent
 
 /datum/controller/subsystem/persistence
 	name = "Persistence"
-	init_order = SS_INIT_EARLY
+	init_order = SS_INIT_PERSISTENCE
 	flags = SS_NO_FIRE
 
 	var/save_exists			=	FALSE	// Whether or not a save exists in the DB
