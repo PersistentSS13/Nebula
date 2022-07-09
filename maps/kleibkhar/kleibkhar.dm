@@ -1,6 +1,8 @@
 #if !defined(USING_MAP_DATUM)
 	// Mods section
 	#include "../../mods/persistence/_persistence.dme"
+	#include "../../mods/species/bayliens/_bayliens.dme"
+	#include "../../mods/species/vox/_vox.dme"
 	#include "../../mods/content/xenobiology/_xenobiology.dme"
 	#include "../chargen/chargen_areas.dm"
 	#include "../chargen/chargen_objects.dm"
@@ -16,6 +18,7 @@
 	#include "kleibkhar_unit_testing.dm"
 	#include "kleibkhar_turf.dm"
 	#include "kleibkhar_events.dm"
+	#include "kleibkhar_species.dm"
 	#include "kleibkhar_supply.dm"
 
 	#define USING_MAP_DATUM /datum/map/kleibkhar
