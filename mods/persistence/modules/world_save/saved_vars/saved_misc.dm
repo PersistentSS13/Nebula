@@ -852,7 +852,6 @@ SAVED_VAR(/obj/machinery/port_gen/pacman, sheets)
 SAVED_VAR(/obj/machinery/port_gen/pacman, operating_temperature)
 SAVED_VAR(/obj/machinery/port_gen/pacman, overheating)
 
-SAVED_VAR(/obj/machinery/power/solar, control)
 SAVED_VAR(/obj/machinery/power/solar, adir)
 SAVED_VAR(/obj/machinery/power/solar, ndir)
 SAVED_VAR(/obj/machinery/power/solar, turn_angle)
