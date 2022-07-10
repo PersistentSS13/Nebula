@@ -156,7 +156,7 @@
 
 /obj/item/clothing/suit/chem_suit
 	name = "chemical suit"
-	desc = "A suit that protects against chemical contamination."
+	desc = "A suit that protects against chemical contamination and acidic atmospheres."
 	icon = 'icons/clothing/suit/chem_suit.dmi'
 	w_class = ITEM_SIZE_HUGE//bulky item
 	gas_transfer_coefficient = 0
@@ -167,7 +167,7 @@
 		bio = ARMOR_BIO_RESISTANT, 
 		rad = ARMOR_RAD_MINOR
 		)
-	flags_inv = HIDEGLOVES|HIDESHOES|HIDEJUMPSUIT|HIDETAIL
+	flags_inv = HIDEJUMPSUIT|HIDETAIL
 	item_flags = ITEM_FLAG_THICKMATERIAL
 	siemens_coefficient = 0.9
 	matter = list(
