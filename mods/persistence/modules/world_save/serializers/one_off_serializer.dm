@@ -78,17 +78,19 @@
 		var/list/items = limbo_query.GetRowData()
 		ref_things |= "'[items["value"]]'"
 
-	// This is annoying, but we have to check against the game world refs to prevent duplication, as the limbo tables do not
-	// normally track references.
-	var/DBQuery/world_query = dbcon_save.NewQuery("SELECT `p_id`, `ref` FROM `[SQLS_TABLE_DATUM]` WHERE `p_id` IN ([jointext(ref_things, ", ")]);")
-	SQLS_EXECUTE_AND_REPORT_ERROR(world_query, "LIMBO WORLD QUERY FAILED FOR UPDATING LOAD CACHE:")
+	// It's very odd for ref_things to be empty, but it will throw a runtime if it is.
+	if(length(ref_things))
+		// This is annoying, but we have to check against the game world refs to prevent duplication, as the limbo tables do not
+		// normally track references.
+		var/DBQuery/world_query = dbcon_save.NewQuery("SELECT `p_id`, `ref` FROM `[SQLS_TABLE_DATUM]` WHERE `p_id` IN ([jointext(ref_things, ", ")]);")
+		SQLS_EXECUTE_AND_REPORT_ERROR(world_query, "LIMBO WORLD QUERY FAILED FOR UPDATING LOAD CACHE:")
 
-	while(world_query.NextRow())
-		var/list/items = world_query.GetRowData()
-		var/datum/existing = locate(items["ref"])
-		if(existing && !QDELETED(existing) && existing.persistent_id == items["p_id"]) // Check to see if the thing already exists in the gameworld by ref lookup.
-			reverse_map[items["p_id"]] = existing
-			continue
+		while(world_query.NextRow())
+			var/list/items = world_query.GetRowData()
+			var/datum/existing = locate(items["ref"])
+			if(existing && !QDELETED(existing) && existing.persistent_id == items["p_id"]) // Check to see if the thing already exists in the gameworld by ref lookup.
+				reverse_map[items["p_id"]] = existing
+				continue
 
 	// Now we re-execute and return to the limbo query.
 	limbo_query = dbcon_save.NewQuery("SELECT `p_id`, `type`, `x`, `y`, `z` FROM `[SQLS_TABLE_LIMBO_DATUM]` WHERE `limbo_assoc` = '[limbo_assoc]';")

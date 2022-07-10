@@ -80,7 +80,7 @@
 		if(check_rights(R_DEBUG) || check_rights(R_ADMIN))
 			slots+=2
 		var/count = 0
-		char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[client_ckey]'")
+		char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[client.key]'")
 		if(!char_query.Execute())
 			to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
 		for(var/i=1,i>=slots,i++)

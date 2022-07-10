@@ -10,6 +10,8 @@ var/global/list/cortical_stacks = list()
 	if(!target)
 		return null
 	target.stackmob = new(target)
+	target.stackmob.SetName(mind.current.real_name)
+	target.stackmob.real_name = mind.current.real_name
 	mind.transfer_to(target.stackmob)
 	to_chat(target.stackmob, SPAN_NOTICE("You feel slightly disoriented. That's normal when you're just \a [target.name]."))
 	return target
@@ -92,8 +94,7 @@ var/global/list/cortical_stacks = list()
 
 /obj/item/organ/internal/stack/proc/update_mind_id()
 	if(owner.mind)
-		for(var/stack in global.cortical_stacks)
-			var/obj/item/organ/internal/stack/S = stack
+		for(var/obj/item/organ/internal/stack/S in global.cortical_stacks)
 			if(S.mind_id == owner.mind.unique_id) // Make sure only one stack has a given mind ID.
 				S.mind_id = null
 		mind_id = owner.mind.unique_id
