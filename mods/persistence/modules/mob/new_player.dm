@@ -15,6 +15,7 @@
 
 	var/datum/browser/charselect
 	var/selected_char_name
+
 /mob/new_player/show_lobby_menu(force = FALSE)
 	if(!SScharacter_setup.initialized && !force)
 		return // Not ready yet.
@@ -106,7 +107,7 @@
 					CRASH("new_player: Couldn't establish DB connection while deleting a character!")
 				new_db_connection = TRUE
 			
-			var/DBQuery/char_query = dbcon_save.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]' AND `metadata2` = '[char_name]'")
+			var/DBQuery/char_query = dbcon_save.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[key]' AND `metadata2` = '[char_name]'")
 			if(!char_query.Execute())
 				to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
 			if(char_query.NextRow())
@@ -142,6 +143,7 @@
 				to_chat(src, SPAN_NOTICE("A character is already in game."))
 				spawning = TRUE
 				target_mind.current.key = key
+				target_mind.current.on_persistent_join()
 				qdel(src)
 				return
 	var/func_text = "Load"
@@ -161,7 +163,7 @@
 		new_db_connection = TRUE
 
 
-	var/DBQuery/char_query = dbcon_save.NewQuery("SELECT `metadata2` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]'")
+	var/DBQuery/char_query = dbcon_save.NewQuery("SELECT `metadata2` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[key]'")
 	if(!char_query.Execute())
 		to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
 	for(var/i=1, i<=slots, i++)
@@ -202,6 +204,7 @@
 			to_chat(src, SPAN_NOTICE("A character is already in game."))
 			spawning = TRUE
 			target_mind.current.key = key
+			target_mind.current.on_persistent_join()
 			qdel(src)
 			return
 	// Query for the character associated with this ckey
@@ -212,7 +215,7 @@
 		new_db_connection = TRUE
 
 	spawning = TRUE
-	var/DBQuery/char_query = dbcon_save.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]' AND `metadata2` = '[selected_char_name]'")
+	var/DBQuery/char_query = dbcon_save.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[key]' AND `metadata2` = '[selected_char_name]'")
 	if(!char_query.Execute())
 		to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
 	if(char_query.NextRow())
@@ -237,6 +240,7 @@
 		var/mob/person = target_mind.current
 		transition_to_game()
 		person.key = key
+		person.on_persistent_join()
 		qdel(src)
 		
 		if(new_db_connection)
