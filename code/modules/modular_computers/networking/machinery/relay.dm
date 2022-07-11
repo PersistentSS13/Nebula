@@ -16,7 +16,6 @@
 	if(!istype(R))
 		return data
 	data["wifi"] = R.allow_wifi
-	data["reconnect"] = R.reconnect_time && round((R.reconnect_time - world.time)/10)
 	return data
 
 /obj/machinery/network/relay/OnTopic(mob/user, href_list, datum/topic_state/state)
@@ -25,13 +24,9 @@
 		if(R)
 			R.allow_wifi = !R.allow_wifi
 			return TOPIC_REFRESH
-	if(href_list["reconnect"])
-		var/datum/extension/network_device/broadcaster/relay/R = get_extension(src, /datum/extension/network_device)
-		if(R)
-			R.connect()
-			return TOPIC_REFRESH
 	. = ..()
 
+// Long ranged network relay. Alternative to PLEXUS for maps which don't wish to use it. Otherwise difficult to obtain.
 /obj/machinery/network/relay/long_range
 	name = "long-ranged network relay"
 	icon = 'icons/obj/machines/tcomms/relay.dmi'

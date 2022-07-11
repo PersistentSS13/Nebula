@@ -248,20 +248,22 @@ var/global/list/gamemode_cache = list()
 
 	var/lock_client_view_x
 	var/lock_client_view_y
-	var/max_client_view_x
-	var/max_client_view_y
+	var/max_client_view_x = MAX_VIEW
+	var/max_client_view_y = MAX_VIEW
 
 	var/allow_diagonal_movement = FALSE
 
 	var/no_throttle_localhost
 
-	var/dex_malus_brainloss_threshold = 30 //The threshold of when brainloss begins to affect dexterity. 
+	var/dex_malus_brainloss_threshold = 30 //The threshold of when brainloss begins to affect dexterity.
 
 	var/static/list/protected_vars = list(
 		"comms_password",
 		"ban_comms_password",
 		"login_export_addr"
 	)
+
+	var/expanded_alt_interactions = FALSE // Set to true to enable look, grab, drop, etc. in the alt interaction menu.
 
 /datum/configuration/VV_hidden()
 	. = ..() | protected_vars
@@ -330,6 +332,9 @@ var/global/list/gamemode_cache = list()
 
 				if ("use_iterative_explosions")
 					use_iterative_explosions = 1
+
+				if ("expanded_alt_interactions")
+					expanded_alt_interactions = 1
 
 				if ("explosion_z_threshold")
 					iterative_explosives_z_threshold = text2num(value)

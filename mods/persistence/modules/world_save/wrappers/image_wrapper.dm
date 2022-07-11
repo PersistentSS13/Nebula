@@ -11,7 +11,7 @@
 	var/pixel_y = 0
 	var/appearance_flags
 
-/datum/wrapper/image/on_serialize(var/image/I)
+/datum/wrapper/image/on_serialize(var/image/I, var/serializer/curr_serializer)
 	key = "[I.icon]"
 
 	icon_state = I.icon_state
@@ -23,7 +23,7 @@
 	pixel_y = I.pixel_y
 	appearance_flags = I.appearance_flags
 
-/datum/wrapper/image/on_deserialize()
+/datum/wrapper/image/on_deserialize(var/serializer/curr_serializer)
 	var/image/I = image(icon=file(key), icon_state=icon_state, dir=dir, pixel_x=pixel_x, pixel_y=pixel_y, layer=layer)
 	I.color = color
 	I.alpha = alpha

@@ -8,3 +8,8 @@
 	. = ..()
 	initial_network_id = null
 	initial_network_key = null
+
+SAVED_VAR(/obj/item/stock_parts/network_receiver/network_lock, groups)
+SAVED_VAR(/obj/item/stock_parts/network_receiver/network_lock, initial_network_id)
+SAVED_VAR(/obj/item/stock_parts/network_receiver/network_lock, initial_network_key)
+SAVED_VAR(/obj/item/stock_parts/network_receiver/network_lock, emagged)

@@ -146,13 +146,7 @@
 
 /obj/structure/window/attack_hand(mob/user)
 	user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
-	if(MUTATION_HULK in user.mutations)
-		user.say(pick(";RAAAAAAAARGH!", ";HNNNNNNNNNGGGGGGH!", ";GWAAAAAAAARRRHHH!", "NNNNNNNNGGGGGGGGHH!", ";AAAAAAARRRGH!"))
-		user.visible_message(SPAN_DANGER("[user] smashes through [src]!"))
-		user.do_attack_animation(src)
-		shatter()
-
-	else if (user.a_intent && user.a_intent == I_HURT)
+	if (user.a_intent && user.a_intent == I_HURT)
 
 		if (istype(user,/mob/living/carbon/human))
 			var/mob/living/carbon/human/H = user
@@ -170,23 +164,6 @@
 		user.visible_message("[user.name] knocks on the [src.name].",
 							"You knock on the [src.name].",
 							"You hear a knocking sound.")
-	return
-
-/obj/structure/window/attack_generic(var/mob/user, var/damage, var/attack_verb, var/environment_smash)
-	if(environment_smash >= 1)
-		damage = max(damage, 10)
-
-	if(istype(user))
-		user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
-		user.do_attack_animation(src)
-	if(!damage)
-		return
-	if(damage >= 10)
-		visible_message(SPAN_DANGER("[user] [attack_verb] into [src]!"))
-		take_damage(damage)
-	else
-		visible_message(SPAN_NOTICE("\The [user] bonks \the [src] harmlessly."))
-	return 1
 
 /obj/structure/window/do_simple_ranged_interaction(var/mob/user)
 	visible_message(SPAN_NOTICE("Something knocks on \the [src]."))

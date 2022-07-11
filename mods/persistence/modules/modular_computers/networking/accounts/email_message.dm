@@ -1,0 +1,5 @@
+SAVED_VAR(/datum/computer_file/data/email_message, title)
+SAVED_VAR(/datum/computer_file/data/email_message, source)
+SAVED_VAR(/datum/computer_file/data/email_message, spam)
+SAVED_VAR(/datum/computer_file/data/email_message, timestamp)
+SAVED_VAR(/datum/computer_file/data/email_message, attachment)

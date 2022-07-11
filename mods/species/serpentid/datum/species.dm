@@ -16,6 +16,10 @@
 	name_plural = "Serpentids"
 	spawn_flags = SPECIES_IS_RESTRICTED
 
+	base_color =      "#336600"
+	base_eye_color =  "#3f0505"
+	preview_outfit = null
+
 	blood_types = list(/decl/blood_type/hemolymph)
 
 	has_organ = list(
@@ -162,7 +166,7 @@
 	return FALSE
 
 /decl/species/serpentid/can_shred(var/mob/living/carbon/human/H, var/ignore_intent, var/ignore_antag)
-	if(!H.handcuffed || H.buckled)
+	if(!H.get_equipped_item(slot_handcuffed_str) || H.buckled)
 		return ..(H, ignore_intent, TRUE)
 	else
 		return 0
@@ -192,7 +196,7 @@
 
 			for(var/organ_tag in H.species.has_limbs)
 				var/obj/item/organ/external/part = H.get_organ(organ_tag)
-				if(isnull(part) || part.is_stump())
+				if(!part)
 					image_key += "0"
 					continue
 				if(part)

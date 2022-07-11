@@ -134,7 +134,7 @@
 /mob/living/bot/secbot/proc/begin_arrest(mob/target, var/threat)
 	var/suspect_name = target_name(target)
 	if(declare_arrests)
-		broadcast_security_hud_message("[src] is arresting a level [threat] suspect <b>[suspect_name]</b> in <b>[get_area(src)]</b>.", src)
+		broadcast_security_hud_message("[src] is arresting a level [threat] suspect <b>[suspect_name]</b> in <b>[get_area_name(src)]</b>.", src)
 	say("Down on the floor, [suspect_name]! You have [SECBOT_WAIT_TIME] seconds to comply.")
 	playsound(src.loc, pick(preparing_arrest_sounds), 50)
 	events_repository.register(/decl/observ/moved, target, src, /mob/living/bot/secbot/proc/target_moved)
@@ -147,7 +147,7 @@
 /mob/living/bot/secbot/proc/react_to_attack(mob/attacker)
 	if(!target)
 		playsound(src.loc, pick(threat_found_sounds), 50)
-		broadcast_security_hud_message("[src] was attacked by a hostile <b>[target_name(attacker)]</b> in <b>[get_area(src)]</b>.", src)
+		broadcast_security_hud_message("[src] was attacked by a hostile <b>[target_name(attacker)]</b> in <b>[get_area_name(src)]</b>.", src)
 	target = attacker
 	awaiting_surrender = INFINITY
 
@@ -190,7 +190,7 @@
 		UnarmedAttack(target)
 
 /mob/living/bot/secbot/proc/cuff_target(var/mob/living/carbon/C)
-	if(istype(C) && !C.handcuffed)
+	if(istype(C) && !C.get_equipped_item(slot_handcuffed_str))
 		handcuffs.place_handcuffs(C, src)
 	resetTarget() //we're done, failed or not. Don't want to get stuck if C is not
 

@@ -114,10 +114,12 @@
 	ignore_mining_regen = FALSE
 
 /area/exoplanet/kleibkhar/mines/depth_2
+	name = "Deepest Underground"
 	icon_state = "cave"
 	ignore_mining_regen = FALSE
 
 /area/exoplanet/kleibkhar/mines/exits
+	name = "Mine Exit"
 	icon_state = "exit"
 	area_flags = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED
 

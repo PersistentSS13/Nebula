@@ -15,6 +15,11 @@
 		skillset?.update_verbs()
 		skillset?.update_special_effects()
 
+// Called when a player rejoins as a mob from the main menu.
+/mob/proc/on_persistent_join()
+	if(client)
+		client.show_location_blurb(30)
+
 /////////////////////////////////////
 // Saved Variables Definition
 /////////////////////////////////////
@@ -40,10 +45,9 @@ SAVED_VAR(/mob, facing_dir)
 SAVED_VAR(/mob, timeofdeath)
 SAVED_VAR(/mob, bodytemperature)
 SAVED_VAR(/mob, buckled)
-SAVED_VAR(/mob, back)
-SAVED_VAR(/mob, s_active)
-SAVED_VAR(/mob, wear_mask)
-SAVED_VAR(/mob, grabbed_by)
+SAVED_VAR(/mob, _back)
+SAVED_VAR(/mob, active_storage)
+SAVED_VAR(/mob, _wear_mask)
 SAVED_VAR(/mob, inertia_dir)
 SAVED_VAR(/mob, dna)
 SAVED_VAR(/mob, active_genes)

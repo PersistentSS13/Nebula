@@ -26,6 +26,13 @@
 	time = 50
 	on_floor = 1
 	difficulty = 2
+	set_dir_on_spawn = FALSE
+
+/datum/stack_recipe/noticeboard/spawn_result(mob/user, location, amount)
+	var/obj/structure/noticeboard/board = ..()
+	if(istype(board) && user)
+		board.set_dir(global.reverse_dir[user.dir])
+	return board
 
 /datum/stack_recipe/campfire
 	title = "campfire"
@@ -42,3 +49,12 @@
 		if(material.fuel_value > 0)
 			product.fuel += material.fuel_value * round(product.matter[mat] / SHEET_MATERIAL_AMOUNT)
 	return product
+
+/datum/stack_recipe/fountain
+	title               = "fountain"
+	result_type         = /obj/structure/fountain/mundane
+	time                = 10 SECONDS
+	one_per_turf        = TRUE
+	on_floor            = TRUE
+	difficulty          = MAT_VALUE_VERY_HARD_DIY
+	apply_material_name = TRUE

@@ -199,7 +199,7 @@ var/global/list/serialization_time_spent_type
 			if(!GD)
 				// Missing wrapper!
 				continue
-			GD.on_serialize(VV)
+			GD.on_serialize(VV, src)
 			if(!GD.key)
 				// Wrapper is null.
 				continue
@@ -301,7 +301,7 @@ var/global/list/serialization_time_spent_type
 			if(!GD)
 				// Missing wrapper!
 				continue
-			GD.on_serialize(key)
+			GD.on_serialize(key, src)
 			if(!GD.key)
 				// Wrapper is null.
 				continue
@@ -347,7 +347,7 @@ var/global/list/serialization_time_spent_type
 				if(!GD)
 					// Missing wrapper!
 					continue
-				GD.on_serialize(EV)
+				GD.on_serialize(EV, src)
 				if(!GD.key)
 					// Wrapper is null.
 					continue
@@ -437,7 +437,7 @@ var/global/list/serialization_time_spent_type
 					existing.vars[TV.key] = null
 				if(SERIALIZER_TYPE_WRAPPER)
 					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(TV.value)
-					existing.vars[TV.key] = GD.on_deserialize()
+					existing.vars[TV.key] = GD.on_deserialize(src)
 				if(SERIALIZER_TYPE_LIST)
 					// This was just an empty list.
 					if(TV.value == SERIALIZER_TYPE_LIST_EMPTY)
@@ -482,7 +482,7 @@ var/global/list/serialization_time_spent_type
 					key_value = text2path(LE.key)
 				if(SERIALIZER_TYPE_WRAPPER)
 					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(LE.key)
-					key_value = GD.on_deserialize()
+					key_value = GD.on_deserialize(src)
 				if(SERIALIZER_TYPE_LIST)
 					if(LE.key == SERIALIZER_TYPE_LIST_EMPTY)
 						key_value = list()
@@ -508,7 +508,7 @@ var/global/list/serialization_time_spent_type
 					existing[key_value] = text2path(LE.value)
 				if(SERIALIZER_TYPE_WRAPPER)
 					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(LE.value)
-					existing[key_value] = GD.on_deserialize()
+					existing[key_value] = GD.on_deserialize(src)
 				if(SERIALIZER_TYPE_LIST)
 					if(LE.value == SERIALIZER_TYPE_LIST_EMPTY)
 						existing[key_value] = list()
@@ -616,10 +616,25 @@ var/global/list/serialization_time_spent_type
 	var/z_insert_index = 1
 	for(var/z in z_transform)
 		var/datum/persistence/load_cache/z_level/z_level = z_transform[z]
-		z_inserts += "([z_insert_index],[z_level.new_index],[z_level.dynamic],'[z_level.default_turf]','[z_level.metadata]')"
+		z_inserts += "([z_insert_index],[z_level.new_index],[z_level.dynamic],'[z_level.default_turf]','[z_level.metadata]','[json_encode(z_level.areas)]')"
 		z_insert_index++
-	var/DBQuery/query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_Z_LEVELS]` (`id`,`z`,`dynamic`,`default_turf`,`metadata`) VALUES[jointext(z_inserts, ",")]")
+	var/DBQuery/query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_Z_LEVELS]` (`id`,`z`,`dynamic`,`default_turf`,`metadata`,`areas`) VALUES[jointext(z_inserts, ",")]")
 	SQLS_EXECUTE_AND_REPORT_ERROR(query, "Z_LEVEL SERIALIZATION FAILED:")
+	return TRUE
+
+/serializer/sql/save_area_chunks(var/list/area_chunks)
+	var/list/area_inserts = list()
+	var/area_insert_index = 1
+	for(var/datum/persistence/load_cache/area_chunk/area_chunk in area_chunks)
+		area_inserts += "([area_insert_index],'[area_chunk.area_type]','[sanitize_sql(area_chunk.name)]','[json_encode(area_chunk.turfs)]')"
+		area_insert_index++
+	
+	// No additional areas to save!
+	if(!length(area_inserts))
+		return TRUE
+	log_world("Query is: INSERT INTO `[SQLS_TABLE_AREAS]` (`id`,`type`,`name`,`turfs`) VALUES[jointext(area_inserts, ",")]")
+	var/DBQuery/query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_AREAS]` (`id`,`type`,`name`,`turfs`) VALUES[jointext(area_inserts, ",")]")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "AREA CHUNK SERIALIZATION FAILED:")
 	return TRUE
 
 /serializer/sql/count_saved_datums()

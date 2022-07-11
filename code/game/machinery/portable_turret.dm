@@ -90,9 +90,6 @@
 	. = ..()
 	setup()
 
-/obj/machinery/porta_turret/Destroy()
-	. = ..()
-
 /obj/machinery/porta_turret/proc/setup()
 	var/obj/item/gun/energy/E = installation	//All energy-based weapons are applicable
 	//var/obj/item/ammo_casing/shottype = E.projectile_type
@@ -143,7 +140,7 @@ var/global/list/turret_icons
 	if(stat & BROKEN)
 		icon_state = "destroyed_target_prism"
 	else if(raised || raising)
-		if(powered() && enabled)
+		if(!(stat & NOPOWER) && enabled)
 			if(iconholder)
 				//lasers have a orange icon
 				icon_state = "orange_target_prism"
@@ -239,15 +236,6 @@ var/global/list/turret_icons
 
 		return 1
 
-/obj/machinery/porta_turret/power_change()
-	if(powered())
-		stat &= ~NOPOWER
-		queue_icon_update()
-	else
-		spawn(rand(0, 15))
-			stat |= NOPOWER
-			queue_icon_update()
-
 /obj/machinery/porta_turret/physically_destroyed(skip_qdel)
 	if(installation)
 		var/obj/item/gun/energy/Gun = new installation(loc)
@@ -258,7 +246,7 @@ var/global/list/turret_icons
 	if(prob(50))
 		new /obj/item/assembly/prox_sensor(loc)
 	. = ..()
-						
+
 /obj/machinery/porta_turret/attackby(obj/item/I, mob/user)
 	if(stat & BROKEN)
 		if(IS_CROWBAR(I))
@@ -470,7 +458,7 @@ var/global/list/turret_icons
 			return lethal ? TURRET_SECONDARY_TARGET : TURRET_NOT_TARGET
 		return TURRET_PRIORITY_TARGET
 
-	if(iscuffed(L)) // If the target is handcuffed, leave it alone
+	if(iscuffed(L)) // If the target is cuffed, leave it alone
 		return TURRET_NOT_TARGET
 
 	if(isanimal(L) || issmall(L)) // Animals are not so dangerous

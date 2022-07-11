@@ -464,12 +464,6 @@ var/global/list/closets = list()
 /obj/structure/closet/proc/CanToggleLock(var/mob/user, var/obj/item/card/id/id_card)
 	return allowed(user) || (istype(id_card) && check_access_list(id_card.GetAccess()))
 
-/obj/structure/closet/AltClick(var/mob/user)
-	if(!src.opened)
-		togglelock(user)
-	else
-		return ..()
-
 /obj/structure/closet/CtrlAltClick(var/mob/user)
 	verb_toggleopen()
 
@@ -512,3 +506,21 @@ var/global/list/closets = list()
 
 /obj/structure/closet/CanUseTopicPhysical(mob/user)
 	return CanUseTopic(user, global.physical_no_access_topic_state)
+
+/obj/structure/closet/get_alt_interactions(var/mob/user)
+	. = ..()
+	LAZYADD(., /decl/interaction_handler/closet_lock_toggle)
+
+/decl/interaction_handler/closet_lock_toggle
+	name = "Toggle Lock"
+	expected_target_type = /obj/structure/closet
+
+/decl/interaction_handler/closet_lock_toggle/is_possible(atom/target, mob/user, obj/item/prop)
+	. = ..()
+	if(.)
+		var/obj/structure/closet/C = target
+		. = !C.opened && (C.setup & CLOSET_HAS_LOCK)
+	
+/decl/interaction_handler/closet_lock_toggle/invoked(atom/target, mob/user, obj/item/prop)
+	var/obj/structure/closet/C = target
+	C.togglelock(user)

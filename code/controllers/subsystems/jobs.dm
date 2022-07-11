@@ -128,9 +128,6 @@ SUBSYSTEM_DEF(jobs)
 	syndicate_code_phrase = generate_code_phrase()
 	syndicate_code_response	= generate_code_phrase()
 
-	// Set up AI spawn locations
-	spawn_empty_ai()
-
 	. = ..()
 
 /datum/controller/subsystem/jobs/proc/guest_jobbans(var/job)
@@ -588,7 +585,7 @@ SUBSYSTEM_DEF(jobs)
 
 	var/style = "font-family: 'Fixedsys'; -dm-text-outline: 1 black; font-size: 11px;"
 	var/area/A = get_area(mob)
-	var/text = "[stationdate2text()], [stationtime2text()]\n[location_name], [A.name]"
+	var/text = "[stationdate2text()], [stationtime2text()]\n[location_name], [A.proper_name]"
 	text = uppertext(text)
 
 	var/obj/effect/overlay/T = new()

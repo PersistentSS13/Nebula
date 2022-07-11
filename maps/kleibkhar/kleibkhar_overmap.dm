@@ -2,11 +2,6 @@
 /datum/map/kleibkhar
 	overmap_ids = list(OVERMAP_ID_SPACE = /datum/overmap/kleibkhar)
 
-/datum/map/kleibkhar/create_overmaps()
-	if(!SSmapping.loaded_maps) // Don't do this during the startup phase since we haven't actually loaded the overmap yet.
-		return
-	. = ..()
-
 /datum/overmap/kleibkhar
 	event_areas = 0
 	map_size_x = 50

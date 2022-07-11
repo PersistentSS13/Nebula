@@ -2,6 +2,8 @@
 	var/base_turf = get_base_turf_by_area(src)
 	if(base_turf && type != base_turf)
 		. = ChangeTurf(base_turf)
+	else
+		. = src
 	if(!(locate(/obj/structure/lattice) in .))
 		new /obj/structure/lattice(., material)
 
@@ -21,7 +23,6 @@
 	. = TRUE
 
 /turf/proc/ChangeTurf(var/turf/N, var/tell_universe = TRUE, var/force_lighting_update = FALSE, var/keep_air = FALSE, var/keep_outside = FALSE)
-
 	if (!N)
 		return
 
@@ -31,6 +32,9 @@
 		if(istype(below) && !isspaceturf(below))
 			var/area/A = get_area(src)
 			N = A?.open_turf || open_turf_type || /turf/simulated/open
+
+	if (!(atom_flags & ATOM_FLAG_INITIALIZED))
+		return new N(src)
 
 	// Track a number of old values for the purposes of raising
 	// state change events after changing the turf to the new type.
@@ -46,6 +50,8 @@
 	var/old_dynamic_lighting = TURF_IS_DYNAMICALLY_LIT_UNSAFE(src)
 	var/old_flooded =          flooded
 	var/old_outside =          is_outside
+	var/old_ambience =         ambient_light
+	var/old_ambience_mult =    ambient_light_multiplier
 
 	changing_turf = TRUE
 
@@ -79,7 +85,6 @@
 	if(tell_universe)
 		global.universe.OnTurfChange(W)
 
-	events_repository.raise_event(/decl/observ/turf_changed, W, old_density, W.density, old_opacity, W.opacity)
 	if(W.density != old_density)
 		events_repository.raise_event(/decl/observ/density_set, W, old_density, W.density)
 
@@ -89,7 +94,11 @@
 	corners = old_corners
 
 	lighting_overlay = old_lighting_overlay
+
 	recalc_atom_opacity()
+
+	if (old_ambience != ambient_light || old_ambience_mult != ambient_light_multiplier)
+		update_ambient_light(FALSE)
 
 	var/tidlu = TURF_IS_DYNAMICALLY_LIT_UNSAFE(src)
 	if ((old_opacity != opacity) || (tidlu != old_dynamic_lighting) || force_lighting_update)

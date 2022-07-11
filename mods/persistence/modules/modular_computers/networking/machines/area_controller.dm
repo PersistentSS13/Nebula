@@ -281,3 +281,5 @@
 	path = /obj/item/stock_parts/circuitboard/area_controller
 
 #undef ENERGY_PER_AREA
+
+SAVED_VAR(/obj/machinery/network/area_controller, owned_areas)

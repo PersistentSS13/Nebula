@@ -165,7 +165,7 @@
 
 	if(holder && holder.wearer)
 		if(..(target) && target)
-			holder.wearer.Beam(target,"n_beam",,10)
+			holder.wearer.Beam(target, "n_beam", time = 1 SECOND)
 		return 1
 	return 0
 
@@ -243,7 +243,7 @@
 
 /obj/item/rig_module/self_destruct/Process()
 	// Not being worn, leave it alone.
-	if(!holder || !holder.wearer || !holder.wearer.wear_suit == holder)
+	if(!holder || !holder.wearer || !holder.wearer.get_equipped_item(slot_wear_suit_str) == holder)
 		return 0
 
 	//OH SHIT.

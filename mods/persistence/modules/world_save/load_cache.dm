@@ -46,22 +46,41 @@
 	var/metadata
 	var/default_turf	// The fill turf for the z_level.
 
+	var/list/areas = list() // List of lists corresponding to one horizontal row of areas.
+							// Format is list(list(type, name, tile count), ...)
+
 /datum/persistence/load_cache/z_level/New(var/sql_row)
 	if(sql_row)
 		index = text2num(sql_row["z"])
 		dynamic = text2num(sql_row["dynamic"])
 		default_turf = text2path(sql_row["default_turf"])
 		metadata = sql_row["metadata"]
+		areas = json_decode(sql_row["areas"])
+
+// A much less performant way of keeping track of areas by recording each individual turf.
+/datum/persistence/load_cache/area_chunk
+	var/name
+	var/area_type
+
+	var/list/turfs = list()
+
+/datum/persistence/load_cache/area_chunk/New(var/sql_row)
+	if(sql_row)
+		name = sql_row["name"]
+		area_type = text2path(sql_row["type"])
+		turfs = json_decode(sql_row["turfs"])
 
 /datum/persistence/load_cache/resolver
 	var/list/things = list()
 	var/list/lists = list()
 	var/list/z_levels = list()
+	var/list/area_chunks = list()
 
 	var/vars_cached = 0
 	var/lists_cached = 0
 	var/things_cached = 0
 	var/z_levels_cached = 0
+	var/area_chunks_cached = 0
 
 	var/failed_vars = 0
 
@@ -70,9 +89,9 @@
 
 	if(!establish_save_db_connection())
 		CRASH("Load_Cache: Couldn't establish DB connection!")
-	// Deserialized levels
+	// Deserialize levels
 	var/start = world.timeofday
-	var/DBQuery/query = dbcon_save.NewQuery("SELECT `z`,`dynamic`,`default_turf`,`metadata` FROM `[SQLS_TABLE_Z_LEVELS]`;")
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT `z`,`dynamic`,`default_turf`,`metadata`,`areas` FROM `[SQLS_TABLE_Z_LEVELS]`;")
 	SQLS_EXECUTE_AND_REPORT_ERROR(query, "DESERIALIZE Z LEVELS FAILED:")
 	while(query.NextRow())
 		var/items = query.GetRowData()
@@ -81,6 +100,18 @@
 		z_levels_cached++
 		CHECK_TICK
 	to_world_log("Took [(world.timeofday - start) / 10]s to cache [z_levels_cached] z_levels")
+	
+	// Deserialize areas
+	start = world.timeofday
+	query = dbcon_save.NewQuery("SELECT `type`,`name`,`turfs` FROM `[SQLS_TABLE_AREAS]`;")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "DESERIALIZE AREAS FAILED:")
+	while(query.NextRow())
+		var/items = query.GetRowData()
+		var/datum/persistence/load_cache/area_chunk/area_chunk = new(items)
+		area_chunks += area_chunk
+		area_chunks_cached++
+		CHECK_TICK
+	to_world_log("Took [(world.timeofday - start) / 10]s to cache [area_chunks_cached] area_chunks")
 
 	// Deserialize the objects
 	start = world.timeofday
@@ -126,12 +157,14 @@
 	to_world_log("Cached [things_cached] things, [vars_cached + failed_vars] vars, [lists_cached] lists. [failed_vars] failed to cache due to missing thing references.")
 
 /datum/persistence/load_cache/resolver/proc/clear_cache()
-	things.Cut(1)
-	lists.Cut(1)
-	z_levels.Cut(1)
+	things.Cut()
+	lists.Cut()
+	z_levels.Cut()
+	area_chunks.Cut()
 
 	vars_cached = 0
 	lists_cached = 0
 	things_cached = 0
 	failed_vars = 0
 	z_levels_cached = 0
+	area_chunks_cached = 0

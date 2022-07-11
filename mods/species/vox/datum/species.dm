@@ -61,8 +61,10 @@
 	cold_level_1 = 80
 	cold_level_2 = 50
 	cold_level_3 = -1
-	
+
 	age_descriptor = /datum/appearance_descriptor/age/vox
+
+	preview_outfit = /decl/hierarchy/outfit/vox_raider
 
 	gluttonous = GLUT_TINY|GLUT_ITEM_NORMAL
 	stomach_capacity = 12
@@ -78,6 +80,7 @@
 	blood_types = list(/decl/blood_type/vox)
 	flesh_color = "#808d11"
 
+	default_h_style = /decl/sprite_accessory/hair/vox
 	reagent_tag = IS_VOX
 	maneuvers = list(/decl/maneuver/leap/grab)
 	standing_jump_range = 5
@@ -97,7 +100,7 @@
 		BP_STACK =      /obj/item/organ/internal/voxstack,
 		BP_HINDTONGUE = /obj/item/organ/internal/hindtongue
 		)
-	
+
 	override_limb_types = list(BP_TAIL = /obj/item/organ/external/tail/vox)
 
 	available_pronouns = list(/decl/pronouns/neuter)
@@ -147,8 +150,9 @@
 
 /decl/species/vox/equip_survival_gear(var/mob/living/carbon/human/H)
 	H.equip_to_slot_or_del(new /obj/item/clothing/mask/gas/vox(H), slot_wear_mask_str)
-	if(istype(H.get_equipped_item(slot_back_str), /obj/item/storage/backpack))
-		H.equip_to_slot_or_del(new /obj/item/storage/box/vox(H.back), slot_in_backpack_str)
+	var/obj/item/storage/backpack/backpack = H.get_equipped_item(slot_back_str)
+	if(istype(backpack))
+		H.equip_to_slot_or_del(new /obj/item/storage/box/vox(backpack), slot_in_backpack_str)
 		var/obj/item/tank/nitrogen/tank = new(H)
 		H.equip_to_slot_or_del(tank, BP_R_HAND)
 		if(tank)
@@ -156,18 +160,18 @@
 	else
 		H.equip_to_slot_or_del(new /obj/item/tank/nitrogen(H), slot_back_str)
 		H.equip_to_slot_or_del(new /obj/item/storage/box/vox(H), BP_R_HAND)
-		H.set_internals(H.back)
+		H.set_internals(backpack)
 
 /decl/species/vox/disfigure_msg(var/mob/living/carbon/human/H)
 	var/decl/pronouns/G = H.get_pronouns()
 	return SPAN_DANGER("[G.His] beak-segments are cracked and chipped! [G.He] [G.is] not even recognizable.\n")
-	
+
 /decl/species/vox/skills_from_age(age)
 	. = 8
 
 /decl/species/vox/handle_death(var/mob/living/carbon/human/H)
 	..()
-	var/obj/item/organ/internal/voxstack/stack = H.get_organ(BP_STACK)
+	var/obj/item/organ/internal/voxstack/stack = H.get_organ(BP_STACK, /obj/item/organ/internal/voxstack)
 	if (stack)
 		stack.do_backup()
 

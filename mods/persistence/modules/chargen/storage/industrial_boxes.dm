@@ -110,6 +110,9 @@
 		/obj/item/stock_parts/micro_laser = 1,
 		/obj/item/stock_parts/capacitor = 1,
 		/obj/item/stock_parts/power/apc/buildable = 1,
+		/obj/item/stock_parts/keyboard = 1,
+		/obj/item/stock_parts/console_screen = 1,
+		/obj/item/stack/cable_coil/random = 1
 	)
 	
 /obj/item/chargen_box/ration/twinkies

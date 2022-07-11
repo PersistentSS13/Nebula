@@ -30,7 +30,6 @@ avoid code duplication. This includes items that may sometimes act as a standard
 		add_fingerprint(user)
 	return A.attackby(src, user, click_params)
 
-// No comment
 /atom/proc/attackby(obj/item/W, mob/user, var/click_params)
 	return
 
@@ -72,8 +71,8 @@ avoid code duplication. This includes items that may sometimes act as a standard
 		if(devour(I))
 			return TRUE
 	if(user.a_intent == I_HELP)
-		var/obj/item/organ/external/E = get_organ(user.zone_sel.selecting)
-		if(istype(E) && !E.is_stump())
+		var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, user.zone_sel.selecting)
+		if(E)
 			for(var/datum/ailment/ailment in E.ailments)
 				if(ailment.treated_by_item(I))
 					ailment.was_treated_by_item(I, user, src)
@@ -128,11 +127,7 @@ avoid code duplication. This includes items that may sometimes act as a standard
 		else
 			use_hitsound = "swing_hit"
 	playsound(loc, use_hitsound, 50, 1, -1)
-
-	var/power = force
-	if(MUTATION_HULK in user.mutations)
-		power *= 2
-	return target.hit_with_weapon(src, user, power, hit_zone)
+	return target.hit_with_weapon(src, user, force, hit_zone)
 
 /obj/item/proc/handle_reflexive_fire(var/mob/user, var/atom/aiming_at)
 	return istype(user) && istype(aiming_at)

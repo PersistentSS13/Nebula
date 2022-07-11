@@ -51,23 +51,15 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/kleibkhar/outpost/mining)
 "ak" = (
-/obj/effect/wallframe_spawn/reinforced,
-/obj/machinery/atmospherics/pipe/zpipe/up/scrubbers{
-	icon_state = "up-scrubbers";
+/obj/effect/floor_decal/corner/grey/border{
+	icon_state = "bordercolor";
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/zpipe/up/supply{
-	icon_state = "up-supply";
-	dir = 4
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
 	},
-/obj/structure/cable{
-	icon_state = "16-0"
-	},
-/obj/structure/cable{
-	icon_state = "0-4"
-	},
-/turf/simulated/floor,
-/area/kleibkhar/outpost/mining)
+/turf/exterior/concrete,
+/area/exoplanet/kleibkhar)
 "al" = (
 /obj/structure/closet/crate/trashcart,
 /obj/effect/decal/cleanable/cobweb,
@@ -3890,6 +3882,35 @@
 /obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled,
 /area/kleibkhar/outpost/cargo/warehouse)
+"jq" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/railing/mapped,
+/turf/exterior/concrete,
+/area/exoplanet/kleibkhar)
+"jr" = (
+/obj/effect/floor_decal/industrial/outline/yellow,
+/obj/machinery/floodlight{
+	icon_state = "flood00";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/railing/mapped{
+	icon_state = "railing_preview";
+	dir = 4
+	},
+/turf/exterior/concrete,
+/area/exoplanet/kleibkhar)
+"js" = (
+/obj/structure/lattice,
+/turf/exterior/open,
+/area/exoplanet/kleibkhar)
+"jt" = (
+/obj/structure/railing/mapped{
+	icon_state = "railing_preview";
+	dir = 8
+	},
+/turf/exterior/concrete,
+/area/exoplanet/kleibkhar)
 "ju" = (
 /obj/machinery/light_switch{
 	pixel_y = 24
@@ -4025,6 +4046,88 @@
 /obj/structure/cable,
 /turf/simulated/floor/tiled,
 /area/kleibkhar/outpost/cargo/warehouse)
+"jI" = (
+/obj/effect/floor_decal/industrial/outline/yellow,
+/obj/machinery/floodlight,
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/railing/mapped{
+	icon_state = "railing_preview";
+	dir = 4
+	},
+/turf/exterior/concrete,
+/area/exoplanet/kleibkhar)
+"jJ" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/railing/mapped{
+	icon_state = "railing_preview";
+	dir = 1
+	},
+/turf/exterior/concrete,
+/area/exoplanet/kleibkhar)
+"jK" = (
+/obj/effect/wallframe_spawn/reinforced,
+/obj/machinery/atmospherics/pipe/zpipe/up/scrubbers{
+	icon_state = "up-scrubbers";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/zpipe/up/supply{
+	icon_state = "up-supply";
+	dir = 4
+	},
+/obj/structure/cable{
+	icon_state = "16-0"
+	},
+/obj/structure/cable{
+	icon_state = "0-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/turf/simulated/floor,
+/area/kleibkhar/outpost/mining)
+"jL" = (
+/obj/effect/floor_decal/corner/grey/border{
+	icon_state = "bordercolor";
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/turf/exterior/concrete,
+/area/exoplanet/kleibkhar)
+"jM" = (
+/obj/structure/lattice,
+/obj/structure/cable/yellow{
+	icon_state = "32-4"
+	},
+/turf/exterior/open,
+/area/exoplanet/kleibkhar)
+"jN" = (
+/obj/structure/railing/mapped{
+	icon_state = "railing_preview";
+	dir = 8
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/exterior/concrete,
+/area/exoplanet/kleibkhar)
+"jO" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/turf/exterior/concrete,
+/area/exoplanet/kleibkhar)
+"jP" = (
+/obj/effect/floor_decal/corner/grey/border{
+	icon_state = "bordercolor";
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/turf/exterior/concrete,
+/area/exoplanet/kleibkhar)
 "ry" = (
 /turf/simulated/floor/tiled/techfloor,
 /area/kleibkhar/outpost/computer)
@@ -14050,8 +14153,8 @@ bA
 bg
 bg
 fz
-fD
-gU
+jr
+jI
 ix
 bg
 bg
@@ -14251,10 +14354,10 @@ ih
 aX
 cz
 cz
-cj
-cj
-aN
-cj
+jq
+jM
+js
+jJ
 cz
 cz
 aN
@@ -14454,8 +14557,8 @@ gT
 cj
 aN
 cj
-aN
-aN
+jN
+jt
 aN
 aN
 aN
@@ -14656,7 +14759,7 @@ gT
 aN
 aN
 aN
-aN
+jO
 aN
 aN
 aN
@@ -14858,7 +14961,7 @@ gT
 aN
 aN
 aN
-aN
+jO
 aN
 aN
 aN
@@ -15060,7 +15163,7 @@ gT
 aN
 aN
 aN
-aN
+jO
 aN
 aN
 aN
@@ -15262,7 +15365,7 @@ gT
 aN
 aN
 aN
-aN
+jO
 aN
 aN
 aN
@@ -15462,9 +15565,9 @@ bl
 ih
 gV
 gW
-gW
-gW
-gW
+ak
+jL
+jP
 dR
 dR
 dR
@@ -15664,7 +15767,7 @@ bl
 ih
 aa
 aa
-ak
+jK
 af
 aa
 aa

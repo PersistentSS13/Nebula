@@ -105,7 +105,6 @@ SUBSYSTEM_DEF(chargen)
 		var/mess = "'[victim]' (CKEY: [victim.ckey]) spawned outside chargen for some reasons."
 		log_warning(mess)
 		message_staff(mess)
-	SSpersistence.AddToLimbo(victim.mind, victim.mind.unique_id, LIMBO_MIND, victim.mind.key, victim.mind.current.real_name, TRUE)
 
 /datum/job/colonist/get_roundstart_spawnpoint()
 	CRASH("!!!!! datum/job/colonist/get_roundstart_spawnpoint() was called! !!!!!")

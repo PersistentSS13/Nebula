@@ -81,7 +81,11 @@ SAVED_VAR(/datum/wrapper/image, appearance_flags)
 
 SAVED_VAR(/datum/computer_file, holder)
 SAVED_VAR(/datum/computer_file, filename)
+SAVED_VAR(/datum/computer_file, read_access)
+SAVED_VAR(/datum/computer_file, write_access)
+SAVED_VAR(/datum/computer_file, mod_access)
 
+SAVED_FLATTEN(/datum/computer_file/data)
 SAVED_VAR(/datum/computer_file/data, stored_data)
 SAVED_VAR(/datum/computer_file/data, size)
 SAVED_VAR(/datum/computer_file/data, block_size)
@@ -104,7 +108,7 @@ SAVED_VAR(/datum/fluidtrack, direction)
 SAVED_VAR(/datum/fluidtrack, basecolor)
 SAVED_VAR(/datum/fluidtrack, crusty)
 
-SAVED_VAR(/datum/gas_mixture, serialized_gas)
+SAVED_VAR(/datum/gas_mixture, gas)
 SAVED_VAR(/datum/gas_mixture, temperature)
 SAVED_VAR(/datum/gas_mixture, total_moles)
 SAVED_VAR(/datum/gas_mixture, volume)
@@ -285,8 +289,6 @@ SAVED_VAR(/datum/computer_file/report, title)
 SAVED_VAR(/datum/computer_file/report, form_name)
 SAVED_VAR(/datum/computer_file/report, creator)
 SAVED_VAR(/datum/computer_file/report, file_time)
-SAVED_VAR(/datum/computer_file/report, write_access)
-SAVED_VAR(/datum/computer_file/report, read_access)
 SAVED_VAR(/datum/computer_file/report, fields)
 SAVED_VAR(/datum/computer_file/report, available_on_network)
 SAVED_VAR(/datum/computer_file/report, logo)
@@ -325,8 +327,6 @@ SAVED_VAR(/datum/wrapper,  key)
 SAVED_VAR(/datum/wrapper_holder,  wrapped)
 
 SAVED_VAR(/datum/wrapper/area, name)
-SAVED_VAR(/datum/wrapper/area, turfs)
-SAVED_VAR(/datum/wrapper/area, has_gravity)
 
 SAVED_VAR(/datum/wrapper/map_data, height)
 SAVED_VAR(/datum/wrapper/map_data, landmark_loc)
@@ -384,7 +384,6 @@ SAVED_VAR(/mob/living/bot/farmbot, removes_dead)
 SAVED_VAR(/mob/living/bot/farmbot, tank)
 
 SAVED_VAR(/mob/living/carbon, life_tick)
-SAVED_VAR(/mob/living/carbon, handcuffed)
 SAVED_VAR(/mob/living/carbon, pose)
 SAVED_VAR(/mob/living/carbon, bloodstr)
 SAVED_VAR(/mob/living/carbon, touching)
@@ -466,9 +465,6 @@ SAVED_VAR(/mob/living/simple_animal/hostile, return_damage_max)
 
 SAVED_VAR(/obj/item/ammo_casing, BB)
 
-SAVED_VAR(/obj/item/clothing/accessory/storage, slots)
-SAVED_VAR(/obj/item/clothing/accessory/storage, hold)
-
 SAVED_VAR(/obj/item/clothing/head/welding, up)
 
 SAVED_VAR(/obj/item/clothing/shoes/magboots, magpulse)
@@ -479,11 +475,6 @@ SAVED_VAR(/obj/item/clothing/suit/space/void, tank)
 
 SAVED_VAR(/obj/item/clothing/suit/storage, pockets)
 SAVED_VAR(/obj/item/clothing/suit/storage, slots)
-
-SAVED_VAR(/obj/item/clothing, tint)
-SAVED_VAR(/obj/item/clothing, accessories)
-SAVED_VAR(/obj/item/clothing, ironed_state)
-SAVED_VAR(/obj/item/clothing, smell_state)
 
 SAVED_VAR(/obj/item/assembly/mousetrap, armed)
 
@@ -514,8 +505,6 @@ SAVED_VAR(/obj/item/assembly_holder, a_left)
 SAVED_VAR(/obj/item/assembly_holder, a_right)
 SAVED_VAR(/obj/item/assembly_holder, special_assembly)
 SAVED_VAR(/obj/item/assembly_holder, master)
-
-SAVED_VAR(/obj/item/tank, master)
 
 SAVED_VAR(/obj/item/flashlight, on)
 
@@ -665,16 +654,6 @@ SAVED_VAR(/obj/item/storage/belt, use_alt_layer)
 SAVED_VAR(/obj/item/storage/internal, master_item)
 
 SAVED_VAR(/obj/item/storage/wallet, front_id)
-
-SAVED_VAR(/obj/item/tank, air_contents)
-SAVED_VAR(/obj/item/tank, distribute_pressure)
-SAVED_VAR(/obj/item/tank, integrity)
-SAVED_VAR(/obj/item/tank, valve_welded)
-SAVED_VAR(/obj/item/tank, proxyassembly)
-SAVED_VAR(/obj/item/tank, volume)
-SAVED_VAR(/obj/item/tank, manipulated_by)
-SAVED_VAR(/obj/item/tank, leaking)
-SAVED_VAR(/obj/item/tank, wired)
 
 SAVED_VAR(/obj/item/weldingtool, tank)
 
@@ -873,7 +852,6 @@ SAVED_VAR(/obj/machinery/port_gen/pacman, sheets)
 SAVED_VAR(/obj/machinery/port_gen/pacman, operating_temperature)
 SAVED_VAR(/obj/machinery/port_gen/pacman, overheating)
 
-SAVED_VAR(/obj/machinery/power/solar, control)
 SAVED_VAR(/obj/machinery/power/solar, adir)
 SAVED_VAR(/obj/machinery/power/solar, ndir)
 SAVED_VAR(/obj/machinery/power/solar, turn_angle)
@@ -1236,8 +1214,6 @@ SAVED_VAR(/obj/machinery/network, saved_address)
 SAVED_VAR(/obj/machinery/network/mainframe,  initial_roles)
 
 SAVED_VAR(/obj/machinery/network/router,  saved_network)
-
-SAVED_VAR(/obj/machinery/network/area_controller,  owned_areas)
 
 SAVED_VAR(/obj/item/organ/internal/stack, stackmob)
 SAVED_VAR(/obj/item/organ/internal/stack, backup)

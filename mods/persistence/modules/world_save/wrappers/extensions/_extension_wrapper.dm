@@ -3,7 +3,7 @@
 	var/holder_p_id
 	var/list/extension_saved_vars = list()
 
-/datum/wrapper/late/extension/on_serialize(datum/extension/object)
+/datum/wrapper/late/extension/on_serialize(datum/extension/object, serializer/curr_serializer)
 	. = ..()
 	if(!object.holder)
 		return
@@ -37,5 +37,6 @@
 		for(var/V in extension_saved_vars)
 			var/VV = extension_saved_vars[V]
 			target.vars[V] = VV
+	target.after_deserialize()
 	. = target
 	qdel(src)
