@@ -20,6 +20,7 @@
 #define SQLS_TABLE_DATUM_VARS 			"thing_var"
 #define SQLS_TABLE_LIST_ELEM 			"list_element"
 #define SQLS_TABLE_Z_LEVELS 			"z_level"
+#define SQLS_TABLE_AREAS 				"areas"
 #define SQLS_TABLE_LIMBO 				"limbo"
 #define SQLS_TABLE_LIMBO_DATUM			"limbo_thing"
 #define SQLS_TABLE_LIMBO_DATUM_VARS 	"limbo_thing_var"

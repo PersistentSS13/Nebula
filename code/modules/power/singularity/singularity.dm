@@ -38,8 +38,8 @@ var/global/list/singularities = list()
 	if (temp)
 		QDEL_IN(src, temp)
 	START_PROCESSING(SSobj, src)
-	for(var/obj/machinery/power/singularity_beacon/singubeacon in SSmachines.machinery)
-		if(singubeacon.active)
+	for(var/obj/machinery/singularity_beacon/singubeacon in SSmachines.machinery)
+		if(singubeacon.use_power == POWER_USE_ACTIVE)
 			target = singubeacon
 			break
 
@@ -352,10 +352,10 @@ var/global/list/singularities = list()
 	var/dir2 = 0
 	var/dir3 = 0
 	switch(direction)
-		if(NORTH||SOUTH)
+		if(NORTH,SOUTH)
 			dir2 = 4
 			dir3 = 8
-		if(EAST||WEST)
+		if(EAST,WEST)
 			dir2 = 1
 			dir3 = 2
 	var/turf/T2 = T
@@ -433,7 +433,7 @@ var/global/list/singularities = list()
 		if(M.stat == CONSCIOUS)
 			if (istype(M,/mob/living/carbon/human))
 				var/mob/living/carbon/human/H = M
-				if(istype(H.glasses,/obj/item/clothing/glasses/meson) && current_size != 11)
+				if(istype(H.get_equipped_item(slot_glasses_str), /obj/item/clothing/glasses/meson) && current_size != 11)
 					to_chat(H, "<span class=\"notice\">You look directly into \the [src], good thing you had your protective eyewear on!</span>")
 					return
 				else
@@ -461,7 +461,7 @@ var/global/list/singularities = list()
 	return
 
 /obj/singularity/proc/pulse()
-	for(var/obj/machinery/power/rad_collector/R in rad_collectors)
+	for(var/obj/machinery/rad_collector/R in rad_collectors)
 		if (get_dist(R, src) <= 15) //Better than using orange() every process.
 			R.receive_pulse(energy)
 

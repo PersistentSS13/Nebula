@@ -64,16 +64,13 @@ Thus, the two variables affect pump operation are set in New():
 	air1.volume = ATMOS_DEFAULT_VOLUME_PUMP
 	air2.volume = ATMOS_DEFAULT_VOLUME_PUMP
 
-/obj/machinery/atmospherics/binary/pump/AltClick()
-	Topic(src, list("power" = "1"))
-
 /obj/machinery/atmospherics/binary/pump/on
 	icon_state = "map_on"
 	use_power = POWER_USE_IDLE
 
 
 /obj/machinery/atmospherics/binary/pump/on_update_icon()
-	if(!powered())
+	if(stat & NOPOWER)
 		icon_state = "off"
 	else
 		icon_state = "[use_power ? "on" : "off"]"
@@ -208,3 +205,15 @@ Thus, the two variables affect pump operation are set in New():
 		"set_power" = /decl/public_access/public_variable/use_power,
 		"set_output_pressure" = /decl/public_access/public_variable/pump_target_output
 	)
+
+/obj/machinery/atmospherics/binary/pump/get_alt_interactions(var/mob/user)
+	. = ..()
+	LAZYADD(., /decl/interaction_handler/binary_pump_toggle)
+
+/decl/interaction_handler/binary_pump_toggle
+	name = "Switch On/Off"
+	expected_target_type = /obj/machinery/atmospherics/binary/pump
+
+/decl/interaction_handler/binary_pump_toggle/invoked(atom/target, mob/user, obj/item/prop)
+	var/obj/machinery/atmospherics/binary/pump/P = target
+	P.update_use_power(!P.use_power)

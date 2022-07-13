@@ -69,7 +69,7 @@
 				if(G == inv_slot?.holding)
 					var/target = H.get_covering_equipped_item_by_zone(bp)
 					if(!target)
-						target = H.get_organ(bp)
+						target = GET_EXTERNAL_ORGAN(H, bp)
 					put_residue_on(target)
 					break
 	if(prob(30))
@@ -81,13 +81,13 @@
 		forensics.add_from_atom(/datum/forensics/gunshot_residue, src)
 
 /obj/item/ammo_casing/attackby(obj/item/W, mob/user)
-	if(isScrewdriver(W))
+	if(IS_SCREWDRIVER(W))
 		if(!BB)
 			to_chat(user, "<span class='notice'>There is no bullet in the casing to inscribe anything into.</span>")
 			return
 
 		var/tmp_label = ""
-		var/label_text = sanitizeSafe(input(user, "Inscribe some text into \the [initial(BB.name)]","Inscription",tmp_label), MAX_NAME_LEN)
+		var/label_text = sanitize_safe(input(user, "Inscribe some text into \the [initial(BB.name)]","Inscription",tmp_label), MAX_NAME_LEN)
 		if(length(label_text) > 20)
 			to_chat(user, "<span class='warning'>The inscription can be at most 20 characters long.</span>")
 		else if(!label_text)

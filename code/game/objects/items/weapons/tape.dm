@@ -1,32 +1,34 @@
-/obj/item/tape_roll
+/obj/item/ducttape
 	name = "duct tape"
 	desc = "A roll of sticky tape. Possibly for taping ducks... or was that ducts?"
 	icon = 'icons/obj/bureaucracy.dmi'
 	icon_state = "taperoll"
 	w_class = ITEM_SIZE_SMALL
 
-/obj/item/tape_roll/Initialize()
+/obj/item/ducttape/Initialize()
 	. = ..()
-	set_extension(src, /datum/extension/tool, list(
+	set_extension(src, /datum/extension/tool/variable, list(
 		TOOL_BONE_GEL = TOOL_QUALITY_MEDIOCRE,
 		TOOL_SUTURES =  TOOL_QUALITY_BAD
 	))
 
-/obj/item/tape_roll/attack(var/mob/living/carbon/human/H, var/mob/user)
+/obj/item/ducttape/attack(var/mob/living/carbon/human/H, var/mob/user)
 	if(istype(H))
 		if(user.zone_sel.selecting == BP_EYES)
 
-			if(!H.organs_by_name[BP_HEAD])
+			if(!GET_EXTERNAL_ORGAN(H, BP_HEAD))
 				to_chat(user, "<span class='warning'>\The [H] doesn't have a head.</span>")
 				return
 			if(!H.check_has_eyes())
 				to_chat(user, "<span class='warning'>\The [H] doesn't have any eyes.</span>")
 				return
-			if(H.glasses)
+			if(H.get_equipped_item(slot_glasses_str))
 				to_chat(user, "<span class='warning'>\The [H] is already wearing somethign on their eyes.</span>")
 				return
-			if(H.head && (H.head.body_parts_covered & SLOT_FACE))
-				to_chat(user, "<span class='warning'>Remove their [H.head] first.</span>")
+
+			var/obj/item/head = H.get_equipped_item(slot_head_str)
+			if(head && (head.body_parts_covered & SLOT_FACE))
+				to_chat(user, "<span class='warning'>Remove their [head] first.</span>")
 				return
 			user.visible_message("<span class='danger'>\The [user] begins taping over \the [H]'s eyes!</span>")
 
@@ -34,7 +36,10 @@
 				return
 
 			// Repeat failure checks.
-			if(!H || !src || !H.organs_by_name[BP_HEAD] || !H.check_has_eyes() || H.glasses || (H.head && (H.head.body_parts_covered & SLOT_FACE)))
+			if(!H || !src || !GET_EXTERNAL_ORGAN(H, BP_HEAD) || !H.check_has_eyes() || H.get_equipped_item(slot_glasses_str))
+				return
+			head = H.get_equipped_item(slot_head_str)
+			if(head && (head.body_parts_covered & SLOT_FACE))
 				return
 
 			playsound(src, 'sound/effects/tape.ogg',25)
@@ -42,17 +47,18 @@
 			H.equip_to_slot_or_del(new /obj/item/clothing/glasses/blindfold/tape(H), slot_glasses_str)
 
 		else if(user.zone_sel.selecting == BP_MOUTH || user.zone_sel.selecting == BP_HEAD)
-			if(!H.organs_by_name[BP_HEAD])
+			if(!GET_EXTERNAL_ORGAN(H, BP_HEAD))
 				to_chat(user, "<span class='warning'>\The [H] doesn't have a head.</span>")
 				return
 			if(!H.check_has_mouth())
 				to_chat(user, "<span class='warning'>\The [H] doesn't have a mouth.</span>")
 				return
-			if(H.wear_mask)
+			if(H.get_equipped_item(slot_wear_mask_str))
 				to_chat(user, "<span class='warning'>\The [H] is already wearing a mask.</span>")
 				return
-			if(H.head && (H.head.body_parts_covered & SLOT_FACE))
-				to_chat(user, "<span class='warning'>Remove their [H.head] first.</span>")
+			var/obj/item/head = H.get_equipped_item(slot_head_str)
+			if(head && (head.body_parts_covered & SLOT_FACE))
+				to_chat(user, "<span class='warning'>Remove their [head] first.</span>")
 				return
 			playsound(src, 'sound/effects/tape.ogg',25)
 			user.visible_message("<span class='danger'>\The [user] begins taping up \the [H]'s mouth!</span>")
@@ -61,7 +67,10 @@
 				return
 
 			// Repeat failure checks.
-			if(!H || !src || !H.organs_by_name[BP_HEAD] || !H.check_has_mouth() || H.wear_mask || (H.head && (H.head.body_parts_covered & SLOT_FACE)))
+			if(!H || !src || !GET_EXTERNAL_ORGAN(H, BP_HEAD) || !H.check_has_mouth() || H.get_equipped_item(slot_wear_mask_str))
+				return
+			head = H.get_equipped_item(slot_head_str)
+			if(head && (head.body_parts_covered & SLOT_FACE))
 				return
 			playsound(src, 'sound/effects/tape.ogg',25)
 			user.visible_message("<span class='danger'>\The [user] has taped up \the [H]'s mouth!</span>")
@@ -74,8 +83,9 @@
 				qdel(T)
 
 		else if(user.zone_sel.selecting == BP_CHEST)
-			if(H.wear_suit && istype(H.wear_suit, /obj/item/clothing/suit/space))
-				H.wear_suit.attackby(src, user)//everything is handled by attackby
+			var/obj/item/clothing/suit/space/suit = H.get_equipped_item(slot_wear_suit_str)
+			if(istype(suit))
+				suit.attackby(src, user)//everything is handled by attackby
 			else
 				to_chat(user, "<span class='warning'>\The [H] isn't wearing a spacesuit for you to reseal.</span>")
 
@@ -83,7 +93,7 @@
 			return ..()
 		return 1
 
-/obj/item/tape_roll/proc/stick(var/obj/item/W, mob/user)
+/obj/item/ducttape/proc/stick(var/obj/item/W, mob/user)
 	if(!istype(W, /obj/item/paper) || istype(W, /obj/item/paper/sticky) || !user.unEquip(W))
 		return
 	var/obj/item/ducttape/tape = new(get_turf(src))
@@ -148,18 +158,19 @@
 	playsound(src, 'sound/effects/tape.ogg',25)
 
 	layer = ABOVE_WINDOW_LAYER
-	
+
 	if(params)
 		var/list/mouse_control = params2list(params)
 		if(mouse_control["icon-x"])
-			pixel_x = text2num(mouse_control["icon-x"]) - 16
+			default_pixel_x = text2num(mouse_control["icon-x"]) - 16
 			if(dir_offset & EAST)
-				pixel_x += 32
+				default_pixel_x += 32
 			else if(dir_offset & WEST)
-				pixel_x -= 32
+				default_pixel_x -= 32
 		if(mouse_control["icon-y"])
-			pixel_y = text2num(mouse_control["icon-y"]) - 16
+			default_pixel_y = text2num(mouse_control["icon-y"]) - 16
 			if(dir_offset & NORTH)
-				pixel_y += 32
+				default_pixel_y += 32
 			else if(dir_offset & SOUTH)
-				pixel_y -= 32
+				default_pixel_y -= 32
+		reset_offsets(0)

@@ -75,7 +75,7 @@
 		var/choice = input("What would you like to change?") in list("Title", "Contents", "Author", "Cancel")
 		switch(choice)
 			if("Title")
-				var/newtitle = reject_bad_text(sanitizeSafe(input("Write a new title:")))
+				var/newtitle = reject_bad_text(sanitize_safe(input("Write a new title:")))
 				if(!newtitle)
 					to_chat(usr, "The title is invalid.")
 					return
@@ -110,7 +110,7 @@
 						author = newauthor
 			else
 				return
-	else if(istype(W, /obj/item/knife) || isWirecutter(W))
+	else if(istype(W, /obj/item/knife) || IS_WIRECUTTER(W))
 		if(carved)	return
 		to_chat(user, "<span class='notice'>You begin to carve out [title].</span>")
 		if(do_after(user, 30, src))

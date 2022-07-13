@@ -3,7 +3,7 @@
 	var/holder_p_id
 	var/list/extension_saved_vars = list()
 
-/datum/wrapper/late/extension/on_serialize(datum/extension/object)
+/datum/wrapper/late/extension/on_serialize(datum/extension/object, serializer/curr_serializer)
 	. = ..()
 	if(!object.holder)
 		return
@@ -15,7 +15,7 @@
 	// Here we load all the saved vars into a list to be manually inserted into the extension later.
 	// This list is itself serialized, so we don't need to check for var types etc. but we repeat some optimizations that wouldn't overwise be done
 	// since the vars are in a list and not on the parent object.
-	for(var/V in object.get_saved_vars())
+	for(var/V in get_saved_variables_for(object.type))
 		if(!issaved(object.vars[V]))
 			continue
 		var/VV = object.vars[V]
@@ -37,5 +37,6 @@
 		for(var/V in extension_saved_vars)
 			var/VV = extension_saved_vars[V]
 			target.vars[V] = VV
+	target.after_deserialize()
 	. = target
 	qdel(src)

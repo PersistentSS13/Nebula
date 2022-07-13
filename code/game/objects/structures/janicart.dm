@@ -5,7 +5,8 @@
 	icon_state = "cart"
 	anchored = 0
 	density = 1
-	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_OPEN_CONTAINER | ATOM_FLAG_CLIMBABLE | ATOM_FLAG_WHEELED
+	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_OPEN_CONTAINER | ATOM_FLAG_CLIMBABLE
+	movable_flags = MOVABLE_FLAG_WHEELED
 	//copypaste sorry
 	var/amount_per_transfer_from_this = 5 //shit I dunno, adding this so syringes stop runtime erroring. --NeoFite
 	var/obj/item/storage/bag/trash/mybag	= null
@@ -149,20 +150,26 @@
 
 
 /obj/structure/janitorialcart/on_update_icon()
-	overlays.Cut()
+	..()
 	if(mybag)
-		overlays += "cart_garbage"
+		add_overlay("cart_garbage")
 	if(mymop)
-		overlays += "cart_mop"
+		add_overlay("cart_mop")
 	if(myspray)
-		overlays += "cart_spray"
+		add_overlay("cart_spray")
 	if(myreplacer)
-		overlays += "cart_replacer"
+		add_overlay("cart_replacer")
 	if(signs)
-		overlays += "cart_sign[signs]"
-
+		add_overlay("cart_sign[signs]")
 
 //old style retardo-cart
+/datum/movement_handler/move_relay_self/janicart/MayMove(mob/mover, is_external)
+	. = ..()
+	if(. == MOVEMENT_PROCEED && !is_external && !(locate(/obj/item/janicart_key) in mover.get_held_items()))
+		var/obj/structure/bed/chair/janicart/janicart = host
+		to_chat(mover, SPAN_WARNING("You'll need the keys in one of your hands to drive this [istype(janicart) ? janicart.callme : host.name]."))
+		return MOVEMENT_STOP
+
 /obj/structure/bed/chair/janicart
 	name = "janicart"
 	icon = 'icons/obj/vehicles.dmi'
@@ -173,9 +180,9 @@
 	buckle_layer_above = TRUE
 	buckle_movable = TRUE
 	movement_handlers = list(
-		/datum/movement_handler/deny_multiz, 
-		/datum/movement_handler/delay = list(1), 
-		/datum/movement_handler/move_relay_self
+		/datum/movement_handler/deny_multiz,
+		/datum/movement_handler/delay = list(1),
+		/datum/movement_handler/move_relay_self/janicart
 	)
 
 	//copypaste sorry
@@ -236,16 +243,14 @@
 	if(isspaceturf(loc))
 		return
 	. = MOVEMENT_HANDLED
-	DoMove(mob.AdjustMovementDirection(direction), mob)
+	DoMove(mob.AdjustMovementDirection(direction, mover), mob)
 
 /obj/structure/bed/chair/janicart/relaymove(mob/user, direction)
 	if(user.incapacitated(INCAPACITATION_DISRUPTED))
 		unbuckle_mob()
-	if(locate(/obj/item/janicart_key) in user.get_held_items())
-		step(src, direction)
-		set_dir(direction)
-	else
-		to_chat(user, SPAN_WARNING("You'll need the keys in one of your hands to drive this [callme]."))
+	user.glide_size = glide_size
+	step(src, direction)
+	set_dir(direction)
 
 /obj/structure/bed/chair/janicart/bullet_act(var/obj/item/projectile/Proj)
 	if(buckled_mob)

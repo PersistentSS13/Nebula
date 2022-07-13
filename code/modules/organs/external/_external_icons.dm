@@ -1,10 +1,7 @@
 var/global/list/limb_icon_cache = list()
 
-/obj/item/organ/external/set_dir(var/direction, var/forced)
-	SHOULD_CALL_PARENT(FALSE)
-	if(forced)
-		return ..(direction)
-	return FALSE
+/obj/item/organ/external/set_dir()
+	return ..(SOUTH)
 
 /obj/item/organ/external/proc/compile_icon()
 	overlays.Cut()
@@ -47,15 +44,15 @@ var/global/list/limb_icon_cache = list()
 
 /obj/item/organ/external/head/sync_colour_to_human(var/mob/living/carbon/human/human)
 	..()
-	var/obj/item/organ/internal/eyes/eyes = owner.get_internal_organ(BP_EYES)
+	var/obj/item/organ/internal/eyes/eyes = human.get_organ(BP_EYES, /obj/item/organ/internal/eyes)
 	if(eyes) eyes.update_colour()
 
-/obj/item/organ/external/head/removed()
+/obj/item/organ/external/head/on_remove_effects(mob/living/last_owner)
 	update_icon(1)
-	if(owner)
-		SetName("[owner.real_name]'s head")
-		addtimer(CALLBACK(owner, /mob/living/carbon/human/proc/update_hair), 1, TIMER_UNIQUE)
-	..()
+	if(last_owner)
+		SetName("[last_owner.real_name]'s head")
+		addtimer(CALLBACK(last_owner, /mob/living/carbon/human/proc/update_hair), 1, TIMER_UNIQUE)
+	. = ..()
 	//Head markings, duplicated (sadly) below.
 	for(var/M in markings)
 		var/decl/sprite_accessory/marking/mark_style = GET_DECL(M)
@@ -72,16 +69,15 @@ var/global/list/limb_icon_cache = list()
 			icon = 'icons/mob/human_races/cyberlimbs/robotic.dmi'
 		else
 			var/decl/prosthetics_manufacturer/R = GET_DECL(model)
-			icon = R.icon
+			icon = R.get_base_icon(owner)
 	else if(status & ORGAN_MUTATED)
 		icon = bodytype.get_base_icon(owner, get_deform = TRUE)
-	else if(owner && (MUTATION_SKELETON in owner.mutations))
+	else if(owner && (limb_flags & ORGAN_FLAG_SKELETAL))
 		icon = bodytype.get_skeletal_icon(owner)
 	else
 		icon = bodytype.get_base_icon(owner)
 
 /obj/item/organ/external/on_update_icon(var/regenerate = 0)
-
 	icon_state = "[icon_name]"
 	icon_cache_key = "[icon_state]_[species ? species.name : "unknown"][render_alpha]"
 	if(model)
@@ -99,8 +95,6 @@ var/global/list/limb_icon_cache = list()
 			overlays |= mark_s //So when it's not on your body, it has icons
 			mob_icon.Blend(mark_s, mark_style.layer_blend) //So when it's on your body, it has icons
 			icon_cache_key += "[M][markings[M]]"
-
-	set_dir(EAST, TRUE)
 
 	if(render_alpha < 255)
 		mob_icon += rgb(,,,render_alpha)
@@ -151,6 +145,10 @@ var/global/list/robot_hud_colours = list("#ffffff","#cccccc","#aaaaaa","#888888"
 	return hud_damage_image
 
 /obj/item/organ/external/proc/apply_colouration(var/icon/applying)
+	if(!species)
+		PRINT_STACK_TRACE("External organ '[src]' doesn't have a species!")
+	if(!bodytype)
+		PRINT_STACK_TRACE("External organ '[src]' doesn't have a bodytype!")
 
 	applying = bodytype.apply_limb_colouration(src, applying)
 	if(status & ORGAN_DEAD)

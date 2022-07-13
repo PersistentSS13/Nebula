@@ -108,17 +108,17 @@
 	if(locked)
 		if(!is_digital_lock && istype(W, /obj/item/energy_blade))
 			var/obj/item/energy_blade/blade = W
-			if(blade.is_special_cutting_tool() && emag_act(INFINITY, user, "You slice through the lock of \the [holder]"))
+			if(blade.is_special_cutting_tool() && emag_act(INFINITY, user, "You slice through the lock of \the [holder]."))
 				spark_at(A.loc, amount=5)
 				playsound(A.loc, 'sound/weapons/blade1.ogg', 50, 1)
 				return TRUE
 
-		if(isScrewdriver(W))
+		if(IS_SCREWDRIVER(W))
 			if (do_after(user, 20 * user.skill_delay_mult(SKILL_DEVICES), holder))
 				toggle_panel()
 			return TRUE
 
-		if(isMultitool(W) && open && !l_hacking)
+		if(IS_MULTITOOL(W) && open && !l_hacking)
 			user.show_message(SPAN_NOTICE("Now attempting to reset internal memory, please hold."), 1)
 			l_hacking = 1
 			if (do_after(user, 100 * user.skill_delay_mult(SKILL_ELECTRICAL), holder))

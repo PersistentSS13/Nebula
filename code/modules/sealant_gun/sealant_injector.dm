@@ -20,7 +20,7 @@
 	. = ..()
 
 /obj/structure/sealant_injector/on_update_icon()
-	cut_overlays()
+	..()
 	if(loaded_tank)
 		add_overlay("tank")
 	if(length(cartridges))	
@@ -55,10 +55,6 @@
 			return TRUE
 
 	. = ..()
-
-/obj/structure/sealant_injector/AltClick(mob/user)
-	if(Adjacent(user) && CanPhysicallyInteract(user))
-		try_inject(user)
 
 /obj/structure/sealant_injector/proc/try_inject(mob/user)
 
@@ -99,3 +95,15 @@
 		return TRUE
 
 	. = ..()
+
+/obj/structure/sealant_injector/get_alt_interactions(var/mob/user)
+	. = ..()
+	LAZYADD(., /decl/interaction_handler/sealant_try_inject)
+
+/decl/interaction_handler/sealant_try_inject
+	name = "Inject Sealant"
+	expected_target_type = /obj/structure/sealant_injector
+
+/decl/interaction_handler/sealant_try_inject/invoked(var/atom/target, var/mob/user)
+	var/obj/structure/sealant_injector/SI = target
+	SI.try_inject(user)

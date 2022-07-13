@@ -24,6 +24,7 @@
 	material = /decl/material/solid/metal/steel
 	matter = list(/decl/material/solid/metal/plasteel = MATTER_AMOUNT_TRACE)
 	origin_tech = "{'materials':1,'engineering':1,'combat':1}"
+	protects_against_weather = TRUE
 
 /obj/item/clothing/head/helmet/tactical
 	name = "tactical helmet"
@@ -171,7 +172,7 @@
 	siemens_coefficient = 1
 
 /obj/item/clothing/head/helmet/augment
-	name = "Augment Array"
+	name = "augment array"
 	desc = "A helmet with optical and cranial augments coupled to it."
 	icon = 'icons/clothing/head/armor/augment.dmi'
 	valid_accessory_slots = null

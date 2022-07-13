@@ -51,9 +51,9 @@
 		mouseover_highlight_dummy = new
 
 	// Copy over the atom's appearance to our holder object.
-	// client.images does not respect pixel offsets for images, but vis_contents does,
-	// and images have vis_contents - so we throw a null image into client.images, then
-	// throw a holder object with the appearance of the mouse-overed atom into its vis_contents. 
+	// client.images does not respect pixel offsets for images, but vis contents does,
+	// and images have vis contents - so we throw a null image into client.images, then
+	// throw a holder object with the appearance of the mouse-overed atom into its vis contents. 
 	mouseover_highlight_dummy.appearance = AM
 	mouseover_highlight_dummy.name = ""
 	mouseover_highlight_dummy.verbs.Cut()
@@ -74,7 +74,7 @@
 	mouseover_highlight_dummy.plane = HUD_ABOVE_ITEM_LAYER
 	mouseover_highlight_dummy.alpha = prefs?.UI_mouseover_alpha || 255
 	mouseover_highlight_dummy.appearance_flags |= (KEEP_TOGETHER|RESET_COLOR)
-	mouseover_highlight_dummy.filters = filter(type="drop_shadow", color = (prefs?.UI_mouseover_color || COLOR_AMBER) + "F0", size = 1, offset = 1, x = 0, y = 0)
+	mouseover_highlight_dummy.add_filter("glow", 1, list("drop_shadow", color = (prefs?.UI_mouseover_color || COLOR_AMBER) + "F0", size = 1, offset = 1, x = 0, y = 0))
 
 	// Replanes the overlays to avoid explicit plane/layer setting (such as 
 	// computer overlays) interfering with the ordering of the highlight.
@@ -95,9 +95,9 @@
 			LAZYADD(replaned_underlays, MA)
 		mouseover_highlight_dummy.underlays = replaned_underlays
 
-	// Finally update our highlight's vis_contents and location .
-	current_highlight.vis_contents.Cut()
-	current_highlight.vis_contents += mouseover_highlight_dummy
+	// Finally update our highlight's vis contents and location .
+	clear_vis_contents(current_highlight)
+	add_vis_contents(current_highlight, mouseover_highlight_dummy)
 	current_highlight.loc = object
 	current_highlight_atom = weakref(AM)
 

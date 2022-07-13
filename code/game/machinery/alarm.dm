@@ -85,7 +85,7 @@
 
 	var/datum/radio_frequency/radio_connection
 
-	var/list/TLV = list()
+	var/list/TLV = list() // stands for Threshold Limit Value, since it handles exposure amounts
 	var/list/trace_gas = list() //list of other gases that this air alarm is able to detect
 
 	var/danger_level = 0
@@ -128,7 +128,7 @@
 	. = ..()
 
 /obj/machinery/alarm/Destroy()
-	events_repository.unregister(/decl/observ/name_set, src, get_area(src), .proc/change_area_name)
+	events_repository.unregister(/decl/observ/name_set, get_area(src), src, .proc/change_area_name)
 	unregister_radio(src, frequency)
 	return ..()
 
@@ -140,7 +140,7 @@
 		return // spawned in nullspace, presumably as a prototype for construction purposes.
 	area_uid = alarm_area.uid
 	if (name == "alarm")
-		SetName("[alarm_area.name] Air Alarm")
+		SetName("[alarm_area.proper_name] Air Alarm")
 
 	// breathable air according to human/Life()
 	TLV[/decl/material/gas/oxygen] =			list(16, 19, 135, 140) // Partial pressure, kpa
@@ -378,10 +378,10 @@
 /obj/machinery/alarm/proc/register_env_machine(var/m_id, var/device_type)
 	var/new_name
 	if (device_type=="AVP")
-		new_name = "[alarm_area.name] Vent Pump #[alarm_area.air_vent_names.len+1]"
+		new_name = "[alarm_area.proper_name] Vent Pump #[alarm_area.air_vent_names.len+1]"
 		alarm_area.air_vent_names[m_id] = new_name
 	else if (device_type=="AScr")
-		new_name = "[alarm_area.name] Air Scrubber #[alarm_area.air_scrub_names.len+1]"
+		new_name = "[alarm_area.proper_name] Air Scrubber #[alarm_area.air_scrub_names.len+1]"
 		alarm_area.air_scrub_names[m_id] = new_name
 	send_signal(m_id, list("init" = new_name) )
 
@@ -459,7 +459,7 @@
 	var/datum/signal/alert_signal = new
 	alert_signal.source = src
 	alert_signal.transmission_method = 1
-	alert_signal.data["zone"] = alarm_area.name
+	alert_signal.data["zone"] = alarm_area.proper_name
 	alert_signal.data["type"] = "Atmospheric"
 
 	if(alert_level==2)
@@ -596,6 +596,8 @@
 				var/decl/material/mat = GET_DECL(g)
 				thresholds[++thresholds.len] = list("name" = (mat?.gas_symbol_html || "Other"), "settings" = list())
 				selected = TLV[g]
+				if(!selected)
+					continue
 				for(var/i = 1, i <= 4, i++)
 					thresholds[thresholds.len]["settings"] += list(list("env" = g, "val" = i, "selected" = selected[i]))
 
@@ -654,7 +656,7 @@
 		var/input_temperature = input(user, "What temperature would you like the system to maintain? (Capped between [min_temperature] and [max_temperature]C)", "Thermostat Controls", target_temperature - T0C) as num|null
 		if(isnum(input_temperature) && CanUseTopic(user, state))
 			if(input_temperature > max_temperature || input_temperature < min_temperature)
-				to_chat(user, "Temperature must be between [min_temperature]C and [max_temperature]C")
+				to_chat(user, "Temperature must be between [min_temperature]C and [max_temperature]C.")
 			else
 				target_temperature = input_temperature + T0C
 		return TOPIC_REFRESH
@@ -826,7 +828,7 @@ FIRE ALARM
 
 /obj/machinery/firealarm/examine(mob/user)
 	. = ..()
-	if(loc.z in global.using_map.contact_levels)
+	if(isContactLevel(loc.z))
 		var/decl/security_state/security_state = GET_DECL(global.using_map.security_state)
 		to_chat(user, "The current alert level is [security_state.current_security_level.name].")
 
@@ -879,7 +881,7 @@ FIRE ALARM
 		if(!detecting)
 			overlays += get_cached_overlay("fire1")
 			set_light(2, 0.25, COLOR_RED)
-		else if(z in global.using_map.contact_levels)
+		else if(isContactLevel(z))
 			var/decl/security_state/security_state = GET_DECL(global.using_map.security_state)
 			var/decl/security_level/sl = security_state.current_security_level
 
@@ -1023,7 +1025,7 @@ FIRE ALARM
 /obj/machinery/firealarm/Destroy()
 	QDEL_NULL(sound_token)
 	. = ..()
-	
+
 /obj/machinery/firealarm/Initialize(mapload, dir)
 	. = ..()
 	if(dir)

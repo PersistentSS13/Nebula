@@ -1,3 +1,5 @@
+#define CHARSELECTLOAD 1
+#define CHARSELECTDELETE 2
 /mob/new_player
 	universal_speak = TRUE
 
@@ -11,26 +13,32 @@
 
 	virtual_mob = null // Hear no evil, speak no evil
 
+	var/datum/browser/charselect
+	var/selected_char_name
+
 /mob/new_player/show_lobby_menu(force = FALSE)
 	if(!SScharacter_setup.initialized && !force)
 		return // Not ready yet.
 	var/output = list()
-	output += "<div align='center'>"
-	if(GAME_STATE < RUNLEVEL_GAME)
-		output += "<span class='average'><b>The Game Is Loading!</b></span><br><br>"
+	output += "<div style='text-align:center;'>"
 	output += "<i>[global.using_map.get_map_info()]</i>"
 	output +="<hr>"
 	if(GAME_STATE < RUNLEVEL_GAME)
 		//Do not let clients design characters before load. It causes issues, and we don't use rounds anyways.
-		output += "<div>Loading...</div>"
+		output += "<p>Loading...</p>"
 	else
-		output += "<a href='byond://?src=\ref[src];setupCharacter=1'>Set up character</a> "
-		output += "<a href='byond://?src=\ref[src];joinGame=1'>Join game</a>"
+		output += "<div style='text-align:center;'>"
+		output += "<a href='byond://?src=\ref[src];setupCharacter=1'>Create a new Character</a> "
+		output += "<a href='byond://?src=\ref[src];joinGame=1'>Select a Character</a><br><br>"
+		output += "<a href='byond://?src=\ref[src];deleteCharacter=1'>Delete a Character</a>"
+		output += "</div>"
 
-	output += "<br><br>"
+	output += "<br>"
+	output += "<div style='text-align:center;'>"
 	if(check_rights(R_DEBUG, 0, client))
-		output += "<a href='byond://?src=\ref[src];observeGame=1'>Observe</a><br><br>"
-	output += "<a href='byond://?src=\ref[src];refreshPanel=1'>Refresh</a><br><br>"
+		output += "<a href='byond://?src=\ref[src];observeGame=1'>Observe</a>"
+	output += "<a href='byond://?src=\ref[src];refreshPanel=1'>Refresh</a>"
+	output += "</div>"
 	output += "</div>"
 
 	panel = new(src, "Welcome","Welcome to [global.using_map.full_name]", 560, 280, src)
@@ -53,9 +61,12 @@
 	if(href_list["setupCharacter"])
 		newCharacterPanel()
 		return 0
-
+		 
+	if(href_list["deleteCharacter"])
+		characterSelect(CHARSELECTDELETE)
+		return 0
 	if(href_list["joinGame"])
-		joinGame()
+		characterSelect(CHARSELECTLOAD)
 		return 0
 
 	if(href_list["observeGame"])
@@ -76,13 +87,100 @@
 		panel.close()
 		show_lobby_menu()
 
+	if(href_list["Load"])
+		selected_char_name = href_list["Load"]
+		if(charselect)
+			charselect.close()
+			charselect = null
+		joinGame()
+
+	if(href_list["Delete"])
+		var/char_name = href_list["Delete"]	
+		if(charselect)
+			charselect.close()
+			charselect = null
+		if(input("Are you SURE you want to delete [char_name]? THIS IS PERMANENT. Enter the character\'s full name to confirm.", "DELETE A CHARACTER", "") == char_name)
+			
+			var/new_db_connection = FALSE
+			if(!check_save_db_connection())
+				if(!establish_save_db_connection())
+					CRASH("new_player: Couldn't establish DB connection while deleting a character!")
+				new_db_connection = TRUE
+			
+			var/DBQuery/char_query = dbcon_save.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[key]' AND `metadata2` = '[char_name]'")
+			if(!char_query.Execute())
+				to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
+			if(char_query.NextRow())
+				var/list/char_items = char_query.GetRowData()
+				var/char_key = char_items["key"]
+				SSpersistence.RemoveFromLimbo(char_key, LIMBO_MIND)
+				to_chat(src, SPAN_NOTICE("Character Delete Completed."))
+			else
+				to_chat(src, SPAN_NOTICE("Delete Failed! Contact a developer."))
+			
+			if(new_db_connection)
+				close_save_db_connection()
+
 /mob/new_player/proc/newCharacterPanel()
 	for(var/mob/M in SSmobs.mob_list)
 		if(M.loc && !istype(M, /mob/new_player) && (M.saved_ckey == ckey || M.saved_ckey == "@[ckey]"))
 			to_chat(src, SPAN_NOTICE("You already have a character in game!"))
 			return
+			
+	if(!check_rights(R_DEBUG))
+		client.prefs.real_name = null	// This will force players to set a new character name every time they open character creator
+										// Meaning they cant just click finalize as soon as they open the character creator. They are forced to engage.
 	client.prefs.open_setup_window(src)
 	return
+
+/mob/new_player/proc/characterSelect(var/func = CHARSELECTLOAD)
+	if(func == CHARSELECTLOAD)
+		for(var/datum/mind/target_mind in global.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
+			if(cmptext(target_mind.key, key))
+				if(!target_mind.current || istype(target_mind.current, /mob/new_player) || QDELETED(target_mind.current))
+					continue
+				transition_to_game()
+				to_chat(src, SPAN_NOTICE("A character is already in game."))
+				spawning = TRUE
+				target_mind.current.key = key
+				target_mind.current.on_persistent_join()
+				qdel(src)
+				return
+	var/func_text = "Load"
+	if(func == CHARSELECTDELETE)
+		func_text = "Delete"
+	var/slots = 2
+	if(check_rights(R_DEBUG) || check_rights(R_ADMIN))
+		slots+=2
+	var/output = list()
+	output += "<div style='text-align:center;'>"
+	output += "Select a character to [func_text].<br><br>"
+
+	var/new_db_connection = FALSE
+	if(!check_save_db_connection())
+		if(!establish_save_db_connection())
+			CRASH("new_player: Couldn't establish DB connection while selecting a character!")
+		new_db_connection = TRUE
+
+
+	var/DBQuery/char_query = dbcon_save.NewQuery("SELECT `metadata2` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[key]'")
+	if(!char_query.Execute())
+		to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
+	for(var/i=1, i<=slots, i++)
+		if(char_query.NextRow())
+			var/list/char_items = char_query.GetRowData()
+			var/char_name = char_items["metadata2"]
+			if(char_name)
+				output += "<a href='byond://?src=\ref[src];[func_text]=[char_name]'>[char_name]</a><br>"
+		else
+			output += "*Open Slot*<br>"
+	output += "</div>"
+	charselect = new(src, "[func_text]","[func_text] a character.", 280, 300, src)
+	charselect.set_content(JOINTEXT(output))
+	charselect.open()
+
+	if(new_db_connection)
+		close_save_db_connection()
 
 /mob/new_player/proc/joinGame()
 	if(GAME_STATE < RUNLEVEL_GAME)
@@ -93,20 +191,31 @@
 		return
 
 	if(spawning)
+		to_chat(src, SPAN_NOTICE("Already set to spawning."))
+		return
+	if(!selected_char_name)
+		to_chat(src, SPAN_NOTICE("No Selected char name!"))
 		return
 	for(var/datum/mind/target_mind in global.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
 		if(cmptext(target_mind.key, key))
-			if(!target_mind.current || istype(target_mind.current, /mob/new_player))
+			if(!target_mind.current || istype(target_mind.current, /mob/new_player) || QDELETED(target_mind.current))
 				continue
 			transition_to_game()
 			to_chat(src, SPAN_NOTICE("A character is already in game."))
 			spawning = TRUE
 			target_mind.current.key = key
+			target_mind.current.on_persistent_join()
 			qdel(src)
 			return
 	// Query for the character associated with this ckey
+	var/new_db_connection = FALSE
+	if(!check_save_db_connection())
+		if(!establish_save_db_connection())
+			CRASH("new_player: Couldn't establish DB connection while joining as character!")
+		new_db_connection = TRUE
+
 	spawning = TRUE
-	var/DBQuery/char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[ckey]'")
+	var/DBQuery/char_query = dbcon_save.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[key]' AND `metadata2` = '[selected_char_name]'")
 	if(!char_query.Execute())
 		to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
 	if(char_query.NextRow())
@@ -123,82 +232,26 @@
 			to_world_log("CHARACTER DESERIALIZATION FAILED: Could not locate key [char_items["key"]] from limbo list.")
 			to_chat(src, SPAN_WARNING("Something has gone wrong while returning you to your body. Contact an admin."))
 			spawning = FALSE
+
+			if(new_db_connection)
+				close_save_db_connection()
+
 			return
 		var/mob/person = target_mind.current
 		transition_to_game()
-		to_chat(src, SPAN_NOTICE("A character is already in game."))
 		person.key = key
+		person.on_persistent_join()
 		qdel(src)
+		
+		if(new_db_connection)
+			close_save_db_connection()
 		return
+	to_chat(src, SPAN_NOTICE("Load Failed! Contact a developer."))
+	spawning = FALSE
 
-	switch(alert("Are you sure you want to join the game with the character you've created? This cannot be undone!", "Character Confirmation", "Yes", "No"))
-		if("No")
-			return
-
-	create_character()	// Creating a new character based off the player's preferences.
-	qdel(src)
-
-/mob/new_player/create_character()
-	spawning = TRUE
-	transition_to_game()
-	var/turf/spawn_turf
-
-	var/used_chargen = FALSE
-	if(chargen_spawns && length(chargen_spawns))
-		spawn_turf = SSchargen.get_spawn_turf()
-		used_chargen = TRUE
-	else
-		for(var/turf/T in global.latejoin_cryo_locations)
-			if(locate(/mob) in T)
-				continue
-			spawn_turf = T
-
-	var/mob/living/carbon/human/new_character
-	var/decl/species/chosen_species
-	if(client.prefs.species)
-		chosen_species = all_species[client.prefs.species]
-
-	if(chosen_species)
-		if(!check_species_allowed(chosen_species))
-			spawning = FALSE //abort
-			return null
-		new_character = new(spawn_turf, chosen_species.name)
-		if(chosen_species.has_organ[BP_POSIBRAIN] && client && client.prefs.is_shackled)
-			var/obj/item/organ/internal/posibrain/B = new_character.internal_organs_by_name[BP_POSIBRAIN]
-			if(B)	B.shackle(client.prefs.get_lawset())
-
-	if(!new_character)
-		new_character = new(spawn_turf)
-		if(used_chargen)
-			SSchargen.assign_spawn_pod(new_character, spawn_turf)
-
-	new_character.lastarea = get_area(spawn_turf)
-	client.prefs.copy_to(new_character)
-
-	if(mind)
-		mind.active = 0 //we wish to transfer the key manually
-		mind.original = new_character
-		var/memory = client.prefs.records[PREF_MEM_RECORD]
-		mind.StoreMemory(memory)
-		mind.transfer_to(new_character)					//won't transfer key since the mind is not active
-
-	var/datum/job/job = SSjobs.get_by_path(/datum/job/colonist) // Hacky way to get players equipped with a basic uniform and their accounts set up.
-	job.setup_account(new_character)
-	job.equip(new_character)
-
-	var/datum/skillset/SS = new_character.skillset 	// Populate the skill_list of the player's skillset so that they can be properly adjusted during gameplay.
-	SS.set_skillset_min()
-	
-	new_character.dna.ready_dna(new_character)
-	new_character.dna.b_type = client.prefs.b_type
-	new_character.sync_organ_dna()
-	
-	// Do the initial caching of the player's body icons.
-	new_character.force_update_limbs()
-	new_character.update_eyes()
-	new_character.refresh_visible_overlays()
-
-	new_character.key = key		//Manually transfer the key to log them in
+	if(new_db_connection)
+		close_save_db_connection()
+	return
 
 /mob/new_player/Move()
 	return 0

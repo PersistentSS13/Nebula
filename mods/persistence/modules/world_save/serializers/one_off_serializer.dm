@@ -14,7 +14,7 @@
 		for(var/key in object.extensions)
 			var/datum/extension/E = object.extensions[key]
 			if(istype(E) && E.should_save())
-				extension_wrapper_holder.wrapped += E
+				extension_wrapper_holder.wrapped |= E
 
 /serializer/sql/one_off/Commit(limbo_assoc)
 	if(!establish_save_db_connection())
@@ -78,17 +78,19 @@
 		var/list/items = limbo_query.GetRowData()
 		ref_things |= "'[items["value"]]'"
 
-	// This is annoying, but we have to check against the game world refs to prevent duplication, as the limbo tables do not
-	// normally track references.
-	var/DBQuery/world_query = dbcon_save.NewQuery("SELECT `p_id`, `ref` FROM `[SQLS_TABLE_DATUM]` WHERE `p_id` IN ([jointext(ref_things, ", ")]);")
-	SQLS_EXECUTE_AND_REPORT_ERROR(world_query, "LIMBO WORLD QUERY FAILED FOR UPDATING LOAD CACHE:")
+	// It's very odd for ref_things to be empty, but it will throw a runtime if it is.
+	if(length(ref_things))
+		// This is annoying, but we have to check against the game world refs to prevent duplication, as the limbo tables do not
+		// normally track references.
+		var/DBQuery/world_query = dbcon_save.NewQuery("SELECT `p_id`, `ref` FROM `[SQLS_TABLE_DATUM]` WHERE `p_id` IN ([jointext(ref_things, ", ")]);")
+		SQLS_EXECUTE_AND_REPORT_ERROR(world_query, "LIMBO WORLD QUERY FAILED FOR UPDATING LOAD CACHE:")
 
-	while(world_query.NextRow())
-		var/list/items = world_query.GetRowData()
-		var/datum/existing = locate(items["ref"])
-		if(existing && !QDELETED(existing) && existing.persistent_id == items["p_id"]) // Check to see if the thing already exists in the gameworld by ref lookup.
-			reverse_map[items["p_id"]] = existing
-			continue
+		while(world_query.NextRow())
+			var/list/items = world_query.GetRowData()
+			var/datum/existing = locate(items["ref"])
+			if(existing && !QDELETED(existing) && existing.persistent_id == items["p_id"]) // Check to see if the thing already exists in the gameworld by ref lookup.
+				reverse_map[items["p_id"]] = existing
+				continue
 
 	// Now we re-execute and return to the limbo query.
 	limbo_query = dbcon_save.NewQuery("SELECT `p_id`, `type`, `x`, `y`, `z` FROM `[SQLS_TABLE_LIMBO_DATUM]` WHERE `limbo_assoc` = '[limbo_assoc]';")
@@ -122,14 +124,15 @@
 		LAZYADD(resolver.lists["[items["list_id"]]"], element)
 		resolver.lists_cached++
 
-/serializer/sql/one_off/proc/AddToLimbo(var/list/things, var/key, var/limbo_type, var/metadata, var/modify = TRUE)
+/serializer/sql/one_off/proc/AddToLimbo(var/list/things, var/key, var/limbo_type, var/metadata, var/metadata2, var/modify = TRUE)
 
 	// Check to see if this thing was already placed into limbo. If so, we go ahead and remove the thing from limbo first before reserializing.
 	// When this occurs, it's possible things will be dropped from the database. Avoid serializing things into limbo which will remain in the game world.
 
-	key = sanitizeSQL(key)
-	limbo_type = sanitizeSQL(limbo_type)
-	metadata = sanitizeSQL(metadata)
+	key = sanitize_sql(key)
+	limbo_type = sanitize_sql(limbo_type)
+	metadata = sanitize_sql(metadata)
+	metadata2 = sanitize_sql(metadata2)
 
 	// The 'limbo_assoc' column in the database relates every thing, thing_var, and list_element to an instance of limbo insertion.
 	// While it uses the same PERSISTENT_ID format, it's not related to any datum's PERSISTENT_ID.
@@ -144,7 +147,7 @@
 	if(!islist(things))
 		things = list(things)
 
-	// Prepare the wrapper holder for possbile extensions.
+	// Prepare the wrapper holder for possible extensions.
 	extension_wrapper_holder = new()
 	// Begin serialization of parent objects.
 	update_indices()
@@ -152,8 +155,12 @@
 		SerializeDatum(thing, null, limbo_assoc)
 	if(length(extension_wrapper_holder.wrapped))
 		SerializeDatum(extension_wrapper_holder, null, limbo_assoc)
-
-	Commit(limbo_assoc)
+	
+	try
+		Commit(limbo_assoc)
+	catch (var/exception/e)
+		Clear()
+		throw e
 
 	// Get the persistent ID for the "parent" objects.
 	var/list/thing_p_ids = list()
@@ -167,9 +174,30 @@
 	var/encoded_p_ids = json_encode(thing_p_ids)
 	// Insert into the limbo table, a metadata holder that allows for access to the limbo_assoc key by 'type' and 'key'.
 	var/DBQuery/insert_query
-	insert_query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIMBO]` (`key`,`type`,`p_ids`,`metadata`,`limbo_assoc`) VALUES('[key]', '[limbo_type]', '[encoded_p_ids]', '[metadata]', '[limbo_assoc]')")
-	SQLS_EXECUTE_AND_REPORT_ERROR(insert_query, "LIMBO ADDITION FAILED:")
-
+	insert_query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIMBO]` (`key`,`type`,`p_ids`,`metadata`,`limbo_assoc`, `metadata2`) VALUES('[key]', '[limbo_type]', '[encoded_p_ids]', '[metadata]', '[limbo_assoc]', '[metadata2]')")
+	
+	try
+		SQLS_EXECUTE_AND_REPORT_ERROR(insert_query, "LIMBO ADDITION FAILED:")
+	catch (var/exception/insert_e)
+		Clear()
+		throw insert_e
+	
+	// Final check, ensure each passed thing has been added to the limbo table
+	var/DBQuery/check_query
+	check_query = dbcon_save.NewQuery("SELECT COUNT(*) FROM `[SQLS_TABLE_LIMBO_DATUM]` WHERE `limbo_assoc` = '[limbo_assoc]' AND `p_id` IN ('[jointext(thing_p_ids, "', '")]');")
+	
+	try
+		SQLS_EXECUTE_AND_REPORT_ERROR(check_query, "LIMBO CHECK FAILED:")
+	catch (var/exception/check_e)
+		Clear()
+		RemoveFromLimbo(key, limbo_type)
+		throw check_e
+	
+	if(check_query.NextRow())
+		if(text2num(check_query.item[1]) == length(thing_p_ids))
+			. = TRUE // Success!
+		else
+			RemoveFromLimbo(key, limbo_type) // If we failed, remove any rows still in the database.
 	Clear()
 
 // Removes an object from the limbo table. This should always be called after an object is deserialized from limbo into the world.
@@ -212,10 +240,12 @@
 	for(var/target_p_id in limbo_p_ids)
 		targets |= QueryAndDeserializeDatum(target_p_id)
 	// Copy pasta for calling after_deserialize on everything we just deserialized.
-	for(var/id in reverse_map)
-		var/datum/T = reverse_map[id]
+	for(var/p_id in reverse_map)
+		var/datum/T = reverse_map[p_id]
 		T.after_deserialize()
-	CommitRefUpdates()
+
+		SSpersistence.limbo_refs[p_id] = ref(T)
+
 	// Start initializing whatever we deserialized.
 	SSatoms.map_loader_stop()
 	SSatoms.InitializeAtoms()

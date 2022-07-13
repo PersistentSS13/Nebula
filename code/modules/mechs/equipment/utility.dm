@@ -676,7 +676,7 @@
 				owner.visible_message(SPAN_DANGER("Burning hard, \the [owner] thrusts forward!"))
 				owner.throw_at(get_ranged_target_turf(owner, owner.dir, slide_distance), slide_distance, 1, owner, FALSE)
 			else
-				owner.visible_message(SPAN_DANGER("\The [src] sputters and powers down"))
+				owner.visible_message(SPAN_DANGER("\The [src] sputters and powers down."))
 				owner.sparks.set_up(3,0,owner)
 				owner.sparks.start()
 
@@ -736,7 +736,7 @@
 /obj/item/mech_equipment/camera/attackby(obj/item/W, mob/user)
 	. = ..()
 
-	if(isScrewdriver(W))
+	if(IS_SCREWDRIVER(W))
 		var/datum/extension/network_device/camera/mech/D = get_extension(src, /datum/extension/network_device)
 		D.ui_interact(user)
 

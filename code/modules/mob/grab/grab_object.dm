@@ -20,7 +20,7 @@
 /*
 	This section is for overrides of existing procs.
 */
-/obj/item/grab/Initialize(mapload, atom/movable/target, var/use_grab_state)
+/obj/item/grab/Initialize(mapload, atom/movable/target, var/use_grab_state, var/defer_hand)
 	. = ..(mapload)
 	if(. == INITIALIZE_HINT_QDEL)
 		return
@@ -29,7 +29,7 @@
 	if(!istype(current_grab))
 		return INITIALIZE_HINT_QDEL
 	assailant = loc
-	if(!istype(assailant) || !assailant.add_grab(src))
+	if(!istype(assailant) || !assailant.add_grab(src, defer_hand = defer_hand))
 		return INITIALIZE_HINT_QDEL
 	affecting = target
 	if(!istype(affecting))
@@ -41,8 +41,9 @@
 		affecting_mob.UpdateLyingBuckledAndVerbStatus()
 		if(ishuman(affecting_mob))
 			var/mob/living/carbon/human/H = affecting_mob
-			if(H.w_uniform)
-				H.w_uniform.add_fingerprint(assailant)
+			var/obj/item/uniform = H.get_equipped_item(slot_w_uniform_str)
+			if(uniform)
+				uniform.add_fingerprint(assailant)
 
 	LAZYADD(affecting.grabbed_by, src) // This is how we handle affecting being deleted.
 	adjust_position()
@@ -145,11 +146,11 @@
 	if(target_zone == new_sel)
 		return
 	var/old_zone = target_zone
-	target_zone = new_sel
+	target_zone = check_zone(new_sel, affecting)
 	if(!istype(get_targeted_organ(), /obj/item/organ))
 		current_grab.let_go(src)
 		return
-	current_grab.on_target_change(src, old_zone, target_zone)
+	current_grab.on_target_change(src, old_zone, new_sel)
 
 /obj/item/grab/proc/on_organ_loss(mob/victim, obj/item/organ/lost)
 	if(affecting != victim)
@@ -181,8 +182,7 @@
 /obj/item/grab/proc/get_targeted_organ()
 	var/mob/affecting_mob = get_affecting_mob()
 	if(istype(affecting_mob))
-		. = affecting_mob.get_organ(target_zone)
-
+		. = GET_EXTERNAL_ORGAN(affecting_mob, check_zone(target_zone, affecting_mob))
 /obj/item/grab/proc/resolve_item_attack(var/mob/living/M, var/obj/item/I, var/target_zone)
 	if(M && ishuman(M) && I)
 		return current_grab.resolve_item_attack(src, M, I, target_zone)
@@ -242,11 +242,14 @@
 	current_grab.handle_resist(src)
 
 /obj/item/grab/proc/adjust_position(var/force = 0)
-	if(force)
+
+	if(!QDELETED(assailant) && force)
 		affecting.forceMove(assailant.loc)
-	if(!assailant || !affecting || !assailant.Adjacent(affecting))
+
+	if(QDELETED(assailant) || QDELETED(affecting) || !assailant.IsMultiZAdjacent(affecting))
 		qdel(src)
 		return 0
+
 	var/adir = get_dir(assailant, affecting)
 	if(assailant)
 		assailant.set_dir(adir)
@@ -286,7 +289,7 @@
 
 /obj/item/grab/proc/grab_slowdown()
 	. = CEILING(affecting?.get_object_size() * current_grab.grab_slowdown)
-	. /= (affecting?.atom_flags & ATOM_FLAG_WHEELED) ? 2 : 1
+	. /= (affecting?.movable_flags & MOVABLE_FLAG_WHEELED) ? 2 : 1
 	. = max(.,1)
 
 /obj/item/grab/proc/assailant_moved()

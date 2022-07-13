@@ -15,7 +15,7 @@
 	artery_name = "carotid artery"
 	cavity_name = "cranial"
 
-	limb_flags = ORGAN_FLAG_CAN_AMPUTATE | ORGAN_FLAG_HEALS_OVERKILL | ORGAN_FLAG_CAN_BREAK
+	limb_flags = ORGAN_FLAG_CAN_AMPUTATE | ORGAN_FLAG_HEALS_OVERKILL | ORGAN_FLAG_CAN_BREAK | ORGAN_FLAG_CAN_DISLOCATE
 
 	var/draw_eyes = TRUE
 	var/glowing_eyes = FALSE
@@ -26,12 +26,12 @@
 
 /obj/item/organ/external/head/proc/get_eye_overlay()
 	if(glowing_eyes || owner?.has_chemical_effect(CE_GLOWINGEYES, 1))
-		var/obj/item/organ/internal/eyes/eyes = owner.get_internal_organ(owner.species.vision_organ || BP_EYES)
+		var/obj/item/organ/internal/eyes/eyes = owner.get_organ((owner.species.vision_organ || BP_EYES), /obj/item/organ/internal/eyes)
 		if(eyes)
 			return eyes.get_special_overlay()
 
 /obj/item/organ/external/head/proc/get_eyes()
-	var/obj/item/organ/internal/eyes/eyes = owner.get_internal_organ(owner.species.vision_organ || BP_EYES)
+	var/obj/item/organ/internal/eyes/eyes = owner.get_organ((owner.species.vision_organ || BP_EYES), /obj/item/organ/internal/eyes)
 	if(eyes)
 		return eyes.get_onhead_icon()
 
@@ -52,7 +52,7 @@
 		to_chat(penman, "<span class='notice'>There is no room left to write on [head_name]!</span>")
 		return
 
-	var/graffiti = sanitizeSafe(input(penman, "Enter a message to write on [head_name]:") as text|null, MAX_NAME_LEN)
+	var/graffiti = sanitize_safe(input(penman, "Enter a message to write on [head_name]:") as text|null, MAX_NAME_LEN)
 	if(graffiti)
 		if(!target.Adjacent(penman))
 			to_chat(penman, "<span class='notice'>[head_name] is too far away.</span>")
@@ -76,8 +76,8 @@
 /obj/item/organ/external/head/get_agony_multiplier()
 	return (owner && owner.headcheck(organ_tag)) ? 1.50 : 1
 
-/obj/item/organ/external/head/robotize(var/company = /decl/prosthetics_manufacturer, var/skip_prosthetics, var/keep_organs, var/apply_material = /decl/material/solid/metal/steel)
-	. = ..(company, skip_prosthetics, 1)
+/obj/item/organ/external/head/robotize(var/company, var/skip_prosthetics = 0, var/keep_organs = 1, var/apply_material = /decl/material/solid/metal/steel, var/check_bodytype, var/check_species)
+	. = ..()
 	has_lips = null
 	if(model)
 		var/decl/prosthetics_manufacturer/R = GET_DECL(model)
@@ -89,9 +89,9 @@
 	if (!(status & ORGAN_DISFIGURED))
 		if (brute_dam > 40)
 			if (prob(50))
-				disfigure("brute")
+				disfigure(BRUTE)
 		if (burn_dam > 40)
-			disfigure("burn")
+			disfigure(BURN)
 
 /obj/item/organ/external/head/on_update_icon()
 
@@ -122,6 +122,9 @@
 
 /obj/item/organ/external/head/proc/get_hair_icon()
 	var/image/res = image(bodytype.icon_template,"")
+	if(!owner)
+		return res
+
 	if(owner.f_style)
 		var/decl/sprite_accessory/facial_hair_style = GET_DECL(owner.f_style)
 		if(facial_hair_style)
@@ -134,7 +137,8 @@
 
 	if(owner.h_style)
 		var/decl/sprite_accessory/hair/hair_style = GET_DECL(owner.h_style)
-		if(owner.head && (owner.head.flags_inv & BLOCKHEADHAIR))
+		var/obj/item/head = owner.get_equipped_item(slot_head_str)
+		if(head && (head.flags_inv & BLOCKHEADHAIR))
 			if(!(hair_style.flags & VERY_SHORT))
 				hair_style = GET_DECL(/decl/sprite_accessory/hair/short)
 		if(hair_style)

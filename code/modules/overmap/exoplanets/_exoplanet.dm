@@ -30,6 +30,8 @@
 	var/grass_color
 	var/surface_color = COLOR_ASTEROID_ROCK
 	var/water_color = "#436499"
+	var/water_material = /decl/material/liquid/water
+	var/ice_material =   /decl/material/solid/ice
 	var/image/skybox_image
 
 	var/list/actors = list() 	//things that appear in engravings on xenoarch finds.
@@ -76,6 +78,8 @@
 
 	var/spawn_weight = 100	// Decides how often this planet will be picked for generation
 
+	var/obj/abstract/weather_system/weather_system = /decl/state/weather/calm // Initial weather is passed to the system as its default state.
+
 /obj/effect/overmap/visitable/sector/exoplanet/proc/get_strata()
 	return crust_strata
 
@@ -95,6 +99,7 @@
 	return ..()
 
 /obj/effect/overmap/visitable/sector/exoplanet/proc/build_level(max_x, max_y)
+
 	maxx = max_x ? max_x : world.maxx
 	maxy = max_y ? max_y : world.maxy
 	x_origin = TRANSITIONEDGE + 1
@@ -114,6 +119,11 @@
 		var/datum/exoplanet_theme/T = pickweight(possible_themes)
 		themes += new T
 		possible_themes -= T
+
+	if(ispath(weather_system, /decl/state/weather))
+		weather_system = new /obj/abstract/weather_system(null, map_z[1], weather_system)
+		weather_system.water_material = water_material
+		weather_system.ice_material = ice_material
 
 	generate_habitability()
 	generate_atmosphere()
@@ -164,7 +174,10 @@
 	if(!night)
 		light = lightlevel
 	for(var/turf/exterior/T in block(locate(daycolumn,1,min(map_z)),locate(daycolumn,maxy,max(map_z))))
-		T.set_light(light)
+		if (light)
+			T.set_ambient_light(COLOR_WHITE, light)
+		else
+			T.clear_ambient_light()
 	daycolumn++
 	if(daycolumn > maxx)
 		daycolumn = 0
@@ -192,14 +205,16 @@
 				new map_type(x_origin, y_origin, zlevel, x_size, y_size, FALSE, TRUE, planetary_area)
 
 /obj/effect/overmap/visitable/sector/exoplanet/proc/generate_features()
-	for(var/T in subtypesof(/datum/map_template/ruin/exoplanet))
-		var/datum/map_template/ruin/exoplanet/ruin = T
-		if(ruin_tags_whitelist && !(ruin_tags_whitelist & initial(ruin.ruin_tags)))
+	var/list/ruins = SSmapping.get_templates_by_category(MAP_TEMPLATE_CATEGORY_EXOPLANET)
+	for(var/ruin_name in ruins)
+		var/datum/map_template/ruin = ruins[ruin_name]
+		var/ruin_tags = ruin.get_ruin_tags()
+		if(ruin_tags_whitelist && !(ruin_tags_whitelist & ruin_tags))
 			continue
-		if(ruin_tags_blacklist & initial(ruin.ruin_tags))
+		if(ruin_tags_blacklist & ruin_tags)
 			continue
-		possible_features += new ruin
-	spawned_features = seedRuins(map_z, features_budget, /area/exoplanet, possible_features, maxx, maxy)
+		possible_features += ruin
+	spawned_features = seed_ruins(map_z, features_budget, /area/exoplanet, possible_features, maxx, maxy)
 
 /obj/effect/overmap/visitable/sector/exoplanet/proc/generate_daycycle()
 	if(lightlevel)
@@ -265,8 +280,8 @@
 
 	if(LAZYLEN(spawned_features) && user.skill_check(SKILL_SCIENCE, SKILL_ADEPT))
 		var/ruin_num = 0
-		for(var/datum/map_template/ruin/exoplanet/R in spawned_features)
-			if(!(R.ruin_tags & RUIN_NATURAL))
+		for(var/datum/map_template/R in spawned_features)
+			if(!(R.get_ruin_tags() & RUIN_NATURAL))
 				ruin_num++
 		if(ruin_num)
 			extra_data += "<br>[ruin_num] possible artificial structure\s detected."
@@ -282,3 +297,4 @@
 	always_unpowered = 1
 	area_flags = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_EXTERNAL
 	show_starlight = TRUE
+	is_outside = OUTSIDE_YES

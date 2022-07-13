@@ -34,8 +34,8 @@
 /datum/fabricator_recipe/taperecorder
 	path = /obj/item/taperecorder/empty
 
-/datum/fabricator_recipe/tape
-	path = /obj/item/tape
+/datum/fabricator_recipe/taperecorder_tape
+	path = /obj/item/magnetic_tape
 
 /datum/fabricator_recipe/tube/large
 	path = /obj/item/light/tube/large
@@ -116,6 +116,15 @@
 		/decl/material/solid/metal/steel =   CEILING((SHEET_MATERIAL_AMOUNT * FABRICATOR_EXTRA_COST_FACTOR)),
 	)
 
+/datum/fabricator_recipe/struts/plastic
+	name = "strut, plastic"
+	path = /obj/item/stack/material/strut/mapped/plastic
+
+/datum/fabricator_recipe/struts/plastic/get_resources()
+	resources = list(
+		/decl/material/solid/plastic =   CEILING((SHEET_MATERIAL_AMOUNT * FABRICATOR_EXTRA_COST_FACTOR)),
+	)
+
 /datum/fabricator_recipe/struts/aluminium
 	name = "strut, aluminium"
 	path = /obj/item/stack/material/strut/mapped/aluminium
@@ -134,4 +143,13 @@
 /datum/fabricator_recipe/struts/titanium/get_resources()
 	resources = list(
 		/decl/material/solid/metal/titanium =   CEILING((SHEET_MATERIAL_AMOUNT * FABRICATOR_EXTRA_COST_FACTOR)),
+	)
+
+/datum/fabricator_recipe/umbrella
+	path = /obj/item/umbrella
+
+/datum/fabricator_recipe/network_id
+	path = /obj/item/card/id/network
+	fabricator_types = list(
+		FABRICATOR_CLASS_GENERAL
 	)

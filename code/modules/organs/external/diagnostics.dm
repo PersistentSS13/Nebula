@@ -23,7 +23,7 @@
 		return english_list(descriptors)
 
 	var/list/flavor_text = list()
-	if((status & ORGAN_CUT_AWAY) && !is_stump() && !(parent && parent.status & ORGAN_CUT_AWAY))
+	if((status & ORGAN_CUT_AWAY) && !(parent && parent.status & ORGAN_CUT_AWAY))
 		flavor_text += "a tear at the [amputation_point] so severe that it hangs by a scrap of flesh"
 
 	var/list/wound_descriptors = list()
@@ -84,7 +84,7 @@
 		. += "[capitalize(artery_name)] ruptured"
 	if(status & ORGAN_TENDON_CUT)
 		. += "Severed [tendon_name]"
-	if(dislocated == 2) // non-magical constants when
+	if(is_dislocated())
 		. += "Dislocated"
 	if(splinted)
 		. += "Splinted"
@@ -110,9 +110,6 @@
 			. += "[capitalize(aug.name)] implanted"
 
 /obj/item/organ/external/proc/inspect(mob/user)
-	if(is_stump())
-		to_chat(user, "<span class='notice'>[owner] is missing that bodypart.</span>")
-		return
 
 	user.visible_message("<span class='notice'>[user] starts inspecting [owner]'s [name] carefully.</span>")
 	for(var/ailment in has_diagnosable_ailments(user, scanner = FALSE))
@@ -163,7 +160,7 @@
 
 	if(status & ORGAN_TENDON_CUT)
 		to_chat(user, "<span class='warning'>The tendons in [name] are severed!</span>")
-	if(dislocated == 2)
+	if(is_dislocated())
 		to_chat(user, "<span class='warning'>The [joint] is dislocated!</span>")
 	return 1
 

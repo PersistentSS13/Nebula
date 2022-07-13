@@ -11,7 +11,7 @@
 
 /obj/machinery/computer/design_console/Initialize()
 	. = ..()
-	set_extension(src, /datum/extension/network_device, initial_network_id, initial_network_key, NETWORK_CONNECTION_STRONG_WIRELESS)
+	set_extension(src, /datum/extension/network_device, initial_network_id, initial_network_key, RECEIVER_STRONG_WIRELESS)
 
 /obj/machinery/computer/design_console/modify_mapped_vars(map_hash)
 	..()
@@ -43,11 +43,6 @@
 		disk = null
 		return TRUE
 	return FALSE
-
-/obj/machinery/computer/design_console/AltClick(mob/user)
-	if(disk)
-		eject_disk()
-	. = ..()
 
 /obj/machinery/computer/design_console/interface_interact(mob/user)
 	ui_interact(user)
@@ -94,7 +89,7 @@
 		data["tech_levels"] = show_tech_levels
 
 		var/list/found_databases = list()
-		for(var/obj/machinery/design_database/db in network?.get_devices_by_type(/obj/machinery/design_database, user))
+		for(var/obj/machinery/design_database/db in network?.get_devices_by_type(/obj/machinery/design_database, user.GetAccess()))
 			var/list/database = list("name" = db.name, "ref" = "\ref[db]")
 			if(db.stat & (BROKEN|NOPOWER))
 				database["status"] = "Offline"
@@ -105,7 +100,7 @@
 		data["connected_databases"] = found_databases
 
 		var/list/found_analyzers = list()
-		for(var/obj/machinery/destructive_analyzer/az in network?.get_devices_by_type(/obj/machinery/destructive_analyzer, user))
+		for(var/obj/machinery/destructive_analyzer/az in network?.get_devices_by_type(/obj/machinery/destructive_analyzer, user.GetAccess()))
 			var/list/analyzer = list("name" = az.name, "ref" = "\ref[az]")
 			if(az.stat & (BROKEN|NOPOWER))
 				analyzer["status"] = "Offline"
@@ -224,3 +219,20 @@
 	var/list/techs = get_network_tech_levels()
 	for(var/obj/machinery/fabricator/fab in network.get_devices_by_type(/obj/machinery/fabricator))
 		fab.refresh_design_cache(techs)
+
+/obj/machinery/computer/design_console/get_alt_interactions(var/mob/user)
+	. = ..()
+	LAZYADD(., /decl/interaction_handler/remove_disk/console)
+
+/decl/interaction_handler/remove_disk/console
+	expected_target_type = /obj/machinery/computer/design_console
+
+/decl/interaction_handler/remove_disk/console/is_possible(atom/target, mob/user, obj/item/prop)
+	. = ..()
+	if(.)
+		var/obj/machinery/computer/design_console/D = target
+		. = !!D.disk
+
+/decl/interaction_handler/remove_disk/console/invoked(atom/target, mob/user, obj/item/prop)
+	var/obj/machinery/computer/design_console/D = target
+	D.eject_disk(user)

@@ -11,8 +11,10 @@
 	program_menu_icon = "notice"
 	extended_desc = "This program connects to specially calibrated supermatter sensors to provide information on the status of supermatter-based engines."
 	ui_header = "smmon_0.gif"
-	required_access = list(access_engine)
+	read_access = list(access_engine)
 	network_destination = "supermatter monitoring system"
+	requires_network = 1
+	requires_network_feature = NET_FEATURE_SYSTEMCONTROL
 	size = 5
 	category = PROG_ENG
 	var/last_status = 0
@@ -168,7 +170,7 @@
 				continue
 
 			SMS.Add(list(list(
-			"area_name" = A.name,
+			"area_name" = A.proper_name,
 			"integrity" = process_data_output(engine_skill, S.get_integrity()),
 			"uid" = S.uid
 			)))

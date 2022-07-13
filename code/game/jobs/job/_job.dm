@@ -418,7 +418,7 @@
 
 /datum/job/proc/get_roundstart_spawnpoint()
 	var/list/loc_list = list()
-	for(var/obj/effect/landmark/start/sloc in global.landmarks_list)
+	for(var/obj/abstract/landmark/start/sloc in global.landmarks_list)
 		if(sloc.name != title)	continue
 		if(locate(/mob/living) in sloc.loc)	continue
 		loc_list += sloc
@@ -449,7 +449,7 @@
 		spawnpos = null
 	if(!spawnpos)
 		// Step through all spawnpoints and pick first appropriate for job
-		for(var/decl/spawnpoint/candidate AS_ANYTHING in global.using_map.allowed_spawns)
+		for(var/decl/spawnpoint/candidate as anything in global.using_map.allowed_spawns)
 			if(candidate?.check_job_spawning(src))
 				spawnpos = candidate
 				break

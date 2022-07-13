@@ -8,7 +8,7 @@
 	unsendable = 1
 	undeletable = 1
 	size = 4
-	requires_network_feature = NETWORK_SOFTWAREDOWNLOAD
+	requires_network_feature = NET_FEATURE_SOFTWAREDOWNLOAD
 	available_on_network = 0
 	nanomodule_path = /datum/nano_module/program/computer_appdownloader/
 	ui_header = "downloader_finished.gif"
@@ -136,7 +136,7 @@
 			var/list/category_list[0]
 			for(var/datum/computer_file/program/P in net.get_software_list(category))
 				// Only those programs our user can run will show in the list
-				if(!P.can_run(user) && P.requires_access_to_download)
+				if(!P.can_run(get_access(user), user, FALSE) && P.requires_access_to_download)
 					continue
 				if(!P.is_supported_by_hardware(program.computer.get_hardware_flag(), user, TRUE))
 					continue

@@ -195,7 +195,7 @@ var/global/list/possible_say_verbs = list(
 		var/mob/holder = card.loc
 		if(ishuman(holder))
 			var/mob/living/carbon/human/H = holder
-			for(var/obj/item/organ/external/affecting in H.organs)
+			for(var/obj/item/organ/external/affecting in H.get_external_organs())
 				if(card in affecting.implants)
 					affecting.take_external_damage(rand(30,50))
 					LAZYREMOVE(affecting.implants, card)
@@ -297,7 +297,7 @@ var/global/list/possible_say_verbs = list(
 
 // No binary for pAIs.
 /mob/living/silicon/pai/binarycheck()
-	return 0
+	return FALSE
 
 /mob/living/silicon/pai/verb/wipe_software()
 	set name = "Wipe Software"

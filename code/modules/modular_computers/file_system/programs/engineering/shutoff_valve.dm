@@ -6,10 +6,10 @@
 	program_key_state = "atmos_key"
 	program_menu_icon = "shuffle"
 	extended_desc = "This program allows remote control and monitoring of shutoff valves."
-	required_access = list(access_atmospherics)
+	read_access = list(access_atmospherics)
 	requires_network = 1
+	requires_network_feature = NET_FEATURE_SYSTEMCONTROL
 	network_destination = "atmospheric control system"
-	requires_network_feature = NETWORK_SYSTEMCONTROL
 	category = PROG_ENG
 	size = 10
 

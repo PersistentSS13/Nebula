@@ -19,3 +19,7 @@
 		SSstatistics.set_field_details("game_mode","[SSticker.mode]")
 	SSstatistics.set_field_details("server_ip","[world.internet_address]:[world.port]")
 	return 1
+
+//Newly created characters always latejoin!
+/datum/game_mode/persistent/handle_latejoin()
+	return //Prevents the game from trying to generate goals on spawn

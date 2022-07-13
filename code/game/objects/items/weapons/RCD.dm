@@ -46,7 +46,7 @@
 /obj/item/rcd/examine(mob/user)
 	. = ..()
 	if(src.type == /obj/item/rcd && loc == user)
-		to_chat(user, "The current mode is '[work_mode]'")
+		to_chat(user, "The current mode is '[work_mode]'.")
 		to_chat(user, "It currently holds [stored_matter]/[max_stored_matter] matter-units.")
 
 /obj/item/rcd/Initialize()
@@ -70,7 +70,7 @@
 		update_icon()
 		return
 
-	if(isScrewdriver(W))
+	if(IS_SCREWDRIVER(W))
 		crafting = !crafting
 		if(!crafting)
 			to_chat(user, "<span class='notice'>You reassemble the RCD</span>")

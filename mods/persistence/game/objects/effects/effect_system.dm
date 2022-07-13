@@ -16,8 +16,12 @@
 
 /obj/effect/floor_decal
 	should_save = TRUE
+/obj/effect/decal
+	should_save = TRUE
+/obj/effect/overlay
+	should_save = TRUE
 
-/obj/effect/landmark/map_data
+/obj/abstract/map_data
 	should_save = TRUE
 
 /obj/effect/flood //Contains reagents data
@@ -26,9 +30,6 @@
 	should_save = TRUE
 
 /obj/effect/spider
-	should_save = TRUE
-
-/obj/effect/overlay
 	should_save = TRUE
 
 /obj/effect/spresent
@@ -56,4 +57,7 @@
 	should_save = TRUE
 
 /obj/effect/razorweb
+	should_save = TRUE
+
+/obj/effect/geyser
 	should_save = TRUE

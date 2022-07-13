@@ -15,8 +15,10 @@
 	)
 	anchored = TRUE
 	var/area/selected_area
+	var/selected_parent_group
+
 	var/list/owned_areas = list() // List of areas->req_access list that are protected or were created by this controller.
-	var/protected = 0			  // Number of areas actually being protected by the server i.e. those that have grants attached.
+	var/protected = 0			  // Number of areas actually being protected by the server i.e. those that have groups attached.
 	var/max_protected_areas = 0   // No area protection without SMES coils.
 	use_power = POWER_USE_IDLE
 
@@ -66,7 +68,7 @@
 	if(stat & (NOPOWER|BROKEN)) 
 		return TRUE
 
-	var/list/req_access = owned_areas[checked_area]
+	var/list/req_access = list(owned_areas[checked_area]) // List of a list for OR type access check.
 
 	return has_access(req_access, user.GetAccess())
 
@@ -100,9 +102,10 @@
 
 	if(href_list["back"])
 		selected_area = null
+		selected_parent_group = null
 		return TOPIC_REFRESH
 
-	if(href_list["add_grant"])
+	if(href_list["add_group"])
 		if(!selected_area)
 			return TOPIC_HANDLED
 		if(!(selected_area in owned_areas))
@@ -111,35 +114,38 @@
 		if(!length(owned_areas[selected_area]) && protected >= max_protected_areas)
 			to_chat(user, SPAN_WARNING("Error: Cannot add any more protected areas!"))
 			return
-		var/datum/computer_file/data/grant_record/grant = access_controller.get_grant(href_list["add_grant"])
-		if(!grant) // Safety check to ensure this grant actually exists
+		var/group_name = href_list["add_group"]
+		if(!(group_name in access_controller.get_all_groups())) // Safety check to ensure this group actually exists
 			return TOPIC_HANDLED
-		owned_areas[selected_area] |= uppertext("[net_device.network_id].[grant.stored_data]") // Add the actual access string to the list.
+		owned_areas[selected_area] |= "[group_name].[net_device.network_id]" // Add the actual access string to the list.
 		update_protected_count()
 		recalculate_power()
 		return TOPIC_REFRESH
 
-	if(href_list["remove_grant"])
+	if(href_list["remove_group"])
 		if(!selected_area)
 			return TOPIC_HANDLED
 		if(!(selected_area in owned_areas))
 			selected_area = null
 			return TOPIC_REFRESH
-		var/datum/computer_file/data/grant_record/grant = access_controller.get_grant(href_list["remove_grant"])
-		if(!grant)
-			return TOPIC_HANDLED
-		owned_areas[selected_area] -= uppertext("[net_device.network_id].[grant.stored_data]")
+		var/group_name = href_list["remove_group"]
+		owned_areas[selected_area] -= "[group_name].[net_device.network_id]"
 		recalculate_power()
 		update_protected_count()
 		return TOPIC_REFRESH
 
-	if(href_list["clear_grants"])
+	if(href_list["clear_groups"])
 		if(!selected_area)
 			return TOPIC_HANDLED
 		owned_areas[selected_area] = list()
 		recalculate_power()
 		update_protected_count()
 		return TOPIC_REFRESH
+
+	if(href_list["select_parent_group"])
+		if(!(href_list["selected_parent_group"] in access_controller.get_group_dict()))
+			return TOPIC_HANDLED
+		selected_parent_group = href_list["selected_parent_group"]
 
 	if(href_list["toggle_power"])
 		toggle_active()
@@ -150,6 +156,7 @@
 		if(!isnum(index) || LAZYLEN(owned_areas) < index)
 			return TOPIC_HANDLED
 		selected_area = owned_areas[index]
+		return TOPIC_REFRESH
 
 /obj/machinery/network/area_controller/ui_data(mob/user, ui_key)
 	. = ..()
@@ -169,18 +176,38 @@
 	.["max_protected"] = max_protected_areas
 	.["selected_area"] = !!selected_area
 	if(selected_area)
-		// Looking at an area and selecting the grants permitted to modify the area.
-		var/list/grants[0]
-		// We're editing a user, so we only need to build a subset of data.
+		// Looking at an area and selecting the groups permitted to modify the area.
+		var/list/group_dictionary = access_controller.get_group_dict()
+		var/list/parent_groups_data
+		var/list/child_groups_data
+
+		var/list/current_groups = owned_areas[selected_area]
+
 		.["area_name"] = selected_area.name
 		.["area_index"] = owned_areas.Find(selected_area)
-		var/list/current_grants = owned_areas[selected_area]
-		for(var/datum/computer_file/data/grant_record/GR in access_controller.get_all_grants())
-			grants.Add(list(list(
-				"grant_name" = GR.stored_data,
-				"assigned" = (uppertext("[net_device.network_id].[GR.stored_data]") in current_grants)
-			)))
-		.["grants"] = grants
+
+		if(selected_parent_group)
+			if(!(selected_parent_group in group_dictionary))
+				selected_parent_group = null
+			else
+				var/list/child_groups = group_dictionary[selected_parent_group]
+				if(child_groups)
+					child_groups_data = list()
+					for(var/child_group in child_groups)
+						child_groups_data.Add(list(list(
+							"child_group" = child_group,
+							"assigned" = (LAZYISIN(current_groups, "[child_group].[net_device.network_id]"))
+						)))
+		if(!selected_parent_group) // Check again in case we ended up with a non-existent selected parent group instead of breaking the UI.
+			parent_groups_data = list()
+			for(var/parent_group in group_dictionary)
+				parent_groups_data.Add(list(list(
+					"parent_group" = parent_group,
+					"assigned" = (LAZYISIN(current_groups, "[parent_group].[net_device.network_id]"))
+				)))
+		.["parent_groups"] = parent_groups_data
+		.["child_groups"] = child_groups_data
+
 	else
 		// Selecting area for modification.
 		var/list/areas[0]
@@ -189,7 +216,7 @@
 			areas.Add(list(list(
 				"area_index" = i,
 				"area_name" = A.name,
-				"grant_count" = length(owned_areas[A]),
+				"group_count" = length(owned_areas[A]),
 			)))
 		.["areas"] = areas
 
@@ -197,7 +224,7 @@
 	var/protected = 0
 	for(var/A in owned_areas)
 		var/list/L = owned_areas[A]
-		if(LAZYLEN(L)) // No upkeep requirement for areas with no required grants.
+		if(LAZYLEN(L)) // No upkeep requirement for areas with no required groups.
 			protected++
 	change_power_consumption((protected*ENERGY_PER_AREA) + idle_power_usage, POWER_USE_ACTIVE)
 
@@ -254,3 +281,5 @@
 	path = /obj/item/stock_parts/circuitboard/area_controller
 
 #undef ENERGY_PER_AREA
+
+SAVED_VAR(/obj/machinery/network/area_controller, owned_areas)

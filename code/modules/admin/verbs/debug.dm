@@ -92,7 +92,7 @@
 			return 0
 	var/obj/item/paicard/card = new(T)
 	var/mob/living/silicon/pai/pai = new(card)
-	pai.SetName(sanitizeSafe(input(choice, "Enter your pAI name:", "pAI Name", "Personal AI") as text))
+	pai.SetName(sanitize_safe(input(choice, "Enter your pAI name:", "pAI Name", "Personal AI") as text))
 	pai.real_name = pai.name
 	pai.key = choice.key
 	card.setPersonality(pai)
@@ -311,7 +311,7 @@
 	if(alert("Are you sure? This will start up the engine. Should only be used during debug!",,"Yes","No") != "Yes")
 		return
 
-	for(var/obj/machinery/power/emitter/E in SSmachines.machinery)
+	for(var/obj/machinery/emitter/E in SSmachines.machinery)
 		if(E.anchored)
 			E.active = 1
 
@@ -337,7 +337,7 @@
 				//S.dissipate_track = 0
 				//S.dissipate_strength = 10
 
-	for(var/obj/machinery/power/rad_collector/Rad in SSmachines.machinery)
+	for(var/obj/machinery/rad_collector/Rad in SSmachines.machinery)
 		if(Rad.anchored)
 			if(!Rad.loaded_tank)
 				Rad.loaded_tank = new /obj/item/tank/hydrogen(Rad)
@@ -468,10 +468,10 @@
 	set name = "Spawn Material Stack"
 	if(!check_rights(R_DEBUG)) return
 
-	var/material = input("Select material to spawn") as null|anything in SSmaterials.materials_by_name
+	var/decl/material/material = input("Select material to spawn") as null|anything in SSmaterials.materials
 	if(!material)
 		return
-	SSmaterials.create_object(material, get_turf(mob), 50)
+	SSmaterials.create_object(material.type, get_turf(mob), 50)
 
 /client/proc/force_ghost_trap_trigger()
 	set category = "Debug"
@@ -533,6 +533,8 @@
 		if(I.failures)
 			. += "<li>Failures: [I.failures]</li>"
 		. += "<li>qdel() Count: [I.qdels]</li>"
+		if(I.early_destroy)
+			. += "<li>Early destroy count: [I.early_destroy]</li>"
 		. += "<li>Destroy() Cost: [I.destroy_time]ms</li>"
 		if(I.hard_deletes)
 			. += "<li>Total Hard Deletes [I.hard_deletes]</li>"

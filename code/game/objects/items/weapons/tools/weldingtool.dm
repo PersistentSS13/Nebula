@@ -91,7 +91,7 @@
 		to_chat(user, SPAN_WARNING("Stop welding first!"))
 		return
 
-	if(isScrewdriver(W))
+	if(IS_SCREWDRIVER(W))
 		if(isrobot(loc))
 			to_chat(user, SPAN_WARNING("You cannot modify your own welder!"))
 			return
@@ -314,7 +314,7 @@
 /obj/item/weldingtool/attack(mob/living/M, mob/living/user, target_zone)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		var/obj/item/organ/external/S = H.organs_by_name[target_zone]
+		var/obj/item/organ/external/S = GET_EXTERNAL_ORGAN(H, target_zone)
 
 		if(!S || !S.is_robotic() || user.a_intent != I_HELP)
 			return ..()

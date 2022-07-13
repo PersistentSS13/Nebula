@@ -59,7 +59,6 @@
 /obj/structure/grille/on_update_icon()
 	..()
 	var/on_frame = is_on_frame()
-	overlays.Cut()
 	if(destroyed)
 		if(on_frame)
 			icon_state = "broke_onframe"
@@ -75,7 +74,7 @@
 					I = image(icon, "grille_other_onframe[conn]", dir = BITFLAG(i-1))
 				else
 					I = image(icon, "grille_onframe[conn]", dir = BITFLAG(i-1))
-				overlays += I
+				add_overlay(I)
 		else
 			for(var/i = 1 to 4)
 				var/conn = connections ? connections[i] : "0"
@@ -83,7 +82,7 @@
 					I = image(icon, "grille_other[conn]", dir = BITFLAG(i-1))
 				else
 					I = image(icon, "grille[conn]", dir = BITFLAG(i-1))
-				overlays += I
+				add_overlay(I)
 
 /obj/structure/grille/Bumped(atom/user)
 	if(ismob(user)) shock(user, 70)
@@ -94,6 +93,9 @@
 	playsound(loc, 'sound/effects/grillehit.ogg', 80, 1)
 	user.do_attack_animation(src)
 
+	if(shock(user, 70))
+		return
+
 	var/damage_dealt = 1
 	var/attack_message = "kicks"
 	if(istype(user,/mob/living/carbon/human))
@@ -101,14 +103,6 @@
 		if(H.species.can_shred(H))
 			attack_message = "mangles"
 			damage_dealt = 5
-
-	if(shock(user, 70))
-		return
-
-	if(MUTATION_HULK in user.mutations)
-		damage_dealt += 5
-	else
-		damage_dealt += 1
 
 	attack_generic(user,damage_dealt,attack_message)
 
@@ -168,11 +162,11 @@
 		update_icon()
 
 /obj/structure/grille/attackby(obj/item/W, mob/user)
-	if(isWirecutter(W))
+	if(IS_WIRECUTTER(W))
 		if(!material.conductive || !shock(user, 100))
 			cut_grille()
 
-	else if((isScrewdriver(W)) && (istype(loc, /turf/simulated) || anchored))
+	else if((IS_SCREWDRIVER(W)) && (istype(loc, /turf/simulated) || anchored))
 		if(!shock(user, 90))
 			playsound(loc, 'sound/items/Screwdriver.ogg', 100, 1)
 			anchored = !anchored
@@ -205,9 +199,9 @@
 		user.do_attack_animation(src)
 		playsound(loc, 'sound/effects/grillehit.ogg', 80, 1)
 		switch(W.damtype)
-			if("fire")
+			if(BURN)
 				take_damage(W.force)
-			if("brute")
+			if(BRUTE)
 				take_damage(W.force * 0.1)
 	..()
 

@@ -55,9 +55,9 @@
 	if(holding)
 		icon_state = "holding"
 
-	overlays.Cut()
+	..()
 	if(cloth)
-		overlays += new /icon(cloth.icon, cloth.icon_state)
+		add_overlay(image(cloth.icon, cloth.icon_state))
 
 /obj/structure/bed/roller/ironingboard/attackby(var/obj/item/I, var/mob/user)
 	if(!density)
@@ -93,7 +93,7 @@
 				return
 			visible_message("<span class='danger'>[user] irons [src.buckled_mob]'s [parsed]!</span>", "<span class='danger'>You iron [buckled_mob]'s [parsed]!</span>")
 
-			var/obj/item/organ/external/affecting = H.get_organ(zone)
+			var/obj/item/organ/external/affecting = GET_EXTERNAL_ORGAN(H, zone)
 			affecting.take_external_damage(0, 15, used_weapon = "Hot metal")
 
 			return

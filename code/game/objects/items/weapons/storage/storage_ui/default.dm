@@ -67,38 +67,38 @@
 	. = ..()
 
 /datum/storage_ui/default/on_open(var/mob/user)
-	if (user.s_active)
-		user.s_active.close(user)
+	if (user.active_storage)
+		user.active_storage.close(user)
 
 /datum/storage_ui/default/after_close(var/mob/user)
-	user.s_active = null
+	user.active_storage = null
 
 /datum/storage_ui/default/on_insertion(var/mob/user)
-	if(user.s_active)
-		user.s_active.show_to(user)
+	if(user.active_storage)
+		user.active_storage.show_to(user)
 
 /datum/storage_ui/default/on_pre_remove(var/mob/user, var/obj/item/W)
 	for(var/mob/M in range(1, storage.loc))
-		if (M.s_active == storage)
+		if (M.active_storage == storage)
 			if (M.client)
 				M.client.screen -= W
 
 /datum/storage_ui/default/on_post_remove(var/mob/user)
-	if(user && user.s_active) // Using ?. here causes a runtime ('Cannot read 0.s_active'), it shouldn't but it does.
-		user.s_active.show_to(user)
+	if(user && user.active_storage) // Using ?. here causes a runtime ('Cannot read 0.active_storage'), it shouldn't but it does.
+		user.active_storage.show_to(user)
 
 /datum/storage_ui/default/on_hand_attack(var/mob/user)
 	for(var/mob/M in range(1))
-		if (M.s_active == storage)
+		if (M.active_storage == storage)
 			storage.close(M)
 
 /datum/storage_ui/default/show_to(var/mob/user)
-	if(user.s_active != storage)
+	if(user.active_storage != storage)
 		for(var/obj/item/I in storage)
 			if(I.on_found(user))
 				return
-	if(user.s_active)
-		user.s_active.hide_from(user)
+	if(user.active_storage)
+		user.active_storage.hide_from(user)
 	user.client.screen -= boxes
 	user.client.screen -= storage_start
 	user.client.screen -= storage_continue
@@ -114,7 +114,7 @@
 		user.client.screen += storage_continue
 		user.client.screen += storage_end
 	is_seeing |= user
-	user.s_active = storage
+	user.active_storage = storage
 
 /datum/storage_ui/default/hide_from(var/mob/user)
 	is_seeing -= user
@@ -126,8 +126,8 @@
 	user.client.screen -= storage_end
 	user.client.screen -= closer
 	user.client.screen -= storage.contents
-	if(user.s_active == storage)
-		user.s_active = null
+	if(user.active_storage == storage)
+		user.active_storage = null
 
 //Creates the storage UI
 /datum/storage_ui/default/prepare_ui()
@@ -145,7 +145,7 @@
 /datum/storage_ui/default/proc/can_see_contents()
 	var/list/cansee = list()
 	for(var/mob/M in is_seeing)
-		if(M.s_active == storage && M.client)
+		if(M.active_storage == storage && M.client)
 			cansee |= M
 		else
 			is_seeing -= M
@@ -176,22 +176,26 @@
 		row_num = round((adjusted_contents-1) / 7) // 7 is the maximum allowed width.
 	arrange_item_slots(row_num, col_count)
 
+#define SCREEN_LOC_MOD_FIRST   3
+#define SCREEN_LOC_MOD_SECOND  1.7
+#define SCREEN_LOC_MOD_DIVIDED (0.5 * world.icon_size)
+
 //This proc draws out the inventory and places the items on it. It uses the standard position.
-/datum/storage_ui/default/proc/arrange_item_slots(var/rows, var/cols)
-	var/cx = 4
-	var/cy = 2+rows
-	boxes.screen_loc = "LEFT+4:16,BOTTOM+2:16 to LEFT+[4+cols]:16,BOTTOM+[2+rows]:16"
+/datum/storage_ui/default/proc/arrange_item_slots(rows, cols)
+	var/cx = SCREEN_LOC_MOD_FIRST
+	var/cy = SCREEN_LOC_MOD_SECOND + rows
+	boxes.screen_loc = "LEFT+[SCREEN_LOC_MOD_FIRST]:[SCREEN_LOC_MOD_DIVIDED],BOTTOM+[SCREEN_LOC_MOD_SECOND]:[SCREEN_LOC_MOD_DIVIDED] to LEFT+[SCREEN_LOC_MOD_FIRST + cols]:[SCREEN_LOC_MOD_DIVIDED],BOTTOM+[SCREEN_LOC_MOD_SECOND + rows]:[SCREEN_LOC_MOD_DIVIDED]"
 
 	for(var/obj/O in storage.contents)
-		O.screen_loc = "LEFT+[cx]:16,BOTTOM+[cy]:16"
+		O.screen_loc = "LEFT+[cx]:[SCREEN_LOC_MOD_DIVIDED],BOTTOM+[cy]:[SCREEN_LOC_MOD_DIVIDED]"
 		O.maptext = ""
 		O.hud_layerise()
 		cx++
-		if (cx > (4+cols))
-			cx = 4
+		if (cx > (SCREEN_LOC_MOD_FIRST + cols))
+			cx = SCREEN_LOC_MOD_FIRST
 			cy--
 
-	closer.screen_loc = "LEFT+[4+cols+1]:16,BOTTOM+2:16"
+	closer.screen_loc = "LEFT+[SCREEN_LOC_MOD_FIRST + cols + 1]:[SCREEN_LOC_MOD_DIVIDED],BOTTOM+[SCREEN_LOC_MOD_SECOND]:[SCREEN_LOC_MOD_DIVIDED]"
 
 /datum/storage_ui/default/proc/space_orient_objs()
 
@@ -206,9 +210,9 @@
 	M.Scale((storage_width-storage_cap_width*2+3)/32,1)
 	storage_continue.transform = M
 
-	storage_start.screen_loc = "LEFT+4:16,BOTTOM+2:16"
-	storage_continue.screen_loc = "LEFT+4:[storage_cap_width+(storage_width-storage_cap_width*2)/2+2],BOTTOM+2:16"
-	storage_end.screen_loc = "LEFT+4:[19+storage_width-storage_cap_width],BOTTOM+2:16"
+	storage_start.screen_loc = "LEFT+[SCREEN_LOC_MOD_FIRST]:[SCREEN_LOC_MOD_DIVIDED],BOTTOM+[SCREEN_LOC_MOD_SECOND]:[SCREEN_LOC_MOD_DIVIDED]"
+	storage_continue.screen_loc = "LEFT+[SCREEN_LOC_MOD_FIRST]:[storage_cap_width+(storage_width-storage_cap_width*2)/2+2],BOTTOM+[SCREEN_LOC_MOD_SECOND]:[SCREEN_LOC_MOD_DIVIDED]"
+	storage_end.screen_loc = "LEFT+[SCREEN_LOC_MOD_FIRST]:[19+storage_width-storage_cap_width],BOTTOM+[SCREEN_LOC_MOD_SECOND]:[SCREEN_LOC_MOD_DIVIDED]"
 
 	var/startpoint = 0
 	var/endpoint = 1
@@ -231,11 +235,12 @@
 		storage_start.overlays += stored_continue
 		storage_start.overlays += stored_end
 
-		O.screen_loc = "LEFT+4:[round((startpoint+endpoint)/2)+2-O.pixel_x],BOTTOM+2:[16-O.pixel_y]"
+		O.reset_offsets()
+		O.screen_loc = "LEFT+[SCREEN_LOC_MOD_FIRST]:[round((startpoint+endpoint)/2)+2-O.pixel_x],BOTTOM+[SCREEN_LOC_MOD_SECOND]:[SCREEN_LOC_MOD_DIVIDED-O.pixel_y]"
 		O.maptext = ""
 		O.hud_layerise()
 
-	closer.screen_loc = "LEFT+4:[storage_width+19],BOTTOM+2:16"
+	closer.screen_loc = "LEFT+[SCREEN_LOC_MOD_FIRST]:[storage_width+19],BOTTOM+[SCREEN_LOC_MOD_SECOND]:[SCREEN_LOC_MOD_DIVIDED]"
 
 // Sets up numbered display to show the stack size of each stored mineral
 // NOTE: numbered display is turned off currently because it's broken
@@ -247,5 +252,9 @@
 	if (adjusted_contents > 7)
 		row_num = round((adjusted_contents-1) / 7) // 7 is the maximum allowed width.
 	arrange_item_slots(row_num, col_count)
-	if(user && user.s_active)
-		user.s_active.show_to(user)
+	if(user && user.active_storage)
+		user.active_storage.show_to(user)
+
+#undef SCREEN_LOC_MOD_FIRST
+#undef SCREEN_LOC_MOD_SECOND
+#undef SCREEN_LOC_MOD_DIVIDED

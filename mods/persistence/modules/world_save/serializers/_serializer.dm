@@ -56,6 +56,9 @@
 	// We check to see if this is a reference only var so that if things are missing from the resolver, this doesn't fail silently.
 	if(reference_only && !resolver.things["[object_id]"])
 		return null
+	if(!istype(resolver.things["[object_id]"], /datum/persistence/load_cache/thing))
+		to_world_log("serializer/QueryAndDeserializeDatum(): Got a reference to a thing with a bad type. ([object_id])")
+		return null
 	return DeserializeDatum(resolver.things["[object_id]"])
 
 /serializer/proc/QueryAndDeserializeList(var/list_id)
@@ -69,7 +72,8 @@
 /serializer/proc/should_flatten(var/datum/object)
 	if(isnull(object))
 		return FALSE
-	return object.type in global.flatten_types
+	var/decl/saved_variables/SV = get_saved_decl(object.type)
+	return (SV?.should_flatten)
 
 /serializer/proc/Clear()
 	z_index = -1
@@ -82,6 +86,9 @@
 	return FALSE
 
 /serializer/proc/save_z_level_remaps()
+	return FALSE
+
+/serializer/proc/save_area_chunks()
 	return FALSE
 
 /serializer/proc/_before_serialize()

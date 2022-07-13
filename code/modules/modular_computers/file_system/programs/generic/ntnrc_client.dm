@@ -6,7 +6,7 @@
 	program_menu_icon = "comment"
 	extended_desc = "This program allows communication over the local network"
 	size = 8
-	requires_network_feature = NETWORK_COMMUNICATION
+	requires_network_feature = NET_FEATURE_COMMUNICATION
 	network_destination = "chat server"
 	ui_header = "ntnrc_idle.gif"
 	available_on_network = 1
@@ -70,7 +70,7 @@
 	if(href_list["PRG_newchannel"])
 		. = 1
 		var/mob/living/user = usr
-		var/channel_title = sanitizeSafe(input(user,"Enter channel name or leave blank to cancel:"), 64)
+		var/channel_title = sanitize_safe(input(user,"Enter channel name or leave blank to cancel:"), 64)
 		if(!channel_title)
 			return
 		var/datum/chat_conversation/C = new/datum/chat_conversation(network)
@@ -87,7 +87,7 @@
 				channel = null
 			return 1
 		var/mob/living/user = usr
-		if(can_run(usr, 1, list(access_network)))
+		if(has_access(list(access_network), usr.GetAccess()))
 			if(channel)
 				var/response = alert(user, "Really engage admin-mode? You will be disconnected from your current channel!", "NTNRC Admin mode", "Yes", "No")
 				if(response == "Yes")

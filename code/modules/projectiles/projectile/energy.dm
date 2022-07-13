@@ -79,7 +79,7 @@
 							visible = TRUE
 							break
 				if(visible)
-					to_chat(mob, SPAN_NOTICE("You see a bright light to \the [dir2text(get_dir(T,TO))]"))
+					to_chat(mob, SPAN_NOTICE("You see a bright light to \the [dir2text(get_dir(T,TO))]."))
 			CHECK_TICK
 
 /obj/item/projectile/energy/electrode	//has more pain than a beam because it's harder to hit
@@ -167,11 +167,9 @@
 	var/ear_safety = 0
 	if(M.get_sound_volume_multiplier() < 0.2)
 		ear_safety += 2
-	if(MUTATION_HULK in M.mutations)
-		ear_safety += 1
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		if(istype(H.head, /obj/item/clothing/head/helmet))
+		if(istype(H.get_equipped_item(slot_head_str), /obj/item/clothing/head/helmet))
 			ear_safety += 1
 
 	if(!ear_safety)

@@ -24,9 +24,9 @@
 		if(R)
 			R.allow_wifi = !R.allow_wifi
 			return TOPIC_REFRESH
-	
 	. = ..()
 
+// Long ranged network relay. Alternative to PLEXUS for maps which don't wish to use it. Otherwise difficult to obtain.
 /obj/machinery/network/relay/long_range
 	name = "long-ranged network relay"
 	icon = 'icons/obj/machines/tcomms/relay.dmi'

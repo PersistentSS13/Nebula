@@ -110,4 +110,20 @@
 		/obj/item/stock_parts/micro_laser = 1,
 		/obj/item/stock_parts/capacitor = 1,
 		/obj/item/stock_parts/power/apc/buildable = 1,
+		/obj/item/stock_parts/keyboard = 1,
+		/obj/item/stock_parts/console_screen = 1,
+		/obj/item/stack/cable_coil/random = 1
+	)
+	
+/obj/item/chargen_box/ration/twinkies
+	name = "emergency twinkie kit"
+	icon_state = "donk_kit"
+	startswith = list(
+		/obj/item/chems/food/spacetwinkie = 8
+	)
+
+/obj/item/chargen_box/ration/mre
+	name = "MRE shipment"
+	startswith = list(
+		/obj/item/storage/mre/random = 5
 	)

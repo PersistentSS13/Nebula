@@ -8,10 +8,13 @@
 	set name = "Move Down"
 	set category = "IC"
 
-	SelfMove(DOWN)
+	move_down()
 
 /mob/proc/move_up()
 	SelfMove(UP)
+
+/mob/proc/move_down()
+	SelfMove(DOWN)
 
 /mob/living/carbon/human/move_up()
 	var/turf/old_loc = loc
@@ -101,7 +104,7 @@
 		return
 
 	var/turf/T = loc
-	if(!T.CanZPass(src, DOWN) || !below.CanZPass(src, DOWN))
+	if(!T.CanZPass(src, DOWN))
 		return
 
 	// No gravity in space, apparently.
@@ -148,7 +151,7 @@
 		for(var/atom/A in below)
 			if(!A.CanPass(src, location_override))
 				return FALSE
-		
+
 		//We cannot sink if we can swim
 		if(location_override.get_fluid_depth() >= FLUID_DEEP && (below == loc))
 			if(!(below.get_fluid_depth() >= 0.95 * FLUID_MAX_DEPTH)) //No salmon skipping up a stream of falling water
@@ -185,7 +188,7 @@
 
 /atom/movable/proc/handle_fall(var/turf/landing)
 	var/turf/previous = get_turf(loc)
-	forceMove(landing)
+	Move(landing, get_dir(previous, landing))
 	if(locate(/obj/structure/stairs) in landing)
 		return 1
 	if(landing.get_fluid_depth() >= FLUID_DEEP)
@@ -225,6 +228,8 @@
 	return BASE_STORAGE_COST(w_class)
 
 /mob/living/carbon/human/apply_fall_damage(var/turf/landing)
+	if(status_flags & GODMODE)
+		return
 	if(species && species.handle_fall_special(src, landing))
 		return
 	var/min_damage = 7
@@ -242,8 +247,8 @@
 	if(prob(skill_fail_chance(SKILL_HAULING, 40, SKILL_EXPERT, 2)))
 		var/list/victims = list()
 		for(var/tag in list(BP_L_FOOT, BP_R_FOOT, BP_L_ARM, BP_R_ARM))
-			var/obj/item/organ/external/E = get_organ(tag)
-			if(E && !E.is_stump() && !E.dislocated && !BP_IS_PROSTHETIC(E))
+			var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, tag)
+			if(E && !E.is_dislocated() && (E.limb_flags & ORGAN_FLAG_CAN_DISLOCATE) && !BP_IS_PROSTHETIC(E))
 				victims += E
 		if(victims.len)
 			var/obj/item/organ/external/victim = pick(victims)
@@ -256,8 +261,7 @@
 		return FALSE
 
 	var/turf/T = get_turf(A)
-	var/turf/above = GetAbove(src)
-	if(above && T.Adjacent(bound_overlay) && above.CanZPass(src, UP)) //Certain structures will block passage from below, others not
+	if(T.Adjacent(bound_overlay) && T.CanZPass(src, UP)) //Certain structures will block passage from below, others not
 		if(loc.has_gravity() && !can_overcome_gravity())
 			return FALSE
 
@@ -318,7 +322,13 @@
 /mob/living/can_float()
 	return !is_physically_disabled()
 
-/mob/living/aquatic/can_float()
+/mob/living/simple_animal/aquatic/can_float()
+	return TRUE
+
+/mob/living/simple_animal/hostile/aquatic/can_float()
+	return TRUE
+
+/mob/living/simple_animal/hostile/retaliate/aquatic/can_float()
 	return TRUE
 
 /mob/living/carbon/human/can_float()

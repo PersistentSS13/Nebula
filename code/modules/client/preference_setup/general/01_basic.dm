@@ -16,7 +16,7 @@
 	pref.be_random_name = R.read("name_is_always_random")
 
 	pref.spawnpoint = R.read("spawnpoint")
-	for(var/decl/spawnpoint/spawnpoint AS_ANYTHING in global.using_map.allowed_spawns)
+	for(var/decl/spawnpoint/spawnpoint as anything in global.using_map.allowed_spawns)
 		if(pref.spawnpoint == spawnpoint.name)
 			pref.spawnpoint = spawnpoint.type
 			break
@@ -35,7 +35,7 @@
 /datum/category_item/player_setup_item/physical/basic/sanitize_character()
 	
 	var/valid_spawn = FALSE
-	for(var/decl/spawnpoint/spawnpoint AS_ANYTHING in global.using_map.allowed_spawns)
+	for(var/decl/spawnpoint/spawnpoint as anything in global.using_map.allowed_spawns)
 		if(pref.spawnpoint == spawnpoint.type)
 			valid_spawn = TRUE
 			break
@@ -95,7 +95,7 @@
 		if (!isnull(raw_name) && CanUseTopic(user))
 
 			var/decl/cultural_info/check = GET_DECL(pref.cultural_info[TAG_CULTURE])
-			var/new_name = check.sanitize_name(raw_name, pref.species)
+			var/new_name = check.sanitize_cultural_name(raw_name, pref.species)
 			if(filter_block_message(user, new_name))
 				return TOPIC_NOACTION
 

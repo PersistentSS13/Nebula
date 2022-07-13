@@ -14,13 +14,16 @@
 							/obj/item/stock_parts/power/apc/buildable = 1,
 	)
 
+/datum/fabricator_recipe/imprinter/circuit/cortical_stack_resleever
+	path = /obj/item/stock_parts/circuitboard/resleever
+
 /obj/machinery/resleever
 	name = "Cortical Stack Resleever"
 	desc = "It's a machine that allows cortical stacks to be sleeved into new bodies."
 	icon = 'icons/obj/Cryogenic2.dmi'
 	icon_state = "body_scanner_0"
-	anchored = 1
-	density = 1
+	anchored = TRUE
+	density = TRUE
 	idle_power_usage = 10
 	active_power_usage = 4 KILOWATTS // A CT scan machine uses 1-15 kW depending on the model and equipment involved.
 
@@ -165,7 +168,7 @@
 			if(!occupant)
 				to_chat(user, "No occupant in \the [src]!")
 				return TOPIC_REFRESH
-			if(occupant.get_internal_organ(BP_STACK))
+			if(occupant.get_organ(BP_STACK))
 				to_chat(user, "Occupant already has a mind.")
 				return TOPIC_REFRESH
 			if(sleeve())
@@ -188,8 +191,7 @@
 	if(lace && occupant)
 		var/obj/item/organ/O = occupant.get_organ(lace.parent_organ)
 		if(istype(O))
-			lace.status &= ~ORGAN_CUT_AWAY //ensure the lace is properly attached
-			lace.replaced(occupant, O)
+			occupant.add_organ(lace, O)
 			lace = null
 			playsound(loc, 'sound/machines/twobeep.ogg', 50, vary = TRUE)
 			visible_message("\The [src] beeps softly as it begins its procedure.", "You hear a beep.", range = 3)

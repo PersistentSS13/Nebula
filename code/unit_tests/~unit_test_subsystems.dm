@@ -37,10 +37,10 @@ SUBSYSTEM_DEF(unit_tests)
 	. = ..()
 
 /datum/controller/subsystem/unit_tests/proc/load_map_templates()
-	for(var/map_template_name in (SSmapping.map_templates))
-		var/datum/map_template/map_template = SSmapping.map_templates[map_template_name]
+	for(var/map_template_name in SSmapping.map_templates)
+		var/datum/map_template/map_template = SSmapping.get_template(map_template_name)
 		// Away sites are supposed to be tested separately in the Away Site environment
-		if(istype(map_template, /datum/map_template/ruin/away_site))
+		if(MAP_TEMPLATE_CATEGORY_AWAYSITE in map_template.template_categories)
 			report_progress("Skipping template '[map_template]' ([map_template.type]): Is an Away Site")
 			continue
 		load_template(map_template)
@@ -52,7 +52,7 @@ SUBSYSTEM_DEF(unit_tests)
 	// Suggestion: Do smart things here to squeeze as many templates as possible into the same Z-level
 	if(map_template.tallness == 1)
 		INCREMENT_WORLD_Z_SIZE
-		global.using_map.sealed_levels += world.maxz // TODO: make maps handle this with /obj/level_data
+		global.using_map.sealed_levels += world.maxz // TODO: make maps handle this with /obj/abstract/level_data
 		var/corner = locate(world.maxx/2, world.maxy/2, world.maxz)
 		log_unit_test("Loading template '[map_template]' ([map_template.type]) at [log_info_line(corner)]")
 		map_template.load(corner)

@@ -42,6 +42,7 @@ var/global/list/stored_shock_by_ref = list()
 		for(var/mark_type in base_markings)
 			if(!LAZYACCESS(pref.body_markings, mark_type))
 				LAZYSET(pref.body_markings, mark_type, base_markings[mark_type])
+
 	pref.skin_colour = base_color
 	pref.eye_colour = base_eye_color
 	pref.hair_colour = base_hair_color
@@ -53,17 +54,21 @@ var/global/list/stored_shock_by_ref = list()
 		for(var/mark_type in base_markings)
 			var/decl/sprite_accessory/marking/mark_decl = GET_DECL(mark_type)
 			for(var/bp in mark_decl.body_parts)
-				var/obj/item/organ/external/O = mannequin.organs_by_name[bp]
+				var/obj/item/organ/external/O = GET_EXTERNAL_ORGAN(mannequin, bp)
 				if(O && !LAZYACCESS(O.markings, mark_type))
 					LAZYSET(O.markings, mark_type, base_markings[mark_type])
 
-	for(var/obj/item/organ/external/E in mannequin.organs)
+	for(var/obj/item/organ/external/E in mannequin.get_external_organs())
 		E.skin_colour = base_color
 
 	mannequin.eye_colour = base_eye_color
 	mannequin.hair_colour = base_hair_color
 	mannequin.facial_hair_colour = base_hair_color
 	set_default_hair(mannequin)
+
+	if(preview_outfit)
+		var/decl/hierarchy/outfit/outfit = outfit_by_type(preview_outfit)
+		outfit.equip(mannequin, equip_adjustments = (OUTFIT_ADJUSTMENT_SKIP_SURVIVAL_GEAR|OUTFIT_ADJUSTMENT_SKIP_BACKPACK))
 
 	mannequin.force_update_limbs()
 	mannequin.update_mutations(0)
@@ -91,3 +96,9 @@ var/global/list/stored_shock_by_ref = list()
 /decl/species/proc/equip_default_fallback_uniform(var/mob/living/carbon/human/H)
 	if(istype(H))
 		H.equip_to_slot_or_del(new /obj/item/clothing/under/harness, slot_w_uniform_str)
+
+/decl/species/proc/is_blood_incompatible(var/my_blood_type, var/their_blood_type)
+	var/decl/blood_type/my_blood = get_blood_type_by_name(my_blood_type)
+	if(!istype(my_blood))
+		return FALSE
+	return !my_blood.can_take_donation_from(get_blood_type_by_name(their_blood_type))

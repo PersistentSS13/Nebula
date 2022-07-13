@@ -92,7 +92,8 @@
 	set_dir(turn(dir, 180))
 
 /obj/structure/disposalconstruct/on_update_icon()
-	if("con[built_icon_state]" in icon_states(icon))
+	..()
+	if(check_state_in_icon("con[built_icon_state]", icon))
 		icon_state = "con[built_icon_state]"
 	else
 		icon_state = built_icon_state
@@ -129,7 +130,7 @@
 
 	var/obj/structure/disposalpipe/CP = locate() in T
 
-	if(isWrench(I))
+	if(IS_WRENCH(I))
 		if(anchored)
 			anchored = 0
 			wrench_down(FALSE)

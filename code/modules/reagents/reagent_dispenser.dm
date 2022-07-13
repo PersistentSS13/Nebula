@@ -49,11 +49,11 @@
 	STOP_PROCESSING(SSprocessing, src)
 
 /obj/structure/reagent_dispensers/attackby(obj/item/W, mob/user)
-	if(isWrench(W))
+	if(IS_WRENCH(W))
 		unwrenched = !unwrenched
 		visible_message(SPAN_NOTICE("\The [user] wrenches \the [src]'s tap [unwrenched ? "open" : "shut"]."))
 		if(unwrenched)
-			log_and_message_admins("opened a tank at [get_area(loc)].")
+			log_and_message_admins("opened a tank at [get_area_name(loc)].")
 			START_PROCESSING(SSprocessing, src)
 		else
 			STOP_PROCESSING(SSprocessing, src)
@@ -99,12 +99,6 @@
 	if(. && (severity == 1) || (severity == 2 && prob(50)) || (severity == 3 && prob(5)))
 		physically_destroyed()
 
-/obj/structure/reagent_dispensers/AltClick(var/mob/user)
-	if(possible_transfer_amounts)
-		set_amount_per_transfer_from_this()
-	else
-		return ..()
-
 //Dispensers
 /obj/structure/reagent_dispensers/watertank
 	name = "water tank"
@@ -115,7 +109,8 @@
 	possible_transfer_amounts = @"[10,25,50,100]"
 	initial_capacity = 7500
 	initial_reagent_types = list(/decl/material/liquid/water = 1)
-	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_CLIMBABLE | ATOM_FLAG_WHEELED
+	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_CLIMBABLE
+	movable_flags = MOVABLE_FLAG_WHEELED
 
 /obj/structure/reagent_dispensers/watertank/firefighter
 	name = "firefighting water reserve"
@@ -136,7 +131,8 @@
 	icon_state = "weldtank"
 	amount_per_transfer_from_this = 10
 	initial_reagent_types = list(/decl/material/liquid/fuel = 1)
-	atom_flags = ATOM_FLAG_CLIMBABLE | ATOM_FLAG_WHEELED
+	atom_flags = ATOM_FLAG_CLIMBABLE
+	movable_flags = MOVABLE_FLAG_WHEELED
 
 	var/obj/item/assembly_holder/rig = null
 
@@ -177,7 +173,7 @@
 	. = ..()
 
 /obj/structure/reagent_dispensers/fueltank/on_update_icon()
-	cut_overlays()
+	..()
 	if(rig)
 		var/image/I = new
 		I.appearance = rig
@@ -191,7 +187,7 @@
 			var/turf/turf = get_turf(src)
 			if(turf)
 				var/area/area = turf.loc || "*unknown area*"
-				log_and_message_admins("[key_name_admin(Proj.firer)] shot a fuel tank in \the [area].")
+				log_and_message_admins("[key_name_admin(Proj.firer)] shot a fuel tank in \the [area.proper_name].")
 			else
 				log_and_message_admins("shot a fuel tank outside the world.")
 
@@ -265,3 +261,20 @@
 	amount_per_transfer_from_this = 10
 	anchored = 1
 	initial_reagent_types = list(/decl/material/liquid/acid = 1)
+
+/obj/structure/reagent_dispensers/get_alt_interactions(var/mob/user)
+	. = ..()
+	LAZYADD(., /decl/interaction_handler/set_transfer/reagent_dispenser)
+
+/decl/interaction_handler/set_transfer/reagent_dispenser
+	expected_target_type = /obj/structure/reagent_dispensers
+
+/decl/interaction_handler/set_transfer/reagent_dispenser/is_possible(var/atom/target, var/mob/user)
+	. = ..()
+	if(.)
+		var/obj/structure/reagent_dispensers/R = target
+		return !!R.possible_transfer_amounts
+
+/decl/interaction_handler/set_transfer/reagent_dispenser/invoked(var/atom/target, var/mob/user)
+	var/obj/structure/reagent_dispensers/R = target
+	R.set_amount_per_transfer_from_this()

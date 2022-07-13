@@ -43,12 +43,16 @@
 		return FALSE
 
 	var/mob/living/assailant = G.assailant
-	if(!assailant || !assailant.skill_check(SKILL_COMBAT, SKILL_ADEPT))
+	if(!assailant)
 		return FALSE
 
 	var/obj/item/organ/external/O = G.get_targeted_organ()
 	if(!O)
 		to_chat(assailant, SPAN_WARNING("\The [affecting] is missing that body part!"))
+		return FALSE
+
+	if(!assailant.skill_check(SKILL_COMBAT, SKILL_ADEPT))
+		to_chat(assailant, SPAN_WARNING("You clumsily attempt to jointlock \the [affecting]'s [O.name], but fail!"))
 		return FALSE
 
 	assailant.visible_message(SPAN_DANGER("\The [assailant] begins to [pick("bend", "twist")] \the [affecting]'s [O.name] into a jointlock!"))
@@ -72,7 +76,7 @@
 		return FALSE
 
 	var/mob/living/assailant = G.assailant
-	if(!assailant || !assailant.skill_check(SKILL_COMBAT, SKILL_ADEPT))
+	if(!assailant)
 		return FALSE
 
 	var/obj/item/organ/external/O = G.get_targeted_organ()
@@ -80,18 +84,22 @@
 		to_chat(assailant, SPAN_WARNING("\The [affecting] is missing that body part!"))
 		return  FALSE
 
-	if(!O.dislocated)
+	if(!assailant.skill_check(SKILL_COMBAT, SKILL_ADEPT))
+		to_chat(assailant, SPAN_WARNING("You clumsily attempt to dislocate \the [affecting]'s [O.name], but fail!"))
+		return FALSE
+
+	if(!O.is_dislocated() && (O.limb_flags & ORGAN_FLAG_CAN_DISLOCATE))
 		assailant.visible_message(SPAN_DANGER("\The [assailant] begins to dislocate \the [affecting]'s [O.joint]!"))
 		if(do_mob(assailant, affecting, action_cooldown - 1))
 			G.action_used()
-			O.dislocate(1)
+			O.dislocate()
 			assailant.visible_message(SPAN_DANGER("\The [affecting]'s [O.joint] [pick("gives way","caves in","crumbles","collapses")]!"))
 			playsound(assailant.loc, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
 			return TRUE
 		affecting.visible_message(SPAN_WARNING("\The [assailant] fails to dislocate \the [affecting]'s [O.joint]."))
 		return FALSE
 
-	if (O.dislocated > 0)
+	if(O.limb_flags & ORGAN_FLAG_CAN_DISLOCATE)
 		to_chat(assailant, SPAN_WARNING("\The [affecting]'s [O.joint] is already dislocated!"))
 	else
 		to_chat(assailant, SPAN_WARNING("You can't dislocate \the [affecting]'s [O.joint]!"))
@@ -118,8 +126,9 @@
 	var/decl/natural_attack/attack = attacker.get_unarmed_attack(target, BP_EYES)
 	if(!istype(attack))
 		return
-	for(var/obj/item/protection in list(target.head, target.wear_mask, target.glasses))
-		if(protection && (protection.body_parts_covered & SLOT_EYES))
+	for(var/slot in global.standard_headgear_slots)
+		var/obj/item/protection = target.get_equipped_item(slot)
+		if(istype(protection) && (protection.body_parts_covered & SLOT_EYES))
 			to_chat(attacker, "<span class='danger'>You're going to need to remove the eye covering first.</span>")
 			return
 	if(!target.check_has_eyes())
@@ -143,7 +152,7 @@
 		return
 
 	var/damage = 20
-	var/obj/item/clothing/hat = attacker.head
+	var/obj/item/clothing/hat = attacker.get_equipped_item(slot_head_str)
 	var/damage_flags = 0
 	if(istype(hat))
 		damage += hat.force * 3
@@ -185,7 +194,7 @@
 
 // Handles when they change targeted areas and something is supposed to happen.
 /decl/grab/normal/special_target_change(var/obj/item/grab/G, old_zone, new_zone)
-	if(old_zone != BP_HEAD && old_zone != BP_CHEST || !G.get_affecting_mob())
+	if((old_zone != BP_HEAD && old_zone != BP_CHEST) || !G.get_affecting_mob())
 		return
 	switch(new_zone)
 		if(BP_MOUTH)
@@ -269,7 +278,7 @@
 	if(!W.edge || !W.force || W.damtype != BRUTE)
 		return 0 //unsuitable weapon
 	var/obj/item/organ/external/O = G.get_targeted_organ()
-	if(!O || O.is_stump() || !(O.limb_flags & ORGAN_FLAG_HAS_TENDON) || (O.status & ORGAN_TENDON_CUT))
+	if(!O || !(O.limb_flags & ORGAN_FLAG_HAS_TENDON) || (O.status & ORGAN_TENDON_CUT))
 		return FALSE
 	user.visible_message(SPAN_DANGER("\The [user] begins to cut \the [affecting]'s [O.tendon_name] with \the [W]!"))
 	user.next_move = world.time + 20
@@ -277,7 +286,7 @@
 		return 0
 	if(!(G && G.affecting == affecting)) //check that we still have a grab
 		return 0
-	if(!O || O.is_stump() || !O.sever_tendon())
+	if(!O || !O.sever_tendon())
 		return 0
 	user.visible_message(SPAN_DANGER("\The [user] cut \the [affecting]'s [O.tendon_name] with \the [W]!"))
 	if(W.hitsound) playsound(affecting.loc, W.hitsound, 50, 1, -1)

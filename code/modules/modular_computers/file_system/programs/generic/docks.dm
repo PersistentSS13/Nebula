@@ -1,7 +1,7 @@
 /datum/computer_file/program/docking
 	filename = "docking"
 	filedesc = "Docking Control"
-	required_access = list(access_bridge)
+	read_access = list(access_bridge)
 	nanomodule_path = /datum/nano_module/program/docking
 	program_icon_state = "supply"
 	program_key_state = "rd_key"
@@ -11,6 +11,7 @@
 	usage_flags = PROGRAM_CONSOLE | PROGRAM_LAPTOP
 	available_on_network = 1
 	requires_network = 1
+	requires_network_feature = NET_FEATURE_DECK
 	category = PROG_SUPPLY
 
 /datum/computer_file/program/docking/on_startup()

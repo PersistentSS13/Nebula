@@ -184,8 +184,8 @@
 #define LIGHT_COLOR_EMERGENCY  "#ff3232" //Red color used by emergency lighting. rgb(255, 50, 50)
 
 // Used by fluid system.
-#define COLOR_OCEAN "#99f5ff"
-
+#define COLOR_LIQUID_WATER "#99f5ff"
+#define COLOR_ICE          "#eef5ff"
 // Used to easily change research colour in case of ???
 #define COLOR_RESEARCH COLOR_PURPLE_GRAY
 
@@ -207,3 +207,5 @@
 // Colors for input/hotkey panel.
 #define COLOR_INPUT_DISABLED "#f0f0f0"
 #define COLOR_INPUT_ENABLED "#d3b5b5"
+
+#define COLORED_SQUARE(COLOR) "<span style='font-face: fixedsys; font-size: 14px; background-color: [COLOR]; color: [COLOR]'>___</span>"

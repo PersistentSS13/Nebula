@@ -33,3 +33,10 @@
 /obj/item/clothing/suit/armor/pcarrier/green
 	name = "green plate carrier"
 	color = COLOR_DARK_GREEN_GRAY
+	
+// uses uncolorable erissprite to satisfy coder request
+
+/obj/item/clothing/suit/armor/pcarrier/modern
+	name = "modernized plate carrier"
+	desc = "A lightweight plate carrier vest. It can be equipped with armor plates, but provides no protection of its own. This one is made out of a black synthleather that cannot be recolored, but is otherwise functionally identical to other plate carrier vests."
+	icon = 'icons/clothing/suit/armor/plate_carrier_modern.dmi'

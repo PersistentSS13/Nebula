@@ -18,12 +18,12 @@
 
 /decl/persistence_handler/proc/SetFilename()
 	if(name)
-		filename = "data/persistent/[lowertext(global.using_map.name)]-[lowertext(name)].json"
+		filename = "data/persistent/[ckey(global.using_map.name)]-[ckey(name)].json"
 	if(!isnull(entries_decay_at) && !isnull(entries_expire_at))
 		entries_decay_at = FLOOR(entries_expire_at * entries_decay_at)
 
 /decl/persistence_handler/proc/GetValidTurf(var/turf/T, var/list/tokens)
-	if(T && (T.z in global.using_map.station_levels) && CheckTurfContents(T, tokens))
+	if(T && isStationLevel(T.z) && CheckTurfContents(T, tokens))
 		return T
 
 /decl/persistence_handler/proc/CheckTurfContents(var/turf/T, var/list/tokens)
@@ -73,7 +73,7 @@
 	if(!isnull(entries_expire_at) && GetEntryAge(entry) >= entries_expire_at)
 		return FALSE
 	var/turf/T = get_turf(entry)
-	if(!ignore_invalid_loc && (!T || !(T.z in global.using_map.station_levels)))
+	if(!ignore_invalid_loc && (!T || !isStationLevel(T.z)))
 		return FALSE
 	var/area/A = get_area(T)
 	if(!ignore_area_flags && (!A || (A.area_flags & AREA_FLAG_IS_NOT_PERSISTENT)))
@@ -126,17 +126,6 @@
 	for(var/thing in SSpersistence.tracking_values[type])
 		if(IsValidEntry(thing))
 			entries += list(CompileEntry(thing))
-
-#if DM_VERSION < 513 || (DM_VERSION == 513 && DM_BUILD < 1540)
-	for(var/list/entry in entries)
-		for(var/i in 1 to entry.len)
-			var/item = entry[i]
-			var/encoded_value = (istext(entry[item]) ? url_encode(entry[item]) : entry[item])
-			var/encoded_key = url_encode(item)
-			entry[i] = encoded_key
-			entry[encoded_key] = encoded_value
-	entries.Insert(1, list(list("url_encoded" = TRUE)))
-#endif
 
 	if(fexists(filename))
 		fdel(filename)

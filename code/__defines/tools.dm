@@ -7,6 +7,7 @@
 #define TOOL_CROWBAR     /decl/tool_archetype/crowbar
 #define TOOL_HATCHET     /decl/tool_archetype/hatchet
 #define TOOL_WRENCH      /decl/tool_archetype/wrench
+#define TOOL_SHOVEL      /decl/tool_archetype/shovel
 
 // Surgical tools.
 #define TOOL_SCALPEL       /decl/tool_archetype/scalpel
@@ -34,14 +35,17 @@
 #define TOOL_SPEED_BEST  0.5
 
 // Helper macros for interaction checks.
-#define isWrench(A)      (isatom(A) && A.get_tool_quality(TOOL_WRENCH) > 0)
-#define isWelder(A)      (isatom(A) && A.get_tool_quality(TOOL_WELDER) > 0)
-#define isCoil(A)        (isatom(A) && A.get_tool_quality(TOOL_CABLECOIL) > 0)
-#define isWirecutter(A)  (isatom(A) && A.get_tool_quality(TOOL_WIRECUTTERS) > 0)
-#define isScrewdriver(A) (isatom(A) && A.get_tool_quality(TOOL_SCREWDRIVER) > 0)
-#define isMultitool(A)   (isatom(A) && A.get_tool_quality(TOOL_MULTITOOL) > 0)
-#define isCrowbar(A)     (isatom(A) && A.get_tool_quality(TOOL_CROWBAR) > 0)
-#define isHatchet(A)     (isatom(A) && A.get_tool_quality(TOOL_HATCHET) > 0)
+#define IS_TOOL(A, T)     (isatom(A) && A.get_tool_quality(T) > 0)
+#define IS_SAW(A)         IS_TOOL(A, TOOL_SAW)
+#define IS_WRENCH(A)      IS_TOOL(A, TOOL_WRENCH)
+#define IS_WELDER(A)      IS_TOOL(A, TOOL_WELDER)
+#define IS_COIL(A)        IS_TOOL(A, TOOL_CABLECOIL)
+#define IS_WIRECUTTER(A)  IS_TOOL(A, TOOL_WIRECUTTERS)
+#define IS_SCREWDRIVER(A) IS_TOOL(A, TOOL_SCREWDRIVER)
+#define IS_MULTITOOL(A)   IS_TOOL(A, TOOL_MULTITOOL)
+#define IS_CROWBAR(A)     IS_TOOL(A, TOOL_CROWBAR)
+#define IS_HATCHET(A)     IS_TOOL(A, TOOL_HATCHET)
+#define IS_SHOVEL(A)      IS_TOOL(A, TOOL_SHOVEL)
 
 // Structure interaction flags
 #define TOOL_INTERACTION_ANCHOR      BITFLAG(0)

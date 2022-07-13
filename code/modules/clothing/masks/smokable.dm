@@ -56,7 +56,7 @@
 		if(ishuman(loc))
 			var/mob/living/carbon/human/C = loc
 			smoke_loc = C.loc
-			if ((src == C.wear_mask || manual) && C.check_has_mouth()) // if it's in the human/monkey mouth, transfer reagents to the mob
+			if ((src == C.get_equipped_item(slot_wear_mask_str) || manual) && C.check_has_mouth()) // if it's in the human/monkey mouth, transfer reagents to the mob
 				reagents.trans_to_mob(C, smoke_amount * amount, CHEM_INGEST, 0.2)
 				add_trace_DNA(C)
 		else // else just remove some of the reagents
@@ -73,7 +73,7 @@
 		var/datum/gas_mixture/environment = T.return_air()
 		if(ishuman(loc))
 			var/mob/living/carbon/human/C = loc
-			if (src == C.wear_mask && C.internal)
+			if (src == C.get_equipped_item(slot_wear_mask_str) && C.internal)
 				environment = C.internal.return_air()
 		if(environment.get_by_flag(XGM_GAS_OXIDIZER) < gas_consumption)
 			extinguish()
@@ -127,7 +127,7 @@
 			to_chat(usr, "<span class='warning'>You cannot light \the [src] underwater.</span>")
 			return
 		lit = 1
-		damtype = "fire"
+		damtype = BURN
 		if(REAGENT_VOLUME(reagents, /decl/material/liquid/fuel)) // the fuel explodes
 			var/datum/effect/effect/system/reagents_explosion/e = new()
 			e.set_up(round(REAGENT_VOLUME(reagents, /decl/material/liquid/fuel) / 5, 1), get_turf(src), 0, 0)
@@ -145,7 +145,7 @@
 
 /obj/item/clothing/mask/smokable/proc/extinguish(var/mob/user, var/no_message)
 	lit = 0
-	damtype = "brute"
+	damtype = BRUTE
 	STOP_PROCESSING(SSobj, src)
 	set_light(0)
 	update_icon()
@@ -160,7 +160,7 @@
 			text = zippomes
 		else if(istype(W, /obj/item/flame/lighter))
 			text = lightermes
-		else if(isWelder(W))
+		else if(IS_WELDER(W))
 			text = weldermes
 		else if(istype(W, /obj/item/assembly/igniter))
 			text = ignitermes
@@ -480,7 +480,7 @@
 			to_chat(usr, "<span class='warning'>You cannot light \the [src] underwater.</span>")
 			return
 		lit = 1
-		damtype = "fire"
+		damtype = BURN
 		var/turf/T = get_turf(src)
 		T.visible_message(flavor_text)
 		START_PROCESSING(SSobj, src)

@@ -17,7 +17,6 @@
 
 /datum/map_template/ruin/away_site/slavers
 	name = "Slavers' Base"
-	id = "awaysite_slavers"
 	description = "Asteroid with slavers base inside."
 	suffixes = list("slavers/slavers_base.dmm")
 	cost = 1
@@ -62,7 +61,7 @@
 /decl/hierarchy/outfit/corpse/slavers_base
 	name = "Basic slaver output"
 
-/obj/effect/landmark/corpse/slavers_base/slaver1
+/obj/abstract/landmark/corpse/slavers_base/slaver1
 	name = "Slaver"
 	corpse_outfits = list(/decl/hierarchy/outfit/corpse/slavers_base/slaver1)
 
@@ -72,7 +71,7 @@
 	shoes = /obj/item/clothing/shoes/color/black
 	glasses = /obj/item/clothing/glasses/sunglasses
 
-/obj/effect/landmark/corpse/slavers_base/slaver2
+/obj/abstract/landmark/corpse/slavers_base/slaver2
 	name = "Slaver"
 	corpse_outfits = list(/decl/hierarchy/outfit/corpse/slavers_base/slaver2)
 
@@ -81,7 +80,7 @@
 	uniform = /obj/item/clothing/under/johnny
 	shoes = /obj/item/clothing/shoes/color/blue
 
-/obj/effect/landmark/corpse/slavers_base/slaver3
+/obj/abstract/landmark/corpse/slavers_base/slaver3
 	name = "Slaver"
 	corpse_outfits = list(/decl/hierarchy/outfit/corpse/slavers_base/slaver3)
 
@@ -90,7 +89,7 @@
 	uniform = /obj/item/clothing/under/pirate
 	shoes = /obj/item/clothing/shoes/color/brown
 
-/obj/effect/landmark/corpse/slavers_base/slaver4
+/obj/abstract/landmark/corpse/slavers_base/slaver4
 	name = "Slaver"
 	corpse_outfits = list(/decl/hierarchy/outfit/corpse/slavers_base/slaver4)
 
@@ -99,7 +98,7 @@
 	uniform = /obj/item/clothing/under/redcoat
 	shoes = /obj/item/clothing/shoes/color/brown
 
-/obj/effect/landmark/corpse/slavers_base/slaver5
+/obj/abstract/landmark/corpse/slavers_base/slaver5
 	name = "Slaver"
 	corpse_outfits = list(/decl/hierarchy/outfit/corpse/slavers_base/slaver5)
 
@@ -109,7 +108,7 @@
 	shoes = /obj/item/clothing/shoes/color/orange
 	mask = /obj/item/clothing/mask/surgical
 
-/obj/effect/landmark/corpse/slavers_base/slaver6
+/obj/abstract/landmark/corpse/slavers_base/slaver6
 	name = "Slaver"
 	corpse_outfits = list(/decl/hierarchy/outfit/corpse/slavers_base/slaver6)
 
@@ -118,7 +117,7 @@
 	uniform = /obj/item/clothing/under/frontier
 	shoes = /obj/item/clothing/shoes/color/orange
 
-/obj/effect/landmark/corpse/slavers_base/slave
+/obj/abstract/landmark/corpse/slavers_base/slave
 	name = "Slave"
 	corpse_outfits = list(/decl/hierarchy/outfit/corpse/slavers_base/slave)
 
@@ -140,7 +139,7 @@
 	natural_weapon = /obj/item/natural_weapon/punch
 	can_escape = TRUE
 	unsuitable_atmos_damage = 15
-	var/corpse = /obj/effect/landmark/corpse/abolitionist
+	var/corpse = /obj/abstract/landmark/corpse/abolitionist
 	var/weapon = /obj/item/gun/energy/laser
 	projectilesound = 'sound/weapons/laser.ogg'
 	ranged = 1
@@ -155,7 +154,7 @@
 		new weapon(loc)
 	qdel(src)
 
-/obj/effect/landmark/corpse/abolitionist
+/obj/abstract/landmark/corpse/abolitionist
 	name = "abolitionist"
 	corpse_outfits = list(/decl/hierarchy/outfit/corpse/abolitionist)
 

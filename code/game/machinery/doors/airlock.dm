@@ -295,10 +295,12 @@ About the new airlock wires panel:
 		return 0
 
 /obj/machinery/door/airlock/on_update_icon(state=0, override=0)
-	if(connections & (NORTH|SOUTH))
-		set_dir(EAST)
-	else
-		set_dir(SOUTH)
+
+	if(set_dir_on_update)
+		if(connections & (NORTH|SOUTH))
+			set_dir(WEST)
+		else
+			set_dir(SOUTH)
 
 	switch(state)
 		if(0)
@@ -631,7 +633,7 @@ About the new airlock wires panel:
 	var/cut_verb
 	var/cut_sound
 
-	if(isWelder(item))
+	if(IS_WELDER(item))
 		var/obj/item/weldingtool/WT = item
 		if(!WT.remove_fuel(0,user))
 			return FALSE
@@ -684,7 +686,7 @@ About the new airlock wires panel:
 		playsound(src, cut_sound, 100, 1)
 		if (do_after(user, cut_delay, src))
 			user.visible_message(
-				SPAN_NOTICE("\The [user] removes the bolt cover from [src]"),
+				SPAN_NOTICE("\The [user] removes the bolt cover from [src]."),
 				SPAN_NOTICE("You remove the cover and expose the door bolts.")
 				)
 			src.lock_cut_state = BOLTS_EXPOSED
@@ -740,7 +742,7 @@ About the new airlock wires panel:
 			. = ..()
 		return
 
-	if(!repairing && isWelder(C) && !operating && density)
+	if(!repairing && IS_WELDER(C) && !operating && density)
 		var/obj/item/weldingtool/W = C
 		if(!W.remove_fuel(0,user))
 			to_chat(user, SPAN_NOTICE("Your [W.name] doesn't have enough fuel."))
@@ -758,10 +760,10 @@ About the new airlock wires panel:
 			to_chat(user, SPAN_NOTICE("You must remain still to complete this task."))
 			return TRUE
 
-	else if(isWirecutter(C) || isMultitool(C) || istype(C, /obj/item/assembly/signaler))
+	else if(IS_WIRECUTTER(C) || IS_MULTITOOL(C) || istype(C, /obj/item/assembly/signaler))
 		return wires.Interact(user)
 
-	else if(isCrowbar(C))
+	else if(IS_CROWBAR(C))
 		if(density && !can_open(TRUE) && component_attackby(C, user))
 			return TRUE
 		else if(!repairing)
@@ -990,7 +992,7 @@ About the new airlock wires panel:
 	. = ..()
 	//wires
 	var/turf/T = get_turf(loc)
-	if(T && (T.z in global.using_map.admin_levels))
+	if(T && isAdminLevel(T.z))
 		secured_wires = TRUE
 	if (secured_wires)
 		wires = new/datum/wires/airlock/secure(src)
@@ -1092,7 +1094,7 @@ About the new airlock wires panel:
 
 /obj/machinery/door/airlock/autoname/Initialize()
 	var/area/A = get_area(src)
-	name = A.name
+	name = A.proper_name
 	. = ..()
 
 /obj/machinery/door/airlock/proc/paint_airlock(var/paint_color)

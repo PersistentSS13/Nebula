@@ -26,7 +26,7 @@
 	critical_parts = list(PART_CPU, PART_HDD, PART_NETWORK)
 
 /datum/extension/assembly/modular_computer/try_install_component(var/mob/living/user, var/obj/item/stock_parts/computer/P)
-	if(!(P.usage_flags & hardware_flag))
+	if(!istype(P) || !(P.usage_flags & hardware_flag))
 		to_chat(user, "This computer isn't compatible with [P].")
 		return
 	var/obj/item/stock_parts/computer/C = P
@@ -84,7 +84,7 @@
 		if(force_synth || issynth)
 			to_chat(user, SPAN_WARNING("You send an activation signal to \the [assembly_name], but it does not respond."))
 		else
-			to_chat(user, SPAN_WARNING("You press the power button but \the [assembly_name], does not respond."))
+			to_chat(user, SPAN_WARNING("You press the power button but \the [assembly_name] does not respond."))
 		shutdown_device()
 
 /datum/extension/assembly/modular_computer/shutdown_device()

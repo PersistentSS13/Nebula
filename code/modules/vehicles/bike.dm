@@ -95,7 +95,7 @@
 /obj/vehicle/bike/load(var/atom/movable/C)
 	var/mob/living/M = C
 	if(!istype(M)) return 0
-	if(M.buckled || M.restrained() || !Adjacent(M) || !M.Adjacent(src))
+	if(M.buckled || M.anchored || M.restrained() || !Adjacent(M) || !M.Adjacent(src))
 		return 0
 	return ..(M)
 
@@ -118,7 +118,7 @@
 			return
 		else if(engine && engine.attackby(W,user))
 			return 1
-		else if(isCrowbar(W) && engine)
+		else if(IS_CROWBAR(W) && engine)
 			to_chat(user, "You pop out \the [engine] from \the [src].")
 			unload_engine()
 			return 1
@@ -134,7 +134,7 @@
 /obj/vehicle/bike/attack_hand(var/mob/user)
 	if(user == load)
 		unload(load)
-		to_chat(user, "You unbuckle yourself from \the [src]")
+		to_chat(user, "You unbuckle yourself from \the [src].")
 
 /obj/vehicle/bike/relaymove(mob/user, direction)
 	if(user != load || !on)

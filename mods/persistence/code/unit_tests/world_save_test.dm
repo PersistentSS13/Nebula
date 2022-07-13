@@ -23,7 +23,7 @@
 		reset_serializer()
 
 		var/S = "Foo!@#$%^&*()-=`1234567890\"''"
-		var/correct_sql = "(1,1,'test_var','TEXT',\"[sanitizeSQL(S)]\",1)"
+		var/correct_sql = "(1,1,'test_var','TEXT',\"[sanitize_sql(S)]\",1)"
 		var/datum/sample_obj/test_container/T = new()
 		T.test_var = S
 		serializer.SerializeThing(T)

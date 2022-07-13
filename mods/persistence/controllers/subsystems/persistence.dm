@@ -1,6 +1,11 @@
+#define SS_INIT_PERSISTENCE 18.5
+
+/proc/cmp_serialization_stats_dsc(var/datum/serialization_stat/S1, var/datum/serialization_stat/S2)
+	return S2.time_spent - S1.time_spent
+
 /datum/controller/subsystem/persistence
 	name = "Persistence"
-	init_order = SS_INIT_EARLY
+	init_order = SS_INIT_PERSISTENCE
 	flags = SS_NO_FIRE
 
 	var/save_exists			=	FALSE	// Whether or not a save exists in the DB
@@ -14,8 +19,10 @@
 
 	var/serializer/sql/serializer = new() // The serializer impl for actually saving.
 	var/serializer/sql/one_off/one_off	= new() // The serializer impl for one off serialization/deserialization.
-	
+
 	var/list/limbo_removals = list() // Objects which will be removed from limbo on the next save. Format is list(limbo_key, limbo_type)
+	var/list/limbo_refs = list()	 // Objects which are deserialized out of limbo don't have their refs in the database immediately, so we add them here until the next save
+									 // Format is p_id -> ref
 
 	var/loading_world = FALSE
 
@@ -37,7 +44,7 @@
 	serializer._before_serialize()
 
 	var/start = world.timeofday
-	
+
 	// Launch events
 
 	events_repository.raise_event(/decl/observ/world_saving_start_event, src)
@@ -75,15 +82,16 @@
 			zone.c_invalidate()
 		report_progress("Invalidated in [(REALTIMEOFDAY - time_start_airzones) / (1 SECOND)]s")
 		sleep(5)
-		
+
 		report_progress("Removing queued limbo objects..")
 		sleep(5)
 
 		var/time_start_limbo_removal = REALTIMEOFDAY
 		for(var/list/queued in limbo_removals)
 			one_off.RemoveFromLimbo(queued[1], queued[2])
-			limbo_removals -= queued
+			limbo_removals -= list(queued)
 
+		limbo_refs.Cut()
 		report_progress("Done removing queued limbo objects in [(REALTIMEOFDAY - time_start_limbo_removal) / (1 SECOND)]s.")
 		sleep(5)
 
@@ -97,10 +105,14 @@
 				// Just in case, delete this character from limbo.
 				one_off.RemoveFromLimbo(char_mind.unique_id, LIMBO_MIND)
 				continue
-			// Check to see if the mobs are already being saved.
-			if(!QDELETED(current_mob) && ((current_mob.z in SSpersistence.saved_levels) || (get_area(current_mob) in SSpersistence.saved_areas)))
+			if(QDELETED(current_mob))
 				continue
-			one_off.AddToLimbo(char_mind, char_mind.unique_id, LIMBO_MIND, char_mind.persistent_id, char_mind.key, FALSE)
+			// Check to see if the mobs are already being saved.
+			var/area/MA = get_area(current_mob)
+			if(istype(MA) && !(MA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT))
+				if(((MA in SSpersistence.saved_areas) || (current_mob.z in SSpersistence.saved_levels)))
+					continue
+			one_off.AddToLimbo(char_mind, char_mind.unique_id, LIMBO_MIND, char_mind.key, char_mind.current.real_name, TRUE)
 		report_progress("Done adding player minds to limbo in [(REALTIMEOFDAY - time_start_limbo_minds) / (1 SECOND)]s.")
 		sleep(5)
 
@@ -143,7 +155,7 @@
 
 		// Go through all of our saved areas and save those, too.
 		for(var/area/A in saved_areas)
-			for(var/turf/T in A)
+			for(var/turf/T in A)				
 				if("[T.z]" in z_transform)
 					continue
 				// Turf exists in an area outside of saved_levels.
@@ -159,27 +171,13 @@
 				z_level.new_index = new_z_index
 				z_transform["[T.z]"] = z_level
 
-		new_z_index++
+		
 		// Now we rebuild our z_level metadata list into the serializer for it to remap everything for us.
 		for(var/z in z_transform)
 			var/datum/persistence/load_cache/z_level/z_level = z_transform[z]
 			serializer.z_map["[z_level.index]"] = z_level.new_index
+		new_z_index++
 		serializer.z_index = new_z_index
-		
-		// Now we find all the area datums themselves that need to be saved, since keeping references on the turfs is a huge waste of space.
-		var/list/areas_to_serialize = list()
-		for(var/area/A in global.areas)
-			if(istype(A, world.area))
-				continue
-			var/turf/T = locate() in A.contents
-			// Because cross Z-level areas should not exist except on the planet, this should be ok.
-			if(!T || !(T.z in saved_levels))
-				continue
-			areas_to_serialize |= A
-		areas_to_serialize |= saved_areas
-		var/datum/wrapper_holder/area_wrapper_holder = new(areas_to_serialize)
-		serializer.Serialize(area_wrapper_holder)
-		serializer.Commit()
 
 		report_progress("Z-levels prepared for save in [(REALTIMEOFDAY - time_start_zprepare) / (1 SECOND)]s.")
 		sleep(5)
@@ -191,19 +189,43 @@
 		var/index = 1
 		var/progress = 0
 		var/max_progress = length(saved_levels)
+
 		for(var/z in saved_levels)
 			var/default_turf = get_base_turf(z)
-			for(var/x in 1 to world.maxx)
-				for(var/y in 1 to world.maxy)
+			var/datum/persistence/load_cache/z_level/z_level = z_transform["[z]"]
+				
+			var/last_area_type
+			var/last_area_name
+			var/area_turf_count = 0
+
+			// We iterate horizontally, since saved turfs 'in' area contents are iterated over in the same way.
+			for(var/y in 1 to world.maxy)
+				for(var/x in 1 to world.maxx)
 					// Get the thing to serialize and serialize it.
 					var/turf/T = locate(x,y,z)
+					var/area/TA = T.loc
+
+					if(last_area_type != TA.type || last_area_name != TA.name)
+						if(area_turf_count > 0)
+							z_level.areas += list(list("[last_area_type]", sanitize_sql(last_area_name), area_turf_count))
+						last_area_type = TA.type
+						last_area_name = TA.name
+						area_turf_count = 1
+					else
+						area_turf_count++
+
 					// This if statement, while complex, checks to see if we should save this turf.
 					// Turfs not saved become their default_turf after deserialization.
-					if(!istype(T) || istype(T, default_turf) || !T.should_save)
-						if(!istype(T) || !T.contents || !length(T.contents))
-							continue
+					if(!istype(T) || !LAZYLEN(T.contents))
+						continue
+					//Ignore non-saved areas
+					if(istype(TA) && (TA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT))
+						continue
+					
+					//Save anything else
+					if(istype(T, default_turf) || !T.should_save)
 						var/should_skip = TRUE
-						for(var/atom/A AS_ANYTHING in T.contents)
+						for(var/atom/A as anything in T.contents)
 							if(A.should_save())
 								should_skip = FALSE
 								break // We found a thing that's worth saving.
@@ -218,6 +240,8 @@
 						index = 1
 					else
 						index++
+			if(last_area_type)
+				z_level.areas += list(list("[last_area_type]", sanitize_sql(last_area_name), area_turf_count))
 
 			serializer.Commit() // cleanup leftovers.
 			serializer.CommitRefUpdates()
@@ -233,7 +257,11 @@
 		sleep(5)
 		var/time_start_zarea = REALTIMEOFDAY
 		// Repeat much of the above code in order to save areas marked to be saved that are not in a saved z-level.
+		var/list/area_chunks = list()
 		for(var/area/A in saved_areas)
+			var/datum/persistence/load_cache/area_chunk/area_chunk = new()
+			area_chunk.area_type = A.type
+			area_chunk.name = A.name
 			for(var/turf/T in A)
 				if(T.z in saved_levels)
 					continue
@@ -242,12 +270,16 @@
 					if(!istype(T) || !T.contents || !length(T.contents) || !T.should_save)
 						continue
 					var/should_skip = TRUE
-					for(var/atom/AM AS_ANYTHING in T.contents)
+					for(var/atom/AM as anything in T.contents)
 						if(AM.should_save())
 							should_skip = FALSE
 							break // We found a thing that's worth saving.
 					if(should_skip)
 						continue // Skip this tile. Not worth saving.
+				
+				var/new_z = serializer.z_map["[T.z]"]
+				if(new_z)
+					area_chunk.turfs += "[T.x],[T.y],[new_z]"
 				serializer.Serialize(T, null, T.z)
 
 				// Don't save every single tile.
@@ -258,10 +290,15 @@
 				else
 					index++
 
+			if(length(area_chunk.turfs))
+				area_chunks += area_chunk
+
 			serializer.Commit() // cleanup leftovers.
 
 		// Insert our z-level remaps.
 		serializer.save_z_level_remaps(z_transform)
+		if(length(area_chunks))
+			serializer.save_area_chunks(area_chunks)
 		serializer.Commit()
 		serializer.CommitRefUpdates()
 
@@ -286,18 +323,29 @@
 		serializer.Clear()
 		// Clear the custom saved list used to keep list refs intact
 		global.custom_saved_lists.Cut()
-		// Reboot air subsystem.
-		SSair.reboot()
 		// Let people back in
 		if(reallow) config.enter_allowed = 1
 	catch (var/exception/e)
 		to_world_log("Save failed on line [e.line], file [e.file] with message: '[e]'.")
+
 	to_world("Save complete! Took [(world.timeofday-start)/ (1 SECOND)]s to save world.")
 	saved_extensions.Cut() // Make extensions re-report if they want to be saved again.
 	serializer._after_serialize()
 
 	// Launch event for anything that needs to do cleanup post save.
 	events_repository.raise_event(/decl/observ/world_saving_finish_event, src)
+
+	//Print out detailed statistics on what time was spent on what types
+	var/list/saved_types_stats = list()
+	global.serialization_time_spent_type = sortTim(global.serialization_time_spent_type, /proc/cmp_serialization_stats_dsc, 1)
+	for(var/key in global.serialization_time_spent_type)
+		var/datum/serialization_stat/statistics = global.serialization_time_spent_type[key]
+		saved_types_stats += "\t[statistics.time_spent / (1 SECOND)] second(s)\t[statistics.nb_instances]\tinstance(s)\t\t'[key]'"
+	to_world_log("Time spent per type:\n[jointext(saved_types_stats, "\n")]")
+	to_world_log("Total time spent doing saved variables lookups: [global.get_saved_variables_lookup_time_total / (1 SECOND)] second(s).")
+
+	// Reboot air subsystem.
+	SSair.reboot()
 
 /datum/controller/subsystem/persistence/proc/LoadWorld()
 	serializer._before_deserialize()
@@ -352,16 +400,71 @@
 		to_world_log("Load complete! Took [(world.timeofday-start)/10]s to load [length(serializer.resolver.things)] things. Loaded [LAZYLEN(turfs_loaded)] turfs.")
 		in_loaded_world = LAZYLEN(turfs_loaded) > 0
 
-		to_world_log("Adding default turfs...")
-		start = world.timeofday
-		for(var/datum/persistence/load_cache/z_level/z_level in serializer.resolver.z_levels)
-			if(z_level.default_turf && !ispath(z_level.default_turf, /turf/space))
-				for(var/turf/T in block(locate(1, 1, z_level.new_index), locate(world.maxx, world.maxy, z_level.new_index)))
-					if(turfs_loaded["([T.x], [T.y], [T.z])"])
-						continue
-					T.ChangeTurf(z_level.default_turf)
-		to_world_log("Default turfs complete! Took [(world.timeofday-start)/10]s.")
+		var/list/area_dict = list() // Dictionary of list(type, name) -> area instance
+		for(var/area/A in global.areas)
+			area_dict["[A.type], [A.name]"] = A 
 
+		to_world_log("Adding default turfs and areas...")
+		start = world.timeofday
+
+		for(var/datum/persistence/load_cache/z_level/z_level in serializer.resolver.z_levels)
+			var/change_turf = z_level.default_turf && !ispath(z_level.default_turf, /turf/space)
+			
+			// Create the areas in the z-level if they don't already exist.
+			for(var/list/area_chunk in z_level.areas)
+				var/area/area_instance = area_dict["[area_chunk[1]], [area_chunk[2]]"]
+				if(!area_instance)
+					var/new_type = text2path(area_chunk[1])
+					var/area/new_area = new new_type 
+					new_area.name = area_chunk[2]
+					area_dict["[new_area.type], [area_chunk[2]]"] = new_area
+			// The areas are split into horizontal chunks with the area type and name corresponding to a certain amount of tiles in a row.
+			var/chunk_index = 1
+			var/list/current_area_chunk
+			var/area/current_area
+			var/turf_count = 1
+			if(z_level.areas.len)
+				current_area_chunk = z_level.areas[chunk_index]
+				current_area = area_dict["[current_area_chunk[1]], [current_area_chunk[2]]"]
+
+			for(var/turf/T in block(locate(1, 1, z_level.new_index), locate(world.maxx, world.maxy, z_level.new_index)))
+				if(current_area)
+					current_area.contents += T
+					turf_count++
+					if(turf_count > current_area_chunk[3])
+						chunk_index++
+						// All the chunks are done. Most likely we're on the last tile of the z-level but just in case allow the loop
+						// to continue.
+						if(chunk_index > z_level.areas.len)
+							current_area = null
+							current_area_chunk = null
+						else
+							current_area_chunk = z_level.areas[chunk_index]
+							current_area = area_dict["[current_area_chunk[1]], [current_area_chunk[2]]"]
+							turf_count = 1
+				if(change_turf && !turfs_loaded["([T.x], [T.y], [T.z])"])
+					T.ChangeTurf(z_level.default_turf)
+		to_world_log("Default turfs and areas complete! Took [(world.timeofday-start)/10]s.")
+		
+		to_world_log("Adding other areas...")
+		start = world.timeofday
+		for(var/datum/persistence/load_cache/area_chunk/area_chunk in serializer.resolver.area_chunks)
+			var/area/new_area = area_dict["[area_chunk.area_type], [area_chunk.name]"]
+			if(!new_area)
+				new_area = new area_chunk.area_type
+				new_area.name = area_chunk.name
+				area_dict["[area_chunk.area_type], [area_chunk.name]"] = new_area
+
+			for(var/turf_chunk in area_chunk.turfs)
+				var/list/coords = splittext(turf_chunk, ",")
+				// Adjust to new index.
+				coords[3] = serializer.z_map[coords[3]]
+				var/turf/T = locate(text2num(coords[1]), text2num(coords[2]), coords[3])
+				new_area.contents += T
+
+		to_world_log("Adding other areas complete! Took [(world.timeofday-start)/10]s.")
+
+		area_dict.Cut()
 		// Cleanup the cache. It uses a *lot* of memory.
 		for(var/id in serializer.reverse_map)
 			var/datum/T = serializer.reverse_map[id]
@@ -411,9 +514,9 @@
 		if(!establish_save_db_connection())
 			CRASH("SSPersistence: Couldn't establish DB connection while clearing wrapper queue!")
 		new_db_connection = TRUE
-	for(var/datum/wrapper/late/L AS_ANYTHING in late_wrappers)
+	for(var/datum/wrapper/late/L as anything in late_wrappers)
 		L.on_late_load()
-	
+
 	late_wrappers.Cut()
 	if(new_db_connection)
 		close_save_db_connection()
@@ -453,13 +556,17 @@
 	to_chat(user, SPAN_INFO("Disabled with persistence modpack (how ironic)..."))
 	return
 
-/datum/controller/subsystem/persistence/proc/AddToLimbo(var/datum/thing, var/key, var/limbo_type, var/metadata, var/modify = TRUE)
+/datum/controller/subsystem/persistence/proc/AddToLimbo(var/datum/thing, var/key, var/limbo_type, var/metadata, var/metadata2, var/modify = TRUE)
 	var/new_db_connection = FALSE
 	if(!check_save_db_connection())
 		if(!establish_save_db_connection())
 			CRASH("SSPersistence: Couldn't establish DB connection during Limbo Addition!")
 		new_db_connection = TRUE
-	. = one_off.AddToLimbo(thing, key, limbo_type, metadata, modify)
+	. = one_off.AddToLimbo(thing, key, limbo_type, metadata, metadata2, modify)
+	if(.) // Clear it from the queued removals.
+		for(var/list/queued in limbo_removals)
+			if(queued[1] == key && queued[2] == limbo_type)
+				limbo_removals -= list(queued)
 	if(new_db_connection)
 		close_save_db_connection()
 
@@ -486,8 +593,16 @@
 
 // Get an object from its p_id via ref tracking. This will not always work if an object is asynchronously deserialized from others.
 // This is also quite slow - if you're trying to locate many objects at once, it's best to use a single query for multiple objects.
-
 /datum/controller/subsystem/persistence/proc/get_object_from_p_id(var/target_p_id)
+	
+	// Check to see if the object has been deserialized from limbo and not yet added to the normal tables.
+	if(target_p_id in limbo_refs)
+		var/datum/existing = locate(limbo_refs[target_p_id])
+		if(existing && !QDELETED(existing) && existing.persistent_id == target_p_id)
+			return existing
+		limbo_refs -= target_p_id
+
+	// If it was in limbo_refs we shouldn't find it in the normal tables, but we'll check anyway.
 	var/new_db_connection = FALSE
 	if(!check_save_db_connection())
 		if(!establish_save_db_connection())
@@ -502,9 +617,18 @@
 		if(existing && !QDELETED(existing) && existing.persistent_id == items["p_id"])
 			. = existing
 		break
-	
+
 	if(new_db_connection)
 		close_save_db_connection()
 
 /datum/controller/subsystem/persistence/proc/print_db_status()
 	return SQLS_Print_DB_STATUS()
+
+//Stats datum
+/datum/serialization_stat
+	var/time_spent   = 0
+	var/nb_instances = 0
+/datum/serialization_stat/New(var/_time_spent = 0, var/_nb_instances = 0)
+	. = ..()
+	time_spent   = _time_spent
+	nb_instances = _nb_instances

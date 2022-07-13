@@ -30,6 +30,9 @@
 /obj/machinery/recharge_station/receive_mouse_drop(var/atom/dropping, var/mob/user)
 	. = ..()
 	if(!. && isliving(dropping))
+		var/mob/living/M = dropping
+		if(M.anchored)
+			return FALSE
 		user.visible_message( \
 			SPAN_NOTICE("\The [user] begins placing \the [dropping] into \the [src]."), \
 			SPAN_NOTICE("You start placing \the [dropping] into \the [src]."))
@@ -81,13 +84,12 @@
 
 	if(ishuman(occupant))
 		var/mob/living/carbon/human/H = occupant
-		var/obj/item/organ/internal/cell/potato = H.get_internal_organ(BP_CELL)
+		var/obj/item/organ/internal/cell/potato = H.get_organ(BP_CELL, /obj/item/organ/internal/cell)
 		if(potato)
 			target = potato.cell
-		if((!target || target.percent() > 95) && istype(H.back,/obj/item/rig))
-			var/obj/item/rig/R = H.back
-			if(R.cell && !R.cell.fully_charged())
-				target = R.cell
+		var/obj/item/rig/R = H.get_equipped_item(slot_back_str)
+		if((!target || target.percent() > 95) && istype(R) && R.cell && !R.cell.fully_charged())
+			target = R.cell
 
 	if(target && !target.fully_charged())
 		var/diff = min(target.maxcharge - target.charge, charging_power * CELLRATE) // Capped by charging_power / tick
@@ -98,7 +100,7 @@
 	. = ..()
 	var/obj/item/cell/cell = get_cell()
 	if(cell)
-		to_chat(user, "The charge meter reads: [cell.percent()]%")
+		to_chat(user, "The charge meter reads: [cell.percent()]%.")
 	else
 		to_chat(user, "The indicator shows that the cell is missing.")
 
@@ -178,10 +180,7 @@
 
 /obj/machinery/recharge_station/proc/go_in(var/mob/M)
 
-	if(occupant)
-		return
-
-	if(!hascell(M))
+	if(occupant || M.anchored || !hascell(M))
 		return
 
 	add_fingerprint(M)
@@ -196,13 +195,13 @@
 		var/mob/living/silicon/robot/R = M
 		return (R.cell)
 	if(ishuman(M))
-		var/mob/living/carbon/human/H = M		
+		var/mob/living/carbon/human/H = M
 		if(H.isSynthetic())
 			return 1
-		if(istype(H.back,/obj/item/rig))
-			var/obj/item/rig/R = H.back
+		var/obj/item/rig/R = H.get_equipped_item(slot_back_str)
+		if(istype(R))
 			return R.cell
-		return H.get_internal_organ(BP_CELL)
+		return GET_INTERNAL_ORGAN(H, BP_CELL)
 	return 0
 
 /obj/machinery/recharge_station/proc/go_out()

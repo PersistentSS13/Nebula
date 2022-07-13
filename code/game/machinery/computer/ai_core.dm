@@ -96,6 +96,7 @@ var/global/list/empty_playable_ai_cores = list()
 		. = ..()
 
 /obj/structure/aicore/on_update_icon()
+	..()
 	if(glass_installed)
 		icon_state = "4"
 	else if(brain)
@@ -230,7 +231,7 @@ var/global/list/deactivated_ai_cores = list()
 	qdel(src)
 
 /obj/structure/aicore/deactivated/attackby(var/obj/item/W, var/mob/user)
-	if(isWrench(W) || isWelder(W))
+	if(IS_WRENCH(W) || IS_WELDER(W))
 		. = ..()
 	else if(istype(W, /obj/item/aicard))
 		var/obj/item/aicard/card = W
@@ -247,7 +248,7 @@ var/global/list/deactivated_ai_cores = list()
 
 	var/list/cores = list()
 	for(var/obj/structure/aicore/deactivated/D in global.deactivated_ai_cores)
-		cores["[D] ([get_area(D)])"] = D
+		cores["[D] ([get_area_name(D)])"] = D
 
 	var/id = input("Which core?", "Toggle AI Core Latejoin", null) as null|anything in cores
 	if(!id) return

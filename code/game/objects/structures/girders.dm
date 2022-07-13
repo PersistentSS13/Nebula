@@ -46,7 +46,7 @@
 	return TRUE
 
 /obj/structure/girder/on_update_icon()
-	. = ..()
+	..()
 	if(!anchored)
 		icon_state = "displaced"
 	else if(reinf_material)
@@ -186,14 +186,6 @@
 	reinf_material = M
 	update_icon()
 	return 1
-
-/obj/structure/girder/attack_hand(mob/user)
-	if (MUTATION_HULK in user.mutations)
-		visible_message(SPAN_DANGER("\The [user] smashes \the [src] apart!"))
-		dismantle()
-		return
-	return ..()
-
 
 /obj/structure/girder/explosion_act(severity)
 	..()

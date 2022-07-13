@@ -241,7 +241,7 @@ var/global/list/closets = list()
 	if(user.a_intent == I_HURT && W.force)
 		return ..()
 
-	if(!opened && (istype(W, /obj/item/stack/material) || isWrench(W)) )
+	if(!opened && (istype(W, /obj/item/stack/material) || IS_WRENCH(W)) )
 		return ..()
 
 	if(src.opened)
@@ -249,7 +249,7 @@ var/global/list/closets = list()
 			var/obj/item/grab/G = W
 			src.receive_mouse_drop(G.affecting, user)      //act like they were dragged onto the closet
 			return 0
-		if(isWelder(W))
+		if(IS_WELDER(W))
 			var/obj/item/weldingtool/WT = W
 			if(WT.remove_fuel(0,user))
 				slice_into_parts(WT, user)
@@ -285,7 +285,7 @@ var/global/list/closets = list()
 			open()
 	else if(istype(W, /obj/item/stack/package_wrap))
 		return
-	else if(isWelder(W) && (setup & CLOSET_CAN_BE_WELDED))
+	else if(IS_WELDER(W) && (setup & CLOSET_CAN_BE_WELDED))
 		var/obj/item/weldingtool/WT = W
 		if(!WT.remove_fuel(0,user))
 			if(!WT.isOn())
@@ -352,18 +352,15 @@ var/global/list/closets = list()
 		to_chat(usr, "<span class='warning'>This mob type can't use this verb.</span>")
 
 /obj/structure/closet/on_update_icon()
+	..()
 	if(opened)
 		icon_state = "open"
-		overlays.Cut()
+	else if(broken)
+		icon_state = "closed_emagged[welded ? "_welded" : ""]"
+	else if(locked)
+		icon_state = "closed_locked[welded ? "_welded" : ""]"
 	else
-		if(broken)
-			icon_state = "closed_emagged[welded ? "_welded" : ""]"
-		else
-			if(locked)
-				icon_state = "closed_locked[welded ? "_welded" : ""]"
-			else
-				icon_state = "closed_unlocked[welded ? "_welded" : ""]"
-			overlays.Cut()
+		icon_state = "closed_unlocked[welded ? "_welded" : ""]"
 
 /obj/structure/closet/proc/req_breakout()
 	if(opened)
@@ -467,12 +464,6 @@ var/global/list/closets = list()
 /obj/structure/closet/proc/CanToggleLock(var/mob/user, var/obj/item/card/id/id_card)
 	return allowed(user) || (istype(id_card) && check_access_list(id_card.GetAccess()))
 
-/obj/structure/closet/AltClick(var/mob/user)
-	if(!src.opened)
-		togglelock(user)
-	else
-		return ..()
-
 /obj/structure/closet/CtrlAltClick(var/mob/user)
 	verb_toggleopen()
 
@@ -515,3 +506,21 @@ var/global/list/closets = list()
 
 /obj/structure/closet/CanUseTopicPhysical(mob/user)
 	return CanUseTopic(user, global.physical_no_access_topic_state)
+
+/obj/structure/closet/get_alt_interactions(var/mob/user)
+	. = ..()
+	LAZYADD(., /decl/interaction_handler/closet_lock_toggle)
+
+/decl/interaction_handler/closet_lock_toggle
+	name = "Toggle Lock"
+	expected_target_type = /obj/structure/closet
+
+/decl/interaction_handler/closet_lock_toggle/is_possible(atom/target, mob/user, obj/item/prop)
+	. = ..()
+	if(.)
+		var/obj/structure/closet/C = target
+		. = !C.opened && (C.setup & CLOSET_HAS_LOCK)
+	
+/decl/interaction_handler/closet_lock_toggle/invoked(atom/target, mob/user, obj/item/prop)
+	var/obj/structure/closet/C = target
+	C.togglelock(user)

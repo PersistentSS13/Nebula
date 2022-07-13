@@ -78,7 +78,6 @@
 	var/random_preset = pick(preset_colors)
 	change_color(preset_colors[random_preset])
 
-
 /obj/item/paint_sprayer/on_update_icon()
 	cut_overlays()
 	add_overlay(overlay_image(icon, "[icon_state]_color", paint_color))
@@ -275,11 +274,13 @@
 		return FALSE
 	var/list/available_colors = list()
 	for (var/image/I in F.decals)
-		available_colors |= I.color
+		available_colors |= isnull(I.color) ? COLOR_WHITE : I.color
+	if (!LAZYLEN(available_colors))
+		return FALSE
 	var/picked_color = available_colors[1]
 	if (available_colors.len > 1)
 		picked_color = input(user, "Which color do you wish to select?") as null|anything in available_colors
-		if (user.incapacitated() || !user.Adjacent(F))
+		if (user.incapacitated() || !user.Adjacent(F)) // must check due to input blocking
 			return FALSE
 	return picked_color
 
@@ -356,14 +357,6 @@
 /obj/item/paint_sprayer/examine(mob/user)
 	. = ..(user)
 	to_chat(user, "It is configured to produce the '[decal]' decal with a direction of '[paint_dir]' using [paint_color] paint.")
-
-
-/obj/item/paint_sprayer/AltClick()
-	if (!isturf(loc))
-		choose_preset_color()
-	else
-		. = ..()
-
 
 /obj/item/paint_sprayer/CtrlClick()
 	if (!isturf(loc))
@@ -447,3 +440,16 @@
 #undef PAINT_REGION_PAINT
 #undef PAINT_REGION_STRIPE
 #undef PAINT_REGION_WINDOW
+
+/obj/item/paint_sprayer/get_alt_interactions(mob/user)
+	. = ..()
+	LAZYADD(., /decl/interaction_handler/paint_sprayer_colour)
+
+/decl/interaction_handler/paint_sprayer_colour
+	name = "Change Color Preset"
+	expected_target_type = /obj/item/paint_sprayer
+	interaction_flags = INTERACTION_NEEDS_PHYSICAL_INTERACTION | INTERACTION_NEEDS_INVENTORY
+
+/decl/interaction_handler/paint_sprayer_colour/invoked(atom/target, mob/user, obj/item/prop)
+	var/obj/item/paint_sprayer/sprayer = target
+	sprayer.choose_preset_color()

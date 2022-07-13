@@ -26,6 +26,10 @@
 	forceMove(null)
 	verbs += /mob/proc/toggle_antag_pool
 
+/mob/new_player/Destroy()
+	QDEL_NULL(panel)
+	. = ..()
+
 /mob/new_player/proc/show_lobby_menu(force = FALSE)
 	if(!SScharacter_setup.initialized && !force)
 		return // Not ready yet.
@@ -366,8 +370,9 @@
 			return null
 		new_character = new(spawn_turf, chosen_species.name)
 		if(chosen_species.has_organ[BP_POSIBRAIN] && client && client.prefs.is_shackled)
-			var/obj/item/organ/internal/posibrain/B = new_character.get_internal_organ(BP_POSIBRAIN)
-			if(B)	B.shackle(client.prefs.get_lawset())
+			var/obj/item/organ/internal/posibrain/B = new_character.get_organ(BP_POSIBRAIN, /obj/item/organ/internal/posibrain)
+			if(B)
+				B.shackle(client.prefs.get_lawset())
 
 	if(!new_character)
 		new_character = new(spawn_turf)

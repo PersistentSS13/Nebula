@@ -35,7 +35,7 @@
 
 // Override for area ownership.
 /mob/observer/eye/blueprints/area_control/create_area()
-	var/area_name = sanitizeSafe(input("New area name:","Area Creation", ""), MAX_NAME_LEN)
+	var/area_name = sanitize_safe(input("New area name:","Area Creation", ""), MAX_NAME_LEN)
 	if(!area_name || !length(area_name))
 		return
 	if(length(area_name) > 50)

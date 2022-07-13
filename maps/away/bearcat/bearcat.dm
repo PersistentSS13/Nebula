@@ -31,7 +31,6 @@
 
 /datum/map_template/ruin/away_site/bearcat_wreck
 	name = "Bearcat Wreck"
-	id = "awaysite_bearcat_wreck"
 	description = "A wrecked light freighter."
 	suffixes = list("bearcat/bearcat-1.dmm", "bearcat/bearcat-2.dmm")
 	cost = 1
@@ -101,15 +100,15 @@
 /turf/simulated/floor/tiled/white/usedup
 	initial_gas = list(/decl/material/gas/carbon_dioxide = MOLES_O2STANDARD, /decl/material/gas/nitrogen = MOLES_N2STANDARD)
 
-/obj/effect/landmark/deadcap
+/obj/abstract/landmark/deadcap
 	name = "Dead Captain"
 
-/obj/effect/landmark/deadcap/Initialize()
+/obj/abstract/landmark/deadcap/Initialize()
 	..()
 	return INITIALIZE_HINT_LATELOAD
 
 // chair may need to init first
-/obj/effect/landmark/deadcap/LateInitialize()
+/obj/abstract/landmark/deadcap/LateInitialize()
 	..()
 	var/turf/T = get_turf(src)
 	var/mob/living/carbon/human/corpse = new(T)
@@ -134,7 +133,7 @@
 
 /decl/hierarchy/outfit/deadcap/post_equip(mob/living/carbon/human/H)
 	..()
-	var/obj/item/clothing/uniform = H.w_uniform
+	var/obj/item/clothing/uniform = H.get_equipped_item(slot_w_uniform_str)
 	if(uniform)
 		var/obj/item/clothing/accessory/toggleable/hawaii/random/eyegore = new()
 		if(uniform.can_attach_accessory(eyegore))

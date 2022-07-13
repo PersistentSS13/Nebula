@@ -35,7 +35,7 @@
 /obj/effect/spresent/attackby(obj/item/W, mob/user)
 	..()
 
-	if(!isWirecutter(W))
+	if(!IS_WIRECUTTER(W))
 		to_chat(user, "<span class='warning'>I need wirecutters for that.</span>")
 		return
 
@@ -162,7 +162,7 @@
 
 	var/found_scissors = FALSE
 	for(var/obj/item/thing in user.get_held_items())
-		if(isWirecutter(thing))
+		if(IS_WIRECUTTER(thing))
 			found_scissors = TRUE
 			break
 
@@ -198,7 +198,7 @@
 	if (!istype(target, /mob/living/carbon/human)) return
 	var/mob/living/carbon/human/H = target
 
-	if (istype(H.wear_suit, /obj/item/clothing/suit/straight_jacket) || H.stat)
+	if (istype(H.get_equipped_item(slot_wear_suit_str), /obj/item/clothing/suit/straight_jacket) || H.stat)
 		if (src.amount > 2)
 			var/obj/effect/spresent/present = new /obj/effect/spresent (H.loc)
 			src.amount -= 2

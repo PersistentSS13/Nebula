@@ -34,7 +34,7 @@
 
 //Don't want to render prison breaks impossible
 /obj/machinery/flasher/attackby(obj/item/W, mob/user)
-	if(isWirecutter(W))
+	if(IS_WIRECUTTER(W))
 		add_fingerprint(user, 0, W)
 		src.disable = !src.disable
 		if (src.disable)
@@ -52,7 +52,7 @@
 		return
 
 /obj/machinery/flasher/proc/flash()
-	if (!(powered()))
+	if (stat & NOPOWER)
 		return
 
 	if ((src.disable) || (src.last_flash && world.time < src.last_flash + 150))
@@ -76,10 +76,8 @@
 				flash_time = round(H.getFlashMod() * flash_time)
 				if(flash_time <= 0)
 					return
-				var/obj/item/organ/internal/eyes/E = H.get_internal_organ(H.species.vision_organ)
-				if(!E)
-					return
-				if(E.is_bruised() && prob(E.damage + 50))
+				var/obj/item/organ/internal/E = GET_INTERNAL_ORGAN(H, H.species.vision_organ)
+				if(E && E.is_bruised() && prob(E.damage + 50))
 					H.flash_eyes()
 					E.damage += rand(1, 5)
 
@@ -124,7 +122,7 @@
 		flash()
 
 /obj/machinery/flasher/portable/attackby(obj/item/W, mob/user)
-	if(isWrench(W))
+	if(IS_WRENCH(W))
 		add_fingerprint(user)
 		src.anchored = !src.anchored
 

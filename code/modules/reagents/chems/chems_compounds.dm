@@ -28,7 +28,7 @@
 		var/mob/living/carbon/human/H = M
 		H.update_eyes()
 
-/decl/material/liquid/glowsap/on_leaving_metabolism(mob/parent, metabolism_class)
+/decl/material/liquid/glowsap/on_leaving_metabolism(atom/parent, metabolism_class)
 	if(ishuman(parent))
 		var/mob/living/carbon/human/H = parent
 		addtimer(CALLBACK(H, /mob/living/carbon/human/proc/update_eyes), 5 SECONDS)
@@ -137,24 +137,15 @@
 	var/mouth_covered = 0
 	var/partial_mouth_covered = 0
 	var/stun_probability = 50
-	var/no_pain = 0
+	var/no_pain = !M.can_feel_pain()
 	var/obj/item/eye_protection = null
 	var/obj/item/face_protection = null
 	var/obj/item/partial_face_protection = null
-
 	var/effective_strength = 5
 
-	var/list/protection
-	if(istype(M, /mob/living/carbon/human))
-		var/mob/living/carbon/human/H = M
-		protection = list(H.head, H.glasses, H.wear_mask)
-		if(!H.can_feel_pain())
-			no_pain = 1 //TODO: living-level can_feel_pain() proc
-	else
-		protection = list(M.wear_mask)
-
-	for(var/obj/item/I in protection)
-		if(I)
+	for(var/slot in global.standard_headgear_slots)
+		var/obj/item/I = M.get_equipped_item(slot)
+		if(istype(I))
 			if(I.body_parts_covered & SLOT_EYES)
 				eyes_covered = 1
 				eye_protection = I.name
@@ -368,7 +359,7 @@
 		M.heal_organ_damage(30 * removed, 30 * removed, affect_robo = 1)
 		if(ishuman(M))
 			var/mob/living/carbon/human/H = M
-			for(var/obj/item/organ/internal/I in H.internal_organs)
+			for(var/obj/item/organ/internal/I in H.get_internal_organs())
 				if(BP_IS_PROSTHETIC(I))
 					I.heal_damage(20*removed)
 
@@ -379,6 +370,7 @@
 	color = "#c8a5dc"
 	touch_met = 5
 	dirtiness = DIRTINESS_STERILE
+	turf_touch_threshold = 0.1
 	uid = "chem_antiseptic"
 
 /decl/material/liquid/crystal_agent
@@ -394,8 +386,10 @@
 	var/result_mat = do_material_check(M)
 	if(ishuman(M))
 		var/mob/living/carbon/human/H = M
-		for(var/obj/item/organ/external/E in shuffle(H.organs.Copy()))
-			if(E.is_stump() || BP_IS_PROSTHETIC(E))
+		var/list/limbs = H.get_external_organs()
+		var/list/shuffled_limbs = LAZYLEN(limbs) ? shuffle(limbs.Copy()) : null
+		for(var/obj/item/organ/external/E in shuffled_limbs)
+			if(BP_IS_PROSTHETIC(E))
 				continue
 
 			if(BP_IS_CRYSTAL(E))
@@ -417,18 +411,20 @@
 					E.dismember(0, DISMEMBER_METHOD_BLUNT)
 				else
 					E.take_external_damage(rand(20,30), 0)
-					E.status |= ORGAN_CRYSTAL
+					BP_SET_CRYSTAL(E)
 					E.status |= ORGAN_BRITTLE
 				break
 
-		for(var/obj/item/organ/internal/I in shuffle(H.internal_organs.Copy()))
+		var/list/internal_organs = H.get_internal_organs()
+		var/list/shuffled_organs = LAZYLEN(internal_organs) ? shuffle(internal_organs.Copy()) : null
+		for(var/obj/item/organ/internal/I in shuffled_organs)
 			if(BP_IS_PROSTHETIC(I) || !BP_IS_CRYSTAL(I) || I.damage <= 0 || I.organ_tag == BP_BRAIN)
 				continue
 			if(prob(35))
 				to_chat(M, SPAN_NOTICE("You feel a deep, sharp tugging sensation as your [I.name] is mended."))
 			I.heal_damage(rand(1,3))
 			break
-	else		
+	else
 		to_chat(M, SPAN_DANGER("Your flesh is being lacerated from within!"))
 		M.adjustBruteLoss(rand(3,6))
 		if(prob(10))

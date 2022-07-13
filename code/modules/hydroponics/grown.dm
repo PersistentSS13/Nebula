@@ -42,14 +42,14 @@
 	reagents.clear_reagents()
 	// Fill the object up with the appropriate reagents.
 	for(var/rid in seed.chems)
-		var/list/reagent_data = seed.chems[rid]
-		if(reagent_data && reagent_data.len)
-			var/rtotal = reagent_data[1]
-			var/list/data = list()
-			if(reagent_data.len > 1 && potency > 0)
-				rtotal += round(potency/reagent_data[2])
+		var/list/reagent_amounts = seed.chems[rid]
+		if(LAZYLEN(reagent_amounts))
+			var/rtotal = reagent_amounts[1]
+			var/list/data = null
+			if(LAZYACCESS(reagent_amounts,2) && potency > 0)
+				rtotal += round(potency/reagent_amounts[2])
 			if(rid == /decl/material/liquid/nutriment)
-				data[seed.seed_name] = max(1,rtotal)
+				LAZYSET(data, seed.seed_name, max(1,rtotal))
 			reagents.add_reagent(rid,max(1,rtotal),data)
 	update_desc()
 	if(reagents.total_volume > 0)
@@ -132,7 +132,8 @@
 
 			if(istype(M,/mob/living/carbon/human))
 				var/mob/living/carbon/human/H = M
-				if(H.shoes && H.shoes.item_flags & ITEM_FLAG_NOSLIP)
+				var/obj/item/shoes = H.get_equipped_item(slot_shoes_str)
+				if(shoes && shoes.item_flags & ITEM_FLAG_NOSLIP)
 					return
 
 			to_chat(M, SPAN_DANGER("You slipped on \the [src]!"))
@@ -160,7 +161,7 @@ var/global/list/_wood_materials = list(
 /obj/item/chems/food/grown/attackby(var/obj/item/W, var/mob/user)
 
 	if(seed)
-		if(seed.get_trait(TRAIT_PRODUCES_POWER) && isCoil(W))
+		if(seed.get_trait(TRAIT_PRODUCES_POWER) && IS_COIL(W))
 			var/obj/item/stack/cable_coil/C = W
 			if(C.use(5))
 				//TODO: generalize this.
@@ -180,7 +181,7 @@ var/global/list/_wood_materials = list(
 				return TRUE
 
 			if(seed.chems)
-				if(isHatchet(W))
+				if(IS_HATCHET(W))
 					for(var/wood_mat in global._wood_materials)
 						if(!isnull(seed.chems[wood_mat]))
 							user.visible_message("<span class='notice'>\The [user] makes planks out of \the [src].</span>")
@@ -297,7 +298,7 @@ var/global/list/_wood_materials = list(
 		return
 	if(seed.get_trait(TRAIT_STINGS))
 		var/mob/living/carbon/human/H = user
-		if(istype(H) && H.gloves)
+		if(istype(H) && H.get_equipped_item(slot_gloves_str))
 			return
 		if(!reagents || reagents.total_volume <= 0)
 			return

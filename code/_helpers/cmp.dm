@@ -64,9 +64,6 @@
 	if (!.)
 		. = B.qdels - A.qdels
 
-/proc/cmp_ruincost_priority(datum/map_template/ruin/A, datum/map_template/ruin/B)
-	return initial(A.cost) - initial(B.cost)
-
 /proc/cmp_timer(datum/timedevent/a, datum/timedevent/b)
 	return a.timeToRun - b.timeToRun
 
@@ -85,8 +82,8 @@
 /proc/cmp_program(var/datum/computer_file/program/A, var/datum/computer_file/program/B)
 	return cmp_text_asc(A.filedesc, B.filedesc)
 
-/proc/cmp_emails_asc(var/datum/computer_file/data/email_account/A, var/datum/computer_file/data/email_account/B)
-	return cmp_text_asc(A.login,B.login)
+/proc/cmp_accounts_asc(var/datum/computer_file/data/account/A, var/datum/computer_file/data/account/B)
+	return cmp_text_asc(A.login, B.login)
 
 /proc/cmp_planelayer(atom/A, atom/B)
 	return (B.plane - A.plane) || (B.layer - A.layer)

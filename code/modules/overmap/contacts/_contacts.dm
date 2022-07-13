@@ -23,6 +23,7 @@
 	marker = new(loc = effect)
 	marker.appearance = effect
 	marker.alpha = 0 // Marker fades in on detection.	
+	marker.appearance_flags |= RESET_TRANSFORM
 
 	images += marker
 	
@@ -33,6 +34,7 @@
 /datum/overmap_contact/proc/update_marker_icon(var/range = 0)
 	marker.icon_state = effect.icon_state
 	marker.dir = effect.dir
+	marker.transform = effect.transform
 	marker.overlays.Cut()
 
 	if(check_effect_shield())
@@ -66,8 +68,8 @@
 	var/obj/effect/overmap/visitable/visitable_effect = effect
 	if(!visitable_effect || !istype(visitable_effect))
 		return FALSE
-	for(var/thing in visitable_effect.get_linked_machines_of_type(/obj/machinery/power/shield_generator))
-		var/obj/machinery/power/shield_generator/S = thing 
+	for(var/thing in visitable_effect.get_linked_machines_of_type(/obj/machinery/shield_generator))
+		var/obj/machinery/shield_generator/S = thing 
 		if(S.running == SHIELD_RUNNING)
 			return TRUE
 	return FALSE

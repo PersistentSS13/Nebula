@@ -44,11 +44,11 @@
 	if(!suittoggled)
 		if(ishuman(loc))
 			var/mob/living/carbon/human/H = src.loc
-			if(H.wear_suit != src)
-				to_chat(H, "<span class='warning'>You must be wearing \the [src] to put up the hood!</span>")
+			if(H.get_equipped_item(slot_wear_suit_str) != src)
+				to_chat(H, SPAN_WARNING("You must be wearing \the [src] to put up the hood!"))
 				return
-			if(H.head)
-				to_chat(H, "<span class='warning'>You're already wearing something on your head!</span>")
+			if(H.get_equipped_item(slot_head_str))
+				to_chat(H, SPAN_WARNING("You're already wearing something on your head!"))
 				return
 			else
 				H.equip_to_slot_if_possible(hood, slot_head_str, 0, 0, 1)
@@ -83,6 +83,7 @@
 	hoodtype = /obj/item/clothing/head/winterhood
 	allowed = list (/obj/item/pen, /obj/item/paper, /obj/item/flashlight,/obj/item/storage/fancy/cigarettes, /obj/item/storage/box/matches, /obj/item/chems/drinks/flask)
 	siemens_coefficient = 0.6
+	protects_against_weather = TRUE
 
 /obj/item/clothing/head/winterhood
 	name = "winter hood"
@@ -92,6 +93,7 @@
 	cold_protection = SLOT_HEAD
 	flags_inv = HIDEEARS | BLOCKHAIR
 	min_cold_protection_temperature = ARMOR_MIN_COLD_PROTECTION_TEMPERATURE
+	protects_against_weather = TRUE
 
 /obj/item/clothing/suit/storage/hooded/wintercoat/captain
 	name = "captain's winter coat"

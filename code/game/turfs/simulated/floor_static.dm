@@ -7,9 +7,10 @@
 	icon_state = "steel"
 	initial_flooring = null
 	footstep_type = /decl/footsteps/plating
+	is_outside = OUTSIDE_AREA
 
 /turf/simulated/floor/fixed/attackby(var/obj/item/C, var/mob/user)
-	if(istype(C, /obj/item/stack) && !isCoil(C))
+	if(istype(C, /obj/item/stack) && !IS_COIL(C))
 		return
 	return ..()
 
@@ -29,7 +30,7 @@
 	icon_state = "jaggy"
 
 /turf/simulated/floor/fixed/alium/attackby(var/obj/item/C, var/mob/user)
-	if(isCrowbar(C))
+	if(IS_CROWBAR(C))
 		to_chat(user, "<span class='notice'>There aren't any openings big enough to pry it away...</span>")
 		return TRUE
 	return ..()

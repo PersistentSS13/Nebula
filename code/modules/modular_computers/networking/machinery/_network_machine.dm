@@ -16,10 +16,9 @@
 	var/inefficiency = 0.12			// How much power is waste heat.
 	var/heat_threshold = 90 CELSIUS	// At what temperature the machine will lock up.
 	var/overheated = FALSE
-	var/runtimeload // Use this for calling an even later lateload.
 
 /obj/machinery/network/Initialize()
-	set_extension(src, network_device_type, initial_network_id, initial_network_key, NETWORK_CONNECTION_STRONG_WIRELESS)
+	set_extension(src, network_device_type, initial_network_id, initial_network_key, RECEIVER_STRONG_WIRELESS)
 	. = ..()
 
 /obj/machinery/network/populate_parts(full_populate)
@@ -37,7 +36,7 @@
 /obj/machinery/network/on_update_icon()
 	icon_state = initial(icon_state)
 	if(panel_open)
-		icon_state = "[icon_state]_o" 
+		icon_state = "[icon_state]_o"
 	if(!operable())
 		icon_state = "[icon_state]_off"
 
@@ -54,18 +53,11 @@
 		env.merge(removed)
 
 /obj/machinery/network/Process()
-	if(runtimeload)
-		RuntimeInitialize()
-		runtimeload = FALSE
-		
 	set_overheated(is_overheated())
 	if(stat & (BROKEN|NOPOWER))
 		return
 	produce_heat()
 
-/obj/machinery/network/proc/RuntimeInitialize()
-
-	
 /obj/machinery/network/interface_interact(user)
 	ui_interact(user)
 	return TRUE
@@ -124,7 +116,7 @@
 	if(!D)
 		return
 	if(operable())
-		D.connect()
+		SSnetworking.queue_connection(D) // must queue, due to router race conditions
 	else
 		D.disconnect()
 

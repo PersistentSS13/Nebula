@@ -18,10 +18,10 @@
 
 /obj/item/holder/on_update_icon()
 	SHOULD_CALL_PARENT(FALSE)
-	vis_contents.Cut()
+	clear_vis_contents(src)
 	for(var/atom/movable/AM in src)
 		AM.vis_flags |= (VIS_INHERIT_ID|VIS_INHERIT_LAYER|VIS_INHERIT_PLANE)
-		vis_contents += AM
+		add_vis_contents(src, AM)
 
 // Grab our inhands from the mob we're wrapping, if they have any.
 /obj/item/holder/get_mob_overlay(mob/user_mob, slot, bodypart)
@@ -49,7 +49,7 @@
 	destroy_all()
 
 /obj/item/holder/Destroy()
-	vis_contents.Cut()
+	clear_vis_contents(src)
 	for(var/atom/movable/AM in src)
 		unregister_all_movement(last_holder, AM)
 		AM.vis_flags = initial(AM.vis_flags)
@@ -98,16 +98,10 @@
 		return loc.loc
 	return ..()
 
-/obj/item/holder/GetIdCard()
+/obj/item/holder/GetIdCards()
+	. = ..()
 	for(var/mob/M in contents)
-		var/obj/item/I = M.GetIdCard()
-		if(I)
-			return I
-	return null
-
-/obj/item/holder/GetAccess()
-	var/obj/item/I = GetIdCard()
-	return I ? I.GetAccess() : ..()
+		LAZYDISTINCTADD(., M.GetIdCards())
 
 /obj/item/holder/attack_self()
 	for(var/mob/M in contents)

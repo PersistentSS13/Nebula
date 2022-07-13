@@ -55,9 +55,19 @@ CREATE TABLE IF NOT EXISTS `z_level` (
   `dynamic` bool NOT NULL DEFAULT '0',
   `default_turf` varchar(256) DEFAULT NULL,
   `metadata` varchar(64) DEFAULT NULL,
+  `areas` longtext NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+DROP TABLE IF EXISTS `areas`;
+CREATE TABLE IF NOT EXISTS `areas` (
+	`id` int NOT NULL AUTO_INCREMENT,
+	`type` longtext NOT NULL,
+	`name` longtext NOT NULL,
+	`turfs` longtext NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
 DROP TABLE IF EXISTS `limbo`;
 CREATE TABLE IF NOT EXISTS `limbo` (
@@ -65,7 +75,8 @@ CREATE TABLE IF NOT EXISTS `limbo` (
   `type` varchar(64) NOT NULL,
   `p_ids` longtext NOT NULL,
   `metadata` varchar(64) DEFAULT NULL,
-  `limbo_assoc` varchar(12) NOT NULL
+  `limbo_assoc` varchar(12) NOT NULL,
+  `metadata2` varchar(64) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
 DROP TABLE IF EXISTS `limbo_list_element`;

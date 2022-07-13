@@ -1,10 +1,42 @@
-/obj/machinery/computer/chargen
-	var/ui_template = "chargen.tmpl"
-	var/active_section = "origin"
-	stat_immune = NOPOWER | NOSCREEN | NOINPUT | BROKEN
-	construct_state = /decl/machine_construction/no_build
+//Simple structure displaying a nanoui on interact
+/obj/structure/fake_computer
+	name = "computer"
+	icon = 'icons/obj/computer.dmi'
+	icon_state = "computer"
+	density = TRUE
+	anchored = TRUE
 
-/obj/machinery/computer/chargen/OnTopic(var/mob/user, var/href_list, var/datum/topic_state/state)
+/obj/structure/fake_computer/attack_hand(mob/user)
+	ui_interact(user)
+
+/obj/structure/fake_computer/on_update_icon()
+	cut_overlays()
+	icon = initial(icon)
+	icon_state = initial(icon_state)
+
+	//Slap on the screen overlay
+	var/image/screen_overlay = image(icon, "generic", layer)
+	screen_overlay.appearance_flags |= RESET_COLOR
+	add_overlay(screen_overlay)
+
+	//Slap on the keyboard overlay
+	var/image/keyboard_overlay = image(icon, "generic_key", layer)
+	keyboard_overlay.appearance_flags |= RESET_COLOR
+	add_overlay(keyboard_overlay)
+
+	//Light it up
+	set_light(2, 1, light_color)
+
+/obj/structure/fake_computer/CouldUseTopic(var/mob/user)
+	..()
+	playsound(src, "keyboard", 40)
+
+//Chargen console
+/obj/structure/fake_computer/chargen
+	var/active_section = "origin"
+	should_save = FALSE
+
+/obj/structure/fake_computer/chargen/OnTopic(var/mob/user, var/href_list, var/datum/topic_state/state)
 	. = TOPIC_REFRESH
 
 	var/datum/skillset/skillset = user.mind.chargen_skillset
@@ -12,19 +44,6 @@
 	var/decl/hierarchy/chargen/origin/origin = user.mind.origin
 
 	switch(href_list["action"])
-		if("choose_age")
-			var/new_age = sanitize(input(user, "Enter your age:", "Age", user.mind.age) as text|null)
-			var/age_num = text2num(new_age)
-			if(isnum(age_num))
-				if(age_num < 18)
-					to_chat(user, SPAN_NOTICE("The console beeps: You must be over the age of eighteen to participate in the [global.using_map.station_name] program."))
-					return
-				if(age_num > 120)
-					to_chat(user, SPAN_NOTICE("The console beeps: You must be under the age of one hundred twenty to participate in the [global.using_map.station_name] program."))
-					return
-				user.mind.age = age_num
-			else
-				to_chat(user, SPAN_NOTICE("The console beeps: '[new_age]' is not a valid number. Please enter a valid number."))
 		if("toggle_stack")
 			user.mind.chargen_stack = !user.mind.chargen_stack
 			return
@@ -32,17 +51,7 @@
 			active_section = "origin"
 		if("choose_role")
 			active_section = "role"
-		// if("choose_traits")
-		// 	active_section = "traits"
-		// if("choose_background")
-		// 	active_section = "background"
 		if("submit")
-			if(user.mind.age < 18)
-				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter an age to proceed."))
-				return
-			if(user.mind.age > 120)
-				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter an age to proceed."))
-				return
 			if(isnull(user.mind.origin))
 				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter an origin to proceed."))
 				return
@@ -50,6 +59,10 @@
 				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter a role to proceed."))
 				return
 			user.mind.finished_chargen = TRUE
+			var/area/A = get_area(src)
+			var/obj/machinery/cryopod/chargen/pod = locate() in A
+			if(pod)
+				pod.ready_for_mingebag()
 		if("unsubmit")
 			user.mind.finished_chargen = FALSE
 		if("confirm_origin")
@@ -78,14 +91,7 @@
 					for(var/skill in D.skills)
 						skillset.skill_list[skill] += D.skills[skill]
 
-/obj/machinery/computer/chargen/proc/build_ui_data()
-	var/mob/user
-	var/area/chargen/A = get_area(loc)
-	if(istype(A))
-		user = A.assigned_to
-	else
-		return list()
-
+/obj/structure/fake_computer/chargen/proc/build_ui_data(var/mob/user)
 	if(!istype(user.mind.chargen_skillset))
 		user.mind.chargen_skillset = new(user)
 		for(var/decl/hierarchy/skill in global.skills)
@@ -96,9 +102,7 @@
 
 	.["active"] = active_section
 	.["finished"] = user.mind.finished_chargen
-	.["age"] = user.mind.age
 	.["map_name"] = global.using_map.station_name
-	// .["species"] = usr.species.name
 	.["stack"] = user.mind.chargen_stack
 	.["origin"] = istype(user.mind.origin) ? user.mind.origin.name : "Not set"
 	.["role"] = istype(user.mind.role) ? user.mind.role.name : "Not set"
@@ -133,26 +137,11 @@
 		else
 			.["roles"] += list(fields)
 
-
-/obj/machinery/computer/chargen/interface_interact(var/mob/user)
-	ui_interact(user)
-	return TRUE
-
-/obj/machinery/computer/chargen/ui_interact(var/mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
-	if(ui_template)
-		var/list/data = build_ui_data()
-		ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
-		if (!ui)
-			ui = new(user, src, ui_key, ui_template, name, 800, 600)
-			ui.set_initial_data(data)
-			ui.open()
-			ui.set_auto_update(1)
-
-/decl/machine_construction/no_build
-	needs_board = "computer"
-	cannot_print = TRUE
-
-/obj/item/stock_parts/circuitboard/computer_chargen
-	name = "circuitboard (dossier console)"
-	build_path = /obj/machinery/computer/chargen
-	
+/obj/structure/fake_computer/chargen/ui_interact(var/mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
+	var/list/data = build_ui_data(user)
+	ui = SSnano.try_update_ui(user, src, ui_key, ui, data, force_open)
+	if (!ui)
+		ui = new(user, src, ui_key, "chargen.tmpl", name, 800, 600)
+		ui.set_initial_data(data)
+		ui.open()
+		ui.set_auto_update(1)

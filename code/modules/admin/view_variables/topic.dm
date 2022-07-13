@@ -151,17 +151,6 @@
 		if(usr.client)
 			usr.client.cmd_assume_direct_control(M)
 
-	else if(href_list["make_skeleton"])
-		if(!check_rights(R_FUN))	return
-
-		var/mob/living/carbon/human/H = locate(href_list["make_skeleton"])
-		if(!istype(H))
-			to_chat(usr, "This can only be used on instances of type /mob/living/carbon/human")
-			return
-
-		H.ChangeToSkeleton()
-		href_list["datumrefresh"] = href_list["make_skeleton"]
-
 	else if(href_list["delthis"])
 		if(!check_rights(R_DEBUG|R_SERVER))	return
 
@@ -308,7 +297,7 @@
 		if(!istype(H))
 			to_chat(usr, "This can only be done to instances of type /mob/living/carbon/human")
 			return
-		var/obj/item/organ/O = input("Select a limb to add the ailment to.", "Add Ailment") as null|anything in (H.organs|H.internal_organs)
+		var/obj/item/organ/O = input("Select a limb to add the ailment to.", "Add Ailment") as null|anything in H.get_organs()
 		if(QDELETED(H) || QDELETED(O) || O.owner != H)
 			return
 		var/list/possible_ailments = list()
@@ -333,7 +322,7 @@
 			to_chat(usr, "This can only be done to instances of type /mob/living/carbon/human")
 			return
 		var/list/all_ailments = list()
-		for(var/obj/item/organ/O in (H.organs|H.internal_organs))
+		for(var/obj/item/organ/O in H.get_organs())
 			for(var/datum/ailment/ailment in O.ailments)
 				all_ailments["[ailment.name] - [O.name]"] = ailment
 
@@ -361,7 +350,7 @@
 			to_chat(usr, "Mob doesn't exist anymore")
 			return
 
-		if(H.set_species(new_species))
+		if(H.change_species(new_species))
 			to_chat(usr, "Set species of [H] to [H.species].")
 		else
 			to_chat(usr, "Failed! Something went wrong.")
@@ -477,7 +466,7 @@
 			to_chat(usr, "Mob doesn't exist anymore")
 			return
 
-		if(locate(new_organ) in M.internal_organs)
+		if(locate(new_organ) in M.get_internal_organs())
 			to_chat(usr, "Mob already has that organ.")
 			return
 
@@ -492,18 +481,18 @@
 			to_chat(usr, "This can only be done to instances of type /mob/living/carbon")
 			return
 
-		var/obj/item/organ/rem_organ = input("Please choose an organ to remove.","Organ",null) as null|anything in M.internal_organs
+		var/obj/item/organ/rem_organ = input("Please choose an organ to remove.","Organ",null) as null|anything in M.get_internal_organs()
 
 		if(!M)
 			to_chat(usr, "Mob doesn't exist anymore")
 			return
 
-		if(!(locate(rem_organ) in M.internal_organs))
+		if(!(locate(rem_organ) in M.get_internal_organs()))
 			to_chat(usr, "Mob does not have that organ.")
 			return
 
 		to_chat(usr, "Removed [rem_organ] from [M].")
-		rem_organ.removed()
+		M.remove_organ(rem_organ)
 		if(!QDELETED(rem_organ))
 			qdel(rem_organ)
 
@@ -559,12 +548,12 @@
 			return
 
 		switch(Text)
-			if("brute")	L.adjustBruteLoss(amount)
-			if("fire")	L.adjustFireLoss(amount)
-			if("toxin")	L.adjustToxLoss(amount)
-			if("oxygen")L.adjustOxyLoss(amount)
-			if("brain")	L.adjustBrainLoss(amount)
-			if("clone")	L.adjustCloneLoss(amount)
+			if(BRUTE)    L.adjustBruteLoss(amount)
+			if(BURN)     L.adjustFireLoss(amount)
+			if(TOX)      L.adjustToxLoss(amount)
+			if(OXY)      L.adjustOxyLoss(amount)
+			if(BP_BRAIN) L.adjustBrainLoss(amount)
+			if(CLONE)    L.adjustCloneLoss(amount)
 			else
 				to_chat(usr, "You caused an error. DEBUG: Text:[Text] Mob:[L]")
 				return

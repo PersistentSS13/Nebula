@@ -11,8 +11,9 @@
 	program_menu_icon = "flag"
 	nanomodule_path = /datum/nano_module/program/comm
 	extended_desc = "Used to command and control. Can relay long-range communications. This program can not be run on tablet computers."
-	required_access = list(access_bridge)
+	read_access = list(access_bridge)
 	requires_network = 1
+	requires_network_feature = NET_FEATURE_SYSTEMCONTROL
 	size = 12
 	usage_flags = PROGRAM_CONSOLE | PROGRAM_LAPTOP
 	network_destination = "long-range communication array"
@@ -46,8 +47,8 @@
 	var/list/data = host.initial_data()
 
 	if(program)
-		data["net_comms"] = !!program.get_signal(NETWORK_COMMUNICATION) //Double !! is needed to get 1 or 0 answer
-		data["net_syscont"] = !!program.get_signal(NETWORK_SYSTEMCONTROL)
+		data["net_comms"] = !!program.get_signal(NET_FEATURE_COMMUNICATION) //Double !! is needed to get 1 or 0 answer
+		data["net_syscont"] = !!program.get_signal(NET_FEATURE_SYSTEMCONTROL)
 		if(program.computer)
 			data["emagged"] = program.computer.emagged()
 			data["have_printer"] =  program.computer.has_component(PART_PRINTER)
@@ -109,7 +110,7 @@
 
 /datum/nano_module/program/comm/proc/is_authenticated(var/mob/user)
 	if(program)
-		return program.can_run(user, program.computer.get_network())
+		return program.get_file_perms(get_access(user), user) & OS_READ_ACCESS
 	return 1
 
 /datum/nano_module/program/comm/proc/get_shunt()
@@ -144,8 +145,8 @@
 	if(..())
 		return 1
 	var/mob/user = usr
-	var/ntn_comm = program ? !!program.get_signal(NETWORK_COMMUNICATION) : 1
-	var/ntn_cont = program ? !!program.get_signal(NETWORK_SYSTEMCONTROL) : 1
+	var/ntn_comm = program ? !!program.get_signal(NET_FEATURE_COMMUNICATION) : 1
+	var/ntn_cont = program ? !!program.get_signal(NET_FEATURE_SYSTEMCONTROL) : 1
 	var/datum/comm_message_listener/l = obtain_message_listener()
 	switch(href_list["action"])
 		if("sw_menu")
@@ -160,7 +161,7 @@
 				else
 					crew_announcement.announcer = "Unknown"
 				if(announcment_cooldown)
-					to_chat(usr, "Please allow at least one minute to pass between announcements")
+					to_chat(usr, "Please allow at least one minute to pass between announcements.")
 					return TRUE
 				var/input = input(usr, "Please write a message to announce to the [station_name()].", "Priority Announcement") as null|message
 				if(!input || !can_still_topic() || filter_block_message(usr, input))

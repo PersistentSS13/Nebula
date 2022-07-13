@@ -27,7 +27,7 @@
 
 /datum/composite_sound/New(list/_output_atoms=list(), start_immediately=FALSE, _direct=FALSE)
 	if(!mid_sounds)
-		WARNING("A looping sound datum was created without sounds to play.")
+		WARNING("A composite sound datum was created without sounds to play.")
 		return
 
 	output_atoms = _output_atoms
@@ -68,7 +68,7 @@
 
 /datum/composite_sound/proc/play(soundfile)
 	var/sound/S = sound(soundfile)
-	for(var/atom/thing AS_ANYTHING in output_atoms)
+	for(var/atom/thing as anything in output_atoms)
 		playsound(thing, S, volume)
 
 /datum/composite_sound/proc/get_sound(starttime, _mid_sounds)

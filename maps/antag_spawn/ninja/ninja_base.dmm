@@ -303,7 +303,7 @@
 /obj/effect/floor_decal/carpet/blue{
 	dir = 9
 	},
-/obj/effect/landmark{
+/obj/abstract/landmark{
 	name = "ninjastart"
 	},
 /turf/unsimulated/floor{
@@ -505,7 +505,7 @@
 /obj/effect/floor_decal/carpet/blue{
 	dir = 6
 	},
-/obj/effect/landmark{
+/obj/abstract/landmark{
 	name = "ninjastart"
 	},
 /turf/unsimulated/floor{
@@ -581,7 +581,7 @@
 	},
 /area/map_template/ninja_dojo/dojo)
 "bt" = (
-/obj/structure/flora/ausbushes/palebush,
+/obj/structure/flora/bush/palebush,
 /turf/unsimulated/floor{
 	icon_state = "snow"
 	},
@@ -741,7 +741,7 @@
 	},
 /area/map_template/ninja_dojo/dojo)
 "bN" = (
-/obj/effect/landmark{
+/obj/abstract/landmark{
 	name = "ninjastart"
 	},
 /turf/unsimulated/floor{
@@ -899,7 +899,7 @@
 	},
 /area/map_template/ninja_dojo/dojo)
 "cf" = (
-/obj/effect/landmark{
+/obj/abstract/landmark{
 	name = "ninjastart"
 	},
 /obj/effect/floor_decal/carpet{

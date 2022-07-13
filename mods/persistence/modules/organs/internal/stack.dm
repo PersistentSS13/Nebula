@@ -10,6 +10,8 @@ var/global/list/cortical_stacks = list()
 	if(!target)
 		return null
 	target.stackmob = new(target)
+	target.stackmob.SetName(mind.current.real_name)
+	target.stackmob.real_name = mind.current.real_name
 	mind.transfer_to(target.stackmob)
 	to_chat(target.stackmob, SPAN_NOTICE("You feel slightly disoriented. That's normal when you're just \a [target.name]."))
 	return target
@@ -19,9 +21,10 @@ var/global/list/cortical_stacks = list()
 	parent_organ = BP_HEAD
 	icon_state = "cortical-stack"
 	organ_tag = BP_STACK
-	vital = 1
+	vital = TRUE
 	origin_tech = "{'biotech':4,'materials':4,'magnets':2,'programming':3}"
 	relative_size = 10
+	organ_properties = ORGAN_PROP_PROSTHETIC
 	
 	var/mind_id
 	var/datum/computer_file/data/cloning/backup
@@ -33,10 +36,6 @@ var/global/list/cortical_stacks = list()
 /obj/item/organ/internal/stack/Initialize()
 	. = ..()
 	global.cortical_stacks |= src
-	robotize()
-	if(owner && istype(owner))
-		cortical_alias = Gibberish(owner.name, 100)
-		verbs |= /obj/item/organ/internal/stack/proc/change_cortical_alias
 
 /obj/item/organ/internal/stack/Destroy()
 	global.cortical_stacks -= src
@@ -65,32 +64,40 @@ var/global/list/cortical_stacks = list()
 /obj/item/organ/internal/stack/getToxLoss()
 	return 0
 
-/obj/item/organ/internal/stack/replaced()
+/obj/item/organ/internal/stack/do_install(mob/living/carbon/human/target, obj/item/organ/external/affected, in_place, update_icon, detached)
+	. = ..()
+	//Since language list gets reset all the time, its better to do this here!
+	if(owner && !(status & ORGAN_CUT_AWAY))
+		owner.add_language(/decl/language/cortical)
+		verbs |= /obj/item/organ/internal/stack/proc/change_cortical_alias
+		if(!cortical_alias)
+			cortical_alias = Gibberish(owner.name, 100)
+
+/obj/item/organ/internal/stack/do_uninstall(in_place, detach, ignore_children, update_icon)
+	//Since language list gets reset all the time, its better to do this here!
+	if(owner)
+		owner.remove_language(/decl/language/cortical)
+		verbs -= /obj/item/organ/internal/stack/proc/change_cortical_alias
+	. = ..()
+
+/obj/item/organ/internal/stack/on_add_effects()
 	. = ..()
 	QDEL_NULL(backup)
 	update_mind_id()
-	if(owner)
-		owner.add_language(/decl/language/cortical)
+
+/obj/item/organ/internal/stack/on_remove_effects(mob/living/last_owner)
+	if(istype(last_owner))
+		QDEL_NULL(backup)
+		backup = new()
+		backup.initialize_backup(last_owner)
+	return ..()
 
 /obj/item/organ/internal/stack/proc/update_mind_id()
 	if(owner.mind)
-		for(var/stack in global.cortical_stacks)
-			var/obj/item/organ/internal/stack/S = stack
+		for(var/obj/item/organ/internal/stack/S in global.cortical_stacks)
 			if(S.mind_id == owner.mind.unique_id) // Make sure only one stack has a given mind ID.
 				S.mind_id = null
 		mind_id = owner.mind.unique_id
-
-/obj/item/organ/internal/stack/removed(var/mob/living/user, var/drop_organ=1)
-	if(!istype(owner))
-		return
-
-	// Language will be readded upon placement into a mob with a stack.
-	owner.remove_language(/decl/language/cortical)
-
-	QDEL_NULL(backup)
-	backup = new()
-	backup.initialize_backup(owner)
-	return ..()
 
 /obj/item/organ/internal/stack/proc/change_cortical_alias()
 	set name = "Change Cortical Chat alias"
@@ -102,7 +109,7 @@ var/global/list/cortical_stacks = list()
 	if(world.time < last_alias_change + 1 MINUTE)
 		to_chat(owner, SPAN_WARNING("You can't adjust your Cortical Chat alias again so soon!"))
 		return
-	var/new_alias = sanitizeName(input("Please enter your new Cortical Chat alias.", "Alias Select", cortical_alias) as text|null)
+	var/new_alias = sanitize_name(input("Please enter your new Cortical Chat alias.", "Alias Select", cortical_alias) as text|null)
 	if(new_alias)
 		cortical_alias = new_alias
 		to_chat(owner, SPAN_NOTICE("You change your Cortical Chat alias to [cortical_alias]"))

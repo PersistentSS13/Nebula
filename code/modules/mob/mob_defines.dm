@@ -43,8 +43,6 @@
 	var/obj/screen/purged = null
 	var/obj/screen/internals = null
 	var/obj/screen/oxygen = null
-	var/obj/screen/i_select = null
-	var/obj/screen/m_select = null
 	var/obj/screen/toxin = null
 	var/obj/screen/fire = null
 	var/obj/screen/bodytemp = null
@@ -58,10 +56,9 @@
 	var/obj/screen/gun/item/item_use_icon = null
 	var/obj/screen/gun/radio/radio_use_icon = null
 	var/obj/screen/gun/move/gun_move_icon = null
-	var/obj/screen/gun/run/gun_run_icon = null
 	var/obj/screen/gun/mode/gun_setting_icon = null
 
-	var/obj/screen/movable/ability_master/ability_master = null
+	var/obj/screen/ability_master/ability_master = null
 
 	/*A bunch of this stuff really needs to go under their own defines instead of being globally attached to mob.
 	A variable should only be globally attached to turfs/objects/whatever, when it is in fact needed as such.
@@ -114,10 +111,13 @@
 	var/decl/move_intent/default_walk_intent
 	var/decl/move_intent/default_run_intent
 
+	// TODO: REMOVE DIRECT REFERENCES
+	var/obj/item/_back
+	var/obj/item/clothing/mask/_wear_mask
+	// END TODO
+
+	var/obj/item/storage/active_storage
 	var/obj/buckled = null//Living
-	var/obj/item/back = null//Human/Monkey
-	var/obj/item/storage/s_active = null//Carbon
-	var/obj/item/clothing/mask/wear_mask = null//Carbon
 	var/in_throw_mode = 0
 
 	var/can_pull_size = ITEM_SIZE_STRUCTURE // Maximum w_class the mob can pull.
@@ -136,8 +136,8 @@
 	var/blinded = null
 
 	//The last mob/living/carbon to push/drag/grab this mob (mostly used by slimes friend recognition)
-	var/weakref/last_handled_by_mob 
-	
+	var/weakref/last_handled_by_mob
+
 	mouse_drag_pointer = MOUSE_ACTIVE_POINTER
 
 	var/update_icon = 1 //Set to 1 to trigger update_icon() at the next life() call

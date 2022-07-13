@@ -54,7 +54,7 @@
 		icon_state = base_state
 
 /obj/item/stack/material/rods/attackby(obj/item/W, mob/user)
-	if(isWelder(W))
+	if(IS_WELDER(W))
 		var/obj/item/weldingtool/WT = W
 
 		if(!can_use(2))
@@ -70,7 +70,7 @@
 			use(2)
 		return
 
-	if (istype(W, /obj/item/tape_roll))
+	if (istype(W, /obj/item/ducttape))
 		var/obj/item/stack/medical/splint/ghetto/new_splint = new(user.loc)
 		new_splint.dropInto(loc)
 		new_splint.add_fingerprint(user)

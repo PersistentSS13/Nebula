@@ -300,7 +300,7 @@
 	else
 		changed_name = "[modtype] [braintype]-[num2text(ident)]"
 
-	create_or_rename_email(changed_name, "root.rt")
+	create_or_update_account(changed_name)
 	real_name = changed_name
 	name = real_name
 	if(mind)
@@ -326,7 +326,7 @@
 
 	spawn(0)
 		var/newname
-		newname = sanitizeName(input(src,"You are a robot. Enter a name, or leave blank for the default name.", "Name change","") as text, MAX_NAME_LEN, allow_numbers = 1)
+		newname = sanitize_name(input(src,"You are a robot. Enter a name, or leave blank for the default name.", "Name change","") as text, MAX_NAME_LEN, allow_numbers = 1)
 		if (newname)
 			custom_name = newname
 
@@ -497,7 +497,7 @@
 		if(try_stock_parts_install(W, user))
 			return
 
-	if(isWelder(W) && user.a_intent != I_HURT)
+	if(IS_WELDER(W) && user.a_intent != I_HURT)
 		if (src == user)
 			to_chat(user, "<span class='warning'>You lack the reach to be able to repair yourself.</span>")
 			return
@@ -527,7 +527,7 @@
 			updatehealth()
 			user.visible_message(SPAN_NOTICE("\The [user] has fixed some of the burnt wires on \the [src]!"))
 
-	else if(isCrowbar(W) && user.a_intent != I_HURT)	// crowbar means open or close the cover - we all know what a crowbar is by now
+	else if(IS_CROWBAR(W) && user.a_intent != I_HURT)	// crowbar means open or close the cover - we all know what a crowbar is by now
 		if(opened)
 			if(cell)
 				user.visible_message("<span class='notice'>\The [user] begins clasping shut \the [src]'s maintenance hatch.</span>", "<span class='notice'>You begin closing up \the [src].</span>")
@@ -605,17 +605,17 @@
 			C.brute_damage = 0
 			C.electronics_damage = 0
 
-	else if(isWirecutter(W) || isMultitool(W))
+	else if(IS_WIRECUTTER(W) || IS_MULTITOOL(W))
 		if (wiresexposed)
 			wires.Interact(user)
 		else
 			to_chat(user, "You can't reach the wiring.")
-	else if(isScrewdriver(W) && opened && !cell)	// haxing
+	else if(IS_SCREWDRIVER(W) && opened && !cell)	// haxing
 		wiresexposed = !wiresexposed
 		to_chat(user, "The wires have been [wiresexposed ? "exposed" : "unexposed"].")
 		update_icon()
 
-	else if(isScrewdriver(W) && opened && cell)	// radio
+	else if(IS_SCREWDRIVER(W) && opened && cell)	// radio
 		if(silicon_radio)
 			silicon_radio.attackby(W,user)//Push it to the radio to let it handle everything
 		else
@@ -629,7 +629,7 @@
 			to_chat(user, "Unable to locate a radio.")
 	else if (istype(W, /obj/item/card/id)||istype(W, /obj/item/modular_computer)||istype(W, /obj/item/card/robot))			// trying to unlock the interface with an ID card
 		if(emagged)//still allow them to open the cover
-			to_chat(user, "The interface seems slightly damaged")
+			to_chat(user, "The interface seems slightly damaged.")
 		if(opened)
 			to_chat(user, "You must close the cover to swipe an ID card.")
 		else
@@ -800,24 +800,27 @@
 			return TOPIC_HANDLED
 
 		if(activated(O))
-			to_chat(src, "Already activated")
+			to_chat(src, "Already activated.")
 			return TOPIC_HANDLED
 		if(!module_state_1)
 			module_state_1 = O
 			O.hud_layerise()
 			O.forceMove(src)
+			O.equipped_robot()
 			if(istype(module_state_1,/obj/item/borg/sight))
 				sight_mode |= module_state_1:sight_mode
 		else if(!module_state_2)
 			module_state_2 = O
 			O.hud_layerise()
 			O.forceMove(src)
+			O.equipped_robot()
 			if(istype(module_state_2,/obj/item/borg/sight))
 				sight_mode |= module_state_2:sight_mode
 		else if(!module_state_3)
 			module_state_3 = O
 			O.hud_layerise()
 			O.forceMove(src)
+			O.equipped_robot()
 			if(istype(module_state_3,/obj/item/borg/sight))
 				sight_mode |= module_state_3:sight_mode
 		else
@@ -840,7 +843,7 @@
 			else
 				to_chat(src, "Module isn't activated.")
 		else
-			to_chat(src, "Module isn't activated")
+			to_chat(src, "Module isn't activated.")
 		installed_modules()
 		return TOPIC_HANDLED
 	return ..()
@@ -871,14 +874,19 @@
 					else if(istype(A, /mob/living/carbon/human))
 						var/mob/living/carbon/human/cleaned_human = A
 						if(cleaned_human.lying)
-							if(cleaned_human.head)
-								cleaned_human.head.clean_blood()
-							if(cleaned_human.wear_suit)
-								cleaned_human.wear_suit.clean_blood()
-							else if(cleaned_human.w_uniform)
-								cleaned_human.w_uniform.clean_blood()
-							if(cleaned_human.shoes)
-								cleaned_human.shoes.clean_blood()
+							var/obj/item/head = cleaned_human.get_equipped_item(slot_head_str)
+							if(head)
+								head.clean_blood()
+							var/obj/item/suit = cleaned_human.get_equipped_item(slot_wear_suit_str)
+							if(suit)
+								suit.clean_blood()
+							else
+								var/obj/item/uniform = cleaned_human.get_equipped_item(slot_w_uniform_str)
+								if(uniform)
+									uniform.clean_blood()
+							var/obj/item/shoes = cleaned_human.get_equipped_item(slot_shoes_str)
+							if(shoes)
+								shoes.clean_blood()
 							cleaned_human.clean_blood(1)
 							to_chat(cleaned_human, "<span class='warning'>[src] cleans your face!</span>")
 		return
@@ -995,8 +1003,8 @@
 	if(is_component_functioning("comms"))
 		var/datum/robot_component/RC = get_component("comms")
 		use_power(RC.active_usage)
-		return 1
-	return 0
+		return TRUE
+	return FALSE
 
 /mob/living/silicon/robot/proc/notify_ai(var/notifytype, var/first_arg, var/second_arg)
 	if(!connected_ai)
@@ -1043,7 +1051,7 @@
 		if(emagged)
 			return //Prevents the X has hit Y with Z message also you cant emag them twice
 		if(wiresexposed)
-			to_chat(user, "You must close the panel first")
+			to_chat(user, "You must close the panel first.")
 			return
 		else
 			sleep(6)
@@ -1113,3 +1121,14 @@
 
 /mob/living/silicon/robot/handle_pre_transformation()
 	QDEL_NULL(mmi)
+
+/mob/living/silicon/robot/do_flash_animation()
+	set waitfor = FALSE
+	var/atom/movable/overlay/animation = new(src)
+	animation.plane = plane
+	animation.layer = layer + 0.01
+	animation.icon_state = "blank"
+	animation.icon = 'icons/mob/mob.dmi'
+	flick("blspell", animation)
+	sleep(5)
+	qdel(animation)

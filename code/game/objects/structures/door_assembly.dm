@@ -45,6 +45,28 @@
 		bound_width = world.icon_size
 		bound_height = width * world.icon_size
 
+/obj/structure/door_assembly/examine(mob/user)
+	. = ..()
+	switch(state)
+		if(0)
+			to_chat(user, "Use a wrench to [anchored ? "un" : ""]anchor it.")
+			if(!anchored)
+				if(glass == 1)
+					var/decl/material/glass_material_datum = GET_DECL(glass_material)
+					if(glass_material_datum)
+						var/mat_name = glass_material_datum.solid_name || glass_material_datum.name
+						to_chat(user, "Use a welder to remove the [mat_name] plating currently attached.")
+				else
+					to_chat(user, "Use a welder to disassemble completely.")
+			else
+				to_chat(user, "Use a cable coil to wire in preparation for electronics.")
+		if(1)
+			to_chat(user, "Use a wirecutter to remove the wiring and expose the frame.")
+			to_chat(user, "Insert electronics to proceed with construction.")
+		if(2)
+			to_chat(user, "Use a crowbar to remove the electronics.")
+			to_chat(user, "Use a screwdriver to complete assembly.")
+
 /obj/structure/door_assembly/door_assembly_hatch
 	icon = 'icons/obj/doors/hatch/door.dmi'
 	panel_icon = 'icons/obj/doors/hatch/panel.dmi'
@@ -86,6 +108,7 @@
 	paintable = 0
 
 /obj/structure/door_assembly/blast/on_update_icon()
+	return
 
 /obj/structure/door_assembly/blast/morgue
 	name = "morgue door assembly"
@@ -102,13 +125,13 @@
 /obj/structure/door_assembly/attackby(obj/item/W, mob/user)
 
 	if(istype(W, /obj/item/pen))
-		var/t = sanitizeSafe(input(user, "Enter the name for the door.", src.name, src.created_name), MAX_NAME_LEN)
+		var/t = sanitize_safe(input(user, "Enter the name for the door.", src.name, src.created_name), MAX_NAME_LEN)
 		if(!t)	return
 		if(!in_range(src, usr) && src.loc != usr)	return
 		created_name = t
 		return
 
-	if(isWelder(W) && (glass == 1 || !anchored))
+	if(IS_WELDER(W) && (glass == 1 || !anchored))
 		var/obj/item/weldingtool/WT = W
 		if (WT.remove_fuel(0, user))
 			playsound(src.loc, 'sound/items/Welder2.ogg', 50, 1)
@@ -137,7 +160,7 @@
 			to_chat(user, "<span class='notice'>You need more welding fuel.</span>")
 			return TRUE
 
-	if(isWrench(W) && state == 0)
+	if(IS_WRENCH(W) && state == 0)
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 100, 1)
 		if(anchored)
 			user.visible_message("[user] begins unsecuring the airlock assembly from the floor.", "You begin unsecuring the airlock assembly from the floor.")
@@ -151,7 +174,7 @@
 			update_icon()
 
 
-	else if(isCoil(W) && state == 0 && anchored)
+	else if(IS_COIL(W) && state == 0 && anchored)
 		var/obj/item/stack/cable_coil/C = W
 		if (C.get_amount() < 1)
 			to_chat(user, "<span class='warning'>You need one length of coil to wire the airlock assembly.</span>")
@@ -163,7 +186,7 @@
 				to_chat(user, "<span class='notice'>You wire the airlock.</span>")
 				update_icon()
 
-	else if(isWirecutter(W) && state == 1 )
+	else if(IS_WIRECUTTER(W) && state == 1 )
 		playsound(src.loc, 'sound/items/Wirecutter.ogg', 100, 1)
 		user.visible_message("[user] cuts the wires from the airlock assembly.", "You start to cut the wires from airlock assembly.")
 
@@ -191,7 +214,7 @@
 			src.electronics = W
 			update_icon()
 
-	else if(isCrowbar(W) && state == 2 )
+	else if(IS_CROWBAR(W) && state == 2 )
 		//This should never happen, but just in case I guess
 		if (!electronics)
 			to_chat(user, "<span class='notice'>There was nothing to remove.</span>")
@@ -225,7 +248,7 @@
 					update_icon()
 			return TRUE
 
-	else if(isScrewdriver(W) && state == 2 )
+	else if(IS_SCREWDRIVER(W) && state == 2 )
 		playsound(src.loc, 'sound/items/Screwdriver.ogg', 100, 1)
 		to_chat(user, "<span class='notice'>Now finishing the airlock.</span>")
 
@@ -239,7 +262,7 @@
 		..()
 
 /obj/structure/door_assembly/on_update_icon()
-	overlays.Cut()
+	..()
 	var/image/filling_overlay
 	var/image/panel_overlay
 	var/final_name = ""
@@ -259,5 +282,5 @@
 			panel_overlay = image(panel_icon, "construction1")
 	final_name += "[glass == 1 ? "Window " : ""][istext(glass) ? "[glass] Airlock" : base_name] Assembly"
 	SetName(final_name)
-	overlays += filling_overlay
-	overlays += panel_overlay
+	add_overlay(filling_overlay)
+	add_overlay(panel_overlay)

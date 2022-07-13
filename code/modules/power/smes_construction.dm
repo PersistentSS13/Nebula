@@ -39,6 +39,7 @@
 	desc = "Specialised version of standard superconductive magnetic coil. This one has significantly stronger containment field, allowing for significantly larger power storage. It's IO rating is much lower, however."
 	ChargeCapacity = 250 KILOWATTS
 	IOCapacity = 100 KILOWATTS
+	rating = 2
 
 // 40% Charge Capacity, 500% I/O Capacity. Technically turns SMES into large super capacitor. Ideal for shields.
 /obj/item/stock_parts/smes_coil/super_io
@@ -46,7 +47,7 @@
 	desc = "Specialised version of standard superconductive magnetic coil. While this one won't store almost any power, it rapidly transfers power, making it useful in systems which require large throughput."
 	ChargeCapacity = 20 KILOWATTS
 	IOCapacity = 1.25 MEGAWATTS
-
+	rating = 2
 
 // DEPRECATED
 // These are used on individual outposts as backup should power line be cut, or engineering outpost lost power.
@@ -162,12 +163,10 @@
 
 	// Check if user has protected gloves.
 	var/user_protected = 0
-	if(h_user.gloves)
-		var/obj/item/clothing/gloves/G = h_user.gloves
-		if(G.siemens_coefficient == 0)
-			user_protected = 1
+	var/obj/item/clothing/gloves/G = h_user.get_equipped_item(slot_gloves_str)
+	if(istype(G) && G.siemens_coefficient == 0)
+		user_protected = 1
 	log_and_message_admins("SMES FAILURE: <b>[src.x]X [src.y]Y [src.z]Z</b> User: [usr.ckey], Intensity: [intensity]/100 - <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[src.x];Y=[src.y];Z=[src.z]'>JMP</a>")
-
 
 	switch (intensity)
 		if (0 to 15)
@@ -296,7 +295,7 @@
 		if(!(stat & BROKEN))
 			return SPAN_WARNING("You have to disassemble the terminal[num_terminals > 1 ? "s" : ""] first!")
 		if(user)
-			if(!do_after(user, 5 SECONDS * number_of_components(/obj/item/stock_parts/smes_coil), src) && isCrowbar(user.get_active_hand()))
+			if(!do_after(user, 5 SECONDS * number_of_components(/obj/item/stock_parts/smes_coil), src) && IS_CROWBAR(user.get_active_hand()))
 				return MCS_BLOCK
 			if(check_total_system_failure(user))
 				return MCS_BLOCK
@@ -340,7 +339,7 @@
 	if (!..())
 
 		// Multitool - change RCON tag
-		if(isMultitool(W))
+		if(IS_MULTITOOL(W))
 			var/newtag = input(user, "Enter new RCON tag. Use \"NO_TAG\" to disable RCON or leave empty to cancel.", "SMES RCON system") as text
 			if(newtag)
 				RCon_tag = newtag

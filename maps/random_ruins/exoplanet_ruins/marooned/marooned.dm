@@ -1,6 +1,5 @@
 /datum/map_template/ruin/exoplanet/marooned 
 	name = "Marooned" 
-	id = "awaysite_marooned" 
 	description = "crashed dropship with marooned Magnitka officer" 
 	suffixes = list("marooned/marooned.dmm") 
 	cost = 1 
@@ -20,7 +19,7 @@
 	desc = "An silver round medal of marooned officer. It has inscription \"For Distinguished Service\" in lower part. On medal's plank it's engraved \"H. Warda\"" 
 	icon = 'maps/random_ruins/exoplanet_ruins/marooned/icons/medal_magnitka.dmi' 
  
-/obj/effect/landmark/corpse/marooned_officer 
+/obj/abstract/landmark/corpse/marooned_officer 
 	name = "Horazy Warda" 
 	corpse_outfits = list(/decl/hierarchy/outfit/marooned_officer) 
 	spawn_flags = ~CORPSE_SPAWNER_RANDOM_NAME 

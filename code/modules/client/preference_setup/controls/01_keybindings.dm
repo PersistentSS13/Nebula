@@ -1,7 +1,8 @@
 /datum/preferences
+	/// Whether or not this client has standard hotkeys enabled
+	var/hotkeys = TRUE
 	/// Custom Keybindings
 	var/list/key_bindings = list()
-	var/hotkeys = TRUE
 
 /// checks through keybindings for outdated unbound keys and updates them
 /datum/preferences/proc/check_keybindings()
@@ -40,13 +41,11 @@
 		addtimer(CALLBACK(src, .proc/announce_conflict, notadded), 5 SECONDS)
 
 /datum/preferences/proc/announce_conflict(list/notadded)
-	to_chat(client, SPAN_DANGER("KEYBINDING CONFLICT.\n\
-	There are new keybindings that have defaults bound to keys you already set, They will default to Unbound. You can bind them in Setup Character or Game Preferences\n\
-	<a href='?src=\ref[src];preference=tab;tab=3'>Or you can click here to go straight to the keybindings page.</a>"))
+	to_chat(client, SPAN_DANGER("There are new keybindings that have defaults that are already bound - the new keybindings will be unbound until updated. You can rebind them in Setup Character or Game Preferences."))
 	for(var/item in notadded)
 		var/datum/keybinding/conflicted = item
 		to_chat(client, SPAN_DANGER("[conflicted.category]: [conflicted.full_name] needs updating."))
-		LAZYADD(key_bindings["None"], conflicted.name) // set it to unbound to prevent this from opening up again in the future
+		LAZYADD(key_bindings["Unbound"], conflicted.name) // set it to unbound to prevent this from opening up again in the future
 
 /datum/category_item/player_setup_item/controls/keybindings
 	name = "Keybindings"
@@ -77,14 +76,20 @@
 		kb_categories[kb.category] += list(kb)
 
 	. += "<center>"
+
+	. += "<br>"
+	. += "<a href ='?src=\ref[src];preference=keybindings_reset'>Reset to default</a>"
+	. += "<br><br>"
+
 	. += "<div class='statusDisplay'>"
+
 	for (var/category in kb_categories)
 		. += "<h3>[category]</h3>"
 		. += "<table width='100%'>"
 		for (var/i in kb_categories[category])
 			var/datum/keybinding/kb = i
-			if(!length(user_binds[kb.name]) || (user_binds[kb.name][1] == "None" && length(user_binds[kb.name]) == 1))
-				. += "<tr><td width='40%'>[kb.full_name]</td><td width='15%'><a class='fluid' href ='?src=\ref[src];preference=keybindings_capture;keybinding=[kb.name];old_key=["None"]'>None</a></td>"
+			if(!length(user_binds[kb.name]) || (user_binds[kb.name][1] == "Unbound" && length(user_binds[kb.name]) == 1))
+				. += "<tr><td width='40%'>[kb.full_name]</td><td width='15%'><a class='fluid' href ='?src=\ref[src];preference=keybindings_capture;keybinding=[kb.name];old_key=["Unbound"]'>Unbound</a></td>"
 				var/list/default_keys = pref.hotkeys ? kb.hotkey_keys : kb.classic_keys
 				var/class
 				if(user_binds[kb.name] ~= default_keys)
@@ -103,7 +108,7 @@
 					normal_name = _kbMap_reverse[bound_key] ? _kbMap_reverse[bound_key] : bound_key
 					. += "<td width='15%'><a class='fluid' href ='?src=\ref[src];preference=keybindings_capture;keybinding=[kb.name];old_key=[bound_key]'>[normal_name]</a></td>"
 				if(length(user_binds[kb.name]) < MAX_KEYS_PER_KEYBIND)
-					. += "<td width='15%'><a class='fluid' href ='?src=\ref[src];preference=keybindings_capture;keybinding=[kb.name]'>None</a></td>"
+					. += "<td width='15%'><a class='fluid' href ='?src=\ref[src];preference=keybindings_capture;keybinding=[kb.name]'>Unbound</a></td>"
 				for(var/j in 1 to MAX_KEYS_PER_KEYBIND - (length(user_binds[kb.name]) + 1))
 					. += "<td width='15%'></td>"
 				var/list/default_keys = pref.hotkeys ? kb.hotkey_keys : kb.classic_keys
@@ -112,8 +117,6 @@
 		. += "</table>"
 
 	. += "</div>"
-	. += "<br><br>"
-	. += "<a href ='?src=\ref[src];preference=keybindings_reset'>Reset to default</a>"
 	. += "</center>"
 
 	return jointext(., null)
@@ -172,8 +175,8 @@
 			if(clear_key)
 				if(pref.key_bindings[old_key])
 					pref.key_bindings[old_key] -= kb_name
-					if(!(kb_name in pref.key_bindings["None"]))
-						LAZYADD(pref.key_bindings["None"], kb_name)
+					if(!(kb_name in pref.key_bindings["Unbound"]))
+						LAZYADD(pref.key_bindings["Unbound"], kb_name)
 					if(!length(pref.key_bindings[old_key]))
 						pref.key_bindings -= old_key
 				show_browser(user, null, "window=capturekeypress")

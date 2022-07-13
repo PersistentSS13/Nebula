@@ -6,7 +6,7 @@
 	set category = "Hardsuit"
 	set src = usr.contents
 
-	if(wearer && wearer.back == src)
+	if(wearer && wearer.get_equipped_item(slot_back_str) == src)
 		ui_interact(usr)
 
 /obj/item/rig/verb/toggle_vision()
@@ -16,7 +16,7 @@
 	set category = "Hardsuit"
 	set src = usr.contents
 
-	if(!istype(wearer) || !wearer.back == src)
+	if(!istype(wearer) || wearer.get_equipped_item(slot_back_str) != src)
 		to_chat(usr, "<span class='warning'>The hardsuit is not being worn.</span>")
 		return
 
@@ -46,7 +46,7 @@
 	set category = "Hardsuit"
 	set src = usr.contents
 
-	if(!istype(wearer) || !wearer.back == src)
+	if(!istype(wearer) || wearer.get_equipped_item(slot_back_str) != src)
 		to_chat(usr, "<span class='warning'>The hardsuit is not being worn.</span>")
 		return
 
@@ -74,7 +74,7 @@
 	set category = "Hardsuit"
 	set src = usr.contents
 
-	if(!istype(wearer) || !wearer.back == src)
+	if(!istype(wearer) || wearer.get_equipped_item(slot_back_str) != src)
 		to_chat(usr, "<span class='warning'>The hardsuit is not being worn.</span>")
 		return
 
@@ -90,7 +90,7 @@
 	set category = "Hardsuit"
 	set src = usr.contents
 
-	if(!istype(wearer) || !wearer.back == src)
+	if(!istype(wearer) || wearer.get_equipped_item(slot_back_str) != src)
 		to_chat(usr, "<span class='warning'>The hardsuit is not being worn.</span>")
 		return
 
@@ -106,7 +106,7 @@
 	set category = "Hardsuit"
 	set src = usr.contents
 
-	if(!istype(wearer) || !wearer.back == src)
+	if(!istype(wearer) || wearer.get_equipped_item(slot_back_str) != src)
 		to_chat(usr, "<span class='warning'>The hardsuit is not being worn.</span>")
 		return
 
@@ -125,7 +125,7 @@
 	set category = "Hardsuit"
 	set src = usr.contents
 
-	if(!istype(wearer) || !wearer.back == src)
+	if(!istype(wearer) || wearer.get_equipped_item(slot_back_str) != src)
 		to_chat(usr, "<span class='warning'>The hardsuit is not being worn.</span>")
 		return
 
@@ -178,7 +178,7 @@
 		to_chat(usr, "<span class='warning'>The suit is not active.</span>")
 		return
 
-	if(!istype(wearer) || !wearer.back == src)
+	if(!istype(wearer) || wearer.get_equipped_item(slot_back_str) != src)
 		to_chat(usr, "<span class='warning'>The hardsuit is not being worn.</span>")
 		return
 
@@ -197,7 +197,7 @@
 
 	if(malfunction_check(usr))
 		return
-	
+
 	if(!check_power_cost(usr, 0, 0, 0, 0))
 		return
 
@@ -205,7 +205,7 @@
 		to_chat(usr, "<span class='warning'>The suit is not active.</span>")
 		return
 
-	if(!istype(wearer) || !wearer.back == src)
+	if(!istype(wearer) || wearer.get_equipped_item(slot_back_str) != src)
 		to_chat(usr, "<span class='warning'>The hardsuit is not being worn.</span>")
 		return
 
@@ -217,8 +217,9 @@
 	var/obj/item/rig_module/module = input("Which module do you wish to select?") as null|anything in selectable
 
 	if(!istype(module))
-		deselect_module()
-		to_chat(usr, "<font color='blue'><b>Primary system is now: deselected.</b></font>")
+		if(selected_module)
+			deselect_module()
+			to_chat(usr, "<font color='blue'><b>Primary system is now: deselected.</b></font>")
 		return
 
 	module.select()
@@ -241,7 +242,7 @@
 		to_chat(usr, "<span class='warning'>The suit is not active.</span>")
 		return
 
-	if(!istype(wearer) || !wearer.back == src)
+	if(!istype(wearer) || wearer.get_equipped_item(slot_back_str) != src)
 		to_chat(usr, "<span class='warning'>The hardsuit is not being worn.</span>")
 		return
 
@@ -276,7 +277,7 @@
 		to_chat(usr, "<span class='warning'>The suit is not active.</span>")
 		return
 
-	if(!istype(wearer) || !wearer.back == src)
+	if(!istype(wearer) || wearer.get_equipped_item(slot_back_str) != src)
 		to_chat(usr, "<span class='warning'>The hardsuit is not being worn.</span>")
 		return
 

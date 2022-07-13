@@ -1,6 +1,7 @@
 /obj/item/organ/internal/lungs
 	name = "lungs"
 	icon_state = "lungs"
+	prosthetic_icon = "lungs-prosthetic"
 	gender = PLURAL
 	organ_tag = BP_LUNGS
 	parent_organ = BP_CHEST
@@ -49,16 +50,8 @@
 		return 100
 	return round((oxygen_deprivation/species.total_health)*100)
 
-/obj/item/organ/internal/lungs/robotize(var/company = /decl/prosthetics_manufacturer, var/skip_prosthetics, var/keep_organs, var/apply_material = /decl/material/solid/metal/steel)
+/obj/item/organ/internal/lungs/set_species(species_name)
 	. = ..()
-	icon_state = "lungs-prosthetic"
-
-/obj/item/organ/internal/lungs/set_dna(var/datum/dna/new_dna)
-	..()
-	sync_breath_types()
-
-/obj/item/organ/internal/lungs/replaced()
-	..()
 	sync_breath_types()
 
 /**
@@ -96,7 +89,7 @@
 					"You hear someone coughing!",
 				)
 			else
-				var/obj/item/organ/parent = owner.get_organ(parent_organ)
+				var/obj/item/organ/parent = GET_EXTERNAL_ORGAN(owner, parent_organ)
 				owner.visible_message(
 					"blood drips from <B>\the [owner]'s</B> [parent.name]!",
 				)
@@ -115,7 +108,7 @@
 			owner.losebreath = max(3, owner.losebreath)
 
 /obj/item/organ/internal/lungs/proc/rupture()
-	var/obj/item/organ/external/parent = owner.get_organ(parent_organ)
+	var/obj/item/organ/external/parent = GET_EXTERNAL_ORGAN(owner, parent_organ)
 	if(istype(parent))
 		owner.custom_pain("You feel a stabbing pain in your [parent.name]!", 50, affecting = parent)
 	bruise()
@@ -162,7 +155,7 @@
 	var/breatheffect = GET_CHEMICAL_EFFECT(owner, CE_BREATHLOSS)
 	if(!forced && breatheffect && !GET_CHEMICAL_EFFECT(owner, CE_STABLE)) //opiates are bad mmkay
 		safe_pressure_min *= 1 + breatheffect
-	
+
 	if(owner.lying)
 		safe_pressure_min *= 0.8
 
@@ -217,7 +210,8 @@
 		breath.adjust_gas(gasname, -breath.gas[gasname], update = 0) //update after
 
 	// Moved after reagent injection so we don't instantly poison ourselves with CO2 or whatever.
-	if(exhale_type && (!istype(owner.wear_mask) || !(exhale_type in owner.wear_mask.filtered_gases)))
+	var/obj/item/clothing/mask/mask = owner.get_equipped_item(slot_wear_mask_str)
+	if(exhale_type && (!istype(mask) || !(exhale_type in mask.filtered_gases)))
 		breath.adjust_gas_temp(exhale_type, inhaled_gas_used, owner.bodytemperature, update = 0) //update afterwards
 
 	// Were we able to breathe?

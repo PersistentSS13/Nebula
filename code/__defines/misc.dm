@@ -116,11 +116,6 @@
 #define PROJECTILE_CONTINUE   -1 //if the projectile should continue flying after calling bullet_act()
 #define PROJECTILE_FORCE_MISS -2 //if the projectile should treat the attack as a miss (suppresses attack and admin logs) - only applies to mobs.
 
-//Camera capture modes
-#define CAPTURE_MODE_REGULAR 0 //Regular polaroid camera mode
-#define CAPTURE_MODE_ALL 1 //Admin camera mode
-#define CAPTURE_MODE_PARTIAL 3 //Simular to regular mode, but does not do dummy check
-
 //objectives
 #define CONFIG_OBJECTIVE_NONE 2
 #define CONFIG_OBJECTIVE_VERB 1
@@ -228,13 +223,12 @@
 #endif
 
 // Surgery candidate flags.
-#define SURGERY_NO_ROBOTIC        1
-#define SURGERY_NO_CRYSTAL        2
-#define SURGERY_NO_STUMP          4
-#define SURGERY_NO_FLESH          8
-#define SURGERY_NEEDS_INCISION   16
-#define SURGERY_NEEDS_RETRACTED  32
-#define SURGERY_NEEDS_ENCASEMENT 64
+#define SURGERY_NO_ROBOTIC       BITFLAG(0)
+#define SURGERY_NO_CRYSTAL       BITFLAG(1)
+#define SURGERY_NO_FLESH         BITFLAG(2)
+#define SURGERY_NEEDS_INCISION   BITFLAG(3)
+#define SURGERY_NEEDS_RETRACTED  BITFLAG(4)
+#define SURGERY_NEEDS_ENCASEMENT BITFLAG(5)
 
 //Inserts 'a' or 'an' before X in ways \a doesn't allow
 #define ADD_ARTICLE(X) "[(lowertext(X[1]) in global.vowels) ? "an" : "a"] [X]"
@@ -244,7 +238,7 @@
 #define SOULSTONE_ESSENCE 1
 
 #define INCREMENT_WORLD_Z_SIZE world.maxz++; global.connected_z_cache.Cut(); if (SSzcopy.zlev_maximums.len) { SSzcopy.calculate_zstack_limits() }
-#define ARE_Z_CONNECTED(ZA, ZB) (ZA > 0 && ZB > 0 && ZA <= world.maxz && ZB <= world.maxz && ((ZA == ZB) || ((global.connected_z_cache.len >= ZA && global.connected_z_cache[ZA]) ? global.connected_z_cache[ZA][ZB] : AreConnectedZLevels(ZA, ZB))))
+#define ARE_Z_CONNECTED(ZA, ZB) (ZA > 0 && ZB > 0 && ZA <= world.maxz && ZB <= world.maxz && ((ZA == ZB) || ((length(global.connected_z_cache) >= ZA && global.connected_z_cache[ZA] && length(global.connected_z_cache[ZA]) >= ZB) ? global.connected_z_cache[ZA][ZB] : AreConnectedZLevels(ZA, ZB))))
 
 //Request Console Department Types
 #define RC_ASSIST 1		//Request Assistance
@@ -261,18 +255,25 @@
 
 #define Z_ALL_TURFS(Z) block(locate(1, 1, Z), locate(world.maxx, world.maxy, Z))
 
-#if DM_BUILD < 1540
-#define AS_ANYTHING as()
-#else
-#define AS_ANYTHING as anything
-#endif
-
 //NOTE: INTENT_HOTKEY_* defines are not actual intents!
 //they are here to support hotkeys
 #define INTENT_HOTKEY_LEFT  "left"
 #define INTENT_HOTKEY_RIGHT "right"
 
+//Turf/area values for 'this space is outside' checks
+#define OUTSIDE_AREA null
+#define OUTSIDE_NO   FALSE
+#define OUTSIDE_YES  TRUE
+
+// Weather exposure values for being rained on or hailed on.
+#define WEATHER_IGNORE    -1
+#define WEATHER_PROTECTED  0
+#define WEATHER_EXPOSED    1
+
 // Literacy check constants.
 #define WRITTEN_SKIP     0
 #define WRITTEN_PHYSICAL 1
 #define WRITTEN_DIGITAL  2
+
+// arbitrary low pressure bound for wind weather effects
+#define MIN_WIND_PRESSURE 10
