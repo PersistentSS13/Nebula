@@ -226,6 +226,7 @@
 #include "modules\reagents\reagent_containers\food\food.dm"
 #include "modules\science\_defines.dm"
 #include "modules\science\recipe.dm"
+#include "modules\science\research_overrides.dm"
 #include "modules\science\unfinished_assembly.dm"
 #include "modules\science\files\design.dm"
 #include "modules\science\files\writer.dm"

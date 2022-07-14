@@ -12,7 +12,9 @@
 		research_recipes[fab_class] -= get_unlocked_recipes(fab_class, get_default_initial_tech_levels())
 		
 		for(var/datum/fabricator_recipe/recipe in research_recipes[fab_class])
-			if(TECH_ESOTERIC in recipe.required_technology) // These techs must be unlocked via random chance during iteration
+			if(recipe.research_excluded)
+				research_recipes[fab_class] -= recipe
+			else if(TECH_ESOTERIC in recipe.required_technology) // These techs must be unlocked via random chance during iteration
 				research_recipes[fab_class] -= recipe
 
 		if(!length(research_recipes[fab_class]))
