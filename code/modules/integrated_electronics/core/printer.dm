@@ -10,7 +10,7 @@
 	matter = list(/decl/material/solid/fiberglass = MATTER_AMOUNT_REINFORCEMENT)
 
 	var/upgraded = FALSE		// When hit with an upgrade disk, will turn true, allowing it to print the higher tier circuits.
-	var/can_clone = FALSE		// Allows the printer to clone circuits, either instantly or over time depending on upgrade. Set to FALSE to disable entirely.
+	var/can_clone = TRUE		// Allows the printer to clone circuits, either instantly or over time depending on upgrade. Set to FALSE to disable entirely.
 	var/fast_clone = FALSE		// If this is false, then cloning will take an amount of deciseconds equal to the metal cost divided by 100.
 	var/debug = FALSE			// If it's upgraded and can clone, even without config settings.
 	var/current_category = null
@@ -25,8 +25,8 @@
 
 /obj/item/integrated_circuit_printer/upgraded
 	upgraded = TRUE
-	can_clone = FALSE
-	fast_clone = FALSE
+	can_clone = TRUE
+	fast_clone = TRUE
 
 /obj/item/integrated_circuit_printer/debug //translation: "integrated_circuit_printer/local_server"
 	name = "debug circuit printer"
