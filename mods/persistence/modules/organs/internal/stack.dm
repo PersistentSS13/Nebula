@@ -114,3 +114,17 @@ var/global/list/cortical_stacks = list()
 		cortical_alias = new_alias
 		to_chat(owner, SPAN_NOTICE("You change your Cortical Chat alias to [cortical_alias]"))
 		last_alias_change = world.time
+
+/**Override to handle cortical chat. Ideally should be a section in base update language to check for language given from organs. */
+/mob/living/carbon/human/update_languages()
+	. = ..()
+	//Now check if we should install cortical chat language
+	var/obj/item/organ/internal/stack/stack = get_organ(BP_STACK, /obj/item/organ/internal/stack)
+	if(stack)
+		//Since all languages are removed by default, make sure to remove the verb too, if it exists
+		stack.verbs -= /obj/item/organ/internal/stack/proc/change_cortical_alias
+		if(!(stack.status & ORGAN_CUT_AWAY))
+			add_language(/decl/language/cortical)
+			stack.verbs |= /obj/item/organ/internal/stack/proc/change_cortical_alias
+			if(!stack.cortical_alias)
+				stack.cortical_alias = Gibberish(name, 100)
