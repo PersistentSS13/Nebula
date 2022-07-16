@@ -178,7 +178,6 @@ var/global/list/surgery_tool_exception_cache = list()
 		else if(locate(/obj/effect/rune/, T))
 			. -= 10
 	. = max(., 0)
-	to_chat(user, SPAN_BOLD("Quality: [.]."))
 
 /proc/spread_germs_to_organ(var/obj/item/organ/external/E, var/mob/living/carbon/human/user)
 	if(!istype(user) || !istype(E)) return
