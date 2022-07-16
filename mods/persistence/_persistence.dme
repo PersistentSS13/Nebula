@@ -212,6 +212,8 @@
 #include "modules\shuttles\autodock.dm"
 #include "modules\shuttles\landmarks.dm"
 #include "modules\shuttles\shuttle.dm"
+#include "modules\surgery\__surgery_setup.dm"
+#include "modules\surgery\_surgery.dm"
 #include "modules\world_save\_persistence.dm"
 #include "modules\world_save\load_cache.dm"
 #include "modules\world_save\saved_vars.dm"
