@@ -417,6 +417,7 @@
 					var/new_type = text2path(area_chunk[1])
 					var/area/new_area = new new_type 
 					new_area.name = area_chunk[2]
+					new_area.proper_name = strip_improper(new_area.name)
 					area_dict["[new_area.type], [area_chunk[2]]"] = new_area
 			// The areas are split into horizontal chunks with the area type and name corresponding to a certain amount of tiles in a row.
 			var/chunk_index = 1
@@ -453,6 +454,7 @@
 			if(!new_area)
 				new_area = new area_chunk.area_type
 				new_area.name = area_chunk.name
+				new_area.proper_name = strip_improper(new_area.name)
 				area_dict["[area_chunk.area_type], [area_chunk.name]"] = new_area
 
 			for(var/turf_chunk in area_chunk.turfs)
