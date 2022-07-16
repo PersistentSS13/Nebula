@@ -108,6 +108,7 @@
 #include "modules\cloning\machines\cloning_pod.dm"
 #include "modules\clothing\_clothing.dm"
 #include "modules\clothing\spacesuits.dm"
+#include "modules\clothing\suits\storage.dm"
 #include "modules\clothing\under\accessories\storage.dm"
 #include "modules\detectivework\forensics_designs.dm"
 #include "modules\detectivework\evidence\_evidence_holder.dm"
