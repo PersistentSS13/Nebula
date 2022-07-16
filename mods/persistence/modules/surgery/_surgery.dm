@@ -40,5 +40,3 @@
 		else if(locate(/obj/effect/rune/, T))
 			. -= 20
 	. = max(., 0)
-
-	to_chat(user, SPAN_BOLD("Quality: [.]."))
