@@ -132,7 +132,7 @@
 		H.home_spawn = src
 		var/datum/mind/occupant_mind = occupant.mind
 		if(occupant_mind)
-			var/success = SSpersistence.AddToLimbo(occupant_mind, occupant_mind.unique_id, LIMBO_MIND, occupant_mind.key, occupant_mind.current.real_name, TRUE)
+			var/success = SSpersistence.AddToLimbo(list(occupant, occupant_mind), occupant_mind.unique_id, LIMBO_MIND, occupant_mind.key, occupant_mind.current.real_name, TRUE)
 			if(!success)
 				to_chat(occupant, SPAN_WARNING("Something has gone wrong while deserializing your character. Contact an admin!"))
 				log_and_message_admins("\The cryopod at ([x], [y], [z]) failed to despawn the occupant [occupant]!")
