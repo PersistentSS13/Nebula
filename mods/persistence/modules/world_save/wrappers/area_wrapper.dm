@@ -18,4 +18,5 @@
 	var/new_type = text2path(key)
 	var/area/A = new new_type
 	A.name = name
+	A.proper_name = strip_improper(A.name)
 	return A

@@ -112,7 +112,7 @@
 			if(istype(MA) && !(MA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT))
 				if(((MA in SSpersistence.saved_areas) || (current_mob.z in SSpersistence.saved_levels)))
 					continue
-			one_off.AddToLimbo(char_mind, char_mind.unique_id, LIMBO_MIND, char_mind.key, char_mind.current.real_name, TRUE)
+			one_off.AddToLimbo(list(current_mob, char_mind), char_mind.unique_id, LIMBO_MIND, char_mind.key, current_mob.real_name, TRUE)
 		report_progress("Done adding player minds to limbo in [(REALTIMEOFDAY - time_start_limbo_minds) / (1 SECOND)]s.")
 		sleep(5)
 
@@ -417,6 +417,7 @@
 					var/new_type = text2path(area_chunk[1])
 					var/area/new_area = new new_type 
 					new_area.name = area_chunk[2]
+					new_area.proper_name = strip_improper(new_area.name)
 					area_dict["[new_area.type], [area_chunk[2]]"] = new_area
 			// The areas are split into horizontal chunks with the area type and name corresponding to a certain amount of tiles in a row.
 			var/chunk_index = 1
@@ -453,6 +454,7 @@
 			if(!new_area)
 				new_area = new area_chunk.area_type
 				new_area.name = area_chunk.name
+				new_area.proper_name = strip_improper(new_area.name)
 				area_dict["[area_chunk.area_type], [area_chunk.name]"] = new_area
 
 			for(var/turf_chunk in area_chunk.turfs)
@@ -556,13 +558,13 @@
 	to_chat(user, SPAN_INFO("Disabled with persistence modpack (how ironic)..."))
 	return
 
-/datum/controller/subsystem/persistence/proc/AddToLimbo(var/datum/thing, var/key, var/limbo_type, var/metadata, var/metadata2, var/modify = TRUE)
+/datum/controller/subsystem/persistence/proc/AddToLimbo(var/list/things, var/key, var/limbo_type, var/metadata, var/metadata2, var/modify = TRUE)
 	var/new_db_connection = FALSE
 	if(!check_save_db_connection())
 		if(!establish_save_db_connection())
 			CRASH("SSPersistence: Couldn't establish DB connection during Limbo Addition!")
 		new_db_connection = TRUE
-	. = one_off.AddToLimbo(thing, key, limbo_type, metadata, metadata2, modify)
+	. = one_off.AddToLimbo(things, key, limbo_type, metadata, metadata2, modify)
 	if(.) // Clear it from the queued removals.
 		for(var/list/queued in limbo_removals)
 			if(queued[1] == key && queued[2] == limbo_type)

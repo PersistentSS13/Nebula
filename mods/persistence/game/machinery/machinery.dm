@@ -28,6 +28,8 @@ SAVED_VAR(/obj/machinery, req_access)
 
 SAVED_VAR(/obj/machinery/power/terminal,  master)
 
+SAVED_VAR(/obj/machinery/constructable_frame, circuit)
+
 SAVED_VAR(/obj/item/stock_parts, status)
 SAVED_VAR(/obj/item/stock_parts, req_access)
 
