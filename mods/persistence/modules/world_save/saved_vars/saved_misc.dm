@@ -790,9 +790,6 @@ SAVED_VAR(/obj/machinery/material_processing/smeltery, casting)
 SAVED_VAR(/obj/machinery/material_processing/smeltery, show_all_materials)
 SAVED_VAR(/obj/machinery/material_processing/smeltery, show_materials)
 
-SAVED_VAR(/obj/machinery/material_processing, input_turf)
-SAVED_VAR(/obj/machinery/material_processing, output_turf)
-
 SAVED_VAR(/obj/machinery/navbeacon, locked)
 SAVED_VAR(/obj/machinery/navbeacon, location)
 SAVED_VAR(/obj/machinery/navbeacon, codes)
