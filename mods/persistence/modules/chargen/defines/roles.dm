@@ -62,17 +62,6 @@
 
 	text_book_type = /obj/item/book/skill/service/botany/expert
 
-/decl/hierarchy/chargen/role/doctor
-	ID = "doctor"
-	name = "Doctor"
-	skills = list(
-		SKILL_MEDICAL = 1,
-		SKILL_LITERACY = 1
-	)
-	remaining_points_offset = 0
-
-	text_book_type = /obj/item/book/skill/medical/medicine/expert
-
 /decl/hierarchy/chargen/role/pilot
 	ID = "pilot"
 	name = "Pilot"
@@ -202,3 +191,34 @@
 	remaining_points_offset = 4
 
 	text_book_type = /obj/item/book/skill/organizational/literacy/prof
+
+/decl/hierarchy/chargen/role/surgeon
+	ID = "surgeon"
+	name = "Surgeon"
+	skills = list(
+		SKILL_ANATOMY = 3,
+		SKILL_MEDICAL = 1
+	)
+	remaining_points_offset = -17
+
+	text_book_type = /obj/item/book/skill/medical/anatomy/prof
+
+/decl/hierarchy/chargen/role/chemist
+	ID = "chemist"
+	name = "Chemist"
+	skills = list(
+		SKILL_CHEMISTRY = 2
+	)
+	remaining_points_offset = 0
+
+	text_book_type = /obj/item/book/skill/medical/chemistry/expert
+
+/decl/hierarchy/chargen/role/emt
+	ID = "emt"
+	name = "EMT"
+	skills = list(
+		SKILL_MEDICAL = 1,
+		SKILL_HAULING = 1
+	)
+	remaining_points_offset = 0
+	text_book_type = /obj/item/book/skill/medical/medicine/expert

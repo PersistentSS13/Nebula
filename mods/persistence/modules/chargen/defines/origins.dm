@@ -86,3 +86,12 @@
 		SKILL_LITERACY		= 1
 	)
 	remaining_points_offset = 0
+
+/decl/hierarchy/chargen/origin/medical
+	ID = "medical_hub"
+	name = "Medical Hub"
+	skills = list(
+		SKILL_LITERACY = 1,
+		SKILL_MEDICAL = 1
+	)
+	remaining_points_offset = 0
