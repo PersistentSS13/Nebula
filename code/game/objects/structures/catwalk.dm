@@ -7,7 +7,7 @@
 	anchored = 1.0
 	layer = CATWALK_LAYER
 	footstep_type = /decl/footsteps/catwalk
-	obj_flags = OBJ_FLAG_NOFALL
+	obj_flags = OBJ_FLAG_NOFALL | OBJ_FLAG_MOVES_UNSUPPORTED
 	handle_generic_blending = TRUE
 	tool_interaction_flags = TOOL_INTERACTION_DECONSTRUCT
 	material = /decl/material/solid/metal/steel
@@ -119,7 +119,7 @@
 				to_chat(user, SPAN_WARNING("\The [ladder] is in the way."))
 				return TRUE
 
-			var/obj/item/stack/tile/floor/ST = C
+			var/obj/item/stack/tile/ST = C
 			if(!ST.in_use)
 				to_chat(user, "<span class='notice'>Placing tile...</span>")
 				ST.in_use = 1
