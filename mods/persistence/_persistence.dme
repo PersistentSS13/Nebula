@@ -62,7 +62,6 @@
 #include "game\objects\items\weapons\tanks.dm"
 #include "game\objects\items\weapons\circuitboards\machinery\shipsensors.dm"
 #include "game\objects\structures\window.dm"
-#include "game\species\species.dm"
 #include "game\turfs\floor.dm"
 #include "game\turfs\simulated.dm"
 #include "game\turfs\turf.dm"
