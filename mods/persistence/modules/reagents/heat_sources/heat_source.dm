@@ -1,0 +1,7 @@
+SAVED_VAR(/obj/machinery/reagent_temperature, heater_mode)
+SAVED_VAR(/obj/machinery/reagent_temperature, max_temperature)
+SAVED_VAR(/obj/machinery/reagent_temperature, min_temperature)
+SAVED_VAR(/obj/machinery/reagent_temperature, heating_power)
+SAVED_VAR(/obj/machinery/reagent_temperature, last_temperature)
+SAVED_VAR(/obj/machinery/reagent_temperature, target_temperature)
+SAVED_VAR(/obj/machinery/reagent_temperature, container)
