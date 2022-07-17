@@ -6,7 +6,7 @@
 	force = 5
 	accuracy = 1
 	one_hand_penalty = 0
-	origin_tech = "{'combat':3,'engineering:'2,'materials':2}"
+	origin_tech = "{'combat':3,'engineering':2,'materials':2}"
 	ammo_indicator = FALSE
 
 /obj/item/gun/projectile/pistol/simple/empty

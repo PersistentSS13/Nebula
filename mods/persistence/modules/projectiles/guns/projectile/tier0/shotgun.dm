@@ -9,7 +9,7 @@
 	force = 5 // lacks a butt for effective rifle-whipping
 	slot_flags = SLOT_BACK
 	caliber = CALIBER_SHOTGUN
-	origin_tech = "{'combat':2,'engineering:'1,'materials':1}"
+	origin_tech = "{'combat':2,'engineering':1,'materials':1}"
 	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
 	screen_shake = 2
 	accuracy = -1
