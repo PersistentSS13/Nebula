@@ -563,11 +563,6 @@ SAVED_VAR(/obj/item/grenade, det_time)
 SAVED_VAR(/obj/item/cell, charge)
 SAVED_VAR(/obj/item/cell/device/variable, maxcharge)
 
-SAVED_VAR(/obj/item/charge_stick, creator)
-SAVED_VAR(/obj/item/charge_stick, id)
-SAVED_VAR(/obj/item/charge_stick, currency)
-SAVED_VAR(/obj/item/charge_stick, loaded_worth)
-
 SAVED_VAR(/obj/item/blackout,  last_use)
 
 SAVED_VAR(/obj/item/spy_monitor, radio)
@@ -1456,7 +1451,6 @@ SAVED_VAR(/obj/machinery/docking_beacon, construction_mode)
 
 SAVED_VAR(/obj/machinery/atmospherics/unary/material/extractor, output_container)
 SAVED_VAR(/obj/machinery/atmospherics/unary/material/extractor, input_buffer)
-SAVED_VAR(/obj/machinery/atmospherics/unary/material/extractor, reagents)
 
 SAVED_VAR(/obj/machinery/destructive_analyzer, loaded_item)
 

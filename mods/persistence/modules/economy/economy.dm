@@ -22,7 +22,6 @@ SAVED_VAR(/obj/item/cash, absolute_worth)
 SAVED_VAR(/obj/item/cash, currency)
 
 //C-Stick
-SAVED_VAR(/obj/item/charge_stick, max_worth)
 SAVED_VAR(/obj/item/charge_stick, loaded_worth)
 SAVED_VAR(/obj/item/charge_stick, creator)
 SAVED_VAR(/obj/item/charge_stick, id)

@@ -65,4 +65,3 @@ SAVED_VAR(/obj/item/storage/bible, storage_slots)
 
 SAVED_VAR(/obj/item/storage/wallet,      front_id)
 SAVED_VAR(/obj/item/storage/wallet,      front_stick)
-SAVED_VAR(/obj/item/storage/wallet/poly, color)
