@@ -654,12 +654,6 @@ SAVED_VAR(/obj/item/rig, airtight)
 
 SAVED_VAR(/obj/item/stool, padding_material)
 
-SAVED_VAR(/obj/item/storage/belt, use_alt_layer)
-
-SAVED_VAR(/obj/item/storage/internal, master_item)
-
-SAVED_VAR(/obj/item/storage/wallet, front_id)
-
 SAVED_VAR(/obj/item/weldingtool, tank)
 
 SAVED_VAR(/obj/item/weldpack, welder)
@@ -905,6 +899,10 @@ SAVED_VAR(/obj/item/clothing/shoes, attached_cuffs)
 SAVED_VAR(/obj/item/clothing/under, sensor_mode)
 SAVED_VAR(/obj/item/clothing/under, rolled_down)
 SAVED_VAR(/obj/item/clothing/under, rolled_sleeves)
+
+SAVED_VAR(/obj/item/chems/hypospray/vial, loaded_vial)
+
+SAVED_VAR(/obj/item/chems/hypospray/autoinjector, band_color)
 
 SAVED_VAR(/obj/item/flashlight/flare, fuel)
 
@@ -1324,6 +1322,9 @@ SAVED_VAR(/mob/living/simple_animal/mushroom, seed)
 SAVED_VAR(/mob/living/simple_animal/mushroom, harvest_time)
 
 SAVED_VAR(/obj/item/grown, plantname)
+SAVED_VAR(/obj/item/grown, potency)
+
+//Effects
 
 SAVED_VAR(/obj/effect/decal/cleanable/blood, base_icon)
 SAVED_VAR(/obj/effect/decal/cleanable/blood, basecolor)
@@ -1420,3 +1421,13 @@ SAVED_VAR(/obj/structure/catwalk, hatch_open)
 SAVED_VAR(/obj/structure/catwalk, plated_tile)
 
 SAVED_VAR(/obj/structure/displaycase, destroyed)
+
+SAVED_VAR(/obj/item/chems/food, bitesize)
+SAVED_VAR(/obj/item/chems/food, bitecount)
+SAVED_VAR(/obj/item/chems/food, dried_type)
+SAVED_VAR(/obj/item/chems/food, dry)
+SAVED_VAR(/obj/item/chems/food, nutriment_amt)
+SAVED_VAR(/obj/item/chems/food, nutriment_type)
+SAVED_VAR(/obj/item/chems/food, nutriment_desc)
+SAVED_VAR(/obj/item/chems/food, trash)
+
