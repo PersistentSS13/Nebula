@@ -400,10 +400,6 @@
 		to_world_log("Load complete! Took [(world.timeofday-start)/10]s to load [length(serializer.resolver.things)] things. Loaded [LAZYLEN(turfs_loaded)] turfs.")
 		in_loaded_world = LAZYLEN(turfs_loaded) > 0
 
-		var/list/area_dict = list() // Dictionary of list(type, name) -> area instance
-		for(var/area/A in global.areas)
-			area_dict["[A.type], [A.name]"] = A 
-
 		to_world_log("Adding default turfs and areas...")
 		start = world.timeofday
 
@@ -411,14 +407,12 @@
 			var/change_turf = z_level.default_turf && !ispath(z_level.default_turf, /turf/space)
 			
 			// Create the areas in the z-level if they don't already exist.
+			// Areas are added to the area dictionary in area/New()
 			for(var/list/area_chunk in z_level.areas)
-				var/area/area_instance = area_dict["[area_chunk[1]], [area_chunk[2]]"]
+				var/area/area_instance = global.area_dictionary["[area_chunk[1]], [area_chunk[2]]"]
 				if(!area_instance)
 					var/new_type = text2path(area_chunk[1])
-					var/area/new_area = new new_type 
-					new_area.name = area_chunk[2]
-					new_area.proper_name = strip_improper(new_area.name)
-					area_dict["[new_area.type], [area_chunk[2]]"] = new_area
+					new new_type(null, area_chunk[2])
 			// The areas are split into horizontal chunks with the area type and name corresponding to a certain amount of tiles in a row.
 			var/chunk_index = 1
 			var/list/current_area_chunk
@@ -426,7 +420,7 @@
 			var/turf_count = 1
 			if(z_level.areas.len)
 				current_area_chunk = z_level.areas[chunk_index]
-				current_area = area_dict["[current_area_chunk[1]], [current_area_chunk[2]]"]
+				current_area = global.area_dictionary["[current_area_chunk[1]], [current_area_chunk[2]]"]
 
 			for(var/turf/T in block(locate(1, 1, z_level.new_index), locate(world.maxx, world.maxy, z_level.new_index)))
 				if(current_area)
@@ -441,7 +435,7 @@
 							current_area_chunk = null
 						else
 							current_area_chunk = z_level.areas[chunk_index]
-							current_area = area_dict["[current_area_chunk[1]], [current_area_chunk[2]]"]
+							current_area = global.area_dictionary["[current_area_chunk[1]], [current_area_chunk[2]]"]
 							turf_count = 1
 				if(change_turf && !turfs_loaded["([T.x], [T.y], [T.z])"])
 					T.ChangeTurf(z_level.default_turf)
@@ -450,12 +444,9 @@
 		to_world_log("Adding other areas...")
 		start = world.timeofday
 		for(var/datum/persistence/load_cache/area_chunk/area_chunk in serializer.resolver.area_chunks)
-			var/area/new_area = area_dict["[area_chunk.area_type], [area_chunk.name]"]
+			var/area/new_area = global.area_dictionary["[area_chunk.area_type], [area_chunk.name]"]
 			if(!new_area)
-				new_area = new area_chunk.area_type
-				new_area.name = area_chunk.name
-				new_area.proper_name = strip_improper(new_area.name)
-				area_dict["[area_chunk.area_type], [area_chunk.name]"] = new_area
+				new area_chunk.area_type(null, area_chunk.name)
 
 			for(var/turf_chunk in area_chunk.turfs)
 				var/list/coords = splittext(turf_chunk, ",")
@@ -466,7 +457,6 @@
 
 		to_world_log("Adding other areas complete! Took [(world.timeofday-start)/10]s.")
 
-		area_dict.Cut()
 		// Cleanup the cache. It uses a *lot* of memory.
 		for(var/id in serializer.reverse_map)
 			var/datum/T = serializer.reverse_map[id]

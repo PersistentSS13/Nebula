@@ -1,3 +1,4 @@
+// Area wrapper. This is used solely for *references* to areas.
 /datum/wrapper/area
 	wrapper_for = /area
 
@@ -10,13 +11,10 @@
 
 /datum/wrapper/area/on_deserialize(var/serializer/curr_serializer)
 	// Check for areas that have already been deserialized to prevent duplicate areas.
-	for(var/area/pre_area in global.areas)
-		if("[pre_area.type]" == key && pre_area.name == name)
-			return pre_area
-	
+	if("[key], [name]" in global.area_dictionary)
+		return global.area_dictionary["[key], [name]"]
+
 	// Couldn't find the area, create it (without turfs)
 	var/new_type = text2path(key)
-	var/area/A = new new_type
-	A.name = name
-	A.proper_name = strip_improper(A.name)
+	var/area/A = new new_type(null, name)
 	return A
