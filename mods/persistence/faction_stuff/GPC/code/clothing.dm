@@ -1,10 +1,10 @@
 /obj/item/clothing/suit/armor/bulletproof/faction/gpc // doesn't modify any stats at all because it is a playermade faction item, uses '/faction/[factionname]' for ease of access in game panel
 	name = "GPC B-1 ballistic armor"
 	desc = "The B-1 armor is often used by ground troops of the Galleyburned Private Contracting group. It can protect very well against ballistic fire, but lacks heavy protection from other weaponry."
-	icon = 'mods/persistence/faction_stuff/GPC/icons/clothing/armor.dmi' // does modify icon
+	icon = 'mods/persistence/faction_stuff/GPC/icons/clothing/armor.dmi' // obviously, you can modify your things icon and description
 
 /obj/item/clothing/accessory/armguards/ballistic/faction/gpc
-	name = "GPC B-1 ballistic armpads"
+	name = "GPC B-1 ballistic armpads" // armor attachments should not start pre-attached to armor
 	desc = "These armpads are intended to be attached to the B-1 armor used by Galleyburned Private Contracting troops."
 	icon = 'mods/persistence/faction_stuff/GPC/icons/clothing/arm_pads.dmi'
 
