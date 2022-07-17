@@ -38,6 +38,8 @@
 #include "datums\observation\saving.dm"
 #include "datums\vending\stored_item.dm"
 #include "datums\wires\wires.dm"
+#include "faction_stuff\GPC\code\clothing.dm"
+#include "faction_stuff\GPC\code\weapons.dm"
 #include "game\antagonist\antagonist_helpers.dm"
 #include "game\gamemodes\persistence.dm"
 #include "game\machinery\cryopod.dm"
