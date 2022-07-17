@@ -114,6 +114,7 @@
 #include "modules\detectivework\forensics_designs.dm"
 #include "modules\detectivework\evidence\_evidence_holder.dm"
 #include "modules\detectivework\microscope\_forensic_machine.dm"
+#include "modules\economy\economy.dm"
 #include "modules\emotes\audible.dm"
 #include "modules\emotes\human.dm"
 #include "modules\fabrication\_fabricator.dm"

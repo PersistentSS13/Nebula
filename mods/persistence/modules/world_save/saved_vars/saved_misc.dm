@@ -201,6 +201,8 @@ SAVED_VAR(/datum/transaction, purpose)
 SAVED_VAR(/datum/transaction, amount)
 SAVED_VAR(/datum/transaction, date)
 SAVED_VAR(/datum/transaction, time)
+SAVED_VAR(/datum/transaction, target)
+SAVED_VAR(/datum/transaction, source)
 
 SAVED_VAR(/datum/turbolift, current_floor)
 SAVED_VAR(/datum/turbolift, doors)
@@ -463,6 +465,9 @@ SAVED_VAR(/mob/living/simple_animal/hostile, in_stasis)
 SAVED_VAR(/mob/living/simple_animal/hostile, return_damage_min)
 SAVED_VAR(/mob/living/simple_animal/hostile, return_damage_max)
 
+//
+// ITEMS
+//
 SAVED_VAR(/obj/item/ammo_casing, BB)
 
 SAVED_VAR(/obj/item/clothing/head/welding, up)
