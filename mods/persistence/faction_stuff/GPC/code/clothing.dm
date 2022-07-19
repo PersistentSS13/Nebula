@@ -25,12 +25,12 @@
 
 /obj/item/clothing/gloves/color/faction/gpc
 	name = "GPC tactical gloves"
-	desc = "Despite being called 'tactical', these appear to be a fairly uninteresting pair of fingerless gloves. This kind in particular is part of the Galleyburned Private Contracting uniform."
+	desc = "Despite being called 'tactical', these appear to be a fairly uninteresting pair of fingerless gloves. This pair in particular is part of the Galleyburned Private Contracting uniform."
 	icon = 'mods/persistence/faction_stuff/GPC/icons/clothing/gloves.dmi'
 
 /obj/item/clothing/under/syndicate/combat/faction/gpc
 	name = "GPC armored uniform"
-	desc = "A dark shirt and pants with light underarmor is the GPC uniform. The red band on the right leg denotes rank - the more or fatter the band, the more important the wearer"
+	desc = "A dark shirt and pants with light underarmor is the GPC uniform. The red band on the right leg denotes rank - the more bands, the higher rank of the wearer. This one just has one band - it's intended to be worn by footsoldiers of the GPC."
 	icon = 'mods/persistence/faction_stuff/GPC/icons/clothing/under.dmi'
 
 /obj/item/clothing/head/beret/corp/faction/gpc
