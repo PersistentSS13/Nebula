@@ -283,7 +283,7 @@ var/global/list/serialization_time_spent_type
 			KT = SERIALIZER_TYPE_NUM
 		else if (istext(key))
 			KT = SERIALIZER_TYPE_TEXT
-			key = byond2utf8(key)
+			KV = byond2utf8(key)
 		else if (ispath(key) || IS_PROC(key))
 			KT = SERIALIZER_TYPE_PATH
 		else if (isfile(key))
