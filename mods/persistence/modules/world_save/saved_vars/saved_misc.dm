@@ -669,6 +669,18 @@ SAVED_VAR(/obj/item/key/soap, uses)
 
 SAVED_VAR(/obj/item/lock_construct, lock_data)
 
+SAVED_VAR(/obj/item/passport, info)
+
+SAVED_VAR(/obj/item/bodybag/rescue, airtank)
+
+SAVED_VAR(/obj/item/latexballon, air_contents)
+SAVED_VAR(/obj/item/latexballon, state)
+
+SAVED_VAR(/obj/item/clothing/accessory/badge/tags, owner_rank)
+SAVED_VAR(/obj/item/clothing/accessory/badge/tags, owner_name)
+SAVED_VAR(/obj/item/clothing/accessory/badge/tags, owner_branch)
+SAVED_VAR(/obj/item/clothing/accessory/badge/tags, desc)
+
 ///////////////////////////////////////////////////////////////////////////////
 // item/clothing
 ///////////////////////////////////////////////////////////////////////////////
@@ -1059,6 +1071,10 @@ SAVED_VAR(/obj/structure/catwalk, hatch_open)
 SAVED_VAR(/obj/structure/catwalk, plated_tile)
 
 SAVED_VAR(/obj/structure/displaycase, destroyed)
+
+SAVED_VAR(/obj/structure/closet/body_bag/cryobag, airtank)
+SAVED_VAR(/obj/structure/closet/body_bag/cryobag, stasis_power)
+SAVED_VAR(/obj/structure/closet/body_bag/cryobag, degradation_time)
 
 ///////////////////////////////////////////////////////////////////////////////
 // MACHINERY
