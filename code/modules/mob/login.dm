@@ -57,15 +57,6 @@
 	var/client/my_client // Need to keep track of this ourselves, since by the time Logout() is called the client has already been nulled
 
 /mob/Login()
-	if(!global.config.enter_allowed)
-		if(client && !check_rights(R_ADMIN, TRUE, client))
-			to_chat(client, SPAN_WARNING("Joining an existing character is currently disabled. Returning to lobby."))
-			var/mob/new_player/M = new /mob/new_player
-			M.key = key
-			message_staff("Player '[key]' attempted to reconnect to their mob '[src]'([type]). But the enter lock prevented them.")
-			key = null
-			return FALSE
-
 	global.player_list |= src
 	update_Login_details()
 	world.update_status()
