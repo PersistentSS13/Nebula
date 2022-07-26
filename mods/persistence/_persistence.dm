@@ -3,12 +3,8 @@
 
 /decl/modpack/persistence/initialize()
 	. = ..()
-	admin_verbs_admin.Add(/client/proc/save_server)
-	admin_verbs_admin.Add(/client/proc/regenerate_mine)
-	admin_verbs_admin.Add(/client/proc/database_status)
-	admin_verbs_admin.Add(/client/proc/database_reconect)
-	admin_verbs_admin.Add(/client/proc/remove_character)
-	
+	admin_verbs_admin.Add(global.persistence_admin_verbs)
+
 	admin_verbs_admin.Remove(/client/proc/admin_call_shuttle)
 	admin_verbs_admin.Remove(/client/proc/admin_cancel_shuttle)
 	admin_verbs_admin.Remove(/client/proc/check_ai_laws)
