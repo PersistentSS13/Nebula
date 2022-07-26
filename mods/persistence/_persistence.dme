@@ -215,6 +215,7 @@
 #include "modules\projectiles\guns\projectile\tier1\revolver.dm"
 #include "modules\projectiles\guns\projectile\tier1\shotgun_db.dm"
 #include "modules\projectiles\guns\projectile\tier1\shotgun_pump.dm"
+#include "modules\projectiles\overrides.dm"
 #include "modules\reagents\Chemistry-Holder.dm"
 #include "modules\reagents\chems\chems.dm"
 #include "modules\reagents\chems\recipes.dm"
