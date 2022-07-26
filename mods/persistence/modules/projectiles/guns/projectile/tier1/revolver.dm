@@ -6,10 +6,16 @@
 	caliber = CALIBER_PISTOL
 	ammo_type = /obj/item/ammo_casing/pistol
 	max_shells = 5
+	w_class = ITEM_SIZE_NORMAL
 	fire_delay = 10
 	accuracy = 0
 	one_hand_penalty = 0
 	force = 5
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/wood = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
+	)
 
 /obj/item/gun/projectile/revolver/simple/empty
 	starts_loaded = FALSE
