@@ -14,6 +14,11 @@
 	screen_shake = 1
 	accuracy = 0
 	one_hand_penalty = 10 // doesnt improve over handmade shotgun penalty because you really should not be one-handing a shotgun
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/wood = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
+	)
 
 	burst_delay = 0
 	firemodes = list(
