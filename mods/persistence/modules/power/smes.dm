@@ -1,7 +1,25 @@
-/obj/machinery/power/smes/populate_parts(full_populate)
+/obj/machinery/power/smes/Initialize(ml)
 	if(persistent_id)
-		return
-	return ..()
+		CUSTOM_SV_LIST(\
+		"last_charge"         = charge,\
+		"last_input_level"    = input_level,\
+		"last_output_level"   = output_level,\
+		"last_output_attempt" = output_attempt,\
+		"last_input_attempt"  = input_attempt,\
+		)
+	. = ..()
+	if(persistent_id)
+		charge         = LOAD_CUSTOM_SV("last_charge")
+		input_level    = LOAD_CUSTOM_SV("last_input_level")
+		output_level   = LOAD_CUSTOM_SV("last_output_level")
+		output_attempt = LOAD_CUSTOM_SV("last_output_attempt")
+		input_attempt  = LOAD_CUSTOM_SV("last_input_attempt")
+		CLEAR_SV("last_charge")
+		CLEAR_SV("last_input_level")
+		CLEAR_SV("last_output_level")
+		CLEAR_SV("last_output_attempt")
+		CLEAR_SV("last_input_attempt")
+	update_icon()
 
 //Saved Variables Define
 SAVED_VAR(/obj/machinery/power/smes/batteryrack, mode)
