@@ -33,8 +33,13 @@
 
 		if(length(element_inserts) > 0) 
 			tot_element_inserts += length(element_inserts)
-			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIMBO_LIST_ELEM]`(`list_id`,`key`,`key_type`,`value`,`value_type`,`limbo_assoc`) VALUES["(" + jointext(element_inserts, ",'[limbo_assoc]'),(") + ",'[limbo_assoc]')"]")
-			SQLS_EXECUTE_AND_REPORT_ERROR(query, "LIMBO ELEMENT SERIALIZATION FAILED:")
+			var/raw_statement = "INSERT INTO `[SQLS_TABLE_LIMBO_LIST_ELEM]`(`list_id`,`key`,`key_type`,`value`,`value_type`,`limbo_assoc`) VALUES["(" + jointext(element_inserts, ",'[limbo_assoc]'),(") + ",'[limbo_assoc]')"]"
+			query = dbcon_save.NewQuery(raw_statement)
+			try
+				SQLS_EXECUTE_AND_REPORT_ERROR(query, "LIMBO ELEMENT SERIALIZATION FAILED:")
+			catch(var/exception/E)
+				log_warning("Caught exception when issuing query :\n[raw_statement]")
+				throw E
 
 	catch (var/exception/e)
 		if(istype(e, /exception/sql_connection))
