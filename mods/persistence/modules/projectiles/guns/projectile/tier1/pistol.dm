@@ -8,6 +8,12 @@
 	one_hand_penalty = 0
 	origin_tech = "{'combat':3,'engineering':2,'materials':2}"
 	ammo_indicator = FALSE
+	w_class = ITEM_SIZE_NORMAL
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/wood = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
+	)
 
 /obj/item/gun/projectile/pistol/simple/empty
 	starts_loaded = FALSE
