@@ -6,6 +6,7 @@
 #include "random_phrase.dm"
 #include "sequential_guid.dm"
 #include "__defines\area_saving.dm"
+#include "__defines\logging.dm"
 #include "__defines\saved_var.dm"
 #include "__defines\seed_saving_helper.dm"
 #include "__defines\serializer.dm"

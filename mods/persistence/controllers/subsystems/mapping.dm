@@ -6,9 +6,9 @@
 #ifndef UNIT_TEST
 	var/save_exists = SSpersistence.SaveExists()
 	if(save_exists)
-		report_progress("Existing save found.")
+		report_progress_serializer("Existing save found.")
 	else 
-		report_progress("No existing save found.")
+		report_progress_serializer("No existing save found.")
 #endif
 	// Load our maps dynamically.
 	for(var/z in global.using_map.default_levels)
@@ -30,10 +30,10 @@
 			O.late_initialize()
 	// Build the list of static persisted levels from our map.
 #ifdef UNIT_TEST
-	report_progress("Unit testing, so not loading saved map")
+	report_progress_serializer("Unit testing, so not loading saved map")
 #else
 	if(save_exists)
-		report_progress("Loading world save.")
+		report_progress_serializer("Loading world save.")
 		SSpersistence.LoadWorld()
 #endif
 
