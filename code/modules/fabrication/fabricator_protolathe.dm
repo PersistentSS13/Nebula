@@ -17,6 +17,5 @@
 		/decl/material/solid/metal/gold =       SHEET_MATERIAL_AMOUNT * 100,
 		/decl/material/solid/metal/silver =     SHEET_MATERIAL_AMOUNT * 100,
 		/decl/material/solid/metal/uranium =    SHEET_MATERIAL_AMOUNT * 100,
-		/decl/material/solid/gemstone/diamond = SHEET_MATERIAL_AMOUNT * 100,
-		/decl/material/solid/wood = SHEET_MATERIAL_AMOUNT * 100
+		/decl/material/solid/gemstone/diamond = SHEET_MATERIAL_AMOUNT * 100
 	)
