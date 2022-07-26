@@ -122,6 +122,8 @@
 #include "modules\fabrication\fabricator_build.dm"
 #include "modules\fabrication\fabricator_intake.dm"
 #include "modules\fabrication\designs\textile\space.dm"
+#include "modules\fabrication\designs\protolathe\designs_overrides.dm"
+#include "modules\fabrication\designs\protolathe\designs_weapons.dm"
 #include "modules\hydroponics\grown.dm"
 #include "modules\hydroponics\grown_indedible.dm"
 #include "modules\hydroponics\seed_machines.dm"
