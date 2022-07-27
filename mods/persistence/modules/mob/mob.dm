@@ -21,7 +21,7 @@
 		client.show_location_blurb(30)
 
 /mob/Login()
-	if(!global.config.enter_allowed && client && !check_rights(R_ADMIN, TRUE, client))
+	if(!global.config.rejoin_allowed && client && !check_rights(R_ADMIN, TRUE, client))
 		to_chat(client, SPAN_WARNING("Joining an existing character is currently disabled. Returning to lobby."))
 		var/mob/new_player/M = new /mob/new_player
 		M.key = key

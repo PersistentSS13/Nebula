@@ -6,6 +6,7 @@ var/global/list/persistence_admin_verbs = list(
 	/client/proc/database_reconect,
 	/client/proc/remove_character,
 	/client/proc/clear_named_character_from_limbo,
+	/datum/admins/proc/togglerejoin,
 )
 
 /client/proc/save_server()
@@ -126,3 +127,4 @@ var/global/list/persistence_admin_verbs = list(
 	if(should_close_connection)
 		close_save_db_connection()
 	to_chat(usr, SPAN_INFO("Successfully deleted all entries for [char_name]!"))
+
