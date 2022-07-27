@@ -1,3 +1,5 @@
+SAVED_VAR(/obj/item/chems, reagents)
+
 //renames some chems
 
 /decl/material/liquid/eyedrops
