@@ -134,8 +134,8 @@
 		if(occupant_mind)
 			var/success = SSpersistence.AddToLimbo(list(occupant, occupant_mind), occupant_mind.unique_id, LIMBO_MIND, occupant_mind.key, occupant_mind.current.real_name, TRUE)
 			if(!success)
-				to_chat(occupant, SPAN_WARNING("Something has gone wrong while deserializing your character. Contact an admin!"))
 				log_and_message_admins("\The cryopod at ([x], [y], [z]) failed to despawn the occupant [occupant]!")
+				to_chat(occupant, SPAN_WARNING("Something has gone wrong while saving your character. Contact an admin!"))
 				audible_message("\The [src] emits a series of warning tones!")
 				return // We don't set despawning here in order to keep the mob safe without continuously retrying despawns.
 			QDEL_NULL(occupant.mind)
