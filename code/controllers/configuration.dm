@@ -173,7 +173,6 @@ var/global/list/gamemode_cache = list()
 	var/login_export_addr = null
 
 	var/enter_allowed = 1
-	var/rejoin_allowed = 1
 	var/player_limit = 0
 
 	var/use_irc_bot = 0
@@ -514,9 +513,6 @@ var/global/list/gamemode_cache = list()
 
 				if ("disable_entry")
 					config.enter_allowed = 0
-
-				if ("disable_reconnect")
-					config.rejoin_allowed = 0
 
 				if ("disable_dead_ooc")
 					config.dooc_allowed = 0
