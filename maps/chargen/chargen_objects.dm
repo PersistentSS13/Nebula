@@ -34,6 +34,10 @@
 	icon_state = "closed"
 	opacity = 1
 	density = 1
+/obj/chargen/airlock/Initialize()
+	. = ..()
+	if(!(/obj/chargen/airlock in global.wall_blend_objects))
+		global.wall_blend_objects += /obj/chargen/airlock
 
 /obj/chargen/pump
 	name = "Colony Pod Vent Pump #1"
