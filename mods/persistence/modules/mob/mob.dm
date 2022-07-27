@@ -20,16 +20,6 @@
 	if(client)
 		client.show_location_blurb(30)
 
-/mob/Login()
-	if(!global.config.enter_allowed && client && !check_rights(R_ADMIN, TRUE, client))
-		to_chat(client, SPAN_WARNING("Joining an existing character is currently disabled. Returning to lobby."))
-		var/mob/new_player/M = new /mob/new_player
-		M.key = key
-		message_staff("Player '[key]' attempted to reconnect to their mob '[src]'([type]). But the enter lock prevented them.")
-		key = null
-		return FALSE
-	. = ..()
-
 /////////////////////////////////////
 // Saved Variables Definition
 /////////////////////////////////////
