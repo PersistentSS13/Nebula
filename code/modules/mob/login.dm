@@ -57,6 +57,7 @@
 	var/client/my_client // Need to keep track of this ourselves, since by the time Logout() is called the client has already been nulled
 
 /mob/Login()
+
 	global.player_list |= src
 	update_Login_details()
 	world.update_status()
