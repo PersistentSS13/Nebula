@@ -16,10 +16,27 @@
 		slot_size = max_w_class
 	. = ..()
 
+//
+//Wallet
+//
+/obj/item/storage/wallet/poly/Initialize()
+	if(persistent_id)
+		CUSTOM_SV("color", color)
+	. = ..()
+	if(persistent_id)
+		set_color(LOAD_CUSTOM_SV("color"))
+		CLEAR_SV("color")
+
+//
+//Vars
+//
 SAVED_VAR(/obj/item/storage, opened)
 // We only save them for this subtype, since they generate them during runtime.
 SAVED_VAR(/obj/item/storage/internal/pockets, storage_slots)
 SAVED_VAR(/obj/item/storage/internal/pockets, max_w_class)
+SAVED_VAR(/obj/item/storage/internal, master_item)
+
+SAVED_VAR(/obj/item/storage/belt, use_alt_layer)
 
 // Only subtypes which call make_exact_fit() need to save these variables.
 SAVED_VAR(/obj/item/storage/box/glasses, can_hold)
@@ -45,3 +62,6 @@ SAVED_VAR(/obj/item/storage/box/lights, storage_slots)
 
 SAVED_VAR(/obj/item/storage/bible, can_hold)
 SAVED_VAR(/obj/item/storage/bible, storage_slots)
+
+SAVED_VAR(/obj/item/storage/wallet,      front_id)
+SAVED_VAR(/obj/item/storage/wallet,      front_stick)

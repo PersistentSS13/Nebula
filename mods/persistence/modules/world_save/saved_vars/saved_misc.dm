@@ -6,9 +6,14 @@
 
 SAVED_VAR(/zone, air)
 
+///////////////////////////////////////////////////////////////////////////////
+// ATOM
+///////////////////////////////////////////////////////////////////////////////
 SAVED_VAR(/atom, contents)
 
+///////////////////////////////////////////////////////////////////////////////
 //ATOM/MOVABLE
+///////////////////////////////////////////////////////////////////////////////
 SAVED_VAR(/atom/movable, dir)
 SAVED_VAR(/atom/movable, pixel_x)
 SAVED_VAR(/atom/movable, pixel_y)
@@ -24,10 +29,15 @@ SAVED_VAR(/atom/movable, layer)
 SAVED_VAR(/atom/movable, color)
 SAVED_VAR(/atom/movable, icon_state)
 
+///////////////////////////////////////////////////////////////////////////////
 //OBJ
+///////////////////////////////////////////////////////////////////////////////
 SAVED_VAR(/obj, blood_DNA)
 
+///////////////////////////////////////////////////////////////////////////////
 //TURF
+///////////////////////////////////////////////////////////////////////////////
+
 SAVED_VAR(/turf/simulated, air)
 SAVED_VAR(/turf/simulated, dirt)
 SAVED_VAR(/turf/simulated, temperature)
@@ -51,7 +61,9 @@ SAVED_VAR(/turf/simulated/wall, material)
 SAVED_VAR(/turf/simulated/wall, reinf_material)
 SAVED_VAR(/turf/simulated/wall, girder_material)
 
+///////////////////////////////////////////////////////////////////////////////
 //DATUMS
+///////////////////////////////////////////////////////////////////////////////
 SAVED_VAR(/datum/extension/labels,  labels)
 
 SAVED_VAR(/datum/extension/forensic_evidence, evidence)
@@ -124,10 +136,19 @@ SAVED_VAR(/datum/mind, faction)
 SAVED_VAR(/datum/mind, changeling)
 SAVED_VAR(/datum/mind, brigged_since)
 SAVED_VAR(/datum/mind, initial_account)
+SAVED_VAR(/datum/mind, initial_account_login)
 SAVED_VAR(/datum/mind, philotic_damage)
 SAVED_VAR(/datum/mind, age)
 SAVED_VAR(/datum/mind, unique_id)
 SAVED_VAR(/datum/mind, finished_chargen)
+SAVED_VAR(/datum/mind, memories)
+
+SAVED_VAR(/datum/memory, creation_source)
+SAVED_VAR(/datum/memory, memory)
+SAVED_VAR(/datum/memory, tags)
+SAVED_VAR(/datum/memory, owner)
+SAVED_VAR(/datum/memory, _owner_name)
+SAVED_VAR(/datum/memory, _owner_ckey)
 
 SAVED_VAR(/datum/money_account, account_name)
 SAVED_VAR(/datum/money_account, owner_name)
@@ -197,6 +218,8 @@ SAVED_VAR(/datum/transaction, purpose)
 SAVED_VAR(/datum/transaction, amount)
 SAVED_VAR(/datum/transaction, date)
 SAVED_VAR(/datum/transaction, time)
+SAVED_VAR(/datum/transaction, target)
+SAVED_VAR(/datum/transaction, source)
 
 SAVED_VAR(/datum/turbolift, current_floor)
 SAVED_VAR(/datum/turbolift, doors)
@@ -330,8 +353,9 @@ SAVED_VAR(/datum/wrapper/map_data, landmark_loc)
 SAVED_VAR(/datum/wrapper/late/extension, holder_p_id)
 SAVED_VAR(/datum/wrapper/late/extension, extension_saved_vars)
 
-
+///////////////////////////////////////////////////////////////////////////////
 //MOB
+///////////////////////////////////////////////////////////////////////////////
 SAVED_VAR(/mob/living, health)
 SAVED_VAR(/mob/living, mob_bump_flag)
 SAVED_VAR(/mob/living, mob_swap_flags)
@@ -396,6 +420,13 @@ SAVED_VAR(/mob/living/carbon, chem_effects)
 SAVED_VAR(/mob/living/carbon, chem_doses)
 SAVED_VAR(/mob/living/carbon, default_language)
 
+SAVED_VAR(/mob/living/carbon/brain,  container)
+SAVED_VAR(/mob/living/carbon/brain, timeofhostdeath)
+SAVED_VAR(/mob/living/carbon/brain, emp_damage)
+SAVED_VAR(/mob/living/carbon/brain, alert)
+
+SAVED_VAR(/mob/living/carbon/alien, language)
+
 SAVED_VAR(/mob/living/silicon, idcard)
 
 SAVED_VAR(/mob/living/silicon/robot, lights_on)
@@ -459,60 +490,29 @@ SAVED_VAR(/mob/living/simple_animal/hostile, in_stasis)
 SAVED_VAR(/mob/living/simple_animal/hostile, return_damage_min)
 SAVED_VAR(/mob/living/simple_animal/hostile, return_damage_max)
 
+SAVED_VAR(/mob/living/simple_animal/mushroom, seed)
+SAVED_VAR(/mob/living/simple_animal/mushroom, harvest_time)
+
+SAVED_VAR(/mob/living/slime, toxloss)
+SAVED_VAR(/mob/living/slime, is_adult)
+SAVED_VAR(/mob/living/slime, cores)
+SAVED_VAR(/mob/living/slime, mutation_chance)
+SAVED_VAR(/mob/living/slime, powerlevel)
+SAVED_VAR(/mob/living/slime, amount_grown)
+SAVED_VAR(/mob/living/slime, hurt_temperature)
+SAVED_VAR(/mob/living/slime, die_temperature)
+SAVED_VAR(/mob/living/slime, core_removal_stage)
+SAVED_VAR(/mob/living/slime, ingested)
+
+///////////////////////////////////////////////////////////////////////////////
+// ITEMS
+///////////////////////////////////////////////////////////////////////////////
 SAVED_VAR(/obj/item/ammo_casing, BB)
 
-SAVED_VAR(/obj/item/clothing/head/welding, up)
-
-SAVED_VAR(/obj/item/clothing/shoes/magboots, magpulse)
-
-SAVED_VAR(/obj/item/clothing/suit/space/void, boots)
-SAVED_VAR(/obj/item/clothing/suit/space/void, helmet)
-SAVED_VAR(/obj/item/clothing/suit/space/void, tank)
-
-SAVED_VAR(/obj/item/clothing/suit/storage, pockets)
-SAVED_VAR(/obj/item/clothing/suit/storage, slots)
-
-SAVED_VAR(/obj/item/assembly/mousetrap, armed)
-
-SAVED_VAR(/obj/item/assembly/prox_sensor, scanning)
-SAVED_VAR(/obj/item/assembly/prox_sensor, timing)
-SAVED_VAR(/obj/item/assembly/prox_sensor, time)
-SAVED_VAR(/obj/item/assembly/prox_sensor, range)
-
-SAVED_VAR(/obj/item/assembly/signaler, code)
-SAVED_VAR(/obj/item/assembly/signaler, delay)
-SAVED_VAR(/obj/item/assembly/signaler, airlock_wire)
-SAVED_VAR(/obj/item/assembly/signaler, connected)
-SAVED_VAR(/obj/item/assembly/signaler, deadman)
-
-SAVED_VAR(/obj/item/assembly/timer, timing)
-SAVED_VAR(/obj/item/assembly/timer, time)
-
-SAVED_VAR(/obj/item/assembly/voice, listening)
-SAVED_VAR(/obj/item/assembly/voice, recorded)
-
-SAVED_VAR(/obj/item/assembly, secured)
-SAVED_VAR(/obj/item/assembly, attached_overlays)
-SAVED_VAR(/obj/item/assembly, holder)
-SAVED_VAR(/obj/item/assembly, wires)
-
-SAVED_VAR(/obj/item/assembly_holder, secured)
-SAVED_VAR(/obj/item/assembly_holder, a_left)
-SAVED_VAR(/obj/item/assembly_holder, a_right)
-SAVED_VAR(/obj/item/assembly_holder, special_assembly)
-SAVED_VAR(/obj/item/assembly_holder, master)
-
 SAVED_VAR(/obj/item/flashlight, on)
+SAVED_VAR(/obj/item/flashlight/flare, fuel)
 
 SAVED_VAR(/obj/item/lightreplacer, uses)
-
-SAVED_VAR(/obj/item/radio/headset, ks1type)
-SAVED_VAR(/obj/item/radio/headset, ks2type)
-
-SAVED_VAR(/obj/item/radio, wires)
-SAVED_VAR(/obj/item/radio, b_stat)
-SAVED_VAR(/obj/item/radio, broadcasting)
-SAVED_VAR(/obj/item/radio, listening)
 
 SAVED_VAR(/obj/item/taperecorder, mytape)
 
@@ -522,6 +522,12 @@ SAVED_VAR(/obj/item/rig_module, holder)
 SAVED_VAR(/obj/item/rig_module, charges)
 SAVED_VAR(/obj/item/rig_module, active)
 SAVED_VAR(/obj/item/rig_module, charge_selected)
+
+SAVED_VAR(/obj/item/robot_parts/chest, wires)
+SAVED_VAR(/obj/item/robot_parts/chest, cell)
+
+SAVED_VAR(/obj/item/robot_parts/head, flash1)
+SAVED_VAR(/obj/item/robot_parts/head, flash2)
 
 SAVED_VAR(/obj/item/robot_parts/robot_suit, parts)
 SAVED_VAR(/obj/item/robot_parts/robot_suit, created_name)
@@ -546,32 +552,6 @@ SAVED_VAR(/obj/item/airlock_brace, electronics)
 
 SAVED_VAR(/obj/item/beartrap, deployed)
 
-SAVED_VAR(/obj/item/card/id, access)
-SAVED_VAR(/obj/item/card/id, registered_name)
-SAVED_VAR(/obj/item/card/id, associated_account_number)
-SAVED_VAR(/obj/item/card/id, associated_network_account)
-SAVED_VAR(/obj/item/card/id, age)
-SAVED_VAR(/obj/item/card/id, blood_type)
-SAVED_VAR(/obj/item/card/id, dna_hash)
-SAVED_VAR(/obj/item/card/id, fingerprint_hash)
-SAVED_VAR(/obj/item/card/id, sex)
-SAVED_VAR(/obj/item/card/id, front)
-SAVED_VAR(/obj/item/card/id, side)
-SAVED_VAR(/obj/item/card/id, assignment)
-SAVED_VAR(/obj/item/card/id, rank)
-SAVED_VAR(/obj/item/card/id, dorm)
-SAVED_VAR(/obj/item/card/id, military_branch)
-SAVED_VAR(/obj/item/card/id, military_rank)
-SAVED_VAR(/obj/item/card/id, formal_name_prefix)
-SAVED_VAR(/obj/item/card/id, formal_name_suffix)
-SAVED_VAR(/obj/item/card/id, detail_color)
-SAVED_VAR(/obj/item/card/id, extra_details)
-
-SAVED_VAR(/obj/item/cell, charge)
-
-SAVED_VAR(/obj/item/disk/botany, genes)
-SAVED_VAR(/obj/item/disk/botany, genesource)
-
 SAVED_VAR(/obj/item/flamethrower, secured)
 SAVED_VAR(/obj/item/flamethrower, throw_amount)
 SAVED_VAR(/obj/item/flamethrower, lit)
@@ -586,16 +566,25 @@ SAVED_VAR(/obj/item/grenade/chem_grenade, beakers)
 
 SAVED_VAR(/obj/item/grenade, det_time)
 
-SAVED_VAR(/obj/item/gun/launcher/pneumatic, tank)
-SAVED_VAR(/obj/item/gun/launcher/pneumatic, item_storage)
-SAVED_VAR(/obj/item/gun/launcher/pneumatic, pressure_setting)
+SAVED_VAR(/obj/item/cell, charge)
+SAVED_VAR(/obj/item/cell/device/variable, maxcharge)
 
-SAVED_VAR(/obj/item/gun/magnetic, cell)
-SAVED_VAR(/obj/item/gun/magnetic, capacitor)
-SAVED_VAR(/obj/item/gun/magnetic, loaded)
-SAVED_VAR(/obj/item/gun/magnetic, load_type)
+SAVED_VAR(/obj/item/blackout,  last_use)
 
-SAVED_VAR(/obj/item/implant/freedom, activation_emote)
+SAVED_VAR(/obj/item/spy_monitor, radio)
+SAVED_VAR(/obj/item/spy_monitor, selected_camera)
+SAVED_VAR(/obj/item/spy_monitor, cameras)
+
+SAVED_VAR(/obj/item/oxycandle, on)
+SAVED_VAR(/obj/item/oxycandle, air_contents)
+
+SAVED_VAR(/obj/input_holder, reagents)
+
+SAVED_VAR(/obj/item/evidencebag, stored_item)
+
+SAVED_VAR(/obj/item/forensics/sample, object)
+SAVED_VAR(/obj/item/forensics/sample, evidence)
+
 
 SAVED_VAR(/obj/item/key, key_data)
 
@@ -645,15 +634,458 @@ SAVED_VAR(/obj/item/rig, airtight)
 
 SAVED_VAR(/obj/item/stool, padding_material)
 
-SAVED_VAR(/obj/item/storage/belt, use_alt_layer)
-
-SAVED_VAR(/obj/item/storage/internal, master_item)
-
-SAVED_VAR(/obj/item/storage/wallet, front_id)
-
 SAVED_VAR(/obj/item/weldingtool, tank)
 
 SAVED_VAR(/obj/item/weldpack, welder)
+
+SAVED_VAR(/obj/vehicle/train/cargo/engine, key)
+
+SAVED_VAR(/obj/vehicle/train, passenger_allowed)
+
+SAVED_VAR(/obj/vehicle, on)
+SAVED_VAR(/obj/vehicle, health)
+SAVED_VAR(/obj/vehicle, open)
+SAVED_VAR(/obj/vehicle, locked)
+SAVED_VAR(/obj/vehicle, stat)
+SAVED_VAR(/obj/vehicle, cell)
+SAVED_VAR(/obj/vehicle, load)
+
+SAVED_VAR(/obj/item/chems/hypospray/vial, loaded_vial)
+
+SAVED_VAR(/obj/item/chems/hypospray/autoinjector, band_color)
+
+SAVED_VAR(/obj/item/tankassemblyproxy, tank)
+SAVED_VAR(/obj/item/tankassemblyproxy, assembly)
+
+SAVED_VAR(/obj/item/screwdriver,  handle_color)
+
+SAVED_VAR(/obj/item/wrench,  handle_color)
+
+SAVED_VAR(/obj/item/ducttape, stuck)
+
+SAVED_VAR(/obj/item/solar_assembly, tracker)
+SAVED_VAR(/obj/item/solar_assembly, glass_type)
+
+SAVED_VAR(/obj/item/fuel_assembly, material_name)
+SAVED_VAR(/obj/item/fuel_assembly, matter)
+SAVED_VAR(/obj/item/fuel_assembly, percent_depleted)
+SAVED_VAR(/obj/item/fuel_assembly, radioactivity)
+
+SAVED_VAR(/obj/item/key/soap, uses)
+
+SAVED_VAR(/obj/item/lock_construct, lock_data)
+
+SAVED_VAR(/obj/item/passport, info)
+
+SAVED_VAR(/obj/item/bodybag/rescue, airtank)
+
+SAVED_VAR(/obj/item/latexballon, air_contents)
+SAVED_VAR(/obj/item/latexballon, state)
+
+SAVED_VAR(/obj/item/clothing/accessory/badge/tags, owner_rank)
+SAVED_VAR(/obj/item/clothing/accessory/badge/tags, owner_name)
+SAVED_VAR(/obj/item/clothing/accessory/badge/tags, owner_branch)
+SAVED_VAR(/obj/item/clothing/accessory/badge/tags, desc)
+
+///////////////////////////////////////////////////////////////////////////////
+// item/clothing
+///////////////////////////////////////////////////////////////////////////////
+SAVED_VAR(/obj/item/clothing/head/welding, up)
+
+SAVED_VAR(/obj/item/clothing/shoes/magboots, magpulse)
+
+SAVED_VAR(/obj/item/clothing/suit/space/void, boots)
+SAVED_VAR(/obj/item/clothing/suit/space/void, helmet)
+SAVED_VAR(/obj/item/clothing/suit/space/void, tank)
+
+SAVED_VAR(/obj/item/clothing/suit/storage, pockets)
+SAVED_VAR(/obj/item/clothing/suit/storage, slots)
+
+SAVED_VAR(/obj/item/clothing/shoes, shine)
+SAVED_VAR(/obj/item/clothing/shoes, hidden_item)
+SAVED_VAR(/obj/item/clothing/shoes, attached_cuffs)
+
+SAVED_VAR(/obj/item/clothing/under, sensor_mode)
+SAVED_VAR(/obj/item/clothing/under, rolled_down)
+SAVED_VAR(/obj/item/clothing/under, rolled_sleeves)
+
+///////////////////////////////////////////////////////////////////////////////
+// item/assembly
+///////////////////////////////////////////////////////////////////////////////
+SAVED_VAR(/obj/item/assembly/mousetrap, armed)
+
+SAVED_VAR(/obj/item/assembly/prox_sensor, scanning)
+SAVED_VAR(/obj/item/assembly/prox_sensor, timing)
+SAVED_VAR(/obj/item/assembly/prox_sensor, time)
+SAVED_VAR(/obj/item/assembly/prox_sensor, range)
+
+SAVED_VAR(/obj/item/assembly/signaler, code)
+SAVED_VAR(/obj/item/assembly/signaler, delay)
+SAVED_VAR(/obj/item/assembly/signaler, airlock_wire)
+SAVED_VAR(/obj/item/assembly/signaler, connected)
+SAVED_VAR(/obj/item/assembly/signaler, deadman)
+
+SAVED_VAR(/obj/item/assembly/timer, timing)
+SAVED_VAR(/obj/item/assembly/timer, time)
+
+SAVED_VAR(/obj/item/assembly/voice, listening)
+SAVED_VAR(/obj/item/assembly/voice, recorded)
+
+SAVED_VAR(/obj/item/assembly, secured)
+SAVED_VAR(/obj/item/assembly, attached_overlays)
+SAVED_VAR(/obj/item/assembly, holder)
+SAVED_VAR(/obj/item/assembly, wires)
+
+SAVED_VAR(/obj/item/assembly_holder, secured)
+SAVED_VAR(/obj/item/assembly_holder, a_left)
+SAVED_VAR(/obj/item/assembly_holder, a_right)
+SAVED_VAR(/obj/item/assembly_holder, special_assembly)
+SAVED_VAR(/obj/item/assembly_holder, master)
+
+///////////////////////////////////////////////////////////////////////////////
+// item/radio
+///////////////////////////////////////////////////////////////////////////////
+SAVED_VAR(/obj/item/radio/headset, ks1type)
+SAVED_VAR(/obj/item/radio/headset, ks2type)
+
+SAVED_VAR(/obj/item/radio, wires)
+SAVED_VAR(/obj/item/radio, b_stat)
+SAVED_VAR(/obj/item/radio, broadcasting)
+SAVED_VAR(/obj/item/radio, listening)
+
+///////////////////////////////////////////////////////////////////////////////
+// item/card
+///////////////////////////////////////////////////////////////////////////////
+SAVED_VAR(/obj/item/card/id, access)
+SAVED_VAR(/obj/item/card/id, registered_name)
+SAVED_VAR(/obj/item/card/id, associated_account_number)
+SAVED_VAR(/obj/item/card/id, associated_network_account)
+SAVED_VAR(/obj/item/card/id, age)
+SAVED_VAR(/obj/item/card/id, blood_type)
+SAVED_VAR(/obj/item/card/id, dna_hash)
+SAVED_VAR(/obj/item/card/id, fingerprint_hash)
+SAVED_VAR(/obj/item/card/id, sex)
+SAVED_VAR(/obj/item/card/id, front)
+SAVED_VAR(/obj/item/card/id, side)
+SAVED_VAR(/obj/item/card/id, assignment)
+SAVED_VAR(/obj/item/card/id, rank)
+SAVED_VAR(/obj/item/card/id, dorm)
+SAVED_VAR(/obj/item/card/id, military_branch)
+SAVED_VAR(/obj/item/card/id, military_rank)
+SAVED_VAR(/obj/item/card/id, formal_name_prefix)
+SAVED_VAR(/obj/item/card/id, formal_name_suffix)
+SAVED_VAR(/obj/item/card/id, detail_color)
+SAVED_VAR(/obj/item/card/id, extra_details)
+
+///////////////////////////////////////////////////////////////////////////////
+// item/disk
+///////////////////////////////////////////////////////////////////////////////
+SAVED_VAR(/obj/item/disk/botany, genes)
+SAVED_VAR(/obj/item/disk/botany, genesource)
+
+SAVED_VAR(/obj/item/disk/tech_disk, stored_tech)
+
+///////////////////////////////////////////////////////////////////////////////
+// item/gun
+///////////////////////////////////////////////////////////////////////////////
+SAVED_VAR(/obj/item/gun/launcher/pneumatic, tank)
+SAVED_VAR(/obj/item/gun/launcher/pneumatic, item_storage)
+SAVED_VAR(/obj/item/gun/launcher/pneumatic, pressure_setting)
+
+SAVED_VAR(/obj/item/gun/magnetic, cell)
+SAVED_VAR(/obj/item/gun/magnetic, capacitor)
+SAVED_VAR(/obj/item/gun/magnetic, loaded)
+SAVED_VAR(/obj/item/gun/magnetic, load_type)
+
+///////////////////////////////////////////////////////////////////////////////
+// item/implant
+///////////////////////////////////////////////////////////////////////////////
+SAVED_VAR(/obj/item/implant/freedom, activation_emote)
+
+
+///////////////////////////////////////////////////////////////////////////////
+// CIRCUITS
+///////////////////////////////////////////////////////////////////////////////
+SAVED_VAR(/obj/item/electronic_assembly, assembly_components)
+SAVED_VAR(/obj/item/electronic_assembly, ckeys_allowed_to_scan)
+SAVED_VAR(/obj/item/electronic_assembly, opened)
+SAVED_VAR(/obj/item/electronic_assembly, battery)
+SAVED_VAR(/obj/item/electronic_assembly, cell_type)
+SAVED_VAR(/obj/item/electronic_assembly, can_charge)
+SAVED_VAR(/obj/item/electronic_assembly, charge_sections)
+SAVED_VAR(/obj/item/electronic_assembly, charge_delay)
+SAVED_VAR(/obj/item/electronic_assembly, ext_next_use)
+SAVED_VAR(/obj/item/electronic_assembly, collw)
+SAVED_VAR(/obj/item/electronic_assembly, creator)
+SAVED_VAR(/obj/item/electronic_assembly, next_assembly_id)
+SAVED_VAR(/obj/item/electronic_assembly, interact_page)
+SAVED_VAR(/obj/item/electronic_assembly, components_per_page)
+SAVED_VAR(/obj/item/electronic_assembly, detail_color)
+
+SAVED_VAR(/obj/item/integrated_electronics/detailer, data_to_write)
+SAVED_VAR(/obj/item/integrated_electronics/detailer, accepting_refs)
+SAVED_VAR(/obj/item/integrated_electronics/detailer, detail_color)
+
+SAVED_VAR(/obj/item/integrated_circuit, assembly)
+SAVED_VAR(/obj/item/integrated_circuit, extended_desc)
+SAVED_VAR(/obj/item/integrated_circuit, inputs)
+SAVED_VAR(/obj/item/integrated_circuit, outputs)
+SAVED_VAR(/obj/item/integrated_circuit, activators)
+SAVED_VAR(/obj/item/integrated_circuit, complexity)
+SAVED_VAR(/obj/item/integrated_circuit, size)
+SAVED_VAR(/obj/item/integrated_circuit, power_draw_per_use)
+SAVED_VAR(/obj/item/integrated_circuit, power_draw_idle)
+SAVED_VAR(/obj/item/integrated_circuit, spawn_flags)
+SAVED_VAR(/obj/item/integrated_circuit, removable)
+SAVED_VAR(/obj/item/integrated_circuit, displayed_name)
+
+SAVED_VAR(/obj/item/integrated_circuit_printer, upgraded)
+SAVED_VAR(/obj/item/integrated_circuit_printer, can_clone)
+SAVED_VAR(/obj/item/integrated_circuit_printer, fast_clone)
+SAVED_VAR(/obj/item/integrated_circuit_printer, debug)
+SAVED_VAR(/obj/item/integrated_circuit_printer, current_category)
+SAVED_VAR(/obj/item/integrated_circuit_printer, cloning)
+SAVED_VAR(/obj/item/integrated_circuit_printer, recycling)
+SAVED_VAR(/obj/item/integrated_circuit_printer, program)
+SAVED_VAR(/obj/item/integrated_circuit_printer, materials)
+SAVED_VAR(/obj/item/integrated_circuit_printer, metal_max)
+
+SAVED_VAR(/obj/prefab, prefab_type)
+
+SAVED_VAR(/obj/item/integrated_circuit/passive/power/relay, power_amount)
+
+SAVED_VAR(/obj/item/integrated_circuit/passive/power/chemical_cell, volume)
+SAVED_VAR(/obj/item/integrated_circuit/passive/power/chemical_cell, multi)
+SAVED_VAR(/obj/item/integrated_circuit/passive/power/chemical_cell, lfwb)
+
+SAVED_VAR(/obj/item/integrated_circuit/filter/ref, filter_type)
+
+SAVED_VAR(/obj/item/integrated_circuit/transfer/demultiplexer, number_of_pins)
+
+SAVED_VAR(/obj/item/integrated_circuit/transfer/pulsedemultiplexer, number_of_pins)
+
+SAVED_VAR(/obj/item/integrated_circuit/converter/refdecode, dec)
+
+SAVED_VAR(/obj/item/integrated_circuit/converter/concatenator, number_of_pins)
+
+SAVED_VAR(/obj/item/integrated_circuit/output/access_displayer, access)
+
+SAVED_VAR(/obj/item/integrated_circuit/input/advanced_locator_list, radius)
+
+SAVED_VAR(/obj/item/integrated_circuit/input/advanced_locator, radius)
+
+SAVED_VAR(/obj/item/integrated_circuit/input/signaler, code)
+
+SAVED_VAR(/obj/item/integrated_circuit/input/signaler/advanced, command)
+
+SAVED_VAR(/obj/item/integrated_circuit/lists/constructor, number_of_pins)
+
+SAVED_VAR(/obj/item/integrated_circuit/lists/deconstructor, number_of_pins)
+
+SAVED_VAR(/obj/item/integrated_circuit/manipulation/weapon_firing, installed_gun)
+
+SAVED_VAR(/obj/item/integrated_circuit/manipulation/grenade, attached_grenade)
+
+SAVED_VAR(/obj/item/integrated_circuit/manipulation/grabber,  max_items)
+
+SAVED_VAR(/obj/item/integrated_circuit/manipulation/claw,  pulling)
+
+SAVED_VAR(/obj/item/integrated_circuit/manipulation/ai, controlling)
+SAVED_VAR(/obj/item/integrated_circuit/manipulation/ai, aicard)
+
+SAVED_VAR(/obj/item/integrated_circuit/manipulation/hatchlock, lock_enabled)
+
+SAVED_VAR(/obj/item/integrated_circuit/memory, number_of_pins)
+
+SAVED_VAR(/obj/item/integrated_circuit/output/screen, eol)
+SAVED_VAR(/obj/item/integrated_circuit/output/screen, stuff_to_display)
+
+SAVED_VAR(/obj/item/integrated_circuit/output/light, light_toggled)
+SAVED_VAR(/obj/item/integrated_circuit/output/light, light_brightness)
+SAVED_VAR(/obj/item/integrated_circuit/output/light, light_rgb)
+
+SAVED_VAR(/obj/item/integrated_circuit/output/sound, sounds)
+
+SAVED_VAR(/obj/item/integrated_circuit/output/video_camera, camera_name)
+
+SAVED_VAR(/obj/item/integrated_circuit/output/led, led_color)
+
+SAVED_VAR(/obj/item/integrated_circuit/power/transmitter, amount_to_move)
+
+SAVED_VAR(/obj/item/integrated_circuit/reagent/smoke, smoke_radius)
+SAVED_VAR(/obj/item/integrated_circuit/reagent/smoke, notified)
+
+SAVED_VAR(/obj/item/integrated_circuit/reagent/injector, direction_mode)
+SAVED_VAR(/obj/item/integrated_circuit/reagent/injector, transfer_amount)
+SAVED_VAR(/obj/item/integrated_circuit/reagent/injector, busy)
+
+SAVED_VAR(/obj/item/integrated_circuit/reagent/pump,  transfer_amount)
+SAVED_VAR(/obj/item/integrated_circuit/reagent/pump, direction_mode)
+
+SAVED_VAR(/obj/item/integrated_circuit/reagent/filter,  transfer_amount)
+SAVED_VAR(/obj/item/integrated_circuit/reagent/filter, direction_mode)
+
+SAVED_VAR(/obj/item/integrated_circuit/reagent/temp,  active)
+SAVED_VAR(/obj/item/integrated_circuit/reagent/temp, min_temp)
+SAVED_VAR(/obj/item/integrated_circuit/reagent/temp, max_temp)
+SAVED_VAR(/obj/item/integrated_circuit/reagent/temp, heating_power)
+SAVED_VAR(/obj/item/integrated_circuit/reagent/temp, target_temp)
+SAVED_VAR(/obj/item/integrated_circuit/reagent/temp, last_temperature)
+SAVED_VAR(/obj/item/integrated_circuit/reagent/temp, mode)
+
+SAVED_VAR(/obj/item/integrated_circuit/smart/advanced_pathfinder,  idc)
+
+SAVED_VAR(/obj/item/integrated_circuit/time/delay,  delay)
+
+SAVED_VAR(/obj/item/integrated_circuit/time/ticker,  delay)
+SAVED_VAR(/obj/item/integrated_circuit/time/ticker, is_running)
+
+///////////////////////////////////////////////////////////////////////////////
+// item/organ
+///////////////////////////////////////////////////////////////////////////////
+SAVED_VAR(/obj/item/organ/internal/stack, stackmob)
+SAVED_VAR(/obj/item/organ/internal/stack, backup)
+SAVED_VAR(/obj/item/organ/internal/stack, cortical_alias)
+SAVED_VAR(/obj/item/organ/internal/stack, mind_id)
+
+
+///////////////////////////////////////////////////////////////////////////////
+//Effects
+///////////////////////////////////////////////////////////////////////////////
+SAVED_VAR(/obj/effect/decal/cleanable, age)
+SAVED_VAR(/obj/effect/decal/cleanable, cleanable_scent)
+SAVED_VAR(/obj/effect/decal/cleanable, scent_type)
+SAVED_VAR(/obj/effect/decal/cleanable, scent_intensity)
+SAVED_VAR(/obj/effect/decal/cleanable, scent_descriptor)
+SAVED_VAR(/obj/effect/decal/cleanable, scent_range)
+
+SAVED_VAR(/obj/effect/decal/cleanable/blood, base_icon)
+SAVED_VAR(/obj/effect/decal/cleanable/blood, basecolor)
+SAVED_VAR(/obj/effect/decal/cleanable/blood, amount)
+SAVED_VAR(/obj/effect/decal/cleanable/blood, drytime)
+SAVED_VAR(/obj/effect/decal/cleanable/blood, blood_size)
+SAVED_VAR(/obj/effect/decal/cleanable/blood, chemical)
+SAVED_VAR(/obj/effect/decal/cleanable/blood, blood_data)
+
+SAVED_VAR(/obj/effect/energy_net, health)
+SAVED_VAR(/obj/effect/energy_net, countdown)
+SAVED_VAR(/obj/effect/energy_net, captured)
+
+SAVED_VAR(/obj/effect/vine, health)
+SAVED_VAR(/obj/effect/vine, parent)
+SAVED_VAR(/obj/effect/vine, seed)
+SAVED_VAR(/obj/effect/vine, plant)
+SAVED_VAR(/obj/effect/vine, max_growth)
+
+SAVED_VAR(/obj/effect/fusion_particle_catcher, parent)
+SAVED_VAR(/obj/effect/fusion_particle_catcher, mysize)
+
+SAVED_VAR(/obj/effect/fluid, last_flow_strength)
+SAVED_VAR(/obj/effect/fluid, last_flow_dir)
+
+SAVED_VAR(/obj/effect/effect/smoke/chem, splash_amount)
+SAVED_VAR(/obj/effect/effect/smoke/chem, destination)
+
+///////////////////////////////////////////////////////////////////////////////
+// Structures
+///////////////////////////////////////////////////////////////////////////////
+SAVED_VAR(/obj/structure, reagents)
+
+SAVED_VAR(/obj/structure, health)
+SAVED_VAR(/obj/structure, material)
+SAVED_VAR(/obj/structure, reinf_material)
+SAVED_VAR(/obj/structure, dismantled)
+SAVED_VAR(/obj/structure, req_access)
+
+SAVED_VAR(/obj/structure/bigDelivery, wrapped)
+SAVED_VAR(/obj/structure/bigDelivery, sortTag)
+SAVED_VAR(/obj/structure/bigDelivery, examtext)
+SAVED_VAR(/obj/structure/bigDelivery, nameset)
+SAVED_VAR(/obj/structure/bigDelivery, label_y)
+SAVED_VAR(/obj/structure/bigDelivery, label_x)
+SAVED_VAR(/obj/structure/bigDelivery, tag_x)
+
+SAVED_VAR(/obj/structure/closet/secure_closet/personal, registered_name)
+
+SAVED_VAR(/obj/structure/closet, broken)
+SAVED_VAR(/obj/structure/closet, opened)
+SAVED_VAR(/obj/structure/closet, locked)
+
+SAVED_VAR(/obj/structure/dispenser, oxygentanks)
+SAVED_VAR(/obj/structure/dispenser, hydrogentanks)
+
+SAVED_VAR(/obj/structure/disposalconstruct, dpdir)
+
+SAVED_VAR(/obj/structure/disposalpipe, dpdir)
+SAVED_VAR(/obj/structure/disposalpipe, base_icon_state)
+
+SAVED_VAR(/obj/structure/door_assembly, state)
+SAVED_VAR(/obj/structure/door_assembly, glass)
+SAVED_VAR(/obj/structure/door_assembly, glass_material)
+SAVED_VAR(/obj/structure/door_assembly, door_color)
+SAVED_VAR(/obj/structure/door_assembly, stripe_color)
+SAVED_VAR(/obj/structure/door_assembly, symbol_color)
+SAVED_VAR(/obj/structure/door_assembly, electronics)
+
+SAVED_VAR(/obj/structure/janitorialcart, mybag)
+SAVED_VAR(/obj/structure/janitorialcart, mymop)
+SAVED_VAR(/obj/structure/janitorialcart, myspray)
+SAVED_VAR(/obj/structure/janitorialcart, myreplacer)
+SAVED_VAR(/obj/structure/janitorialcart, signs)
+
+SAVED_VAR(/obj/structure/lift/button, floor)
+
+SAVED_VAR(/obj/structure/ore_box, stored_ore)
+
+SAVED_VAR(/obj/structure/sign/poster, poster_type)
+SAVED_VAR(/obj/structure/sign/poster, ruined)
+
+SAVED_VAR(/obj/structure/table, is_flipped)
+SAVED_VAR(/obj/structure/table, additional_reinf_material)
+SAVED_VAR(/obj/structure/table, felted)
+
+SAVED_VAR(/obj/structure/wall_frame, stripe_color)
+
+SAVED_VAR(/obj/structure/window, polarized)
+SAVED_VAR(/obj/structure/window, basestate)
+SAVED_VAR(/obj/structure/window, reinf_basestate)
+
+SAVED_VAR(/obj/structure/iv_drip, mode)
+SAVED_VAR(/obj/structure/iv_drip, beaker)
+SAVED_VAR(/obj/structure/iv_drip, attached)
+
+SAVED_VAR(/obj/structure/disposalpipe/diversion_junction, active)
+SAVED_VAR(/obj/structure/disposalpipe/diversion_junction, active_dir)
+SAVED_VAR(/obj/structure/disposalpipe/diversion_junction, inactive_dir)
+SAVED_VAR(/obj/structure/disposalpipe/diversion_junction, sortdir)
+SAVED_VAR(/obj/structure/disposalpipe/diversion_junction, linked)
+
+SAVED_VAR(/obj/structure/disposalpipe/sortjunction, sortdir)
+SAVED_VAR(/obj/structure/disposalpipe/sortjunction, posdir)
+SAVED_VAR(/obj/structure/disposalpipe/sortjunction, negdir)
+
+SAVED_VAR(/obj/structure/disposalpipe/tagger, sort_tag)
+SAVED_VAR(/obj/structure/disposalpipe/tagger, partial)
+
+SAVED_VAR(/obj/structure/lift, lift)
+
+SAVED_VAR(/obj/structure/door, lock)
+SAVED_VAR(/obj/structure/door, has_window)
+SAVED_VAR(/obj/structure/door, icon_base)
+
+SAVED_VAR(/obj/structure/catwalk, hatch_open)
+SAVED_VAR(/obj/structure/catwalk, plated_tile)
+
+SAVED_VAR(/obj/structure/displaycase, destroyed)
+
+SAVED_VAR(/obj/structure/closet/body_bag/cryobag, airtank)
+SAVED_VAR(/obj/structure/closet/body_bag/cryobag, stasis_power)
+SAVED_VAR(/obj/structure/closet/body_bag/cryobag, degradation_time)
+
+///////////////////////////////////////////////////////////////////////////////
+// MACHINERY
+///////////////////////////////////////////////////////////////////////////////
+SAVED_VAR(/obj/machinery, reagents)
 
 SAVED_VAR(/obj/machinery/alarm, rcon_setting)
 SAVED_VAR(/obj/machinery/alarm, locked)
@@ -855,10 +1287,16 @@ SAVED_VAR(/obj/machinery/power/solar_control, trackrate)
 SAVED_VAR(/obj/machinery/power/solar_control, targetdir)
 SAVED_VAR(/obj/machinery/power/solar_control, track)
 
-SAVED_VAR(/obj/item/solar_assembly, tracker)
-SAVED_VAR(/obj/item/solar_assembly, glass_type)
-
 SAVED_VAR(/obj/machinery/reagentgrinder, beaker)
+
+SAVED_VAR(/obj/machinery/chem_master, beaker)
+SAVED_VAR(/obj/machinery/chem_master, loaded_pill_bottle)
+SAVED_VAR(/obj/machinery/chem_master, mode)
+SAVED_VAR(/obj/machinery/chem_master, useramount)
+SAVED_VAR(/obj/machinery/chem_master, pillamount)
+SAVED_VAR(/obj/machinery/chem_master, pillsprite)
+SAVED_VAR(/obj/machinery/chem_master, bottle_label_color)
+SAVED_VAR(/obj/machinery/chem_master, bottle_lid_color)
 
 SAVED_VAR(/obj/machinery/recharger, charging)
 
@@ -876,43 +1314,6 @@ SAVED_VAR(/obj/machinery/telecomms/receiver, links)
 SAVED_VAR(/obj/machinery/telecomms/receiver, listening_levels)
 
 SAVED_VAR(/obj/machinery/telecomms, on)
-
-SAVED_VAR(/obj/vehicle/train/cargo/engine, key)
-
-SAVED_VAR(/obj/vehicle/train, passenger_allowed)
-
-SAVED_VAR(/obj/vehicle, on)
-SAVED_VAR(/obj/vehicle, health)
-SAVED_VAR(/obj/vehicle, open)
-SAVED_VAR(/obj/vehicle, locked)
-SAVED_VAR(/obj/vehicle, stat)
-SAVED_VAR(/obj/vehicle, cell)
-SAVED_VAR(/obj/vehicle, load)
-
-SAVED_VAR(/obj/item/clothing/shoes, shine)
-SAVED_VAR(/obj/item/clothing/shoes, hidden_item)
-SAVED_VAR(/obj/item/clothing/shoes, attached_cuffs)
-
-SAVED_VAR(/obj/item/clothing/under, sensor_mode)
-SAVED_VAR(/obj/item/clothing/under, rolled_down)
-SAVED_VAR(/obj/item/clothing/under, rolled_sleeves)
-
-SAVED_VAR(/obj/item/flashlight/flare, fuel)
-
-SAVED_VAR(/obj/item/tankassemblyproxy, tank)
-SAVED_VAR(/obj/item/tankassemblyproxy, assembly)
-
-SAVED_VAR(/obj/item/robot_parts/chest, wires)
-SAVED_VAR(/obj/item/robot_parts/chest, cell)
-
-SAVED_VAR(/obj/item/robot_parts/head, flash1)
-SAVED_VAR(/obj/item/robot_parts/head, flash2)
-
-SAVED_VAR(/obj/item/cell/device/variable, maxcharge)
-
-SAVED_VAR(/obj/item/disk/tech_disk, stored_tech)
-
-SAVED_VAR(/obj/item/ducttape, stuck)
 
 SAVED_VAR(/obj/machinery/button, active)
 SAVED_VAR(/obj/machinery/button, operating)
@@ -950,11 +1351,6 @@ SAVED_VAR(/obj/machinery/kinetic_harvester, harvest_from)
 SAVED_VAR(/obj/machinery/fusion_core, owned_field)
 SAVED_VAR(/obj/machinery/fusion_core, field_strength)
 
-SAVED_VAR(/obj/item/fuel_assembly, material_name)
-SAVED_VAR(/obj/item/fuel_assembly, matter)
-SAVED_VAR(/obj/item/fuel_assembly, percent_depleted)
-SAVED_VAR(/obj/item/fuel_assembly, radioactivity)
-
 SAVED_VAR(/obj/machinery/fuel_compressor, stored_material)
 
 SAVED_VAR(/obj/machinery/fusion_fuel_injector, fuel_usage)
@@ -968,9 +1364,6 @@ SAVED_VAR(/obj/machinery/atmospherics/unary/fission_core, neutron_flux)
 SAVED_VAR(/obj/machinery/atmospherics/unary/fission_core, neutron_energy)
 SAVED_VAR(/obj/machinery/atmospherics/unary/fission_core, damage)
 
-SAVED_VAR(/obj/effect/fusion_particle_catcher, parent)
-SAVED_VAR(/obj/effect/fusion_particle_catcher, mysize)
-
 SAVED_VAR(/obj/machinery/compressor, gas_contained)
 SAVED_VAR(/obj/machinery/compressor, capacity)
 SAVED_VAR(/obj/machinery/compressor, comp_id)
@@ -981,12 +1374,6 @@ SAVED_VAR(/obj/machinery/computer/turbine_computer, door_status)
 
 SAVED_VAR(/obj/machinery/emitter/gyrotron, rate)
 SAVED_VAR(/obj/machinery/emitter/gyrotron, mega_energy)
-
-SAVED_VAR(/obj/effect/fluid, last_flow_strength)
-SAVED_VAR(/obj/effect/fluid, last_flow_dir)
-
-SAVED_VAR(/obj/effect/effect/smoke/chem, splash_amount)
-SAVED_VAR(/obj/effect/effect/smoke/chem, destination)
 
 SAVED_VAR(/obj/machinery/computer/ship/engines, display_state)
 
@@ -1017,19 +1404,6 @@ SAVED_VAR(/obj/machinery/atmospherics/omni/mixer, tag_south_con)
 SAVED_VAR(/obj/machinery/atmospherics/omni/mixer, tag_east_con)
 SAVED_VAR(/obj/machinery/atmospherics/omni/mixer, tag_west_con)
 
-SAVED_VAR(/mob/living/slime, toxloss)
-SAVED_VAR(/mob/living/slime, is_adult)
-SAVED_VAR(/mob/living/slime, cores)
-SAVED_VAR(/mob/living/slime, mutation_chance)
-SAVED_VAR(/mob/living/slime, powerlevel)
-SAVED_VAR(/mob/living/slime, amount_grown)
-SAVED_VAR(/mob/living/slime, hurt_temperature)
-SAVED_VAR(/mob/living/slime, die_temperature)
-SAVED_VAR(/mob/living/slime, core_removal_stage)
-SAVED_VAR(/mob/living/slime, ingested)
-
-SAVED_VAR(/mob/living/carbon/alien, language)
-
 SAVED_VAR(/obj/machinery/suit_cycler, safeties)
 SAVED_VAR(/obj/machinery/suit_cycler, radiation_level)
 SAVED_VAR(/obj/machinery/suit_cycler, model_text)
@@ -1040,149 +1414,6 @@ SAVED_VAR(/obj/machinery/suit_cycler, occupant)
 SAVED_VAR(/obj/machinery/suit_cycler, suit)
 SAVED_VAR(/obj/machinery/suit_cycler, helmet)
 SAVED_VAR(/obj/machinery/suit_cycler, boots)
-
-SAVED_VAR(/obj/item/key/soap, uses)
-
-SAVED_VAR(/obj/item/lock_construct, lock_data)
-
-SAVED_VAR(/obj/item/electronic_assembly, assembly_components)
-SAVED_VAR(/obj/item/electronic_assembly, ckeys_allowed_to_scan)
-SAVED_VAR(/obj/item/electronic_assembly, opened)
-SAVED_VAR(/obj/item/electronic_assembly, battery)
-SAVED_VAR(/obj/item/electronic_assembly, cell_type)
-SAVED_VAR(/obj/item/electronic_assembly, can_charge)
-SAVED_VAR(/obj/item/electronic_assembly, charge_sections)
-SAVED_VAR(/obj/item/electronic_assembly, charge_delay)
-SAVED_VAR(/obj/item/electronic_assembly, ext_next_use)
-SAVED_VAR(/obj/item/electronic_assembly, collw)
-SAVED_VAR(/obj/item/electronic_assembly, creator)
-SAVED_VAR(/obj/item/electronic_assembly, next_assembly_id)
-SAVED_VAR(/obj/item/electronic_assembly, interact_page)
-SAVED_VAR(/obj/item/electronic_assembly, components_per_page)
-SAVED_VAR(/obj/item/electronic_assembly, detail_color)
-
-SAVED_VAR(/obj/item/integrated_electronics/detailer, data_to_write)
-SAVED_VAR(/obj/item/integrated_electronics/detailer, accepting_refs)
-SAVED_VAR(/obj/item/integrated_electronics/detailer, detail_color)
-
-SAVED_VAR(/obj/item/integrated_circuit, assembly)
-SAVED_VAR(/obj/item/integrated_circuit, extended_desc)
-SAVED_VAR(/obj/item/integrated_circuit, inputs)
-SAVED_VAR(/obj/item/integrated_circuit, outputs)
-SAVED_VAR(/obj/item/integrated_circuit, activators)
-SAVED_VAR(/obj/item/integrated_circuit, complexity)
-SAVED_VAR(/obj/item/integrated_circuit, size)
-SAVED_VAR(/obj/item/integrated_circuit, power_draw_per_use)
-SAVED_VAR(/obj/item/integrated_circuit, power_draw_idle)
-SAVED_VAR(/obj/item/integrated_circuit, spawn_flags)
-SAVED_VAR(/obj/item/integrated_circuit, removable)
-SAVED_VAR(/obj/item/integrated_circuit, displayed_name)
-
-SAVED_VAR(/obj/item/integrated_circuit_printer, upgraded)
-SAVED_VAR(/obj/item/integrated_circuit_printer, can_clone)
-SAVED_VAR(/obj/item/integrated_circuit_printer, fast_clone)
-SAVED_VAR(/obj/item/integrated_circuit_printer, debug)
-SAVED_VAR(/obj/item/integrated_circuit_printer, current_category)
-SAVED_VAR(/obj/item/integrated_circuit_printer, cloning)
-SAVED_VAR(/obj/item/integrated_circuit_printer, recycling)
-SAVED_VAR(/obj/item/integrated_circuit_printer, program)
-SAVED_VAR(/obj/item/integrated_circuit_printer, materials)
-SAVED_VAR(/obj/item/integrated_circuit_printer, metal_max)
-
-SAVED_VAR(/obj/prefab, prefab_type)
-
-SAVED_VAR(/obj/item/integrated_circuit/passive/power/relay, power_amount)
-
-SAVED_VAR(/obj/item/integrated_circuit/passive/power/chemical_cell, volume)
-SAVED_VAR(/obj/item/integrated_circuit/passive/power/chemical_cell, multi)
-SAVED_VAR(/obj/item/integrated_circuit/passive/power/chemical_cell, lfwb)
-
-SAVED_VAR(/obj/item/integrated_circuit/filter/ref, filter_type)
-
-SAVED_VAR(/obj/item/integrated_circuit/transfer/demultiplexer, number_of_pins)
-
-SAVED_VAR(/obj/item/integrated_circuit/transfer/pulsedemultiplexer, number_of_pins)
-
-SAVED_VAR(/obj/item/integrated_circuit/converter/refdecode, dec)
-
-SAVED_VAR(/obj/item/integrated_circuit/converter/concatenator, number_of_pins)
-
-SAVED_VAR(/obj/item/integrated_circuit/output/access_displayer, access)
-
-SAVED_VAR(/obj/item/integrated_circuit/input/advanced_locator_list, radius)
-
-SAVED_VAR(/obj/item/integrated_circuit/input/advanced_locator, radius)
-
-SAVED_VAR(/obj/item/integrated_circuit/input/signaler, code)
-
-SAVED_VAR(/obj/item/integrated_circuit/input/signaler/advanced, command)
-
-SAVED_VAR(/obj/item/integrated_circuit/lists/constructor, number_of_pins)
-
-SAVED_VAR(/obj/item/integrated_circuit/lists/deconstructor, number_of_pins)
-
-SAVED_VAR(/obj/item/integrated_circuit/manipulation/weapon_firing, installed_gun)
-
-SAVED_VAR(/obj/item/integrated_circuit/manipulation/grenade, attached_grenade)
-
-SAVED_VAR(/obj/item/integrated_circuit/manipulation/grabber,  max_items)
-
-SAVED_VAR(/obj/item/integrated_circuit/manipulation/claw,  pulling)
-
-SAVED_VAR(/obj/item/integrated_circuit/manipulation/ai, controlling)
-SAVED_VAR(/obj/item/integrated_circuit/manipulation/ai, aicard)
-
-SAVED_VAR(/obj/item/integrated_circuit/manipulation/hatchlock, lock_enabled)
-
-SAVED_VAR(/obj/item/integrated_circuit/memory, number_of_pins)
-
-SAVED_VAR(/obj/item/integrated_circuit/output/screen, eol)
-SAVED_VAR(/obj/item/integrated_circuit/output/screen, stuff_to_display)
-
-SAVED_VAR(/obj/item/integrated_circuit/output/light, light_toggled)
-SAVED_VAR(/obj/item/integrated_circuit/output/light, light_brightness)
-SAVED_VAR(/obj/item/integrated_circuit/output/light, light_rgb)
-
-SAVED_VAR(/obj/item/integrated_circuit/output/sound, sounds)
-
-SAVED_VAR(/obj/item/integrated_circuit/output/video_camera, camera_name)
-
-SAVED_VAR(/obj/item/integrated_circuit/output/led, led_color)
-
-SAVED_VAR(/obj/item/integrated_circuit/power/transmitter, amount_to_move)
-
-SAVED_VAR(/obj/item/integrated_circuit/reagent/smoke, smoke_radius)
-SAVED_VAR(/obj/item/integrated_circuit/reagent/smoke, notified)
-
-SAVED_VAR(/obj/item/integrated_circuit/reagent/injector, direction_mode)
-SAVED_VAR(/obj/item/integrated_circuit/reagent/injector, transfer_amount)
-SAVED_VAR(/obj/item/integrated_circuit/reagent/injector, busy)
-
-SAVED_VAR(/obj/item/integrated_circuit/reagent/pump,  transfer_amount)
-SAVED_VAR(/obj/item/integrated_circuit/reagent/pump, direction_mode)
-
-SAVED_VAR(/obj/item/integrated_circuit/reagent/filter,  transfer_amount)
-SAVED_VAR(/obj/item/integrated_circuit/reagent/filter, direction_mode)
-
-SAVED_VAR(/obj/item/integrated_circuit/reagent/temp,  active)
-SAVED_VAR(/obj/item/integrated_circuit/reagent/temp, min_temp)
-SAVED_VAR(/obj/item/integrated_circuit/reagent/temp, max_temp)
-SAVED_VAR(/obj/item/integrated_circuit/reagent/temp, heating_power)
-SAVED_VAR(/obj/item/integrated_circuit/reagent/temp, target_temp)
-SAVED_VAR(/obj/item/integrated_circuit/reagent/temp, last_temperature)
-SAVED_VAR(/obj/item/integrated_circuit/reagent/temp, mode)
-
-SAVED_VAR(/obj/item/integrated_circuit/smart/advanced_pathfinder,  idc)
-
-SAVED_VAR(/obj/item/integrated_circuit/time/delay,  delay)
-
-SAVED_VAR(/obj/item/integrated_circuit/time/ticker,  delay)
-SAVED_VAR(/obj/item/integrated_circuit/time/ticker, is_running)
-
-SAVED_VAR(/mob/living/carbon/brain,  container)
-SAVED_VAR(/mob/living/carbon/brain, timeofhostdeath)
-SAVED_VAR(/mob/living/carbon/brain, emp_damage)
-SAVED_VAR(/mob/living/carbon/brain, alert)
 
 SAVED_VAR(/obj/machinery/computer/air_control,  pressure_setting)
 SAVED_VAR(/obj/machinery/computer/air_control, input_flow_setting)
@@ -1208,37 +1439,7 @@ SAVED_VAR(/obj/machinery/network/mainframe,  initial_roles)
 
 SAVED_VAR(/obj/machinery/network/router,  saved_network)
 
-SAVED_VAR(/obj/item/organ/internal/stack, stackmob)
-SAVED_VAR(/obj/item/organ/internal/stack, backup)
-SAVED_VAR(/obj/item/organ/internal/stack, cortical_alias)
-SAVED_VAR(/obj/item/organ/internal/stack, mind_id)
-
-SAVED_VAR(/obj/machinery/cloning_pod, occupant)
-SAVED_VAR(/obj/machinery/cloning_pod, error)
-
-SAVED_VAR(/obj/item/screwdriver,  handle_color)
-
-SAVED_VAR(/obj/item/wrench,  handle_color)
-
-SAVED_VAR(/obj/effect/decal/cleanable, age)
-SAVED_VAR(/obj/effect/decal/cleanable, cleanable_scent)
-SAVED_VAR(/obj/effect/decal/cleanable, scent_type)
-SAVED_VAR(/obj/effect/decal/cleanable, scent_intensity)
-SAVED_VAR(/obj/effect/decal/cleanable, scent_descriptor)
-SAVED_VAR(/obj/effect/decal/cleanable, scent_range)
-
-SAVED_VAR(/obj/item/charge_stick, creator)
-SAVED_VAR(/obj/item/charge_stick, id)
-SAVED_VAR(/obj/item/charge_stick, currency)
-SAVED_VAR(/obj/item/charge_stick, loaded_worth)
-
 SAVED_VAR(/obj/machinery/tracking_beacon,  beacon)
-
-SAVED_VAR(/obj/item/blackout,  last_use)
-
-SAVED_VAR(/obj/item/spy_monitor, radio)
-SAVED_VAR(/obj/item/spy_monitor, selected_camera)
-SAVED_VAR(/obj/item/spy_monitor, cameras)
 
 SAVED_VAR(/obj/machinery/mining/drill, generated_ore)
 SAVED_VAR(/obj/machinery/mining/drill, active)
@@ -1257,8 +1458,8 @@ SAVED_VAR(/obj/machinery/rad_collector, loaded_tank)
 SAVED_VAR(/obj/machinery/mantrap, occupant)
 SAVED_VAR(/obj/machinery/mantrap, entrance_dir)
 
-SAVED_VAR(/obj/item/oxycandle, on)
-SAVED_VAR(/obj/item/oxycandle, air_contents)
+SAVED_VAR(/obj/machinery/cloning_pod, occupant)
+SAVED_VAR(/obj/machinery/cloning_pod, error)
 
 SAVED_VAR(/obj/machinery/docking_beacon, display_name)
 SAVED_VAR(/obj/machinery/docking_beacon, permitted_shuttles)
@@ -1272,9 +1473,6 @@ SAVED_VAR(/obj/machinery/docking_beacon, construction_mode)
 
 SAVED_VAR(/obj/machinery/atmospherics/unary/material/extractor, output_container)
 SAVED_VAR(/obj/machinery/atmospherics/unary/material/extractor, input_buffer)
-SAVED_VAR(/obj/machinery/atmospherics/unary/material/extractor, reagents)
-
-SAVED_VAR(/obj/input_holder, reagents)
 
 SAVED_VAR(/obj/machinery/destructive_analyzer, loaded_item)
 
@@ -1284,24 +1482,7 @@ SAVED_VAR(/obj/machinery/atmospherics/unary/heater, power_setting)
 SAVED_VAR(/obj/machinery/atmospherics/unary/freezer, set_temperature)
 SAVED_VAR(/obj/machinery/atmospherics/unary/freezer, power_setting)
 
-SAVED_VAR(/obj/effect/energy_net, health)
-SAVED_VAR(/obj/effect/energy_net, countdown)
-SAVED_VAR(/obj/effect/energy_net, captured)
-
-SAVED_VAR(/obj/effect/vine, health)
-SAVED_VAR(/obj/effect/vine, parent)
-SAVED_VAR(/obj/effect/vine, seed)
-SAVED_VAR(/obj/effect/vine, plant)
-SAVED_VAR(/obj/effect/vine, max_growth)
-
-SAVED_VAR(/obj/item/evidencebag, stored_item)
-
-SAVED_VAR(/obj/item/forensics/sample, object)
-SAVED_VAR(/obj/item/forensics/sample, evidence)
-
 SAVED_VAR(/obj/machinery/forensic, sample)
-
-SAVED_VAR(/obj/item/chems/food/fruit_slice, seed)
 
 SAVED_VAR(/obj/machinery/botany, seed)
 SAVED_VAR(/obj/machinery/botany, loaded_disk)
@@ -1310,104 +1491,3 @@ SAVED_VAR(/obj/machinery/botany/extractor, genetics)
 SAVED_VAR(/obj/machinery/botany/extractor, degradation)
 
 SAVED_VAR(/obj/machinery/seed_storage, piles)
-
-SAVED_VAR(/mob/living/simple_animal/mushroom, seed)
-SAVED_VAR(/mob/living/simple_animal/mushroom, harvest_time)
-
-SAVED_VAR(/obj/item/grown, plantname)
-
-SAVED_VAR(/obj/effect/decal/cleanable/blood, base_icon)
-SAVED_VAR(/obj/effect/decal/cleanable/blood, basecolor)
-SAVED_VAR(/obj/effect/decal/cleanable/blood, amount)
-SAVED_VAR(/obj/effect/decal/cleanable/blood, drytime)
-SAVED_VAR(/obj/effect/decal/cleanable/blood, blood_size)
-SAVED_VAR(/obj/effect/decal/cleanable/blood, chemical)
-SAVED_VAR(/obj/effect/decal/cleanable/blood, blood_data)
-
-// Structures
-SAVED_VAR(/obj/structure, health)
-SAVED_VAR(/obj/structure, material)
-SAVED_VAR(/obj/structure, reinf_material)
-SAVED_VAR(/obj/structure, dismantled)
-SAVED_VAR(/obj/structure, req_access)
-
-SAVED_VAR(/obj/structure/bigDelivery, wrapped)
-SAVED_VAR(/obj/structure/bigDelivery, sortTag)
-SAVED_VAR(/obj/structure/bigDelivery, examtext)
-SAVED_VAR(/obj/structure/bigDelivery, nameset)
-SAVED_VAR(/obj/structure/bigDelivery, label_y)
-SAVED_VAR(/obj/structure/bigDelivery, label_x)
-SAVED_VAR(/obj/structure/bigDelivery, tag_x)
-
-SAVED_VAR(/obj/structure/closet/secure_closet/personal, registered_name)
-
-SAVED_VAR(/obj/structure/closet, broken)
-SAVED_VAR(/obj/structure/closet, opened)
-SAVED_VAR(/obj/structure/closet, locked)
-
-SAVED_VAR(/obj/structure/dispenser, oxygentanks)
-SAVED_VAR(/obj/structure/dispenser, hydrogentanks)
-
-SAVED_VAR(/obj/structure/disposalconstruct, dpdir)
-
-SAVED_VAR(/obj/structure/disposalpipe, dpdir)
-SAVED_VAR(/obj/structure/disposalpipe, base_icon_state)
-
-SAVED_VAR(/obj/structure/door_assembly, state)
-SAVED_VAR(/obj/structure/door_assembly, glass)
-SAVED_VAR(/obj/structure/door_assembly, glass_material)
-SAVED_VAR(/obj/structure/door_assembly, door_color)
-SAVED_VAR(/obj/structure/door_assembly, stripe_color)
-SAVED_VAR(/obj/structure/door_assembly, symbol_color)
-SAVED_VAR(/obj/structure/door_assembly, electronics)
-
-SAVED_VAR(/obj/structure/janitorialcart, mybag)
-SAVED_VAR(/obj/structure/janitorialcart, mymop)
-SAVED_VAR(/obj/structure/janitorialcart, myspray)
-SAVED_VAR(/obj/structure/janitorialcart, myreplacer)
-SAVED_VAR(/obj/structure/janitorialcart, signs)
-
-SAVED_VAR(/obj/structure/lift/button, floor)
-
-SAVED_VAR(/obj/structure/ore_box, stored_ore)
-
-SAVED_VAR(/obj/structure/sign/poster, poster_type)
-SAVED_VAR(/obj/structure/sign/poster, ruined)
-
-SAVED_VAR(/obj/structure/table, is_flipped)
-SAVED_VAR(/obj/structure/table, additional_reinf_material)
-SAVED_VAR(/obj/structure/table, felted)
-
-SAVED_VAR(/obj/structure/wall_frame, stripe_color)
-
-SAVED_VAR(/obj/structure/window, polarized)
-SAVED_VAR(/obj/structure/window, basestate)
-SAVED_VAR(/obj/structure/window, reinf_basestate)
-
-SAVED_VAR(/obj/structure/iv_drip, mode)
-SAVED_VAR(/obj/structure/iv_drip, beaker)
-SAVED_VAR(/obj/structure/iv_drip, attached)
-
-SAVED_VAR(/obj/structure/disposalpipe/diversion_junction, active)
-SAVED_VAR(/obj/structure/disposalpipe/diversion_junction, active_dir)
-SAVED_VAR(/obj/structure/disposalpipe/diversion_junction, inactive_dir)
-SAVED_VAR(/obj/structure/disposalpipe/diversion_junction, sortdir)
-SAVED_VAR(/obj/structure/disposalpipe/diversion_junction, linked)
-
-SAVED_VAR(/obj/structure/disposalpipe/sortjunction, sortdir)
-SAVED_VAR(/obj/structure/disposalpipe/sortjunction, posdir)
-SAVED_VAR(/obj/structure/disposalpipe/sortjunction, negdir)
-
-SAVED_VAR(/obj/structure/disposalpipe/tagger, sort_tag)
-SAVED_VAR(/obj/structure/disposalpipe/tagger, partial)
-
-SAVED_VAR(/obj/structure/lift, lift)
-
-SAVED_VAR(/obj/structure/door, lock)
-SAVED_VAR(/obj/structure/door, has_window)
-SAVED_VAR(/obj/structure/door, icon_base)
-
-SAVED_VAR(/obj/structure/catwalk, hatch_open)
-SAVED_VAR(/obj/structure/catwalk, plated_tile)
-
-SAVED_VAR(/obj/structure/displaycase, destroyed)
