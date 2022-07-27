@@ -26,10 +26,8 @@ SAVED_VAR(/turf, applied_decals)
 		for(var/info in tmp_decal_info)
 			var/list/entry = json_decode(info)
 			var/dec_type = entry["type"]
-			if(!ispath(dec_type, /obj/effect/floor_decals))
-				log_debug("[dec_type] is not an /obj/effect/floor_decals")
-			var/obj/effect/floor_decals/dec = new dec_type(src) //<- CONSTRUCTOR EATS THE ARGS!!!!
-			//Technically risky because floor_decals delete on init, but it works, so not gonna complain too much for now. Mainly since the constructor args don't pass on correctly.
+			var/obj/effect/floor_decal/dec = new dec_type(src) //<- CONSTRUCTOR EATS THE ARGS!!!!
+			//Technically risky because floor_decal delete on init, but it works, so not gonna complain too much for now. Mainly since the constructor args don't pass on correctly.
 			dec.set_dir(entry["dir"])
 			dec.set_color(entry["color"])
 		LAZYCLEARLIST(tmp_decal_info)
@@ -39,7 +37,7 @@ SAVED_VAR(/turf, applied_decals)
 	var/turf/T = get_turf(src)
 	. = ..()
 	if(T)
-		//Save the decal data in the turf, so we can actually reproduce them on load properly
+		//Save the decal data in the turf as a json object, so we can actually reproduce them on load properly
 		LAZYADD(T.applied_decals, "{'type':'[type]', 'dir':[dir], 'color':'[color]'}")
 
 /obj/effect/floor_decal/reset/LateInitialize(mapload, newdir, newcolour, newappearance)
