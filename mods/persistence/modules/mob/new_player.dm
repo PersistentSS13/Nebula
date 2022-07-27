@@ -134,6 +134,9 @@
 	return
 
 /mob/new_player/proc/characterSelect(var/func = CHARSELECTLOAD)
+	if(!config.enter_allowed && !check_rights(R_ADMIN))
+		to_chat(src, SPAN_WARNING("There is an administrative lock on entering the game!"))
+		return
 	if(func == CHARSELECTLOAD)
 		for(var/datum/mind/target_mind in global.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
 			if(cmptext(target_mind.key, key))
