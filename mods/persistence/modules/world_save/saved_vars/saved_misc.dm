@@ -28,10 +28,6 @@ SAVED_VAR(/atom/movable, icon_state)
 SAVED_VAR(/obj, blood_DNA)
 
 //TURF
-SAVED_VAR(/turf, turf_flags)
-SAVED_VAR(/turf, decals)
-SAVED_VAR(/turf, blood_DNA)
-
 SAVED_VAR(/turf/simulated, air)
 SAVED_VAR(/turf/simulated, dirt)
 SAVED_VAR(/turf/simulated, temperature)
