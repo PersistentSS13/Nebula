@@ -77,11 +77,6 @@ var/global/list/persistence_admin_verbs = list(
 	else
 		to_chat(usr, SPAN_NOTICE("Entering is already disabled."))
 
-	if(global.config.rejoin_allowed)
-		holder.togglerejoin()
-	else
-		to_chat(usr, SPAN_NOTICE("Re-joining is already disabled."))
-
 	var/nb_kicked = 0
 	for(var/datum/mind/M in global.player_minds)
 		if(check_rights(R_ADMIN, TRUE, M.get_client()))
