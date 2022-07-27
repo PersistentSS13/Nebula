@@ -61,8 +61,12 @@
 			user.mind.finished_chargen = TRUE
 			var/area/A = get_area(src)
 			var/obj/machinery/cryopod/chargen/pod = locate() in A
+			var/obj/chargen/status_light/slight = locate() in A
 			if(pod)
 				pod.ready_for_mingebag()
+			if(slight)
+				slight.completed_chargen = TRUE
+				slight.update_icon()
 		if("unsubmit")
 			user.mind.finished_chargen = FALSE
 		if("confirm_origin")

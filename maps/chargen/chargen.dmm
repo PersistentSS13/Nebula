@@ -1,26 +1,26 @@
-"a" = (/turf/unsimulated/wall,/area/space)
-"b" = (/turf/unsimulated/wall{icon_state = "0"},/area/chargen)
-"c" = (/obj/effect/catwalk_plated,/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
-"d" = (/obj/effect/catwalk_plated,/obj/machinery/cryopod/chargen,/turf/simulated/floor,/area/chargen)
-"e" = (/obj/chargen/pump{icon_state = "map_vent"; dir = 4},/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
-"f" = (/obj/effect/catwalk_plated,/obj/chargen/supply_pipe{icon_state = "11-supply"; dir = 10},/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
-"g" = (/obj/structure/fake_computer/chargen{dir = 4},/obj/chargen/light{icon_state = "tube_map"; dir = 8},/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
-"h" = (/obj/abstract/landmark/chargen_spawn,/obj/effect/catwalk_plated,/obj/chargen/supply_pipe{icon_state = "11-supply"; dir = 1},/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
-"i" = (/obj/chargen/airlock{icon_state = "closed"; dir = 4},/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
-"j" = (/obj/chargen/air_tank,/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
-"k" = (/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
-"l" = (/obj/effect/catwalk_plated,/obj/chargen/supply_pipe{icon_state = "11-supply"; dir = 9},/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
-"m" = (/obj/structure/window/reinforced,/obj/effect/catwalk_plated,/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
+"a" = (/turf/space/transit/north,/area/space)
+"b" = (/turf/simulated/wall/chargen/r_titanium,/area/chargen)
+"c" = (/turf/unsimulated/floor/tiled/steel_ridged,/area/chargen)
+"d" = (/obj/structure/fake_computer/chargen,/obj/chargen/light{dir = 1; icon_state = "tube_map"; light_color = "cyan"},/obj/structure/sign/warning/nosmoking_1{pixel_y = 32},/turf/unsimulated/floor/tiled/monotile,/area/chargen)
+"e" = (/obj/effect/catwalk_plated,/obj/chargen/pump,/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
+"f" = (/obj/chargen/airlock{icon_state = "closed"; dir = 4},/turf/unsimulated/wall{icon_state = "0"},/area/chargen)
+"g" = (/obj/effect/catwalk_plated,/obj/chargen/supply_pipe{icon_state = "11-supply"; dir = 1},/obj/machinery/cryopod/chargen{icon_state = "body_scanner_0"; dir = 2},/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
+"h" = (/obj/abstract/landmark/chargen_spawn,/turf/unsimulated/floor/tiled/steel_ridged,/area/chargen)
+"i" = (/obj/effect/catwalk_plated,/obj/chargen/supply_pipe{icon_state = "11-supply"; dir = 1},/obj/chargen/scrubber,/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
+"j" = (/obj/structure/window/reinforced,/obj/effect/catwalk_plated,/obj/chargen/air_tank,/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
+"k" = (/obj/chargen/status_light{pixel_y = 28},/turf/unsimulated/floor/tiled/steel_ridged,/area/chargen)
+"l" = (/obj/structure/sign/warning/airlock{dir = 8; icon_state = "doors"; pixel_x = 32},/turf/unsimulated/floor/tiled/steel_ridged,/area/chargen)
+"m" = (/obj/structure/sign/warning/detailed{dir = 4; icon_state = "securearea2"; pixel_x = -32},/turf/unsimulated/floor/tiled/steel_ridged,/area/chargen)
 "n" = (/obj/chargen/thruster{icon_state = "nozzle"; dir = 1},/turf/unsimulated/floor{icon = 'icons/turf/flooring/plating.dmi'; icon_state = "plating"},/area/chargen)
 
 (1,1,1) = {"
 aaaaaaa
 abbbbba
-abbcdba
-abefbba
-abghika
-abjlbaa
-abbmbaa
+abcdkba
+abmelba
+abcghfa
+abcicba
+abbjbba
 aabnbaa
 aaaaaaa
 "}
