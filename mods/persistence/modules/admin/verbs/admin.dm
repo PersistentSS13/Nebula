@@ -93,10 +93,12 @@ var/global/list/persistence_admin_verbs = list(
 	var/DBQuery/charcheck = dbcon_save.NewQuery("SELECT * [query_text]")
 	SQLS_EXECUTE_AND_REPORT_ERROR(charcheck, "USER LOOKING UP LIMBO CHARACTER FAILED:")
 	var/list/entries
+	var/list/mind_ids
 	while(charcheck.NextRow())
 		var/list/row = charcheck.GetRowData()
 		if(length(row))
 			LAZYADD(entries, "name:'[row["metadata2"]]' ckey:'[row["metadata"]]' pid:'[row["p_ids"]]'")
+			LAZYADD(mind_ids, row["key"])
 	
 	if(!length(entries))
 		to_chat(usr, SPAN_WARNING("No matching characters found in the database. Aborting."))
@@ -118,14 +120,8 @@ var/global/list/persistence_admin_verbs = list(
 		return 
 
 	//Do the deleting
-	var/DBQuery/charrem = dbcon_save.NewQuery("DELETE [query_text]")
-	try
-		SQLS_EXECUTE_AND_REPORT_ERROR(charrem, "USER REMOVING LIMBO CHARACTER FAILED:")
-	catch(var/exception/E)
-		to_chat(usr, SPAN_DANGER("There was an error with the SQL query: [E]"))
-		if(should_close_connection)
-			close_save_db_connection()
-		throw E
+	for(var/mindid in mind_ids)
+		SSpersistence.one_off.RemoveFromLimbo(mindid, LIMBO_MIND)
 
 	if(should_close_connection)
 		close_save_db_connection()
