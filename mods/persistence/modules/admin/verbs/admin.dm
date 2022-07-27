@@ -1,3 +1,13 @@
+/**Admin verbs that will be added to the main admin verb list. */
+var/global/list/persistence_admin_verbs = list(
+	/client/proc/save_server,
+	/client/proc/regenerate_mine,
+	/client/proc/database_status,
+	/client/proc/database_reconect,
+	/client/proc/remove_character,
+	/client/proc/clear_named_character_from_limbo,
+)
+
 /client/proc/save_server()
 	set category = "Server"
 	set desc="Forces a save of the server."
@@ -49,3 +59,70 @@
 	if(!check_rights(R_ADMIN))
 		return
 	SQLS_Force_Reconnect()
+
+//////////////////////////////////////////////////////////////////////
+// Limbo Character Verbs
+//////////////////////////////////////////////////////////////////////
+/client/proc/clear_named_character_from_limbo()
+	set category = "Server"
+	set desc = "Force delete from the database the limbo mob for a given character real_name. Meant to be used to clear character names being in-use even if there isn't an active character tied to it."
+	set name = "Delete Limbo Character"
+	if(!check_rights(R_ADMIN))
+		return
+	
+	var/choice = alert(usr, 
+		"USE WITH CAUTION! Will delete the limbo character entry in the database, so the associated name can be used by a new character. THIS WILL PERMENANTLY DELETE ANY CRYOED CHARACTER WITH THE GIVEN NAME IF THERE WAS ANY. Use only in last resort.", 
+		"Delete named character", 
+		"Proceed", 
+		"Cancel")
+	if(choice == "Cancel")
+		to_chat(usr, SPAN_INFO("Action Aborted"))
+		return
+
+	var/char_name  = sanitize_name(input(usr, "Enter character's name:", "Delete Limbo Character") as null|text, MAX_DESC_LEN, TRUE, FALSE)
+	if(!length(char_name))
+		to_chat(usr, SPAN_INFO("Action Aborted"))
+		return
+	var/query_text = "FROM `[SQLS_TABLE_LIMBO]` WHERE `metadata2` = '[char_name]'"
+
+	//Setup connection
+	var/should_close_connection = !check_save_db_connection()
+	establish_save_db_connection()
+
+	//First check what we'll delete
+	var/DBQuery/charcheck = dbcon_save.NewQuery("SELECT * [query_text]")
+	SQLS_EXECUTE_AND_REPORT_ERROR(charcheck, "USER LOOKING UP LIMBO CHARACTER FAILED:")
+	var/list/entries
+	var/list/mind_ids
+	while(charcheck.NextRow())
+		var/list/row = charcheck.GetRowData()
+		if(length(row))
+			LAZYADD(entries, "name:'[row["metadata2"]]' ckey:'[row["metadata"]]' pid:'[row["p_ids"]]'")
+			LAZYADD(mind_ids, row["key"])
+	
+	if(!length(entries))
+		to_chat(usr, SPAN_WARNING("No matching characters found in the database. Aborting."))
+		if(should_close_connection)
+			close_save_db_connection()
+		return 
+	to_chat(usr, SPAN_INFO("The command will delete the following:\n[jointext(entries,"\n")]"))
+
+	//Ask again
+	choice = alert(usr, 
+		"Really delete [length(entries)] character\s from the database?", 
+		"Delete named character", 
+		"Cancel", 
+		"Ok")
+	if(choice == "Cancel")
+		to_chat(usr, SPAN_INFO("Action Aborted"))
+		if(should_close_connection)
+			close_save_db_connection()
+		return 
+
+	//Do the deleting
+	for(var/mindid in mind_ids)
+		SSpersistence.one_off.RemoveFromLimbo(mindid, LIMBO_MIND)
+
+	if(should_close_connection)
+		close_save_db_connection()
+	to_chat(usr, SPAN_INFO("Successfully deleted all entries for [char_name]!"))

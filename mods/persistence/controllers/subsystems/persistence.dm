@@ -58,32 +58,32 @@
 		// Prepare atmosphere for saving.
 		SSair.can_fire = FALSE
 		if (SSair.state != SS_IDLE)
-			report_progress("ZAS Rebuild initiated. Waiting for current air tick to complete before continuing.")
+			report_progress_serializer("ZAS Rebuild initiated. Waiting for current air tick to complete before continuing.")
 			sleep(5)
 		while (SSair.state != SS_IDLE)
 			stoplag()
 
 		// Prepare all atmospheres to save.
-		report_progress("Storing pipenet air..")
+		report_progress_serializer("Storing pipenet air..")
 		sleep(5)
 		var/time_start_pipenet = REALTIMEOFDAY
 		for(var/datum/pipe_network/net in SSmachines.pipenets)
 			for(var/datum/pipeline/line in net.line_members)
 				line.temporarily_store_fluids()
-		report_progress("Pipenet air stored in [(REALTIMEOFDAY - time_start_pipenet) / (1 SECOND)]s")
+		report_progress_serializer("Pipenet air stored in [(REALTIMEOFDAY - time_start_pipenet) / (1 SECOND)]s")
 		sleep(5)
 
-		report_progress("Invalidating all airzones..")
+		report_progress_serializer("Invalidating all airzones..")
 		sleep(5)
 		var/time_start_airzones = REALTIMEOFDAY
 		while (SSair.zones.len)
 			var/zone/zone = SSair.zones[SSair.zones.len]
 			SSair.zones.len--
 			zone.c_invalidate()
-		report_progress("Invalidated in [(REALTIMEOFDAY - time_start_airzones) / (1 SECOND)]s")
+		report_progress_serializer("Invalidated in [(REALTIMEOFDAY - time_start_airzones) / (1 SECOND)]s")
 		sleep(5)
 
-		report_progress("Removing queued limbo objects..")
+		report_progress_serializer("Removing queued limbo objects..")
 		sleep(5)
 
 		var/time_start_limbo_removal = REALTIMEOFDAY
@@ -92,10 +92,10 @@
 			limbo_removals -= list(queued)
 
 		limbo_refs.Cut()
-		report_progress("Done removing queued limbo objects in [(REALTIMEOFDAY - time_start_limbo_removal) / (1 SECOND)]s.")
+		report_progress_serializer("Done removing queued limbo objects in [(REALTIMEOFDAY - time_start_limbo_removal) / (1 SECOND)]s.")
 		sleep(5)
 
-		report_progress("Adding limbo players minds to limbo..")
+		report_progress_serializer("Adding limbo players minds to limbo..")
 		sleep(5)
 		var/time_start_limbo_minds = REALTIMEOFDAY
 		// Find all the minds gameworld and add any player characters to the limbo list.
@@ -113,22 +113,22 @@
 				if(((MA in SSpersistence.saved_areas) || (current_mob.z in SSpersistence.saved_levels)))
 					continue
 			one_off.AddToLimbo(list(current_mob, char_mind), char_mind.unique_id, LIMBO_MIND, char_mind.key, current_mob.real_name, TRUE)
-		report_progress("Done adding player minds to limbo in [(REALTIMEOFDAY - time_start_limbo_minds) / (1 SECOND)]s.")
+		report_progress_serializer("Done adding player minds to limbo in [(REALTIMEOFDAY - time_start_limbo_minds) / (1 SECOND)]s.")
 		sleep(5)
 
-		report_progress("Wiping previous save..")
+		report_progress_serializer("Wiping previous save..")
 		sleep(5)
 		var/time_start_wipe = REALTIMEOFDAY
 		// Wipe the previous save.
 		serializer.WipeSave()
-		report_progress("Done wiping previous save in [(REALTIMEOFDAY - time_start_wipe) / (1 SECOND)]s.")
+		report_progress_serializer("Done wiping previous save in [(REALTIMEOFDAY - time_start_wipe) / (1 SECOND)]s.")
 		sleep(5)
 
 		//
 		// 	ACTUAL SAVING SECTION
 		//
 
-		report_progress("Preparing z-levels for save..")
+		report_progress_serializer("Preparing z-levels for save..")
 		sleep(5)
 		var/time_start_zprepare = REALTIMEOFDAY
 		// This will prepare z_level translations.
@@ -179,10 +179,10 @@
 		new_z_index++
 		serializer.z_index = new_z_index
 
-		report_progress("Z-levels prepared for save in [(REALTIMEOFDAY - time_start_zprepare) / (1 SECOND)]s.")
+		report_progress_serializer("Z-levels prepared for save in [(REALTIMEOFDAY - time_start_zprepare) / (1 SECOND)]s.")
 		sleep(5)
 
-		report_progress("Saving z-level turfs..")
+		report_progress_serializer("Saving z-level turfs..")
 		sleep(5)
 		var/time_start_zsave = REALTIMEOFDAY
 		// This will save all the turfs/world.
@@ -246,14 +246,14 @@
 			serializer.Commit() // cleanup leftovers.
 			serializer.CommitRefUpdates()
 			++progress
-			report_progress("Working.. [(progress * 100) / max_progress]%")
+			report_progress_serializer("Working.. [(progress * 100) / max_progress]%")
 			sleep(3)
 
 		index = 1
-		report_progress("Z-levels turfs saved in [(REALTIMEOFDAY - time_start_zsave) / (1 SECOND)]s.")
+		report_progress_serializer("Z-levels turfs saved in [(REALTIMEOFDAY - time_start_zsave) / (1 SECOND)]s.")
 		sleep(5)
 
-		report_progress("Saving z-level areas..")
+		report_progress_serializer("Saving z-level areas..")
 		sleep(5)
 		var/time_start_zarea = REALTIMEOFDAY
 		// Repeat much of the above code in order to save areas marked to be saved that are not in a saved z-level.
@@ -302,10 +302,10 @@
 		serializer.Commit()
 		serializer.CommitRefUpdates()
 
-		report_progress("Z-levels areas saved in [(REALTIMEOFDAY - time_start_zarea) / (1 SECOND)]s.")
+		report_progress_serializer("Z-levels areas saved in [(REALTIMEOFDAY - time_start_zarea) / (1 SECOND)]s.")
 		sleep(5)
 
-		report_progress("Saving extensions...")
+		report_progress_serializer("Saving extensions...")
 		// Now save all the extensions which have marked themselves to be saved.
 		// As with areas, we create a dummy wrapper holder to hold these during load etc.
 		var/datum/wrapper_holder/extension_wrapper_holder = new(saved_extensions)
@@ -313,7 +313,7 @@
 		serializer.Serialize(extension_wrapper_holder)
 		serializer.Commit()
 
-		report_progress("Extensions saved in [(REALTIMEOFDAY - time_start_extensions) / (1 SECOND)]s.")
+		report_progress_serializer("Extensions saved in [(REALTIMEOFDAY - time_start_extensions) / (1 SECOND)]s.")
 		sleep(5)
 
 		//
