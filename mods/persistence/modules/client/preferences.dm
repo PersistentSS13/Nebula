@@ -152,4 +152,8 @@
 	if(charpanel)
 		charpanel.close()
 		charpanel = null
+	var/mob/new_player/NP = client.mob
+	if(istype(NP) && NP.charselect)
+		NP.charselect.close()
+		NP.charselect = null
 	close_browser(user, "window=preferences_window")
