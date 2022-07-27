@@ -58,6 +58,9 @@
 	if(..())
 		return TRUE
 	if(href_list["finish"])
+		if(!global.config.enter_allowed)
+			to_chat(usr, SPAN_WARNING("There is currently an administrative lock on joining."))
+			return
 		if(!real_name)
 			to_chat(usr, "<span class='danger'>The must set a unique character name to continue.</span>")
 			return
