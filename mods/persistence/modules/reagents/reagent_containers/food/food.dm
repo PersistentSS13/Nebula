@@ -1,3 +1,11 @@
+/obj/item/chems/food/Initialize(ml, material_key)
+	var/old_nutri_amt = nutriment_amt
+	if(persistent_id)
+		nutriment_amt = 0 //If we loaded, prevent the init code from creating the reagents again.
+	. = ..()
+	if(old_nutri_amt)
+		nutriment_amt = old_nutri_amt
+	
 SAVED_VAR(/obj/item/grown, plantname)
 SAVED_VAR(/obj/item/grown, potency)
 
