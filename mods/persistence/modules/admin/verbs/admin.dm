@@ -5,6 +5,7 @@ var/global/list/persistence_admin_verbs = list(
 	/client/proc/database_status,
 	/client/proc/database_reconect,
 	/client/proc/remove_character,
+	/client/proc/lock_server_and_kick_players,
 	/client/proc/clear_named_character_from_limbo,
 )
 
@@ -59,8 +60,35 @@ var/global/list/persistence_admin_verbs = list(
 	if(!check_rights(R_ADMIN))
 		return
 	SQLS_Force_Reconnect()
+	
+/client/proc/lock_server_and_kick_players()
+	set category = "Server"
+	set desc = "Lock entering the server, kick all non-admin players, and prevent them from re-joining"
+	set name = "Lock Server and Kick Players"
+	if(!check_rights(R_ADMIN))
+		return
+	if(alert(usr, "This will immediately kick all players to the lobby. Proceed?", "Kick all players and lock the server", "Yes", "No") != "Yes")
+		return
 
-//////////////////////////////////////////////////////////////////////
+	if(global.config.enter_allowed)
+		holder.toggleenter()
+	else
+		to_chat(usr, SPAN_NOTICE("Entering is already disabled."))
+
+	var/nb_kicked = 0
+	for(var/datum/mind/M in global.player_minds)
+		if(check_rights(R_ADMIN, TRUE, M.get_client()))
+			continue
+		//Kick them to lobby, unless they already are, or are observing
+		if(M.current && istype(M.current, /mob/living))
+			var/mob/mindmob = M.current
+			var/mob/new_player/P = new
+			P.key = mindmob.key
+			mindmob.key = null
+			nb_kicked++
+	message_staff("[key] kicked [nb_kicked] player(s) to the lobby.")
+
+ //////////////////////////////////////////////////////////////////////
 // Limbo Character Verbs
 //////////////////////////////////////////////////////////////////////
 /client/proc/clear_named_character_from_limbo()

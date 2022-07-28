@@ -58,6 +58,9 @@
 	if(..())
 		return TRUE
 	if(href_list["finish"])
+		if(!global.config.enter_allowed && !check_rights(R_ADMIN))
+			to_chat(usr, SPAN_WARNING("There is currently an administrative lock on joining."))
+			return
 		if(!real_name)
 			to_chat(usr, "<span class='danger'>The must set a unique character name to continue.</span>")
 			return
@@ -149,4 +152,8 @@
 	if(charpanel)
 		charpanel.close()
 		charpanel = null
+	var/mob/new_player/NP = client.mob
+	if(istype(NP) && NP.charselect)
+		NP.charselect.close()
+		NP.charselect = null
 	close_browser(user, "window=preferences_window")

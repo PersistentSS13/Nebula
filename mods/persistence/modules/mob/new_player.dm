@@ -134,6 +134,9 @@
 	return
 
 /mob/new_player/proc/characterSelect(var/func = CHARSELECTLOAD)
+	if(!config.enter_allowed && !check_rights(R_ADMIN))
+		to_chat(src, SPAN_WARNING("There is an administrative lock on entering the game!"))
+		return
 	if(func == CHARSELECTLOAD)
 		for(var/datum/mind/target_mind in global.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
 			if(cmptext(target_mind.key, key))
@@ -186,10 +189,9 @@
 	if(GAME_STATE < RUNLEVEL_GAME)
 		to_chat(src, SPAN_NOTICE("Wait until the round starts to join."))
 		return
-	if(!config.enter_allowed)
-		to_chat(src, SPAN_NOTICE("There is an administrative lock on entering the game!"))
+	if(!config.enter_allowed && !check_rights(R_ADMIN))
+		to_chat(src, SPAN_WARNING("There is an administrative lock on entering the game!"))
 		return
-
 	if(spawning)
 		to_chat(src, SPAN_NOTICE("Already set to spawning."))
 		return
@@ -247,6 +249,7 @@
 			close_save_db_connection()
 		return
 	to_chat(src, SPAN_NOTICE("Load Failed! Contact a developer."))
+	message_staff("'[key]''s character '[selected_char_name]' failed to load on character select!")
 	spawning = FALSE
 
 	if(new_db_connection)
