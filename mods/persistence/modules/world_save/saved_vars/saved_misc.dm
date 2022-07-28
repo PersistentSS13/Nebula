@@ -1053,6 +1053,7 @@ SAVED_VAR(/obj/structure/window, reinf_basestate)
 SAVED_VAR(/obj/structure/iv_drip, mode)
 SAVED_VAR(/obj/structure/iv_drip, beaker)
 SAVED_VAR(/obj/structure/iv_drip, attached)
+SAVED_VAR(/obj/structure/iv_drip, transfer_amount)
 
 SAVED_VAR(/obj/structure/disposalpipe/diversion_junction, active)
 SAVED_VAR(/obj/structure/disposalpipe/diversion_junction, active_dir)
