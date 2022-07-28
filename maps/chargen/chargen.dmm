@@ -59,8 +59,9 @@
 "i" = (
 /obj/effect/catwalk_plated,
 /obj/chargen/supply_pipe{
+	dir = 1;
 	icon_state = "11-supply";
-	dir = 1
+	layer = 2.05
 	},
 /obj/chargen/scrubber,
 /turf/unsimulated/floor{
