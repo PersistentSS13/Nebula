@@ -181,5 +181,3 @@
 	color = COLOR_GUNMETAL
 	material = /decl/material/solid/metal/plasteel/ocp
 	reinf_material = /decl/material/solid/metal/plasteel/ocp
-
-
