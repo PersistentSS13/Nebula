@@ -154,4 +154,3 @@ var/global/list/persistence_admin_verbs = list(
 	if(should_close_connection)
 		close_save_db_connection()
 	to_chat(usr, SPAN_INFO("Successfully deleted all entries for [char_name]!"))
-	to_chat(usr, SPAN_INFO("Successfully deleted all entries for [char_name]!"))
