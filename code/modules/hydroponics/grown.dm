@@ -54,6 +54,7 @@
 	update_desc()
 	if(reagents.total_volume > 0)
 		bitesize = 1+round(reagents.total_volume / 2, 1)
+		amount_per_transfer_from_this = bitesize
 
 /obj/item/chems/food/grown/proc/update_desc()
 	set waitfor = FALSE
