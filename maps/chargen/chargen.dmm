@@ -58,12 +58,11 @@
 /area/chargen)
 "i" = (
 /obj/effect/catwalk_plated,
-/obj/chargen/supply_pipe{
-	dir = 1;
-	icon_state = "11-supply";
-	layer = 2.05
-	},
 /obj/chargen/scrubber,
+/obj/chargen/supply_pipe{
+	icon_state = "11-supply";
+	dir = 1
+	},
 /turf/unsimulated/floor{
 	icon = 'icons/turf/flooring/plating.dmi';
 	icon_state = "plating"

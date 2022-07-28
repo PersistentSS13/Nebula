@@ -7,7 +7,7 @@
 	color = PIPE_COLOR_BLUE
 	icon = 'icons/atmos/pipes.dmi'
 	icon_state = "11-supply"
-	layer = EXPOSED_PIPE_LAYER
+	layer = PIPE_LAYER
 	level = 1
 
 /obj/chargen/scrubber_pipe
@@ -16,7 +16,7 @@
 	color = PIPE_COLOR_RED
 	icon = 'icons/atmos/pipes.dmi'
 	icon_state = "11-scrubbers"
-	layer = EXPOSED_PIPE_LAYER
+	layer = PIPE_LAYER
 	level = 1
 
 /obj/chargen/air_tank
