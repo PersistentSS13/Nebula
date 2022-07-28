@@ -100,7 +100,7 @@
 		return
 
 	if(href_list["change_file_server"])
-		var/list/file_servers = network.get_file_server_tags(MF_ROLE_CLONING, user)
+		var/list/file_servers = network.get_file_server_tags(MF_ROLE_CLONING, computer.get_access(user))
 		var/file_server = input(usr, "Choose a fileserver to view files on:", "Select File Server") as null|anything in file_servers
 		if(file_server)
 			current_filesource.server = file_server
