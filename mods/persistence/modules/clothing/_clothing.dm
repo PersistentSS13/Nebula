@@ -20,6 +20,5 @@ SAVED_VAR(/obj/item/clothing, smell_state)
 
 //Underwears are dumb
 SAVED_VAR(/obj/item/underwear, name)
-SAVED_VAR(/obj/item/underwear, gender)
 SAVED_VAR(/obj/item/underwear, icon)
 SAVED_VAR(/obj/item/underwear, icon_state)
