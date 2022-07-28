@@ -43,14 +43,14 @@
 	name = "Colony Pod Vent Pump #1"
 	desc = "Has a valve and pump attached to it."
 	icon = 'icons/atmos/vent_pump.dmi'
-	icon_state = "map_vent_out"
+	icon_state = "out"
 	layer = ABOVE_TILE_LAYER
 
 /obj/chargen/scrubber
 	name = "Colony Pod Air Scrubber #1"
 	desc = "Has a valve and pump attached to it."
 	icon = 'icons/atmos/vent_scrubber.dmi'
-	icon_state = "map_scrubber_on"
+	icon_state = "on"
 	layer = ABOVE_TILE_LAYER
 
 /obj/chargen/light
