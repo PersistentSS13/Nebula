@@ -17,3 +17,9 @@ SAVED_VAR(/obj/item/clothing, tint)
 SAVED_VAR(/obj/item/clothing, accessories)
 SAVED_VAR(/obj/item/clothing, ironed_state)
 SAVED_VAR(/obj/item/clothing, smell_state)
+
+//Underwears are dumb
+SAVED_VAR(/obj/item/underwear, name)
+SAVED_VAR(/obj/item/underwear, gender)
+SAVED_VAR(/obj/item/underwear, icon)
+SAVED_VAR(/obj/item/underwear, icon_state)
