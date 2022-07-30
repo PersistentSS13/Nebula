@@ -68,7 +68,7 @@
 	var/datum/report_field/F = R.field_from_ID(field_ID)
 	if(!F)
 		return
-	if(!(F.get_perms(get_access(user),user) & OS_WRITE_ACCESS))
+	if(!(F.get_perms(get_access(user), user) & OS_WRITE_ACCESS))
 		to_chat(user, "<span class='notice'>\The [nano_host()] flashes an \"Access Denied\" warning.</span>")
 		return
 	F.ask_value(user)
@@ -97,10 +97,17 @@
 		if(!network)
 			to_chat(usr, SPAN_WARNING("Network error."))
 			return
-		if(!network.store_file(active_record, MF_ROLE_CREW_RECORDS))
+
+		if(!length(network.get_mainframes_by_role(MF_ROLE_CREW_RECORDS, get_access(usr))))
 			to_chat(usr, SPAN_WARNING("You may not have access to generate new crew records, or there may not be a crew record mainframe active on the network."))
 			return
-		active_record = new/datum/computer_file/report/crew_record()
+
+		var/datum/computer_file/report/crew_record/new_record = new()
+		if(!network.store_file(new_record, MF_ROLE_CREW_RECORDS, get_access(usr)))
+			to_chat(usr, SPAN_WARNING("Failed to generate a new crew record. All crew record mainframes on the network may be non-functional or out of storage space."))
+			qdel(new_record)
+			return
+		active_record = new_record
 		global.all_crew_records.Add(active_record)
 		return 1
 	if(href_list["print_active"])
@@ -149,7 +156,7 @@
 			active_record.photo_side = photo
 		return 1
 	if(href_list["edit_field"])
-		edit_field(usr, text2num(href_list["edit_field"]))
+		edit_field(usr, href_list["edit_field"])
 		return 1
 
 /datum/nano_module/program/records/proc/get_photo(var/mob/user)
