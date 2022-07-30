@@ -163,6 +163,8 @@
 #include "modules\modular_computers\computers\modular_computers\core.dm"
 #include "modules\modular_computers\file_system\programs\cloning.dm"
 #include "modules\modular_computers\file_system\programs\rent_management.dm"
+#include "modules\modular_computers\file_system\reports\crew_record.dm"
+#include "modules\modular_computers\file_system\reports\report.dm"
 #include "modules\modular_computers\hardware\battery_module.dm"
 #include "modules\modular_computers\networking\network_cable.dm"
 #include "modules\modular_computers\networking\accounts\account.dm"
