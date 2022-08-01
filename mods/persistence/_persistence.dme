@@ -42,6 +42,7 @@
 #include "datums\wires\wires.dm"
 #include "game\antagonist\antagonist_helpers.dm"
 #include "game\area\areas.dm"
+#include "game\area\area_space.dm"
 #include "game\gamemodes\persistence.dm"
 #include "game\machinery\cryopod.dm"
 #include "game\machinery\machinery.dm"

@@ -1,0 +1,2 @@
+/area/space
+	area_flags = AREA_FLAG_EXTERNAL | AREA_FLAG_IS_BACKGROUND

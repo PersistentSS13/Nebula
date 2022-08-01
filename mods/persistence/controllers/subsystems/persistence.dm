@@ -214,12 +214,14 @@
 					else
 						area_turf_count++
 
-					// This if statement, while complex, checks to see if we should save this turf.
-					// Turfs not saved become their default_turf after deserialization.
-					if(!istype(T) || !LAZYLEN(T.contents))
-						continue
+					// These if statements checks to see if we should save this turf.
+
 					//Ignore non-saved areas
 					if(istype(TA) && (TA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT))
+						continue
+					
+					// Turfs not saved become their default_turf after deserialization.
+					if(!istype(T) || !LAZYLEN(T.contents))
 						continue
 					
 					//Save anything else
