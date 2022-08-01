@@ -16,7 +16,7 @@ var/global/list/persistence_admin_verbs = list(
 
 	if(!check_rights(R_ADMIN))
 		return
-	SSautosave.Save()
+	SSautosave.Save(FALSE)
 
 /client/proc/regenerate_mine()
 	set category = "Admin"
