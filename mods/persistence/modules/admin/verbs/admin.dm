@@ -77,7 +77,7 @@ var/global/list/persistence_admin_verbs = list(
 
 	var/nb_kicked = 0
 	for(var/datum/mind/M in global.player_minds)
-		if(check_rights(R_ADMIN, TRUE, M.get_client()))
+		if(check_rights(R_ADMIN, FALSE, M.current?.get_client()))
 			continue
 		//Kick them to lobby, unless they already are, or are observing
 		if(M.current && istype(M.current, /mob/living))
