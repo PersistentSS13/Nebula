@@ -14,7 +14,9 @@
 	var/obj/effect/overmap/visitable/sector/exoplanet/E = global.overmap_sectors["[z]"]
 	if(istype(E) && E.grass_color)
 		color = E.grass_color
-	if(!persistent_id)
+	
+	// Turfs don't retain persistent IDs across load currently, so we just check if we're in a loaded world instead.
+	if(!SSpersistence.in_loaded_world)
 		generate_tile_prop()
 
 /turf/exterior/kleibkhar_grass/proc/generate_tile_prop()
