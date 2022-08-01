@@ -42,8 +42,8 @@
 SUBSYSTEM_DEF(mining)
 	name = "Mining"
 	wait = 1 MINUTES
-	next_fire = 1 MINUTES	// To prevent saving upon start.
-	init_order = SS_INIT_MAPPING - 1
+	next_fire = 1 MINUTES
+	init_order = SS_INIT_DEFAULT
 	runlevels = RUNLEVEL_GAME
 
 	var/regen_interval = 270	// How often in minutes to generate mining levels.
