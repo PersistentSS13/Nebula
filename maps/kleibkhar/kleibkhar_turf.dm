@@ -63,14 +63,15 @@ var/global/list/grass_seed_drop_types_uncommon = list(
 		generate_tile_prop()
 
 /turf/exterior/kleibkhar_grass/proc/generate_tile_prop()
-	if(rand(0, KLEIBKHAR_VEGETATION_CHANCE) != KLEIBKHAR_VEGETATION_CHANCE)
+	if(rand(0, KLEIBKHAR_VEGETATION_CHANCE) != KLEIBKHAR_VEGETATION_CHANCE || length(contents))
 		return //No vegetation/prop for this tile
 	
 	var/list/rnd = list(\
-		"plant"  = rand(0,  80),\
-		"rock"   = rand(0,  25),\
-		"dirt"   = rand(0,  50),\
-		"lichen" = rand(0,  80),\
+		"plant"     = rand(0,  80),\
+		"rock"      = rand(0,  25),\
+		"dirt"      = rand(0,  50),\
+		"lichen"    = rand(0,  80),\
+		"dead_tree" = rand(0,  25),\
 	)
 	sortTim(rnd, .proc/cmp_numeric_dsc, TRUE)
 
@@ -84,6 +85,8 @@ var/global/list/grass_seed_drop_types_uncommon = list(
 			prop = new /obj/effect/decal/cleanable/dirt(src)
 		if("lichen")
 			prop = new /obj/effect/decal/cleanable/lichen(src)
+		if("dead_tree")
+			prop = new /obj/structure/flora/tree/dead(src)
 	
 	prop.pixel_x += rand(-8, 8)
 	prop.pixel_y += rand(-8, 8)
