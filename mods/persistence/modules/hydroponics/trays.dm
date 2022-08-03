@@ -49,4 +49,4 @@
 /obj/machinery/portable_atmospherics/hydroponics/soil/invisible/Initialize(mapload, datum/seed/newseed, start_mature)
 	if(istext(newseed))
 		newseed = SSplants.seeds[newseed]
-	. = ..(mapload, newseed, start_mature) // avoid passing newseed as dir
+	. = ..(mapload, newseed, start_mature)
