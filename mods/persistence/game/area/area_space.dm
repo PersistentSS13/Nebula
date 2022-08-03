@@ -1,2 +1,3 @@
-/area/space
-	area_flags = AREA_FLAG_EXTERNAL | AREA_FLAG_IS_BACKGROUND
+/area/space/Initialize()
+	area_flags &= ~AREA_FLAG_IS_NOT_PERSISTENT
+	. = ..()
