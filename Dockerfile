@@ -1,10 +1,10 @@
-FROM milkshak3/byond-server:514 as compile
+FROM milkshak3/byond-server:514-latest as compile
 COPY . /persistent
 WORKDIR /persistent
 RUN scripts/dm.sh nebula.dme
 
 
-FROM milkshak3/byond-server:514 as test_setup
+FROM milkshak3/byond-server:514-latest as test_setup
 ENV LANG=C.UTF-8 \
 	DEBIAN_FRONTEND=noninteractive \
 	PYENV_ROOT=/pyenv \
@@ -15,10 +15,13 @@ RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime \
 	&& apt-get install -y git make build-essential libssl-dev \
 	zlib1g-dev libreadline-dev libsqlite3-dev wget curl llvm libncurses5-dev \
 	xz-utils tk-dev libxml2-dev libxmlsec1-dev libffi-dev liblzma-dev libbz2-dev \
-	uchardet default-jdk \
-	&& git clone --recursive https://github.com/pyenv/pyenv.git $PYENV_ROOT \
+	uchardet default-jdk
+	
+# this is super dangerous! we should not be pulling scripts from a repo's main branch. -milkshak3s
+RUN git clone --recursive https://github.com/pyenv/pyenv.git $PYENV_ROOT \
 	&& curl -o /wait.sh https://raw.githubusercontent.com/vishnubob/wait-for-it/master/wait-for-it.sh \
 	&& chmod u+x /wait.sh
+	
 WORKDIR $PYENV_ROOT
 ENV PATH=$PATH:$PYENV_ROOT/bin:$PYENV_ROOT/shims
 RUN git reset --hard $PYENV_COMMIT \
@@ -33,7 +36,9 @@ ENV TEST=CODE CI=true
 ENTRYPOINT ["test/run-test.sh"]
 
 
-FROM milkshak3/byond-server:514 as ss13
+FROM milkshak3/byond-server:514-latest as ss13
+RUN apt-get update \
+	&& apt-get install -y libmariadb-client-lgpl-dev-compat
 RUN mkdir -p /persistent/data /persistent/config
 COPY .git/HEAD /persistent/.git/HEAD
 COPY .git/logs/HEAD /persistent/.git/logs/HEAD
@@ -54,6 +59,4 @@ WORKDIR /persistent
 VOLUME /persistent/data/
 VOLUME /persistent/config/
 
-RUN apt-get update \
-	&& apt-get install -y libmariadb-client-lgpl-dev-compat
 ENTRYPOINT [ "/wait.sh", "-h", "db", "-p", "3306", "-t", "30", "--", "DreamDaemon", "nebula.dmb", "-port", "8000", "-trusted", "-verbose" ]
