@@ -37,3 +37,16 @@
 			return INITIALIZE_HINT_NORMAL // Don't let it lateinit because it might attempt to plant anything that might be on the same tile
 	else
 		. = ..()
+
+/obj/machinery/portable_atmospherics/hydroponics/soil/attackby(obj/item/O, mob/user)
+	if(IS_SHOVEL(O))
+		var/obj/item/shovel/S = O
+		if(S.do_tool_interaction(TOOL_SHOVEL, user, src, 10 SECONDS, "flattening", "flattening", null, null, SKILL_HAULING) && !QDELETED(O))
+			physically_destroyed()
+		return TRUE
+	. = ..()
+
+/obj/machinery/portable_atmospherics/hydroponics/soil/invisible/Initialize(mapload, datum/seed/newseed, start_mature)
+	if(istext(newseed))
+		newseed = SSplants.seeds[newseed]
+	. = ..(mapload, newseed, start_mature) // avoid passing newseed as dir
