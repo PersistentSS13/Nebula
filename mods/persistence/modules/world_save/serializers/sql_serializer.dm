@@ -602,6 +602,8 @@ var/global/list/serialization_time_spent_type
 	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO WIPE PREVIOUS SAVE:")
 	query = dbcon_save.NewQuery("TRUNCATE TABLE `[SQLS_TABLE_Z_LEVELS]`;")
 	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO WIPE PREVIOUS SAVE:")
+	query = dbcon_save.NewQuery("TRUNCATE TABLE `[SQLS_TABLE_AREAS]`;")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO WIPE PREVIOUS SAVE:")
 	Clear()
 
 /serializer/sql/save_exists()
