@@ -31,24 +31,40 @@
 		/datum/file_storage/disk/removable,
 		/datum/file_storage/network
 	)
-	var/datum/file_storage/current_filesource = /datum/file_storage/disk
+	var/datum/file_storage/current_filesource
 
 	var/selected_fab_type = FABRICATOR_CLASS_PROTOLATHE
 	var/search_string
 	var/current_page = 1
 
+	var/list/cached_recipe_data = list()
+
 /datum/computer_file/program/design_writer/on_startup(var/mob/living/user, var/datum/extension/interactive/os/new_host)
-	..()
+	. = ..()
 	for(var/T in file_sources)
 		file_sources[T] = new T(new_host)
-	current_filesource = file_sources[initial(current_filesource)]
+
+	var/datum/computer_network/network = new_host.get_network()
+	if(network)
+		// Autoselect a research server if available.
+		var/list/accesses = new_host.get_access(user)
+		var/list/file_servers = network.get_file_server_tags(MF_ROLE_DESIGN, accesses)
+		if(file_servers.len)
+			var/datum/file_storage/network/net_fs = file_sources[/datum/file_storage/network]
+			net_fs.server = file_servers[1]
+			current_filesource = net_fs
+	
+	if(!current_filesource)
+		current_filesource = file_sources[/datum/file_storage/disk]
+	
+	cache_recipes()
 
 /datum/computer_file/program/design_writer/on_shutdown()
 	for(var/T in file_sources)
 		var/datum/file_storage/FS = file_sources[T]
 		qdel(FS)
 		file_sources[T] = null
-	current_filesource = initial(current_filesource)
+	current_filesource = null
 	ui_header = null
 
 	current_design = null
@@ -57,6 +73,7 @@
 
 	current_page = 1
 	search_string = null
+	cached_recipe_data.Cut()
 
 	prog_mode = MODE_LISTING
 	error = null
@@ -81,16 +98,18 @@
 	if(prog_mode == MODE_LISTING)
 		if(href_list["PRG_select_fab_type"])
 			var/choice = input(user, "Select the fabricator category you would like to view.") as null|anything in SSfabrication.research_recipes
-			if(choice && CanInteract(usr,state))
+			if(choice && (choice != selected_fab_type) && CanInteract(usr,state))
 				selected_fab_type = choice
 				current_page = 1
+				cache_recipes()
 			return TOPIC_REFRESH
 
 		if(href_list["PRG_search"])
 			var/new_search_string = sanitize(input(user, "Enter a new search string.", "Research search") as text|null)
-			if(CanInteract(user, state))
+			if(CanInteract(user, state) && (new_search_string != search_string))
 				search_string = new_search_string
 				current_page = 1
+				cache_recipes()
 				return TOPIC_REFRESH
 			return TOPIC_HANDLED
 
@@ -142,7 +161,7 @@
 					if(!network)
 						return TOPIC_REFRESH
 					// Helper for some user-friendliness. Try to select the first available mainframe.
-					var/list/file_servers = network.get_file_server_tags()
+					var/list/file_servers = network.get_file_server_tags(MF_ROLE_DESIGN, computer.get_access(user))
 					if(!file_servers.len)
 						return TOPIC_REFRESH
 					var/datum/file_storage/network/N = current_filesource
@@ -154,7 +173,7 @@
 			var/datum/computer_network/network = computer.get_network()
 			if(!network)
 				return
-			var/list/file_servers = network.get_file_server_tags(user)
+			var/list/file_servers = network.get_file_server_tags(MF_ROLE_DESIGN, computer.get_access(user))
 			var/file_server = input(usr, "Choose a fileserver to view files on:", "Select File Server") as null|anything in file_servers
 			if(file_server)
 				var/datum/file_storage/network/N = file_sources[/datum/file_storage/network]
@@ -236,6 +255,9 @@
 			var/feedback = current_design.select_theory(selected, analyzed, user)
 			if(feedback)
 				to_chat(user, SPAN_WARNING(feedback))
+			if(current_design.progressing)
+				// Little bit of feedback that they've progressed the design
+				sound_to(user, 'sound/effects/bells.ogg')
 			return TOPIC_REFRESH
 		
 		if(href_list["PRG_discard_theory"])
@@ -249,6 +271,24 @@
 		if(href_list["PRG_add_point"])
 			current_design.use_free_point(href_list["PRG_add_point"])
 			return TOPIC_REFRESH
+
+/datum/computer_file/program/design_writer/proc/cache_recipes()
+	cached_recipe_data.Cut()
+	if(!selected_fab_type)
+		return
+	var/list/recipe_list = SSfabrication.research_recipes[selected_fab_type]
+	if(islist(recipe_list))
+		for(var/datum/fabricator_recipe/recipe in recipe_list)
+			var/recipe_name = recipe.get_product_name()
+			if(search_string && !findtextEx_char(lowertext(recipe_name), lowertext(search_string)))
+				continue
+			
+			var/list/recipe_data = list(
+				"name" = recipe_name,
+				"ref" = "\ref[recipe]"
+			)
+
+			cached_recipe_data += list(recipe_data)
 
 /datum/computer_file/program/design_writer/ui_interact(mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1, var/datum/topic_state/state = global.default_topic_state)
 	. = ..()
@@ -267,32 +307,21 @@
 		data["search_string"] =  search_string || "No search filter set."
 		data["recipe_listing"] = list()
 
-		var/list/recipe_list = SSfabrication.research_recipes[selected_fab_type]
-		if(islist(recipe_list))
-			var/max_pages = CEILING(length(recipe_list)/RECIPES_PER_PAGE)
+		if(length(cached_recipe_data))
+
+			var/total_recipes = length(cached_recipe_data)
+
+			var/max_pages = CEILING(total_recipes/RECIPES_PER_PAGE)
 			current_page = clamp(current_page, 1, max_pages)
-			data["current_page"] = current_page
-						
-			var/curr_index = (current_page - 1)*RECIPES_PER_PAGE + 1
-			recipe_list = recipe_list.Copy(curr_index)
+			var/start_index = (current_page - 1)*RECIPES_PER_PAGE + 1
+			
+			data["recipe_listing"] = cached_recipe_data.Copy(start_index, min(total_recipes, start_index + RECIPES_PER_PAGE))
 
-			var/recipe_no = 0
-			while(recipe_no <= RECIPES_PER_PAGE && (curr_index <= length(recipe_list)))
-				var/datum/fabricator_recipe/recipe = recipe_list[curr_index]
-				var/recipe_name = recipe.get_product_name()
-				curr_index += 1
-				if(search_string && !findtextEx_char(lowertext(recipe_name), lowertext(search_string)))
-					continue
-				var/list/recipe_data = list(
-					"name" = recipe_name,
-					"ref" = "\ref[recipe]"
-				)
-				data["recipe_listing"] += list(recipe_data)
-				recipe_no += 1
-
-			if(curr_index > length(recipe_list))
+			if(current_page == max_pages)
 				data["max_page"] = TRUE
-
+		
+		data["current_page"] = current_page
+	
 	else if(prog_mode == MODE_RECIPE)
 		if(current_recipe)
 			data["current_recipe"] = current_recipe.get_product_name()

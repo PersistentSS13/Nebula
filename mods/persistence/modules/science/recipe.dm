@@ -6,6 +6,8 @@
 
 	var/instability = 0
 
+	var/research_excluded = FALSE
+
 /datum/fabricator_recipe/build(turf/location, datum/fabricator_build_order/order)
 	if(length(finishing_requirements))
 		. = list()

@@ -17,6 +17,7 @@
 	var/list/specifications
 
 	var/finalized = FALSE
+	var/progressing = FALSE // Ready to select a progression/finalization theory.
 
 	var/datum/fabricator_recipe/recipe
 	
@@ -35,7 +36,11 @@
 		recipe.fabricator_types = template_recipe.fabricator_types.Copy()
 		research_requirements = recipe.get_mod_research_cost()
 
-		filename = "[replacetext(uniqueness_repository.Generate(/datum/uniqueness_generator/phrase), " ", "_")]"
+		// We use this rather than the recipe name or product name, as it does not have the 'weapon prototype (...)' etc. addition
+		var/item_name = atom_info_repository.get_name_for(recipe.path, amount = 1)
+		// The use of 'sanitize_for_group' is incidental, it just works well for this.
+		item_name = sanitize_for_group(item_name)
+		filename = "[item_name]-([replacetext(uniqueness_repository.Generate(/datum/uniqueness_generator/phrase), " ", "_")])"
 		// Initialize us to zero'd research fields.
 		for(var/field in research_requirements)
 			add_field(field)
@@ -77,17 +82,27 @@
 	// Clear the theory options for everything but the selected option.
 	var/application_result = selected.apply_to_design(src, analyzed)
 	if(finalized)
-		return "You successfully finalize your theory!"
+		return "You successfully finalize your design!"
 	switch(application_result)
 		if(THEORY_SUCCESS)
 			if(selected in theory_options)
 				theory_options[selected] = FALSE // Make sure this theory is removed from the options.
+			
+			// We can progress, generate progression theories.
+			if(can_progress())
+				// Remove all theory options.
+				for(var/theory in theory_options)
+					theory_options[theory] = FALSE
+				progressing = TRUE
 			generate_theories(user)
 			return
 		if(THEORY_NEEDS_ITEM)
 			return "The theory cannot be applied with [analyzed ? "the loaded item" : "no item to be analyzed"]."
 		if(THEORY_CANNOT_PROGRESS)
-			return "Requirements for concluding the theory and progressing have not been met. Use all research points, distributed entirely in required fields."
+			// Somehow we've gotten progression options when the design can't progress. Regenerate all theories.
+			generate_theories(user)
+			return "Requirements for concluding the theory and progressing have not been met. Use all research points, and distribute them entirely into required fields."
+
 		if(THEORY_INCOMPATIBLE)
 			return "That theory is incompatible with the design."
 
@@ -103,7 +118,7 @@
 	if(length(theory_options) >= generated_theories)
 		return
 	
-	var/list/theory_paths = get_theory_options(tier, can_progress())
+	var/list/theory_paths = get_theory_options(tier, progressing)
 
 	var/theories = length(theory_options)
 
@@ -159,6 +174,7 @@
 	LAZYADD(specifications, specification)
 
 /datum/computer_file/data/design/proc/progress_tier()
+	progressing = FALSE
 	for(var/field in research_requirements)
 		if(research_levels[field] < research_requirements[field])
 			tier += 1
