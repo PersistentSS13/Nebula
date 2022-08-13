@@ -46,6 +46,30 @@ var/global/list/grass_seed_drop_types_uncommon = list(
 	"lavender",
 	"algae",
 )
+
+var/global/list/kleibkhar_possible_mushroom_seeds = list(
+	"mold",
+	"reishi",
+	"amanita",
+	"destroyingangel",
+	"libertycap",
+	"mushrooms",
+	"towercap",
+	"glowbell",
+	"plumphelmet",
+)
+
+var/global/list/kleibkhar_possible_tree_seeds = list(
+	"banana",
+	"apple",
+	"lime",
+	"lemon",
+	"orange",
+	"cocoa",
+	"cherry",
+	"bamboo",
+)
+
 /turf/exterior/kleibkhar_grass
 	name = "wild grass"
 	icon = 'icons/turf/exterior/wildgrass.dmi'
@@ -65,19 +89,24 @@ var/global/list/grass_seed_drop_types_uncommon = list(
 		generate_tile_prop()
 
 /turf/exterior/kleibkhar_grass/proc/generate_tile_prop()
-	if(rand(0, KLEIBKHAR_VEGETATION_CHANCE) != KLEIBKHAR_VEGETATION_CHANCE)
+	if(rand(0, KLEIBKHAR_VEGETATION_CHANCE) != KLEIBKHAR_VEGETATION_CHANCE || length(contents))
 		return //No vegetation/prop for this tile
 	
-	var/list/rnd = list(\
-		"plant"  = rand(0,  80),\
-		"rock"   = rand(0,  25),\
-		"dirt"   = rand(0,  50),\
-		"lichen" = rand(0,  80),\
-	)
-	sortTim(rnd, .proc/cmp_numeric_dsc, TRUE)
+	//Pick a prop/plant
+	var/picked = pick(
+			prob(60); "plant", 
+			prob(60); "lichen", 
+			prob(40); "dirt", 
+			prob(25); "rock",
+			prob(25); "dead_tree",
+			prob(3); "seed_tree",
+			prob(2); "seed_plant",
+			prob(1); "seed_mushroom"
+		)
 
+	//Handle props
 	var/obj/prop
-	switch(rnd[1])
+	switch(picked)
 		if("plant")
 			prop = new /obj/structure/flora/grass/green(src)
 		if("rock")
@@ -86,7 +115,23 @@ var/global/list/grass_seed_drop_types_uncommon = list(
 			prop = new /obj/effect/decal/cleanable/dirt(src)
 		if("lichen")
 			prop = new /obj/effect/decal/cleanable/lichen(src)
+		if("dead_tree")
+			prop = new /obj/structure/flora/tree/dead(src)
+
+	//Handle seeds
+	if(!prop)
+		var/picked_seed
+		switch(picked)
+			if("seed_tree")
+				picked_seed = pick(global.kleibkhar_possible_tree_seeds)
+			if("seed_plant")
+				picked_seed = prob(80)? pick(global.grass_seed_drop_types_common) : pick(global.grass_seed_drop_types_uncommon)
+			if("seed_mushroom")
+				picked_seed = pick(global.kleibkhar_possible_mushroom_seeds)
+		if(picked_seed)
+			prop = new /obj/machinery/portable_atmospherics/hydroponics/soil/invisible(src, picked_seed, prob(50))
 	
+	//Add some randomness to the placement
 	prop.pixel_x += rand(-8, 8)
 	prop.pixel_y += rand(-8, 8)
 
