@@ -1,10 +1,10 @@
-FROM milkshak3/byond-server:514-latest as compile
+FROM ghcr.io/persistentss13/byond-server:514-7 as compile
 COPY . /persistent
 WORKDIR /persistent
 RUN scripts/dm.sh nebula.dme
 
 
-FROM milkshak3/byond-server:514-latest as test_setup
+FROM ghcr.io/persistentss13/byond-server:514-7 as test_setup
 ENV LANG=C.UTF-8 \
 	DEBIAN_FRONTEND=noninteractive \
 	PYENV_ROOT=/pyenv \
@@ -36,7 +36,7 @@ ENV TEST=CODE CI=true
 ENTRYPOINT ["test/run-test.sh"]
 
 
-FROM milkshak3/byond-server:514-latest as ss13
+FROM ghcr.io/persistentss13/byond-server:514-7 as ss13
 RUN apt-get update \
 	&& apt-get install -y libmariadb-client-lgpl-dev-compat
 RUN mkdir -p /persistent/data /persistent/config
