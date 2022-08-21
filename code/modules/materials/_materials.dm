@@ -638,6 +638,9 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 	holder.remove_reagent(type, removed)
 
 /decl/material/proc/affect_blood(var/mob/living/M, var/removed, var/datum/reagents/holder)
+	if(M.status_flags & GODMODE)
+		return
+
 	if(radioactivity)
 		M.apply_damage(radioactivity * removed, IRRADIATE, armor_pen = 100)
 
@@ -747,7 +750,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 					if(!screamed && affecting.can_feel_pain())
 						screamed = TRUE
 						H.emote("scream")
-					affecting.status |= ORGAN_DISFIGURED
+					affecting.status |= ORGAN_DISFIGURED //#FIXME: That probably should be decided by the organ based on the amount of damage or something??
 
 		if(!M.unacidable)
 			M.take_organ_damage(0, min(removed * solvent_power * ((removed < solvent_melt_dose) ? 0.1 : 0.2), solvent_max_damage), override_droplimb = DISMEMBER_METHOD_ACID)
