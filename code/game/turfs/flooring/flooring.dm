@@ -297,6 +297,14 @@
 	can_paint = 1
 	footstep_type = /decl/footsteps/plating
 
+/decl/flooring/reinforced/elevator_shaft
+	name       = "elevator shaft floor"
+	icon       = 'icons/turf/floors.dmi'
+	icon_base  = "elevatorshaft"
+	flags      = TURF_REMOVE_WRENCH | TURF_ACID_IMMUNE
+	build_type = /obj/item/stack/tile/elevator
+	can_paint  = FALSE
+
 /decl/flooring/reinforced/circuit
 	name = "processing strata"
 	icon = 'icons/turf/flooring/circuit.dmi'

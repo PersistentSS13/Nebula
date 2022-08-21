@@ -398,3 +398,12 @@
 		target.set_outside(OUTSIDE_NO)
 	to_chat(user, SPAN_NOTICE("You put up a roof over \the [target]."))
 	return TRUE
+
+/obj/item/stack/tile/elevator
+	name = "elevator floor tile"
+	singular_name = "elevator floor tile"
+	icon_state = "tile_elevator"
+	material = /decl/material/solid/metal/plasteel
+
+/obj/item/stack/tile/elevator/fifty
+	amount = 50
