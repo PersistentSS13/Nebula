@@ -39,3 +39,7 @@
 /decl/license/good_faith
 	name = "Good Faith Usage"
 	url = "https://en.wikipedia.org/wiki/Good_faith_(law)"
+
+/decl/license/cc_by_nc_sa_2_0
+	name = "CC BY-NC-SA 2.0"
+	url = "https://creativecommons.org/licenses/by-nc-sa/2.0/"
