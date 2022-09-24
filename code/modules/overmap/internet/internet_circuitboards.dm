@@ -8,11 +8,6 @@
 		/obj/item/stock_parts/micro_laser = 2,
 		/obj/item/stock_parts/smes_coil = 1
 	)
-	additional_spawn_components = list(
-		/obj/item/stock_parts/console_screen = 1,
-		/obj/item/stock_parts/keyboard = 1,
-		/obj/item/stock_parts/power/terminal = 1
-	)
 
 /obj/item/stock_parts/circuitboard/internet_uplink_computer
 	name = "circuitboard (PLEXUS uplink controller)"
