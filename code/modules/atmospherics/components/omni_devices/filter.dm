@@ -163,7 +163,10 @@
 	return data
 
 /obj/machinery/atmospherics/omni/filter/proc/mode_send_switch(var/datum/omni_port/P)
-	if(P.filtering)
+	if(istype(P.filtering, /decl/material))
+		var/decl/material/gas/G = P.filtering
+		return G.gas_symbol
+	if(ispath(P.filtering))
 		var/decl/material/gas/G = GET_DECL(P.filtering)
 		return G.gas_symbol
 
