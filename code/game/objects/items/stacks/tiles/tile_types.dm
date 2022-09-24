@@ -140,12 +140,18 @@
 	material = /decl/material/solid/metal/steel
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
 
+/obj/item/stack/tile/mono/fifty
+	amount = 50
+
 /obj/item/stack/tile/mono/dark
 	name = "dark mono tile"
 	singular_name = "dark mono tile"
 	icon_state = "tile"
 	material = /decl/material/solid/metal/steel
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
+
+/obj/item/stack/tile/mono/dark/fifty
+	amount = 50
 
 /obj/item/stack/tile/mono/white
 	name = "white mono tile"
@@ -154,12 +160,18 @@
 	material = /decl/material/solid/metal/steel
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
 
+/obj/item/stack/tile/mono/white/fifty
+	amount = 50
+
 /obj/item/stack/tile/grid
 	name = "grey grid tile"
 	singular_name = "grey grid tile"
 	icon_state = "tile_grid"
 	material = /decl/material/solid/metal/steel
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
+
+/obj/item/stack/tile/grid/fifty
+	amount = 50
 
 /obj/item/stack/tile/ridge
 	name = "grey ridge tile"
@@ -168,12 +180,18 @@
 	material = /decl/material/solid/metal/steel
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
 
+/obj/item/stack/tile/ridge/fifty
+	amount = 50
+
 /obj/item/stack/tile/techgrey
 	name = "grey techfloor tile"
 	singular_name = "grey techfloor tile"
 	icon_state = "techtile_grey"
 	material = /decl/material/solid/metal/steel
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
+
+/obj/item/stack/tile/techgrey/fifty
+	amount = 50
 
 /obj/item/stack/tile/techgrid
 	name = "grid techfloor tile"
@@ -182,12 +200,18 @@
 	material = /decl/material/solid/metal/steel
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
 
+/obj/item/stack/tile/techgrid/fifty
+	amount = 50
+
 /obj/item/stack/tile/techmaint
 	name = "dark techfloor tile"
 	singular_name = "dark techfloor tile"
 	icon_state = "techtile_maint"
 	material = /decl/material/solid/metal/steel
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
+
+/obj/item/stack/tile/techmaint/fifty
+	amount = 50
 
 /obj/item/stack/tile/floor_white
 	name = "white floor tile"
