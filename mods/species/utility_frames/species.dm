@@ -14,8 +14,13 @@
 	name_plural =           "Utility Frames"
 	description =           "Simple AI-driven robots are used for many menial or repetitive tasks in human space."
 	cyborg_noun = null
+	base_prosthetics_model = null
 
 	blood_types = list(/decl/blood_type/coolant)
+	vital_organs = list(
+		BP_POSIBRAIN,
+		BP_CELL
+	)
 
 	available_bodytypes = list(/decl/bodytype/utility_frame)
 	age_descriptor =        /datum/appearance_descriptor/age/utility_frame
@@ -67,7 +72,7 @@
 	has_organ = list(
 		BP_POSIBRAIN = /obj/item/organ/internal/posibrain,
 		BP_EYES      = /obj/item/organ/internal/eyes/robot/utility_frame,
-		BP_CELL      = /obj/item/organ/internal/cell,
+		BP_CELL = /obj/item/organ/internal/cell
 	)
 
 	exertion_effect_chance = 10

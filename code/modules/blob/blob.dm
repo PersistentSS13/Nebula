@@ -30,7 +30,11 @@
 	. = ..()
 	health = maxHealth
 	update_icon()
-	START_PROCESSING(SSobj, src)
+	START_PROCESSING(SSblob, src)
+
+/obj/effect/blob/Destroy()
+	STOP_PROCESSING(SSblob, src)
+	. = ..()
 
 /obj/effect/blob/CanPass(var/atom/movable/mover, var/turf/target, var/height = 0, var/air_group = 0)
 	if(air_group || height == 0)
@@ -47,9 +51,9 @@
 	else
 		icon_state = "blob_damaged"
 
-/obj/effect/blob/Process(wait, times_fired)
+/obj/effect/blob/Process(wait, tick)
 	regen()
-	if(times_fired % attack_freq)
+	if(tick % attack_freq)
 		return
 	attempt_attack(global.alldirs)
 
@@ -201,7 +205,6 @@
 	light_color = BLOB_COLOR_CORE
 	layer = BLOB_CORE_LAYER
 
-	var/growth_range = 8 // Maximal distance for new blob pieces from this core.
 	var/blob_may_process = 1
 	var/reported_low_damage = FALSE
 	var/times_to_pulse = 0
@@ -281,7 +284,6 @@ regen() will cover update_icon() for this proc
 	icon_state = "blob_node"
 	maxHealth = 125
 	regen_rate = 1
-	growth_range = 4
 	damage_min = 15
 	damage_max = 20
 	layer = BLOB_NODE_LAYER
@@ -313,7 +315,7 @@ regen() will cover update_icon() for this proc
 /obj/effect/blob/shield/Destroy()
 	set_density(0)
 	update_nearby_tiles()
-	..()
+	return ..()
 
 /obj/effect/blob/shield/on_update_icon()
 	if(health > maxHealth * 2 / 3)
@@ -345,6 +347,7 @@ regen() will cover update_icon() for this proc
 	item_state = "blob_tendril"
 	w_class = ITEM_SIZE_LARGE
 	attack_verb = list("smacked", "smashed", "whipped")
+	material = /decl/material/solid/plantmatter
 	var/is_tendril = TRUE
 	var/types_of_tendril = list("solid", "fire")
 

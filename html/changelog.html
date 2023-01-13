@@ -52,114 +52,90 @@
 		-->
 		<div class="commit sansserif">
 
-			<h2 class="date">01 July 2022</h2>
-			<h3 class="author">tag if you want to specify another name or several people. --> updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Construction skill will now speed up some tool interactions.</li>
-			</ul>
-
-			<h2 class="date">25 June 2022</h2>
-			<h3 class="author"> updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Species previews are no longer naked.</li>
-			</ul>
-
-			<h2 class="date">22 June 2022</h2>
-			<h3 class="author"> updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Network machinery now has lower tech requirements across the board.</li>
-				<li class="tweak">Network broadcasters now have their signal strength scale with the rating of installed microlasers.</li>
-				<li class="rscadd">Computer networks are now able to communicate over PLEXUS.</li>
-				<li class="rscadd">Adds PLEXUS uplinks, machinery which allows devices to connect to PLEXUS in conjunction with a PLEXUS repeater.</li>
-				<li class="tweak">Network signal simulation has been adjusted slightly. Connection strengths should be comparable with old setups.</li>
-			</ul>
-
-			<h2 class="date">20 June 2022</h2>
-			<h3 class="author"> updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">GPS units now provide a visual compass to track each other.</li>
-			</ul>
-
-			<h2 class="date">16 June 2022</h2>
-			<h3 class="author">tag if you want to specify another name or several people. --> updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="maptweak">Randomised Ministation Asteroid Field</li>
-			</ul>
-
-			<h2 class="date">15 June 2022</h2>
-			<h3 class="author">tag if you want to specify another name or several people. --> updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Generic plants can now be cut. Trees can be chopped down with an axe.</li>
-				<li class="soundadd">Added several sound effects when dealing with generic plants.</li>
-			</ul>
-
-			<h2 class="date">10 June 2022</h2>
-			<h3 class="author">tag if you want to specify another name or several people. --> updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="bugfix">Fixed how some tool interactions wouldn't play tool sounds.</li>
-			</ul>
-
-			<h2 class="date">06 June 2022</h2>
+			<h2 class="date">21 December 2022</h2>
 			<h3 class="author">MistakeNot4892 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="tweak">Tajaran icon has been updated with new work from Azlan.</li>
-			</ul>
-			<h3 class="author">tag if you want to specify another name or several people. --> updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="soundadd">Added sound for some tool interactions with the axes and hatchets.</li>
-				<li class="tweak">Config `expanded_alt_interactions` allows for various generic actions (look, grab, drop, rotate) to show up when alt-clicking.</li>
-				<li class="soundadd">Changed the handling sounds for several material stacks to something more fitting.</li>
+				<li class="tweak">There is now a grace period on losing your brain before your mob will die.</li>
 			</ul>
 
-			<h2 class="date">05 June 2022</h2>
-			<h3 class="author">tag if you want to specify another name or several people. --> updated:</h3>
+			<h2 class="date">05 December 2022</h2>
+			<h3 class="author">PsyCommando updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="bugfix">Fixed the TEG icon</li>
-				<li class="maptweak">Added SM to engineering</li>
-				<li class="maptweak">Removed 2 of 3 solars</li>
+				<li class="tweak">Tweaked the airlock controller UI a little bit for the advanced airlock controller. Makes it fit better in its window, and reorganized the buttons around to look a bit less messy.</li>
+				<li class="tweak">Adjusted directional offsets for airlock devices, so they actually are aligned to walls.</li>
+				<li class="tweak">Adjusted directional offsets of warning signs since they kept covering up airlock devices on the tradeship map.</li>
+				<li class="bugfix">Fixed sanitizing id_tags set via multitool on the airlock machinery.</li>
+				<li class="bugfix">Fixed airlock machinery generally falling out of sync with eachother.</li>
+				<li class="imageadd">Added new icons for airlock sensor and airlock access button. They have overlays and directions now.</li>
 			</ul>
 
-			<h2 class="date">04 June 2022</h2>
-			<h3 class="author">tag if you want to specify another name or several people. --> updated:</h3>
+			<h2 class="date">30 November 2022</h2>
+			<h3 class="author">PsyCommando updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="tweak">Removes HULK, FAT and LASER mutations.</li>
+				<li class="bugfix">Mapped ladders no longer change the turf they're on to the map default's open turf if they're on a lattice and any open turf types already during init. This could cause exterior/unsimulated open turfs to replace a simulated open turf and cause serious atmos issues.</li>
+				<li class="bugfix">Fixed some wall-mounted machines acting as fully constructed, when a circuitboard was installed and no wiring installed.</li>
 			</ul>
 
-			<h2 class="date">03 June 2022</h2>
-			<h3 class="author">tag if you want to specify another name or several people. --> updated:</h3>
+			<h2 class="date">27 November 2022</h2>
+			<h3 class="author">PsyCommando updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="tweak">Airlock components panel now opens with wrench</li>
+				<li class="bugfix">Fixed bad icons on /obj/machinery/partyalarm.</li>
+				<li class="bugfix">Fixed bad icons on /obj/machinery/dummy_airlock_controller.</li>
+				<li class="bugfix">Fixed bad icons on /obj/machinery/button/holosign.</li>
+				<li class="bugfix">Fixed bad icons on /obj/item/personal_shield.</li>
+				<li class="bugfix">Fixed bad icons on /obj/item/shield/energy.</li>
+				<li class="bugfix">Fixed bad icons on /turf/simulated/floor/tiled/stone.</li>
+				<li class="bugfix">Fixed bad icons on /obj/item/bone/skull.</li>
+				<li class="bugfix">Fixed bad icons on /obj/item/bee_smoker.</li>
+				<li class="bugfix">Fixed bad icons on /obj/item/shovel/spade.</li>
+				<li class="bugfix">Fixed bad icons on /obj/structure/crystal.</li>
+				<li class="bugfix">Fixed bad icons on /obj/item/storage/belt/archaeology.</li>
+				<li class="bugfix">Fixed /obj/abstract/map_data not showing up in mapping tool.</li>
+				<li class="bugfix">Fixed /obj/item/underwear not showing up in mapping tool.</li>
+				<li class="bugfix">Fixed /obj/abstract not showing up in mapping tool.</li>
+				<li class="bugfix">Fixed easily missed bad icon_state name on /obj/item/crowbar/brace_jack.</li>
+				<li class="bugfix">Fixed easily missed bad icon_state name on /turf/simulated/floor/tiled/monofloor.</li>
+				<li class="bugfix">Fixed some metallic materials causing runtimes from not having wall icon states defined properly.</li>
+				<li class="bugfix">Made a bunch of /obj/structure/closet/crate show a more accurate icon in the map editor instead of the default blank locker icon.</li>
+				<li class="imageadd">Added simple directional icons for airlock controller buttons and sensors.</li>
+				<li class="tweak">Allowed connecting fuel pipes to TEG circulators.</li>
 			</ul>
 
-			<h2 class="date">30 May 2022</h2>
+			<h2 class="date">25 November 2022</h2>
+			<h3 class="author">PsyCommando updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fix mapped network machinery fields.</li>
+				<li class="bugfix">Fixed bad switch case in robot_component/take_damage() causing BURN and ELECTROCUTE damage to get ignored.</li>
+			</ul>
+
+			<h2 class="date">23 November 2022</h2>
+			<h3 class="author">PsyCommando updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fixed /obj/item/chems being shattered in nullspace causing a runtime.</li>
+			</ul>
+
+			<h2 class="date">22 November 2022</h2>
+			<h3 class="author">PsyCommando updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="imageadd">Added some fairly bad wrapped package icons, and wrapped gifts icons.</li>
+			</ul>
+
+			<h2 class="date">20 November 2022</h2>
+			<h3 class="author">PsyCommando updated:</h3>
+			<ul class="changes bgimages16">
+				<li class="bugfix">Fix disconnected pipes + blastdoors button on desperado/mercenary base.</li>
+			</ul>
+
+			<h2 class="date">17 November 2022</h2>
 			<h3 class="author">MistakeNot4892 updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="tweak">Ported Skrell from Stella and added to the Bay alien roster.</li>
+				<li class="tweak">Liver and brain regeneration has been tweaked, and all internal organs will now regenerate slowly to a point.</li>
 			</ul>
 
-			<h2 class="date">26 May 2022</h2>
-			<h3 class="author">quardbreak updated:</h3>
+			<h2 class="date">15 November 2022</h2>
+			<h3 class="author">PsyCommando updated:</h3>
 			<ul class="changes bgimages16">
-				<li class="rscadd">Progress bars use gradient function for transit animation now.</li>
-				<li class="rscdel">Failure animation for progress bars has been removed.</li>
-			</ul>
-
-			<h2 class="date">22 May 2022</h2>
-			<h3 class="author">MistakeNot4892 updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Inflatables are now craftable.</li>
-			</ul>
-
-			<h2 class="date">18 May 2022</h2>
-			<h3 class="author">keIgaras updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="rscadd">new icons for vents and scrubbers</li>
-			</ul>
-
-			<h2 class="date">15 May 2022</h2>
-			<h3 class="author">tag if you want to specify another name or several people. --> updated:</h3>
-			<ul class="changes bgimages16">
-				<li class="tweak">Upward pointing cable stubs now give proper feedback, and install properly when clicked on with a cable coil in hands. You used to need to click on the turf instead before, which was a bit confusing.</li>
+				<li class="bugfix">Fix limb reattachment surgery not properly installing any contained internal organs once the last step was completed.</li>
 			</ul>
 </div>
 </td></tr></table>

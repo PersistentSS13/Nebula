@@ -51,8 +51,12 @@
 	var/old_flooded =          flooded
 	var/old_outside =          is_outside
 	var/old_is_open =          is_open()
+
 	var/old_ambience =         ambient_light
 	var/old_ambience_mult =    ambient_light_multiplier
+	var/old_ambient_light_old_r = ambient_light_old_r
+	var/old_ambient_light_old_g = ambient_light_old_g
+	var/old_ambient_light_old_b = ambient_light_old_b
 
 	changing_turf = TRUE
 
@@ -87,7 +91,7 @@
 		global.universe.OnTurfChange(W)
 
 	if(W.density != old_density)
-		events_repository.raise_event(/decl/observ/density_set, W, old_density, W.density)
+		RAISE_EVENT(/decl/observ/density_set, W, old_density, W.density)
 
 	// lighting stuff
 
@@ -97,6 +101,10 @@
 	lighting_overlay = old_lighting_overlay
 
 	recalc_atom_opacity()
+
+	ambient_light_old_r = old_ambient_light_old_r
+	ambient_light_old_g = old_ambient_light_old_g
+	ambient_light_old_b = old_ambient_light_old_b
 
 	if (old_ambience != ambient_light || old_ambience_mult != ambient_light_multiplier)
 		update_ambient_light(FALSE)
@@ -114,7 +122,7 @@
 	// end of lighting stuff
 
 	// we check the var rather than the proc, because area outside values usually shouldn't be set on turfs
-	if(W.is_outside != old_outside) 
+	if(W.is_outside != old_outside)
 		W.set_outside(old_outside, skip_weather_update = TRUE)
 	W.update_weather(force_update_below = W.is_open() != old_is_open)
 
@@ -169,7 +177,7 @@
 	construction_stage = other.construction_stage
 
 	damage = other.damage
-	
+
 	// Do not set directly to other.can_open since it may be in the WALL_OPENING state.
 	if(other.can_open)
 		can_open = WALL_CAN_OPEN

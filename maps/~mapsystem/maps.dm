@@ -23,6 +23,9 @@ var/global/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 	var/full_name = "Unnamed Map"
 	var/path
 
+	// TODO: move all the lobby stuff onto this handler.
+	var/lobby_handler = /decl/lobby_handler
+
 	var/list/station_levels = list() // Z-levels the station exists on
 	var/list/admin_levels =   list() // Z-levels for admin functionality (Centcom, shuttle transit, etc)
 	var/list/contact_levels = list() // Z-levels that can be contacted from the station, for eg announcements
@@ -59,7 +62,12 @@ var/global/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 	// Current game year. Uses current system year + game_year num.
 	var/game_year = 288
 
-	var/map_admin_faxes = list()
+	/**
+	 * Associative list of network URIs to a list with their display name, color, and "req_access formated" needed access list.
+	 * EX: list("BIG_BOSS.COM" = list("name" = "Big boss", "color" = "#00ff00", "access" = list(list(access_heads, access_clown))))
+	 */
+	var/list/map_admin_faxes
+
 
 	var/shuttle_docked_message
 	var/shuttle_leaving_dock
@@ -89,7 +97,6 @@ var/global/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 	var/list/overmap_ids // Assoc list of overmap ID to overmap type, leave empty to disable overmap.
 
 	var/pray_reward_type = /obj/item/chems/food/cookie // What reward should be given by admin when a prayer is received?
-	var/list/map_markers_to_load
 
 	// The list of lobby screen images to pick() from.
 	var/list/lobby_screens = list('icons/default_lobby.png')
@@ -162,7 +169,7 @@ var/global/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 	else if(LAZYLEN(lobby_tracks))
 		lobby_track_type = pickweight(lobby_tracks - exclude)
 	else
-		lobby_track_type = pick(subtypesof(/decl/music_track) - exclude)
+		lobby_track_type = pick(decls_repository.get_decl_paths_of_subtype(/decl/music_track) - exclude)
 	return GET_DECL(lobby_track_type)
 
 /datum/map/proc/setup_map()
@@ -203,9 +210,17 @@ var/global/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 
 	game_year = (text2num(time2text(world.realtime, "YYYY")) + game_year)
 
+	setup_admin_faxes()
+
 	lobby_track = get_lobby_track()
 	update_titlescreen()
 	world.update_status()
+
+///Generates the default admin faxes addresses
+/datum/map/proc/setup_admin_faxes()
+	LAZYSET(map_admin_faxes, uppertext(replacetext("[boss_name].COM",          " ", "_")), list("name" = "[boss_name]",           "color" = "#006100", "access" = list(access_heads)))
+	LAZYSET(map_admin_faxes, uppertext(replacetext("[boss_short]_SUPPLY.COM",  " ", "_")), list("name" = "[boss_short] Supply",   "color" = "#5f4519", "access" = list(access_heads)))
+	LAZYSET(map_admin_faxes, uppertext(replacetext("[system_name]_POLICE.GOV", " ", "_")), list("name" = "[system_name] Police",  "color" = "#1f66a0", "access" = list(access_heads)))
 
 /datum/map/proc/setup_job_lists()
 	return
@@ -397,22 +412,22 @@ var/global/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 		var/turf/playerTurf = get_turf(player)
 		if(SSevac.evacuation_controller && SSevac.evacuation_controller.round_over() && SSevac.evacuation_controller.emergency_evacuation)
 			if(isNotAdminLevel(playerTurf.z))
-				to_chat(player, "<font color='blue'><b>You managed to survive, but were marooned on [station_name()] as [player.real_name]...</b></font>")
+				to_chat(player, SPAN_NEUTRAL("<b>You managed to survive, but were marooned on [station_name()] as [player.real_name]...</b>"))
 			else
-				to_chat(player, "<font color='green'><b>You managed to survive the events on [station_name()] as [player.real_name].</b></font>")
+				to_chat(player, SPAN_GOOD("<b>You managed to survive the events on [station_name()] as [player.real_name].</b>"))
 		else if(isAdminLevel(playerTurf.z))
-			to_chat(player, "<font color='green'><b>You successfully underwent crew transfer after events on [station_name()] as [player.real_name].</b></font>")
+			to_chat(player, SPAN_GOOD("<b>You successfully underwent crew transfer after events on [station_name()] as [player.real_name].</b>"))
 		else if(issilicon(player))
-			to_chat(player, "<font color='green'><b>You remain operational after the events on [station_name()] as [player.real_name].</b></font>")
+			to_chat(player, SPAN_GOOD("<b>You remain operational after the events on [station_name()] as [player.real_name].</b>"))
 		else
-			to_chat(player, "<font color='blue'><b>You got through just another workday on [station_name()] as [player.real_name].</b></font>")
+			to_chat(player, SPAN_NEUTRAL("<b>You got through just another workday on [station_name()] as [player.real_name].</b>"))
 	else
 		if(isghost(player))
 			var/mob/observer/ghost/O = player
 			if(!O.started_as_observer)
-				to_chat(player, "<font color='red'><b>You did not survive the events on [station_name()]...</b></font>")
+				to_chat(player, SPAN_BAD("<b>You did not survive the events on [station_name()]...</b>"))
 		else
-			to_chat(player, "<font color='red'><b>You did not survive the events on [station_name()]...</b></font>")
+			to_chat(player, SPAN_BAD("<b>You did not survive the events on [station_name()]...</b>"))
 
 /datum/map/proc/create_passport(var/mob/living/carbon/human/H)
 	if(!passport_type)

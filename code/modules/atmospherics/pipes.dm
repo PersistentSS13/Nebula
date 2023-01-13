@@ -28,7 +28,6 @@
 	//minimum pressure before check_pressure(...) should be called
 	var/maximum_pressure = 210 * ONE_ATMOSPHERE
 	var/fatigue_pressure = 170 * ONE_ATMOSPHERE
-	var/alert_pressure = 170 * ONE_ATMOSPHERE
 	var/datum/sound_token/sound_token
 
 /obj/machinery/atmospherics/pipe/drain_power()
@@ -220,9 +219,6 @@
 	dir = SOUTH
 	initialize_directions = SOUTH|NORTH
 
-	var/minimum_temperature_difference = 300
-	var/thermal_conductivity = 0 //WALL_HEAT_TRANSFER_COEFFICIENT No
-
 	level = 1
 
 	rotate_class = PIPE_ROTATE_TWODIR
@@ -310,12 +306,14 @@
 /obj/machinery/atmospherics/pipe/simple/visible/blue
 	color = PIPE_COLOR_BLUE
 
+/obj/machinery/atmospherics/pipe/simple/visible/purple
+	color = PIPE_COLOR_PURPLE
+
 /obj/machinery/atmospherics/pipe/simple/visible/fuel
 	name = "fuel pipe"
 	color = PIPE_COLOR_ORANGE
 	maximum_pressure = 420*ONE_ATMOSPHERE
 	fatigue_pressure = 350*ONE_ATMOSPHERE
-	alert_pressure = 350*ONE_ATMOSPHERE
 	connect_types = CONNECT_TYPE_FUEL
 
 /obj/machinery/atmospherics/pipe/simple/hidden
@@ -356,12 +354,14 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/blue
 	color = PIPE_COLOR_BLUE
 
+/obj/machinery/atmospherics/pipe/simple/hidden/purple
+	color = PIPE_COLOR_PURPLE
+
 /obj/machinery/atmospherics/pipe/simple/hidden/fuel
 	name = "fuel pipe"
 	color = PIPE_COLOR_ORANGE
 	maximum_pressure = 420*ONE_ATMOSPHERE
 	fatigue_pressure = 350*ONE_ATMOSPHERE
-	alert_pressure = 350*ONE_ATMOSPHERE
 	connect_types = CONNECT_TYPE_FUEL
 
 /obj/machinery/atmospherics/pipe/manifold
@@ -438,6 +438,9 @@
 /obj/machinery/atmospherics/pipe/manifold/visible/blue
 	color = PIPE_COLOR_BLUE
 
+/obj/machinery/atmospherics/pipe/manifold/visible/purple
+	color = PIPE_COLOR_PURPLE
+
 /obj/machinery/atmospherics/pipe/manifold/visible/fuel
 	name = "fuel pipe manifold"
 	color = PIPE_COLOR_ORANGE
@@ -481,6 +484,9 @@
 
 /obj/machinery/atmospherics/pipe/manifold/hidden/blue
 	color = PIPE_COLOR_BLUE
+
+/obj/machinery/atmospherics/pipe/manifold/hidden/purple
+	color = PIPE_COLOR_PURPLE
 
 /obj/machinery/atmospherics/pipe/manifold/hidden/fuel
 	name = "fuel pipe manifold"

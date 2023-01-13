@@ -16,14 +16,14 @@
 /mob/living/carbon/human/adjustBrainLoss(var/amount)
 	if(status_flags & GODMODE)	return 0	//godmode
 	if(should_have_organ(BP_BRAIN))
-		var/obj/item/organ/internal/brain/sponge = get_organ(BP_BRAIN, /obj/item/organ/internal/brain)
+		var/obj/item/organ/internal/sponge = GET_INTERNAL_ORGAN(src, BP_BRAIN)
 		if(sponge)
 			sponge.take_internal_damage(amount)
 
 /mob/living/carbon/human/setBrainLoss(var/amount)
 	if(status_flags & GODMODE)	return 0	//godmode
 	if(should_have_organ(BP_BRAIN))
-		var/obj/item/organ/internal/brain/sponge = get_organ(BP_BRAIN, /obj/item/organ/internal/brain)
+		var/obj/item/organ/internal/sponge = GET_INTERNAL_ORGAN(src, BP_BRAIN)
 		if(sponge)
 			sponge.damage = min(max(amount, 0),sponge.species.total_health)
 			updatehealth()
@@ -31,7 +31,7 @@
 /mob/living/carbon/human/getBrainLoss()
 	if(status_flags & GODMODE)	return 0	//godmode
 	if(should_have_organ(BP_BRAIN))
-		var/obj/item/organ/internal/brain/sponge = get_organ(BP_BRAIN, /obj/item/organ/internal/brain)
+		var/obj/item/organ/internal/sponge = GET_INTERNAL_ORGAN(src, BP_BRAIN)
 		if(sponge)
 			if(sponge.status & ORGAN_DEAD)
 				return sponge.species.total_health
@@ -43,10 +43,11 @@
 
 //Straight pain values, not affected by painkillers etc
 /mob/living/carbon/human/getHalLoss()
-	var/amount = 0
-	for(var/obj/item/organ/external/E in get_external_organs())
-		amount += E.get_pain()
-	return amount
+	if(isnull(last_pain))
+		last_pain = 0
+		for(var/obj/item/organ/external/E in get_external_organs())
+			last_pain += E.get_pain()
+	return last_pain
 
 /mob/living/carbon/human/setHalLoss(var/amount)
 	adjustHalLoss(getHalLoss()-amount)
@@ -73,7 +74,7 @@
 /mob/living/carbon/human/getBruteLoss()
 	var/amount = 0
 	for(var/obj/item/organ/external/O in get_external_organs())
-		if(BP_IS_PROSTHETIC(O) && !O.vital)
+		if(BP_IS_PROSTHETIC(O) && !O.is_vital_to_owner())
 			continue //robot limbs don't count towards shock and crit
 		amount += O.brute_dam
 	return amount
@@ -81,7 +82,7 @@
 /mob/living/carbon/human/getFireLoss()
 	var/amount = 0
 	for(var/obj/item/organ/external/O in get_external_organs())
-		if(BP_IS_PROSTHETIC(O) && !O.vital)
+		if(BP_IS_PROSTHETIC(O) && !O.is_vital_to_owner())
 			continue //robot limbs don't count towards shock and crit
 		amount += O.burn_dam
 	return amount
@@ -124,33 +125,26 @@
 				amount -= E.add_genetic_damage(amount)
 	BITSET(hud_updateflag, HEALTH_HUD)
 
-// Defined here solely to take species flags into account without having to recast at mob/living level.
+/mob/living/carbon/human/proc/getOxyLossPercent()
+	return (getOxyLoss() / species.total_health) * 100
+
 /mob/living/carbon/human/getOxyLoss()
-	if(!need_breathe())
-		return 0
-	else
+	if(need_breathe())
 		var/obj/item/organ/internal/lungs/breathe_organ = get_organ(species.breathing_organ, /obj/item/organ/internal/lungs)
-		if(!breathe_organ)
-			return maxHealth/2
-		return breathe_organ.get_oxygen_deprivation()
+		return breathe_organ ? breathe_organ.oxygen_deprivation : species.total_health
+	return 0
 
 /mob/living/carbon/human/setOxyLoss(var/amount)
-	if(!need_breathe())
-		return 0
-	else
-		adjustOxyLoss(getOxyLoss()-amount)
+	adjustOxyLoss(amount - getOxyLoss())
 
 /mob/living/carbon/human/adjustOxyLoss(var/amount)
-	if(!need_breathe())
-		return
-	var/heal = amount < 0
-	var/obj/item/organ/internal/lungs/breathe_organ = get_organ(species.breathing_organ, /obj/item/organ/internal/lungs)
-	if(breathe_organ)
-		if(heal)
-			breathe_organ.remove_oxygen_deprivation(abs(amount))
-		else
-			breathe_organ.add_oxygen_deprivation(abs(amount*species.oxy_mod))
-	BITSET(hud_updateflag, HEALTH_HUD)
+	if(need_breathe())
+		var/obj/item/organ/internal/lungs/breathe_organ = get_organ(species.breathing_organ, /obj/item/organ/internal/lungs)
+		if(breathe_organ)
+			breathe_organ.adjust_oxygen_deprivation(amount)
+			BITSET(hud_updateflag, HEALTH_HUD)
+			return TRUE
+	return FALSE
 
 /mob/living/carbon/human/getToxLoss()
 	if((species.species_flags & SPECIES_FLAG_NO_POISON) || isSynthetic())
@@ -174,7 +168,7 @@
 	amount = abs(amount)
 
 	if (!heal)
-		amount = amount * species.get_toxins_mod(src)
+		amount *= get_toxin_resistance()
 		var/antitox = GET_CHEMICAL_EFFECT(src, CE_ANTITOX)
 		if(antitox)
 			amount *= 1 - antitox * 0.25

@@ -6,6 +6,7 @@
 	layer = PLATING_LAYER
 	open_turf_type = /turf/exterior/open
 	turf_flags = TURF_FLAG_BACKGROUND
+	var/base_color
 	var/diggable = 1
 	var/dirt_color = "#7c5e42"
 	var/possible_states = 0
@@ -15,9 +16,18 @@
 	var/list/affecting_heat_sources
 	var/obj/effect/overmap/visitable/sector/exoplanet/owner
 
+// Bit faster than return_air() for exoplanet exterior turfs
+/turf/exterior/get_air_graphic()
+	if(owner)
+		return owner.atmosphere?.graphic
+	return global.using_map.exterior_atmosphere?.graphic
+
 /turf/exterior/Initialize(mapload, no_update_icon = FALSE)
 
-	color = null
+	if(base_color)
+		color = base_color
+	else
+		color = null
 
 	if(possible_states > 0)
 		icon_state = "[rand(0, possible_states)]"
@@ -30,18 +40,20 @@
 			ChangeArea(src, owner.planetary_area)
 
 	. = ..(mapload)	// second param is our own, don't pass to children
-	setup_environmental_lighting()
+
+	var/air_graphic = get_air_graphic()
+	if(length(air_graphic))
+		add_vis_contents(src, air_graphic)
 
 	if (no_update_icon)
 		return
 
-	if (mapload)	// If this is a mapload, then our neighbors will be updating their own icons too -- doing it for them is rude.
+	// If this is a mapload, then our neighbors will be updating their own icons too -- doing it for them is rude.
+	if(mapload)
 		update_icon()
 	else
 		for (var/turf/T in RANGE_TURFS(src, 1))
-			if (T == src)
-				continue
-			if (TICK_CHECK)	// not CHECK_TICK -- only queue if the server is overloaded
+			if(TICK_CHECK) // not CHECK_TICK -- only queue if the server is overloaded
 				T.queue_icon_update()
 			else
 				T.update_icon()
@@ -55,21 +67,6 @@
 	if(istype(ext))
 		ext.affecting_heat_sources = last_affecting_heat_sources
 	return ext
-
-/turf/exterior/proc/setup_environmental_lighting()
-	if (is_outside())
-		if (owner)
-			set_ambient_light(COLOR_WHITE, owner.lightlevel)
-			return
-
-		if (config.starlight)
-			var/area/A = loc
-			if (A.show_starlight)
-				set_ambient_light(SSskybox.background_color)
-			else if (ambient_light)
-				clear_ambient_light()
-	else if (ambient_light)
-		clear_ambient_light()
 
 /turf/exterior/is_plating()
 	return !density
@@ -128,7 +125,7 @@
 	SHOULD_CALL_PARENT(FALSE)
 	if(!istype(src, get_base_turf_by_area(src)) && (severity == 1 || (severity == 2 && prob(40))))
 		ChangeTurf(get_base_turf_by_area(src))
-	
+
 /turf/exterior/on_update_icon()
 	. = ..() // Recalc AO and flooding overlay.
 	cut_overlays()

@@ -2,6 +2,7 @@
 	see_in_dark = 2
 	see_invisible = SEE_INVISIBLE_LIVING
 	transform_animate_time = ANIM_LYING_TIME
+	abstract_type = /mob/living
 
 	//Health and life related vars
 	var/maxHealth = 100 //Maximum health that should be possible.
@@ -17,10 +18,6 @@
 	//var/halloss = 0   //Hallucination damage. 'Fake' damage obtained through hallucinating or the holodeck. Sleeping should cause it to wear off.
 
 	var/last_special = 0 //Used by the resist verb, likely used to prevent players from bypassing next_move by logging in/out.
-
-	var/t_oxygen = null
-	var/t_sl_gas = null
-	var/t_n2 = null
 
 	var/now_pushing = null
 	var/mob_bump_flag = 0

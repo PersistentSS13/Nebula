@@ -271,7 +271,7 @@
 		set_pin_data(IC_OUTPUT, 13, H.nutrilevel)
 		set_pin_data(IC_OUTPUT, 14, H.harvest)
 		set_pin_data(IC_OUTPUT, 15, H.dead)
-		set_pin_data(IC_OUTPUT, 16, H.health)
+		set_pin_data(IC_OUTPUT, 16, H.plant_health)
 	push_data()
 	activate_pin(2)
 
@@ -380,8 +380,8 @@
 		activate_pin(3)
 		return
 	var/turf/T = get_turf(assembly)
-	var/target_x = Clamp(get_pin_data(IC_INPUT, 1), 0, world.maxx)
-	var/target_y = Clamp(get_pin_data(IC_INPUT, 2), 0, world.maxy)
+	var/target_x = clamp(get_pin_data(IC_INPUT, 1), 0, world.maxx)
+	var/target_y = clamp(get_pin_data(IC_INPUT, 2), 0, world.maxy)
 	var/turf/A = locate(target_x, target_y, T.z)
 	set_pin_data(IC_OUTPUT, 1, null)
 	if(!A || !(A in view(T)))
@@ -523,7 +523,7 @@
 	var/rad = get_pin_data(IC_INPUT, 2)
 
 	if(isnum(rad))
-		rad = Clamp(rad, 0, 8)
+		rad = clamp(rad, 0, 8)
 		radius = rad
 
 /obj/item/integrated_circuit/input/advanced_locator_list/do_work()
@@ -585,7 +585,7 @@
 /obj/item/integrated_circuit/input/advanced_locator/on_data_written()
 	var/rad = get_pin_data(IC_INPUT, 2)
 	if(isnum(rad))
-		rad = Clamp(rad, 0, 8)
+		rad = clamp(rad, 0, 8)
 		radius = rad
 
 /obj/item/integrated_circuit/input/advanced_locator/do_work()
@@ -652,7 +652,6 @@
 
 /obj/item/integrated_circuit/input/signaler/Destroy()
 	radio_controller.remove_object(src,frequency)
-	QDEL_NULL(radio_connection)
 	frequency = 0
 	return ..()
 
@@ -757,6 +756,9 @@
 	spawn_flags = IC_SPAWN_RESEARCH
 	action_flags = IC_ACTION_LONG_RANGE
 
+/obj/item/integrated_circuit/input/teleporter_locator/preserve_in_cryopod(var/obj/machinery/cryopod/pod)
+	return TRUE
+
 /obj/item/integrated_circuit/input/teleporter_locator/get_topic_data(mob/user)
 	var/datum/integrated_io/O = outputs[1]
 	var/obj/machinery/computer/teleporter/current_console = O.data_as_type(/obj/machinery/computer/teleporter)
@@ -837,7 +839,7 @@
 	var/translated = TRUE
 	if(M && text)
 		if(speaking && !speaking.machine_understands)
-			text = speaking.scramble(text)
+			text = speaking.scramble(M, text)
 			translated = FALSE
 		set_pin_data(IC_OUTPUT, 1, M.GetVoice())
 		set_pin_data(IC_OUTPUT, 2, text)

@@ -41,12 +41,29 @@
 	var/model
 
 /datum/fabricator_recipe/robotics/prosthetic/New()
-	if(model && model != /decl/prosthetics_manufacturer)
+	if(model)
 		var/decl/prosthetics_manufacturer/model_manufacturer = GET_DECL(model)
 		category = "[model_manufacturer.name] Prosthetics"
 	else
 		category = "Unbranded Prosthetics"
 	..()
+
+/datum/fabricator_recipe/robotics/prosthetic/is_available_to_fab(var/obj/machinery/fabricator/fab)
+	. = ..() && model
+	if(.)
+		var/obj/machinery/fabricator/robotics/robofab = fab
+		if(!istype(robofab))
+			return FALSE
+		var/decl/prosthetics_manufacturer/company = GET_DECL(model)
+		if(!istype(company))
+			return FALSE
+		var/decl/species/species = get_species_by_key(robofab.picked_prosthetic_species)
+		if(!istype(species))
+			return FALSE
+		var/obj/item/organ/target_limb = path
+		if(!ispath(target_limb, /obj/item/organ))
+			return FALSE
+		return company.check_can_install(initial(target_limb.organ_tag), species.default_bodytype.bodytype_category, robofab.picked_prosthetic_species)
 
 /datum/fabricator_recipe/robotics/prosthetic/get_resources()
 	. = ..()
@@ -69,10 +86,12 @@
 
 /datum/fabricator_recipe/robotics/prosthetic/build(var/turf/location, var/datum/fabricator_build_order/order)
 	. = ..()
-	var/species = order.get_data("species", global.using_map.default_species)
-	for(var/obj/item/organ/external/E in .)
-		E.set_species(species)
-		E.robotize(model)
-		E.status |= ORGAN_CUT_AWAY
+	var/species_name = order.get_data("species", global.using_map.default_species)
+	var/decl/species/species = get_species_by_key(species_name)
+	if(species)
+		for(var/obj/item/organ/external/E in .)
+			E.set_species(species_name)
+			E.robotize(model, check_species = species_name)
+			E.status |= ORGAN_CUT_AWAY
 
-DEFINE_ROBOLIMB_DESIGNS(/decl/prosthetics_manufacturer, generic)
+DEFINE_ROBOLIMB_DESIGNS(/decl/prosthetics_manufacturer/basic_human, generic)

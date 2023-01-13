@@ -57,7 +57,7 @@
 	var/datum/extension/interactive/os/os = get_extension(PC, /datum/extension/interactive/os)
 	if(os && os.emagged())
 		user_access = user_access ? user_access.Copy() : list()
-		user_access |= access_syndicate
+		user_access |= access_hacked
 
 	return user_access
 
@@ -97,6 +97,7 @@
 		if(!network)
 			to_chat(usr, SPAN_WARNING("Network error."))
 			return
+<<<<<<< HEAD
 
 		if(!length(network.get_mainframes_by_role(MF_ROLE_CREW_RECORDS, get_access(usr))))
 			to_chat(usr, SPAN_WARNING("You may not have access to generate new crew records, or there may not be a crew record mainframe active on the network."))
@@ -108,6 +109,18 @@
 			qdel(new_record)
 			return
 		active_record = new_record
+=======
+		var/list/accesses = get_access(usr)
+		if(!network.get_mainframes_by_role(MF_ROLE_CREW_RECORDS, accesses))
+			to_chat(usr, SPAN_WARNING("You may not have access to generate new crew records, or there may not be a crew record mainframe active on the network."))
+			return
+		active_record = new/datum/computer_file/report/crew_record()
+		if(network.store_file(active_record, OS_RECORDS_DIR, TRUE, accesses, usr, mainframe_role = MF_ROLE_CREW_RECORDS) != OS_FILE_SUCCESS)
+			to_chat(usr, SPAN_WARNING("Unable to store new crew record. The file server may be non-functional or out of disk space."))
+			qdel(active_record)
+			active_record = null
+			return
+>>>>>>> 314a90bd5cb7012fd8643af221a3ebcd5fa1468e
 		global.all_crew_records.Add(active_record)
 		return 1
 	if(href_list["print_active"])

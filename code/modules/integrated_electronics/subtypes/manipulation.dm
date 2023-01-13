@@ -89,8 +89,8 @@
 					yo.data = round(yo.data, 1)
 
 				var/turf/T = get_turf(assembly)
-				var/target_x = Clamp(T.x + xo.data, 0, world.maxx)
-				var/target_y = Clamp(T.y + yo.data, 0, world.maxy)
+				var/target_x = clamp(T.x + xo.data, 0, world.maxx)
+				var/target_y = clamp(T.y + yo.data, 0, world.maxy)
 
 				assembly.visible_message("<span class='danger'>[assembly] fires [installed_gun]!</span>")
 				shootAt(locate(target_x, target_y, T.z))
@@ -204,7 +204,7 @@
 		var/datum/integrated_io/detonation_time = inputs[1]
 		var/dt
 		if(isnum(detonation_time.data) && detonation_time.data > 0)
-			dt = Clamp(detonation_time.data, 1, 12)*10
+			dt = clamp(detonation_time.data, 1, 12)*10
 		else
 			dt = 15
 		addtimer(CALLBACK(attached_grenade, /obj/item/grenade.proc/activate), dt)
@@ -273,7 +273,7 @@
 			if(2)
 				if(TR.seed) //Could be that they're just using it as a de-weeder
 					TR.age = 0
-					TR.health = 0
+					TR.plant_health = 0
 					if(TR.harvest)
 						TR.harvest = FALSE //To make sure they can't just put in another seed and insta-harvest it
 					qdel(TR.seed)
@@ -292,7 +292,7 @@
 						TR.dead = 0
 						TR.seed = O
 						TR.age = 1
-						TR.health = TR.seed.get_trait(TRAIT_ENDURANCE)
+						TR.plant_health = TR.seed.get_trait(TRAIT_ENDURANCE)
 						TR.lastcycle = world.time
 						O.forceMove(TR)
 						TR.update_icon()
@@ -524,9 +524,9 @@
 	// If the item is in a grabber circuit we'll update the grabber's outputs after we've thrown it.
 	var/obj/item/integrated_circuit/manipulation/grabber/G = A.loc
 
-	var/x_abs = Clamp(T.x + target_x_rel, 0, world.maxx)
-	var/y_abs = Clamp(T.y + target_y_rel, 0, world.maxy)
-	var/range = round(Clamp(sqrt(target_x_rel*target_x_rel+target_y_rel*target_y_rel),0,8),1)
+	var/x_abs = clamp(T.x + target_x_rel, 0, world.maxx)
+	var/y_abs = clamp(T.y + target_y_rel, 0, world.maxy)
+	var/range = round(clamp(sqrt(target_x_rel*target_x_rel+target_y_rel*target_y_rel),0,8),1)
 
 	assembly.visible_message("<span class='danger'>[assembly] has thrown [A]!</span>")
 	log_attack("[assembly] \ref[assembly] has thrown [A].")
@@ -561,6 +561,9 @@
 		/decl/material/solid/metal/silver = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/metal/gold = MATTER_AMOUNT_TRACE
 	)
+
+/obj/item/integrated_circuit/manipulation/wormhole/preserve_in_cryopod(var/obj/machinery/cryopod/pod)
+	return TRUE
 
 /obj/item/integrated_circuit/manipulation/wormhole/do_work()
 	var/obj/machinery/computer/teleporter/tporter = get_pin_data_as_type(IC_INPUT, 1, /obj/machinery/computer/teleporter)
@@ -685,7 +688,7 @@
 		return
 
 	// Doesn't work with anchorable assemblies
-	if(assembly.circuit_flags & IC_FLAG_ANCHORABLE)
+	if(obj_flags & OBJ_FLAG_ANCHORABLE)
 		visible_message("<span class='warning'>\The [get_object()]'s anchoring bolt circuitry blinks red. The preinstalled assembly anchoring bolts are in the way of the pop-out bolts!</span>")
 		return
 

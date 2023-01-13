@@ -14,10 +14,12 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 	var/ooc_codex_information
 	var/cyborg_noun = "Cyborg"
 	var/hidden_from_codex = TRUE
+	var/secret_codex_info
 
 	var/holder_icon
 	var/list/available_bodytypes = list()
 	var/decl/bodytype/default_bodytype
+	var/base_prosthetics_model = /decl/prosthetics_manufacturer/basic_human
 
 	var/list/blood_types = list(
 		/decl/blood_type/aplus,
@@ -46,8 +48,6 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 
 	var/default_h_style = /decl/sprite_accessory/hair/bald
 	var/default_f_style = /decl/sprite_accessory/facial_hair/shaved
-
-	var/icon_cache_uid                        // Used for mob icon cache string.
 
 	var/mob_size = MOB_SIZE_MEDIUM
 	var/strength = STR_MEDIUM
@@ -109,9 +109,8 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 	var/sniff_message_3p = "sniffs the air."
 	var/sniff_message_1p = "You sniff the air."
 
-	var/spawns_with_stack = 0
+
 	// Environment tolerance/life processes vars.
-	var/reagent_tag                                             // Used for metabolizing reagents.
 	var/breath_pressure = 16                                    // Minimum partial pressure safe for breathing, kPa
 	var/breath_type = /decl/material/gas/oxygen                                  // Non-oxygen gas breathed, if any.
 	var/poison_types = list(/decl/material/gas/chlorine = TRUE) // Noticeably poisonous air - ie. updates the toxins indicator on the HUD.
@@ -169,7 +168,6 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 	)
 
 	var/primitive_form            // Lesser form, if any (ie. monkey for humans)
-	var/greater_form              // Greater form, if any, ie. human for monkeys.
 	var/holder_type
 	var/gluttonous = 0            // Can eat some mobs. Values can be GLUT_TINY, GLUT_SMALLER, GLUT_ANYTHING, GLUT_ITEM_TINY, GLUT_ITEM_NORMAL, GLUT_ITEM_ANYTHING, GLUT_PROJECTILE_VOMIT
 	var/stomach_capacity = 5      // How much stuff they can stick in their stomach
@@ -185,14 +183,15 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 		BP_APPENDIX = /obj/item/organ/internal/appendix,
 		BP_EYES =     /obj/item/organ/internal/eyes
 		)
+
 	var/vision_organ              // If set, this organ is required for vision.
 	var/breathing_organ           // If set, this organ is required for breathing.
 
 	var/list/override_organ_types // Used for species that only need to change one or two entries in has_organ.
 
-	//List of organ tags, with the amount and type required for living by this species
-	//#REMOVEME: The vital organ stuff was apparently mostly dropped, so its a bit pointless to improve it...
-	var/list/vital_organs
+	// Losing an organ from the list below will give a grace period (also below) then kill the mob.
+	var/list/vital_organs = list(BP_BRAIN)
+	var/vital_organ_failure_death_delay = 25 SECONDS
 
 	var/obj/effect/decal/cleanable/blood/tracks/move_trail = /obj/effect/decal/cleanable/blood/tracks/footprints // What marks are left when walking
 
@@ -280,18 +279,10 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 	var/preview_icon_path
 	var/preview_outfit = /decl/hierarchy/outfit/job/generic/assistant
 
-/decl/species/Initialize()
-
-	. = ..()
+/decl/species/proc/build_codex_strings()
 
 	if(!codex_description)
 		codex_description = description
-
-	// Populate blood type table.
-	for(var/blood_type in blood_types)
-		var/decl/blood_type/blood_decl = GET_DECL(blood_type)
-		blood_types -= blood_type
-		blood_types[blood_decl.name] = blood_decl.random_weighting
 
 	// Generate OOC info.
 	var/list/codex_traits = list()
@@ -301,7 +292,7 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 		codex_traits += "<li>Whitelist restricted.</li>"
 	if(!has_organ[BP_HEART])
 		codex_traits += "<li>Does not have blood.</li>"
-	if(!has_organ[breathing_organ])
+	if(!breathing_organ)
 		codex_traits += "<li>Does not breathe.</li>"
 	if(species_flags & SPECIES_FLAG_NO_SCAN)
 		codex_traits += "<li>Does not have DNA.</li>"
@@ -353,6 +344,16 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 			ooc_codex_information += "<br><br>[trait_string]"
 		else
 			ooc_codex_information = trait_string
+
+/decl/species/Initialize()
+
+	. = ..()
+
+	// Populate blood type table.
+	for(var/blood_type in blood_types)
+		var/decl/blood_type/blood_decl = GET_DECL(blood_type)
+		blood_types -= blood_type
+		blood_types[blood_decl.name] = blood_decl.random_weighting
 
 	for(var/bodytype in available_bodytypes)
 		available_bodytypes -= bodytype
@@ -434,6 +435,21 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 		var/obj/item/organ/limb_path = organ_data["path"]
 		organ_data["descriptor"] = initial(limb_path.name)
 
+	build_codex_strings()
+
+/decl/species/validate()
+	. = ..()
+
+	for(var/organ_tag in vital_organs)
+		if(!(organ_tag in has_organ) && !(organ_tag in has_limbs))
+			. += "vital organ '[organ_tag]' not present in organ/limb lists"
+
+	for(var/trait_type in traits)
+		var/trait_level = traits[trait_type]
+		var/decl/trait/T = GET_DECL(trait_type)
+		if(!T.validate_level(trait_level))
+			. += "invalid levels for species trait [trait_type]"
+
 /decl/species/proc/equip_survival_gear(var/mob/living/carbon/human/H, var/box_type = /obj/item/storage/box/survival)
 	var/obj/item/storage/backpack/backpack = H.get_equipped_item(slot_back_str)
 	if(istype(backpack))
@@ -454,9 +470,11 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 
 //Checks if an existing limbs is the species default
 /decl/species/proc/is_default_limb(var/obj/item/organ/external/E)
-	if((species_flags & SPECIES_FLAG_CRYSTALLINE) && !BP_IS_CRYSTAL(E))
+	// Crystalline/synthetic species should only count crystalline/synthetic limbs as default.
+	// DO NOT change to (species_flags & SPECIES_FLAG_X) && !BP_IS_X(E)
+	if(!(species_flags & SPECIES_FLAG_CRYSTALLINE) != !BP_IS_CRYSTAL(E))
 		return FALSE
-	if((species_flags & SPECIES_FLAG_SYNTHETIC) && !BP_IS_PROSTHETIC(E))
+	if(!(species_flags & SPECIES_FLAG_SYNTHETIC) != !BP_IS_PROSTHETIC(E))
 		return FALSE
 	for(var/tag in has_limbs)
 		if(E.organ_tag == tag)
@@ -464,25 +482,6 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 			if(ispath(E.type, organ_data["path"]))
 				return TRUE
 	return FALSE
-
-/decl/species/proc/is_missing_vital_organ(var/mob/living/carbon/human/H)
-	for(var/tag in vital_organs)
-		var/obj/item/organ/internal/I = GET_INTERNAL_ORGAN(H, tag)
-		var/list/organ_data = vital_organs[tag]
-		//#TODO: whenever we implement having several organs of the same type change this to check for the minimum amount!
-		if(!I || !ispath(I.type, organ_data["path"]))
-			return TRUE
-	return FALSE
-
-/decl/species/proc/is_vital_organ(var/mob/living/carbon/human/H, var/obj/item/organ/O)
-	if(!LAZYLEN(vital_organs))
-		return FALSE
-	//An organ organ is considered vital if there's less than the required amount of said organ type in the mob after we remove it
-	var/list/organ_data = vital_organs[O.organ_tag]
-	if(!organ_data || !ispath(O.type, organ_data["path"]))
-		return FALSE
-	//#TODO: whenever we implement having several organs of the same type change this to check for the minimum amount!
-	return TRUE
 
 //fully_replace: If true, all existing organs will be discarded. Useful when doing mob transformations, and not caring about the existing organs
 /decl/species/proc/create_missing_organs(var/mob/living/carbon/human/H, var/fully_replace = FALSE)
@@ -589,9 +588,6 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 /decl/species/proc/build_hud(var/mob/living/carbon/human/H)
 	return
 
-/decl/species/proc/can_understand(var/mob/other)
-	return
-
 /decl/species/proc/can_overcome_gravity(var/mob/living/carbon/human/H)
 	return FALSE
 
@@ -686,7 +682,7 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 				light = round(light * turf_brightness)
 				if(H.equipment_light_protection)
 					light -= H.equipment_light_protection
-	return Clamp(max(prescriptions, light), 0, 7)
+	return clamp(max(prescriptions, light), 0, 7)
 
 /decl/species/proc/set_default_hair(var/mob/living/carbon/human/H)
 	if(H.h_style != H.species.default_h_style)
@@ -713,9 +709,6 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 /decl/species/proc/get_blood_color(var/mob/living/carbon/human/H)
 	var/decl/blood_type/blood = get_blood_decl(H)
 	return istype(blood) ? blood.splatter_colour : COLOR_BLOOD_HUMAN
-
-/decl/species/proc/handle_death_check(var/mob/living/carbon/human/H)
-	return FALSE
 
 // Impliments different trails for species depending on if they're wearing shoes.
 /decl/species/proc/get_move_trail(var/mob/living/carbon/human/H)
@@ -971,3 +964,11 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 	H.mob_swap_flags = swap_flags
 	H.mob_push_flags = push_flags
 	H.pass_flags = pass_flags
+
+/decl/species/proc/check_vital_organ_missing(var/mob/living/carbon/H)
+	if(length(vital_organs))
+		for(var/organ_tag in vital_organs)
+			var/obj/item/organ/O = H.get_organ(organ_tag, /obj/item/organ)
+			if(!O || (O.status & ORGAN_DEAD))
+				return TRUE
+	return FALSE

@@ -22,7 +22,7 @@
 /turf/exterior/wall/random/ministation,
 /area/space)
 "ag" = (
-/obj/item/storage/mirror{
+/obj/structure/mirror{
 	pixel_y = 30
 	},
 /turf/simulated/floor/tiled/freezer,
@@ -99,7 +99,7 @@
 /area/ministation/medical)
 "ao" = (
 /obj/structure/table/reinforced,
-/obj/machinery/photocopier/faxmachine,
+/obj/machinery/faxmachine,
 /turf/simulated/floor/tiled,
 /area/ministation/bridge)
 "ap" = (
@@ -435,7 +435,7 @@
 /turf/simulated/floor/tiled,
 /area/ministation/bridge)
 "bi" = (
-/obj/structure/filingcabinet,
+/obj/structure/filing_cabinet,
 /obj/machinery/light_switch{
 	pixel_y = 28
 	},
@@ -648,7 +648,7 @@
 	pixel_x = -23
 	},
 /obj/machinery/keycard_auth{
-	pixel_y = -24
+	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
 	dir = 5
@@ -694,7 +694,7 @@
 /area/ministation/bridge)
 "bQ" = (
 /obj/machinery/keycard_auth{
-	pixel_y = -24
+	dir = 1
 	},
 /obj/machinery/light{
 	dir = 4;
@@ -787,15 +787,15 @@
 /turf/simulated/floor/tiled,
 /area/ministation/bridge)
 "cb" = (
-/obj/item/ore/iron{
+/obj/item/stack/material/ore/iron{
 	pixel_x = -1;
 	pixel_y = -4
 	},
-/obj/item/ore/iron{
+/obj/item/stack/material/ore/iron{
 	pixel_x = 2;
 	pixel_y = 4
 	},
-/obj/item/ore/iron,
+/obj/item/stack/material/ore/iron,
 /turf/simulated/floor/airless,
 /area/space)
 "cc" = (
@@ -1608,7 +1608,7 @@
 /area/ministation/atmospherics)
 "eB" = (
 /obj/structure/table,
-/obj/machinery/photocopier/faxmachine,
+/obj/machinery/faxmachine,
 /turf/simulated/floor/tiled,
 /area/ministation/court)
 "eD" = (
@@ -1638,7 +1638,7 @@
 /turf/simulated/floor/tiled,
 /area/ministation/cargo)
 "eG" = (
-/obj/structure/dispenser/oxygen,
+/obj/structure/tank_rack/oxygen,
 /obj/effect/floor_decal/corner/beige{
 	dir = 6
 	},
@@ -2118,7 +2118,7 @@
 	dir = 8;
 	pixel_x = -24
 	},
-/obj/structure/filingcabinet,
+/obj/structure/filing_cabinet,
 /turf/simulated/floor/tiled,
 /area/ministation/cargo)
 "fS" = (
@@ -2425,11 +2425,11 @@
 /area/ministation/science)
 "gI" = (
 /obj/structure/table,
-/obj/item/extinguisher{
+/obj/item/chems/spray/extinguisher{
 	pixel_x = 4;
 	pixel_y = 3
 	},
-/obj/item/extinguisher,
+/obj/item/chems/spray/extinguisher,
 /obj/machinery/atmospherics/unary/vent_scrubber/on,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	dir = 4
@@ -2766,11 +2766,7 @@
 /area/ministation/detective)
 "hC" = (
 /obj/structure/table/woodentable,
-/obj/item/camera{
-	desc = "A one use - polaroid camera. 30 photos left.";
-	name = "detectives camera";
-	pictures_left = 30
-	},
+/obj/item/camera/detective,
 /obj/machinery/atmospherics/unary/vent_pump/on,
 /obj/item/taperecorder,
 /obj/item/folder/yellow,
@@ -2778,7 +2774,7 @@
 	pixel_x = 4;
 	pixel_y = 26
 	},
-/obj/structure/filingcabinet/wallcabinet{
+/obj/structure/filing_cabinet/wall{
 	pixel_x = 32
 	},
 /turf/simulated/floor/carpet/red,
@@ -2911,13 +2907,13 @@
 "hS" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/structure/closet/crate,
-/obj/item/ore/slag,
+/obj/item/stack/material/ore/slag,
 /obj/effect/floor_decal/industrial/outline/yellow,
 /turf/simulated/floor/tiled,
 /area/ministation/cargo)
 "hT" = (
 /obj/structure/closet/crate,
-/obj/item/ore/glass,
+/obj/item/stack/material/ore/glass,
 /obj/effect/floor_decal/industrial/outline/yellow,
 /obj/machinery/camera/network/mining{
 	dir = 8
@@ -3302,7 +3298,7 @@
 "iV" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/structure/closet/crate,
-/obj/item/ore/glass,
+/obj/item/stack/material/ore/glass,
 /obj/effect/floor_decal/industrial/outline/yellow,
 /turf/simulated/floor/tiled,
 /area/ministation/cargo)
@@ -3739,7 +3735,7 @@
 /area/ministation/cargo)
 "jX" = (
 /obj/structure/closet/crate,
-/obj/item/ore/iron,
+/obj/item/stack/material/ore/iron,
 /obj/effect/floor_decal/industrial/outline/yellow,
 /turf/simulated/floor/tiled,
 /area/ministation/cargo)
@@ -4465,7 +4461,7 @@
 /obj/structure/rack{
 	dir = 1
 	},
-/obj/item/extinguisher,
+/obj/item/chems/spray/extinguisher,
 /obj/item/clothing/head/hardhat/red,
 /obj/random/gloves,
 /turf/simulated/floor/plating,
@@ -5142,7 +5138,7 @@
 /turf/simulated/floor/tiled,
 /area/ministation/eva)
 "nU" = (
-/obj/structure/dispenser/oxygen,
+/obj/structure/tank_rack/oxygen,
 /obj/effect/floor_decal/industrial/warning{
 	dir = 5
 	},
@@ -5708,7 +5704,7 @@
 	pixel_x = -2;
 	pixel_y = -1
 	},
-/obj/item/extinguisher,
+/obj/item/chems/spray/extinguisher,
 /obj/effect/floor_decal/industrial/warning{
 	dir = 10
 	},
@@ -8738,7 +8734,7 @@
 /turf/simulated/floor/tiled,
 /area/ministation/hop)
 "xm" = (
-/obj/structure/filingcabinet/chestdrawer,
+/obj/structure/filing_cabinet/chestdrawer,
 /turf/simulated/floor/tiled,
 /area/ministation/hop)
 "xn" = (
@@ -8939,7 +8935,7 @@
 /area/ministation/hop)
 "xL" = (
 /obj/structure/table,
-/obj/machinery/photocopier/faxmachine,
+/obj/machinery/faxmachine,
 /turf/simulated/floor/tiled,
 /area/ministation/hop)
 "xM" = (
@@ -9360,7 +9356,7 @@
 /area/space)
 "yR" = (
 /obj/machinery/computer/cryopod{
-	pixel_y = 32
+	dir = 2
 	},
 /turf/simulated/floor/shuttle/blue,
 /area/ministation/arrival_shuttle)
@@ -9936,7 +9932,7 @@
 /obj/structure/closet/chefcloset,
 /obj/item/storage/box/ammo/beanbags,
 /obj/item/gun/projectile/shotgun/doublebarrel,
-/obj/item/clothing/suit/storage/hooded/wintercoat/hydro,
+/obj/item/clothing/suit/storage/toggle/wintercoat/hydro,
 /turf/simulated/floor/wood,
 /area/ministation/cafe)
 "Av" = (
@@ -10273,7 +10269,7 @@
 /area/ministation/telecomms)
 "Bx" = (
 /obj/structure/table,
-/obj/item/clothing/suit/storage/hooded/wintercoat,
+/obj/item/clothing/suit/storage/toggle/wintercoat,
 /obj/item/radio/intercom{
 	name = "Station Intercom (General)";
 	pixel_y = 20
@@ -10896,7 +10892,7 @@
 	name = "Station Intercom (General)";
 	pixel_y = -35
 	},
-/obj/item/extinguisher,
+/obj/item/chems/spray/extinguisher,
 /turf/simulated/floor/holofloor/lino,
 /area/ministation/telecomms)
 "Dg" = (
@@ -10904,7 +10900,7 @@
 	dir = 1;
 	pixel_y = -22
 	},
-/obj/structure/filingcabinet/chestdrawer,
+/obj/structure/filing_cabinet/chestdrawer,
 /obj/machinery/light{
 	dir = 4;
 	icon_state = "tube1"
@@ -11792,7 +11788,7 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	dir = 9
 	},
-/obj/structure/dispenser/oxygen,
+/obj/structure/tank_rack/oxygen,
 /turf/simulated/floor/tiled,
 /area/ministation/engine)
 "Fs" = (
@@ -11921,7 +11917,7 @@
 /obj/structure/rack{
 	dir = 8
 	},
-/obj/item/extinguisher{
+/obj/item/chems/spray/extinguisher{
 	pixel_x = 8
 	},
 /obj/item/clothing/gloves/thick,
@@ -15047,7 +15043,7 @@
 "Qm" = (
 /obj/machinery/cryopod/robot,
 /obj/machinery/computer/cryopod/robot{
-	pixel_y = -32
+	dir = 1
 	},
 /turf/simulated/floor/tiled/white,
 /area/ministation/science)
@@ -15998,7 +15994,7 @@
 /turf/simulated/floor,
 /area/ministation/atmospherics)
 "Vd" = (
-/obj/structure/filingcabinet,
+/obj/structure/filing_cabinet,
 /obj/machinery/firealarm{
 	dir = 4;
 	pixel_x = 24
@@ -16554,7 +16550,7 @@
 	},
 /obj/structure/table/steel,
 /obj/item/wrench,
-/obj/item/taperoll/atmos,
+/obj/item/stack/tape_roll/barricade_tape/atmos,
 /turf/simulated/floor,
 /area/ministation/atmospherics)
 "XY" = (
@@ -16944,7 +16940,7 @@
 /area/ministation/cryo)
 "ZK" = (
 /obj/machinery/computer/cryopod{
-	pixel_y = 32
+	dir = 2
 	},
 /obj/machinery/alarm{
 	dir = 8;

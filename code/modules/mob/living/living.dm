@@ -224,7 +224,7 @@ default behaviour is:
 /mob/living/proc/adjustBruteLoss(var/amount)
 	if (status_flags & GODMODE)
 		return
-	health = Clamp(health - amount, 0, maxHealth)
+	health = clamp(health - amount, 0, maxHealth)
 
 /mob/living/proc/getOxyLoss()
 	return 0
@@ -301,16 +301,6 @@ default behaviour is:
 		//Leave this commented out, it will cause storage items to exponentially add duplicate to the list
 		//for(var/obj/item/storage/S in Storage.return_inv()) //Check for storage items
 		//	L += get_contents(S)
-
-		for(var/obj/item/gift/G in Storage.return_inv()) //Check for gift-wrapped items
-			L += G.gift
-			if(istype(G.gift, /obj/item/storage))
-				L += get_contents(G.gift)
-
-		for(var/obj/item/smallDelivery/D in Storage.return_inv()) //Check for package wrapped items
-			L += D.wrapped
-			if(istype(D.wrapped, /obj/item/storage)) //this should never happen
-				L += get_contents(D.wrapped)
 		return L
 
 	else
@@ -318,16 +308,6 @@ default behaviour is:
 		L += src.contents
 		for(var/obj/item/storage/S in src.contents)	//Check for storage items
 			L += get_contents(S)
-
-		for(var/obj/item/gift/G in src.contents) //Check for gift-wrapped items
-			L += G.gift
-			if(istype(G.gift, /obj/item/storage))
-				L += get_contents(G.gift)
-
-		for(var/obj/item/smallDelivery/D in src.contents) //Check for package wrapped items
-			L += D.wrapped
-			if(istype(D.wrapped, /obj/item/storage)) //this should never happen
-				L += get_contents(D.wrapped)
 		return L
 
 /mob/living/proc/check_contents_for(A)
@@ -379,15 +359,17 @@ default behaviour is:
 /mob/living/proc/restore_all_organs()
 	return
 
+
+/mob/living/carbon/revive()
+	var/obj/item/cuffs = get_equipped_item(slot_handcuffed_str)
+	if (cuffs)
+		unEquip(cuffs, get_turf(src))
+	. = ..()
+
 /mob/living/proc/revive()
 	rejuvenate()
 	if(buckled)
 		buckled.unbuckle_mob()
-	if(iscarbon(src))
-		var/mob/living/carbon/C = src
-		var/obj/item/cuffs = get_equipped_item(slot_handcuffed_str)
-		if (cuffs)
-			C.unEquip(cuffs)
 	BITSET(hud_updateflag, HEALTH_HUD)
 	BITSET(hud_updateflag, STATUS_HUD)
 	BITSET(hud_updateflag, LIFE_HUD)
@@ -397,17 +379,8 @@ default behaviour is:
 /mob/living/proc/rejuvenate()
 
 	// Wipe all of our reagent lists.
-	var/datum/reagents/bloodstr_reagents = get_injected_reagents()
-	if(bloodstr_reagents)
-		bloodstr_reagents.clear_reagents()
-	var/datum/reagents/touching_reagents = get_contact_reagents()
-	if(touching_reagents)
-		touching_reagents.clear_reagents()
-	var/datum/reagents/ingested_reagents = get_ingested_reagents()
-	if(ingested_reagents)
-		ingested_reagents.clear_reagents()
-	if(reagents)
-		reagents.clear_reagents()
+	for(var/datum/reagents/reagent_list as anything in get_metabolizing_reagent_holders(include_contact = TRUE))
+		reagent_list.clear_reagents()
 
 	// shut down various types of badness
 	setToxLoss(0)
@@ -475,7 +448,7 @@ default behaviour is:
 /mob/living/carbon/basic_revival(var/repair_brain = TRUE)
 	if(repair_brain && should_have_organ(BP_BRAIN))
 		repair_brain = FALSE
-		var/obj/item/organ/internal/brain/brain = get_organ(BP_BRAIN, /obj/item/organ/internal/brain)
+		var/obj/item/organ/internal/brain = GET_INTERNAL_ORGAN(src, BP_BRAIN)
 		if(brain)
 			if(brain.damage > (brain.max_damage/2))
 				brain.damage = (brain.max_damage/2)
@@ -681,11 +654,6 @@ default behaviour is:
 		return
 	return 1
 
-/mob/living/carbon/get_contained_external_atoms()
-	. = ..()
-	if(.)
-		LAZYREMOVE(., get_organs())
-
 /mob/proc/can_be_possessed_by(var/mob/observer/ghost/possessor)
 	return istype(possessor) && possessor.client
 
@@ -795,9 +763,17 @@ default behaviour is:
 	if(!lying && T.above && T.above.is_open() && !T.above.is_flooded() && can_overcome_gravity())
 		return FALSE
 	if(prob(5))
+		var/datum/reagents/metabolism/inhaled = get_inhaled_reagents()
+		var/datum/reagents/metabolism/ingested = get_ingested_reagents()
 		var/obj/effect/fluid/F = locate() in loc
 		to_chat(src, SPAN_DANGER("You choke and splutter as you inhale [(F?.reagents && F.reagents.get_primary_reagent_name()) || "liquid"]!"))
-		F?.reagents?.trans_to_holder(get_ingested_reagents(), min(F.reagents.total_volume, rand(2,5)))
+		var/inhale_amount = 0
+		if(inhaled)
+			inhale_amount = rand(2,5)
+			F?.reagents?.trans_to_holder(inhaled, min(F.reagents.total_volume, inhale_amount))
+		if(ingested)
+			var/ingest_amount = 5 - inhale_amount
+			F?.reagents?.trans_to_holder(ingested, min(F.reagents.total_volume, ingest_amount))
 
 	T.show_bubbles()
 	return TRUE // Presumably chemical smoke can't be breathed while you're underwater.
@@ -926,6 +902,9 @@ default behaviour is:
 	return reagents
 
 /mob/living/proc/get_injected_reagents()
+	return reagents
+
+/mob/living/proc/get_inhaled_reagents()
 	return reagents
 
 /mob/living/proc/get_adjusted_metabolism(metabolism)
@@ -1058,6 +1037,17 @@ default behaviour is:
 /mob/living/proc/apply_fall_damage(var/turf/landing)
 	adjustBruteLoss(rand(max(1, CEILING(mob_size * 0.33)), max(1, CEILING(mob_size * 0.66))))
 
+/mob/living/proc/get_toxin_resistance()
+	var/decl/species/species = get_species()
+	return isnull(species) ? 1 : species.toxins_mod
+
+/mob/living/proc/get_metabolizing_reagent_holders(var/include_contact = FALSE)
+	for(var/datum/reagents/adding in list(reagents, get_ingested_reagents(), get_inhaled_reagents()))
+		LAZYDISTINCTADD(., adding)
+	if(include_contact)
+		for(var/datum/reagents/adding in list(get_injected_reagents(), get_contact_reagents()))
+			LAZYDISTINCTADD(., adding)
+
 /mob/living/get_alt_interactions(mob/user)
 	. = ..()
 	LAZYADD(., /decl/interaction_handler/admin_kill)
@@ -1071,7 +1061,7 @@ default behaviour is:
 /decl/interaction_handler/admin_kill/is_possible(atom/target, mob/user, obj/item/prop)
 	. = ..()
 	if(.)
-		if(!check_rights(R_INVESTIGATE, 0, user)) 
+		if(!check_rights(R_INVESTIGATE, 0, user))
 			return FALSE
 		var/mob/living/M = target
 		if(M.stat == DEAD)
@@ -1087,3 +1077,6 @@ default behaviour is:
 		return FALSE
 	M.death()
 	log_and_message_admins("\The [user] admin-killed [key_name].")
+
+/mob/living/get_speech_bubble_state_modifier()
+	return isSynthetic() ? "synth" : ..()

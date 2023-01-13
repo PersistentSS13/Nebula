@@ -68,7 +68,7 @@
 	if(!net)
 		// We should already be queued for reconnect if it went down, so do nothing.
 		return FALSE
-	if(!net.devices_by_tag[network_tag] != src)
+	if(net.devices_by_tag[network_tag] != src)
 		// The connection has failed but the network is still up, so we try to reconnect.
 		if(!connect())
 			return FALSE
@@ -449,6 +449,10 @@
 		var/alias = pub.name
 		alias = replacetext(alias, " ", "_")
 		LAZYSET(command_and_write, alias, pub)
+
+/**Returns the outward facing URI for this network device.*/
+/datum/extension/network_device/proc/get_network_URI()
+	return "[network_tag].[network_id]"
 
 //Subtype for passive devices, doesn't init until asked for
 /datum/extension/network_device/lazy

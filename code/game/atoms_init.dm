@@ -49,6 +49,10 @@
 		default_pixel_z = pixel_z
 	else
 		pixel_z = default_pixel_z
+	if(isnull(default_pixel_w))
+		default_pixel_w = pixel_w
+	else
+		pixel_w = default_pixel_w
 
 	if(light_power && light_range)
 		update_light()
@@ -103,6 +107,14 @@
 		loc.Entered(src, null)
 
 /atom/movable/Destroy()
+	// Clear this up early so it doesn't complain about events being disposed while it's listening.
+	if(isatom(virtual_mob))
+		QDEL_NULL(virtual_mob)
+
+	// If you want to keep any of these atoms, handle them before ..()
+	for(var/thing in contents) // proooobably safe to assume they're never going to have non-movables in contents?
+		qdel(thing)
+
 	unregister_all_movement(loc, src) // unregister events before destroy to avoid expensive checking
 
 	. = ..()
@@ -118,8 +130,37 @@
 	if (bound_overlay)
 		QDEL_NULL(bound_overlay)
 
-	if(ismob(virtual_mob))
-		QDEL_NULL(virtual_mob)
-
 	vis_locs = null //clears this atom out of all vis_contents
 	clear_vis_contents(src)
+
+/atom/GetCloneArgs()
+	return list(loc)
+
+/atom/PopulateClone(atom/clone)
+	//Not entirely sure about icon stuff. Some legacy things would need it copied, but not more recently coded atoms..
+	clone.appearance = appearance
+	clone.set_invisibility(invisibility)
+
+	clone.SetName(name)
+	clone.set_density(density)
+	clone.set_opacity(opacity)
+	clone.set_gender(gender, FALSE)
+	clone.set_dir(dir)
+
+	clone.blood_DNA    = listDeepClone(blood_DNA, TRUE)
+	clone.was_bloodied = was_bloodied
+	clone.blood_color  = blood_color
+	clone.germ_level   = germ_level
+	clone.temperature  = temperature
+
+	//Setup reagents
+	QDEL_NULL(clone.reagents)
+	clone.reagents = reagents?.Clone()
+	if(clone.reagents)
+		clone.reagents.set_holder(clone) //Holder MUST be set after cloning reagents
+	return clone
+
+/atom/movable/PopulateClone(atom/movable/clone)
+	clone = ..()
+	clone.anchored = anchored
+	return clone

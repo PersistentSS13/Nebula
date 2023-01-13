@@ -7,13 +7,13 @@
 	light_overlay = "hardhat_light"
 	w_class = ITEM_SIZE_NORMAL
 	armor = list(
-		melee = ARMOR_MELEE_RESISTANT,
-		bullet = ARMOR_BALLISTIC_MINOR,
-		laser = ARMOR_LASER_SMALL,
-		energy = ARMOR_ENERGY_MINOR,
-		bomb = ARMOR_BOMB_PADDED,
-		bio = ARMOR_BIO_MINOR,
-		rad = ARMOR_RAD_MINOR
+		ARMOR_MELEE = ARMOR_MELEE_RESISTANT,
+		ARMOR_BULLET = ARMOR_BALLISTIC_MINOR,
+		ARMOR_LASER = ARMOR_LASER_SMALL,
+		ARMOR_ENERGY = ARMOR_ENERGY_MINOR,
+		ARMOR_BOMB = ARMOR_BOMB_PADDED,
+		ARMOR_BIO = ARMOR_BIO_MINOR,
+		ARMOR_RAD = ARMOR_RAD_MINOR
 	)
 	siemens_coefficient = 0.9
 	light_wedge = LIGHT_WIDE
@@ -43,11 +43,11 @@
 	light_overlay = "EMS_light"
 	w_class = ITEM_SIZE_NORMAL
 	armor = list(
-		melee = ARMOR_MELEE_RESISTANT,
-		bullet = ARMOR_BALLISTIC_MINOR,
-		energy = ARMOR_ENERGY_MINOR,
-		bomb = ARMOR_BOMB_PADDED,
-		bio = ARMOR_BIO_MINOR
+		ARMOR_MELEE = ARMOR_MELEE_RESISTANT,
+		ARMOR_BULLET = ARMOR_BALLISTIC_MINOR,
+		ARMOR_ENERGY = ARMOR_ENERGY_MINOR,
+		ARMOR_BOMB = ARMOR_BOMB_PADDED,
+		ARMOR_BIO = ARMOR_BIO_MINOR
 	)
 
 /obj/item/clothing/head/hardhat/firefighter
@@ -56,7 +56,7 @@
 	icon = 'icons/clothing/head/hardhat/firefighter.dmi'
 	item_flags = ITEM_FLAG_THICKMATERIAL | ITEM_FLAG_AIRTIGHT
 	permeability_coefficient = 0
-	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|BLOCKHAIR
+	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|BLOCK_ALL_HAIR
 	body_parts_covered = SLOT_HEAD|SLOT_FACE|SLOT_EYES
 	cold_protection = SLOT_HEAD
 	min_cold_protection_temperature = SPACE_HELMET_MIN_COLD_PROTECTION_TEMPERATURE
@@ -69,7 +69,7 @@
 	name = "damage control helmet"
 	desc = "A helmet commonly used by engineers and first responders throughout the human space. Comes with a built-in flashlight."
 	icon = 'icons/clothing/head/hardhat/damage_control.dmi'
-	flags_inv = HIDEEARS|BLOCKHEADHAIR
+	flags_inv = HIDEEARS|BLOCK_HEAD_HAIR
 
 /obj/item/clothing/head/hardhat/ems/dc_light
 	name = "light damage control helmet"

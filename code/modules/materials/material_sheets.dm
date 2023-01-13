@@ -9,23 +9,31 @@
 	max_amount = 60
 	randpixel = 3
 	icon = 'icons/obj/materials.dmi'
-	matter = null
+	material = null //! Material will be set only during Initialize, or the stack is invalid.
+	matter = null   //! As with material, these stacks should only set this in Initialize as they are abstract 'shapes' rather than discrete objects.
 	pickup_sound = 'sound/foley/tooldrop3.ogg'
 	drop_sound = 'sound/foley/tooldrop2.ogg'
 	singular_name = "sheet"
 	plural_name = "sheets"
+	abstract_type = /obj/item/stack/material
+	is_spawnable_type = FALSE // Mapped subtypes set this so they can be spawned from the verb.
 	var/decl/material/reinf_material
 
 /obj/item/stack/material/Initialize(mapload, var/amount, var/_material, var/_reinf_material)
-	. = ..(mapload, amount, _material)
-	if(!istype(material))
-		return INITIALIZE_HINT_QDEL
+
 	if(!_reinf_material)
 		_reinf_material = reinf_material
+
 	if(_reinf_material)
 		reinf_material = GET_DECL(_reinf_material)
 		if(!istype(reinf_material))
 			reinf_material = null
+
+	. = ..(mapload, amount, _material)
+	if(!istype(material))
+		log_warning("[src] ([x],[y],[z]) was deleted because it didn't have a valid material set('[material]')!")
+		return INITIALIZE_HINT_QDEL
+
 	base_state = icon_state
 	if(material.conductive)
 		obj_flags |= OBJ_FLAG_CONDUCTIBLE
@@ -47,15 +55,12 @@
 /obj/item/stack/material/get_material()
 	return material
 
-/obj/item/stack/material/update_matter()
-	create_matter()
-
 /obj/item/stack/material/create_matter()
-	matter = list()
-	if(istype(material))
-		matter[material.type] = MATTER_AMOUNT_PRIMARY * get_matter_amount_modifier()
+	// Set our reinf material in the matter list so that the base
+	// stack material population runs properly and includes it.
 	if(istype(reinf_material))
-		matter[reinf_material.type] = MATTER_AMOUNT_REINFORCEMENT * get_matter_amount_modifier()
+		LAZYSET(matter, reinf_material.type, MATTER_AMOUNT_REINFORCEMENT)  // No matter_multiplier as this is applied in parent.
+	..()
 
 /obj/item/stack/material/proc/update_strings()
 	if(amount>1)
@@ -69,6 +74,13 @@
 	if(reinf_material)
 		SetName("reinforced [name]")
 		desc = "[desc]\nIt is reinforced with the [reinf_material.use_name] lattice."
+
+	if(material.stack_origin_tech)
+		origin_tech = material.stack_origin_tech
+	else if(reinf_material && reinf_material.stack_origin_tech)
+		origin_tech = reinf_material.stack_origin_tech
+	else
+		origin_tech = initial(origin_tech)
 
 /obj/item/stack/material/use(var/used)
 	. = ..()
@@ -84,15 +96,6 @@
 	if((reinf_material && reinf_material.type) != (M.reinf_material && M.reinf_material.type))
 		return FALSE
 	return TRUE
-
-/obj/item/stack/material/update_strings()
-	. = ..()
-	if(material.stack_origin_tech)
-		origin_tech = material.stack_origin_tech
-	else if(reinf_material && reinf_material.stack_origin_tech)
-		origin_tech = reinf_material.stack_origin_tech
-	else
-		origin_tech = initial(origin_tech)
 
 /obj/item/stack/material/transfer_to(obj/item/stack/material/M, var/tamount=null)
 	if(!is_same(M))
@@ -123,7 +126,7 @@
 	if(reinf_material && reinf_material.default_solid_form && IS_WELDER(W))
 		var/obj/item/weldingtool/WT = W
 		if(WT.isOn() && WT.get_fuel() > 2 && use(2))
-			WT.remove_fuel(2, user)
+			WT.weld(2, user)
 			to_chat(user, SPAN_NOTICE("You recover some [reinf_material.use_name] from \the [src]."))
 			reinf_material.create_object(get_turf(user), 1)
 			return TRUE
@@ -131,6 +134,7 @@
 	return ..()
 
 /obj/item/stack/material/on_update_icon()
+	. = ..()
 	color = material.color
 	alpha = 100 + max(1, amount/25)*(material.opacity * 255)
 	update_state_from_amount()
@@ -224,7 +228,7 @@
 	stack_merge_type = /obj/item/stack/material/pane
 
 /obj/item/stack/material/pane/update_state_from_amount()
-	if(reinf_material) 
+	if(reinf_material)
 		icon_state = "sheet-glass-reinf"
 		base_state = icon_state
 		plural_icon_state = "sheet-glass-reinf-mult"
@@ -346,6 +350,8 @@
 	uses_charge = 1
 	charge_costs = list(500)
 	material = /decl/material/solid/metal/steel
+	max_health = ITEM_HEALTH_NO_DAMAGE
+	is_spawnable_type = FALSE
 
 /obj/item/stack/material/strut/get_recipes()
 	return material.get_strut_recipes(reinf_material && reinf_material.type)

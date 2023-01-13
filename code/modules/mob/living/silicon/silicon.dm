@@ -10,6 +10,7 @@
 	bone_material = null
 	bone_amount = 0
 
+	var/dexterity = DEXTERITY_FULL
 	var/syndicate = 0
 	var/const/MAIN_CHANNEL = "Main Frequency"
 	var/lawchannel = MAIN_CHANNEL // Default channel on which to state laws
@@ -32,7 +33,6 @@
 	var/next_alarm_notice
 	var/list/datum/alarm/queued_alarms = new()
 
-	var/list/access_rights
 	var/obj/item/card/id/idcard = /obj/item/card/id/synthetic
 	// Various machinery stock parts used by stuff like OS (should be merged with above at some point)
 	var/list/stock_parts = list()
@@ -45,6 +45,9 @@
 
 	#define SEC_HUD 1 //Security HUD mode
 	#define MED_HUD 2 //Medical HUD mode
+
+/mob/living/silicon/has_dexterity(var/dex_level)
+	return dexterity >= dex_level
 
 /mob/living/silicon/Initialize()
 	global.silicon_mob_list += src
@@ -69,8 +72,10 @@
 	global.silicon_mob_list -= src
 	QDEL_NULL(silicon_radio)
 	QDEL_NULL(silicon_camera)
+	QDEL_NULL(idcard)
 	for(var/datum/alarm_handler/AH in SSalarm.all_handlers)
 		AH.unregister_alarm(src)
+	QDEL_NULL_LIST(stock_parts)
 	return ..()
 
 /mob/living/silicon/fully_replace_character_name(new_name)
@@ -225,7 +230,7 @@
 		dat += "Current default language: [lang.name] - <a href='byond://?src=\ref[src];default_lang=reset'>reset</a><br/><br/>"
 
 	for(var/decl/language/L in languages)
-		if(!(L.flags & NONGLOBAL))
+		if(!(L.flags & LANG_FLAG_NONGLOBAL))
 			var/default_str
 			if(L == default_language)
 				default_str = " - default - <a href='byond://?src=\ref[src];default_lang=reset'>reset</a>"
@@ -445,3 +450,6 @@
 /mob/living/silicon/handle_flashed(var/obj/item/flash/flash, var/flash_strength)
 	SET_STATUS_MAX(src, STAT_WEAK, flash_strength)
 	return TRUE
+
+/mob/living/silicon/get_speech_bubble_state_modifier()
+	return "synth"

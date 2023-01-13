@@ -54,6 +54,7 @@
 	simulated = FALSE
 	anchored = TRUE
 	mouse_opacity = FALSE
+	abstract_type = /atom/movable/openspace // unsure if this is valid, check with Lohi
 
 /atom/movable/openspace/can_fall()
 	return FALSE
@@ -79,17 +80,19 @@
 	name = "openspace multiplier"
 	desc = "You shouldn't see this."
 	icon = 'icons/effects/lighting_overlay.dmi'
-	icon_state = "dark"
+	icon_state = "blank"
 	plane = OPENTURF_MAX_PLANE
 	layer = MIMICED_LIGHTING_LAYER
 	blend_mode = BLEND_MULTIPLY
 	color = SHADOWER_DARKENING_COLOR
 
-/atom/movable/openspace/multiplier/Destroy()
+/atom/movable/openspace/multiplier/Destroy(force)
+	if(!force)
+		PRINT_STACK_TRACE("Turf shadower improperly qdel'd.")
+		return QDEL_HINT_LETMELIVE
 	var/turf/myturf = loc
 	if (istype(myturf))
 		myturf.shadower = null
-
 	return ..()
 
 /atom/movable/openspace/multiplier/proc/copy_lighting(atom/movable/lighting_overlay/LO)
@@ -136,6 +139,7 @@
 	var/mimiced_type
 	var/original_z
 	var/override_depth
+	var/have_performed_fixup = FALSE
 
 /atom/movable/openspace/mimic/New()
 	atom_flags |= ATOM_FLAG_INITIALIZED

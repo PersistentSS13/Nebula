@@ -8,8 +8,6 @@
 
 	var/wet = 0
 	var/image/wet_overlay = null
-	var/to_be_destroyed = 0 //Used for fire, if a melting temperature was reached, it will be destroyed
-	var/max_fire_temperature_sustained = 0 //The max temperature of the fire which it was subjected to
 	var/dirt = 0
 	var/timer_id
 
@@ -30,12 +28,12 @@
 		wet_overlay = image('icons/effects/water.dmi',src,"wet_floor")
 		overlays += wet_overlay
 
-	timer_id = addtimer(CALLBACK(src,/turf/simulated/proc/unwet_floor),8 SECONDS, TIMER_STOPPABLE|TIMER_UNIQUE|TIMER_NO_HASH_WAIT|TIMER_OVERRIDE)
+	timer_id = addtimer(CALLBACK(src,/turf/simulated/proc/unwet_floor), 8 SECONDS, (TIMER_STOPPABLE|TIMER_UNIQUE|TIMER_NO_HASH_WAIT|TIMER_OVERRIDE))
 
 /turf/simulated/proc/unwet_floor(var/check_very_wet = TRUE)
 	if(check_very_wet && wet >= 2)
 		wet--
-		timer_id = addtimer(CALLBACK(src,/turf/simulated/proc/unwet_floor), 8 SECONDS, TIMER_STOPPABLE|TIMER_UNIQUE|TIMER_NO_HASH_WAIT|TIMER_OVERRIDE)
+		timer_id = addtimer(CALLBACK(src,/turf/simulated/proc/unwet_floor), 8 SECONDS, (TIMER_STOPPABLE|TIMER_UNIQUE|TIMER_NO_HASH_WAIT|TIMER_OVERRIDE))
 		return
 	wet = 0
 	if(wet_overlay)
@@ -68,16 +66,16 @@
 /turf/simulated/Entered(atom/A, atom/OL)
 	. = ..()
 	if (istype(A))
-		A.OnSimulatedTurfEntered(src)
+		A.OnSimulatedTurfEntered(src, OL)
 
-/atom/proc/OnSimulatedTurfEntered(turf/simulated/T)
+/atom/proc/OnSimulatedTurfEntered(turf/simulated/T, old_loc)
 	set waitfor = FALSE
 	return
 
-/mob/living/OnSimulatedTurfEntered(turf/simulated/T)
+/mob/living/OnSimulatedTurfEntered(turf/simulated/T, old_loc)
 	T.update_dirt()
 
-	HandleBloodTrail(T)
+	HandleBloodTrail(T, old_loc)
 
 	if(lying || !T.wet)
 		return
@@ -104,10 +102,10 @@
 			step(src, dir)
 			sleep(1)
 
-/mob/living/proc/HandleBloodTrail(turf/simulated/T)
+/mob/living/proc/HandleBloodTrail(turf/simulated/T, old_loc)
 	return
 
-/mob/living/carbon/human/HandleBloodTrail(turf/simulated/T)
+/mob/living/carbon/human/HandleBloodTrail(turf/simulated/T, old_loc)
 	// Tracking blood
 	var/obj/item/source
 	var/obj/item/clothing/shoes/shoes = get_equipped_item(slot_shoes_str)
@@ -121,7 +119,7 @@
 			if(stomper && stomper.coating && stomper.coating.total_volume > 1)
 				source = stomper
 	if(!source)
-		species.handle_trail(src, T)
+		species.handle_trail(src, T, old_loc)
 		return
 
 	var/list/bloodDNA
@@ -137,9 +135,9 @@
 
 	if(species.get_move_trail(src))
 		T.AddTracks(species.get_move_trail(src),bloodDNA, dir, 0, bloodcolor) // Coming
-		var/turf/simulated/from = get_step(src, global.reverse_dir[dir])
-		if(istype(from))
-			from.AddTracks(species.get_move_trail(src), bloodDNA, 0, dir, bloodcolor) // Going
+		if(istype(old_loc, /turf/simulated))
+			var/turf/simulated/old_turf = old_loc
+			old_turf.AddTracks(species.get_move_trail(src), bloodDNA, 0, dir, bloodcolor) // Going
 
 //returns 1 if made bloody, returns 0 otherwise
 /turf/simulated/add_blood(mob/living/carbon/human/M)

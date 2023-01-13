@@ -19,6 +19,9 @@
 /obj/screen/receive_mouse_drop(atom/dropping, mob/user)
 	return TRUE
 
+/obj/screen/check_mousedrop_interactivity(var/mob/user)
+	return user.client && (src in user.client.screen)
+
 /obj/screen/Destroy()
 	master = null
 	return ..()
@@ -50,7 +53,6 @@
 	name = "default attack selector"
 	icon_state = "attack_selector"
 	screen_loc = ui_attack_selector
-	maptext_y = 12
 	var/mob/living/carbon/human/owner
 
 /obj/screen/default_attack_selector/Click(location, control, params)
@@ -68,7 +70,7 @@
 
 		return
 
-	owner.set_default_unarmed_attack()
+	owner.set_default_unarmed_attack(src)
 	return TRUE
 
 /obj/screen/default_attack_selector/Destroy()
@@ -346,8 +348,9 @@
 			usr.swap_hand()
 		if("hand")
 			usr.swap_hand()
-		else if(usr.attack_ui(slot_id))
-			usr.update_inv_hands(0)
+		else
+			if(usr.attack_ui(slot_id))
+				usr.update_inv_hands(0)
 	return 1
 
 // Character setup stuff

@@ -43,18 +43,10 @@
 	. = ..()
 
 /mob/living/carbon/human/get_ingested_reagents()
-	if(should_have_organ(BP_STOMACH))
-		var/obj/item/organ/internal/stomach/stomach = get_organ(BP_STOMACH, /obj/item/organ/internal/stomach)
-		if(stomach)
-			return stomach.ingested
-	return get_contact_reagents() // Kind of a shitty hack, but makes more sense to me than digesting them.
-
-/mob/living/carbon/human/metabolize_ingested_reagents()
-	if(should_have_organ(BP_STOMACH))
-		var/obj/item/organ/internal/stomach/stomach = get_organ(BP_STOMACH, /obj/item/organ/internal/stomach)
-		if(stomach)
-			stomach.metabolize()
-		return stomach?.ingested
+	if(!should_have_organ(BP_STOMACH))
+		return
+	var/obj/item/organ/internal/stomach/stomach = get_organ(BP_STOMACH)
+	return stomach?.ingested
 
 /mob/living/carbon/human/get_fullness()
 	if(!should_have_organ(BP_STOMACH))
@@ -63,6 +55,12 @@
 	if(stomach)
 		return nutrition + (stomach.ingested?.total_volume * 10)
 	return 0 //Always hungry, but you can't actually eat. :(
+
+/mob/living/carbon/human/get_inhaled_reagents()
+	if(!should_have_organ(BP_LUNGS))
+		return
+	var/obj/item/organ/internal/lungs/lungs = get_organ(BP_LUNGS)
+	return lungs?.inhaled
 
 /mob/living/carbon/human/Stat()
 	. = ..()
@@ -517,8 +515,8 @@
 			return
 		timevomit = max(timevomit, 5)
 
-	timevomit = Clamp(timevomit, 1, 10)
-	level = Clamp(level, 1, 3)
+	timevomit = clamp(timevomit, 1, 10)
+	level = clamp(level, 1, 3)
 
 	lastpuke = TRUE
 	to_chat(src, SPAN_WARNING("You feel nauseous..."))
@@ -646,7 +644,7 @@
 //set_species should not handle the entirety of initing the mob, and should not trigger deep updates
 //It focuses on setting up species-related data, without force applying them uppon organs and the mob's appearance.
 // For transforming an existing mob, look at change_species()
-/mob/living/carbon/human/proc/set_species(var/new_species_name)
+/mob/living/carbon/human/proc/set_species(var/new_species_name, var/new_bodytype = null)
 	if(!new_species_name)
 		CRASH("set_species on mob '[src]' was passed a null species name '[new_species_name]'!")
 	var/new_species = get_species_by_key(new_species_name)
@@ -679,7 +677,9 @@
 		set_gender(new_pronouns.name)
 
 	//Handle bodytype
-	set_bodytype(species.get_bodytype_by_pronouns(new_pronouns), FALSE)
+	if(!new_bodytype)
+		new_bodytype = species.get_bodytype_by_pronouns(new_pronouns)
+	set_bodytype(new_bodytype, FALSE)
 
 	available_maneuvers = species.maneuvers.Copy()
 
@@ -699,6 +699,15 @@
 	if(!istype(move_intent))
 		set_next_usable_move_intent()
 	update_emotes()
+
+	// Update codex scannables.
+	if(species.secret_codex_info)
+		var/datum/extension/scannable/scannable = get_or_create_extension(src, /datum/extension/scannable)
+		scannable.associated_entry = "[lowertext(species.name)] (species)"
+		scannable.scan_delay = 5 SECONDS
+	else if(has_extension(src, /datum/extension/scannable))
+		remove_extension(src, /datum/extension/scannable)
+
 	return TRUE
 
 //Syncs cultural tokens to the currently set species, and may trigger a language update
@@ -770,10 +779,18 @@
 				permitted_languages |= lang
 
 	for(var/decl/language/lang in languages)
-		if(lang.type in permitted_languages)
-			continue
-		if(!(lang.flags & RESTRICTED) && (lang.flags & WHITELISTED) && is_alien_whitelisted(src, lang))
-			continue
+		// Forbidden languages are always removed.
+		if(!(lang.flags & LANG_FLAG_FORBIDDEN))
+			// Admin can have whatever available language they want.
+			if(has_admin_rights())
+				continue
+			// Whitelisted languages are fine.
+			if((lang.flags & LANG_FLAG_WHITELISTED) && is_alien_whitelisted(src, lang))
+				continue
+			// Culture-granted languages are fine.
+			if(lang.type in permitted_languages)
+				continue
+		// This language is Not Fine, remove it.
 		if(lang.type == default_language)
 			default_language = null
 		remove_language(lang.type)
@@ -783,7 +800,6 @@
 
 	if(length(default_languages) && isnull(default_language))
 		default_language = default_languages[1]
-
 
 /mob/living/carbon/human/can_inject(var/mob/user, var/target_zone)
 	var/obj/item/organ/external/affecting = GET_EXTERNAL_ORGAN(src, target_zone)
@@ -990,10 +1006,11 @@
 		. *= (!BP_IS_PROSTHETIC(H)) ? pulse()/PULSE_NORM : 1.5
 
 /mob/living/carbon/human/need_breathe()
-	if(!(mNobreath in mutations) && species.breathing_organ && should_have_organ(species.breathing_organ))
-		return 1
-	else
-		return 0
+	if(mNobreath in mutations)
+		return FALSE
+	if(!species.breathing_organ || !should_have_organ(species.breathing_organ))
+		return FALSE
+	return TRUE
 
 /mob/living/carbon/human/get_adjusted_metabolism(metabolism)
 	return ..() * (species ? species.metabolism_mod : 1)
@@ -1015,31 +1032,35 @@
 			var/list/status = list()
 
 			var/feels = 1 + round(org.pain/100, 0.1)
-			var/brutedamage = org.brute_dam * feels
-			var/burndamage = org.burn_dam * feels
+			var/feels_brute = (org.brute_dam * feels)
+			if(feels_brute > 0)
+				switch(feels_brute / org.max_damage)
+					if(0 to 0.35)
+						status += "slightly sore"
+					if(0.35 to 0.65)
+						status += "very sore"
+					if(0.65 to INFINITY)
+						status += "throbbing with agony"
 
-			switch(brutedamage)
-				if(1 to 20)
-					status += "slightly sore"
-				if(20 to 40)
-					status += "very sore"
-				if(40 to INFINITY)
-					status += "throbbing with agony"
-
-			switch(burndamage)
-				if(1 to 10)
-					status += "tingling"
-				if(10 to 40)
-					status += "stinging"
-				if(40 to INFINITY)
-					status += "burning fiercely"
+			var/feels_burn = (org.burn_dam * feels)
+			if(feels_burn > 0)
+				switch(feels_burn / org.max_damage)
+					if(0 to 0.35)
+						status += "tingling"
+					if(0.35 to 0.65)
+						status += "stinging"
+					if(0.65 to INFINITY)
+						status += "burning fiercely"
 
 			if(org.status & ORGAN_MUTATED)
 				status += "misshapen"
+			if(org.status & ORGAN_BLEEDING)
+				status += "<b>bleeding</b>"
 			if(org.is_dislocated())
 				status += "dislocated"
 			if(org.status & ORGAN_BROKEN)
 				status += "hurts when touched"
+
 			if(org.status & ORGAN_DEAD)
 				if(BP_IS_PROSTHETIC(org) || BP_IS_CRYSTAL(org))
 					status += "is irrecoverably damaged"
@@ -1072,8 +1093,9 @@
 			visible_message(SPAN_NOTICE("\The [src] twitches a bit as [G.his] [heart.name] restarts!"))
 
 		shock_stage = min(shock_stage, 100) // 120 is the point at which the heart stops.
-		if(getOxyLoss() >= 75)
-			setOxyLoss(75)
+		var/oxyloss_threshold = round(species.total_health * 0.35)
+		if(getOxyLoss() >= oxyloss_threshold)
+			setOxyLoss(oxyloss_threshold)
 		heart.pulse = PULSE_NORM
 		heart.handle_pulse()
 		return TRUE

@@ -6,7 +6,6 @@
 	density = 1
 	obj_flags = OBJ_FLAG_MOVES_UNSUPPORTED
 	var/state = 0
-	var/base_icon_state = ""
 	var/base_name = "Airlock"
 	var/obj/item/stock_parts/circuitboard/airlock_electronics/electronics = null
 	var/airlock_type = /obj/machinery/door/airlock //the type path of the airlock once completed
@@ -125,16 +124,19 @@
 
 /obj/structure/door_assembly/attackby(obj/item/W, mob/user)
 
-	if(istype(W, /obj/item/pen))
+	if(IS_PEN(W))
 		var/t = sanitize_safe(input(user, "Enter the name for the door.", src.name, src.created_name), MAX_NAME_LEN)
-		if(!t)	return
-		if(!in_range(src, usr) && src.loc != usr)	return
+		if(!length(t))
+			return
+		if(!CanPhysicallyInteractWith(user, src))
+			to_chat(user, SPAN_WARNING("You must stay close to \the [src]!"))
+			return
 		created_name = t
-		return
+		return TRUE
 
 	if(IS_WELDER(W) && (glass == 1 || !anchored))
 		var/obj/item/weldingtool/WT = W
-		if (WT.remove_fuel(0, user))
+		if (WT.weld(0, user))
 			playsound(src.loc, 'sound/items/Welder2.ogg', 50, 1)
 			if(glass == 1)
 				var/decl/material/glass_material_datum = GET_DECL(glass_material)

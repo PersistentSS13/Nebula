@@ -143,16 +143,14 @@
 		return pick(players)
 	return default_if_none
 
-/datum/event/ionstorm/proc/get_random_species_name(var/default_if_none = "Humans")
-	var/list/species = list()
-	for(var/S in typesof(/decl/species))
-		var/decl/species/specimen = S
-		if(initial(specimen.spawn_flags) & SPECIES_CAN_JOIN)
-			species += initial(specimen.name_plural)
-
-	if(species.len)
-		return pick(species.len)
-	return default_if_none
+/datum/event/ionstorm/proc/get_random_species_name(var/default_if_none)
+	if(!default_if_none)
+		default_if_none = global.using_map.default_species
+	. = length(global.all_species) ? pick(global.all_species) : default_if_none
+	if(.)
+		var/decl/species/species = all_species[.]
+		if(species)
+			. = species.name_plural
 
 /datum/event/ionstorm/proc/get_random_language(var/mob/living/silicon/S)
 	var/list/languages = S.speech_synthesizer_langs.Copy()
@@ -161,7 +159,7 @@
 			languages -= L
 		// Also removing any languages that won't work well over radio.
 		// A synth is unlikely to have any besides Binary, but we're playing it safe
-		else if(L.flags & (HIVEMIND|NONVERBAL|SIGNLANG))
+		else if(L.flags & (LANG_FLAG_HIVEMIND|LANG_FLAG_NONVERBAL|LANG_FLAG_SIGNLANG))
 			languages -= L
 
 	if(length(languages))

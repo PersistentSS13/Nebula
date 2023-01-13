@@ -64,6 +64,11 @@
 	if (!.)
 		. = B.qdels - A.qdels
 
+/proc/cmp_unit_test_priority(datum/unit_test/A, datum/unit_test/B)
+	. = A.priority - B.priority
+	if (!.)
+		. = sorttext(B, A)
+
 /proc/cmp_timer(datum/timedevent/a, datum/timedevent/b)
 	return a.timeToRun - b.timeToRun
 
@@ -111,3 +116,11 @@
 
 /proc/cmp_job_desc(var/datum/job/A, var/datum/job/B)
 	return B.get_occupations_tab_sort_score() - A.get_occupations_tab_sort_score()
+
+/proc/cmp_lobby_option_asc(var/datum/lobby_option/A, var/datum/lobby_option/B)
+	return A.sort_priority - B.sort_priority
+
+/proc/cmp_files_sort(datum/computer_file/a, datum/computer_file/b)
+	. = istype(b, /datum/computer_file/directory) - istype(a, /datum/computer_file/directory) // Prioritize directories over other files.
+	if(!.)
+		return sorttext(b.filename, a.filename)

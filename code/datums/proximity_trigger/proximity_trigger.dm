@@ -61,6 +61,7 @@ var/global/const/PROXIMITY_EXCLUDE_HOLDER_TURF = 1 // When acquiring turfs to mo
 	on_turfs_changed = null
 	on_turf_entered = null
 	holder = null
+	proc_owner = null
 	. = ..()
 
 /datum/proximity_trigger/proc/is_active()
@@ -152,6 +153,8 @@ var/global/const/PROXIMITY_EXCLUDE_HOLDER_TURF = 1 // When acquiring turfs to mo
 
 
 /obj/item/proxy_debug
+	abstract_type = /obj/item/proxy_debug
+	is_spawnable_type = FALSE
 	var/image/overlay
 	var/proxy_type
 

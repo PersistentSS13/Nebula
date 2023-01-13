@@ -28,6 +28,9 @@
 	if(markings_icon && markings_color)
 		update_icon()
 
+/obj/item/clothing/can_contaminate()
+	return TRUE
+
 // Sort of a placeholder for proper tailoring.
 #define RAG_COUNT(X) CEILING((LAZYACCESS(X.matter, /decl/material/solid/cloth) * 0.65) / SHEET_MATERIAL_AMOUNT)
 
@@ -92,15 +95,17 @@
 	. = ..()
 
 /obj/item/clothing/on_update_icon()
-	..()
+	. = ..()
 	var/base_state = get_world_inventory_state()
-	cut_overlays()
 	if(markings_icon && markings_color)
 		add_overlay(mutable_appearance(icon, "[base_state][markings_icon]", markings_color))
+	var/list/new_overlays
 	for(var/obj/item/clothing/accessory/accessory in accessories)
 		var/image/I = accessory.get_attached_inventory_overlay(base_state)
 		if(I)
-			add_overlay(I)
+			LAZYADD(new_overlays, I)
+	if(LAZYLEN(new_overlays))
+		add_overlay(new_overlays)
 
 /obj/item/clothing/proc/change_smell(smell = SMELL_DEFAULT)
 	smell_state = smell
@@ -152,8 +157,7 @@
 	var/species_icon = LAZYACCESS(sprite_sheets, target_bodytype)
 	if(species_icon && (check_state_in_icon(ICON_STATE_INV, species_icon) || check_state_in_icon(ICON_STATE_WORLD, species_icon)))
 		icon = species_icon
-	else
-		icon = initial(icon)
+
 	if(last_icon != icon)
 		reconsider_single_icon()
 		update_clothing_icon()

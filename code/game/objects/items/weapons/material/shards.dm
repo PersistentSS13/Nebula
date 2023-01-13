@@ -14,9 +14,7 @@
 	item_state = "shard-glass"
 	attack_verb = list("stabbed", "slashed", "sliced", "cut")
 	material = /decl/material/solid/glass
-	applies_material_colour = TRUE
-	applies_material_name = TRUE
-	unbreakable = 1 //It's already broken.
+	material_alteration = MAT_FLAG_ALTERATION_COLOR | MAT_FLAG_ALTERATION_NAME
 	item_flags = ITEM_FLAG_CAN_HIDE_IN_SHOES
 	var/has_handle
 
@@ -54,6 +52,7 @@
 		qdel(src)
 
 /obj/item/shard/on_update_icon()
+	. = ..()
 	if(material)
 		color = material.color
 		// 1-(1-x)^2, so that glass shards with 0.3 opacity end up somewhat visible at 0.51 opacity
@@ -65,7 +64,7 @@
 /obj/item/shard/attackby(obj/item/W, mob/user)
 	if(IS_WELDER(W) && material.shard_can_repair)
 		var/obj/item/weldingtool/WT = W
-		if(WT.remove_fuel(0, user))
+		if(WT.weld(0, user))
 			material.create_object(get_turf(src))
 			qdel(src)
 			return
@@ -89,13 +88,9 @@
 	return ..()
 
 /obj/item/shard/on_update_icon()
-	overlays.Cut()
 	. = ..()
 	if(has_handle)
-		var/image/I = image(icon, "handle")
-		I.appearance_flags |= RESET_COLOR
-		I.color = has_handle
-		overlays += I
+		add_overlay(overlay_image(icon, "handle", has_handle, RESET_COLOR))
 
 /obj/item/shard/Crossed(atom/movable/AM)
 	..()
@@ -133,6 +128,21 @@
 					return
 				check -= picked
 			return
+
+//Prevent the shard from being allowed to shatter
+/obj/item/shard/check_health(var/lastdamage = null, var/lastdamtype = null, var/lastdamflags = 0, var/consumed = FALSE)
+	if(health > 0 || !can_take_damage())
+		return //If invincible, or if we're not dead yet, skip
+	if(lastdamtype == BURN)
+		melt()
+		return
+	physically_destroyed()
+
+/obj/item/shard/shatter(consumed)
+	physically_destroyed()
+
+/obj/item/shard/can_take_wear_damage()
+	return FALSE
 
 // Preset types - left here for the code that uses them
 /obj/item/shard/borosilicate
