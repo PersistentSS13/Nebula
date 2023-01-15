@@ -1,6 +1,6 @@
 /*
 	Serialized type names
-*/ 
+*/
 #define SERIALIZER_TYPE_NULL		"NULL"
 #define SERIALIZER_TYPE_VAR 		"VAR"
 #define SERIALIZER_TYPE_TEXT		"TEXT"
@@ -12,6 +12,7 @@
 #define SERIALIZER_TYPE_LIST_EMPTY	"EMPTY"
 #define SERIALIZER_TYPE_DATUM		"OBJ"
 #define SERIALIZER_TYPE_DATUM_FLAT	"FLAT_OBJ"
+#define SERIALIZER_TYPE_FLAT_REF	"FLAT_REF"
 
 /*
 	SQL table names

@@ -235,7 +235,7 @@ var/global/list/serialization_time_spent_type
 	var/before_after_save = REALTIMEOFDAY
 	object.after_save() // After save hook.
 	if((REALTIMEOFDAY - before_after_save) > 5 SECONDS)
-		to_world_log("after_save() took [(REALTIMEOFDAY - before_after_save) / (1 SECOND)] to exacute on type [object.type]!")
+		to_world_log("after_save() took [(REALTIMEOFDAY - before_after_save) / (1 SECOND)] to execute on type [object.type]!")
 
 	if(autocommit && inserts_since_commit > autocommit_threshold)
 		Commit()
@@ -591,6 +591,7 @@ var/global/list/serialization_time_spent_type
 	var_inserts.Cut(1)
 	element_inserts.Cut(1)
 	list_index = 1
+	flattener.Clear()
 
 // Deletes all saves from the database.
 /serializer/sql/proc/WipeSave()
@@ -626,7 +627,7 @@ var/global/list/serialization_time_spent_type
 	for(var/datum/persistence/load_cache/area_chunk/area_chunk in area_chunks)
 		area_inserts += "([area_insert_index],'[area_chunk.area_type]','[sanitize_sql(area_chunk.name)]','[json_encode(area_chunk.turfs)]')"
 		area_insert_index++
-	
+
 	// No additional areas to save!
 	if(!length(area_inserts))
 		return TRUE
