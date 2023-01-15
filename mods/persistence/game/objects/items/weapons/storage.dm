@@ -1,8 +1,7 @@
-/obj/item/storage/Initialize()
+/obj/item/storage/ShouldContain()
 	if(persistent_id)
-		startswith = null
-	. = ..()
-
+		return FALSE
+	return ..()
 // This is called at Initialize() to match an items storage capabilities to its current items, which is undesirable
 // for items which have been loaded.
 /obj/item/storage/make_exact_fit()

@@ -377,9 +377,13 @@
 	prepare_ui()
 
 	var/list/will_contain = WillContain()
-	if(length(will_contain))
+	if(length(will_contain) && ShouldContain())
 		create_objects_in_loc(src, will_contain)
 		update_icon()
+
+// Persistence base file override.
+/obj/item/storage/proc/ShouldContain()
+	return TRUE
 
 /obj/item/storage/emp_act(severity)
 	if(!istype(src.loc, /mob/living))
