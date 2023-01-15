@@ -4,6 +4,7 @@
 	icon = 'mods/species/bayliens/skrell/icons/gear/gear_rig.dmi'
 	icon_state = "clustertool"
 	w_class = ITEM_SIZE_SMALL
+	material = /decl/material/solid/metal/aluminium
 
 /obj/item/clustertool/Initialize(ml, material_key)
 	. = ..()
