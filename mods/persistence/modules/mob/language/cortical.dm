@@ -3,7 +3,7 @@
 	desc = "An algamation of recorded electrochemical signals and subvocalizations that can be transmitted via PLEXUS to all of those with cortical stacks."
 	key = "h"
 	colour = "interface"
-	flags = RESTRICTED | NO_STUTTER | NONVERBAL | HIVEMIND | NO_TALK_MSG | NO_STUTTER
+	flags = LANG_FLAG_RESTRICTED | LANG_FLAG_NO_STUTTER | LANG_FLAG_NONVERBAL | LANG_FLAG_HIVEMIND | LANG_FLAG_NO_TALK_MSG | LANG_FLAG_NO_STUTTER
 	shorthand = "CC"
 
 /decl/language/cortical/broadcast(var/mob/living/carbon/human/speaker, var/message, var/speaker_mask)

@@ -106,11 +106,7 @@ This saves us from having to call add_fingerprint() any time something is put in
 			_head = null
 			if(istype(W, /obj/item))
 				var/obj/item/I = W
-<<<<<<< HEAD
-				if(I.flags_inv & (HIDEMASK|BLOCKHAIR|BLOCKHEADHAIR))
-=======
 				if(I.flags_inv & (HIDEMASK|BLOCK_ALL_HAIR))
->>>>>>> 314a90bd5cb7012fd8643af221a3ebcd5fa1468e
 					update_inv_wear_mask(0)
 			if(src)
 				var/obj/item/clothing/mask/mask = src.get_equipped_item(slot_wear_mask_str)

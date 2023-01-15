@@ -3,7 +3,6 @@
 		/datum/category_group/player_setup_category/appearance_preferences,\
 		/datum/category_group/player_setup_category/occupation_preferences,\
 		/datum/category_group/player_setup_category/record_preferences, \
-		/datum/category_group/player_setup_category/law_pref,\
 		/datum/category_group/player_setup_category/controls,\
 		/datum/category_group/player_setup_category/global_preferences,\
 	)

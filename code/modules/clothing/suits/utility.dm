@@ -51,11 +51,7 @@
 		ARMOR_ENERGY = ARMOR_ENERGY_RESISTANT,
 		ARMOR_BOMB = ARMOR_BOMB_SHIELDED
 		)
-<<<<<<< HEAD
-	flags_inv = HIDEMASK|HIDEEARS|BLOCKHEADHAIR
-=======
 	flags_inv = HIDEMASK|HIDEEARS|BLOCK_HEAD_HAIR
->>>>>>> 314a90bd5cb7012fd8643af221a3ebcd5fa1468e
 	body_parts_covered = SLOT_HEAD|SLOT_FACE|SLOT_EYES|SLOT_EARS
 	siemens_coefficient = 0
 
@@ -98,11 +94,7 @@
 	name = "radiation hood"
 	desc = "A hood with radiation protective properties. Label: Made with lead, do not eat insulation."
 	icon = 'icons/clothing/head/radsuit.dmi'
-<<<<<<< HEAD
-	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|BLOCKHAIR
-=======
 	flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|BLOCK_ALL_HAIR
->>>>>>> 314a90bd5cb7012fd8643af221a3ebcd5fa1468e
 	body_parts_covered = SLOT_HEAD|SLOT_FACE|SLOT_EYES|SLOT_EARS
 	armor = list(
 		ARMOR_BIO = ARMOR_BIO_RESISTANT,
@@ -152,11 +144,7 @@
 		ARMOR_BIO = ARMOR_BIO_RESISTANT,
 		ARMOR_RAD = ARMOR_RAD_MINOR
 		)
-<<<<<<< HEAD
-	flags_inv = HIDEEARS|BLOCKHEADHAIR
-=======
 	flags_inv = HIDEEARS|BLOCK_HEAD_HAIR
->>>>>>> 314a90bd5cb7012fd8643af221a3ebcd5fa1468e
 	item_flags = ITEM_FLAG_THICKMATERIAL
 	body_parts_covered = SLOT_HEAD|SLOT_EARS
 	siemens_coefficient = 0.9

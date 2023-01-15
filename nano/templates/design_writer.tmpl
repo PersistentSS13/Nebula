@@ -5,20 +5,6 @@
 	{{:helper.link('Back to menu', null, { "PRG_back" : 1 })}}
 {{else !data.prog_mode}} <!--Recipe listings-->
 	<div class='item'>
-		<div class='itemLabel'>
-			Storage Medium
-		</div>
-		{{:helper.link(data.current_source, null, { "PRG_change_filesource" : 1 }, null)}}
-	</div>
-	{{if data.fileserver}}
-		<div class='item'>
-			<div class='itemLabel'>
-				File Server
-			</div>
-			{{:helper.link(data.fileserver, null, { "PRG_change_fileserver" : 1 }, null)}}
-		</div>
-	{{/if}}
-	<div class='item'>
 		{{:helper.link('Select Design', null, { "PRG_change_design" : 1 }, null)}}
 	</div>
 	<center><h3>Prototypes available:</h3></center>
@@ -88,28 +74,32 @@
 		<h3>{{:data.final_desc}}</h3>
 	{{else}}
 		<div style="float:center;width:100%;margin-left:auto;margin-right: auto;">
-			<table><tr>
-				{{for data.theories}}
-					<td>
-						{{if value.discard}}
-							<fieldset style="text-decoration:line-through;min-height:220px;background-color: #202020;border-color:#202020;">
-						{{else value.special}}
-							<fieldset style="min-height:220px;background-color: #202020;border-color:#ff780a;">
-						{{else}}
-							<fieldset style="min-height:220px;background-color: #202020;border-color:#00ff00;">
-						{{/if}}
-							<legend style="text-align:center">{{:value.name}}</legend> 
-							<legend style="text-align:center">{{:value.strength}}</legend>
-							{{:value.desc}}<br>
-							{{:helper.link('Select', null, { "PRG_select_theory" : value.ref}, null)}}
-							{{if !value.special}}
-								{{:helper.link('Discard', null, { "PRG_discard_theory" : value.ref}, null)}}
+			{{if data.theories.length}}
+				<table><tr>
+					{{for data.theories}}
+						<td>
+							{{if value.discard}}
+								<fieldset style="text-decoration:line-through;min-height:220px;background-color: #202020;border-color:#202020;">
+							{{else value.special}}
+								<fieldset style="min-height:220px;background-color: #202020;border-color:#ff780a;">
+							{{else}}
+								<fieldset style="min-height:220px;background-color: #202020;border-color:#00ff00;">
 							{{/if}}
-						</fieldset>
-					</td>
-				{{/for}}
-			</tr></table>
-		</div>
+								<legend style="text-align:center">{{:value.name}}</legend>
+								<legend style="text-align:center">{{:value.strength}}</legend>
+								{{:value.desc}}<br>
+								{{:helper.link('Select', null, { "PRG_select_theory" : value.ref}, null)}}
+								{{if !value.special}}
+									{{:helper.link('Discard', null, { "PRG_discard_theory" : value.ref}, null)}}
+								{{/if}}
+							</fieldset>
+						</td>
+					{{/for}}
+				</tr></table>
+			</div>
+			{{else}}
+				{{:helper.link('Generate Theories', null, { "PRG_generate_theories" : 1}, null)}}
+			{{/if}}
 		<hr>
 		<table width = '90%'>
 			<th>Field</th>

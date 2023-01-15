@@ -80,10 +80,7 @@ var/global/list/limb_icon_cache = list()
 		icon = bodytype.get_base_icon(owner)
 
 /obj/item/organ/external/on_update_icon(var/regenerate = 0)
-<<<<<<< HEAD
-=======
 	. = ..()
->>>>>>> 314a90bd5cb7012fd8643af221a3ebcd5fa1468e
 	icon_state = "[icon_name]"
 	icon_cache_key = "[icon_state]_[species ? species.name : "unknown"][render_alpha]"
 	if(model)
@@ -177,7 +174,7 @@ var/global/list/robot_hud_colours = list("#ffffff","#cccccc","#aaaaaa","#888888"
 	return applying
 
 /obj/item/organ/external/proc/bandage_level()
-	if(damage_state_text() == "00") 
+	if(damage_state_text() == "00")
 		return 0
 	if(!is_bandaged())
 		return 0

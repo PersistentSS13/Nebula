@@ -97,19 +97,6 @@
 		if(!network)
 			to_chat(usr, SPAN_WARNING("Network error."))
 			return
-<<<<<<< HEAD
-
-		if(!length(network.get_mainframes_by_role(MF_ROLE_CREW_RECORDS, get_access(usr))))
-			to_chat(usr, SPAN_WARNING("You may not have access to generate new crew records, or there may not be a crew record mainframe active on the network."))
-			return
-
-		var/datum/computer_file/report/crew_record/new_record = new()
-		if(!network.store_file(new_record, MF_ROLE_CREW_RECORDS, get_access(usr)))
-			to_chat(usr, SPAN_WARNING("Failed to generate a new crew record. All crew record mainframes on the network may be non-functional or out of storage space."))
-			qdel(new_record)
-			return
-		active_record = new_record
-=======
 		var/list/accesses = get_access(usr)
 		if(!network.get_mainframes_by_role(MF_ROLE_CREW_RECORDS, accesses))
 			to_chat(usr, SPAN_WARNING("You may not have access to generate new crew records, or there may not be a crew record mainframe active on the network."))
@@ -120,7 +107,6 @@
 			qdel(active_record)
 			active_record = null
 			return
->>>>>>> 314a90bd5cb7012fd8643af221a3ebcd5fa1468e
 		global.all_crew_records.Add(active_record)
 		return 1
 	if(href_list["print_active"])

@@ -667,11 +667,6 @@ var/global/list/damage_icon_parts = list()
 	update_hair(0)	//rebuild hair
 	update_inv_ears(0)
 
-<<<<<<< HEAD
-	if(!(head && (head.item_flags & ITEM_FLAG_AIRTIGHT)))
-		set_internals(null)
-=======
->>>>>>> 314a90bd5cb7012fd8643af221a3ebcd5fa1468e
 	if(!(mask && (mask.item_flags & ITEM_FLAG_AIRTIGHT)))
 		set_internals(null)
 

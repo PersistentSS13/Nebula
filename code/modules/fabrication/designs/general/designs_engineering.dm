@@ -151,11 +151,7 @@
 	path = /obj/item/tank/hydrogen/empty
 
 /datum/fabricator_recipe/engineering/stirling_piston
-<<<<<<< HEAD
-	path = /obj/item/tank/stirling/empty
-=======
 	path = /obj/item/tank/stirling/empty
 
 /datum/fabricator_recipe/engineering/welderpack
 	path = /obj/item/chems/weldpack/empty
->>>>>>> 314a90bd5cb7012fd8643af221a3ebcd5fa1468e

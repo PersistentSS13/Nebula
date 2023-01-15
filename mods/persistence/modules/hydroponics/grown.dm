@@ -9,7 +9,7 @@
 		plantname = seed.name //The seed is replaced on init by whatever seed matches the plantname...
 	custom_saved = null
 
-/obj/item/chems/food/grown/fill_reagents()
+/obj/item/chems/food/grown/populate_reagents()
 	//Yay for people not cutting up their code into several procs!
 	if(persistent_id && seed && seed.chems)
 		potency = seed.get_trait(TRAIT_POTENCY)
@@ -23,7 +23,7 @@
 /obj/item/chems/food/fruit_slice/Initialize(mapload, var/datum/seed/S)
 	if(!istype(S) && seed)
 		S = seed //Have to do this otherwise it'll qdel on init if there's no seed as paramter! Fun!
-	. = ..(mapload, S) 
+	. = ..(mapload, S)
 
 /obj/item/chems/food/fruit_slice/before_save()
 	. = ..()

@@ -6,6 +6,8 @@
 	var/whitelist_only = FALSE
 	var/remaining_points_offset = 0		// Allows roles and origins to give bonuses or malices to total skill points for adjustment.
 
+	expected_type = /decl/hierarchy/chargen
+
 /decl/hierarchy/skill/get_cost(var/level)
 	return level ** 2
 

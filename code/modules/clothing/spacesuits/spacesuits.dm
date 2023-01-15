@@ -77,11 +77,7 @@
 		flags_inv = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|BLOCK_ALL_HAIR
 	else
 		flash_protection = FLASH_PROTECTION_NONE
-<<<<<<< HEAD
-		flags_inv = HIDEEARS|BLOCKHEADHAIR
-=======
 		flags_inv = HIDEEARS|BLOCK_HEAD_HAIR
->>>>>>> 314a90bd5cb7012fd8643af221a3ebcd5fa1468e
 	update_icon()
 	update_clothing_icon()
 

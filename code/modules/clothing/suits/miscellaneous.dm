@@ -305,11 +305,7 @@
 	name = "Santa's hat"
 	desc = "Ho ho ho. Merrry X-mas!"
 	icon = 'icons/clothing/head/santa.dmi'
-<<<<<<< HEAD
-	flags_inv = BLOCKHAIR //Has a fake beard
-=======
 	flags_inv = BLOCK_ALL_HAIR //Has a fake beard
->>>>>>> 314a90bd5cb7012fd8643af221a3ebcd5fa1468e
 
 /obj/item/clothing/suit/santa
 	name = "Santa's suit"

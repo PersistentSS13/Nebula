@@ -25,7 +25,7 @@
 	start_x = x
 	start_y = y
 
-	old_loc = loc 
+	old_loc = loc
 
 	// Force move the sector to its z level(s) so that it can properly reinitialize.
 	forceMove(locate(world.maxx/2, world.maxy/2, map_z[1]))
@@ -68,7 +68,6 @@ SAVED_VAR(/obj/effect/overmap/visitable/sector/exoplanet, x_origin)
 SAVED_VAR(/obj/effect/overmap/visitable/sector/exoplanet, y_origin)
 SAVED_VAR(/obj/effect/overmap/visitable/sector/exoplanet, x_size)
 SAVED_VAR(/obj/effect/overmap/visitable/sector/exoplanet, y_size)
-SAVED_VAR(/obj/effect/overmap/visitable/sector/exoplanet, landmark_type)
 SAVED_VAR(/obj/effect/overmap/visitable/sector/exoplanet, shuttle_size)
 SAVED_VAR(/obj/effect/overmap/visitable/sector/exoplanet, landing_points_to_place)
 SAVED_VAR(/obj/effect/overmap/visitable/sector/exoplanet, rock_colors)

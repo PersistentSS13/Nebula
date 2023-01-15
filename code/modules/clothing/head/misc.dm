@@ -51,11 +51,7 @@
 	name = "hastur's hood"
 	desc = "It's unspeakably stylish."
 	icon = 'icons/clothing/head/hastur.dmi'
-<<<<<<< HEAD
-	flags_inv = BLOCKHEADHAIR
-=======
 	flags_inv = BLOCK_HEAD_HAIR
->>>>>>> 314a90bd5cb7012fd8643af221a3ebcd5fa1468e
 	body_parts_covered = SLOT_HEAD|SLOT_FACE|SLOT_EYES
 
 /obj/item/clothing/head/nursehat

@@ -484,12 +484,9 @@
 
 /datum/fabricator_recipe/imprinter/circuit/docking_beacon
 	path = /obj/item/stock_parts/circuitboard/docking_beacon
-<<<<<<< HEAD
-=======
 
 /datum/fabricator_recipe/imprinter/circuit/fax_machine
 	path = /obj/item/stock_parts/circuitboard/fax_machine
 
 /datum/fabricator_recipe/imprinter/circuit/photocopier
 	path = /obj/item/stock_parts/circuitboard/photocopier
->>>>>>> 314a90bd5cb7012fd8643af221a3ebcd5fa1468e
