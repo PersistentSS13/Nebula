@@ -1,18 +1,18 @@
 /obj/machinery/fabricator/refresh_design_cache(var/list/known_tech)
+	. = ..()
 	var/datum/extension/network_device/device = get_extension(src, /datum/extension/network_device)
 	var/datum/computer_network/network = device.get_network()
 
 	if(!network)
-		return ..()
+		return
 
 	var/list/design_files = network.get_all_files_of_type(/datum/computer_file/data/design, MF_ROLE_DESIGN)
 	if(!length(design_files)) // Return here to avoid sorting again.
-		return ..()
+		return
 
 	add_designs(design_files)
 
 	design_cache = sortTim(design_cache, /proc/cmp_name_asc)
-	. = ..()
 
 /obj/machinery/fabricator/proc/add_designs(list/files)
 	. = list()
