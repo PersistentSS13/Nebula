@@ -45,9 +45,6 @@ SAVED_VAR(/obj/item/storage/box/glasses, storage_slots)
 SAVED_VAR(/obj/item/storage/box/mixed_glasses, can_hold)
 SAVED_VAR(/obj/item/storage/box/mixed_glasses, storage_slots)
 
-SAVED_VAR(/obj/item/storage/csi_markers, can_hold)
-SAVED_VAR(/obj/item/storage/csi_markers, storage_slots)
-
 SAVED_VAR(/obj/item/storage/secure/briefcase/heavysniper, can_hold)
 SAVED_VAR(/obj/item/storage/secure/briefcase/heavysniper, storage_slots)
 
