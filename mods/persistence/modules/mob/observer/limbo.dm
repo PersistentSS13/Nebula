@@ -2,8 +2,6 @@
 // still floating around .. somewhere.
 /mob/living/limbo
 	use_me = 0
-	//icon = 'icons/obj/surgery.dmi'
-	//icon_state = "cortical-stack"
 
 /mob/living/limbo/Initialize()
 	. = ..()
@@ -15,6 +13,12 @@
 
 	var/datum/action/death_give_up/give_up_act = new(src)
 	give_up_act.Grant(src)
+
+/mob/living/limbo/Destroy()
+	for(var/datum/action/death_action in actions)
+		death_action.SetTarget(null)
+		qdel(death_action)
+	. = ..()
 
 // Do not call parent, as we do not want the area text to appear.
 /mob/living/limbo/on_persistent_join()
