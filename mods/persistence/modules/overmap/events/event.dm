@@ -6,7 +6,7 @@
 	var/spent = FALSE			  // Whether or not the asteroid field has been harvested yet.
 
 /obj/effect/overmap/event/meteor/get_scan_data(mob/user)
-	return desc + (class ? "<br> You detect \a [class.name] inside the asteroid field." : "") 
+	return desc + (class ? "<br> You detect \a [class.name] inside the asteroid field." : "")
 
 /obj/effect/overmap/event/meteor/Initialize()
 	. = ..()
@@ -17,7 +17,7 @@
 			var/decl/asteroid_class/C = GET_DECL(c_type)
 			weighted_classes[c_type] = C.weight
 		class = pickweight(weighted_classes)
-	
+
 /obj/effect/overmap/event/meteor/asteroid
 	class = /decl/asteroid_class/asteroid
 	colors = list(COLOR_BROWN_ORANGE)
@@ -32,7 +32,9 @@
 	colors = list(COLOR_ORANGE)
 
 // Spawns overmap effects in a ring centered on the spawner.
-/obj/effect/overmap_effect_spawner
+// The only reason these are of type /obj/effect/overmap/ is so that they are ignored by Create/Destroy unit tests,
+// since they create additional effects which aren't intended to be cleaned up.
+/obj/effect/overmap/overmap_effect_spawner
 	var/effect_type	// Type of effect spawned
 	var/width		// The width of the ring, inwards from the radius
 	var/radius		// Distance from the spawner that effects will be spawned
@@ -40,12 +42,12 @@
 	var/effect_count
 	var/effects_to_spawn
 
-/obj/effect/overmap_effect_spawner/Initialize()
+/obj/effect/overmap/overmap_effect_spawner/Initialize()
 	. = ..()
 	activate()
 	return INITIALIZE_HINT_QDEL
 
-/obj/effect/overmap_effect_spawner/proc/activate()
+/obj/effect/overmap/overmap_effect_spawner/proc/activate()
 	var/list/target_turfs = list()
 	for(var/i = 0 to (width-1))
 		target_turfs |= getcircle(get_turf(src), radius-i)
@@ -56,19 +58,19 @@
 			effect_count++
 		target_turfs -= T
 
-/obj/effect/overmap_effect_spawner/asteroids
+/obj/effect/overmap/overmap_effect_spawner/asteroids
 	effect_type = /obj/effect/overmap/event/meteor/asteroid
 	width = 3
 	radius = 8
 	effects_to_spawn = 30
 
-/obj/effect/overmap_effect_spawner/comets
+/obj/effect/overmap/overmap_effect_spawner/comets
 	effect_type = /obj/effect/overmap/event/meteor/comet
 	width = 3
 	radius = 16
 	effects_to_spawn = 40
 
-/obj/effect/overmap_effect_spawner/rich_asteroid
+/obj/effect/overmap/overmap_effect_spawner/rich_asteroid
 	effect_type = /obj/effect/overmap/event/meteor/rich_asteroid
 	width = 2
 	radius = 20

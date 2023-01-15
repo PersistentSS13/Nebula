@@ -19,9 +19,9 @@
 /area/overmap)
 "f" = (
 /obj/effect/overmap/oesepilus,
-/obj/effect/overmap_effect_spawner/asteroids,
-/obj/effect/overmap_effect_spawner/comets,
-/obj/effect/overmap_effect_spawner/rich_asteroid,
+/obj/effect/overmap/overmap_effect_spawner/asteroids,
+/obj/effect/overmap/overmap_effect_spawner/comets,
+/obj/effect/overmap/overmap_effect_spawner/rich_asteroid,
 /turf/unsimulated/map,
 /area/overmap)
 
