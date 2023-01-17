@@ -32,26 +32,6 @@
 		return
 	. = ..()
 
-//
-// Content Spawning Override
-//
-/obj/item/storage/after_deserialize()
-	..()
-	startswith = null
-
 /obj/item/tank/after_deserialize()
 	..()
 	starting_pressure = 0
-
-/obj/item/extinguisher/after_deserialize()
-	..()
-	starting_water = 0
-
-//
-/obj/item/chems/hypospray/autoinjector/after_deserialize()
-	. = ..()
-	starts_with = null
-
-/obj/item/chems/condiment/after_deserialize()
-	. = ..()
-	starting_reagents = null

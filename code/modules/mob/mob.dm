@@ -7,6 +7,8 @@
 	QDEL_NULL_LIST(pinned)
 	QDEL_NULL_LIST(embedded)
 
+	QDEL_NULL(typing_indicator)
+
 	unset_machine()
 	QDEL_NULL(hud_used)
 	if(active_storage)
@@ -322,7 +324,7 @@
 
 	if((is_blind(src) || usr.stat) && !isobserver(src))
 		to_chat(src, "<span class='notice'>Something is there but you can't see it.</span>")
-		return 1
+		return TRUE
 
 	face_atom(A)
 
@@ -350,6 +352,8 @@
 		var/turf/target_turf = get_turf(A)
 		if(source_turf && source_turf.z == target_turf?.z)
 			distance = get_dist(source_turf, target_turf)
+
+	RAISE_EVENT(/decl/observ/mob_examining, src, A)
 
 	if(!A.examine(src, distance))
 		PRINT_STACK_TRACE("Improper /examine() override: [log_info_line(A)]")
@@ -826,7 +830,9 @@
 
 /mob/proc/set_stat(var/new_stat)
 	. = stat != new_stat
-	stat = new_stat
+	if(.)
+		stat = new_stat
+		SStyping.set_indicator_state(client, FALSE)
 
 /mob/verb/northfaceperm()
 	set hidden = 1
@@ -1006,10 +1012,18 @@
 	SHOULD_CALL_PARENT(FALSE)
 	gib()
 
-/mob/explosion_act()
+/mob/get_contained_external_atoms()
 	. = ..()
-	if(!blinded)
-		flash_eyes()
+	if(.)
+		LAZYREMOVE(., get_organs())
+
+/mob/explosion_act(var/severity)
+	. = ..()
+	if(!QDELETED(src))
+		if(severity == 1)
+			physically_destroyed()
+		else if(!blinded)
+			flash_eyes()
 
 /mob/proc/get_telecomms_race_info()
 	return list("Unknown", FALSE)
@@ -1084,7 +1098,7 @@
 
 	// We're inside something else.
 	if(!isturf(loc))
-		return WEATHER_PROTECTED
+		return WEATHER_IGNORE
 
 	var/turf/T = loc
 	// We're under a roof or otherwise shouldn't be being rained on.
@@ -1092,13 +1106,13 @@
 
 		// For non-multiz we'll give everyone some nice ambience.
 		if(!HasAbove(T.z))
-			return WEATHER_PROTECTED
+			return WEATHER_ROOFED
 
 		// For multi-z, check the actual weather on the turf above.
 		// TODO: maybe make this a property of the z-level marker.
 		var/turf/above = GetAbove(T)
 		if(above.weather)
-			return WEATHER_PROTECTED
+			return WEATHER_ROOFED
 
 		// Being more than one level down should exempt us from ambience.
 		return WEATHER_IGNORE
@@ -1107,6 +1121,7 @@
 	var/list/weather_protection = get_weather_protection()
 	if(LAZYLEN(weather_protection))
 		return WEATHER_PROTECTED
+
 	return WEATHER_EXPOSED
 
 /mob/proc/IsMultiZAdjacent(var/atom/neighbor)
@@ -1147,3 +1162,52 @@
 
 /mob/proc/do_flash_animation()
 	return
+
+/mob/proc/unset_machine()
+	src.machine = null
+
+/mob/proc/set_machine(var/obj/O)
+	if(src.machine)
+		unset_machine()
+	src.machine = O
+	if(istype(O))
+		O.in_use = 1
+
+// Mob procs relating to the typing indicator subsystem.
+/mob/Logout()
+	if (typing_indicator)
+		vis_contents -= typing_indicator
+	is_typing = FALSE
+	..()
+
+/mob/proc/get_speech_bubble_state_modifier()
+	return
+
+/mob/verb/say_wrapper()
+	set name = ".Say"
+	set hidden = TRUE
+	SStyping.set_indicator_state(client, TRUE)
+	var/message = input("","say (text)") as text|null
+	SStyping.set_indicator_state(client, FALSE)
+	if (message)
+		say_verb(message)
+
+/mob/verb/me_wrapper()
+	set name = ".Me"
+	set hidden = TRUE
+	SStyping.set_indicator_state(client, TRUE)
+	var/message = input("","me (text)") as text|null
+	SStyping.set_indicator_state(client, FALSE)
+	if (message)
+		me_verb(message)
+
+/mob/verb/whisper_wrapper()
+	set name = ".Whisper"
+	set hidden = TRUE
+	if(config.show_typing_indicator_for_whispers)
+		SStyping.set_indicator_state(client, TRUE)
+	var/message = input("","me (text)") as text|null
+	if(config.show_typing_indicator_for_whispers)
+		SStyping.set_indicator_state(client, FALSE)
+	if (message)
+		whisper(message)

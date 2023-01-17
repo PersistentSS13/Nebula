@@ -6,6 +6,7 @@
 	pickup_sound = null
 	drop_sound =   null
 	equip_sound =  null
+	is_spawnable_type = FALSE
 
 	var/atom/movable/affecting             // Atom being targeted by this grab.
 	var/mob/assailant                      // Mob that instantiated this grab.
@@ -230,6 +231,7 @@
 		update_icon()
 
 /obj/item/grab/on_update_icon()
+	. = ..()
 	if(current_grab.icon)
 		icon = current_grab.icon
 	if(current_grab.icon_state)

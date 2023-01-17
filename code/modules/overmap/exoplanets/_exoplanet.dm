@@ -4,6 +4,7 @@
 	icon_state = "globe"
 	sector_flags = OVERMAP_SECTOR_KNOWN
 	free_landing = TRUE
+
 	var/area/planetary_area
 
 	var/lightlevel = 0 		//This default makes turfs not generate light. Adjust to have exoplanents be lit.
@@ -21,7 +22,6 @@
 	var/x_size
 	var/y_size
 
-	var/landmark_type = /obj/effect/shuttle_landmark/automatic
 	var/shuttle_size = 20  		 //'diameter' of expected shuttle in turfs
 	var/landing_points_to_place  // number of landing points to place, calculated dynamically based on planet size
 
@@ -155,6 +155,7 @@
 	return engravings
 
 /obj/effect/overmap/visitable/sector/exoplanet/Process(wait, tick)
+
 	if(animals.len < 0.5*max_animal_count && !repopulating)
 		repopulating = 1
 		max_animal_count = round(max_animal_count * 0.5)
@@ -163,10 +164,11 @@
 		handle_repopulation()
 
 	if(daycycle)
+		wait = max(1, wait)
 		if(tick % round(daycycle / wait) == 0)
 			night = !night
 			daycolumn = 1
-		if(daycolumn && tick % round(daycycle_column_delay / wait) == 0)
+		if(daycolumn && (tick % round(daycycle_column_delay / wait)) == 0)
 			update_daynight()
 
 /obj/effect/overmap/visitable/sector/exoplanet/proc/update_daynight()
@@ -296,5 +298,4 @@
 	ambience = list('sound/effects/wind/wind_2_1.ogg','sound/effects/wind/wind_2_2.ogg','sound/effects/wind/wind_3_1.ogg','sound/effects/wind/wind_4_1.ogg','sound/effects/wind/wind_4_2.ogg','sound/effects/wind/wind_5_1.ogg')
 	always_unpowered = 1
 	area_flags = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_EXTERNAL
-	show_starlight = TRUE
 	is_outside = OUTSIDE_YES

@@ -15,7 +15,7 @@
 		/obj/item/tank/emergency/oxygen/double/red = 1,
 		/obj/item/clothing/accessory/fire_overpants = 1,
 		/obj/item/clothing/gloves/fire = 1,
-		/obj/item/extinguisher = 1,
+		/obj/item/chems/spray/extinguisher = 1,
 		/obj/item/clothing/mask/breath/scba = 1
 	)
 
@@ -114,7 +114,7 @@
 		/obj/item/stock_parts/console_screen = 1,
 		/obj/item/stack/cable_coil/random = 1
 	)
-	
+
 /obj/item/chargen_box/ration/twinkies
 	name = "emergency twinkie kit"
 	icon_state = "donk_kit"

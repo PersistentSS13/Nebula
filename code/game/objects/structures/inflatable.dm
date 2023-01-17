@@ -74,14 +74,6 @@
 /obj/structure/inflatable/Process()
 	check_environment()
 
-/obj/structure/inflatable/show_examined_damage(mob/user, var/perc)
-	if(perc >= 1)
-		to_chat(user, SPAN_NOTICE("It's undamaged."))
-	else if(perc > 0.5)
-		to_chat(user, SPAN_WARNING("It's showing signs of damage."))
-	else if(perc > 0)
-		to_chat(user, SPAN_DANGER("It's heavily damaged!"))
-
 /obj/structure/inflatable/proc/check_environment()
 	var/min_pressure = INFINITY
 	var/max_pressure = 0
@@ -118,15 +110,21 @@
 	add_fingerprint(user)
 
 /obj/structure/inflatable/can_repair_with(obj/item/tool)
-	. = istype(tool, /obj/item/ducttape) && (health < maxhealth)
+	. = istype(tool, /obj/item/stack/tape_roll/duct_tape) && (health < maxhealth)
 
 /obj/structure/inflatable/handle_repair(mob/user, obj/item/tool)
+	var/obj/item/stack/tape_roll/duct_tape/T = tool
 	if(taped)
 		to_chat(user, SPAN_WARNING("You cannot tape up \the [src] any further."))
 		return
+	if(T.can_use(2))
+		to_chat(user, SPAN_WARNING("You need 2 [T.plural_name] to repair \the [src]."))
+		return
+	T.use(2)
+	playsound(src, 'sound/effects/tape.ogg', 50, TRUE)
 	last_damage_message = null
 	to_chat(user, SPAN_NOTICE("You tape up some of the damage to \the [src]."))
-	health = Clamp(health + 3, 0, maxhealth)
+	health = clamp(health + 3, 0, maxhealth)
 	taped = TRUE
 
 /obj/structure/inflatable/attackby(obj/item/W, mob/user)
@@ -299,4 +297,9 @@
 	w_class = ITEM_SIZE_LARGE
 	max_storage_space = DEFAULT_LARGEBOX_STORAGE
 	can_hold = list(/obj/item/inflatable)
-	startswith = list(/obj/item/inflatable/door = 2, /obj/item/inflatable = 3)
+
+/obj/item/storage/briefcase/inflatable/WillContain()
+	return list(
+			/obj/item/inflatable/door = 2, 
+			/obj/item/inflatable      = 3
+		)

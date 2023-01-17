@@ -36,7 +36,7 @@
 		to_chat(user, "It has a blank space for a signature.")
 
 /obj/item/card/union/attackby(var/obj/item/thing, var/mob/user)
-	if(istype(thing, /obj/item/pen))
+	if(IS_PEN(thing))
 		if(signed_by)
 			to_chat(user, SPAN_WARNING("\The [src] has already been signed."))
 		else
@@ -54,18 +54,14 @@
 	var/detail_color = COLOR_ASSEMBLY_ORANGE
 	var/function = "storage"
 	var/data = "null"
-	var/special = null
-	var/list/files = list(  )
 
 /obj/item/card/data/Initialize()
-	.=..()
+	. = ..()
 	update_icon()
 
 /obj/item/card/data/on_update_icon()
-	overlays.Cut()
-	var/image/detail_overlay = image('icons/obj/card.dmi', src,"[icon_state]-color")
-	detail_overlay.color = detail_color
-	overlays += detail_overlay
+	. = ..()
+	add_overlay(overlay_image(icon, "[icon_state]-color", detail_color))
 
 /obj/item/card/data/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/integrated_electronics/detailer))
@@ -81,6 +77,9 @@
 /obj/item/card/data/disk
 	desc = "A plastic magstripe card for simple and speedy data storage and transfer. This one inexplicibly looks like a floppy disk."
 	icon_state = "data_3"
+
+/obj/item/card/data/get_assembly_detail_color()
+	return detail_color
 
 /*
  * ID CARDS
@@ -173,7 +172,6 @@ var/global/const/NO_EMAG_ACT = -50
 	//alt titles are handled a bit weirdly in order to unobtrusively integrate into existing ID system
 	var/assignment = null	//can be alt title or the actual job
 	var/rank = null			//actual job
-	var/dorm = 0			// determines if this ID has claimed a dorm already
 
 	var/datum/mil_branch/military_branch = null //Vars for tracking branches and ranks on multi-crewtype maps
 	var/datum/mil_rank/military_rank = null
@@ -194,7 +192,7 @@ var/global/const/NO_EMAG_ACT = -50
 	. = ..()
 
 /obj/item/card/id/on_update_icon()
-	cut_overlays()
+	. = ..()
 	if(detail_color)
 		add_overlay(overlay_image(icon, "[icon_state]-colors", detail_color, RESET_COLOR))
 	for(var/detail in extra_details)
@@ -381,7 +379,7 @@ var/global/const/NO_EMAG_ACT = -50
 	desc = "An ID straight from the Syndicate."
 	registered_name = "Syndicate"
 	assignment = "Syndicate Overlord"
-	access = list(access_syndicate, access_external_airlocks)
+	access = list(access_hacked, access_external_airlocks)
 	color = COLOR_RED_GRAY
 	detail_color = COLOR_GRAY40
 
@@ -396,6 +394,9 @@ var/global/const/NO_EMAG_ACT = -50
 /obj/item/card/id/captains_spare/Initialize()
 	. = ..()
 	access = get_all_station_access()
+
+/obj/item/card/id/captains_spare/preserve_in_cryopod(var/obj/machinery/cryopod/pod)
+	return TRUE
 
 /obj/item/card/id/synthetic
 	name = "\improper Synthetic ID"

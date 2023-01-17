@@ -266,20 +266,20 @@ var/global/list/decl/topic_command/topic_commands = list()
 		info["loc"] = M.loc ? "[M.loc]" : "null"
 		info["turf"] = MT ? "[MT] @ [MT.x], [MT.y], [MT.z]" : "null"
 		info["area"] = MT ? "[MT.loc]" : "null"
-		info["antag"] = M.mind ? (M.mind.get_special_role_name() || "Not antag") : "No mind"
+		info["antag"] = M.mind ? (M.mind.get_special_role_name("Not antag")) : "No mind"
 		info["hasbeenrev"] = M.mind ? M.mind.has_been_rev : "No mind"
 		info["stat"] = M.stat
 		info["type"] = M.type
 		if(isliving(M))
 			var/mob/living/L = M
 			info["damage"] = list2params(list(
-						oxy = L.getOxyLoss(),
-						tox = L.getToxLoss(),
-						fire = L.getFireLoss(),
-						brute = L.getBruteLoss(),
-						clone = L.getCloneLoss(),
-						brain = L.getBrainLoss()
-					))
+				oxy = L.getOxyLoss(),
+				tox = L.getToxLoss(),
+				fire = L.getFireLoss(),
+				brute = L.getBruteLoss(),
+				clone = L.getCloneLoss(),
+				brain = L.getBrainLoss()
+			))
 			if(ishuman(M))
 				var/mob/living/carbon/human/H = M
 				info["species"] = H.species.name
@@ -317,8 +317,8 @@ var/global/list/decl/topic_command/topic_commands = list()
 	if(rank == "Unknown")
 		rank = "Staff"
 
-	var/message =	"<font color='red'>[rank] PM from <b><a href='?irc_msg=[params["sender"]]'>[params["sender"]]</a></b>: [params["msg"]]</font>"
-	var/amessage =  "<font color='blue'>[rank] PM from <a href='?irc_msg=[params["sender"]]'>[params["sender"]]</a> to <b>[key_name(C)]</b> : [params["msg"]]</font>"
+	var/message =	SPAN_RED("[rank] PM from <b><a href='?irc_msg=[params["sender"]]'>[params["sender"]]</a></b>: [params["msg"]]")
+	var/amessage =  SPAN_BLUE("[rank] PM from <a href='?irc_msg=[params["sender"]]'>[params["sender"]]</a> to <b>[key_name(C)]</b> : [params["msg"]]")
 
 	C.received_irc_pm = world.time
 	C.irc_admin = params["sender"]

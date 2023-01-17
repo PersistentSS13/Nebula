@@ -3,6 +3,9 @@
 	desc = "An unfinished assembly for some sort of experimental device."
 	icon = 'icons/obj/assemblies/electronic_setups.dmi'
 	icon_state = "setup_medium-open"
+
+	max_health = ITEM_HEALTH_NO_DAMAGE // Since these needs to be fired etc. don't let them take damage.
+
 	var/created_path
 	var/list/item_specifications // These specifications will be passed along to the finished device in an extension
 

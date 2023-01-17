@@ -236,14 +236,16 @@
 			download_progress = 0
 			return 1
 
-		if(drive.store_file(downloading))
+		var/success = drive.store_file()
+		if(success == OS_FILE_SUCCESS)
 			error = "File successfully downloaded to local device."
+		else if(success == OS_HARDDRIVE_SPACE)
+			error = "Error saving file: The hard drive is full"
 		else
-			error = "Error saving file: I/O Error: The hard drive may be full or nonfunctional."
+			error = "Error saving file: I/O Error: The hard drive may be nonfunctional."
 		downloading = null
 		download_progress = 0
 	return 1
-
 
 /datum/nano_module/program/email_client/Topic(href, href_list)
 	if(..())
@@ -432,7 +434,7 @@
 			if(CF.unsendable)
 				continue
 			if(CF.filename == picked_file)
-				msg_attachment = CF.clone()
+				msg_attachment = CF.Clone()
 				break
 		if(!istype(msg_attachment))
 			msg_attachment = null
@@ -453,7 +455,7 @@
 		if(!drive)
 			return 1
 
-		downloading = current_message.attachment.clone()
+		downloading = current_message.attachment.Clone()
 		download_progress = 0
 		return 1
 

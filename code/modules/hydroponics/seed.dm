@@ -1,3 +1,6 @@
+/datum/codex_entry/scannable/flora
+	category = /decl/codex_category/flora
+
 /datum/plantgene
 	var/genetype    // Label used when applying trait.
 	var/list/values // Values to copy into the target seed datum.
@@ -27,6 +30,12 @@
 	var/req_CO2_moles    = 1.0// Moles of CO2 required for photosynthesis.
 	var/hydrotray_only
 	var/base_seed_value = 5 // Used when generating price.
+	var/scannable_result
+
+	// Cached images for overlays
+	var/image/dead_overlay
+	var/image/harvest_overlay
+	var/list/growing_overlays
 
 /datum/seed/New()
 
@@ -786,7 +795,7 @@
 				return GROWTH_VINES
 	return 0
 
-/datum/seed/proc/get_icon(growth_stage)
+/datum/seed/proc/get_growth_stage_overlay(growth_stage)
 	var/plant_icon = get_trait(TRAIT_PLANT_ICON)
 	var/image/res = image('icons/obj/hydroponics/hydroponics_growing.dmi', "[plant_icon]-[growth_stage]")
 	if(get_growth_type())

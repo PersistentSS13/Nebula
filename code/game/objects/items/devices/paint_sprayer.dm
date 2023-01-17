@@ -7,7 +7,7 @@
 	icon = 'icons/obj/items/device/paint_sprayer.dmi'
 	icon_state = ICON_STATE_WORLD
 	desc = "A slender and none-too-sophisticated device capable of applying paint on floors, walls, exosuits and certain airlocks."
-
+	material = /decl/material/solid/metal/stainlesssteel
 	var/decal =        "Quarter-turf"
 	var/paint_dir =    "Precise"
 	var/paint_color = COLOR_GRAY15
@@ -79,7 +79,7 @@
 	change_color(preset_colors[random_preset])
 
 /obj/item/paint_sprayer/on_update_icon()
-	cut_overlays()
+	. = ..()
 	add_overlay(overlay_image(icon, "[icon_state]_color", paint_color))
 	add_overlay(color_picker ? "[icon_state]_red" : "[icon_state]_blue")
 	if(ismob(loc))

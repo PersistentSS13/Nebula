@@ -20,11 +20,10 @@
 	category = PROG_COMMAND
 	var/datum/comm_message_listener/message_core = new
 
-/datum/computer_file/program/comm/clone()
-	var/datum/computer_file/program/comm/temp = ..()
-	temp.message_core.messages = null
-	temp.message_core.messages = message_core.messages.Copy()
-	return temp
+/datum/computer_file/program/comm/PopulateClone(datum/computer_file/program/comm/clone)
+	clone = ..()
+	clone.message_core = message_core.Clone()
+	return clone
 
 /datum/nano_module/program/comm
 	name = "Command and Communications Program"
@@ -318,6 +317,11 @@ var/global/last_message_id = 0
 
 /datum/comm_message_listener/proc/Remove(var/list/message)
 	messages -= list(message)
+
+/datum/comm_message_listener/PopulateClone(datum/comm_message_listener/clone)
+	clone = ..()
+	clone.messages = listDeepClone(messages)
+	return clone
 
 /proc/post_status(var/command, var/data1, var/data2)
 

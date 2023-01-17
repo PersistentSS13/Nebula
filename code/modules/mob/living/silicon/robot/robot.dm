@@ -68,18 +68,12 @@
 	var/wiresexposed = 0
 	var/locked = 1
 	var/has_power = 1
-	var/spawn_module = null
 
 	var/spawn_sound = 'sound/voice/liveagain.ogg'
 	var/pitch_toggle = 1
 	var/list/req_access = list(access_robotics)
 	var/ident = 0
-	var/viewalerts = 0
 	var/modtype = "Default"
-	var/lower_mod = 0
-	var/jetpack = 0
-	var/datum/effect/effect/system/ion_trail_follow/ion_trail = null
-	var/jeton = 0
 	var/killswitch = 0
 	var/killswitch_time = 60
 	var/weapon_lock = 0
@@ -223,6 +217,8 @@
 	connected_ai = null
 	QDEL_NULL(module)
 	QDEL_NULL(wires)
+	QDEL_NULL(cell)
+	QDEL_LIST_ASSOC_VAL(components)
 	. = ..()
 
 /mob/living/silicon/robot/proc/reset_module(var/suppress_alert = null)
@@ -488,8 +484,8 @@
 
 				var/obj/item/robot_parts/robot_component/WC = W
 				if(istype(WC))
-					C.brute_damage = WC.brute
-					C.electronics_damage = WC.burn
+					C.brute_damage = WC.brute_damage
+					C.electronics_damage = WC.burn_damage
 
 				to_chat(usr, "<span class='notice'>You install the [W.name].</span>")
 				return
@@ -506,7 +502,7 @@
 			to_chat(user, "Nothing to fix here!")
 			return
 		var/obj/item/weldingtool/WT = W
-		if (WT.remove_fuel(0))
+		if (WT.weld(0))
 			user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
 			adjustBruteLoss(-30)
 			updatehealth()
@@ -563,8 +559,8 @@
 					var/datum/robot_component/C = components[remove]
 					var/obj/item/robot_parts/robot_component/I = C.wrapped
 					if(istype(I))
-						I.brute = C.brute_damage
-						I.burn = C.electronics_damage
+						I.set_bruteloss(C.brute_damage)
+						I.set_burnloss(C.electronics_damage)
 
 					removed_item = I
 					if(C.installed == 1)
@@ -766,7 +762,7 @@
 			dat += text("[obj]: <B>Activated</B><BR>")
 		else
 			dat += text("[obj]: <A HREF=?src=\ref[src];act=\ref[obj]>Activate</A><BR>")
-	if (emagged)
+	if (emagged && module.emag)
 		if(activated(module.emag))
 			dat += text("[module.emag]: <B>Activated</B><BR>")
 		else
@@ -1096,9 +1092,9 @@
 			return 1
 
 /mob/living/silicon/robot/incapacitated(var/incapacitation_flags = INCAPACITATION_DEFAULT)
-	if ((incapacitation_flags & INCAPACITATION_FORCELYING) && (lockcharge || !is_component_functioning("actuator")))
+	if ((incapacitation_flags & INCAPACITATION_FORCELYING) && (lockcharge || !is_component_functioning("actuator") || !is_component_functioning("power cell")))
 		return 1
-	if ((incapacitation_flags & INCAPACITATION_KNOCKOUT) && !is_component_functioning("actuator"))
+	if ((incapacitation_flags & INCAPACITATION_KNOCKOUT) && !is_component_functioning("power cell"))
 		return 1
 	return ..()
 

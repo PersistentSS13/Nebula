@@ -72,12 +72,12 @@
 
 	SetName(lowertext("[fullname] sandwich"))
 	if(length(name) > 80) SetName("[pick(list("absurd","colossal","enormous","ridiculous"))] sandwich")
-	w_class = CEILING(Clamp((ingredients.len/2),2,4))
+	w_class = CEILING(clamp((ingredients.len/2),2,4))
 
 /obj/item/chems/food/csandwich/Destroy()
 	for(var/obj/item/O in ingredients)
 		qdel(O)
-	..()
+	return ..()
 
 /obj/item/chems/food/csandwich/examine(mob/user)
 	. = ..(user)

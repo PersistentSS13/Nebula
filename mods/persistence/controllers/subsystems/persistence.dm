@@ -47,7 +47,7 @@
 
 	// Launch events
 
-	events_repository.raise_event(/decl/observ/world_saving_start_event, src)
+	RAISE_EVENT(/decl/observ/world_saving_start_event, src)
 	try
 		//
 		// 	PREPARATION SECTIONS
@@ -155,7 +155,7 @@
 
 		// Go through all of our saved areas and save those, too.
 		for(var/area/A in saved_areas)
-			for(var/turf/T in A)				
+			for(var/turf/T in A)
 				if("[T.z]" in z_transform)
 					continue
 				// Turf exists in an area outside of saved_levels.
@@ -171,7 +171,7 @@
 				z_level.new_index = new_z_index
 				z_transform["[T.z]"] = z_level
 
-		
+
 		// Now we rebuild our z_level metadata list into the serializer for it to remap everything for us.
 		for(var/z in z_transform)
 			var/datum/persistence/load_cache/z_level/z_level = z_transform[z]
@@ -193,7 +193,7 @@
 		for(var/z in saved_levels)
 			var/default_turf = get_base_turf(z)
 			var/datum/persistence/load_cache/z_level/z_level = z_transform["[z]"]
-				
+
 			var/last_area_type
 			var/last_area_name
 			var/area_turf_count = 0
@@ -219,11 +219,11 @@
 					//Ignore non-saved areas
 					if(istype(TA) && (TA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT))
 						continue
-					
+
 					// Turfs not saved become their default_turf after deserialization.
 					if(!istype(T) || !LAZYLEN(T.contents))
 						continue
-					
+
 					//Save anything else
 					if(istype(T, default_turf) || !T.should_save)
 						var/should_skip = TRUE
@@ -278,7 +278,7 @@
 							break // We found a thing that's worth saving.
 					if(should_skip)
 						continue // Skip this tile. Not worth saving.
-				
+
 				var/new_z = serializer.z_map["[T.z]"]
 				if(new_z)
 					area_chunk.turfs += "[T.x],[T.y],[new_z]"
@@ -335,7 +335,7 @@
 	serializer._after_serialize()
 
 	// Launch event for anything that needs to do cleanup post save.
-	events_repository.raise_event(/decl/observ/world_saving_finish_event, src)
+	RAISE_EVENT_REPEAT(/decl/observ/world_saving_finish_event, src)
 
 	//Print out detailed statistics on what time was spent on what types
 	var/list/saved_types_stats = list()
@@ -407,7 +407,7 @@
 
 		for(var/datum/persistence/load_cache/z_level/z_level in serializer.resolver.z_levels)
 			var/change_turf = z_level.default_turf && !ispath(z_level.default_turf, /turf/space)
-			
+
 			// Create the areas in the z-level if they don't already exist.
 			// Areas are added to the area dictionary in area/New()
 			for(var/list/area_chunk in z_level.areas)
@@ -442,7 +442,7 @@
 				if(change_turf && !turfs_loaded["([T.x], [T.y], [T.z])"])
 					T.ChangeTurf(z_level.default_turf)
 		to_world_log("Default turfs and areas complete! Took [(world.timeofday-start)/10]s.")
-		
+
 		to_world_log("Adding other areas...")
 		start = world.timeofday
 		for(var/datum/persistence/load_cache/area_chunk/area_chunk in serializer.resolver.area_chunks)
@@ -588,7 +588,7 @@
 // Get an object from its p_id via ref tracking. This will not always work if an object is asynchronously deserialized from others.
 // This is also quite slow - if you're trying to locate many objects at once, it's best to use a single query for multiple objects.
 /datum/controller/subsystem/persistence/proc/get_object_from_p_id(var/target_p_id)
-	
+
 	// Check to see if the object has been deserialized from limbo and not yet added to the normal tables.
 	if(target_p_id in limbo_refs)
 		var/datum/existing = locate(limbo_refs[target_p_id])

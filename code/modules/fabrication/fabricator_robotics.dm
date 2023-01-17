@@ -8,17 +8,7 @@
 	active_power_usage = 5000
 	base_type = /obj/machinery/fabricator/robotics
 	fabricator_class = FABRICATOR_CLASS_ROBOTICS
-	base_storage_capacity = list(
-		/decl/material/solid/metal/steel =      SHEET_MATERIAL_AMOUNT * 100,
-		/decl/material/solid/metal/aluminium =  SHEET_MATERIAL_AMOUNT * 100,
-		/decl/material/solid/plastic =          SHEET_MATERIAL_AMOUNT * 100,
-		/decl/material/solid/glass =            SHEET_MATERIAL_AMOUNT * 100,
-		/decl/material/solid/fiberglass =       SHEET_MATERIAL_AMOUNT * 100,
-		/decl/material/solid/metal/gold =       SHEET_MATERIAL_AMOUNT * 100,
-		/decl/material/solid/metal/silver =     SHEET_MATERIAL_AMOUNT * 100,
-		/decl/material/solid/metal/uranium =    SHEET_MATERIAL_AMOUNT * 100,
-		/decl/material/solid/gemstone/diamond = SHEET_MATERIAL_AMOUNT * 100
-	)
+	base_storage_capacity_mult = 100
 	var/picked_prosthetic_species //Prosthetics will be printed with this species
 
 /obj/machinery/fabricator/robotics/Initialize()
@@ -34,7 +24,7 @@
 /obj/machinery/fabricator/robotics/OnTopic(user, href_list, state)
 	. = ..()
 	if(href_list["pick_species"])
-		var/chosen_species = input(user, "Choose a specie to produce prosthetics for", "Target Species", null) in get_playable_species()
+		var/chosen_species = input(user, "Choose a species to produce prosthetics for", "Target Species", null) in get_playable_species()
 		if(chosen_species)
 			picked_prosthetic_species = chosen_species
 		. = TOPIC_REFRESH

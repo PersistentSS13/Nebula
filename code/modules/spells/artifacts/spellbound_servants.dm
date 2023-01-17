@@ -117,18 +117,18 @@
 			var/datum/extension/armor/A = get_extension(under, /datum/extension/armor)
 			if(A)
 				A.armor_values = list(
-					melee = ARMOR_MELEE_VERY_HIGH,
-					bullet = ARMOR_BALLISTIC_PISTOL,
-					laser = ARMOR_LASER_SMALL,
-					energy = ARMOR_ENERGY_SMALL
+					ARMOR_MELEE  = ARMOR_MELEE_VERY_HIGH,
+					ARMOR_BULLET = ARMOR_BALLISTIC_PISTOL,
+					ARMOR_LASER  = ARMOR_LASER_SMALL,
+					ARMOR_ENERGY = ARMOR_ENERGY_SMALL
 					) //More armor
 			A = get_extension(head, /datum/extension/armor)
 			if(A)
 				A.armor_values = list(
-					melee = ARMOR_MELEE_RESISTANT,
-					bullet = ARMOR_BALLISTIC_MINOR,
-					laser = ARMOR_LASER_MINOR,
-					energy = ARMOR_ENERGY_MINOR
+					ARMOR_MELEE  = ARMOR_MELEE_RESISTANT,
+					ARMOR_BULLET = ARMOR_BALLISTIC_MINOR,
+					ARMOR_LASER  = ARMOR_LASER_MINOR,
+					ARMOR_ENERGY = ARMOR_ENERGY_MINOR
 					)
 			familiar_type = /mob/living/simple_animal/hostile/bear
 	var/spell/targeted/shapeshift/familiar/F = new()
@@ -198,6 +198,7 @@
 	desc = "some sort of runic symbol drawn in... crayon?"
 	icon = 'icons/obj/rune.dmi'
 	icon_state = "spellbound"
+	is_spawnable_type = FALSE // invalid without spell_type passed
 	var/datum/spellbound_type/stype
 	var/last_called = 0
 
@@ -239,6 +240,7 @@
 	throw_speed = 5
 	throw_range = 10
 	w_class = ITEM_SIZE_TINY
+	material = /decl/material/solid/stone/cult
 
 /obj/item/summoning_stone/attack_self(var/mob/user)
 	if(isAdminLevel(user.z))

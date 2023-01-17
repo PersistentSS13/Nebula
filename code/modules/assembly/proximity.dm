@@ -41,15 +41,10 @@
 	update_icon()
 	return secured
 
-
 /obj/item/assembly/prox_sensor/HasProximity(atom/movable/AM)
-	if(!istype(AM))
-		log_debug("DEBUG: HasProximity called with [AM] on [src] ([usr]).")
-		return
-	if (istype(AM, /obj/effect/beam))	return
-	if (AM.move_speed < 12)	sense()
-	return
-
+	. = ..()
+	if(. && !istype(AM, /obj/effect/beam) && AM.move_speed < 12)
+		sense()
 
 /obj/item/assembly/prox_sensor/sense()
 	var/turf/mainloc = get_turf(src)
@@ -93,14 +88,16 @@
 
 
 /obj/item/assembly/prox_sensor/on_update_icon()
-	overlays.Cut()
-	attached_overlays = list()
+	. = ..()
+	LAZYCLEARLIST(attached_overlays)
 	if(timing)
-		overlays += "prox_timing"
-		attached_overlays += "prox_timing"
+		var/image/img = overlay_image(icon, "prox_timing")
+		add_overlay(img)
+		LAZYADD(attached_overlays, img)
 	if(scanning)
-		overlays += "prox_scanning"
-		attached_overlays += "prox_scanning"
+		var/image/scanimg = overlay_image(icon, "prox_scanning")
+		add_overlay(scanimg)
+		LAZYADD(attached_overlays, scanimg)
 	if(holder)
 		holder.update_icon()
 

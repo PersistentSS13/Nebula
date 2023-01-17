@@ -178,7 +178,9 @@
 	//We are now going to move
 	mob.moving = 1
 
-	direction = mob.AdjustMovementDirection(direction, mover)
+	if(mover == mob)
+		direction = mob.AdjustMovementDirection(direction, mover)
+
 	var/turf/old_turf = get_turf(mob)
 	step(mob, direction)
 
@@ -231,6 +233,10 @@
  * * mover: The initiator of movement
  */
 /mob/proc/AdjustMovementDirection(var/direction, var/mob/mover)
+
+	if(!direction || !isnum(direction))
+		return 0
+
 	. = direction
 
 	// If we are moved not on our own, we don't get move debuff

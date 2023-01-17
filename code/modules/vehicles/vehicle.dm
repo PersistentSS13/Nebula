@@ -1,7 +1,6 @@
 //Dummy object for holding items in vehicles.
 //Prevents items from being interacted with.
 /datum/vehicle_dummy_load
-	var/name = "dummy load"
 	var/actual_load
 
 /obj/vehicle
@@ -12,6 +11,7 @@
 	anchored = 1
 	animate_movement=1
 	light_range = 3
+	abstract_type = /obj/vehicle
 
 	can_buckle = 1
 	buckle_movable = 1

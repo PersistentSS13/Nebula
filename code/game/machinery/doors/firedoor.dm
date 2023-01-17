@@ -35,7 +35,6 @@
 	var/pdiff_alert = 0
 	var/pdiff = 0
 	var/nextstate = null
-	var/net_id
 	var/list/areas_added
 	var/list/users_to_open = new
 	var/next_process_time = 0
@@ -73,22 +72,37 @@
 	for(var/obj/machinery/door/firedoor/F in loc)
 		if(F != src && !F.allow_multiple_instances_on_same_tile)
 			return INITIALIZE_HINT_QDEL
-	var/area/A = get_area(src)
-	ASSERT(istype(A))
 
-	LAZYADD(A.all_doors, src)
-	areas_added = list(A)
-
-	for(var/direction in global.cardinal)
-		A = get_area(get_step(src,direction))
-		if(istype(A) && !(A in areas_added))
-			LAZYADD(A.all_doors, src)
-			areas_added += A
+	update_area_registrations()
 
 /obj/machinery/door/firedoor/Destroy()
 	for(var/area/A in areas_added)
-		LAZYREMOVE(A.all_doors, src)
+		unregister_area(A)
 	. = ..()
+
+/obj/machinery/door/firedoor/proc/register_area(area/A)
+	if(A && !(A in areas_added))
+		LAZYADD(A.all_doors, src)
+		LAZYADD(areas_added, A)
+
+/obj/machinery/door/firedoor/proc/unregister_area(area/A)
+		LAZYREMOVE(A.all_doors, src)
+		LAZYREMOVE(areas_added, A)
+
+/obj/machinery/door/firedoor/proc/update_area_registrations()
+	var/list/new_areas = list()
+	var/area/A = get_area(src)
+	if(A)
+		new_areas += A
+		for(var/direction in global.cardinal)
+			A = get_area(get_step(src,direction))
+			if(A)
+				new_areas |= A
+	for(var/area in areas_added)
+		if(!(area in new_areas))
+			unregister_area(area)
+	for(var/area in (new_areas - areas_added))
+		register_area(area)
 
 /obj/machinery/door/firedoor/get_material()
 	return GET_DECL(/decl/material/solid/metal/steel)
@@ -198,7 +212,7 @@
 		return//Already doing something.
 	if(IS_WELDER(C) && !repairing)
 		var/obj/item/weldingtool/W = C
-		if(W.remove_fuel(0, user))
+		if(W.weld(0, user))
 			playsound(src, 'sound/items/Welder.ogg', 100, 1)
 			if(do_after(user, 2 SECONDS, src))
 				if(!W.isOn()) return
@@ -372,11 +386,7 @@
 
 
 /obj/machinery/door/firedoor/on_update_icon()
-	var/icon/lights_overlay
-	var/icon/panel_overlay
-	var/icon/weld_overlay
-
-	overlays.Cut()
+	cut_overlays()
 	set_light(0)
 	var/do_set_light = FALSE
 
@@ -389,35 +399,30 @@
 	if(density)
 		icon_state = "closed"
 		if(panel_open)
-			overlays = panel_overlay
+			add_overlay(panel_file)
 		if(pdiff_alert)
-			lights_overlay += "palert"
+			add_overlay("palert")
 			do_set_light = TRUE
 		if(dir_alerts)
 			for(var/d=1;d<=4;d++)
 				var/cdir = global.cardinal[d]
 				for(var/i=1;i<=ALERT_STATES.len;i++)
 					if(dir_alerts[d] & BITFLAG(i-1))
-						overlays += new/icon(icon,"alert_[ALERT_STATES[i]]", dir=cdir)
+						add_overlay(new/icon(icon,"alert_[ALERT_STATES[i]]", dir=cdir))
 						do_set_light = TRUE
 	else
 		icon_state = "open"
 
 	if(blocked)
-		weld_overlay = welded_file
+		add_overlay(welded_file)
 
 	if(do_set_light)
 		set_light(2, 0.25, COLOR_SUN)
-
-	overlays += panel_overlay
-	overlays += weld_overlay
-	overlays += lights_overlay
 
 //Single direction firedoors.
 /obj/machinery/door/firedoor/border
 	icon = 'icons/obj/doors/hazard/door_border.dmi'
 	allow_multiple_instances_on_same_tile = TRUE
-	air_properties_vary_with_direction = TRUE
 	set_dir_on_update = FALSE
 	heat_proof = TRUE
 

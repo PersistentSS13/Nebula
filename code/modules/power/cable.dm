@@ -32,7 +32,7 @@ By design, d1 is the smallest direction and d2 is the highest
 	anchored = TRUE
 	obj_flags = OBJ_FLAG_MOVES_UNSUPPORTED
 	level = 1
-	
+
 	var/d1
 	var/d2
 	var/datum/powernet/powernet
@@ -496,13 +496,6 @@ By design, d1 is the smallest direction and d2 is the highest
 	stack_merge_type = /obj/item/stack/cable_coil
 	matter_multiplier = 0.15
 
-/obj/item/stack/cable_coil/Initialize()
-	. = ..()
-	set_extension(src, /datum/extension/tool/variable, list(
-		TOOL_CABLECOIL = TOOL_QUALITY_DEFAULT,
-		TOOL_SUTURES =   TOOL_QUALITY_MEDIOCRE
-	))
-
 /obj/item/stack/cable_coil/single
 	amount = 1
 
@@ -513,9 +506,15 @@ By design, d1 is the smallest direction and d2 is the highest
 	matter = null
 	uses_charge = 1
 	charge_costs = list(1)
+	max_health = ITEM_HEALTH_NO_DAMAGE
+	is_spawnable_type = FALSE
 
 /obj/item/stack/cable_coil/Initialize(mapload, c_length = MAXCOIL, var/param_color = null)
 	. = ..(mapload, c_length)
+	set_extension(src, /datum/extension/tool/variable, list(
+		TOOL_CABLECOIL = TOOL_QUALITY_DEFAULT,
+		TOOL_SUTURES =   TOOL_QUALITY_MEDIOCRE
+	))
 	src.amount = c_length
 	if (param_color) // It should be red by default, so only recolor it if parameter was specified.
 		color = param_color
@@ -548,7 +547,7 @@ By design, d1 is the smallest direction and d2 is the highest
 	return ..()
 
 /obj/item/stack/cable_coil/on_update_icon()
-	cut_overlays()
+	. = ..()
 	if (!color)
 		var/list/possible_cable_colours = get_global_cable_colors()
 		color = possible_cable_colours[pick(possible_cable_colours)]
@@ -622,7 +621,7 @@ By design, d1 is the smallest direction and d2 is the highest
 // Items usable on a cable coil :
 //   - Wirecutters : cut them duh !
 //   - Cable coil : merge cables
-/obj/item/stack/cable_coil/proc/can_merge(var/obj/item/stack/cable_coil/C)
+/obj/item/stack/cable_coil/can_merge(var/obj/item/stack/cable_coil/C)
 	return color == C.color
 
 /obj/item/stack/cable_coil/cyborg/can_merge()
@@ -841,7 +840,10 @@ By design, d1 is the smallest direction and d2 is the highest
 /obj/item/stack/cable_coil/white
 	color = COLOR_SILVER
 
-/obj/item/stack/cable_coil/random/Initialize()
+/obj/item/stack/cable_coil/lime
+	color = COLOR_LIME
+
+/obj/item/stack/cable_coil/random/Initialize(mapload, c_length, param_color)
 	var/list/possible_cable_colours = get_global_cable_colors()
 	color = possible_cable_colours[pick(possible_cable_colours)]
 	. = ..()

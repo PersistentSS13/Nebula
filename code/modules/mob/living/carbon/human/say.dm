@@ -3,7 +3,7 @@
 		var/obj/item/organ/internal/voicebox/voice = locate() in get_internal_organs()
 		// Check if the language they're speaking is vocal and not supplied by a machine, and if they are currently suffocating.
 		whispering = (whispering || has_chemical_effect(CE_VOICELOSS, 1))
-		if((!speaking || !(speaking.flags & (NONVERBAL|SIGNLANG))) && (!voice || !voice.is_usable() || !voice.assists_languages[speaking]) && !isSynthetic() && need_breathe() && failed_last_breath)
+		if((!speaking || !(speaking.flags & (LANG_FLAG_NONVERBAL|LANG_FLAG_SIGNLANG))) && (!voice || !voice.is_usable() || !voice.assists_languages[speaking]) && !isSynthetic() && need_breathe() && failed_last_breath)
 			var/obj/item/organ/internal/lungs/L = get_organ(species.breathing_organ, /obj/item/organ/internal/lungs)
 			if(!L || L.breath_fail_ratio > 0.9)
 				if(L && world.time < L.last_successful_breath + 2 MINUTES) //if we're in grace suffocation period, give it up for last words
@@ -54,17 +54,8 @@
 					say(temp)
 				winset(client, "input", "text=[null]")
 
-/mob/living/carbon/human/say_understands(var/mob/other,var/decl/language/speaking = null)
-	if(species.can_understand(other))
-		return TRUE
-	if(!speaking)
-		if(istype(other, /mob/living/silicon))
-			return TRUE
-		if(istype(other, /mob/announcer))
-			return TRUE
-		if(istype(other, /mob/living/carbon/brain))
-			return TRUE
-	return ..()
+/mob/living/carbon/human/say_understands(mob/speaker, decl/language/speaking)
+	return (!speaking && (issilicon(speaker) || istype(speaker, /mob/announcer) || isbrain(speaker))) || ..()
 
 /mob/living/carbon/human/GetVoice()
 
@@ -99,7 +90,7 @@
 	var/ending = copytext(message, length(message))
 
 	if(speaking)
-		verb = speaking.get_spoken_verb(ending)
+		verb = speaking.get_spoken_verb(src, ending)
 	else
 		if(ending == "!")
 			verb=pick("exclaims","shouts","yells")
@@ -123,46 +114,10 @@
 	return ..(message_data)
 
 /mob/living/carbon/human/handle_message_mode(message_mode, message, verb, speaking, used_radios, alt_name)
-	var/use_mode = null
-	switch(message_mode)
-
-		if("intercom")
-			if(!restrained())
-				for(var/obj/item/radio/I in view(1))
-					if(I.intercom_handling)
-						used_radios += I
-
-		if("right ear", "left ear")
-			var/use_right = message_mode == "right ear"
-			var/obj/item/radio/R = get_equipped_item(use_right ? slot_r_ear_str : slot_l_ear_str)
-			if(!istype(R))
-				R = null
-				var/datum/inventory_slot/inv_slot = LAZYACCESS(held_item_slots, (use_right ? BP_R_HAND : BP_L_HAND))
-				if(istype(inv_slot?.holding, /obj/item/radio))
-					R = inv_slot.holding
-			if(R)
-				used_radios += R
-
-		if("whisper") //It's going to get sanitized again immediately, so decode.
-			whisper_say(html_decode(message), speaking, alt_name)
-			return 1
-
-		else
-			// Headsets are default.
-			if(message_mode)
-				var/obj/item/radio/R
-				for(var/slot in global.ear_slots)
-					R = get_equipped_item(slot)
-					if(istype(R))
-						break
-				if(!istype(R))
-					R = GetRadio()
-				if(istype(R))
-					used_radios += R
-
-	for(var/obj/item/radio in used_radios)
-		radio.add_fingerprint(src)
-		radio.talk_into(src,message,use_mode,verb,speaking)
+	if(message_mode == "whisper") //It's going to get sanitized again immediately, so decode.
+		whisper_say(html_decode(message), speaking, alt_name)
+		return TRUE
+	return ..()
 
 /mob/living/carbon/human/handle_speech_sound()
 	if(species.speech_sounds && prob(species.speech_chance))

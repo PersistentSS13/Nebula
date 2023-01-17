@@ -777,7 +777,7 @@
 /turf/simulated/floor/wood,
 /area/outpost/abandoned)
 "cN" = (
-/obj/structure/filingcabinet/filingcabinet,
+/obj/structure/filing_cabinet/tall,
 /turf/simulated/floor/carpet/blue,
 /area/outpost/abandoned)
 "cO" = (
@@ -800,7 +800,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/outpost/abandoned)
 "cS" = (
-/obj/structure/filingcabinet/filingcabinet,
+/obj/structure/filing_cabinet/tall,
 /turf/simulated/floor/tiled/dark,
 /area/outpost/abandoned)
 "cT" = (
@@ -957,7 +957,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/outpost/abandoned)
 "dq" = (
-/obj/structure/dispenser,
+/obj/structure/tank_rack,
 /turf/simulated/floor/tiled/dark,
 /area/outpost/abandoned)
 "dr" = (
@@ -1045,7 +1045,7 @@
 /turf/simulated/floor/tiled/white/airless,
 /area/outpost/abandoned)
 "dE" = (
-/obj/effect/decal/remains,
+/obj/item/remains,
 /obj/structure/table,
 /obj/item/shard{
 	icon_state = "shardlarge"
@@ -1620,7 +1620,7 @@
 /area/outpost/abandoned)
 "fv" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/effect/decal/remains,
+/obj/item/remains,
 /turf/simulated/floor/tiled/airless,
 /area/outpost/abandoned)
 "fw" = (
@@ -2497,7 +2497,7 @@
 /turf/simulated/floor/carpet/blue,
 /area/outpost/abandoned)
 "yb" = (
-/obj/item/storage/mirror{
+/obj/structure/mirror{
 	icon_state = "mirror_broke";
 	pixel_x = 30
 	},

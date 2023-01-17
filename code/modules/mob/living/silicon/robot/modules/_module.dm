@@ -4,6 +4,7 @@
 	icon_state = ICON_STATE_WORLD
 	w_class = ITEM_SIZE_NO_CONTAINER
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
+	is_spawnable_type = FALSE
 
 	var/associated_department
 	var/hide_on_manifest = 0
@@ -111,7 +112,7 @@
 /obj/item/robot_module/proc/finalize_emag()
 	if(istype(emag))
 		emag.canremove = FALSE
-	else
+	else if(emag)
 		log_debug("Invalid var type in [type] emag creation - [emag]")
 		emag = null
 
@@ -237,4 +238,4 @@
 	if(os && os.has_component(PART_HDD))
 		var/obj/item/stock_parts/computer/hard_drive/disk = os.get_component(PART_HDD)
 		for(var/T in software)
-			disk.store_file(new T(disk))
+			disk.store_file(new T(disk), OS_PROGRAMS_DIR, TRUE)

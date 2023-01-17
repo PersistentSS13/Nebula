@@ -116,6 +116,7 @@
 	.["roles"] = list()
 	var/decl/hierarchy/chargen/origin/origins = GET_DECL(/decl/hierarchy/chargen/origin)
 	var/decl/hierarchy/chargen/role/roles = GET_DECL(/decl/hierarchy/chargen/role)
+
 	for(var/decl/hierarchy/chargen/D in (roles.children + origins.children))
 		var/list/fields = list(
 			"name" = D.name,

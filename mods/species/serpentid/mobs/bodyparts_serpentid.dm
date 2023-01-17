@@ -103,6 +103,8 @@
 
 	//Effects of bloodloss
 	switch(blood_volume)
+		if(BLOOD_VOLUME_SAFE to (INFINITY))
+			lowblood_tally = 0
 		if(BLOOD_VOLUME_OKAY to BLOOD_VOLUME_SAFE)
 			lowblood_tally = 2
 			if(prob(1))
@@ -161,7 +163,6 @@
 
 /obj/item/organ/external/head/insectoid/serpentid
 	name = "head"
-	vital = 0
 
 /obj/item/organ/external/head/insectoid/serpentid/get_eye_overlay()
 	var/obj/item/organ/internal/eyes/eyes = owner.get_organ((owner.species.vision_organ || BP_EYES), /obj/item/organ/internal/eyes)

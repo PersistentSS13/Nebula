@@ -386,6 +386,9 @@
 /datum/fabricator_recipe/imprinter/circuit/modular_computer
 	path = /obj/item/stock_parts/circuitboard/modular_computer
 
+/datum/fabricator_recipe/imprinter/circuit/modular_computer_telescreen
+	path = /obj/item/stock_parts/circuitboard/modular_computer/telescreen
+
 /datum/fabricator_recipe/imprinter/circuit/shipsensors
 	path = /obj/item/stock_parts/circuitboard/shipsensors
 
@@ -446,6 +449,9 @@
 /datum/fabricator_recipe/imprinter/circuit/jukebox
 	path = /obj/item/stock_parts/circuitboard/jukebox
 
+/datum/fabricator_recipe/imprinter/circuit/paper_shredder
+	path = /obj/item/stock_parts/circuitboard/paper_shredder
+
 /datum/fabricator_recipe/imprinter/circuit/forensic
 	path = /obj/item/stock_parts/circuitboard/forensic
 
@@ -478,3 +484,9 @@
 
 /datum/fabricator_recipe/imprinter/circuit/docking_beacon
 	path = /obj/item/stock_parts/circuitboard/docking_beacon
+
+/datum/fabricator_recipe/imprinter/circuit/fax_machine
+	path = /obj/item/stock_parts/circuitboard/fax_machine
+
+/datum/fabricator_recipe/imprinter/circuit/photocopier
+	path = /obj/item/stock_parts/circuitboard/photocopier

@@ -229,6 +229,7 @@
 	..()
 
 /obj/item/mech_equipment/light/on_update_icon()
+	. = ..()
 	if(on)
 		icon_state = "[initial(icon_state)]-on"
 		set_light(l_range, l_power)
@@ -326,11 +327,12 @@
 
 
 /obj/item/drill_head
-	var/durability = 0
 	name = "drill head"
 	desc = "A replaceable drill head usually used in exosuit drills."
 	icon = 'icons/obj/items/tool/drill_head.dmi'
 	icon_state = "drill_head"
+	material = /decl/material/solid/metal/steel
+	var/durability = 0
 
 /obj/item/drill_head/proc/get_percent_durability()
 	return round((durability / material.integrity) * 50)
@@ -346,7 +348,6 @@
 /obj/item/drill_head/examine(mob/user, distance)
 	. = ..()
 	to_chat(user, "It [get_visible_durability()].")
-
 
 /obj/item/drill_head/steel
 	material = /decl/material/solid/metal/steel
@@ -429,7 +430,7 @@
 		if (!ore_box)
 			continue
 		var/list/atoms_in_range = range(1, at_turf)
-		for(var/obj/item/ore/ore in atoms_in_range)
+		for(var/obj/item/stack/material/ore/ore in atoms_in_range)
 			if (!(get_dir(owner, ore) & owner.dir))
 				continue
 			ore.Move(ore_box)
@@ -591,6 +592,10 @@
 	. = ..()
 	ion_trail = new /datum/effect/effect/system/trail/ion()
 	ion_trail.set_up(src)
+
+/obj/item/mech_equipment/ionjets/Destroy()
+	QDEL_NULL(ion_trail)
+	return ..()
 
 /obj/item/mech_equipment/ionjets/proc/allowSpaceMove()
 	if (!active)

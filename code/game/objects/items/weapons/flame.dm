@@ -3,6 +3,7 @@
 	var/lit_heat = 1000
 	var/waterproof = FALSE
 	var/lit = 0
+	material = /decl/material/solid/wood
 
 /obj/item/flame/afterattack(var/obj/O, var/mob/user, proximity)
 	..()
@@ -71,7 +72,7 @@
 	update_icon()
 
 /obj/item/flame/match/on_update_icon()
-	..()
+	. = ..()
 	if(burnt)
 		icon_state = "[get_world_inventory_state()]_burnt"
 	else if(lit)

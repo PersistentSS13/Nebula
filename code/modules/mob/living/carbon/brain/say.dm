@@ -14,7 +14,7 @@
 		var/verb = "says"
 		var/ending = copytext(message, length(message))
 		if (speaking)
-			verb = speaking.get_spoken_verb(ending)
+			verb = speaking.get_spoken_verb(src, ending)
 		else
 			if(ending=="!")
 				verb=pick("exclaims","shouts","yells")
@@ -27,7 +27,7 @@
 			else
 				message = Gibberish(message, (emp_damage*6))//scrambles the message, gets worse when emp_damage is higher
 
-		if(speaking && speaking.flags & HIVEMIND)
+		if(speaking && speaking.flags & LANG_FLAG_HIVEMIND)
 			speaking.broadcast(src,trim(message))
 			return
 

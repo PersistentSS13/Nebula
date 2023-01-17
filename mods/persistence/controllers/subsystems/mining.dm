@@ -12,7 +12,7 @@
 	var/tmp_cell
 	var/new_path
 	var/num_applied = 0
-	
+
 	for (var/turf/T in block(locate(origin_x, origin_y, origin_z), locate(limit_x, limit_y, origin_z)))
 		new_path = null
 		var/area/A = get_area(T)
@@ -143,9 +143,9 @@ SUBSYSTEM_DEF(mining)
 		// This searches the mob for all items, and adds them to contents.
 		recursive_content_check(M, contents, 10, FALSE, FALSE, FALSE, TRUE)
 
-		for(var/obj/item/ore/O in contents)
-			LAZYREMOVE(contents, O)
-			qdel(O)
+		for(var/obj/item/stack/material/ore/removed_ore in contents)
+			LAZYREMOVE(contents, removed_ore)
+			qdel(removed_ore)
 
 		M.take_overall_damage(100, 0, null)
 

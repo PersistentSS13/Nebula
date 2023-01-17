@@ -8,6 +8,8 @@
 	slot_flags = SLOT_LOWER_BODY | SLOT_EARS
 	throwforce = 1
 	w_class = ITEM_SIZE_TINY
+	obj_flags = OBJ_FLAG_HOLLOW
+	material = /decl/material/solid/metal/brass
 
 	var/leaves_residue = 1
 	var/caliber = ""					//Which kind of guns it can be loaded into
@@ -99,8 +101,8 @@
 	else ..()
 
 /obj/item/ammo_casing/on_update_icon()
+	. = ..()
 	if(use_single_icon)
-		cut_overlays()
 		if(BB)
 			var/image/I = overlay_image(icon, "[icon_state]-bullet", bullet_color, flags=RESET_COLOR)
 			I.dir = dir
@@ -210,6 +212,7 @@
 		return
 
 /obj/item/ammo_magazine/on_update_icon()
+	. = ..()
 	if(multiple_sprites)
 		//find the lowest key greater than or equal to stored_ammo.len
 		var/new_state = null

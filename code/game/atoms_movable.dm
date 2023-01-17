@@ -2,6 +2,7 @@
 	layer = OBJ_LAYER
 	appearance_flags = TILE_BOUND | PIXEL_SCALE | LONG_GLIDE
 	glide_size = 8
+	abstract_type = /atom/movable
 
 	var/can_buckle = 0
 	var/buckle_movable = 0
@@ -25,7 +26,6 @@
 	var/datum/thrownthing/throwing
 	var/throw_speed = 2
 	var/throw_range = 7
-	var/moved_recently = 0
 	var/item_state = null // Used to specify the item state for the on-mob overlays.
 	var/does_spin = TRUE // Does the atom spin when thrown (of course it does :P)
 	var/list/grabbed_by
@@ -36,6 +36,10 @@
 	var/inertia_next_move = 0
 	var/inertia_move_delay = 5
 	var/atom/movable/inertia_ignore
+
+// This proc determines if the instance is preserved when the process() despawn of crypods occurs.
+/atom/movable/proc/preserve_in_cryopod(var/obj/machinery/cryopod/pod)
+	return FALSE
 
 //call this proc to start space drifting
 /atom/movable/proc/space_drift(direction)//move this down
@@ -182,7 +186,7 @@
 
 	// observ
 	if(!loc)
-		events_repository.raise_event(/decl/observ/moved, src, origin, null)
+		RAISE_EVENT(/decl/observ/moved, src, origin, null)
 
 	// freelook
 	if(opacity)
@@ -234,7 +238,7 @@
 				unbuckle_mob()
 
 		if(!loc)
-			events_repository.raise_event(/decl/observ/moved, src, old_loc, null)
+			RAISE_EVENT(/decl/observ/moved, src, old_loc, null)
 
 		// freelook
 		if(opacity)
@@ -276,20 +280,23 @@
 
 //Overlays
 /atom/movable/overlay
-	var/atom/master = null
-	var/follow_proc = /atom/movable/proc/move_to_loc_or_null
 	anchored = TRUE
 	simulated = FALSE
+	var/atom/master = null
+	var/follow_proc = /atom/movable/proc/move_to_loc_or_null
+	var/expected_master_type = /atom
 
 /atom/movable/overlay/Initialize()
 	if(!loc)
 		PRINT_STACK_TRACE("[type] created in nullspace.")
 		return INITIALIZE_HINT_QDEL
 	master = loc
+	if(expected_master_type && !istype(master, expected_master_type))
+		return INITIALIZE_HINT_QDEL
 	SetName(master.name)
 	set_dir(master.dir)
 
-	if(istype(master, /atom/movable))
+	if(follow_proc && istype(master, /atom/movable))
 		events_repository.register(/decl/observ/moved, master, src, follow_proc)
 		SetInitLoc()
 
@@ -476,7 +483,7 @@
 	return M
 
 /atom/movable/proc/show_unbuckle_message(var/mob/buckled, var/mob/buckling)
-	if(buckled == buckling)
+	if(buckled != buckling)
 		visible_message(\
 			SPAN_NOTICE("\The [buckled] was unbuckled by \the [buckling]!"),\
 			SPAN_NOTICE("You were unbuckled from \the [src] by \the [buckling]."),\

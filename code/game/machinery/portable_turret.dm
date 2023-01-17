@@ -686,7 +686,7 @@ var/global/list/turret_icons
 
 				playsound(loc, pick('sound/items/Welder.ogg', 'sound/items/Welder2.ogg'), 50, 1)
 				if(do_after(user, 20, src))
-					if(!src || !WT.remove_fuel(5, user)) return
+					if(!src || !WT.weld(5, user)) return
 					build_step = 1
 					to_chat(user, "You remove the turret's interior metal armor.")
 					SSmaterials.create_object(/decl/material/solid/metal/steel, loc, 2)
@@ -763,7 +763,7 @@ var/global/list/turret_icons
 
 				playsound(loc, pick('sound/items/Welder.ogg', 'sound/items/Welder2.ogg'), 50, 1)
 				if(do_after(user, 30, src))
-					if(!src || !WT.remove_fuel(5, user))
+					if(!src || !WT.weld(5, user))
 						return
 					build_step = 8
 					to_chat(user, "<span class='notice'>You weld the turret's armor down.</span>")
@@ -785,17 +785,20 @@ var/global/list/turret_icons
 				build_step = 6
 				return
 
-	if(istype(I, /obj/item/pen))	//you can rename turrets like bots!
+	if(IS_PEN(I))	//you can rename turrets like bots!
 		var/t = sanitize_safe(input(user, "Enter new turret name", name, finish_name) as text, MAX_NAME_LEN)
-		if(!t)
+		if(!CanPhysicallyInteractWith(usr, src))
 			return
-		if(!in_range(src, usr) && loc != usr)
-			return
-
-		finish_name = t
+		if(!length(t))
+			finish_name = initial(finish_name)
+			to_chat(user, SPAN_NOTICE("You restore \the [src]'s default name."))
+			return TRUE
+		if(I.do_tool_interaction(TOOL_PEN, user, src, 2 SECOND, fuel_expenditure = 1) && !QDELETED(src))
+			finish_name = t
+			return TRUE
 		return
 
-	..()
+	return ..()
 
 
 /obj/machinery/porta_turret_construct/attack_hand(mob/user)

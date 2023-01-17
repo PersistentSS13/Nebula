@@ -14,7 +14,7 @@
 	var/auto_process = FALSE // Whether or not specification holders should *automatically* process, calling specification_act() in Process()
 	var/process_on_install = FALSE // Whether or not specification holders should begin processing on installation into a machine.
 
-	var/spec_type // How the specification affects the design - either the recipe, the production, or the item produced. 
+	var/spec_type // How the specification affects the design - either the recipe, the production, or the item produced.
 
 /decl/specification_type/proc/specification_act(obj/holder, strength, materials)
 
@@ -34,13 +34,13 @@
 	var/obj/item/unfinished_assembly/assembly = holder
 	if(!istype(holder))
 		CRASH("Finishing specification applied to non-assembly!")
-	
+
 	if(assembly.screwdrivered)
 		return TRUE
 
 /decl/specification_type/material_cost
 	name = "Crucial materials I"
-	
+
 	req_materials = 1
 	default_materials = list(
 							/decl/material/solid/metal/copper,
@@ -57,7 +57,7 @@
 	for(var/material in req_materials)
 		var/decl/material/mat = GET_DECL(material)
 		material_descs += "[STRENGTH_TO_MAT_AMOUNT(strength)] units of [mat.name]"
-	
+
 	return "Design will require [english_list(material_descs)]."
 
 /decl/specification_type/material_cost/apply_to_recipe(datum/fabricator_recipe/recipe, strength, list/req_materials)
@@ -174,14 +174,12 @@
 
 // Stock Part specifications follow
 /decl/specification_type/stock_part
+	abstract_type = /decl/specification_type/stock_part
 	valid_paths = list(/obj/item/stock_parts)
 	invalid_paths = list()
 	spec_type = SPEC_ITEM
 
 	process_on_install = TRUE
-
-/decl/specification_type/stock_part/is_abstract()
-	return TRUE
 
 /decl/specification_type/stock_part/specification_act(obj/holder, strength, materials)
 	var/obj/item/stock_parts/stock_part = holder

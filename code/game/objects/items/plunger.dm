@@ -19,3 +19,5 @@
 			body_parts_covered = initial(body_parts_covered)
 	return ..()
 
+/obj/item/plunger/unbreakable
+	max_health = ITEM_HEALTH_NO_DAMAGE

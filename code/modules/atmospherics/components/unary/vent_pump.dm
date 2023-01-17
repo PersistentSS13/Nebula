@@ -39,7 +39,6 @@
 
 	var/welded = 0 // Added for aliens -- TLE
 
-	var/controlled = TRUE  //if we should register with an air alarm on spawn
 	build_icon_state = "uvent"
 	var/sound_id
 	var/datum/sound_token/sound_token
@@ -77,6 +76,44 @@
 	construct_state = /decl/machine_construction/default/panel_closed/item_chassis
 	base_type = /obj/machinery/atmospherics/unary/vent_pump/buildable
 
+/obj/machinery/atmospherics/unary/vent_pump/Initialize()
+	if (!id_tag)
+		id_tag = "[sequential_id("obj/machinery")]"
+	if(controlled)
+		var/area/A = get_area(src)
+		if(A && !A.air_vent_names[id_tag])
+			update_name()
+			events_repository.register(/decl/observ/name_set, A, src, .proc/change_area_name)
+	. = ..()
+	air_contents.volume = ATMOS_DEFAULT_VOLUME_PUMP
+	update_sound()
+
+/obj/machinery/atmospherics/unary/vent_pump/proc/change_area_name(var/area/A, var/old_area_name, var/new_area_name)
+	if(get_area(src) != A)
+		return
+	update_name()
+
+/obj/machinery/atmospherics/unary/vent_pump/area_changed(area/old_area, area/new_area)
+	if(old_area)
+		old_area.air_vent_names -= id_tag
+	. = ..()
+	update_name()
+
+/obj/machinery/atmospherics/unary/vent_pump/proc/update_name()
+	var/area/A = get_area(src)
+	if(!A || A == global.space_area || !controlled)
+		SetName("vent pump")
+		return
+	var/index
+	if(A.air_vent_names[id_tag])
+		index = A.air_vent_names.Find(id_tag)
+	else
+		A.air_vent_names[id_tag] = TRUE
+		index = length(A.air_vent_names)
+	var/new_name = "[A.proper_name] vent pump #[index]"
+	A.air_vent_names[id_tag] = new_name
+	SetName(new_name)
+
 /obj/machinery/atmospherics/unary/vent_pump/buildable
 	uncreated_component_parts = null
 
@@ -101,19 +138,25 @@
 	pressure_checks = 2
 	pressure_checks_default = 2
 
-/obj/machinery/atmospherics/unary/vent_pump/Initialize()
-	. = ..()
-	air_contents.volume = ATMOS_DEFAULT_VOLUME_PUMP
-	update_sound()
-
 /obj/machinery/atmospherics/unary/vent_pump/Destroy()
 	QDEL_NULL(sound_token)
-	var/area/A = get_area(src)
-	if(A)
-		events_repository.unregister(/decl/observ/name_set, A, src, .proc/change_area_name)
-		A.air_vent_info -= id_tag
-		A.air_vent_names -= id_tag
 	. = ..()
+
+/obj/machinery/atmospherics/unary/vent_pump/reset_area(area/old_area, area/new_area)
+	if(!controlled)
+		return
+	if(old_area == new_area)
+		return
+	if(old_area)
+		events_repository.unregister(/decl/observ/name_set, old_area, src, .proc/change_area_name)
+		old_area.air_vent_info -= id_tag
+		old_area.air_vent_names -= id_tag
+	if(new_area && new_area == get_area(src))
+		events_repository.register(/decl/observ/name_set, new_area, src, .proc/change_area_name)
+		if(!new_area.air_vent_names[id_tag])
+			var/new_name = "[new_area.proper_name] Vent Pump #[new_area.air_vent_names.len+1]"
+			new_area.air_vent_names[id_tag] = new_name
+			SetName(new_name)
 
 /obj/machinery/atmospherics/unary/vent_pump/high_volume
 	name = "large air vent"
@@ -219,25 +262,6 @@
 /obj/machinery/atmospherics/unary/vent_pump/area_uid()
 	return controlled ? ..() : "NONE"
 
-/obj/machinery/atmospherics/unary/vent_pump/Initialize()
-	if (!id_tag)
-		id_tag = "[sequential_id("obj/machinery")]"
-	if(controlled)
-		var/area/A = get_area(src)
-		if(A && !A.air_vent_names[id_tag])
-			var/new_name = "[A.proper_name] Vent Pump #[A.air_vent_names.len+1]"
-			A.air_vent_names[id_tag] = new_name
-			SetName(new_name)
-			events_repository.register(/decl/observ/name_set, A, src, .proc/change_area_name)
-	. = ..()
-
-/obj/machinery/atmospherics/unary/vent_pump/proc/change_area_name(var/area/A, var/old_area_name, var/new_area_name)
-	if(get_area(src) != A)
-		return
-	var/new_name = replacetext(A.air_vent_names[id_tag], old_area_name, new_area_name)
-	SetName(new_name)
-	A.air_vent_names[id_tag] = new_name
-
 /obj/machinery/atmospherics/unary/vent_pump/proc/purge()
 	pressure_checks &= ~PRESSURE_CHECK_EXTERNAL
 	pump_direction = 0
@@ -265,7 +289,7 @@
 			to_chat(user, "<span class='notice'>The welding tool needs to be on to start this task.</span>")
 			return 1
 
-		if(!WT.remove_fuel(0,user))
+		if(!WT.weld(0,user))
 			to_chat(user, "<span class='warning'>You need more welding fuel to complete this task.</span>")
 			return 1
 
@@ -410,7 +434,7 @@
 /decl/public_access/public_variable/pressure_bound/external/write_var(obj/machinery/atmospherics/unary/vent_pump/machine, new_value)
 	if(new_value == "default")
 		new_value = machine.external_pressure_bound_default
-	new_value = Clamp(new_value, 0, MAX_PUMP_PRESSURE)
+	new_value = clamp(new_value, 0, MAX_PUMP_PRESSURE)
 	. = ..()
 	if(.)
 		machine.external_pressure_bound = new_value

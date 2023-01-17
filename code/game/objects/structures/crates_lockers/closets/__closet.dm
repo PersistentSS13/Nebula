@@ -55,9 +55,6 @@ var/global/list/closets = list()
 	if(!opened && mapload) // if closed and it's the map loading phase, relevant items at the crate's loc are put in the contents
 		store_contents()
 
-/obj/structure/closet/proc/WillContain()
-	return null
-
 /obj/structure/closet/examine(mob/user, distance)
 	. = ..()
 	if(distance <= 1 && !opened)
@@ -251,15 +248,15 @@ var/global/list/closets = list()
 			return 0
 		if(IS_WELDER(W))
 			var/obj/item/weldingtool/WT = W
-			if(WT.remove_fuel(0,user))
+			if(WT.weld(0,user))
 				slice_into_parts(WT, user)
-				return
+				return TRUE
 		if(istype(W, /obj/item/gun/energy/plasmacutter))
 			var/obj/item/gun/energy/plasmacutter/cutter = W
 			if(!cutter.slice(user))
 				return
 			slice_into_parts(W, user)
-			return
+			return TRUE
 		if(istype(W, /obj/item/storage/laundry_basket) && W.contents.len)
 			var/obj/item/storage/laundry_basket/LB = W
 			var/turf/T = get_turf(src)
@@ -269,13 +266,14 @@ var/global/list/closets = list()
 			user.visible_message("<span class='notice'>[user] empties \the [LB] into \the [src].</span>", \
 								 "<span class='notice'>You empty \the [LB] into \the [src].</span>", \
 								 "<span class='notice'>You hear rustling of clothes.</span>")
-			return
+			return TRUE
 
 		if(user.unEquip(W, loc))
 			W.pixel_x = 0
 			W.pixel_y = 0
 			W.pixel_z = 0
 			W.pixel_w = 0
+			return TRUE
 		return
 	else if(istype(W, /obj/item/energy_blade))
 		var/obj/item/energy_blade/blade = W
@@ -283,11 +281,12 @@ var/global/list/closets = list()
 			spark_at(src.loc, amount=5)
 			playsound(src.loc, 'sound/weapons/blade1.ogg', 50, 1)
 			open()
+		return TRUE
 	else if(istype(W, /obj/item/stack/package_wrap))
-		return
+		return //Return false to get afterattack to be called
 	else if(IS_WELDER(W) && (setup & CLOSET_CAN_BE_WELDED))
 		var/obj/item/weldingtool/WT = W
-		if(!WT.remove_fuel(0,user))
+		if(!WT.weld(0,user))
 			if(!WT.isOn())
 				return
 			else
@@ -296,8 +295,10 @@ var/global/list/closets = list()
 		src.welded = !src.welded
 		src.update_icon()
 		user.visible_message("<span class='warning'>\The [src] has been [welded?"welded shut":"unwelded"] by \the [user].</span>", blind_message = "You hear welding.", range = 3)
+		return TRUE
 	else if(setup & CLOSET_HAS_LOCK)
 		src.togglelock(user, W)
+		return TRUE
 	else
 		src.attack_hand(user)
 
@@ -413,9 +414,10 @@ var/global/list/closets = list()
 		make_broken()
 
 	//Do this to prevent contents from being opened into nullspace
-	if(istype(loc, /obj/structure/bigDelivery))
-		var/obj/structure/bigDelivery/BD = loc
-		BD.unwrap()
+	//#TODO: There's probably a better way to do this?
+	if(istype(loc, /obj/item/parcel))
+		var/obj/item/parcel/P = loc
+		P.unwrap()
 	open()
 
 /obj/structure/closet/onDropInto(var/atom/movable/AM)

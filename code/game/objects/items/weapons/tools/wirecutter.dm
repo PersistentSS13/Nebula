@@ -11,7 +11,7 @@
 	attack_verb = list("pinched", "nipped")
 	sharp = 1
 	edge = 1
-	applies_material_colour = TRUE
+	material_alteration = MAT_FLAG_ALTERATION_COLOR
 	drop_sound = 'sound/foley/singletooldrop1.ogg'
 
 	var/handle_color
@@ -25,7 +25,7 @@
 	. = ..()
 	if(!handle_color)
 		handle_color = pick(valid_colours)
-	overlays += overlay_image(icon, "[get_world_inventory_state()]_handle", handle_color, flags=RESET_COLOR)
+	add_overlay(overlay_image(icon, "[get_world_inventory_state()]_handle", handle_color, flags=RESET_COLOR))
 
 /obj/item/wirecutters/adjust_mob_overlay(var/mob/living/user_mob, var/bodytype,  var/image/overlay, var/slot, var/bodypart)
 	if(overlay)

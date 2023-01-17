@@ -42,6 +42,7 @@ SAVED_VAR(/obj/item/organ/internal/lungs, last_int_pressure)
 SAVED_VAR(/obj/item/organ/internal/lungs, last_ext_pressure)
 SAVED_VAR(/obj/item/organ/internal/lungs, oxygen_deprivation)
 SAVED_VAR(/obj/item/organ/internal/lungs, breathing)
+SAVED_VAR(/obj/item/organ/internal/lungs, inhaled)
 
 SAVED_VAR(/obj/item/organ/internal/appendix, inflamed)
 
@@ -70,8 +71,6 @@ SAVED_VAR(/obj/item/organ/internal/cell, servo_cost)
 SAVED_VAR(/obj/item/organ/internal/mmi_holder, stored_mmi)
 SAVED_VAR(/obj/item/organ/internal/mmi_holder, persistantMind)
 SAVED_VAR(/obj/item/organ/internal/mmi_holder, ownerckey)
-
-SAVED_VAR(/obj/item/organ/internal/posibrain, shackle)
 
 SAVED_VAR(/obj/item/organ/external/head, draw_eyes)
 SAVED_VAR(/obj/item/organ/external/head, glowing_eyes)

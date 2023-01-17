@@ -20,7 +20,7 @@
 	var/progressing = FALSE // Ready to select a progression/finalization theory.
 
 	var/datum/fabricator_recipe/recipe
-	
+
 	var/static/list/random_fields = list(TECH_MATERIAL, TECH_POWER, TECH_BIO, TECH_DATA, TECH_ENGINEERING, TECH_EXOTIC_MATTER, TECH_COMBAT, TECH_WORMHOLES)
 	var/is_copy = FALSE // Designs can only be copied once, they cannot be copied from copies.
 
@@ -44,7 +44,7 @@
 		// Initialize us to zero'd research fields.
 		for(var/field in research_requirements)
 			add_field(field)
-	
+
 		var/list/picked_fields = random_fields.Copy()
 		picked_fields -= research_levels // Remove all fields already in research levels
 
@@ -58,7 +58,7 @@
 				continue
 
 			var/list/theory_fields = picked_fields.Copy()
-			
+
 			// Select up to two incidental fields to add to the design
 			var/list/incidental_fields = list()
 			var/num_fields = min(length(theory_fields), 2)
@@ -67,7 +67,7 @@
 
 			var/datum/theory/starter = new(theory, research_requirements.Copy(), 4, null, null, incidental_fields)
 			theory_options += starter
-		
+
 		remaining_points = POINTS_PER_TIER * tier
 
 /datum/computer_file/data/design/Destroy()
@@ -87,7 +87,7 @@
 		if(THEORY_SUCCESS)
 			if(selected in theory_options)
 				theory_options[selected] = FALSE // Make sure this theory is removed from the options.
-			
+
 			// We can progress, generate progression theories.
 			if(can_progress())
 				// Remove all theory options.
@@ -114,10 +114,10 @@
 			qdel(current_theory)
 
 	var/generated_theories = clamp(user.get_skill_value(SKILL_SCIENCE) + 1, 2, MAX_THEORIES)
-	
+
 	if(length(theory_options) >= generated_theories)
 		return
-	
+
 	var/list/theory_paths = get_theory_options(tier, progressing)
 
 	var/theories = length(theory_options)
@@ -130,9 +130,7 @@
 		var/decl/theory_type/theory_decl = GET_DECL(theory_path)
 		if(!theory_decl.allow_dupl)
 			theory_paths -= theory_path
-		if(theory_decl.is_abstract())
-			continue
-		
+
 		// Some quality of life, don't generate theories which increase fields if we don't have any more points.
 		if(remaining_points == 0 && theory_decl.increased_fields)
 			continue
@@ -149,7 +147,7 @@
 
 		var/theory_value = max(1, user.get_skill_value(SKILL_SCIENCE) + rand(-1, 1))
 		if(theory_value - theory_decl.rel_power < 1)
-			continue 
+			continue
 		var/datum/theory/added_theory = new(theory_decl.type, research_levels.Copy(), theory_value, spec_types)
 		theory_options[added_theory] = TRUE
 		theories++
@@ -159,7 +157,7 @@
 		if(ispath(recipe.path, path))
 			. = TRUE
 	if(!.)
-		return	
+		return
 	var/list/incompatible_types = list()
 	for(var/datum/specification/current_spec in specifications)
 		incompatible_types |= current_spec.get_incompatible_types()
@@ -193,7 +191,7 @@
 	var/list/incidental_fields = (research_levels ^ research_requirements)
 	for(var/field in incidental_fields)
 		if(incidental_fields[field] > 0)
-			return FALSE	
+			return FALSE
 	return TRUE
 
 /datum/computer_file/data/design/proc/finalize_design()
@@ -216,7 +214,7 @@
 	research_levels = null
 	research_requirements = null
 	field_flags = null
-	specifications = null // Don't qdel specifications since they are referenced by the recipe. 
+	specifications = null // Don't qdel specifications since they are referenced by the recipe.
 	QDEL_NULL_LIST(theory_options) // Theory options, on the other hand, are generated per design.
 	finalized = TRUE
 
@@ -226,7 +224,7 @@
 /datum/computer_file/data/design/proc/add_points(field, amount, ignore_flags = FALSE)
 	if(!(field in research_levels))
 		return
-	
+
 	var/flags
 	var/self_amount = amount // If a field is linked to another, it takes the original amount.
 	if(!ignore_flags)
@@ -255,7 +253,7 @@
 	var/flags
 	if(!ignore_flags)
 		flags = field_flags[field]
-	
+
 	if(flags & FIELD_BONUS)
 		amount *= 2
 	if(flags & FIELD_LOCKED)
@@ -280,7 +278,7 @@
 	for(var/field in research_levels)
 		if(research_levels[field] > max)
 			. = field
-			max = research_levels[field] 
+			max = research_levels[field]
 		else if(research_levels[field] == max)
 			. = pick(list(field, .))
 
@@ -303,7 +301,7 @@
 /datum/computer_file/data/design/proc/add_field(field)
 	if(field in research_levels)
 		return
-	
+
 	research_levels[field] = 0
 	field_flags[field] = 0
 
@@ -329,7 +327,7 @@
 		research_data += list(field_data)
 	return research_data
 
-/datum/computer_file/data/design/clone(var/rename = 0)
+/datum/computer_file/data/design/PopulateClone(var/rename = 0)
 	if(!finalized || is_copy) // Only finalized designs can be copied, and only once.
 		return
 

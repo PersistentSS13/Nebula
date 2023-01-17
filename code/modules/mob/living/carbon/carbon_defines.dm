@@ -1,5 +1,6 @@
 /mob/living/carbon
 	gender = MALE
+	abstract_type = /mob/living/carbon
 
 	var/life_tick = 0      // The amount of life ticks that have processed on this mob.
 
@@ -19,6 +20,8 @@
 	/// Whether the mob is performing cpr or not.
 	var/performing_cpr = FALSE
 	var/lastpuke = 0
+	var/lastcough = 0
+
 	var/nutrition = 400
 	var/hydration = 400
 

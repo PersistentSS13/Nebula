@@ -76,13 +76,7 @@
 	var/selector_sound = 'sound/weapons/guns/selector.ogg'
 
 	//aiming system stuff
-	var/keep_aim = 1 	//1 for keep shooting until aim is lowered
-						//0 for one bullet after tarrget moves and aim is lowered
-	var/multi_aim = 0 //Used to determine if you can target multiple people.
 	var/tmp/list/mob/living/aim_targets //List of who yer targeting.
-	var/tmp/mob/living/last_moved_mob //Used to fire faster at more than one person.
-	var/tmp/told_cant_shoot = 0 //So that it doesn't spam them with the fact they cannot hit them.
-	var/tmp/lock_time = -100
 	var/tmp/last_safety_check = -INFINITY
 	var/safety_state = 1
 	var/has_safety = TRUE
@@ -111,6 +105,9 @@
 	autofiring_at = null
 	autofiring_by = null
 	. = ..()
+
+/obj/item/gun/preserve_in_cryopod(var/obj/machinery/cryopod/pod)
+	return TRUE
 
 /obj/item/gun/proc/set_autofire(var/atom/fire_at, var/mob/fire_by)
 	. = TRUE
@@ -157,15 +154,15 @@
 
 /obj/item/gun/on_update_icon()
 	var/mob/living/M = loc
-	overlays.Cut()
+	. = ..()
 	update_base_icon()
 	if(istype(M))
 		if(has_safety && M.skill_check(SKILL_WEAPONS,SKILL_BASIC))
-			overlays += image('icons/obj/guns/gui.dmi',"safety[safety()]")
+			add_overlay(image('icons/obj/guns/gui.dmi',"safety[safety()]"))
 		if(src in M.get_held_items())
 			M.update_inv_hands()
 	if(safety_icon)
-		overlays +=	get_safety_indicator()
+		add_overlay(get_safety_indicator())
 
 /obj/item/gun/proc/update_base_icon()
 

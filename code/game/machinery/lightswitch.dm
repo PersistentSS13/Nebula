@@ -20,12 +20,10 @@
 	construct_state = /decl/machine_construction/wall_frame/panel_closed/simple
 	frame_type = /obj/item/frame/button/light_switch
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc/buildable
+		/obj/item/stock_parts/power/apc
 	)
-	base_type = /obj/machinery/light_switch/buildable
-
-/obj/machinery/light_switch/buildable
-	uncreated_component_parts = null
+	base_type = /obj/machinery/light_switch
+	directional_offset = "{'NORTH':{'y':-20}, 'SOUTH':{'y':25}, 'EAST':{'x':-24}, 'WEST':{'x':24}}"
 
 /obj/machinery/light_switch/on
 	on = TRUE
@@ -51,10 +49,12 @@
 	if(stat & (NOPOWER|BROKEN))
 		icon_state = "light-p"
 		set_light(0)
+		z_flags &= ~ZMM_MANGLE_PLANES
 	else
 		icon_state = "light[on]"
 		add_overlay(emissive_overlay(icon, "[icon_state]-overlay"))
 		set_light(2, 0.25, on ? "#82ff4c" : "#f86060")
+		z_flags |= ZMM_MANGLE_PLANES
 
 /obj/machinery/light_switch/examine(mob/user, distance)
 	. = ..()

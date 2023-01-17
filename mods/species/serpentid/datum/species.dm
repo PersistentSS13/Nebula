@@ -65,7 +65,6 @@
 	body_temperature = null
 	flesh_color = "#525252"
 	blood_oxy = 0
-	reagent_tag = IS_SERPENTID
 
 	available_bodytypes = list(
 		/decl/bodytype/serpentid,
@@ -81,18 +80,17 @@
 	burn_mod =  1.35
 
 	natural_armour_values = list(
-		melee = ARMOR_MELEE_KNIVES,
-		bullet = ARMOR_BALLISTIC_MINOR,
-		bomb = ARMOR_BOMB_PADDED,
-		bio = ARMOR_BIO_SHIELDED,
-		rad = 0.5*ARMOR_RAD_MINOR
+		ARMOR_MELEE = ARMOR_MELEE_KNIVES,
+		ARMOR_BULLET = ARMOR_BALLISTIC_MINOR,
+		ARMOR_BOMB = ARMOR_BOMB_PADDED,
+		ARMOR_BIO = ARMOR_BIO_SHIELDED,
+		ARMOR_RAD = 0.5*ARMOR_RAD_MINOR
 		)
 	gluttonous = GLUT_SMALLER
 	mob_size = MOB_SIZE_LARGE
 	strength = STR_HIGH
 	breath_pressure = 25
 	blood_volume = 840
-	spawns_with_stack = 0
 	heat_level_1 = 410 //Default 360 - Higher is better
 	heat_level_2 = 440 //Default 400
 	heat_level_3 = 800 //Default 1000

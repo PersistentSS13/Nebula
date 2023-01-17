@@ -21,7 +21,7 @@ var/global/list/cached_theories_by_tier = list()
 			cached_theories_by_tier["[tier]"] += theory_path
 		cached_theories_by_tier["[tier]"] -= decls_repository.get_decls_of_type(/decl/theory_type/starter)
 		theory_options = cached_theories_by_tier["[tier]"]
-	
+
 	theory_options = theory_options.Copy()
 
 	return theory_options
@@ -29,12 +29,10 @@ var/global/list/cached_theories_by_tier = list()
 /decl/theory_type
 	var/name = "Theory Type"
 	abstract_type = /decl/theory_type
-	
-	var/is_category = FALSE
-	var/is_starter = FALSE // Whether or not a design can start with this theory type as an option
-	var/rel_power = 1	   // Relative power of the theory type. When generating a theory, a overall value will be generated 
+
+	var/rel_power = 1	   // Relative power of the theory type. When generating a theory, a overall value will be generated
 						   // and the difference between it and the relative power will be the strength
-	
+
 	var/increased_fields = 0 // Number of fields to be increased that must be passed from theory.
 	var/decreased_fields = 0 // Number of fields to be decreased that must be passed from theory.
 	var/flagged_fields   = 0 // Number of fields to be flagged/some other effect that must be passed from theory.
@@ -52,22 +50,17 @@ var/global/list/cached_theories_by_tier = list()
 
 /decl/theory_type/proc/get_description(strength, list/increased, list/decreased, list/flagged)
 
-/decl/theory_type/is_abstract()
-	. = ..()
-	return max(is_category, .)
-
 // Theory type implementation follows.
 
 // Starter theories are picked when beginning a design.
 /decl/theory_type/starter
-	is_category = TRUE
+	abstract_type = /decl/theory_type/starter
 	special = TRUE
 
 /decl/theory_type/starter/hypothesis
 	name = "Hypothesis"
 	uid = "hypothesis_theory"
 	rel_power = 3
-	is_category = FALSE
 
 /decl/theory_type/starter/hypothesis/get_description(strength, list/increased, list/decreased, list/flagged)
 	return "Generate a new hypothesis related to the technology. Gain [strength] points assignable in any field"
@@ -78,8 +71,6 @@ var/global/list/cached_theories_by_tier = list()
 /decl/theory_type/starter/experiment
 	name = "Experiment"
 	uid = "experiment_theory"
-	is_starter = TRUE
-	is_category = FALSE
 
 /decl/theory_type/starter/experiment/get_description(strength, list/increased, list/decreased, list/flagged)
 	return "Perform some preliminary experiments. Distribute [strength] research points randomly among all fields"
@@ -94,9 +85,7 @@ var/global/list/cached_theories_by_tier = list()
 /decl/theory_type/starter/analyze
 	name = "Initial analysis"
 	uid = "analyze_theory"
-	is_starter = TRUE
 	rel_power = 2
-	is_category = FALSE
 
 /decl/theory_type/starter/analyze/get_description(strength, list/increased, list/decreased, list/flagged)
 	return "Analyze another object using the destructive analyzer. Distribute [strength] research points randomly among the analyzed objects own research fields"
@@ -298,7 +287,6 @@ var/global/list/cached_theories_by_tier = list()
 	name = "Destructive analysis"
 	uid = "dest_analyze_theory"
 	rel_power = 2
-	is_category = FALSE
 
 /decl/theory_type/analyze/get_description(strength, list/increased, list/decreased, list/flagged)
 	return "Analyze another object using the destructive analyzer. Distribute [strength] research points randomly among the analyzed objects own research fields"
