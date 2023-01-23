@@ -16,7 +16,7 @@
 	should_save = FALSE
 /datum/extension/armor
 	should_save = FALSE
-/datum/extension/turf_hand 
+/datum/extension/turf_hand
 	should_save = FALSE
 /datum/extension/interactive/multitool
 	should_save = FALSE
@@ -29,5 +29,14 @@
 /datum/powernet
 	should_save = FALSE
 
+/sound
+	should_save = FALSE
+
+/datum/sound_token
+	should_save = FALSE
+
 /obj/item/tankassemblyproxy
+	should_save = FALSE
+
+/particles
 	should_save = FALSE
