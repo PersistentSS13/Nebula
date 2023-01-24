@@ -3537,5 +3537,6 @@
 #include "maps\~mapsystem\maps_unit_testing.dm"
 #include "maps\~unit_tests\unit_testing.dm"
 #include "mods\_modpack.dm"
+#include "mods\persistence\game\objects\structures\numbered_signs.dm"
 #include "~code\global_init.dm"
 // END_INCLUDE
