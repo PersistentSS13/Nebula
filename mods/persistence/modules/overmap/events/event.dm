@@ -41,6 +41,8 @@
 
 	var/effect_count
 	var/effects_to_spawn
+	icon = 'icons/obj/overmap.dmi'
+	icon_state = "object"
 
 /obj/effect/overmap/overmap_effect_spawner/Initialize()
 	. = ..()
