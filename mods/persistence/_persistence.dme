@@ -69,6 +69,7 @@
 #include "game\objects\items\weapons\storage.dm"
 #include "game\objects\items\weapons\tanks.dm"
 #include "game\objects\items\weapons\circuitboards\machinery\shipsensors.dm"
+#include "game\objects\structures\numbered_signs.dm"
 #include "game\objects\structures\window.dm"
 #include "game\objects\structures\crates_lockers\closets\__closet.dm"
 #include "game\turfs\floor.dm"
