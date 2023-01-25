@@ -15,4 +15,5 @@
 	queue_icon_update()
 
 /obj/machinery/atmospherics/unary/outlet_injector/cabled/on
+	icon_state = "on"
 	use_power = POWER_USE_IDLE
