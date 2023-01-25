@@ -8,7 +8,6 @@ var/global/list/internet_uplinks = list()
 	icon_state = "unpowered"
 	density = 1
 	anchored = 1
-	stat_immune = 0
 
 	construct_state = /decl/machine_construction/default/panel_closed
 	uncreated_component_parts = list(/obj/item/stock_parts/power/terminal)
