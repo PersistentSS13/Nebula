@@ -155,6 +155,11 @@
 /turf/simulated/floor/reinforced/n20
 	initial_gas = list(/decl/material/gas/nitrous_oxide = ATMOSTANK_NITROUSOXIDE)
 
+/turf/simulated/floor/reinforced/elevator_shaft
+	name             = "elevator shaft floor"
+	icon             = 'icons/turf/floors.dmi'
+	icon_state       = "elevatorshaft"
+	initial_flooring = /decl/flooring/reinforced/elevator_shaft
 
 /turf/simulated/floor/cult
 	name = "engraved floor"
