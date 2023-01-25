@@ -24,6 +24,7 @@
 	var/datum/gas_mixture/inner_tank = new
 
 /obj/machinery/atmospherics/binary/oxyregenerator/RefreshParts()
+	. = ..()
 	carbon_efficiency = initial(carbon_efficiency)
 	carbon_efficiency += 0.25 * total_component_rating_of_type(/obj/item/stock_parts/matter_bin)
 	carbon_efficiency -= 0.25 * number_of_components(/obj/item/stock_parts/matter_bin)
@@ -39,7 +40,6 @@
 	power_rating += 0.05 * number_of_components(/obj/item/stock_parts/micro_laser)
 	power_rating = clamp(power_rating, 0.1, 1)
 	power_rating *= initial(power_rating)
-	..()
 
 /obj/machinery/atmospherics/binary/oxyregenerator/examine(user)
 	. = ..()
