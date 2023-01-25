@@ -87,12 +87,6 @@
 	var/poster_type
 	var/ruined = 0
 
-/obj/structure/sign/poster/bay_9
-	poster_type = /decl/poster/bay_9
-
-/obj/structure/sign/poster/bay_50
-	poster_type = /decl/poster/bay_50
-
 /obj/structure/sign/poster/Initialize(var/ml, var/_mat, var/_reinf_mat, var/placement_dir = null, var/give_poster_type = null)
 	. = ..(ml, _mat, _reinf_mat)
 	if(!poster_type)
