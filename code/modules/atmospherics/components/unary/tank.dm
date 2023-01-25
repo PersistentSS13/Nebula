@@ -1,5 +1,5 @@
 /obj/machinery/atmospherics/unary/tank
-	icon = 'icons/atmos/tank.dmi'
+	icon = 'icons/atmos/tank_mapped.dmi'
 	icon_state = "air"
 
 	name = "Pressure Tank"
@@ -25,6 +25,7 @@
 
 /obj/machinery/atmospherics/unary/tank/Initialize()
 	. = ..()
+	icon = 'icons/atmos/tank.dmi' //Clear mapper icon
 	air_contents.volume = volume
 	air_contents.temperature = T20C
 	
