@@ -52,6 +52,7 @@
 // a ridiculous amount of copypasta.
 /obj/effect/overmap/visitable/add_landmark(obj/effect/shuttle_landmark/landmark, shuttle_restricted_type)
 	if(istype(landmark, /obj/effect/shuttle_landmark/visiting_shuttle))
+		SSshuttle.unregister_landmark(landmark)
 		qdel(landmark)
 		return
 	. = ..()
