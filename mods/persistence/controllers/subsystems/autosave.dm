@@ -16,7 +16,14 @@ SUBSYSTEM_DEF(autosave)
 	autosave_interval = config.autosave_interval	// To prevent saving upon start.
 
 /datum/controller/subsystem/autosave/stat_entry()
-	..(saving ? "Currently Saving" : "Next autosave in [round((last_save + autosave_interval - world.time) / (1 MINUTE), 0.1)] minutes.")
+	var/msg
+	if(flags & SS_NO_FIRE || suspended || !can_fire)
+		msg = "Autosave Disabled!"
+	else if(saving)
+		msg = "Currently Saving..."
+	else
+		msg = "Next Autosave in [ round(((last_save + autosave_interval) - world.time) / (1 MINUTE), 0.1)] Minutes."
+	..(msg)
 
 /datum/controller/subsystem/autosave/fire()
 	AnnounceSave()
@@ -29,7 +36,7 @@ SUBSYSTEM_DEF(autosave)
 	else
 		saves += 1
 		to_world("<font size=4 color='green'>Beginning save! Server will unpause when save is complete.</font>")
-		
+
 		var/reset_after_save = config.autosave_auto_reset > 0 && world.time >= config.autosave_auto_reset
 
 		if(check_for_restart && reset_after_save)
@@ -47,7 +54,7 @@ SUBSYSTEM_DEF(autosave)
 		if(check_for_restart && reset_after_save)
 			to_world("<font size=4 color='red'>Server is going down NOW!</font>")
 			world.Reboot()
-		
+
 		last_save = world.time
 
 /datum/controller/subsystem/autosave/proc/AnnounceSave()
