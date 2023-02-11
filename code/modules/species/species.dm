@@ -440,9 +440,20 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 /decl/species/validate()
 	. = ..()
 
+	for(var/decl/bodytype/bodytype in available_bodytypes)
+		var/bodytype_base_icon = bodytype.get_base_icon()
+		var/deformed_base_icon = bodytype.get_base_icon(get_deform = TRUE)
+		for(var/organ_tag in has_limbs)
+			if(organ_tag == BP_TAIL) // Tails are handled specially due to overlays and animations, will not be present in the base bodytype icon(s).
+				continue
+			if(bodytype_base_icon && !check_state_in_icon(organ_tag, bodytype_base_icon))
+				. += "missing state \"[organ_tag]\" from base icon [bodytype_base_icon] on bodytype [bodytype.type]"
+			if(deformed_base_icon && bodytype_base_icon != deformed_base_icon && !check_state_in_icon(organ_tag, deformed_base_icon))
+				. += "missing state \"[organ_tag]\" from deformed icon [deformed_base_icon] on bodytype [bodytype.type]"
+
 	for(var/organ_tag in vital_organs)
 		if(!(organ_tag in has_organ) && !(organ_tag in has_limbs))
-			. += "vital organ '[organ_tag]' not present in organ/limb lists"
+			. += "vital organ \"[organ_tag]\" not present in organ/limb lists"
 
 	for(var/trait_type in traits)
 		var/trait_level = traits[trait_type]
@@ -805,11 +816,7 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 		var/list/all_hairstyles = decls_repository.get_decls_of_subtype(/decl/sprite_accessory/hair)
 		for(var/hairstyle in all_hairstyles)
 			var/decl/sprite_accessory/S = all_hairstyles[hairstyle]
-			if(check_gender && S.gender && gender != S.gender)
-				continue
-			if(S.species_allowed && !(get_root_species_name() in S.species_allowed))
-				continue
-			if(S.subspecies_allowed && !(name in S.subspecies_allowed))
+			if(!S.accessory_is_available(null, src, null, (check_gender && gender)))
 				continue
 			ADD_SORTED(hair_style_by_gender, hairstyle, /proc/cmp_text_asc)
 			hair_style_by_gender[hairstyle] = S
@@ -834,11 +841,7 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 		var/list/all_facial_styles = decls_repository.get_decls_of_subtype(/decl/sprite_accessory/facial_hair)
 		for(var/facialhairstyle in all_facial_styles)
 			var/decl/sprite_accessory/S = all_facial_styles[facialhairstyle]
-			if(check_gender && S.gender && gender != S.gender)
-				continue
-			if(S.species_allowed && !(get_root_species_name() in S.species_allowed))
-				continue
-			if(S.subspecies_allowed && !(name in S.subspecies_allowed))
+			if(!S.accessory_is_available(null, src, null, (check_gender && gender)))
 				continue
 			ADD_SORTED(facial_hair_style_by_gender, facialhairstyle, /proc/cmp_text_asc)
 			facial_hair_style_by_gender[facialhairstyle] = S

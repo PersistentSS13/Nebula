@@ -490,8 +490,8 @@
 
 		if(iscarbon(AM))
 			var/mob/living/carbon/C = AM
-			for(var/bp in C.held_item_slots)
-				var/datum/inventory_slot/inv_slot = C.held_item_slots[bp]
+			for(var/hand_slot in C.held_item_slots)
+				var/datum/inventory_slot/inv_slot = C.held_item_slots[hand_slot]
 				if(inv_slot?.holding && can_pick_up(inv_slot.holding))
 					return C
 	return null
@@ -519,8 +519,8 @@
 
 		if(iscarbon(AM))
 			var/mob/living/carbon/C = AM
-			for(var/bp in C.held_item_slots)
-				var/datum/inventory_slot/inv_slot = C.held_item_slots[bp]
+			for(var/hand_slot in C.held_item_slots)
+				var/datum/inventory_slot/inv_slot = C.held_item_slots[hand_slot]
 				if(inv_slot?.holding && can_pick_up(inv_slot.holding))
 					return C
 	return null
@@ -668,9 +668,9 @@
 		verb = pick(speak_emote)
 
 
-	var/message_mode=""
+	var/message_mode
 	if(copytext(message,1,2) == get_prefix_key(/decl/prefix/radio_main_channel))
-		message_mode = "headset"
+		message_mode = MESSAGE_MODE_DEFAULT
 		message = copytext(message,2)
 
 	if(length(message) >= 2)

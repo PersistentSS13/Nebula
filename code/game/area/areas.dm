@@ -12,6 +12,7 @@ var/global/list/areas = list()
 	mouse_opacity = 0
 
 	var/proper_name /// Automatically set by SetName and Initialize; cached result of strip_improper(name).
+	var/holomap_color	// Color of this area on the holomap. Must be a hex color (as string) or null.
 
 	var/fire
 	var/party
@@ -319,24 +320,20 @@ var/global/list/areas = list()
 var/global/list/mob/living/forced_ambiance_list = new
 
 /area/Entered(A)
-	if(!istype(A,/mob/living))	return
-
+	if(!istype(A,/mob/living))
+		return
 	var/mob/living/L = A
-
 	if(!L.lastarea)
 		L.lastarea = get_area(L.loc)
-	var/area/newarea = get_area(L.loc)
 	var/area/oldarea = L.lastarea
-	if(oldarea.has_gravity != newarea.has_gravity)
-		if(newarea.has_gravity == 1 && !MOVING_DELIBERATELY(L)) // Being ready when you change areas allows you to avoid falling.
+	if(!oldarea || oldarea.has_gravity != has_gravity)
+		if(has_gravity == 1 && !MOVING_DELIBERATELY(L)) // Being ready when you change areas allows you to avoid falling.
 			thunk(L)
 		L.update_floating()
-
 	if(L.ckey)
 		play_ambience(L)
 		do_area_blurb(L)
-
-	L.lastarea = newarea
+	L.lastarea = src
 
 
 /area/Exited(A)
@@ -364,7 +361,7 @@ var/global/list/mob/living/forced_ambiance_list = new
 	if(LAZYLEN(forced_ambience) && !(L in forced_ambiance_list))
 		forced_ambiance_list += L
 		L.playsound_local(T,sound(pick(forced_ambience), repeat = 1, wait = 0, volume = 25, channel = sound_channels.lobby_channel))
-	if(length(ambience) && prob(5) && (world.time >= L.client.played + 3 MINUTES))
+	if(LAZYLEN(ambience) && prob(5) && (world.time >= L.client.played + 3 MINUTES))
 		L.playsound_local(T, sound(pick(ambience), repeat = 0, wait = 0, volume = 15, channel = sound_channels.ambience_channel))
 		L.client.played = world.time
 

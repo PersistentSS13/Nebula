@@ -6,8 +6,8 @@
 	free_landing = TRUE
 
 	var/area/planetary_area
-
-	var/lightlevel = 0 		//This default makes turfs not generate light. Adjust to have exoplanents be lit.
+	
+	// Day/night cycle tracking.
 	var/night = TRUE
 	var/daycycle 			//How often do we change day and night
 	var/daycolumn = 0 		//Which column's light needs to be updated next?
@@ -37,7 +37,6 @@
 	var/list/actors = list() 	//things that appear in engravings on xenoarch finds.
 	var/list/species = list() 	//list of names to use for simple animals instead of 'alien creature'
 
-	var/datum/gas_mixture/atmosphere
 	var/list/breathgas = list()			//list of gases animals/plants require to survive
 	var/badgas							//id of gas that is toxic to life here
 
@@ -78,6 +77,7 @@
 
 	var/spawn_weight = 100	// Decides how often this planet will be picked for generation
 
+	var/list/zlevels = list()
 	var/obj/abstract/weather_system/weather_system = /decl/state/weather/calm // Initial weather is passed to the system as its default state.
 
 /obj/effect/overmap/visitable/sector/exoplanet/proc/get_strata()
@@ -130,7 +130,8 @@
 	for(var/datum/exoplanet_theme/T in themes)
 		T.adjust_atmosphere(src)
 	select_strata()
-	generate_flora(atmosphere?.temperature || T20C)
+	
+	generate_flora()
 	generate_map()
 	generate_landing(2)
 	generate_features()
@@ -172,9 +173,10 @@
 			update_daynight()
 
 /obj/effect/overmap/visitable/sector/exoplanet/proc/update_daynight()
+	var/obj/abstract/level_data/level_data = zlevels[1]
 	var/light = 0.1
 	if(!night)
-		light = lightlevel
+		light = level_data.ambient_light_level
 	for(var/turf/exterior/T in block(locate(daycolumn,1,min(map_z)),locate(daycolumn,maxy,max(map_z))))
 		if (light)
 			T.set_ambient_light(COLOR_WHITE, light)
@@ -219,7 +221,8 @@
 	spawned_features = seed_ruins(map_z, features_budget, /area/exoplanet, possible_features, maxx, maxy)
 
 /obj/effect/overmap/visitable/sector/exoplanet/proc/generate_daycycle()
-	if(lightlevel)
+	var/obj/abstract/level_data/level_data = zlevels[1]
+	if(level_data.ambient_light_level)
 		night = FALSE //we start with a day if we have light.
 
 		//When you set daycycle ensure that the minimum is larger than [maxx * daycycle_column_delay].
@@ -230,7 +233,8 @@
 /obj/effect/overmap/visitable/sector/exoplanet/proc/generate_landing()
 	var/places = list()
 	var/attempts = 10*landing_points_to_place
-	var/border_padding = shuttle_size / 2 + 3
+	var/landing_radius = CEILING(shuttle_size / 2)
+	var/border_padding = landing_radius + 3
 
 	while(landing_points_to_place)
 		attempts--
@@ -241,7 +245,7 @@
 
 		if(attempts >= 0) // While we have the patience, try to find better spawn points. If out of patience, put them down wherever, so long as there are no repeats.
 			var/valid = 1
-			var/list/block_to_check = block(locate(T.x - shuttle_size / 2, T.y - shuttle_size / 2, T.z), locate(T.x + shuttle_size / 2, T.y + shuttle_size / 2, T.z))
+			var/list/block_to_check = block(locate(T.x - landing_radius, T.y - landing_radius, T.z), locate(T.x + landing_radius, T.y + landing_radius, T.z))
 			for(var/turf/check in block_to_check)
 				if(!istype(get_area(check), /area/exoplanet) || check.turf_flags & TURF_FLAG_NORUINS)
 					valid = 0
@@ -255,11 +259,13 @@
 
 		landing_points_to_place--
 		places += T
-		new /obj/effect/shuttle_landmark/automatic/clearing(T)
+		new /obj/effect/shuttle_landmark/automatic/clearing(T, landing_radius)
 
 /obj/effect/overmap/visitable/sector/exoplanet/get_scan_data(mob/user)
 	. = ..()
 	var/list/extra_data = list("<br>")
+	var/obj/abstract/level_data/level_data = zlevels[1]
+	var/datum/gas_mixture/atmosphere = level_data.exterior_atmosphere
 	if(atmosphere)
 		if(user.skill_check(SKILL_SCIENCE, SKILL_EXPERT) || user.skill_check(SKILL_ATMOS, SKILL_EXPERT))
 			var/list/gases = list()
@@ -297,5 +303,5 @@
 	name = "\improper Planetary surface"
 	ambience = list('sound/effects/wind/wind_2_1.ogg','sound/effects/wind/wind_2_2.ogg','sound/effects/wind/wind_3_1.ogg','sound/effects/wind/wind_4_1.ogg','sound/effects/wind/wind_4_2.ogg','sound/effects/wind/wind_5_1.ogg')
 	always_unpowered = 1
-	area_flags = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_EXTERNAL
+	area_flags = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_EXTERNAL | AREA_FLAG_HIDE_FROM_HOLOMAP
 	is_outside = OUTSIDE_YES

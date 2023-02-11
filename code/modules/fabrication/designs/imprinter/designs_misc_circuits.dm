@@ -446,6 +446,9 @@
 /datum/fabricator_recipe/imprinter/circuit/merchant_pad
 	path = /obj/item/stock_parts/circuitboard/merchant_pad
 
+/datum/fabricator_recipe/imprinter/circuit/radiocarbon_spectrometer
+	path = /obj/item/stock_parts/circuitboard/radiocarbon_spectrometer
+
 /datum/fabricator_recipe/imprinter/circuit/jukebox
 	path = /obj/item/stock_parts/circuitboard/jukebox
 
@@ -490,3 +493,6 @@
 
 /datum/fabricator_recipe/imprinter/circuit/photocopier
 	path = /obj/item/stock_parts/circuitboard/photocopier
+
+/datum/fabricator_recipe/imprinter/circuit/holomap
+	path = /obj/item/stock_parts/circuitboard/holomap

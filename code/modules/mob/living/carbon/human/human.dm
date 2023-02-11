@@ -154,11 +154,11 @@
 				dat += "<BR><A href='?src=\ref[src];item=tie;holder=\ref[C]'>Remove accessory</A>"
 	dat += "<BR><HR>"
 
-	for(var/bp in held_item_slots)
-		var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, bp)
+	for(var/hand_slot in held_item_slots)
+		var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, hand_slot)
 		if(E)
-			var/datum/inventory_slot/inv_slot = held_item_slots[bp]
-			dat += "<BR><b>[capitalize(E.name)]:</b> <A href='?src=\ref[src];item=[bp]'>[inv_slot.holding?.name || "nothing"]</A>"
+			var/datum/inventory_slot/inv_slot = held_item_slots[hand_slot]
+			dat += "<BR><b>[capitalize(E.name)]:</b> <A href='?src=\ref[src];item=[hand_slot]'>[inv_slot.holding?.name || "nothing"]</A>"
 
 	// Do they get an option to set internals?
 	if(istype(get_equipped_item(slot_wear_mask_str), /obj/item/clothing/mask) || istype(get_equipped_item(slot_head_str), /obj/item/clothing/head/helmet/space))
@@ -1286,13 +1286,6 @@
 /mob/living/carbon/human/increaseBodyTemp(value)
 	bodytemperature += value
 	return bodytemperature
-
-/mob/living/carbon/human/proc/get_hands_organs()
-	. = list()
-	for(var/bp in held_item_slots)
-		var/org = GET_EXTERNAL_ORGAN(src, bp)
-		if(org)
-			. |= org
 
 /mob/living/carbon/human/get_admin_job_string()
 	return job || uppertext(species.name)
