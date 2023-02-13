@@ -1,7 +1,6 @@
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar
 	name = "\proper Kleibkhar"
 	desc = "A habitable border-world, home to a recent dime-a-dozen corporate colony."
-	lightlevel = 1.0
 	daycycle = 25 MINUTES
 	daycycle_column_delay = 10 SECONDS
 	night = FALSE
@@ -29,7 +28,8 @@
 	megafauna_types = list(/mob/living/simple_animal/hostile/retaliate/parrot/space/megafauna, /mob/living/simple_animal/hostile/retaliate/goose/dire)
 
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/Initialize(var/mapload, var/z_level)
-	. = ..(mapload, global.using_map.station_levels[4])
+	//. = ..(mapload, SSmapping.station_levels[4])
+	. = ..()
 	docking_codes = "[global.using_map.dock_name]"
 
 	// Build Level workaround
@@ -48,56 +48,6 @@
 	generate_map()
 	generate_planet_image()
 	START_PROCESSING(SSobj, src)
-
-/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/update_daynight()
-	var/light = 0.1
-	if(!night)
-		light = lightlevel
-	for(var/turf/exterior/T in block(locate(daycolumn, TRANSITIONEDGE, max(map_z)), locate(daycolumn, maxy - TRANSITIONEDGE, max(map_z))))
-		T.set_light(MINIMUM_USEFUL_LIGHT_RANGE, light)
-	daycolumn++
-	if(daycolumn > maxx)
-		daycolumn = 0
-
-/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/generate_planet_image()
-	skybox_image = image('icons/skybox/planet.dmi', "")
-
-	skybox_image.overlays += get_base_image()
-	
-	if(water_color)
-		var/image/water = image('icons/skybox/planet.dmi', "water")
-		water.color = water_color
-		water.appearance_flags = PIXEL_SCALE
-		water.transform = water.transform.Turn(45)
-		skybox_image.overlays += water
-	
-	if(atmosphere && atmosphere.return_pressure() > SOUND_MINIMUM_PRESSURE)
-
-		var/atmo_color = get_atmosphere_color()
-		if(!atmo_color)
-			atmo_color = COLOR_WHITE
-
-		var/image/clouds = image('icons/skybox/planet.dmi', "weak_clouds")
-
-		if(water_color)
-			clouds.overlays += image('icons/skybox/planet.dmi', "clouds")
-
-		clouds.color = atmo_color
-		skybox_image.overlays += clouds
-
-		var/image/atmo = image('icons/skybox/planet.dmi', "atmoring")
-		skybox_image.underlays += atmo
-		
-	var/image/shadow = image('icons/skybox/planet.dmi', "shadow")
-	shadow.blend_mode = BLEND_MULTIPLY
-	skybox_image.overlays += shadow
-
-	var/image/light = image('icons/skybox/planet.dmi', "lightrim")
-	skybox_image.overlays += light
-
-	skybox_image.pixel_x = rand(0,64)
-	skybox_image.pixel_y = rand(128,256)
-	skybox_image.appearance_flags = RESET_COLOR
 
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/generate_map()
 	for(var/zlevel in map_z)

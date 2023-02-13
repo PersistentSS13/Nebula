@@ -181,3 +181,8 @@
 	color = COLOR_GUNMETAL
 	material = /decl/material/solid/metal/plasteel/ocp
 	reinf_material = /decl/material/solid/metal/plasteel/ocp
+
+/obj/abstract/level_data/chargen
+	level_id = "chargen_pods"
+	base_turf = /turf/space
+	level_flags = ZLEVEL_SEALED

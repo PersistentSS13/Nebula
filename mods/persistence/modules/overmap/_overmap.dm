@@ -1,10 +1,11 @@
-// Complete override since Persistence hotloads it maps, and most of these functions must be delayed.
+// Complete override since Persistence hotloads its maps, and most of these functions must be delayed.
 /datum/overmap/New(var/_name)
+	//#TODO: Find out if this is even necessary???
 
 	name = _name
 
-	if(!map_turf_type)
-		map_turf_type = world.turf
+	if(!overmap_turf_type)
+		overmap_turf_type = initial(overmap_turf_type)
 
 	if(!name)
 		PRINT_STACK_TRACE("Unnamed overmap datum instantiated: [type]")

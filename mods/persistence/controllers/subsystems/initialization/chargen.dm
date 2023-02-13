@@ -9,7 +9,7 @@ SUBSYSTEM_DEF(chargen)
 	var/map_z			// What z-level is being used for the pods.
 
 /datum/controller/subsystem/chargen/Initialize()
-	INCREMENT_WORLD_Z_SIZE
+	SSmapping.increment_world_z_size(/obj/abstract/level_data/chargen)
 	map_z = world.maxz
 
 	report_progress("Loading chargen map data.")

@@ -11,12 +11,12 @@
 
 /datum/overmap/kleibkhar/generate_overmap()
 	testing("Building overmap [name]...")
-	INCREMENT_WORLD_Z_SIZE
+	SSmapping.increment_world_z_size(/obj/abstract/level_data/overmap)
 	assigned_z = world.maxz
 	testing("Putting [name] on [assigned_z].")
 	maploader.load_map(file(map_file), 1, 1, assigned_z)
 
-	global.using_map.sealed_levels |= assigned_z
+	SSmapping.sealed_levels |= assigned_z
 	testing("Overmap build for [name] complete.")
 
 /obj/effect/shuttle_landmark/supply/station

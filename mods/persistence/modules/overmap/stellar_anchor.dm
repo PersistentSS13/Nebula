@@ -21,7 +21,7 @@
 /obj/machinery/stellar_anchor/interface_interact(user)
 	ui_interact(user)
 	return TRUE
-	
+
 /obj/machinery/stellar_anchor/ui_interact(mob/user, ui_key = "main", datum/nanoui/ui = null, force_open = 1, datum/topic_state/state = global.default_topic_state)
 	var/data[0]
 	data["anchored_areas"] = anchored_areas
@@ -70,10 +70,10 @@
 	else if(href_list["check_errors"])
 		check_errors()
 		return TOPIC_REFRESH
-	
+
 	else if(href_list["sector_type"])
 		sector_type = ((sector_type == "sector") ? "ship" : "sector")
-		return TOPIC_REFRESH 
+		return TOPIC_REFRESH
 
 /obj/machinery/stellar_anchor/proc/launch()
 	var/obj/effect/overmap/origin_sector = global.overmap_sectors["[z]"]
@@ -82,7 +82,8 @@
 	var/overmap_x = origin_sector.x
 	var/overmap_y = origin_sector.y
 
-	INCREMENT_WORLD_Z_SIZE // Create a new z-level for the sector to correspond to.
+	//#TODO: We really should be creating a level_data datum here for custom levels
+	SSmapping.increment_world_z_size_nolvldata() // Create a new z-level for the sector to correspond to.
 
 	new /obj/effect/portal(get_turf(src))
 	qdel_self()

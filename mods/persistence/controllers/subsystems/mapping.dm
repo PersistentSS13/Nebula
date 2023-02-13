@@ -1,3 +1,6 @@
+/datum/map
+	var/list/default_levels
+
 /datum/controller/subsystem/mapping
 	var/loaded_maps = FALSE
 
@@ -7,7 +10,7 @@
 	var/save_exists = SSpersistence.SaveExists()
 	if(save_exists)
 		report_progress_serializer("Existing save found.")
-	else 
+	else
 		report_progress_serializer("No existing save found.")
 #endif
 	// Load our maps dynamically.
@@ -16,12 +19,12 @@
 #ifndef UNIT_TEST
 		if(save_exists && (text2num(z) in SSpersistence.saved_levels))
 			// Load a default map instead.
-			INCREMENT_WORLD_Z_SIZE
+			increment_world_z_size_nolvldata()
 			continue
 #endif
 		maploader.load_map(file(map_file), 1, 1, text2num(z), no_changeturf = TRUE)
 		CHECK_TICK
-	
+
 	// Persistence overmaps use premapped overmaps at the moment, so we override here to delay building the overmaps until appropriate.
 	loaded_maps = TRUE
 	if(length(global.overmaps_by_name))
@@ -40,5 +43,9 @@
 /datum/controller/subsystem/mapping/proc/Save()
 	SSpersistence.SaveWorld()
 
-/datum/map
-	var/list/default_levels
+//Rewrite the z-level stuff since the orig proc spawns duplicate level_data
+/datum/controller/subsystem/mapping/proc/increment_world_z_size_nolvldata(var/defer_setup = FALSE)
+	world.maxz++
+	reindex_lists()
+	if(SSzcopy.zlev_maximums.len)
+		SSzcopy.calculate_zstack_limits()

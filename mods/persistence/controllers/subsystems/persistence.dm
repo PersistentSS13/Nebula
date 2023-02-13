@@ -135,7 +135,7 @@
 		var/list/z_transform = list()
 		var/new_z_index = 1
 		// First we find the highest non-dynamic z_level.
-		for(var/z in global.using_map.station_levels)
+		for(var/z in SSmapping.station_levels)
 			if(z in saved_levels)
 				new_z_index = max(new_z_index, z)
 
@@ -144,7 +144,7 @@
 			var/datum/persistence/load_cache/z_level/z_level = new()
 			z_level.default_turf = get_base_turf(z)
 			z_level.index = z
-			if(z in global.using_map.station_levels)
+			if(z in SSmapping.station_levels)
 				z_level.dynamic = FALSE
 				z_level.new_index = z
 			else
@@ -369,7 +369,7 @@
 		//var/last_index = world.maxz
 		for(var/datum/persistence/load_cache/z_level/z_level in serializer.resolver.z_levels)
 			if(z_level.dynamic)
-				INCREMENT_WORLD_Z_SIZE
+				SSmapping.increment_world_z_size_nolvldata()
 				z_level.new_index = world.maxz
 			else
 				z_level.new_index = z_level.index
