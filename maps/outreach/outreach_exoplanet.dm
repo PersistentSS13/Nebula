@@ -24,7 +24,7 @@
 
 
 /obj/effect/overmap/visitable/sector/exoplanet/outreach/Initialize(var/mapload, var/z_level)
-	. = ..(mapload, global.using_map.station_levels[4])
+	. = ..(mapload, SSmapping.station_levels[4])
 	docking_codes = "[global.using_map.dock_name]"
 
 	// Build Level workaround
@@ -52,18 +52,10 @@
 	daycolumn++
 	if(daycolumn > maxx)
 		daycolumn = 0
-	
+
 
 /obj/effect/overmap/visitable/sector/exoplanet/outreach/generate_habitability()
 	habitability_class = HABITABILITY_BAD
 
 /obj/effect/overmap/visitable/sector/exoplanet/outreach/get_atmosphere_color()
 	return COLOR_GREEN_GRAY
-
-/obj/effect/overmap/visitable/sector/exoplanet/outreach/generate_atmosphere()
-	atmosphere = new
-	atmosphere.adjust_gas(/decl/material/gas/chlorine, MOLES_CELLSTANDARD * 0.17)
-	atmosphere.adjust_gas(/decl/material/gas/carbon_dioxide, MOLES_CELLSTANDARD * 0.11)
-	atmosphere.adjust_gas(/decl/material/gas/nitrogen, MOLES_CELLSTANDARD * 0.63)
-	atmosphere.temperature = T0C + 7
-	atmosphere.update_values()
