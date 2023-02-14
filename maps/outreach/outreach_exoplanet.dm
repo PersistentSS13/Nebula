@@ -24,7 +24,7 @@
 
 
 /obj/effect/overmap/visitable/sector/exoplanet/outreach/Initialize(var/mapload, var/z_level)
-	. = ..(mapload, SSmapping.station_levels[4])
+	. = ..()
 	docking_codes = "[global.using_map.dock_name]"
 
 	// Build Level workaround
@@ -52,7 +52,6 @@
 	daycolumn++
 	if(daycolumn > maxx)
 		daycolumn = 0
-
 
 /obj/effect/overmap/visitable/sector/exoplanet/outreach/generate_habitability()
 	habitability_class = HABITABILITY_BAD
