@@ -4128,6 +4128,10 @@
 	},
 /turf/exterior/concrete,
 /area/exoplanet/kleibkhar)
+"jQ" = (
+/obj/abstract/level_data/exoplanet/kleibkhar/ground,
+/turf/exterior/planet_edge,
+/area/exoplanet/kleibkhar)
 "ry" = (
 /turf/simulated/floor/tiled/techfloor,
 /area/kleibkhar/outpost/computer)
@@ -4354,7 +4358,7 @@ aq
 aq
 aq
 aq
-aq
+jQ
 "}
 (2,1,1) = {"
 aq

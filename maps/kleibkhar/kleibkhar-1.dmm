@@ -337,6 +337,10 @@
 	},
 /turf/exterior/concrete/reinforced,
 /area/exoplanet/kleibkhar/mines/exits)
+"M" = (
+/obj/abstract/level_data/exoplanet/kleibkhar/depths,
+/turf/exterior/planet_edge,
+/area/exoplanet/kleibkhar/mines/depth_2)
 
 (1,1,1) = {"
 h
@@ -538,7 +542,7 @@ h
 h
 h
 h
-h
+M
 "}
 (2,1,1) = {"
 h

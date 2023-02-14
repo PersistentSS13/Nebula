@@ -6,11 +6,8 @@
 /turf/exterior/open,
 /area/exoplanet/kleibkhar/sky)
 "ac" = (
-/obj/abstract/map_data{
-	height = 4
-	},
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar,
-/turf/exterior/open,
+/turf/exterior/planet_edge,
 /area/exoplanet/kleibkhar/sky)
 "ad" = (
 /obj/structure/railing/mapped{
@@ -601,6 +598,16 @@
 	},
 /turf/simulated/floor,
 /area/kleibkhar/atmos_pump)
+"bn" = (
+/obj/abstract/level_data/exoplanet/kleibkhar/sky,
+/turf/exterior/planet_edge,
+/area/exoplanet/kleibkhar/sky)
+"bo" = (
+/obj/abstract/map_data{
+	height = 4
+	},
+/turf/exterior/planet_edge,
+/area/exoplanet/kleibkhar/sky)
 
 (1,1,1) = {"
 aa
@@ -801,8 +808,8 @@ aa
 aa
 aa
 aa
-aa
-aa
+ac
+bn
 "}
 (2,1,1) = {"
 aa
@@ -1004,7 +1011,7 @@ aa
 aa
 aa
 aa
-aa
+bo
 "}
 (3,1,1) = {"
 aa
@@ -2227,7 +2234,7 @@ aa
 aa
 aa
 ab
-ac
+ab
 ab
 ab
 ab

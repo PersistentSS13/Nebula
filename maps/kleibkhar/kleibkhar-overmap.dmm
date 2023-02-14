@@ -24,6 +24,10 @@
 /obj/effect/overmap/overmap_effect_spawner/rich_asteroid,
 /turf/unsimulated/map,
 /area/overmap)
+"M" = (
+/obj/abstract/level_data/overmap,
+/turf/unsimulated/map/edge,
+/area/overmap)
 
 (1,1,1) = {"
 a
@@ -75,7 +79,7 @@ a
 a
 a
 a
-a
+M
 "}
 (2,1,1) = {"
 a

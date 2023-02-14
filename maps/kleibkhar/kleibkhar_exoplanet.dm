@@ -1,3 +1,21 @@
+
+/obj/abstract/level_data/exoplanet/kleibkhar
+	level_flags = (ZLEVEL_STATION|ZLEVEL_CONTACT|ZLEVEL_PLAYER|ZLEVEL_SEALED)
+	abstract_type = /obj/abstract/level_data/exoplanet/kleibkhar
+
+/obj/abstract/level_data/exoplanet/kleibkhar/sky
+	name     = "kleibkhar sky"
+	level_id = "kleibkhar4"
+/obj/abstract/level_data/exoplanet/kleibkhar/ground
+	name     = "kleibkhar ground"
+	level_id = "kleibkhar3"
+/obj/abstract/level_data/exoplanet/kleibkhar/underground
+	name     = "kleibkhar underground"
+	level_id = "kleibkhar2"
+/obj/abstract/level_data/exoplanet/kleibkhar/depths
+	name     = "kleibkhar depths"
+	level_id = "kleibkhar1"
+
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar
 	name = "\proper Kleibkhar"
 	desc = "A habitable border-world, home to a recent dime-a-dozen corporate colony."
@@ -48,16 +66,6 @@
 	generate_map()
 	generate_planet_image()
 	START_PROCESSING(SSobj, src)
-
-/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/generate_map()
-	for(var/zlevel in map_z)
-		var/list/edges
-		edges += block(locate(1, 1, zlevel), locate(TRANSITIONEDGE, maxy, zlevel))
-		edges |= block(locate(maxx-TRANSITIONEDGE, 1, zlevel),locate(maxx, maxy, zlevel))
-		edges |= block(locate(1, 1, zlevel), locate(maxx, TRANSITIONEDGE, zlevel))
-		edges |= block(locate(1, maxy-TRANSITIONEDGE, zlevel),locate(maxx, maxy, zlevel))
-		for(var/turf/T in edges)
-			T.ChangeTurf(/turf/exterior/planet_edge)
 
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/generate_habitability()
 	habitability_class = HABITABILITY_IDEAL
