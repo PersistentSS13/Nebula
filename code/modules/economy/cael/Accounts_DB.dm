@@ -57,14 +57,14 @@
 	data["machine_id"] = machine_id
 	data["creating_new_account"] = creating_new_account
 	data["detailed_account_view"] = !!detailed_account_view
-	data["station_account_number"] = station_account.account_number
+	data["station_account_id"] = station_account.account_id
 	data["transactions"] = null
 	data["accounts"] = null
 
 	if (detailed_account_view)
-		data["account_number"] = detailed_account_view.account_number
+		data["account_id"] = detailed_account_view.account_id
 		data["owner_name"] = detailed_account_view.owner_name
-		data["money"] = detailed_account_view.money
+		data["money"] = detailed_account_view.get_balance()
 		data["suspended"] = detailed_account_view.suspended
 
 		var/list/trx[0]
@@ -81,10 +81,10 @@
 			data["transactions"] = trx
 
 	var/list/accounts[0]
-	for(var/i=1, i<=all_money_accounts.len, i++)
-		var/datum/money_account/D = all_money_accounts[i]
+	for(var/i=1, i<= length(SSmoney_accounts.all_glob_accounts), i++)
+		var/datum/money_account/D = SSmoney_accounts.all_glob_accounts[i]
 		accounts.Add(list(list(\
-			"account_number"=D.account_number,\
+			"account_id"=D.account_id,\
 			"owner_name"=D.owner_name,\
 			"suspended"=D.suspended ? "SUSPENDED" : "",\
 			"account_index"=i)))
@@ -121,10 +121,10 @@
 				starting_funds = clamp(starting_funds, 0, station_account.money)	// Not authorized to put the station in debt.
 				starting_funds = min(starting_funds, fund_cap)						// Not authorized to give more than the fund cap.
 
-				var/datum/money_account/new_account = create_account("[account_name]'s Personal Account", account_name, starting_funds, ACCOUNT_TYPE_PERSONAL, src)
+				var/datum/money_account/new_account = create_glob_account("[account_name]'s Personal Account", account_name, starting_funds, ACCOUNT_TYPE_PERSONAL, src)
 				if(starting_funds > 0)
 					//subtract the money
-					station_account.money -= starting_funds
+					station_account.adjust_money(-starting_funds)
 
 					//create a transaction log entry
 					new_account.deposit(starting_funds, "New account activation", machine_id)
@@ -150,8 +150,8 @@
 
 			if("view_account_detail")
 				var/index = text2num(href_list["account_index"])
-				if(index && index <= all_money_accounts.len)
-					detailed_account_view = all_money_accounts[index]
+				if(index && index <= length(SSmoney_accounts.all_glob_accounts))
+					detailed_account_view = SSmoney_accounts.all_glob_accounts[index]
 
 			if("view_accounts_list")
 				detailed_account_view = null
@@ -168,12 +168,12 @@
 				var/text
 				var/obj/item/paper/P = new(loc)
 				if (detailed_account_view)
-					P.SetName("account #[detailed_account_view.account_number] details")
-					var/title = "Account #[detailed_account_view.account_number] Details"
+					P.SetName("account #[detailed_account_view.account_id] details")
+					var/title = "Account #[detailed_account_view.account_id] Details"
 					text = {"
 						[accounting_letterhead(title)]
 						<u>Holder:</u> [detailed_account_view.owner_name]<br>
-						<u>Balance:</u> [detailed_account_view.format_value_by_currency(detailed_account_view.money)]<br>
+						<u>Balance:</u> [detailed_account_view.format_value_by_currency(detailed_account_view.get_balance())]<br>
 						<u>Status:</u> [detailed_account_view.suspended ? "Suspended" : "Active"]<br>
 						<u>Transactions:</u> ([detailed_account_view.transaction_log.len])<br>
 						<table>
@@ -222,13 +222,13 @@
 							<tbody>
 					"}
 
-					for(var/i=1, i<=all_money_accounts.len, i++)
-						var/datum/money_account/D = all_money_accounts[i]
+					for(var/i=1, i<= length(SSmoney_accounts.all_glob_accounts), i++)
+						var/datum/money_account/D = SSmoney_accounts.all_glob_accounts[i]
 						text += {"
 								<tr>
-									<td>#[D.account_number]</td>
+									<td>#[D.account_id]</td>
 									<td>[D.owner_name]</td>
-									<td>[D.format_value_by_currency(D.money)]</td>
+									<td>[D.format_value_by_currency(D.get_balance())]</td>
 									<td>[D.suspended ? "Suspended" : "Active"]</td>
 								</tr>
 						"}

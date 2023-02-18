@@ -1,0 +1,23 @@
+{{if data.error}}
+	<h2>An error has occured:</h2>
+	Additional information: {{:data.error}}<br>
+	<i>Please try again. If the problem persists contact your system administrator for assistance.</i>
+	<div class="item">
+		{{:helper.link('REFRESH', null, { "refresh" : 1 })}}
+		{{:helper.link("NETWORK SETTINGS", null, { "settings" : 1 })}}
+	</div>
+{{else}}
+	<i>Financial management must be done remotely.</i><hr>
+	<div class="itemContent">
+		{{:helper.link("NETWORK SETTINGS", null, { "settings" : 1 })}}
+	</div>
+	<h2>Financial Storage Devices:</h2>
+	<table style="width:100%">
+		<tr><td>Network Tag<th>Location
+		{{for data.money_cubes}}
+			<tr class="candystripe">
+			<td>{{:value.tag}}</td>
+			<td>{{:value.location}}</td>
+		{{/for}}
+	</table>
+{{/if}}

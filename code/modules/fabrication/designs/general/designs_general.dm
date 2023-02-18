@@ -161,3 +161,6 @@
 	path = /obj/item/stack/package_wrap
 /datum/fabricator_recipe/gift_wrapper
 	path = /obj/item/stack/package_wrap/gift
+
+/datum/fabricator_recipe/network_pos
+	path = /obj/item/network_pos

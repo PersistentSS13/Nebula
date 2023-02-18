@@ -254,6 +254,16 @@ var/global/list/gamemode_cache = list()
 
 	var/dex_malus_brainloss_threshold = 30 //The threshold of when brainloss begins to affect dexterity.
 
+	// Economy variables
+	var/withdraw_period = 1 DAY
+	var/interest_period = 1 DAY
+
+	var/interest_mod_delay = 2 DAYS
+	var/withdraw_mod_delay = 3 DAYS
+	var/transaction_mod_delay = 2 DAYS
+	var/fractional_reserve_mod_delay = 3 DAYS
+	var/anti_tamper_mod_delay = 2 DAYS
+
 	var/static/list/protected_vars = list(
 		"comms_password",
 		"ban_comms_password",
@@ -905,6 +915,22 @@ var/global/list/gamemode_cache = list()
 				if("dexterity_malus_brainloss_threshold")
 					config.dex_malus_brainloss_threshold = text2num(value)
 
+				// Economy config.
+				if("withdraw_period")
+					config.withdraw_period = value DAYS
+				if("interest_period")
+					config.interest_period = value DAYS
+
+				if("interest_mod_delay")
+					config.interest_mod_delay = value DAYS
+				if("withdraw_mod_delay")
+					config.withdraw_mod_delay = value DAYS
+				if("transaction_mod_delay")
+					config.transaction_mod_delay = value DAYS
+				if("fractional_reserve_mod_delay")
+					config.fractional_reserve_mod_delay = value DAYS
+				if("anti_tamper_mod_delay")
+					config.anti_tamper_mod_delay = value DAYS
 				else
 					log_misc("Unknown setting in configuration: '[name]'")
 

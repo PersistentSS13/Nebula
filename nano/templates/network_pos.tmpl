@@ -1,0 +1,43 @@
+<div class="item">
+	{{:helper.link("Network Settings", null, { "settings" : 1 })}}
+</div>
+<hr>
+{{if data.error}}
+	<div class='item'>
+		<div class='itemLabel'>
+			An error has occured:
+		</div>
+		<div class='itemContent'>
+			{{:data.error}}
+		</div>
+	</div>
+{{else}}
+	<div class="item">
+		<div class="itemLabel">Transaction Amount:</div>
+		<div class='itemBody'>
+			{{:helper.link(data.transaction_amount, null, { "transaction_amount" : 1 })}}
+		</div>
+	</div>
+	<div class="item">
+		<div class="itemLabel">Transaction Purpose:</div>
+		<div class='itemBody'>
+			{{:helper.link(data.transaction_purpose, null, { "transaction_purpose" : 1 })}}
+		</div>
+	</div>
+	<div class="item">
+		<div class="itemLabel">Transaction Authorized:</div>
+		<div class='itemBody'>
+			{{if data.authorized}}
+				{{:helper.link('AUTHORIZED', 'check', {"authorize_transaction" : 1 })}}
+			{{else}}
+				{{:helper.link('UNAUTHORIZED', null, {"authorize_transaction" : 1 })}}
+			{{/if}}
+		</div>
+	</div>
+	<hr>
+	{{if data.account_id}}
+		Connected to account '{{:data.account_id}}@{{:data.account_provider}}'
+	{{else}}
+		{{:helper.link('Connect Account', null, { "connect_account" : 1 })}}
+	{{/if}}
+{{/if}}

@@ -7,8 +7,8 @@
 /datum/event/money_lotto/start()
 	winner_sum = pick(5000, 10000, 50000, 100000, 500000, 1000000, 1500000)
 	if(prob(50))
-		if(all_money_accounts.len)
-			winner_account = pick(all_money_accounts)
+		if(SSmoney_accounts.all_glob_accounts.len)
+			winner_account = pick(SSmoney_accounts.all_glob_accounts)
 			winner_name = winner_account.owner_name
 			deposit_success = winner_account.deposit(winner_sum, "Nyx Daily Loan Lottery winner!", "Biesel TCD Terminal #[rand(111,333)]")
 	else

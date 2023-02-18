@@ -1,0 +1,260 @@
+{{if data.prog_state == -1}} <!--Error-->
+	<div class='item'>
+		<div class='itemLabel'>
+			An error has occured:
+		</div>
+		<div class='itemContent'>
+			{{:data.error}}
+		</div>
+	</div>
+	{{:helper.link('Go back', 'arrowthickstop-1-w', {'back' : 1}, null)}}
+{{else data.prog_state == 0}} <!--Menu-->
+	<h2>Welcome to the financial management utility:</h2>
+	{{:helper.link('Manage parent financial account', null, {'parent_mode' : 1}, null)}}
+	{{:helper.link('Manage client accounts', null, {'child_mode' : 1}, null)}}
+{{else data.prog_state == 1}}<!--Parent account management-->
+	{{if data.create_parent}}
+		<h2>No parent account currently exists on the network.</h2>
+		{{:helper.link('Create parent account', null, {'create_parent_account' : 1}, null)}}
+	{{else}}
+		<h2>Financial management: {{:data.parent_name}}</h2>
+		<div class='item'>
+			<div class='itemLabel'>
+				Current Balance:
+			</div>
+			<div class='itemContent'>
+				{{:data.parent_balance}}
+			</div>
+		</div>
+		<div class='item'>
+			<div class='itemLabel'>
+				Client Balance Total:
+			</div>
+			<div class='itemContent'>
+				{{:data.child_totals}}
+			</div>
+		</div>
+		<div class='item'>
+			<div class='itemLabel'>
+				Number of clients:
+			</div>
+			<div class='itemContent'>
+				#{{:data.no_child_accounts}}
+			</div>
+		</div>
+		<div class='item'>
+			<div class='itemLabel'>
+				Fractional Reserve:
+			</div>
+			<div class='itemContent'>
+				{{:data.fractional_reserve}}
+			</div>
+		</div>
+		{{:helper.link('Withdrawal', null, {'withdrawal' : 1}, null)}}
+		<br><hr>
+		<h2>Account modifications</h2>
+		<table style="width:100%">
+			<tr><td style="width:40%">Description<th>Activation time<th>Early trigger<th>Cancel
+			{{for data.pending_parent_mods}}
+				<tr class="candystripe">
+				<td>{{:value.desc}}</td>
+				<td>{{:value.countdown}}</td>
+				<td>
+					{{if value.allow_early}}
+						{{:helper.link('', 'alert', {'activate_modification' : value.index})}}
+					{{/if}}
+				</td>
+				<td>
+					{{if value.allow_cancel}}
+						{{:helper.link('', 'cancel', {'cancel_modification' : value.index})}}
+					{{/if}}
+				</td>
+			{{/for}}
+			</table>
+			{{:helper.link('Add modification', null, {'add_modification' : 1}, null)}}
+		<h2>Admin accounts</h2>
+		<i>Admin accounts are notified in the case of financial incidents or changes to financial policy.</i>
+		<table style="width:100%">
+			<tr><td style="width:40%">Login<th>Remove
+			{{for data.admin_accounts}}
+				<tr class="candystripe">
+				<td>{{:value}}</td>
+				<td>
+					{{:helper.link('', 'cancel', {'remove_admin' : value})}}
+				</td>
+			{{/for}}
+		</table>
+			{{:helper.link('Add admin', null, {'add_admin' : 1}, null)}}
+			<br><hr>
+			<h2>Perform transaction:</h2>
+			<div class='item'>
+				<div class='itemLabel'>
+					Transaction Amount:
+				</div>
+				<div class='itemContent'>
+					{{:helper.link(data.trans_amount ? data.trans_amount : '', null, {'transfer_amount' : 1})}}
+				</div>
+			</div>
+			<div class='item'>
+				<div class='itemLabel'>
+					Target account:
+				</div>
+				<div class='itemContent'>
+					{{:helper.link(data.trans_account ? data.trans_account : '', null, {'transfer_account' : 1})}}
+				</div>
+			</div>
+			<div class='item'>
+				<div class='itemLabel'>
+					Target network:
+				</div>
+				<div class='itemContent'>
+					{{:helper.link(data.trans_network ? data.trans_network : '', null, {'transfer_network' : 1})}}
+				</div>
+			</div>
+			<div class='item'>
+				<div class='itemLabel'>
+					Transfer Purpose:
+				</div>
+				<div class='itemContent'>
+					{{:data.trans_purpose ? data.trans_purpose : ''}}{{:helper.link('', 'pencil', {'transfer_purpose' : 1})}}
+				</div>
+			</div>
+			<br>
+			{{:helper.link('Perform transfer', null, {'perform_transfer' : 1})}}
+			<br><hr>
+			<h2>Transaction Logs:</h2>
+			<table style="width:100%">
+				<tr><td>To<th>From<th>Amount<th>Purpose<th>Time
+				{{for data.parent_transactions}}
+					<tr class="candystripe">
+					<td>{{:value.target}}</td>
+					<td>{{:value.source}}</td>
+					<td>{{:value.amount}}</td>
+					<td>{{:value.purpose}}</td>
+					<td>{{:value.time}}, {{:value.date}}</td>
+				{{/for}}
+			</table>
+			{{:helper.link('<', null, {'prev_page' : 1}, data.prev_page ? null : 'disabled')}}
+			{{:helper.link('>', null, {'next_page' : 1}, data.next_page ? null : 'disabled')}}
+			<br><hr>
+	{{/if}}
+	{{:helper.link('Go back', 'arrowthickstop-1-w', {'back' : 1}, null)}}
+{{else data.prog_state == 2}}<!--Child accounts-->
+	{{if data.accounts}}
+		<h2>Client Accounts:</h2>
+		<table style="width:100%">
+		<tr><td style="width:40%">Account Login<th>Real Name<th>Balance
+		{{for data.accounts}}
+			<tr class="candystripe">
+			<td>{{:helper.link(value.account, '', {'select_account' : value.account})}}
+			<td>{{:value.fullname}}
+			<td>{{:value.money}}
+		{{/for}}
+		</table>
+		<hr>
+		<div class='item'>
+			<div class='itemLabel'>
+				Auto-generate Client Accounts:
+			</div>
+			<div class='itemContent'>
+				{{:helper.link(data.auto_accounts ? 'Enabled' : 'Disabled', null, {'toggle_auto_accounts' : 1}, null)}}
+			</div>
+		</div>
+		{{if data.auto_accounts}}
+			<div class='item'>
+				<div class='itemLabel'>
+					Preset interest rate:
+				</div>
+				<div class='itemContent'>
+					{{:helper.link(data.auto_interest_rate, null, {'change_auto_interest' : 1}, null)}}
+				</div>
+			</div>
+			<div class='item'>
+				<div class='itemLabel'>
+					Preset withdrawal limit:
+				</div>
+				<div class='itemContent'>
+					{{:helper.link(data.auto_withdrawal_limit, null, {'change_auto_withdrawal' : 1}, null)}}
+				</div>
+			</div>
+			<div class='item'>
+				<div class='itemLabel'>
+					Preset transaction fee:
+				</div>
+				<div class='itemContent'>
+					{{:helper.link(data.auto_transaction_fee, null, {'change_auto_transaction' : 1}, null)}}
+				</div>
+			</div>
+		{{/if}}
+		{{:helper.link('Go back', 'arrowthickstop-1-w', {'back' : 1}, null)}}
+	{{else}}<!--Viewing child account-->
+		<h2>Client account: {{:data.child_name}}</h2>
+		<div class='item'>
+			<div class='itemLabel'>
+				Current Balance:
+			</div>
+			<div class='itemContent'>
+				{{:data.child_balance}}
+			</div>
+		</div>
+		<div class='item'>
+			<div class='itemLabel'>
+				Interest Rate:
+			</div>
+			<div class='itemContent'>
+				{{:data.interest_rate}}
+			</div>
+		</div>
+		<div class='item'>
+			<div class='itemLabel'>
+				Withdrawal Limit:
+			</div>
+			<div class='itemContent'>
+				{{:data.current_withdrawal}} / {{:data.withdrawal_limit}}
+			</div>
+		</div>
+		<div class='item'>
+			<div class='itemLabel'>
+				Transaction Fee:
+			</div>
+			<div class='itemContent'>
+				{{:data.transaction_fee}}
+			</div>
+		</div>
+		<hr>
+		{{:helper.link('Close account', 'alert', {'close_account' : 1}, null)}}
+		<br><hr>
+		<h2>Account modifications</h2>
+		<table style="width:100%">
+			<tr><td style="width:40%">Description<th>Activation time<th>Cancel
+			{{for data.pending_child_mods}}
+				<tr class="candystripe">
+				<td>{{:value.desc}}</td>
+				<td>{{:value.countdown}}</td>
+				<td>
+					{{if value.allow_cancel}}
+						{{:helper.link('', 'cancel', {'cancel_modification' : value.index})}}
+					{{/if}}
+				</td>
+			{{/for}}
+			</table>
+			{{:helper.link('Add modification', null, {'add_modification' : 1}, null)}}
+		<br><hr>
+		<h2>Client Transaction Logs:</h2>
+			<table style="width:100%">
+				<tr><td>To<th>From<th>Amount<th>Purpose<th>Time
+				{{for data.child_transactions}}
+					<tr class="candystripe">
+					<td>{{:value.target}}</td>
+					<td>{{:value.source}}</td>
+					<td>{{:value.amount}}</td>
+					<td>{{:value.purpose}}</td>
+					<td>{{:value.time}}, {{:value.date}}</td>
+				{{/for}}
+			</table>
+			{{:helper.link('<', null, {'prev_page' : 1}, data.prev_page ? null : 'disabled')}}
+			{{:helper.link('>', null, {'next_page' : 1}, data.next_page ? null : 'disabled')}}
+		<br><hr>
+		{{:helper.link('Go back', 'arrowthickstop-1-w', {'back' : 1}, null)}}
+	{{/if}}
+{{/if}}

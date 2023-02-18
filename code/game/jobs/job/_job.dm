@@ -1,5 +1,5 @@
 /datum/job
-	var/title                                 // The name of the job	
+	var/title                                 // The name of the job
 	var/list/software_on_spawn = list()       // Defines the software files that spawn on tablets and labtops
 	var/list/department_types = list()        // What departments the job is in.
 	var/autoset_department = TRUE             // If department list is empty, use map default.
@@ -150,14 +150,14 @@
 		return // You are too poor for an account.
 
 	//give them an account in the station database
-	var/datum/money_account/M = create_account("[H.real_name]'s account", H.real_name, money_amount)
+	var/datum/money_account/M = create_glob_account("[H.real_name]'s account", H.real_name, money_amount)
 	var/cash_on_hand = create_cash_on_hand(H, M)
 	// Store their financial info.
 	if(H.mind)
 		var/remembered_info = ""
-		remembered_info += "<b>Your account number is:</b> #[M.account_number]<br>"
+		remembered_info += "<b>Your account number is:</b> #[M.account_id]<br>"
 		remembered_info += "<b>Your account pin is:</b> [M.remote_access_pin]<br>"
-		remembered_info += "<b>Your account funds are:</b> [M.format_value_by_currency(M.money)]<br>"
+		remembered_info += "<b>Your account funds are:</b> [M.format_value_by_currency(M.get_balance())]<br>"
 		if(M.transaction_log.len)
 			var/datum/transaction/T = M.transaction_log[1]
 			remembered_info += "<b>Your account was created:</b> [T.time], [T.date] at [T.get_source_name()]<br>"

@@ -45,7 +45,7 @@
 		if(!I)
 			to_chat(usr, SPAN_WARNING("Unable to locate ID card for transaction."))
 			return TOPIC_HANDLED
-		var/datum/money_account/account = get_account(I.associated_account_number)
+		var/datum/money_account/account = get_glob_account(I.associated_account_id)
 		var/earned = current_interval * (SCIENCE_MONEY_PER_MINUTE * computer.get_processing_power())
 		account.deposit(earned, "Completed FOLDING@SPACE project.")
 		to_chat(usr, SPAN_NOTICE("Transferred [earned] to your account."))

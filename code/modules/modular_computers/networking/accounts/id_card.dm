@@ -1,5 +1,4 @@
 /obj/item/card/id/network
-	var/network_id												// The network_id that this card is paired to.
 	var/weakref/current_account
 	color = COLOR_GRAY80
 	detail_color = COLOR_SKY_BLUE
@@ -22,11 +21,11 @@
 			for(var/group in access_account.parent_groups) // Membership in a child group grants access to anything with an access requirement set to the parent group.
 				. += "[group].[location]"
 
-/obj/item/card/id/network/proc/resolve_account()
+/obj/item/card/id/network/proc/resolve_account(net_feature = NET_FEATURE_ACCESS)
 	if(!current_account)
 		return
 	var/datum/extension/network_device/D = get_extension(src, /datum/extension/network_device)
-	var/datum/computer_network/network = D.get_network(NET_FEATURE_ACCESS)
+	var/datum/computer_network/network = D.get_network(net_feature)
 
 	var/login = associated_network_account["login"]
 	var/password = associated_network_account["password"]
@@ -86,7 +85,7 @@
 
 		current_account = null
 		return TOPIC_REFRESH
-	
+
 	if(href_list["login_account"])
 		if(login_account())
 			to_chat(usr, SPAN_NOTICE("Account successfully logged in."))
@@ -111,6 +110,11 @@
 		if(check_account.login == login && check_account.password == password)
 			current_account = weakref(check_account)
 			return TRUE
+
+/obj/item/card/id/network/proc/get_network_id()
+	var/datum/extension/network_device/D = get_extension(src, /datum/extension/network_device)
+	var/datum/computer_network/network = D?.get_network()
+	return network?.network_id
 
 /obj/item/card/id/network/verb/adjust_settings()
 	set name = "Adjust Settings"

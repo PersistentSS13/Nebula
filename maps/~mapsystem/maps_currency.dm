@@ -17,7 +17,7 @@
 	credstick.creator = owner.real_name
 	credstick.currency = owner_account.currency
 	credstick.loaded_worth = min(credstick.max_worth, FLOOR(owner_account.money * transfer_mult))
-	owner_account.money -= credstick.loaded_worth
+	owner_account.adjust_money(-credstick.loaded_worth)
 	return list(credstick)
 
 /decl/starting_cash_choice/credstick/half
@@ -31,8 +31,8 @@
 	var/obj/item/cash/cash = new
 	cash.set_currency(owner_account.currency)
 	cash.adjust_worth(FLOOR(owner_account.money * transfer_mult))
-	owner_account.money -= cash.absolute_worth
-	return list(cash)	
+	owner_account.adjust_money(cash.absolute_worth)
+	return list(cash)
 
 /decl/starting_cash_choice/cash/half
 	name = "split between bank account and cash"
@@ -47,14 +47,14 @@
 	var/obj/item/cash/cash = new
 	cash.set_currency(owner_account.currency)
 	cash.adjust_worth(FLOOR(owner_account.money * transfer_mult))
-	. += cash	
+	. += cash
 	var/obj/item/charge_stick/credstick = new
 	credstick.creator = owner.real_name
 	credstick.currency = owner_account.currency
 	credstick.loaded_worth = min(credstick.max_worth, FLOOR(owner_account.money * transfer_mult))
 	. += credstick
-	owner_account.money -= cash.absolute_worth
-	owner_account.money -= credstick.loaded_worth
+	owner_account.adjust_money(-cash.absolute_worth)
+	owner_account.adjust_money(-credstick.loaded_worth)
 
 /decl/starting_cash_choice/split/even
 	name = "split between bank account, cash and charge stick"

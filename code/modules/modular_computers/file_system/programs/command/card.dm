@@ -32,7 +32,7 @@
 	if(card_slot)
 		var/obj/item/card/id/id_card = card_slot.stored_card
 		data["has_id"] = !!id_card
-		data["id_account_number"] = id_card ? id_card.associated_account_number : null
+		data["id_account_id"] = id_card ? id_card.associated_account_id : null
 		data["network_account_login"] = id_card ? id_card.associated_network_account["login"] : null
 		data["network_account_password"] = id_card ? stars(id_card.associated_network_account["password"], 0) : null
 		data["id_rank"] = id_card && id_card.assignment ? id_card.assignment : "Unassigned"
@@ -160,7 +160,7 @@
 								<u>For:</u> [id_card.registered_name ? id_card.registered_name : "Unregistered"]<br>
 								<hr>
 								<u>Assignment:</u> [id_card.assignment]<br>
-								<u>Account Number:</u> #[id_card.associated_account_number]<br>
+								<u>Account Number:</u> #[id_card.associated_account_id]<br>
 								<u>Network account:</u> [id_card.associated_network_account["login"]]
 								<u>Network password:</u> [stars(id_card.associated_network_account["password"], 0)]
 								<u>Blood Type:</u> [id_card.blood_type]<br><br>
@@ -214,8 +214,8 @@
 					else
 						computer.show_error(usr, "Invalid name entered!")
 				else if(href_list["account"])
-					var/account_num = text2num(input("Enter account number.", "Account", id_card.associated_account_number))
-					id_card.associated_account_number = account_num
+					var/account_num = text2num(input("Enter account number.", "Account", id_card.associated_account_id))
+					id_card.associated_account_id = account_num
 				else if(href_list["alogin"])
 					var/account_login = input("Enter network account login.", "Network account login", id_card.associated_network_account["login"])
 					id_card.associated_network_account["login"] = account_login

@@ -176,6 +176,9 @@
 	else
 		return -1
 
+// Returns the amount of cash taken, if any.
+/datum/computer_file/program/proc/process_cash(var/obj/item/cash/received_cash)
+
 /datum/nano_module/program
 	available_to_ai = FALSE
 	var/datum/computer_file/program/program = null	// Program-Based computer program that runs this nano module. Defaults to null.
