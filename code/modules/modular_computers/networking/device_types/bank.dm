@@ -66,7 +66,7 @@
 
 /datum/extension/network_device/bank/proc/theft_alert(datum/extension/network_device/money_cube/cube, lost_funds)
 	var/datum/computer_file/data/email_message/theft_email = new()
-
+	var/datum/computer_network/network = get_network()
 	var/datum/money_account/parent/victim = get_parent_account()
 	if(!victim)
 		return
@@ -77,6 +77,14 @@
 							The compromised financial storage device had the ID tag '[cube.network_tag]'. Loss prevention measures have been activated, and will be triggered if further losses occur."
 
 	email_admin_accounts(theft_email)
+
+	if(network)
+		var/datum/computer_file/data/email_message/child_theft_email = new()
+		child_theft_email.title = "Notice of financial loss prevention"
+		child_theft_email.source = "financial_services@[network_id]"
+		child_theft_email.stored_data = "Automated loss prevention systems have been triggered on the network, and withdrawal limits on all accounts have been temporarily lifted. Please contact your financial provider for more information."
+
+		network.email_child_accounts(child_theft_email)
 
 	var/datum/account_modification/theft_prevention/mod = new(victim)
 	victim.pending_modifications += mod
