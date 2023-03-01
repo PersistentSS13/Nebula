@@ -35,10 +35,10 @@
 	txt += "2. Lock the new transaction. If you want to modify or cancel the transaction, you simply have to reset your EFTPOS device.<br>"
 	txt += "3. Give the EFTPOS device to your customer, he/she must finish the transaction by swiping their ID card or a charge card with enough funds.<br>"
 	txt += "4. If everything is done correctly, the money will be transferred. To unlock the device you will have to reset the EFTPOS device.<br>"
-	
+
 	var/obj/item/paper/R = new(src.loc, null, txt, "Steps to success: Correct EFTPOS Usage")
 	R.apply_custom_stamp(
-		overlay_image('icons/obj/bureaucracy.dmi', icon_state = "paper_stamp-boss", flags = RESET_COLOR), 
+		overlay_image('icons/obj/bureaucracy.dmi', icon_state = "paper_stamp-boss", flags = RESET_COLOR),
 		"by \the [src]")
 
 	//by default, connect to the station account
@@ -46,14 +46,14 @@
 	linked_account = station_account
 
 /obj/item/eftpos/proc/print_reference()
-	var/obj/item/paper/R = new(src.loc, null, 
-		"<b>[eftpos_name] reference</b><br><br>Access code: [access_code]<br><br><b>Do not lose or misplace this code.</b><br>", 
+	var/obj/item/paper/R = new(src.loc, null,
+		"<b>[eftpos_name] reference</b><br><br>Access code: [access_code]<br><br><b>Do not lose or misplace this code.</b><br>",
 		"Reference: [eftpos_name]")
 	R.apply_custom_stamp(
-		overlay_image('icons/obj/bureaucracy.dmi', icon_state = "paper_stamp-boss", flags = RESET_COLOR), 
+		overlay_image('icons/obj/bureaucracy.dmi', icon_state = "paper_stamp-boss", flags = RESET_COLOR),
 		"by the [src]")
-	
-	
+
+
 	var/obj/item/parcel/D = new(R.loc, null, R, "EFTPOS access code")
 	D.attach_label(usr, null, "EFTPOS access code")
 
@@ -203,11 +203,11 @@
 			if(linked_account)
 				if(!linked_account.suspended)
 					var/attempt_pin = ""
-					var/datum/money_account/D = get_account(C.associated_account_number)
+					var/datum/money_account/D = get_glob_account(C.associated_account_id)
 					if(D && D.security_level)
 						attempt_pin = input("Enter pin code", "EFTPOS transaction") as num
 						D = null
-					D = attempt_account_access(C.associated_account_number, attempt_pin, TRUE)
+					D = attempt_account_access(C.associated_account_id, attempt_pin, TRUE)
 					if(D)
 						//transfer the money
 						if(D.transfer(linked_account, transaction_amount, "[transaction_purpose] (via [eftpos_name]/[machine_id])"))

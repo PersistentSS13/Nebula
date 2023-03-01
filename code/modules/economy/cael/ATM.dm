@@ -15,7 +15,7 @@
 
 	var/datum/money_account/authenticated_account
 	var/number_incorrect_tries = 0
-	var/previous_account_number = 0
+	var/previous_account_id = 0
 	var/max_pin_attempts = 3
 	var/ticks_left_locked_down = 0
 	var/ticks_left_timeout = 0
@@ -90,7 +90,7 @@
 			if(!user.unEquip(idcard, src))
 				return
 			held_card = idcard
-			if(authenticated_account && held_card.associated_account_number != authenticated_account.account_number)
+			if(authenticated_account && held_card.associated_account_id != authenticated_account.account_id)
 				authenticated_account = null
 			attack_hand(user)
 
@@ -99,7 +99,10 @@
 			var/obj/item/cash/dolla = I
 
 			//deposit the cash
-			if(authenticated_account.deposit(dolla.absolute_worth, "Credit deposit", machine_id))
+			var/err = authenticated_account.deposit(dolla.absolute_worth, "Credit deposit", machine_id)
+			if(err)
+				to_chat(user, "<span class='warning'>Cash deposit failed: [err].</span>")
+			else
 				playsound(loc, pick('sound/items/polaroid1.ogg', 'sound/items/polaroid2.ogg'), 50, 1)
 
 				to_chat(user, "<span class='info'>You insert [I] into [src].</span>")
@@ -112,7 +115,10 @@
 			if(lock.locked)
 				to_chat(user, SPAN_WARNING("Cannot transfer funds from a locked [stick.name]."))
 			else
-				if(authenticated_account.deposit(stick.loaded_worth, "Credit deposit", machine_id))
+				var/err = authenticated_account.deposit(stick.loaded_worth, "Credit deposit", machine_id)
+				if(err)
+					to_chat(user, "<span class='warning'>Cash deposit failed: [err].</span>")
+				else
 					playsound(loc, pick('sound/items/polaroid1.ogg', 'sound/items/polaroid2.ogg'), 50, 1)
 
 					to_chat(user, "<span class='info'>You insert [I] into [src].</span>")
@@ -193,7 +199,7 @@
 							t += "</table>"
 							t += "<A href='?src=\ref[src];choice=print_transaction'>Print</a><br>"
 						if(TRANSFER_FUNDS)
-							t += "<b>Account balance:</b> [authenticated_account.format_value_by_currency(authenticated_account.money)]<br>"
+							t += "<b>Account balance:</b> [authenticated_account.format_value_by_currency(authenticated_account.get_balance())]<br>"
 							t += "<form name='transfer' action='?src=\ref[src]' method='get'>"
 							t += "<input type='hidden' name='src' value='\ref[src]'>"
 							t += "<input type='hidden' name='choice' value='transfer'>"
@@ -203,7 +209,7 @@
 							t += "<input type='submit' value='Transfer funds'><br>"
 							t += "</form>"
 						else
-							t += "<b>Account balance:</b> [authenticated_account.format_value_by_currency(authenticated_account.money)]"
+							t += "<b>Account balance:</b> [authenticated_account.format_value_by_currency(authenticated_account.get_balance())]"
 							t += "<form name='withdrawal' action='?src=\ref[src]' method='get'>"
 							t += "<input type='hidden' name='src' value='\ref[src]'>"
 							t += "<input type='radio' name='choice' value='withdrawal' checked> Cash  <input type='radio' name='choice' value='e_withdrawal'> Chargecard<br>"
@@ -238,7 +244,7 @@
 				t += "<input type='submit' value='Submit'><br>"
 				t += "</div></form>"
 				if(user?.mind?.initial_account)
-					t += "<i>You recall your personal account number is <b>#[user.mind.initial_account.account_number]</b> and your PIN is <b>[user.mind.initial_account.remote_access_pin]</b>.</i><br/>"
+					t += "<i>You recall your personal account number is <b>#[user.mind.initial_account.account_id]</b> and your PIN is <b>[user.mind.initial_account.remote_access_pin]</b>.</i><br/>"
 
 		var/datum/browser/written_digital/popup = new(user, "ATM", machine_id)
 		popup.set_content(jointext(t,null))
@@ -257,12 +263,16 @@
 					transfer_amount = round(transfer_amount, 0.01)
 					if(transfer_amount <= 0)
 						alert("That is not a valid amount.")
-					else if(transfer_amount <= authenticated_account.money)
-						var/target_account_number = text2num(href_list["target_acc_number"])
+					else if(transfer_amount <= authenticated_account.get_balance())
+						var/target_account_id = text2num(href_list["target_acc_number"])
 						var/transfer_purpose = href_list["purpose"]
-						var/datum/money_account/target_account = get_account(target_account_number)
-						if(target_account && authenticated_account.transfer(target_account, transfer_amount, transfer_purpose))
-							to_chat(usr, "[html_icon(src)]<span class='info'>Funds transfer successful.</span>")
+						var/datum/money_account/target_account = get_glob_account(target_account_id)
+						if(target_account)
+							var/err = authenticated_account.transfer(target_account, transfer_amount, transfer_purpose)
+							if(err)
+								to_chat(usr, "[html_icon(src)]<span class='info'>Funds transfer failed: [err].</span>")
+							else
+								to_chat(usr, "[html_icon(src)]<span class='info'>Funds transfer successful.</span>")
 						else
 							to_chat(usr, "[html_icon(src)]<span class='warning'>Funds transfer failed.</span>")
 
@@ -287,36 +297,36 @@
 					var/tried_account_num = text2num(href_list["account_num"])
 					//We WILL need an account number entered manually if security is high enough, do not automagic account number
 					if(!tried_account_num && login_card && (account_security_level != 2))
-						tried_account_num = login_card.associated_account_number
+						tried_account_num = login_card.associated_account_id
 					var/tried_pin = text2num(href_list["account_pin"])
 
 					//We'll need more information if an account's security is greater than zero so let's find out what the security setting is
 					var/datum/money_account/D
 					//Below is to avoid a runtime
 					if(tried_account_num)
-						D = get_account(tried_account_num)
+						D = get_glob_account(tried_account_num)
 
 						if(D)
 							account_security_level = D.security_level
 
-					authenticated_account = attempt_account_access(tried_account_num, tried_pin, (login_card?.associated_account_number == tried_account_num))
+					authenticated_account = attempt_account_access(tried_account_num, tried_pin, (login_card?.associated_account_id == tried_account_num))
 
 					if(!authenticated_account)
 						number_incorrect_tries++
 						//let's not count an incorrect try on someone who just needs to put in more information
-						if(previous_account_number == tried_account_num && tried_pin)
+						if(previous_account_id == tried_account_num && tried_pin)
 							if(number_incorrect_tries >= max_pin_attempts)
 								//lock down the atm
 								ticks_left_locked_down = 30
 								playsound(src, 'sound/machines/buzz-two.ogg', 50, 1)
 
 								//create an entry in the account transaction log
-								var/datum/money_account/failed_account = get_account(tried_account_num)
+								var/datum/money_account/failed_account = get_glob_account(tried_account_num)
 								if(failed_account)
 									failed_account.log_msg("Unauthorized login attempt", machine_id)
 							else
 								to_chat(usr, "[html_icon(src)] <span class='warning'>Incorrect pin/account combination entered, [max_pin_attempts - number_incorrect_tries] attempts remaining.</span>")
-								previous_account_number = tried_account_num
+								previous_account_id = tried_account_num
 								playsound(src, 'sound/machines/buzz-sigh.ogg', 50, 1)
 						else
 							to_chat(usr, "[html_icon(src)] <span class='warning'>Unable to log in to account, additional information may be required.</span>")
@@ -331,7 +341,7 @@
 
 						to_chat(usr, "[html_icon(src)] <span class='info'>Access granted. Welcome user '[authenticated_account.owner_name].'</span>")
 
-					previous_account_number = tried_account_num
+					previous_account_id = tried_account_num
 			if("e_withdrawal")
 				var/amount = max(text2num(href_list["funds_amount"]),0)
 				amount = round(amount, 0.01)
@@ -343,41 +353,43 @@
 					alert("That amount exceeds the maximum amount holdable by charge sticks from this machine ([cur.format_value(initial(E.max_worth))]).")
 				else if(authenticated_account && amount > 0)
 					//create an entry in the account transaction log
-					if(authenticated_account.withdraw(amount, "Credit withdrawal", machine_id))
+					var/err = authenticated_account.withdraw(amount, "Credit withdrawal", machine_id)
+					if(err)
+						to_chat(usr, "[html_icon(src)]<span class='warning'>Withdrawal failed: [err].</span>")
+					else
 						playsound(src, 'sound/machines/chime.ogg', 50, 1)
 						E = new charge_stick_type(loc)
 						E.adjust_worth(amount)
 						E.creator = authenticated_account.owner_name
 						usr.put_in_hands(E)
-					else
-						to_chat(usr, "[html_icon(src)]<span class='warning'>You don't have enough funds to do that!</span>")
+
 			if("withdrawal")
 				var/amount = max(text2num(href_list["funds_amount"]),0)
 				amount = round(amount, 0.01)
 				if(amount <= 0)
 					alert("That is not a valid amount.")
 				else if(authenticated_account && amount > 0)
-					//remove the money
-					if(authenticated_account.withdraw(amount, "Credit withdrawal", machine_id))
+					var/err = authenticated_account.withdraw(amount, "Credit withdrawal", machine_id)
+					if(err)
+						to_chat(usr, "[html_icon(src)]<span class='warning'>Withdrawal failed: [err].</span>")
+					else
 						playsound(src, 'sound/machines/chime.ogg', 50, 1)
 						var/obj/item/cash/cash = new(get_turf(usr))
 						cash.adjust_worth(amount)
 						usr.put_in_hands(src)
-					else
-						to_chat(usr, "[html_icon(src)]<span class='warning'>You don't have enough funds to do that!</span>")
 			if("balance_statement")
 				if(authenticated_account)
 					var/txt
 					txt = "<b>Automated Teller Account Statement</b><br><br>"
 					txt += "<i>Account holder:</i> [authenticated_account.owner_name]<br>"
-					txt += "<i>Account number:</i> [authenticated_account.account_number]<br>"
-					txt += "<i>Balance:</i> [authenticated_account.format_value_by_currency(authenticated_account.money)]<br>"
+					txt += "<i>Account number:</i> [authenticated_account.account_id]<br>"
+					txt += "<i>Balance:</i> [authenticated_account.format_value_by_currency(authenticated_account.get_balance())]<br>"
 					txt += "<i>Date and time:</i> [stationtime2text()], [stationdate2text()]<br><br>"
 					txt += "<i>Service terminal ID:</i> [machine_id]<br>"
 
 					var/obj/item/paper/R = new(src.loc, null, txt, "Account balance: [authenticated_account.owner_name]")
 					R.apply_custom_stamp(
-						overlay_image('icons/obj/bureaucracy.dmi', "paper_stamp-boss", flags = RESET_COLOR), 
+						overlay_image('icons/obj/bureaucracy.dmi', "paper_stamp-boss", flags = RESET_COLOR),
 						"by the [machine_id]")
 
 				if(prob(50))
@@ -387,10 +399,10 @@
 			if ("print_transaction")
 				if(authenticated_account)
 					var/txt
-					
+
 					txt = "<b>Transaction logs</b><br>"
 					txt += "<i>Account holder:</i> [authenticated_account.owner_name]<br>"
-					txt += "<i>Account number:</i> [authenticated_account.account_number]<br>"
+					txt += "<i>Account number:</i> [authenticated_account.account_id]<br>"
 					txt += "<i>Date and time:</i> [stationtime2text()], [stationdate2text()]<br><br>"
 					txt += "<i>Service terminal ID:</i> [machine_id]<br>"
 					txt += "<table border=1 style='width:100%'>"
@@ -414,7 +426,7 @@
 					txt += "</table>"
 					var/obj/item/paper/R = new(src.loc, null, txt, "Transaction logs: [authenticated_account.owner_name]")
 					R.apply_custom_stamp(
-						overlay_image('icons/obj/bureaucracy.dmi', "paper_stamp-boss", flags = RESET_COLOR), 
+						overlay_image('icons/obj/bureaucracy.dmi', "paper_stamp-boss", flags = RESET_COLOR),
 						"by the [machine_id]")
 
 				if(prob(50))

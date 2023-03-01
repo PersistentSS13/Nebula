@@ -548,7 +548,7 @@
 	left_to_transfer = max(0, left_to_transfer - get_transfer_speed())
 	if(!left_to_transfer)
 		if(copying)
-			return transfer_to.store_file(transferring, directory_to, TRUE)
+			return transfer_to.store_file(transferring.Clone(), directory_to, TRUE)
 		else
 			. = transfer_from.delete_file(transferring) // Check if we can delete the file.
 			if(. == OS_FILE_SUCCESS)

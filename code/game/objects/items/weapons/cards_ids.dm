@@ -156,7 +156,7 @@ var/global/const/NO_EMAG_ACT = -50
 	slot_flags = SLOT_ID
 	var/list/access = list()
 	var/registered_name = "Unknown" // The name registered_name on the card
-	var/associated_account_number = 0
+	var/associated_account_id = 0
 
 	// Associated network account. For normal IDs this is simply informational, but for network enabled IDs this is used for group-based access.
 	var/list/associated_network_account = list("login" = "", "password" = "")

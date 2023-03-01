@@ -8,8 +8,9 @@
 #define NET_FEATURE_RECORDS 			BITFLAG(5)	// Modifying accounts, viewing crew records etc.
 #define NET_FEATURE_FILESYSTEM			BITFLAG(6)	// Accessing mainframe filesystems.
 #define NET_FEATURE_DECK				BITFLAG(7)	// Control of docking beacons, supply, deck control.
+#define NET_FEATURE_FINANCE				BITFLAG(8)	// Money transfers, other finance.
 
-#define NET_ALL_FEATURES		(NET_FEATURE_SOFTWAREDOWNLOAD|NET_FEATURE_COMMUNICATION|NET_FEATURE_SYSTEMCONTROL|NET_FEATURE_SECURITY|NET_FEATURE_ACCESS|NET_FEATURE_RECORDS|NET_FEATURE_FILESYSTEM|NET_FEATURE_DECK)
+#define NET_ALL_FEATURES		(NET_FEATURE_SOFTWAREDOWNLOAD|NET_FEATURE_COMMUNICATION|NET_FEATURE_SYSTEMCONTROL|NET_FEATURE_SECURITY|NET_FEATURE_ACCESS|NET_FEATURE_RECORDS|NET_FEATURE_FILESYSTEM|NET_FEATURE_DECK|NET_FEATURE_FINANCE)
 
 // Transfer speeds, used when downloading/uploading a file/program.
 #define NETWORK_SPEED_BASE  1/NETWORK_BASE_BROADCAST_STRENGTH	// GQ/s transfer speed, multiplied by signal power
@@ -44,6 +45,7 @@
 #define PROG_UTIL 		"Utility"
 #define PROG_SEC 		"Security"
 #define PROG_MONITOR	"Monitoring"
+#define PROG_FINANCE	"Finances"
 
 #define RECEIVER_WIRELESS					 1
 #define RECEIVER_STRONG_WIRELESS			 2
@@ -74,4 +76,4 @@
 #define OS_FILE_NO_WRITE   -5
 #define OS_HARDDRIVE_SPACE -6
 #define OS_NETWORK_ERROR   -7
-#define OS_BAD_NAME        -8 
+#define OS_BAD_NAME        -8

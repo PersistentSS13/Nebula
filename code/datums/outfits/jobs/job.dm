@@ -19,5 +19,5 @@
 		return
 	if(H.mind)
 		if(H.mind.initial_account)
-			C.associated_account_number = H.mind.initial_account.account_number
+			C.associated_account_id = H.mind.initial_account.account_id
 	return C

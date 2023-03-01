@@ -25,7 +25,7 @@
 				continue
 			if(E.backup)
 				result[E.login] = E
-	
+
 	return result
 
 /datum/computer_network/proc/add_account(datum/computer_file/data/account/acc, accesses)
@@ -55,7 +55,11 @@
 	if(add_account(EA, accesses))
 		if(user)
 			user.store_account_credentials(EA.login, EA.password, network_id)
-		return TRUE
+		. = TRUE
+
+		if(banking_mainframe && parent_account && banking_mainframe.auto_money_accounts)
+			EA.money_account = new(null, parent_account, banking_mainframe.auto_interest_rate, banking_mainframe.auto_withdrawal_limit, banking_mainframe.auto_transaction_fee, EA)
+
 	return FALSE
 
 /datum/computer_network/proc/rename_account(old_login, desired_login)

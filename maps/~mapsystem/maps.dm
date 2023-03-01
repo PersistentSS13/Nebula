@@ -312,7 +312,7 @@ var/global/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 	news_network.CreateFeedChannel("The Gibson Gazette", "Editor Mike Hammers", 1, 1)
 
 	if(!station_account)
-		station_account = create_account("[station_name()] Primary Account", "[station_name()]", starting_money, ACCOUNT_TYPE_DEPARTMENT)
+		station_account = create_glob_account("[station_name()] Primary Account", "[station_name()]", starting_money, ACCOUNT_TYPE_DEPARTMENT)
 
 	for(var/job in allowed_jobs)
 		var/datum/job/J = SSjobs.get_by_path(job)
@@ -323,9 +323,9 @@ var/global/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 	for(var/department in station_departments)
 		var/decl/department/dept = SSjobs.get_department_by_type(department)
 		if(istype(dept))
-			department_accounts[department] = create_account("[dept.name] Account", "[dept.name]", department_money, ACCOUNT_TYPE_DEPARTMENT)
+			department_accounts[department] = create_glob_account("[dept.name] Account", "[dept.name]", department_money, ACCOUNT_TYPE_DEPARTMENT)
 
-	department_accounts["Vendor"] = create_account("Vendor Account", "Vendor", 0, ACCOUNT_TYPE_DEPARTMENT)
+	department_accounts["Vendor"] = create_glob_account("Vendor Account", "Vendor", 0, ACCOUNT_TYPE_DEPARTMENT)
 	vendor_account = department_accounts["Vendor"]
 
 /datum/map/proc/map_info(var/client/victim)

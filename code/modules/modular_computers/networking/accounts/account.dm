@@ -24,6 +24,8 @@
 	var/notification_sound = "*beep*"
 	var/backup = FALSE // Backups are not returned when searching for accounts, but can be recovered using the accounts program.
 
+	var/datum/money_account/child/network/money_account
+
 	copy_string = "(Backup)"
 
 /datum/computer_file/data/account/calculate_size()
@@ -54,6 +56,10 @@
 	groups.Cut()
 	parent_groups.Cut()
 
+	if(money_account)
+		money_account.on_escrow(TRUE) // Don't bother sending an e-mail since it's about to be deleted anyway.
+		QDEL_NULL(money_account)
+
 	QDEL_NULL_LIST(inbox)
 	QDEL_NULL_LIST(outbox)
 	QDEL_NULL_LIST(spam)
@@ -66,7 +72,15 @@
 /datum/computer_file/data/account/proc/all_incoming_emails()
 	return (inbox | spam | deleted)
 
-/datum/computer_file/data/account/proc/receive_mail(var/datum/computer_file/data/email_message/received_message, var/datum/computer_network/network)
+/datum/computer_file/data/account/proc/receive_mail(datum/computer_file/data/email_message/received_message)
+	inbox.Add(received_message)
+
+	for(var/weakref/os_ref in logged_in_os)
+		var/datum/extension/interactive/os/os = os_ref.resolve()
+		if(istype(os))
+			os.mail_received(received_message)
+		else
+			logged_in_os -= os_ref
 
 /datum/computer_file/data/account/Clone(rename)
 	. = ..(TRUE) // We always rename the file since a copied account is always a backup.

@@ -1,0 +1,140 @@
+{{if data.prog_mode == 0}} <!--Login-->
+	<h2>Welcome to the automated teller utility:</h2>
+	<i><h3>{{:data.login_prompt}}</h3></i>
+	{{if data.prompt_pin}}
+		{{:helper.link('Enter PIN', 'key', {'pin_entry' : 1}, null)}}
+	{{/if}}
+	{{if data.escrow_providers}}
+		<br><hr>
+		<i>Escrow accounts are currently open for the following financial providers: {{:data.escrow_providers}}</i>
+		<br>
+		{{:helper.link('Access Escrow Account', 'key', {'access_escrow' : 1}, null)}}
+	{{/if}}
+{{else}}
+	<table>
+		<tr>{{:helper.link('Account Info', null, {'change_mode' : "main"}, data.prog_mode == 1 ? 'selected' : null)}}</tr>
+		<tr>{{:helper.link('Transactions', null, {'change_mode' : "transfer"}, data.prog_mode == 2 ? 'selected' : null)}}</tr>
+		<tr>{{:helper.link('Logs', null, {'change_mode' : "log"}, data.prog_mode == 3 ? 'selected' : null)}}</tr>
+	</table>
+	<hr>
+	{{if data.prog_mode == 1}}<!--Main screen-->
+		<h2>{{:data.account_name}}</h2>
+		{{if data.pin_secured}}
+			<i>Account is currently secured with a PIN.</i>
+			{{:helper.link('Remove PIN', 'cancel', {'change_sec_level' : 1}, null)}}
+		{{else}}
+			<span class = "bad"><i>Account is currently unsecured.</i></span>
+			{{:helper.link('Add PIN', 'key', {'change_sec_level' : 1}, null)}}
+		{{/if}}
+		<hr>
+		<div class='item'>
+			<div class='itemLabel'>
+				Current Balance:
+			</div>
+			<div class='itemContent'>
+				{{:data.balance}}
+			</div>
+		</div>
+		<hr>
+		<div class='item'>
+			<div class='itemLabel'>
+				Interest Rate:
+			</div>
+			<div class='itemContent'>
+				{{:data.interest_rate}}
+			</div>
+		</div>
+		<hr>
+		<div class='item'>
+			<div class='itemLabel'>
+				Withdrawal Limit:
+			</div>
+			<div class='itemContent'>
+				{{:data.current_withdrawal}} / {{:data.withdrawal_limit}}
+			</div>
+		</div>
+		<hr>
+		<div class='item'>
+			<div class='itemLabel'>
+				Transaction Fee:
+			</div>
+			<div class='itemContent'>
+				{{:data.transaction_fee}}
+			</div>
+		</div>
+		{{:helper.link('Withdrawal', null, {'withdrawal' : 1}, null)}}
+		{{if data.pending_mods}}
+			<br><hr>
+			<h2>Account modifications</h2>
+			<table style="width:100%">
+				<tr><td style="width:40%">Description<th>Activation time<th>Early trigger<th>Cancel
+				{{for data.pending_mods}}
+					<tr class="candystripe">
+					<td>{{:value.desc}}</td>
+					<td>{{:value.countdown}}</td>
+					<td>
+						{{if value.allow_early}}
+							{{:helper.link('', 'alert', {'activate_modification' : value.index})}}
+						{{/if}}
+					</td>
+					<td>
+						{{if value.allow_cancel}}
+							{{:helper.link('', 'cancel', {'cancel_modification' : value.index})}}
+						{{/if}}
+					</td>
+					{{/for}}
+				</table>
+		{{/if}}
+	{{else data.prog_mode == 2}}<!--Transactions-->
+		<h2>Transaction:</h2>
+		<div class='item'>
+			<div class='itemLabel'>
+				Transaction Amount:
+			</div>
+			<div class='itemContent'>
+				{{:helper.link(data.trans_amount ? data.trans_amount : '', null, {'transfer_amount' : 1})}}
+			</div>
+		</div>
+		<div class='item'>
+			<div class='itemLabel'>
+				Target account:
+			</div>
+			<div class='itemContent'>
+				{{:helper.link(data.trans_account ? data.trans_account : '', null, {'transfer_account' : 1})}}
+			</div>
+		</div>
+		<div class='item'>
+			<div class='itemLabel'>
+				Target network:
+			</div>
+			<div class='itemContent'>
+				{{:helper.link(data.trans_network ? data.trans_network : '', null, {'transfer_network' : 1})}}
+			</div>
+		</div>
+		<div class='item'>
+			<div class='itemLabel'>
+				Transfer Purpose:
+			</div>
+			<div class='itemContent'>
+				{{:data.trans_purpose ? data.trans_purpose : ''}}{{:helper.link('', 'pencil', {'transfer_purpose' : 1})}}
+			</div>
+		</div>
+		<hr>
+		{{:helper.link('Perform transfer', null, {'perform_transfer' : 1})}}
+	{{else data.prog_mode == 3}}<!--Logs-->
+		<h2>Transaction Logs</h2>
+		<table style="width:100%">
+			<tr><td>To<th>From<th>Amount<th>Purpose<th>Time
+			{{for data.transactions}}
+				<tr class="candystripe">
+				<td>{{:value.target}}</td>
+				<td>{{:value.source}}</td>
+				<td>{{:value.amount}}</td>
+				<td>{{:value.purpose}}</td>
+				<td>{{:value.time}}, {{:value.date}}</td>
+			{{/for}}
+		</table>
+		{{:helper.link('<', null, {'prev_page' : 1}, data.prev_page ? null : 'disabled')}}
+		{{:helper.link('>', null, {'next_page' : 1}, data.next_page ? null : 'disabled')}}
+	{{/if}}
+{{/if}}

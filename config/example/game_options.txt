@@ -67,6 +67,19 @@ MONKEY_DELAY 0
 ALIEN_DELAY 0
 ANIMAL_DELAY 0
 
+### Economy ###
+
+## Values for these settings are given in days.
+
+WITHDRAW_PERIOD 1
+INTEREST_PERIOD 1
+
+## Delays for modifications to accounts.
+INTEREST_MOD_DELAY 2
+WITHDRAW_MOD_DELAY 3
+TRANSACTION_MOD_DELAY 2
+FRACTIONAL_RESERVE_MOD_DELAY 3
+ANTI_TAMPER_MOD_DELAY 2
 
 ### Miscellaneous ###
 

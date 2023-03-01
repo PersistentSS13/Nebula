@@ -10,7 +10,7 @@
 
 /datum/fabricator_recipe/protolathe/comp_acc/mstickbroadcaster
 	path = /obj/item/stock_parts/computer/charge_stick_slot/broadcaster
-	
+
 /datum/fabricator_recipe/protolathe/comp_acc/nanoprinter
 	path = /obj/item/stock_parts/computer/nano_printer
 
@@ -31,6 +31,9 @@
 
 /datum/fabricator_recipe/protolathe/comp_acc/medical_scanner
 	path = /obj/item/stock_parts/computer/scanner/medical
+
+/datum/fabricator_recipe/protolathe/comp_acc/money_printer
+	path = /obj/item/stock_parts/computer/money_printer
 
 //////////////////////////////////////////////////////////////////
 // Frames

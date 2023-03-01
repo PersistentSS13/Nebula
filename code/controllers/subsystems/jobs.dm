@@ -517,7 +517,7 @@ SUBSYSTEM_DEF(jobs)
 		var/datum/money_account/department_account = department_accounts[job.primary_department]
 
 		if(department_account)
-			remembered_info += "<b>Your department's account number is:</b> #[department_account.account_number]<br>"
+			remembered_info += "<b>Your department's account number is:</b> #[department_account.account_id]<br>"
 			remembered_info += "<b>Your department's account pin is:</b> [department_account.remote_access_pin]<br>"
 			remembered_info += "<b>Your department's account funds are:</b> [department_account.format_value_by_currency(department_account.money)]<br>"
 

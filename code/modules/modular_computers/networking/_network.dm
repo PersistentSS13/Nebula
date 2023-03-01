@@ -20,6 +20,10 @@
 	var/datum/extension/network_device/modem/modem
 	var/datum/extension/network_device/acl/access_controller
 
+	var/datum/extension/network_device/bank/banking_mainframe
+	var/datum/money_account/parent/network/parent_account
+	var/list/datum/extension/network_device/money_cube/money_cubes = list()
+
 	var/network_features_enabled = NET_ALL_FEATURES
 	var/intrusion_detection_enabled
 	var/intrusion_detection_alarm
@@ -34,6 +38,17 @@
 	SSnetworking.networks[network_id] = src
 
 /datum/computer_network/Destroy()
+	// Backup the parent account on the bank mainframe, if it exists
+	if(parent_account)
+		money_to_storage()
+
+		if(banking_mainframe)
+			banking_mainframe.backup = parent_account
+			parent_account = null
+		else // Too bad! Trigger an escrow panic and delete the parent account.
+			trigger_escrow_panic()
+			QDEL_NULL(parent_account)
+
 	for(var/datum/extension/network_device/D in devices)
 		D.disconnect(TRUE)
 	QDEL_NULL_LIST(chat_channels)
@@ -49,7 +64,7 @@
 		return FALSE
 	if(D in devices)
 		return TRUE
-	
+
 	if(!check_connection(D))
 		return FALSE
 
@@ -77,7 +92,31 @@
 	else if(istype(D, /datum/extension/network_device/camera))
 		var/datum/extension/network_device/camera/C = D
 		add_camera_to_channels(C, C.channels)
-	
+	else if(istype(D, /datum/extension/network_device/bank))
+		if(banking_mainframe)
+			return FALSE
+		var/datum/extension/network_device/bank/B = D
+		if(B.backup)
+			if(!parent_account)
+				parent_account = B.backup
+				parent_account.owner_name = network_id
+				add_log("Recovered financial account from backup", newtag)
+			else if(parent_account != B.backup)
+				return FALSE
+
+			B.backup = null
+
+		banking_mainframe = D
+		add_log("New banking mainframe set", newtag)
+	else if(istype(D, /datum/extension/network_device/money_cube))
+		if(!parent_account)
+			return FALSE
+		var/datum/extension/network_device/money_cube/cube = D
+		money_cubes |= cube
+		if(banking_mainframe)
+			parent_account.adjust_money(cube.stored_money)
+			cube.stored_money = 0
+
 	D.network_tag = newtag
 	devices |= D
 	devices_by_tag[D.network_tag] = D
@@ -95,6 +134,8 @@
 	else if(D in relays)
 		relays -= D
 		add_log("Relay OFFLINE", D.network_tag)
+	else if(D in money_cubes)
+		money_cubes -= D
 	else if(istype(D, /datum/extension/network_device/camera))
 		var/datum/extension/network_device/camera/C = D
 		remove_camera_from_channels(C, C.channels)
@@ -108,9 +149,15 @@
 		if(!router)
 			add_log("Router offline, network shutting down", D.network_tag)
 			qdel(src)
-	if(D == access_controller)
+	else if(D == access_controller)
 		access_controller = null
 		add_log("Access controller offline. Network security offline.", D.network_tag)
+	else if(D == modem)
+		modem = null
+		add_log("Modem offline. PLEXUS access disabled.", D.network_tag)
+	else if(D == banking_mainframe)
+		banking_mainframe = null
+		add_log("Banking mainframe offline. Financial services disabled.")
 	return TRUE
 
 /datum/computer_network/proc/get_unique_tag(nettag)
@@ -161,7 +208,7 @@
 		if(!broadcast_strength)
 			continue
 
-		// For long ranged devices, checking to make sure there's at least a functional broadcaster somewhere.		
+		// For long ranged devices, checking to make sure there's at least a functional broadcaster somewhere.
 		functional_broadcaster = TRUE
 
 		var/d_z = get_z(D.holder)
@@ -169,7 +216,7 @@
 
 		if(!ARE_Z_CONNECTED(d_z, b_z))
 			continue
-		
+
 		if(d_z != b_z)  // If the broadcaster is not in the same z-level as the device, the broadcast strength is halved.
 			broadcast_strength = round(broadcast_strength/2)
 		var/distance = get_dist(get_turf(B.holder), get_turf(D.holder))
@@ -222,7 +269,7 @@
 	var/datum/computer_network/target_network = SSnetworking.networks[target_id]
 	if(!target_network)
 		return
-	
+
 	if(target_network == src)
 		if(network_features_enabled & feature)
 			return target_network
@@ -284,6 +331,15 @@
 		if(istype(device.holder, type))
 			if(bypass_auth || device.has_access(accesses))
 				results += device.holder
+	return results
+
+/datum/computer_network/proc/get_device_extensions_by_type(type, list/accesses)
+	var/list/results = list()
+	var/bypass_auth = !accesses
+	for(var/datum/extension/network_device/device in devices)
+		if(istype(device, type))
+			if(bypass_auth || device.has_access(accesses))
+				results += device
 	return results
 
 /datum/computer_network/proc/get_tags_by_type(var/type)

@@ -184,7 +184,7 @@
 			if(message_source)
 				data["folder"] = folder
 				var/list/all_messages = list()
-				for(var/datum/computer_file/data/email_message/message in message_source)
+				for(var/datum/computer_file/data/email_message/message in reverselist(message_source))
 					all_messages.Add(list(list(
 						"title" = message.title,
 						"body" = digitalPencode2html(message.stored_data),

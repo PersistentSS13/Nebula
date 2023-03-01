@@ -15,7 +15,8 @@
 		"Communication Systems" = NET_FEATURE_COMMUNICATION,
 		"Access systems" = NET_FEATURE_ACCESS,
 		"Security systems" = NET_FEATURE_SECURITY,
-		"Filesystem access" = NET_FEATURE_FILESYSTEM
+		"Filesystem access" = NET_FEATURE_FILESYSTEM,
+		"Financial systems" = NET_FEATURE_FINANCE
 		)
 
 /obj/machinery/network/modem/OnTopic(mob/user, href_list, datum/topic_state/state)
@@ -47,5 +48,5 @@
 		fdata["name"] = feature
 		fdata["enabled"] = M.allowed_features & feature_options[feature]
 		features.Add(list(fdata))
-	
+
 	.["features"] = features

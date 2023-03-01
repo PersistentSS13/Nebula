@@ -7,8 +7,8 @@ var/global/account_hack_attempted = 0
 
 /datum/event/money_hacker/setup()
 	end_time = world.time + 6000
-	if(all_money_accounts.len)
-		affected_account = pick(all_money_accounts)
+	if(SSmoney_accounts.all_glob_accounts.len)
+		affected_account = pick(SSmoney_accounts.all_glob_accounts)
 
 		account_hack_attempted = 1
 	else
@@ -22,7 +22,7 @@ var/global/account_hack_attempted = 0
 			break
 	if(MS)
 		// Hide the account number for now since it's all you need to access a standard-security account. Change when that's no longer the case.
-		var/message = "A brute force hack has been detected (in progress since [stationtime2text()]). The target of the attack is: Financial account #[affected_account.account_number], \
+		var/message = "A brute force hack has been detected (in progress since [stationtime2text()]). The target of the attack is: Financial account [affected_account.format_account_id()], \
 		without intervention this attack will succeed in approximately 10 minutes. Required intervention: temporary suspension of affected accounts until the attack has ceased. \
 		Notifications will be sent as updates occur."
 		var/my_department = "[location_name()] Firewall Subroutines"
@@ -54,7 +54,7 @@ var/global/account_hack_attempted = 0
 		var/time1 = rand(0, 99999999)
 		var/time2 = "[round(time1 / 36000)+12]:[(time1 / 600 % 60) < 10 ? add_zero(time1 / 600 % 60, 1) : time1 / 600 % 60]"
 		T.time = pick("", stationtime2text(), time2)
-		
+
 		T.perform()
 
 	var/obj/machinery/network/message_server/MS
@@ -64,4 +64,3 @@ var/global/account_hack_attempted = 0
 			var/my_department = "[location_name()] Firewall Subroutines"
 			MS.send_rc_message("XO's Desk", my_department, message, "", "", 2)
 			break
-	
