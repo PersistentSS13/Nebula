@@ -16,11 +16,6 @@
 	var/filling_states   // List of percentages full that have icons
 	var/base_icon = null // Base icon name for fill states
 
-/obj/item/chems/drinks/Initialize()
-	. = ..()
-	if(!base_name)
-		base_name = name
-
 /obj/item/chems/drinks/dragged_onto(var/mob/user)
 	attack_self(user)
 
@@ -98,9 +93,6 @@
 	for(var/k in cached_json_decode(filling_states))
 		if(percent <= k)
 			return k
-
-/obj/item/chems/drinks/get_base_name()
-	. = base_name
 
 /obj/item/chems/drinks/on_update_icon()
 	. = ..()
