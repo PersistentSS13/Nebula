@@ -256,6 +256,7 @@
 
 /obj/item/chems/pill/detergent
 	name = "detergent pod"
+	base_name = "detergent pod" // wouldn't make sense for it to be named "pill"
 	desc = "Put in water to get space cleaner. Do not eat. Really."
 	icon_state = "pod21"
 	var/smell_clean_time = 10 MINUTES
@@ -265,29 +266,34 @@
 
 /obj/item/chems/pill/pod
 	name = "master flavorpod item"
+	base_name = "master flavorpod item"
 	desc = "A cellulose pod containing some kind of flavoring."
 	icon_state = "pill4"
 
 /obj/item/chems/pill/pod/cream
 	name = "creamer pod"
+	base_name = "creamer pod"
 
 /obj/item/chems/pill/pod/cream/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/drink/milk, 5)
 
 /obj/item/chems/pill/pod/cream_soy
 	name = "non-dairy creamer pod"
+	base_name = "non-dairy creamer pod"
 
 /obj/item/chems/pill/pod/cream_soy/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/drink/milk/soymilk, 5)
 
 /obj/item/chems/pill/pod/orange
 	name = "orange flavorpod"
+	base_name = "orange flavorpod"
 
 /obj/item/chems/pill/pod/orange/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/drink/juice/orange, 5)
 
 /obj/item/chems/pill/pod/mint
 	name = "mint flavorpod"
+	base_name = "mint flavorpod"
 
 /obj/item/chems/pill/pod/mint/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/drink/syrup/mint, 1)
