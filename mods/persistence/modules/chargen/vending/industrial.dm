@@ -36,7 +36,6 @@
 	products = list(
 		/obj/item/chargen_box/industrial/engineering = 999,
 		/obj/item/chargen_box/industrial/firefighter = 999,
-		/obj/item/chargen_box/industrial/building = 999,
 		/obj/item/chargen_box/industrial/autolathe = 999,
 		/obj/item/chargen_box/industrial/mining = 999,
 		/obj/item/chargen_box/industrial/pick = 999,
