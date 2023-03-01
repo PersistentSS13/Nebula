@@ -10,9 +10,38 @@
 	if(!length(design_files)) // Return here to avoid sorting again.
 		return
 
-	add_designs(design_files)
+	var/list/add_mat_to_storage_cap = list()
+	var/list/new_designs = add_designs(design_files)
+	for(var/datum/fabricator_recipe/new_recipe in new_designs)
+		for(var/mat in new_recipe.resources)
+			add_mat_to_storage_cap |= mat
+
+		if(!length(new_recipe.species_locked))
+			continue
+
+		if(isnull(species_variation))
+			design_cache.Remove(new_recipe)
+			continue
+
+		for(var/species_type in new_recipe.species_locked)
+			if(!(ispath(species_variation, species_type)))
+				design_cache.Remove(new_recipe)
+				continue
 
 	design_cache = sortTim(design_cache, /proc/cmp_name_asc)
+
+	if(length(add_mat_to_storage_cap))
+		var/need_storage_recalc = FALSE
+		for(var/mat in add_mat_to_storage_cap)
+			if(mat in base_storage_capacity)
+				continue
+			need_storage_recalc = TRUE
+			base_storage_capacity[mat] = (SHEET_MATERIAL_AMOUNT * base_storage_capacity_mult)
+			if(!(mat in stored_material))
+				stored_material[mat] = 0
+
+		if(need_storage_recalc)
+			RefreshParts()
 
 /obj/machinery/fabricator/proc/add_designs(list/files)
 	. = list()
