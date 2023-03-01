@@ -20,7 +20,7 @@
 	)
 	idle_power_usage = 211 //refrigerator - believe it or not, this is actually the average power consumption of a refrigerated vending machine according to NRCan.
 
-	/obj/machinery/vending/infini/science/basic
+/obj/machinery/vending/infini/science/basic
 	name = "FrontierTek Plus Minus"
 	desc = "An automated synthesizer that can print basic science and medical equipment. This vendor in particular seems to lack the appropriate modules to synthesize medicine."
 	base_type = /obj/machinery/vending/infini/science/basic
