@@ -172,6 +172,8 @@
 	desc = "Careful, the beverage you're about to enjoy is extremely hot."
 	icon_state = "coffee"
 	center_of_mass = @"{'x':15,'y':10}"
+	base_name = "cup"
+	presentation_flags = PRESENTATION_FLAG_NAME
 
 /obj/item/chems/drinks/coffee/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/drink/coffee, reagents.maximum_volume)
@@ -212,6 +214,7 @@
 	possible_transfer_amounts = null
 	volume = 10
 	center_of_mass = @"{'x':16,'y':12}"
+	presentation_flags = PRESENTATION_FLAG_NAME
 
 /obj/item/chems/drinks/sillycup/on_update_icon()
 	. = ..()
@@ -246,6 +249,7 @@
 	filling_states = @"[15,30,50,70,85,100]"
 	base_icon = "pitcher"
 	material = /decl/material/solid/metal/stainlesssteel
+	presentation_flags = PRESENTATION_FLAG_NAME
 
 /obj/item/chems/drinks/flask
 	name = "\improper Captain's flask"
