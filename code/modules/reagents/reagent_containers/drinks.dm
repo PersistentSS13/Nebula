@@ -8,7 +8,6 @@
 	icon_state = null
 	atom_flags = ATOM_FLAG_OPEN_CONTAINER
 	obj_flags = OBJ_FLAG_HOLLOW
-	presentation_flags = PRESENTATION_FLAG_NAME
 	possible_transfer_amounts = null
 	amount_per_transfer_from_this = 5
 	randpixel = 6
@@ -16,6 +15,11 @@
 
 	var/filling_states   // List of percentages full that have icons
 	var/base_icon = null // Base icon name for fill states
+
+/obj/item/chems/drinks/Initialize()
+	if(!base_name)
+		base_name = name
+	. = ..()
 
 /obj/item/chems/drinks/dragged_onto(var/mob/user)
 	attack_self(user)
@@ -95,6 +99,9 @@
 		if(percent <= k)
 			return k
 
+/obj/item/chems/drinks/get_base_name()
+	. = base_name
+
 /obj/item/chems/drinks/on_update_icon()
 	. = ..()
 	if(LAZYLEN(reagents.reagent_volumes))
@@ -131,7 +138,6 @@
 	icon_state = "milk"
 	item_state = "carton"
 	center_of_mass = @"{'x':16,'y':9}"
-	presentation_flags = null
 
 /obj/item/chems/drinks/milk/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/drink/milk, reagents.maximum_volume)
@@ -142,7 +148,6 @@
 	icon_state = "soymilk"
 	item_state = "carton"
 	center_of_mass = @"{'x':16,'y':9}"
-	presentation_flags = null
 
 /obj/item/chems/drinks/soymilk/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/drink/milk/soymilk, reagents.maximum_volume)
@@ -151,7 +156,6 @@
 	name = "small milk carton"
 	volume = 30
 	icon_state = "mini-milk"
-	presentation_flags = null
 
 /obj/item/chems/drinks/milk/smallcarton/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/drink/milk, reagents.maximum_volume)
@@ -168,7 +172,6 @@
 	desc = "Careful, the beverage you're about to enjoy is extremely hot."
 	icon_state = "coffee"
 	center_of_mass = @"{'x':15,'y':10}"
-	base_name = "cup"
 
 /obj/item/chems/drinks/coffee/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/drink/coffee, reagents.maximum_volume)
@@ -178,7 +181,6 @@
 	desc = "Careful, cold ice, do not chew."
 	icon_state = "coffee"
 	center_of_mass = @"{'x':15,'y':10}"
-	base_name = "cup"
 
 /obj/item/chems/drinks/ice/populate_reagents()
 	reagents.add_reagent(/decl/material/solid/ice, reagents.maximum_volume)
@@ -189,7 +191,6 @@
 	icon_state = "coffee"
 	item_state = "coffee"
 	center_of_mass = @"{'x':15,'y':13}"
-	base_name = "cup"
 
 /obj/item/chems/drinks/h_chocolate/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/drink/hot_coco, reagents.maximum_volume)
@@ -200,7 +201,6 @@
 	desc = "Just add 10ml water, self heats! A taste that reminds you of your school years."
 	icon_state = "ramen"
 	center_of_mass = @"{'x':16,'y':11}"
-	base_name = "cup"
 
 /obj/item/chems/drinks/dry_ramen/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/drink/dry_ramen, reagents.maximum_volume)
@@ -253,7 +253,6 @@
 	icon_state = "flask"
 	volume = 60
 	center_of_mass = @"{'x':17,'y':7}"
-	presentation_flags = null
 
 /obj/item/chems/drinks/flask/shiny
 	name = "shiny flask"
@@ -297,6 +296,7 @@
 	base_name = "cup"
 	base_icon = "cup"
 	volume = 30
+	presentation_flags = PRESENTATION_FLAG_NAME
 
 /obj/item/chems/drinks/tea/black
 	name = "cup of black tea"
@@ -318,4 +318,3 @@
 
 /obj/item/chems/drinks/tea/chai/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/drink/tea/chai, reagents.maximum_volume)
-
