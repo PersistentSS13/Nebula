@@ -67,7 +67,7 @@
 			<br><hr>
 			<h2>Account modifications</h2>
 			<table style="width:100%">
-				<tr><td style="width:40%">Description<th>Activation time<th>Early trigger<th>Cancel
+				<tr><td style="width:40%">Description<th>Activation time<th>Early trigger
 				{{for data.pending_mods}}
 					<tr class="candystripe">
 					<td>{{:value.desc}}</td>
@@ -75,11 +75,6 @@
 					<td>
 						{{if value.allow_early}}
 							{{:helper.link('', 'alert', {'activate_modification' : value.index})}}
-						{{/if}}
-					</td>
-					<td>
-						{{if value.allow_cancel}}
-							{{:helper.link('', 'cancel', {'cancel_modification' : value.index})}}
 						{{/if}}
 					</td>
 					{{/for}}

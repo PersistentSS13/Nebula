@@ -115,6 +115,18 @@
 		/datum/computer_file/program/docking
 	)
 
+/obj/machinery/computer/modular/preset/finance
+	default_software = list(
+		/datum/computer_file/program/finances,
+		/datum/computer_file/program/atm,
+		/datum/computer_file/program/accounts
+	)
+	uncreated_component_parts = list(
+		/obj/item/stock_parts/power/apc,
+		/obj/item/stock_parts/computer/card_slot,
+		/obj/item/stock_parts/computer/money_printer
+	)
+
 /obj/machinery/computer/modular/preset/supply_public
 	default_software = list(
 		/datum/computer_file/program/supply

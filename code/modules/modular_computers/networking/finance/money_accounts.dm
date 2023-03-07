@@ -3,8 +3,6 @@
 	var/datum/computer_file/data/email_message/bankrupt_email
 	var/datum/computer_file/data/email_message/escrow_email
 
-	var/get_network_error = FALSE // Network accounts need at least one money storage device and a banking mainframe to function.
-
 /datum/money_account/parent/network/New(account_type, network_id)
 	owner_name = network_id
 	if(owner_name)
@@ -29,6 +27,7 @@
 		return err
 	. = ..()
 
+ // Network accounts need at least one money storage device and a banking mainframe to function.
 /datum/money_account/parent/network/proc/get_network_error()
 	var/datum/computer_network/net = SSnetworking.networks[owner_name]
 	if(!net || !net.banking_mainframe)
@@ -51,10 +50,11 @@
 						An escrow account has been opened for you containing some or all of your outstanding balance of your account. \
 						Escrow accounts are accessible from any financial terminal using your prior account information, \
 						and the financial provider ID '[owner_name]'. Please contact your financial provider for further information."
+
 /datum/money_account/child/network
 	var/weakref/network_account
 
-/datum/money_account/child/network/New(account_type, p_account, n_interest, n_withdrawal_limit, n_transaction_fee, datum/computer_file/data/account/attached_account)
+/datum/money_account/child/network/New(account_type, datum/money_account/parent/p_account, n_interest, n_withdrawal_limit, n_transaction_fee, datum/computer_file/data/account/attached_account)
 	if(attached_account)
 		account_name = "[attached_account.fullname]'s account"
 		account_id = attached_account.login
