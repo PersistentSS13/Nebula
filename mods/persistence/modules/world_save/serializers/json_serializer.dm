@@ -41,11 +41,12 @@
 		else if(istext(VV) || isnum(VV) || isnull(VV))
 			results[V] = VV
 		else if(istype(VV, /datum))
-			if(VV in object_parent)
-				var/datum/VD = VV
-				results[V] = "[SERIALIZER_TYPE_FLAT_REF]#[VD.persistent_id]"
-			else if(should_flatten(VV))
-				results[V] = "[SERIALIZER_TYPE_DATUM_FLAT]#[SerializeDatum(VV, object_parent)]"
+			if(should_flatten(VV))
+				if(VV in object_parent)
+					var/datum/VD = VV
+					results[V] = "[SERIALIZER_TYPE_FLAT_REF]#[VD.persistent_id]"
+				else
+					results[V] = "[SERIALIZER_TYPE_DATUM_FLAT]#[SerializeDatum(VV, object_parent)]"
 			else if(get_wrapper(VV))
 				var/wrapper_path = get_wrapper(VV)
 				var/datum/wrapper/GD = new wrapper_path
@@ -87,11 +88,12 @@
 		else if(ispath(K))
 			F_K = "[SERIALIZER_TYPE_PATH]#[K]"
 		else if(istype(K, /datum))
-			if(K in list_parent)
-				var/datum/KD = K
-				F_K = "[SERIALIZER_TYPE_FLAT_REF]#[KD.persistent_id]"
-			else if(should_flatten(K))
-				F_K = "[SERIALIZER_TYPE_DATUM_FLAT]#[SerializeDatum(K, list_parent)]"
+			if(should_flatten(K))
+				if(K in list_parent)
+					var/datum/KD = K
+					F_K = "[SERIALIZER_TYPE_FLAT_REF]#[KD.persistent_id]"
+				else
+					F_K = "[SERIALIZER_TYPE_DATUM_FLAT]#[SerializeDatum(K, list_parent)]"
 			else if(get_wrapper(K))
 				var/wrapper_path = get_wrapper(K)
 				var/datum/wrapper/GD = new wrapper_path
@@ -100,7 +102,7 @@
 				GD.on_serialize(K, src)
 				if(!GD.key)
 					continue
-				F_K = "[SERIALIZER_TYPE_WRAPPER]#[SerializeDatum(K, list_parent)]"
+				F_K = "[SERIALIZER_TYPE_WRAPPER]#[SerializeDatum(GD, list_parent)]"
 			else
 				// list_parent is intentionally not passed. See ./SerializeDatum
 				F_K = "[SERIALIZER_TYPE_DATUM]#[sql.SerializeDatum(K)]"
@@ -116,11 +118,12 @@
 			else if(istext(V) || isnum(V) || isnull(V))
 				F_V = V
 			else if(istype(V, /datum))
-				if(V in list_parent)
-					var/datum/VD = V
-					F_V = "[SERIALIZER_TYPE_FLAT_REF]#[VD.persistent_id]"
-				else if(should_flatten(V))
-					F_V = "[SERIALIZER_TYPE_DATUM_FLAT]#[SerializeDatum(V, list_parent)]"
+				if(should_flatten(V))
+					if(V in list_parent)
+						var/datum/VD = V
+						F_V = "[SERIALIZER_TYPE_FLAT_REF]#[VD.persistent_id]"
+					else
+						F_V = "[SERIALIZER_TYPE_DATUM_FLAT]#[SerializeDatum(V, list_parent)]"
 				else if(get_wrapper(V))
 					var/wrapper_path = get_wrapper(V)
 					var/datum/wrapper/GD = new wrapper_path
@@ -129,7 +132,7 @@
 					GD.on_serialize(V, src)
 					if(!GD.key)
 						continue
-					F_V = "[SERIALIZER_TYPE_WRAPPER]#[SerializeDatum(V, list_parent)]"
+					F_V = "[SERIALIZER_TYPE_WRAPPER]#[SerializeDatum(GD, list_parent)]"
 				else
 					// See above.
 					F_V = "[SERIALIZER_TYPE_DATUM]#[sql.SerializeDatum(V)]"

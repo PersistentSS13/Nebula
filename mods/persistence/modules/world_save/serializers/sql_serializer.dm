@@ -54,7 +54,7 @@
 	var/inserts_since_commit = 0
 	var/autocommit_threshold = 5000
 
-	var/ref_tracker = TRUE // whevere or not this serializer does reference tracking and adds it to the thing insert list.
+	var/ref_tracker = TRUE // whether or not this serializer does reference tracking and adds it to the thing insert list.
 	var/inserts_since_ref_update = 0 // we automatically commit refs to the database in batches on load
 	var/ref_update_threshold = 200
 
@@ -208,10 +208,12 @@ var/global/list/serialization_time_spent_type
 			var/datum/VD = VV
 			if(!VD.should_save(object))
 				continue
-			// Reference only vars do not serialize their target objects, and act only as pointers.
+			// Reference only vars do not serialize their target objects, only retaining the reference if its been serialized elsewhere.
 			if(V in global.reference_only_vars)
 				VT = SERIALIZER_TYPE_DATUM
-				VV = VD.persistent_id ? VD.persistent_id : PERSISTENT_ID
+				if(!VD.persistent_id)
+					VD.persistent_id = PERSISTENT_ID
+				VV = VD.persistent_id
 			// Serialize it complex-like, baby.
 			else if(should_flatten(VV))
 				VT = SERIALIZER_TYPE_DATUM_FLAT // If we flatten an object, the var becomes json. This saves on indexes for simple objects.

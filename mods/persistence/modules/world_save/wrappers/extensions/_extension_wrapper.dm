@@ -7,6 +7,7 @@
 	. = ..()
 	if(!object.holder)
 		return
+	object.before_save()
 	key = "[object.type]"
 	if(!object.holder.persistent_id)
 		object.holder.persistent_id = PERSISTENT_ID

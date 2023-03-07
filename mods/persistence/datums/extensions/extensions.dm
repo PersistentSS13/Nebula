@@ -17,4 +17,11 @@
 /datum/extension/should_save(object_parent)
 	if(object_parent) // Extensions are saved manually, either by self-reporting or by the one off serializer checking. Don't permit saving from object vars.
 		return FALSE
-	return should_save
+
+	// If the holder is a movable and wouldn't be saved, don't save this either.
+	if(istype(holder, /atom/movable))
+		var/atom/movable/H = holder
+		if(!H.will_save())
+			return FALSE
+
+	return ..()
