@@ -11,6 +11,6 @@ SAVED_VAR(/obj, buckled_mob)
 
 /obj/initialize_reagents(populate)
 	if(persistent_id)
-		. = ..(FALSE)
+		return // We don't call parent since it checks if reagents are already initialized.
 	else
 		. = ..()
