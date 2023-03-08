@@ -3,7 +3,7 @@
 /datum/extension/forensic_evidence
 	should_save = TRUE
 
-	var/last_updated 
+	var/last_updated
 
 /datum/extension/forensic_evidence/add_data(evidence_type, data)
 	. = ..()
@@ -13,7 +13,7 @@
 	. = ..()
 	last_updated = world.realtime
 
-/datum/extension/forensic_evidence/should_save(object_parent)
+/datum/extension/forensic_evidence/should_save(object_parent, one_off = FALSE)
 	if(world.realtime > (last_updated + EVIDENCE_SPOIL_TIME))
 		return FALSE
 	. = ..()
