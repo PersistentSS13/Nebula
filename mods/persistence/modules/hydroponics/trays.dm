@@ -47,6 +47,13 @@
 	. = ..()
 
 /obj/machinery/portable_atmospherics/hydroponics/soil/invisible/Initialize(mapload, datum/seed/newseed, start_mature)
-	if(istext(newseed))
+	if(persistent_id)
+		newseed = seed
+	else if(istext(newseed))
 		newseed = SSplants.seeds[newseed]
+
+	// TODO: As above, Init resets health. Move things into appropriate procs upstream when possible.
+	var/old_health = plant_health
 	. = ..(mapload, newseed, start_mature)
+	plant_health = old_health
+	check_plant_health()
