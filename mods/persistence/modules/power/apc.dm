@@ -14,7 +14,6 @@
 ///////////////////////////////////////////////////
 // Saved Var Define
 ///////////////////////////////////////////////////
-SAVED_VAR(/obj/machinery/power/apc, area)
 SAVED_VAR(/obj/machinery/power/apc, shorted)
 SAVED_VAR(/obj/machinery/power/apc, lighting)
 SAVED_VAR(/obj/machinery/power/apc, equipment)
