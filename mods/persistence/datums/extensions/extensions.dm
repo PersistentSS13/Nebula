@@ -21,7 +21,7 @@
 	// If the holder is a movable and wouldn't be saved, don't save this either.
 	if(!one_off && istype(holder, /atom/movable))
 		var/atom/movable/H = holder
-		if(!H.will_save())
+		if(!H.in_saved_location())
 			return FALSE
 
 	return ..()

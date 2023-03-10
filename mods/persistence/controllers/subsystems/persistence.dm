@@ -108,7 +108,7 @@
 			if(QDELETED(current_mob))
 				continue
 			// Check to see if the mobs are already being saved.
-			if(current_mob.will_save())
+			if(current_mob.in_saved_location())
 				continue
 			one_off.AddToLimbo(list(current_mob, char_mind), char_mind.unique_id, LIMBO_MIND, char_mind.key, current_mob.real_name, TRUE)
 		report_progress_serializer("Done adding player minds to limbo in [(REALTIMEOFDAY - time_start_limbo_minds) / (1 SECOND)]s.")

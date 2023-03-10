@@ -39,7 +39,7 @@ SAVED_VAR(/datum, custom_saved)
 	return should_save
 
 //**Used to check if a movable will be saved by world save. */
-/atom/movable/proc/will_save()
+/atom/movable/proc/in_saved_location()
 	if(!should_save())
 		return FALSE
 
