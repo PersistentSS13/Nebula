@@ -255,6 +255,10 @@
 	SSnetworking.networks -= network_id
 	add_log("Network ID was changed from '[network_id]' to '[new_id]'")
 	network_id = new_id
+
+	if(parent_account)
+		parent_account.owner_name = network_id
+
 	SSnetworking.networks[network_id] = src
 
 /datum/computer_network/proc/enable_network_feature(feature)

@@ -14,7 +14,14 @@
 /datum/extension/proc/on_save()
 	SSpersistence.saved_extensions += src
 
-/datum/extension/should_save(object_parent)
+/datum/extension/should_save(object_parent, one_off = FALSE)
 	if(object_parent) // Extensions are saved manually, either by self-reporting or by the one off serializer checking. Don't permit saving from object vars.
 		return FALSE
-	return should_save
+
+	// If the holder is a movable and wouldn't be saved, don't save this either.
+	if(!one_off && istype(holder, /atom/movable))
+		var/atom/movable/H = holder
+		if(!H.in_saved_location())
+			return FALSE
+
+	return ..()

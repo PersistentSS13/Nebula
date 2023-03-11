@@ -27,13 +27,23 @@ SAVED_VAR(/datum, custom_saved)
 	custom_saved = null //Clear it since its no longer needed
 #endif
 
-/** 
+/**
  * Called immediately after the datum has been loaded from save during SSMapping's init, and before Initialize().
  * DO NOT call anything relying on subsystems being initialized in this!!
-*/ 
+*/
 /datum/proc/after_deserialize()
 	return
 
 /**Used to check and override whether an entity should be saved. */
 /datum/proc/should_save()
 	return should_save
+
+//**Used to check if a movable will be saved by world save. */
+/atom/movable/proc/in_saved_location()
+	if(!should_save())
+		return FALSE
+
+	var/area/MA = get_area(src)
+	if(istype(MA) && !(MA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT))
+		if(((MA in SSpersistence.saved_areas) || (z in SSpersistence.saved_levels)))
+			return TRUE

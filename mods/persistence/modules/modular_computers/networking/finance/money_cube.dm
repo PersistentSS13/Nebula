@@ -1,0 +1,1 @@
+SAVED_VAR(/datum/extension/network_device/money_cube, stored_money)

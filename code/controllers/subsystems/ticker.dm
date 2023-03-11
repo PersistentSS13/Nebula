@@ -420,7 +420,7 @@ Helpers
 	if(dronecount)
 		to_world("<b>There [dronecount>1 ? "were" : "was"] [dronecount] industrious maintenance drone\s at the end of this round.</b>")
 
-	if(SSmoney_accounts.all_glob_accounts.len)
+	if(length(SSmoney_accounts.all_glob_accounts))
 		var/datum/money_account/max_profit = SSmoney_accounts.all_glob_accounts[1]
 		var/datum/money_account/max_loss = SSmoney_accounts.all_glob_accounts[1]
 		for(var/datum/money_account/D in SSmoney_accounts.all_glob_accounts)

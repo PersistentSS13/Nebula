@@ -10,7 +10,7 @@
 	var/list/datum/money_account/child/children = list()
 
 /datum/money_account/parent/Destroy(force)
-	QDEL_NULL(children)
+	QDEL_NULL_LIST(children)
 	. = ..()
 
 /datum/money_account/parent/can_afford(amount, datum/money_account/receiver)
@@ -55,9 +55,10 @@
 
 	var/datum/money_account/parent/parent_account
 
-/datum/money_account/child/New(account_type, p_account, n_interest, n_withdrawal_limit, n_transaction_fee)
-	parent_account = p_account
-	parent_account.children |= src
+/datum/money_account/child/New(account_type, datum/money_account/parent/p_account, n_interest, n_withdrawal_limit, n_transaction_fee)
+	if(istype(p_account))
+		parent_account = p_account
+		parent_account.children |= src
 	interest_rate = n_interest
 	withdrawal_limit = n_withdrawal_limit
 	transaction_fee = n_transaction_fee
@@ -150,7 +151,7 @@
 	if(!parent_account || !money) // Nothing to escrow!
 		return
 
-	var/solvency = max(1, parent_account.money / parent_account.child_totals)
+	var/solvency = min(1, parent_account.money / parent_account.child_totals)
 
 	var/escrowed_money = FLOOR(min(solvency*money, parent_account.money))
 	var/datum/money_account/escrow/child_escrow = SSmoney_accounts.get_or_add_escrow(account_id, remote_access_pin, parent_account.owner_name)

@@ -108,10 +108,8 @@
 			if(QDELETED(current_mob))
 				continue
 			// Check to see if the mobs are already being saved.
-			var/area/MA = get_area(current_mob)
-			if(istype(MA) && !(MA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT))
-				if(((MA in SSpersistence.saved_areas) || (current_mob.z in SSpersistence.saved_levels)))
-					continue
+			if(current_mob.in_saved_location())
+				continue
 			one_off.AddToLimbo(list(current_mob, char_mind), char_mind.unique_id, LIMBO_MIND, char_mind.key, current_mob.real_name, TRUE)
 		report_progress_serializer("Done adding player minds to limbo in [(REALTIMEOFDAY - time_start_limbo_minds) / (1 SECOND)]s.")
 		sleep(5)
@@ -317,6 +315,17 @@
 
 		report_progress_serializer("Extensions saved in [(REALTIMEOFDAY - time_start_extensions) / (1 SECOND)]s.")
 		sleep(5)
+
+		// Save escrow accounts which are normally held on the SSmoney_accounts subsystem
+		if(length(SSmoney_accounts.all_escrow_accounts))
+			report_progress_serializer("Saving escrow accounts...")
+			var/datum/wrapper_holder/escrow_holder/e_holder = new(SSmoney_accounts.all_escrow_accounts.Copy())
+			var/time_start_escrow = REALTIMEOFDAY
+
+			serializer.Serialize(e_holder)
+			serializer.Commit()
+
+			report_progress_serializer("Escrow accounts saved in [(REALTIMEOFDAY - time_start_escrow) / (1 SECOND)]s.")
 
 		//
 		//	CLEANUP SECTION

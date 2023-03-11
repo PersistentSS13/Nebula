@@ -126,6 +126,12 @@
 	var/stored_money // Money temporarily stored in the case that the parent account on the network vanishes.
 	internet_allowed = TRUE
 
+/datum/extension/network_device/money_cube/connect()
+	. = ..()
+	if(.)
+		var/obj/H = holder
+		H.queue_icon_update()
+
 /datum/extension/network_device/money_cube/disconnect(net_down)
 	var/obj/H = holder
 	H.queue_icon_update()
