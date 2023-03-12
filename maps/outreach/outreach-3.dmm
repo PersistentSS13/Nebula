@@ -1208,6 +1208,7 @@
 /area/outreach/outpost/hangar/north)
 "dk" = (
 /obj/item/radio/intercom,
+/obj/effect/floor_decal/industrial/warning,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
 "dl" = (
@@ -1215,12 +1216,18 @@
 	icon_state = "alarm0";
 	dir = 1
 	},
+/obj/structure/closet/firecloset,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
 "dm" = (
 /obj/machinery/camera/network/security{
 	icon_state = "camera";
 	dir = 1
+	},
+/obj/effect/floor_decal/industrial/outline/orange,
+/obj/structure/hand_cart{
+	icon_state = "cart";
+	dir = 8
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
@@ -1272,6 +1279,7 @@
 	icon_state = "intercom";
 	dir = 1
 	},
+/obj/structure/closet/secure_closet/engineering_welding,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
 "du" = (
@@ -6748,12 +6756,20 @@
 	icon_state = "tube_map";
 	dir = 8
 	},
+/obj/effect/floor_decal/industrial/warning/corner{
+	icon_state = "stripecorner";
+	dir = 4
+	},
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
 "oR" = (
 /obj/machinery/light/spot{
 	icon_state = "tube_map";
 	dir = 8
+	},
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 4
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
@@ -6770,6 +6786,8 @@
 /area/outreach/outpost/hangar/north)
 "oT" = (
 /obj/machinery/light,
+/obj/effect/floor_decal/industrial/outline/orange,
+/obj/structure/reagent_dispensers/fueltank,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
 "oU" = (
@@ -6796,7 +6814,11 @@
 	icon_state = "injector0";
 	dir = 8
 	},
-/turf/simulated/floor/tiled/techmaint,
+/obj/effect/floor_decal/industrial/warning/cee{
+	icon_state = "stripecee";
+	dir = 4
+	},
+/turf/simulated/floor/plating,
 /area/outreach/outpost/hangar/north)
 "oX" = (
 /obj/structure/cable/cyan{
@@ -7206,6 +7228,17 @@
 /obj/machinery/light/small,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/south/offices)
+"qp" = (
+/obj/effect/floor_decal/industrial/outline/orange,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
+"rd" = (
+/obj/effect/floor_decal/industrial/warning/corner{
+	icon_state = "stripecorner";
+	dir = 8
+	},
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "BL" = (
 /obj/machinery/network/relay/wall_mounted/outreach{
 	icon_state = "wall_router";
@@ -7225,12 +7258,25 @@
 	},
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/south/offices)
+"Ea" = (
+/obj/structure/rack,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "FP" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/south/offices)
+"Gp" = (
+/obj/effect/floor_decal/industrial/outline/orange,
+/obj/structure/reagent_dispensers/fueltank,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
+"Gz" = (
+/obj/structure/table/steel_reinforced,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "GQ" = (
 /turf/simulated/wall/ocp_wall/prepainted,
 /area/outreach/outpost/maint/passage/ground/north/hangar)
@@ -7241,6 +7287,40 @@
 	},
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/waste/ground)
+"IP" = (
+/obj/machinery/atmospherics/unary/vent_pump/on{
+	icon_state = "map_vent_out";
+	dir = 1
+	},
+/obj/structure/rack,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
+"JI" = (
+/obj/effect/floor_decal/industrial/warning/corner{
+	icon_state = "stripecorner";
+	dir = 1
+	},
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
+"JU" = (
+/obj/effect/floor_decal/industrial/warning/corner,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
+"Lh" = (
+/obj/machinery/light{
+	icon_state = "tube_map";
+	dir = 1
+	},
+/obj/effect/floor_decal/industrial/warning,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
+"LJ" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 4
+	},
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "Mc" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -7257,6 +7337,10 @@
 	},
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/south/offices)
+"OC" = (
+/obj/effect/floor_decal/industrial/warning,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "OZ" = (
 /obj/structure/cable/yellow{
 	icon_state = "2-4"
@@ -7266,6 +7350,29 @@
 "QQ" = (
 /turf/simulated/wall/ocp_wall/prepainted,
 /area/outreach/outpost/maint/passage/ground/south/offices)
+"Rk" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
+	},
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
+"UB" = (
+/obj/structure/closet/toolcloset,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
+"WP" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 8
+	},
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
+"Yc" = (
+/obj/machinery/light,
+/obj/effect/floor_decal/industrial/outline/orange,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 
 (1,1,1) = {"
 hn
@@ -23904,22 +24011,22 @@ cB
 dq
 dq
 aj
-ao
-ao
-ao
+JU
+LJ
+LJ
 oR
-ao
-ao
-ao
-ao
+LJ
+LJ
+LJ
+LJ
 oR
-ao
-ao
-ao
-ao
+LJ
+LJ
+LJ
+LJ
 oQ
 cG
-ao
+Ea
 aj
 pJ
 gr
@@ -24106,7 +24213,7 @@ cB
 dq
 dq
 aj
-ao
+OC
 bs
 bs
 bs
@@ -24119,9 +24226,9 @@ bs
 bs
 bs
 bs
-ao
+Rk
 cX
-dj
+IP
 aj
 pJ
 gr
@@ -24308,7 +24415,7 @@ cB
 dq
 dq
 aj
-di
+Lh
 bs
 bs
 bs
@@ -24321,7 +24428,7 @@ bs
 bs
 bs
 bs
-ao
+Rk
 cY
 oT
 aj
@@ -24510,7 +24617,7 @@ cB
 gb
 dq
 aj
-ao
+OC
 bs
 bs
 bs
@@ -24523,9 +24630,9 @@ bs
 bs
 bs
 bs
-ao
+Rk
 cY
-ao
+Gp
 aj
 bM
 gr
@@ -24725,7 +24832,7 @@ bs
 bs
 bs
 bs
-ao
+Rk
 cY
 dt
 aj
@@ -24914,7 +25021,7 @@ cB
 dq
 dq
 aj
-ao
+OC
 bs
 bs
 bs
@@ -24927,9 +25034,9 @@ bs
 bs
 bs
 bs
-ao
+Rk
 cY
-ao
+UB
 aj
 bM
 gr
@@ -25116,7 +25223,7 @@ cB
 dq
 dq
 aj
-ao
+OC
 bs
 bs
 bs
@@ -25129,9 +25236,9 @@ bs
 bs
 bs
 bs
-ao
+Rk
 cY
-ao
+qp
 aj
 bM
 gr
@@ -25318,7 +25425,7 @@ cB
 dq
 dq
 aj
-di
+Lh
 bs
 bs
 bs
@@ -25331,9 +25438,9 @@ bs
 bs
 bs
 bs
-ao
+Rk
 cY
-oT
+Yc
 aj
 bM
 gr
@@ -25520,7 +25627,7 @@ cB
 gb
 dq
 aj
-ao
+OC
 bs
 bs
 bs
@@ -25533,9 +25640,9 @@ bs
 bs
 bs
 bs
-ao
+Rk
 cY
-ao
+qp
 aj
 bM
 gr
@@ -25722,7 +25829,7 @@ cB
 dq
 dq
 aj
-ao
+OC
 bs
 bs
 bs
@@ -25735,9 +25842,9 @@ bs
 bs
 bs
 bs
-ao
+Rk
 cY
-ao
+Gz
 aj
 bM
 gr
@@ -25924,7 +26031,7 @@ cB
 dq
 dq
 aj
-ao
+OC
 bs
 bs
 bs
@@ -25937,9 +26044,9 @@ bs
 bs
 bs
 bs
-ao
+Rk
 cY
-ao
+Gz
 aj
 bM
 gr
@@ -26126,7 +26233,7 @@ cB
 dq
 dq
 aj
-ao
+OC
 bs
 bs
 bs
@@ -26139,9 +26246,9 @@ bs
 bs
 bs
 bs
-ao
+Rk
 cY
-ao
+qp
 aj
 bM
 gr
@@ -26328,7 +26435,7 @@ cB
 dq
 dq
 aj
-di
+Lh
 bs
 bs
 bs
@@ -26341,9 +26448,9 @@ bs
 bs
 bs
 bs
-ao
+Rk
 cY
-oT
+Yc
 aj
 bM
 gr
@@ -26530,7 +26637,7 @@ cB
 gb
 dq
 aj
-ao
+OC
 bs
 bs
 bs
@@ -26543,7 +26650,7 @@ bs
 bs
 bs
 bs
-ao
+Rk
 cY
 dm
 aj
@@ -26732,7 +26839,7 @@ cB
 dq
 dq
 aj
-ao
+OC
 bs
 bs
 bs
@@ -26745,7 +26852,7 @@ bs
 bs
 bs
 bs
-ao
+Rk
 cY
 dl
 aj
@@ -26947,7 +27054,7 @@ bs
 bs
 bs
 bs
-ao
+Rk
 cY
 ew
 aj
@@ -27136,7 +27243,7 @@ cB
 dq
 dq
 aj
-ao
+OC
 bs
 bs
 bs
@@ -27149,7 +27256,7 @@ bs
 bs
 bs
 bs
-ao
+Rk
 cY
 ao
 fS
@@ -27338,7 +27445,7 @@ cB
 dq
 dq
 aj
-di
+Lh
 bs
 bs
 bs
@@ -27351,7 +27458,7 @@ bs
 bs
 bs
 bs
-ao
+Rk
 bt
 cA
 da
@@ -27540,7 +27647,7 @@ cB
 gb
 dq
 aj
-ao
+OC
 bs
 bs
 bs
@@ -27553,7 +27660,7 @@ bs
 bs
 bs
 bs
-ao
+Rk
 bJ
 ee
 fS
@@ -27742,7 +27849,7 @@ cB
 dq
 dq
 aj
-ao
+OC
 bs
 bs
 bs
@@ -27755,7 +27862,7 @@ bs
 bs
 bs
 bs
-ao
+Rk
 bJ
 ej
 aj
@@ -27944,7 +28051,7 @@ cB
 dq
 dq
 aj
-ao
+OC
 bs
 bs
 bs
@@ -27957,7 +28064,7 @@ bs
 bs
 bs
 bs
-ao
+Rk
 ci
 cE
 aj
@@ -28146,20 +28253,20 @@ cB
 dq
 dq
 aj
-ao
-ao
-ao
-ao
-ao
-ao
+rd
+WP
+WP
+WP
+WP
+WP
 oW
-ao
-ao
-ao
-ao
-ao
-ao
-ao
+WP
+WP
+WP
+WP
+WP
+WP
+JI
 dg
 dj
 aj
@@ -36568,8 +36675,8 @@ hn
 hn
 ac
 aD
-ad
-ad
+ac
+ac
 aD
 ab
 aD
@@ -36768,12 +36875,12 @@ hn
 hn
 hn
 hn
-ad
+ac
 aD
-ad
-ad
-ad
-ad
+ac
+ac
+ac
+ac
 aD
 aD
 aD
@@ -36970,10 +37077,10 @@ hn
 hn
 hn
 hn
-ad
-ad
-ad
-ad
+ac
+ac
+ac
+aD
 ab
 aD
 aD
@@ -37174,8 +37281,8 @@ hn
 hn
 ab
 ab
-ad
-ad
+ac
+aD
 aD
 ab
 aD
@@ -37374,10 +37481,10 @@ hn
 hn
 hn
 hn
-ad
-ad
-ad
-ad
+ac
+ac
+aD
+aD
 ab
 aD
 ab
@@ -37576,11 +37683,11 @@ hn
 hn
 hn
 hn
+ac
+aD
+aD
 ad
-ad
-ad
-ad
-ad
+aD
 aD
 aD
 aD
@@ -37778,9 +37885,9 @@ hn
 hn
 hn
 hn
-ad
-ad
-ad
+ac
+aD
+aD
 ad
 ad
 aD
@@ -37980,9 +38087,9 @@ hn
 hn
 hn
 hn
-ad
-ad
-ad
+ac
+ab
+aD
 ad
 ad
 ad
@@ -38182,10 +38289,10 @@ hn
 hn
 hn
 hn
-ad
-ad
-ad
-ad
+ac
+ab
+aD
+aD
 ad
 ad
 ad
@@ -38384,10 +38491,10 @@ hn
 hn
 hn
 hn
-ad
-ad
-ad
-ad
+ac
+aD
+aD
+aD
 ad
 ad
 ad
@@ -38586,10 +38693,10 @@ hn
 hn
 hn
 hn
-ad
-ad
-ad
-ad
+ac
+ac
+aD
+aD
 ab
 ad
 ad
@@ -38788,9 +38895,9 @@ hn
 hn
 hn
 hn
-ad
+ac
 ab
-ad
+ab
 aD
 aD
 ad
@@ -38990,8 +39097,8 @@ hn
 hn
 hn
 hn
-ad
-ad
+ac
+ac
 aD
 aD
 aD
@@ -39193,7 +39300,7 @@ hn
 hn
 hn
 ac
-ad
+ab
 aD
 aD
 aD
@@ -39395,8 +39502,8 @@ hn
 hn
 hn
 ac
-ad
-ad
+ac
+ac
 aD
 ab
 aD
@@ -40816,7 +40923,7 @@ ab
 aD
 aD
 ac
-ac
+ab
 ac
 aD
 aD

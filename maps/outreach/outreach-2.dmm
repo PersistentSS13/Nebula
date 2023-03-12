@@ -55,7 +55,7 @@
 /turf/simulated/wall/concrete,
 /area/outreach/outpost/sleeproom)
 "ak" = (
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/command,
 /area/outreach/outpost/control/storage)
 "al" = (
 /obj/structure/cable/yellow{
@@ -292,7 +292,7 @@
 /turf/simulated/wall/ocp_wall/prepainted,
 /area/outreach/outpost/airlock/basement1/north)
 "aM" = (
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/command,
 /area/outreach/outpost/control/cooling)
 "aN" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
@@ -1484,7 +1484,7 @@
 /turf/simulated/floor/tiled/white,
 /area/outreach/outpost/medbay/op_room)
 "dv" = (
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/command,
 /area/outreach/outpost/control)
 "dw" = (
 /obj/structure/cable/yellow{
@@ -1532,7 +1532,7 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/engineering/b1/storage)
 "dC" = (
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/command,
 /area/outreach/outpost/control/servers)
 "dD" = (
 /obj/machinery/atmospherics/unary/vent_scrubber/on{
@@ -3201,7 +3201,7 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/atmospherics/b1/hall)
 "gZ" = (
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/security,
 /area/outreach/outpost/security/b1/office)
 "ha" = (
 /obj/machinery/atmospherics/pipe/simple/visible/yellow,
@@ -5061,10 +5061,6 @@
 	icon_state = "pipe-s";
 	dir = 4
 	},
-/obj/effect/floor_decal/spline/plain/blue{
-	icon_state = "spline_plain";
-	dir = 8
-	},
 /turf/simulated/floor/plating,
 /area/outreach/outpost/security/b1/hallway)
 "kE" = (
@@ -5396,7 +5392,7 @@
 	icon_state = "spline_fancy";
 	dir = 1
 	},
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/command,
 /area/outreach/outpost/control/command_conference)
 "lj" = (
 /obj/machinery/alarm,
@@ -8379,10 +8375,6 @@
 	icon_state = "pipe-c";
 	dir = 8
 	},
-/obj/effect/floor_decal/spline/plain/brown{
-	icon_state = "spline_plain";
-	dir = 1
-	},
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/storage)
 "qq" = (
@@ -8818,10 +8810,6 @@
 	icon_state = "pipe-s";
 	dir = 4
 	},
-/obj/effect/floor_decal/spline/plain/red{
-	icon_state = "spline_plain";
-	dir = 4
-	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	icon_state = "11-supply";
 	dir = 4
@@ -8977,7 +8965,7 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/south/basement1)
 "rx" = (
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/command,
 /area/outreach/outpost/control/hall)
 "ry" = (
 /obj/machinery/door/firedoor/autoset,
@@ -9134,6 +9122,9 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
 	icon_state = "11-scrubbers";
 	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/security/b1)
@@ -9344,6 +9335,7 @@
 	dir = 4
 	},
 /obj/effect/floor_decal/industrial/warning/full,
+/obj/effect/decal/cleanable/blood/oil,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/waste/b1)
 "sd" = (
@@ -9498,10 +9490,6 @@
 	},
 /obj/structure/disposalpipe/segment{
 	icon_state = "pipe-s";
-	dir = 4
-	},
-/obj/effect/floor_decal/spline/plain/blue{
-	icon_state = "spline_plain";
 	dir = 4
 	},
 /turf/simulated/floor/plating,
@@ -9872,7 +9860,7 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/south/basement1)
 "sY" = (
-/turf/simulated/wall,
+/turf/simulated/wall/prepainted/mining,
 /area/outreach/outpost/mining/b1/workshop)
 "sZ" = (
 /obj/machinery/light{
@@ -9917,10 +9905,10 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/hallway/south/basement1)
 "te" = (
-/turf/simulated/wall,
+/turf/simulated/wall/prepainted/mining,
 /area/outreach/outpost/mining/b1/office)
 "tf" = (
-/turf/simulated/wall,
+/turf/simulated/wall/prepainted/mining,
 /area/outreach/outpost/mining/b1/eva)
 "tg" = (
 /turf/simulated/floor/plating,
@@ -10076,6 +10064,7 @@
 	icon_state = "spline_plain";
 	dir = 4
 	},
+/obj/effect/floor_decal/industrial/outline/yellow,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/mining/b1/eva)
 "tz" = (
@@ -10581,7 +10570,7 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/vacant/b1/south/east)
 "up" = (
-/turf/simulated/wall,
+/turf/simulated/wall/prepainted/mining,
 /area/outreach/outpost/mining/b1/foyer)
 "uq" = (
 /obj/structure/cable/yellow{
@@ -10689,7 +10678,7 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/mining/b1/foyer)
 "uA" = (
-/turf/simulated/wall,
+/turf/simulated/wall/prepainted/mining,
 /area/outreach/outpost/mining/b1/processing)
 "uB" = (
 /obj/structure/disposalpipe/segment/bent,
@@ -11154,7 +11143,7 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/mining/b1/office)
 "vt" = (
-/turf/simulated/wall,
+/turf/simulated/wall/prepainted/mining,
 /area/outreach/outpost/mining/b1/storage)
 "vu" = (
 /obj/effect/wallframe_spawn/reinforced,
@@ -11270,6 +11259,9 @@
 /obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers{
 	icon_state = "map-scrubbers";
 	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1)
@@ -11467,6 +11459,12 @@
 	icon_state = "spline_plain";
 	dir = 1
 	},
+/obj/item/cell/hyper,
+/obj/item/cell/hyper,
+/obj/item/cell/hyper,
+/obj/item/cell/hyper,
+/obj/item/cell/hyper,
+/obj/item/cell/hyper,
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/storage)
 "wb" = (
@@ -11499,8 +11497,8 @@
 	icon_state = "tube_map";
 	dir = 4
 	},
-/obj/structure/closet/crate/internals,
 /obj/effect/floor_decal/industrial/outline/yellow,
+/obj/structure/ore_box,
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/storage)
 "wg" = (
@@ -11588,10 +11586,6 @@
 /obj/structure/cable/blue{
 	icon_state = "1-8"
 	},
-/obj/effect/floor_decal/spline/plain/brown{
-	icon_state = "spline_plain";
-	dir = 8
-	},
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/storage)
 "wp" = (
@@ -11599,13 +11593,16 @@
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/storage)
 "wq" = (
-/obj/structure/ore_box,
 /obj/effect/floor_decal/industrial/outline/yellow,
+/obj/machinery/mining/brace{
+	icon_state = "mining_brace";
+	dir = 4
+	},
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/storage)
 "wr" = (
-/obj/machinery/floodlight,
 /obj/effect/floor_decal/industrial/outline/yellow,
+/obj/structure/ore_box,
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/storage)
 "ws" = (
@@ -11631,6 +11628,7 @@
 	icon_state = "conveyor0";
 	id_tag = "OH_mining_conveyor_1"
 	},
+/obj/effect/decal/cleanable/blood/oil,
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/processing)
 "wv" = (
@@ -11662,11 +11660,6 @@
 	icon_state = "spline_plain";
 	dir = 1
 	},
-/turf/simulated/floor/tiled,
-/area/outreach/outpost/mining/b1/storage)
-"wy" = (
-/obj/machinery/port_gen/pacman,
-/obj/effect/floor_decal/industrial/outline/yellow,
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/storage)
 "wz" = (
@@ -11853,7 +11846,6 @@
 /obj/structure/cable/blue{
 	icon_state = "1-2"
 	},
-/obj/effect/floor_decal/spline/plain/brown,
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/processing)
 "wS" = (
@@ -11893,12 +11885,12 @@
 	icon_state = "tube_map";
 	dir = 4
 	},
-/obj/structure/mopbucket,
-/obj/item/mop,
 /obj/effect/floor_decal/spline/plain/brown{
 	icon_state = "spline_plain";
 	dir = 4
 	},
+/obj/effect/floor_decal/industrial/outline/yellow,
+/obj/structure/ore_box,
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/storage)
 "wV" = (
@@ -12039,21 +12031,6 @@
 /obj/item/radio/intercom,
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1)
-"xh" = (
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe-s";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
-	},
-/turf/simulated/floor/tiled/dark,
-/area/outreach/outpost/security/b1)
 "xi" = (
 /obj/machinery/washing_machine,
 /turf/simulated/floor/tiled/white,
@@ -12147,11 +12124,6 @@
 	},
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/processing)
-"xt" = (
-/obj/machinery/portable_atmospherics/canister/oxygen,
-/obj/effect/floor_decal/industrial/outline/yellow,
-/turf/simulated/floor/tiled,
-/area/outreach/outpost/mining/b1/storage)
 "xu" = (
 /obj/machinery/door/firedoor/autoset,
 /obj/machinery/door/airlock/mining{
@@ -12175,6 +12147,9 @@
 	icon_state = "map-supply";
 	dir = 1
 	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1)
 "xw" = (
@@ -12192,6 +12167,9 @@
 /obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers{
 	icon_state = "map-scrubbers";
 	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1)
@@ -13121,10 +13099,6 @@
 	icon_state = "pipe-c";
 	dir = 8
 	},
-/obj/effect/floor_decal/spline/plain/red{
-	icon_state = "spline_plain";
-	dir = 8
-	},
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1/office)
 "zh" = (
@@ -13872,6 +13846,9 @@
 	icon_state = "map-scrubbers";
 	dir = 8
 	},
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
 /turf/simulated/floor/plating,
 /area/outreach/outpost/security/b1/hallway)
 "Ax" = (
@@ -13887,9 +13864,8 @@
 	icon_state = "11-scrubbers";
 	dir = 4
 	},
-/obj/effect/floor_decal/spline/plain/blue{
-	icon_state = "spline_plain";
-	dir = 4
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1/hallway)
@@ -13978,7 +13954,7 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b1/east/junct)
 "AL" = (
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/security,
 /area/outreach/outpost/security/b1)
 "AM" = (
 /obj/structure/cable/yellow{
@@ -14129,6 +14105,9 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	icon_state = "11-supply";
 	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1)
@@ -14318,10 +14297,6 @@
 	icon_state = "pipe-s";
 	dir = 4
 	},
-/obj/effect/floor_decal/spline/plain/red{
-	icon_state = "spline_plain";
-	dir = 8
-	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	icon_state = "11-supply";
 	dir = 4
@@ -14329,6 +14304,9 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
 	icon_state = "11-scrubbers";
 	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1)
@@ -14797,6 +14775,7 @@
 	icon_state = "spline_plain";
 	dir = 4
 	},
+/obj/item/clipboard,
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/processing)
 "Ck" = (
@@ -14904,6 +14883,10 @@
 	icon_state = "spline_plain";
 	dir = 10
 	},
+/obj/item/pickaxe/drill,
+/obj/item/pickaxe/drill,
+/obj/item/pickaxe/drill,
+/obj/item/pickaxe/drill,
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/storage)
 "Cw" = (
@@ -15108,15 +15091,6 @@
 /obj/structure/bed/chair,
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1)
-"CW" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/effect/floor_decal/spline/plain/red,
-/turf/simulated/floor/tiled/dark,
-/area/outreach/outpost/security/b1)
 "CX" = (
 /obj/effect/floor_decal/spline/plain/red{
 	icon_state = "spline_plain";
@@ -15159,6 +15133,7 @@
 "Da" = (
 /obj/structure/table,
 /obj/effect/floor_decal/spline/plain/brown,
+/obj/item/crowbar/cheap,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/mining/b1/foyer)
 "Db" = (
@@ -15179,7 +15154,7 @@
 /turf/simulated/floor/tiled/white,
 /area/outreach/outpost/medbay/main_hall)
 "Dh" = (
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/security,
 /area/outreach/outpost/security/b1/brig)
 "Di" = (
 /obj/effect/wallframe_spawn/reinforced,
@@ -15608,6 +15583,7 @@
 	icon_state = "pipe-u";
 	dir = 1
 	},
+/obj/effect/decal/cleanable/blood/oil,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/atmos/b1)
 "DP" = (
@@ -15749,7 +15725,9 @@
 	dir = 1
 	},
 /obj/structure/bed/padded,
-/obj/machinery/flasher,
+/obj/machinery/flasher{
+	id_tag = "OB_Cell1_flash"
+	},
 /turf/simulated/floor/tiled/dark/monotile,
 /area/outreach/outpost/security/b1/cell/A)
 "DZ" = (
@@ -16052,7 +16030,9 @@
 /turf/simulated/floor/tiled/white,
 /area/outreach/outpost/lab)
 "Ev" = (
-/obj/machinery/door_timer,
+/obj/machinery/door_timer{
+	id_tag = "OB_Cell1"
+	},
 /obj/effect/floor_decal/spline/plain/red{
 	icon_state = "spline_plain";
 	dir = 9
@@ -16227,8 +16207,9 @@
 /turf/simulated/floor/tiled/monotile,
 /area/outreach/outpost/cafeteria/kitchen/backroom)
 "EJ" = (
-/obj/structure/closet/secure_closet/miner,
 /obj/effect/floor_decal/spline/plain/brown,
+/obj/effect/floor_decal/industrial/outline/yellow,
+/obj/machinery/mining/drill,
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/storage)
 "EK" = (
@@ -17441,6 +17422,15 @@
 	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/lab/entrance)
+"Hi" = (
+/obj/machinery/material_processing/unloader,
+/obj/effect/floor_decal/industrial/warning/cee{
+	icon_state = "stripecee";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/blood/oil,
+/turf/simulated/floor/tiled,
+/area/outreach/outpost/mining/b1/processing)
 "Hj" = (
 /obj/machinery/light/small{
 	icon_state = "bulb_map";
@@ -17485,7 +17475,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/control/command_conference)
 "Hn" = (
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/security,
 /area/outreach/outpost/security/b1/cell/B)
 "Hp" = (
 /obj/machinery/atmospherics/unary/vent_scrubber/on,
@@ -17494,7 +17484,9 @@
 	dir = 1
 	},
 /obj/structure/bed/padded,
-/obj/machinery/flasher,
+/obj/machinery/flasher{
+	id_tag = "OB_Cell2_flash"
+	},
 /turf/simulated/floor/tiled/dark/monotile,
 /area/outreach/outpost/security/b1/cell/B)
 "Hq" = (
@@ -18862,7 +18854,9 @@
 /turf/simulated/floor/tiled/white,
 /area/outreach/outpost/cafeteria/kitchen)
 "JW" = (
-/obj/machinery/door_timer,
+/obj/machinery/door_timer{
+	id_tag = "OB_Cell2"
+	},
 /obj/effect/floor_decal/spline/plain/red{
 	icon_state = "spline_plain";
 	dir = 9
@@ -18884,10 +18878,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/obj/effect/floor_decal/spline/plain/red{
-	icon_state = "spline_plain";
-	dir = 10
-	},
+/obj/effect/floor_decal/spline/plain/red,
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1/brig)
 "JZ" = (
@@ -18973,11 +18964,13 @@
 /area/outreach/outpost/mining)
 "Kk" = (
 /obj/effect/floor_decal/spline/plain/brown,
+/obj/structure/closet/secure_closet/miner,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/mining/b1/foyer)
 "Kl" = (
 /obj/machinery/light,
 /obj/effect/floor_decal/spline/plain/brown,
+/obj/structure/closet/secure_closet/miner,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/mining/b1/foyer)
 "Km" = (
@@ -18993,11 +18986,15 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/mining/b1/foyer)
 "Kn" = (
-/obj/structure/rack/dark,
 /obj/effect/floor_decal/spline/plain/brown{
 	icon_state = "spline_plain";
 	dir = 6
 	},
+/obj/structure/rack/dark,
+/obj/item/pickaxe/hammer,
+/obj/item/pickaxe/hammer,
+/obj/item/pickaxe/hammer,
+/obj/item/pickaxe/hammer,
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/storage)
 "Ko" = (
@@ -19015,6 +19012,8 @@
 /area/outreach/outpost/mining/b1/processing)
 "Kq" = (
 /obj/effect/floor_decal/spline/plain/brown,
+/obj/machinery/floodlight,
+/obj/effect/floor_decal/industrial/outline/yellow,
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/processing)
 "Kr" = (
@@ -19524,6 +19523,16 @@
 	},
 /turf/simulated/floor/bluegrid,
 /area/outreach/outpost/control/servers)
+"ME" = (
+/obj/machinery/door_timer{
+	id_tag = "OB_Cell3"
+	},
+/obj/effect/floor_decal/spline/plain/red{
+	icon_state = "spline_plain";
+	dir = 9
+	},
+/turf/simulated/floor/tiled/dark,
+/area/outreach/outpost/security/b1/brig)
 "MG" = (
 /obj/structure/table/steel_reinforced,
 /obj/effect/floor_decal/spline/plain/purple,
@@ -19558,10 +19567,6 @@
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/control/command_room)
 "MP" = (
-/obj/effect/floor_decal/spline/plain/red{
-	icon_state = "spline_plain";
-	dir = 6
-	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	icon_state = "11-supply";
 	dir = 4
@@ -19573,6 +19578,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
 	},
+/obj/effect/floor_decal/spline/plain/red,
 /turf/simulated/floor/tiled/dark/monotile,
 /area/outreach/outpost/security/b1/cell/A)
 "MR" = (
@@ -19598,6 +19604,12 @@
 	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/south/basement1)
+"MY" = (
+/obj/effect/floor_decal/spline/plain/brown,
+/obj/effect/floor_decal/industrial/outline/yellow,
+/obj/machinery/port_gen/pacman,
+/turf/simulated/floor/tiled,
+/area/outreach/outpost/mining/b1/storage)
 "Nb" = (
 /obj/machinery/atmospherics/unary/vent_pump/on,
 /turf/simulated/floor/tiled/steel_grid,
@@ -19692,6 +19704,9 @@
 	},
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1/brig)
+"NS" = (
+/turf/simulated/wall/prepainted/mining,
+/area/outreach/outpost/vacant/b1/south/east)
 "NT" = (
 /obj/structure/disposalpipe/segment{
 	icon_state = "pipe-s";
@@ -19713,8 +19728,15 @@
 	icon_state = "closed";
 	dir = 8
 	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/security/b1)
+"NX" = (
+/obj/effect/decal/cleanable/blood/oil,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/b1/south/east)
 "Oa" = (
 /obj/machinery/atmospherics/pipe/simple/heat_exchanging,
 /obj/machinery/atmospherics/pipe/simple/heat_exchanging{
@@ -19724,6 +19746,14 @@
 /obj/machinery/porta_turret/stationary/stun,
 /turf/simulated/floor/bluegrid,
 /area/outreach/outpost/control/servers)
+"Ob" = (
+/obj/effect/floor_decal/industrial/outline/yellow,
+/obj/machinery/mining/brace{
+	icon_state = "mining_brace";
+	dir = 8
+	},
+/turf/simulated/floor/tiled,
+/area/outreach/outpost/mining/b1/storage)
 "Oc" = (
 /obj/machinery/atmospherics/unary/vent_scrubber/on{
 	icon_state = "map_scrubber_on";
@@ -19752,7 +19782,7 @@
 /turf/simulated/floor/tiled/dark/monotile,
 /area/outreach/outpost/security/b1/cell/A)
 "Oi" = (
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/command,
 /area/outreach/outpost/control/command_hall)
 "Oj" = (
 /obj/structure/table/woodentable/walnut,
@@ -19781,13 +19811,10 @@
 	icon_state = "11-supply";
 	dir = 4
 	},
-/obj/effect/floor_decal/spline/plain/red{
-	icon_state = "spline_plain";
-	dir = 6
-	},
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
 	},
+/obj/effect/floor_decal/spline/plain/red,
 /turf/simulated/floor/tiled/dark/monotile,
 /area/outreach/outpost/security/b1/cell/B)
 "Op" = (
@@ -19818,7 +19845,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/control/command_room)
 "Ot" = (
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/command,
 /area/outreach/outpost/security/b1/hallway)
 "Ow" = (
 /obj/structure/bed/chair/office/comfy/beige{
@@ -19906,16 +19933,9 @@
 /obj/machinery/porta_turret/stationary/stun,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/control)
-"PH" = (
-/obj/structure/cable/blue{
-	icon_state = "4-8"
-	},
-/obj/effect/floor_decal/spline/plain/brown{
-	icon_state = "spline_plain";
-	dir = 4
-	},
-/turf/simulated/floor/tiled,
-/area/outreach/outpost/mining/b1/processing)
+"PB" = (
+/turf/simulated/wall/r_wall/prepainted/command,
+/area/outreach/outpost/maint/passage/b1/southwest/airlock)
 "PK" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -19933,6 +19953,9 @@
 /obj/structure/table/woodentable/walnut,
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/control/command_conference)
+"PW" = (
+/turf/simulated/wall/r_wall/prepainted/atmos,
+/area/outreach/outpost/atmospherics/b1/storage)
 "PX" = (
 /obj/structure/disposalpipe/segment{
 	icon_state = "pipe-s";
@@ -19945,6 +19968,9 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
 	icon_state = "11-scrubbers";
 	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/south/basement1)
@@ -19964,10 +19990,6 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
-	},
-/obj/effect/floor_decal/spline/plain/red{
-	icon_state = "spline_plain";
-	dir = 1
 	},
 /obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers{
 	icon_state = "map-scrubbers";
@@ -20081,10 +20103,7 @@
 	icon_state = "11-scrubbers";
 	dir = 4
 	},
-/obj/effect/floor_decal/spline/plain/red{
-	icon_state = "spline_plain";
-	dir = 10
-	},
+/obj/effect/floor_decal/spline/plain/red,
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1/brig)
 "Rk" = (
@@ -20216,7 +20235,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/control/command_conference)
 "Tl" = (
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/command,
 /area/outreach/outpost/control/command_conference)
 "Tr" = (
 /obj/machinery/door/airlock/glass/security{
@@ -20298,6 +20317,9 @@
 	},
 /turf/simulated/floor/plating,
 /area/outreach/outpost/control/command_hall)
+"Uh" = (
+/turf/simulated/wall/r_wall/prepainted/security,
+/area/outreach/outpost/security/b1/hallway)
 "Ui" = (
 /obj/structure/hygiene/shower{
 	icon_state = "shower";
@@ -20320,7 +20342,9 @@
 	dir = 1
 	},
 /obj/structure/bed/padded,
-/obj/machinery/flasher,
+/obj/machinery/flasher{
+	id_tag = "OB_Cell3_flash"
+	},
 /turf/simulated/floor/tiled/dark/monotile,
 /area/outreach/outpost/security/b1/cell/C)
 "Uz" = (
@@ -20367,8 +20391,16 @@
 /obj/structure/closet/secure_closet/brig,
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1/brig)
+"Vp" = (
+/obj/effect/floor_decal/industrial/loading{
+	icon_state = "loadingarea";
+	dir = 4
+	},
+/obj/structure/ore_box,
+/turf/simulated/floor/tiled,
+/area/outreach/outpost/mining/b1/processing)
 "Vs" = (
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/command,
 /area/outreach/outpost/control/command_room)
 "Vt" = (
 /obj/effect/floor_decal/spline/fancy/black{
@@ -20411,7 +20443,7 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/janitorial/hall)
 "VC" = (
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/security,
 /area/outreach/outpost/security/b1/cell/A)
 "VE" = (
 /obj/machinery/atmospherics/pipe/simple/heat_exchanging{
@@ -20472,7 +20504,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/control/command_room)
 "Wr" = (
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/security,
 /area/outreach/outpost/security/b1/cell/C)
 "Ws" = (
 /turf/simulated/floor/tiled/techmaint,
@@ -20489,6 +20521,12 @@
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/mining/b1/foyer)
+"WH" = (
+/turf/simulated/wall/r_wall/prepainted/command,
+/area/outreach/outpost/engineering/b1/storage)
+"WO" = (
+/turf/simulated/wall/r_wall/prepainted/atmos,
+/area/outreach/outpost/atmospherics/b1/storage/canister)
 "WP" = (
 /obj/machinery/alarm{
 	icon_state = "alarm0";
@@ -20522,6 +20560,9 @@
 	},
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/control/command_room)
+"WY" = (
+/turf/simulated/wall/r_wall/prepainted/atmos,
+/area/outreach/outpost/atmospherics/b1/hall)
 "Xh" = (
 /obj/structure/closet,
 /turf/simulated/floor/tiled/techfloor/grid,
@@ -20552,7 +20593,7 @@
 /area/outreach/outpost/maint/passage/b1/southeast)
 "Yl" = (
 /obj/effect/floor_decal/spline/fancy/black,
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/command,
 /area/outreach/outpost/control/command_conference)
 "Yy" = (
 /turf/simulated/floor/tiled/techfloor/grid,
@@ -20595,10 +20636,6 @@
 	icon_state = "pipe-s";
 	dir = 4
 	},
-/obj/effect/floor_decal/spline/plain/blue{
-	icon_state = "spline_plain";
-	dir = 8
-	},
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1/hallway)
 "YM" = (
@@ -20617,13 +20654,10 @@
 	icon_state = "11-supply";
 	dir = 4
 	},
-/obj/effect/floor_decal/spline/plain/red{
-	icon_state = "spline_plain";
-	dir = 6
-	},
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
 	},
+/obj/effect/floor_decal/spline/plain/red,
 /turf/simulated/floor/tiled/dark/monotile,
 /area/outreach/outpost/security/b1/cell/C)
 "Zg" = (
@@ -20637,17 +20671,6 @@
 	},
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/control/command_office)
-"Zk" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/effect/catwalk_plated/dark,
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/obj/structure/disposalpipe/segment,
-/obj/effect/floor_decal/spline/plain/blue,
-/turf/simulated/floor/plating,
-/area/outreach/outpost/security/b1/hallway)
 "Zn" = (
 /obj/effect/floor_decal/spline/plain/red{
 	icon_state = "spline_plain";
@@ -20660,7 +20683,7 @@
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1/brig)
 "ZF" = (
-/turf/simulated/wall/r_wall,
+/turf/simulated/wall/r_wall/prepainted/command,
 /area/outreach/outpost/control/command_office)
 "ZJ" = (
 /obj/effect/floor_decal/spline/fancy/black{
@@ -20698,24 +20721,6 @@
 	},
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1/brig)
-"ZV" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 4
-	},
-/obj/effect/floor_decal/spline/plain/red{
-	icon_state = "spline_plain";
-	dir = 10
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/dark,
-/area/outreach/outpost/security/b1/brig)
 "ZW" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
 	icon_state = "11-scrubbers";
@@ -20728,6 +20733,9 @@
 /obj/structure/disposalpipe/segment{
 	icon_state = "pipe-s";
 	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
 /turf/simulated/floor/tiled/dark,
 /area/outreach/outpost/security/b1)
@@ -31970,9 +31978,9 @@ bC
 ku
 Ir
 Oi
-pU
-pU
-pU
+PB
+PB
+PB
 Ix
 ab
 ae
@@ -32174,7 +32182,7 @@ Ii
 Oi
 px
 px
-pU
+PB
 Ix
 ab
 ab
@@ -32376,7 +32384,7 @@ Ij
 Oi
 px
 px
-pU
+PB
 Ix
 ab
 ab
@@ -32578,7 +32586,7 @@ Ij
 Oi
 px
 px
-pU
+PB
 Ix
 ab
 ab
@@ -32778,9 +32786,9 @@ cd
 My
 Ij
 Oi
-pU
-pU
-pU
+PB
+PB
+PB
 Ix
 ab
 ab
@@ -32943,23 +32951,23 @@ aB
 be
 ap
 bi
-aX
-aX
-aX
-aX
-aX
-aX
-aX
-aX
-aX
-aX
-aX
-bj
-bj
-bj
-bj
-bj
-bj
+WY
+WY
+WY
+WY
+WY
+WY
+WY
+WY
+WY
+WY
+WY
+WO
+WO
+WO
+WO
+WO
+WO
 bj
 ep
 el
@@ -32982,7 +32990,7 @@ Ij
 Oi
 px
 px
-pU
+PB
 Ix
 ab
 ab
@@ -33145,7 +33153,7 @@ aB
 be
 ap
 bi
-aX
+WY
 aI
 cH
 cH
@@ -33184,7 +33192,7 @@ Ii
 Oi
 px
 px
-pU
+PB
 Ix
 ae
 ab
@@ -33347,7 +33355,7 @@ aB
 be
 ap
 bi
-aX
+WY
 aQ
 aT
 aU
@@ -33358,7 +33366,7 @@ ca
 cI
 cR
 Jk
-bj
+WO
 gp
 gp
 Jq
@@ -33386,7 +33394,7 @@ Ij
 Oi
 px
 px
-pU
+PB
 Ix
 ae
 ae
@@ -33549,7 +33557,7 @@ aB
 be
 ap
 bi
-aX
+WY
 aR
 aT
 aV
@@ -33560,10 +33568,10 @@ cf
 ca
 ca
 Jl
-aX
-aX
-aX
-aX
+WY
+WY
+WY
+WY
 iJ
 jh
 bj
@@ -33586,9 +33594,9 @@ cd
 My
 Ij
 Oi
-pU
-pU
-pU
+PB
+PB
+PB
 Ix
 ab
 ab
@@ -33751,7 +33759,7 @@ aB
 be
 ap
 bw
-aX
+WY
 aS
 aT
 aW
@@ -33765,7 +33773,7 @@ Jm
 fi
 gu
 hn
-aX
+WY
 iW
 ji
 bj
@@ -33790,7 +33798,7 @@ Ij
 Oi
 px
 px
-pU
+PB
 Ix
 ab
 ab
@@ -33953,7 +33961,7 @@ aB
 be
 ap
 bi
-aX
+WY
 by
 aT
 aY
@@ -33967,7 +33975,7 @@ Jn
 fi
 gz
 hq
-aX
+WY
 je
 jm
 bj
@@ -33992,7 +34000,7 @@ Ij
 Oi
 px
 px
-pU
+PB
 Ix
 ab
 ab
@@ -34155,7 +34163,7 @@ aB
 be
 ap
 bi
-aX
+WY
 aS
 ac
 ac
@@ -34166,11 +34174,11 @@ cn
 ca
 cU
 Jo
-aX
-aX
-aX
-aX
-bj
+WY
+WY
+WY
+WY
+WO
 oc
 bj
 gv
@@ -34194,7 +34202,7 @@ Ii
 Oi
 px
 px
-pU
+PB
 Ix
 ab
 ab
@@ -34357,7 +34365,7 @@ aB
 be
 ap
 bi
-aX
+WY
 bY
 ac
 ac
@@ -34394,9 +34402,9 @@ cd
 My
 Ij
 Oi
-pU
-pU
-pU
+PB
+PB
+PB
 Ix
 ab
 ab
@@ -34559,7 +34567,7 @@ aB
 be
 ap
 bi
-aX
+WY
 aQ
 aT
 aU
@@ -34598,7 +34606,7 @@ Ij
 Oi
 px
 px
-pU
+PB
 Ix
 ab
 ab
@@ -34761,7 +34769,7 @@ aB
 be
 ap
 bw
-aX
+WY
 aS
 aT
 aZ
@@ -34800,7 +34808,7 @@ Ij
 Oi
 px
 px
-pU
+PB
 Ix
 ae
 ab
@@ -34963,7 +34971,7 @@ aB
 be
 ap
 bi
-aX
+WY
 aS
 aT
 aW
@@ -35002,7 +35010,7 @@ Ij
 Oi
 px
 px
-pU
+PB
 Ix
 ae
 ab
@@ -35165,7 +35173,7 @@ aB
 be
 ap
 bi
-aX
+WY
 by
 aT
 aY
@@ -35202,9 +35210,9 @@ hb
 Sz
 Ii
 Oi
-pU
-pU
-pU
+PB
+PB
+PB
 Ix
 ae
 ab
@@ -35367,7 +35375,7 @@ aB
 be
 ap
 bi
-aX
+WY
 aS
 ac
 ac
@@ -35406,7 +35414,7 @@ Ij
 Oi
 px
 px
-pU
+PB
 Ix
 ab
 ae
@@ -35569,7 +35577,7 @@ aB
 be
 ap
 bi
-aX
+WY
 aS
 ac
 ac
@@ -35608,7 +35616,7 @@ Ik
 Oi
 px
 px
-pU
+PB
 Ix
 ab
 ab
@@ -35771,7 +35779,7 @@ aB
 be
 ap
 bw
-aX
+WY
 aQ
 aT
 aU
@@ -35810,7 +35818,7 @@ Il
 Oi
 px
 px
-pU
+PB
 Ix
 Ix
 Ix
@@ -35973,7 +35981,7 @@ aB
 be
 ap
 bi
-aX
+WY
 aS
 aT
 aV
@@ -36005,17 +36013,17 @@ dj
 dj
 dj
 dj
-dj
+WH
 Ie
 QF
 Ij
 Oi
-pU
-pU
-pU
-pU
-pU
-pU
+PB
+PB
+PB
+PB
+PB
+PB
 Tl
 Tl
 Tl
@@ -36175,7 +36183,7 @@ aB
 be
 ap
 bi
-aX
+WY
 aS
 aT
 aW
@@ -36187,10 +36195,10 @@ cL
 de
 eo
 fc
-gn
-gn
+PW
+PW
 in
-gn
+PW
 hT
 gn
 hx
@@ -36207,7 +36215,7 @@ fv
 fv
 gK
 nS
-dj
+WH
 If
 QF
 Ij
@@ -36377,7 +36385,7 @@ aB
 be
 ap
 bi
-aX
+WY
 by
 aT
 aY
@@ -36389,7 +36397,7 @@ ca
 ca
 eo
 fj
-gn
+PW
 hX
 io
 jT
@@ -36409,7 +36417,7 @@ eQ
 eQ
 gP
 ob
-dj
+WH
 cd
 QF
 Ii
@@ -36579,7 +36587,7 @@ aB
 be
 ap
 bi
-aX
+WY
 aS
 ac
 ac
@@ -36591,7 +36599,7 @@ ca
 ca
 eo
 fL
-gn
+PW
 ia
 ip
 iN
@@ -36611,7 +36619,7 @@ eS
 eS
 gQ
 gU
-dj
+WH
 cd
 QF
 Ij
@@ -36781,7 +36789,7 @@ aB
 be
 ap
 bw
-aX
+WY
 aS
 ac
 ac
@@ -36793,7 +36801,7 @@ ca
 ca
 eo
 fL
-gn
+PW
 ic
 ip
 iQ
@@ -36813,7 +36821,7 @@ gw
 gJ
 it
 oo
-dj
+WH
 cd
 QF
 Ij
@@ -36983,7 +36991,7 @@ aB
 be
 ap
 bi
-aX
+WY
 aQ
 aT
 aU
@@ -36995,7 +37003,7 @@ ca
 ca
 eE
 fV
-gn
+PW
 id
 ip
 jY
@@ -37015,7 +37023,7 @@ fT
 gL
 gL
 gB
-dj
+WH
 cd
 QF
 Ij
@@ -37185,7 +37193,7 @@ aB
 be
 ap
 bi
-aX
+WY
 aS
 aT
 aZ
@@ -37197,7 +37205,7 @@ ca
 ca
 eo
 fW
-gn
+PW
 id
 iw
 ix
@@ -37217,7 +37225,7 @@ fw
 gR
 mk
 mP
-dj
+WH
 cd
 QF
 Ij
@@ -37387,7 +37395,7 @@ aB
 be
 ap
 bi
-aX
+WY
 aS
 aT
 aW
@@ -37399,7 +37407,7 @@ cL
 ca
 eE
 fX
-gn
+PW
 id
 ix
 iV
@@ -37419,7 +37427,7 @@ eS
 eS
 gM
 gU
-dj
+WH
 hb
 QF
 Ii
@@ -37589,7 +37597,7 @@ aB
 be
 ap
 bi
-aX
+WY
 by
 aT
 aY
@@ -37601,7 +37609,7 @@ cN
 cN
 fa
 fZ
-gn
+PW
 ie
 iF
 iF
@@ -37621,7 +37629,7 @@ eT
 eT
 gO
 gU
-dj
+WH
 Ih
 Gy
 Io
@@ -37791,7 +37799,7 @@ be
 be
 ap
 bw
-aX
+WY
 cE
 cQ
 cQ
@@ -37823,7 +37831,7 @@ gf
 gF
 gT
 gV
-dj
+WH
 Oi
 kC
 Oi
@@ -37993,23 +38001,23 @@ ap
 ap
 ap
 bi
-aX
-aX
-aX
-aX
-aX
-aX
-aX
+WY
+WY
+WY
+WY
+WY
+WY
+WY
 cG
 cF
-aX
-aX
-aX
-gn
-gn
-gn
-gn
-gn
+WY
+WY
+WY
+PW
+PW
+PW
+PW
+PW
 gn
 hx
 qm
@@ -38237,7 +38245,7 @@ Aw
 AM
 Pk
 On
-Zk
+On
 Fx
 ld
 WX
@@ -38429,7 +38437,7 @@ lN
 lZ
 nY
 os
-Ot
+Uh
 EE
 sp
 Gv
@@ -39647,7 +39655,7 @@ zk
 zK
 gZ
 xg
-xh
+Bs
 Pc
 Bt
 Dh
@@ -39657,8 +39665,8 @@ Dh
 JW
 JY
 Dh
-JW
-ZV
+ME
+JY
 Dh
 px
 Gr
@@ -40053,7 +40061,7 @@ AI
 Bb
 xw
 CI
-CW
+CI
 Dj
 Qd
 QD
@@ -41479,7 +41487,7 @@ tO
 uo
 Gt
 tg
-rJ
+NS
 qV
 ps
 uG
@@ -41681,7 +41689,7 @@ BT
 tg
 tg
 BX
-rJ
+NS
 uH
 pu
 vk
@@ -41880,10 +41888,10 @@ rJ
 tg
 tg
 tP
+NX
 tg
 tg
-tg
-rJ
+NS
 uI
 pI
 Ki
@@ -41891,7 +41899,7 @@ vO
 ql
 vQ
 vB
-vQ
+Vp
 vB
 Kp
 uA
@@ -42084,8 +42092,8 @@ tt
 ua
 BW
 tg
-tg
-rJ
+NX
+NS
 uJ
 pJ
 Kj
@@ -42095,7 +42103,7 @@ vR
 vB
 vR
 vB
-vR
+Hi
 uA
 Fv
 CF
@@ -42282,12 +42290,12 @@ Av
 BP
 rJ
 tg
+NX
 tg
 tg
 tg
 tg
-tg
-rJ
+NS
 uK
 pI
 Ki
@@ -42489,7 +42497,7 @@ tg
 tg
 tg
 BX
-rJ
+NS
 vj
 pI
 vk
@@ -42691,7 +42699,7 @@ tg
 tg
 tg
 tg
-rJ
+NS
 uG
 pI
 uG
@@ -43910,7 +43918,7 @@ vm
 uA
 wS
 vZ
-PH
+wm
 Cj
 Cr
 Ci
@@ -44920,10 +44928,10 @@ Kl
 vt
 wa
 wd
-wq
-wq
+Ob
+Ob
 wI
-EJ
+MY
 vt
 Fw
 CF
@@ -45125,7 +45133,7 @@ we
 we
 we
 we
-xt
+MY
 vt
 Fv
 CF
@@ -45325,7 +45333,7 @@ vt
 wE
 wf
 wr
-wy
+wr
 wU
 Kn
 vt
@@ -49837,7 +49845,7 @@ aa
 aa
 aa
 aa
-ab
+aa
 ab
 ab
 ab
@@ -50039,8 +50047,8 @@ aa
 aa
 aa
 aa
-ab
-ab
+aa
+aa
 ab
 af
 af
@@ -50443,7 +50451,7 @@ aa
 aa
 aa
 aa
-af
+aa
 af
 af
 af
@@ -50645,8 +50653,8 @@ aa
 aa
 aa
 aa
-ab
-ab
+aa
+aa
 ab
 af
 af
@@ -50847,8 +50855,8 @@ aa
 aa
 aa
 aa
-af
-af
+aa
+aa
 af
 af
 af
@@ -51049,7 +51057,7 @@ aa
 aa
 aa
 aa
-af
+aa
 af
 af
 af
@@ -52463,7 +52471,7 @@ aa
 aa
 aa
 aa
-af
+aa
 af
 af
 ab
@@ -52665,8 +52673,8 @@ aa
 aa
 aa
 aa
-ab
-ab
+aa
+aa
 af
 ab
 ab
@@ -52867,8 +52875,8 @@ aa
 aa
 aa
 aa
-ab
-ab
+aa
+aa
 af
 af
 ab
@@ -53069,8 +53077,8 @@ aa
 aa
 aa
 aa
-ab
-ab
+aa
+aa
 ab
 ab
 ab
@@ -53271,9 +53279,9 @@ aa
 aa
 aa
 aa
-ab
-ab
-ab
+aa
+aa
+aa
 ab
 ab
 ab
@@ -53473,8 +53481,8 @@ aa
 aa
 aa
 aa
-ab
-ab
+aa
+aa
 ab
 ab
 ab
@@ -53675,7 +53683,7 @@ aa
 aa
 aa
 aa
-ab
+aa
 ab
 ab
 ab
@@ -58967,9 +58975,9 @@ ab
 ab
 ab
 ab
+ab
 af
-af
-af
+ab
 ab
 ab
 ab
@@ -59169,9 +59177,9 @@ ab
 ab
 ab
 ab
-af
-af
-af
+ab
+ab
+ab
 ab
 ab
 ab
@@ -59371,9 +59379,9 @@ ab
 ab
 ab
 ab
-af
-af
-af
+ab
+ab
+ab
 ab
 ab
 ab
@@ -59573,9 +59581,9 @@ ab
 ab
 ab
 ab
-af
-af
-af
+ab
+ab
+ab
 ab
 ab
 ab

@@ -98,9 +98,12 @@
 	stripe_color = COLOR_CYAN
 
 /turf/simulated/wall/r_wall/prepainted/security
-	color        = COLOR_AMBER
-	stripe_color = COLOR_AMBER
+	color        = COLOR_NT_RED
+	stripe_color = COLOR_NT_RED
 
+/turf/simulated/wall/r_wall/prepainted/command
+	color        = COLOR_COMMAND_BLUE
+	stripe_color = COLOR_COMMAND_BLUE
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Underground Turfs
