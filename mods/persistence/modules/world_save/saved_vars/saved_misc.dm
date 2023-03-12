@@ -941,9 +941,11 @@ SAVED_VAR(/obj/effect/fusion_particle_catcher, mysize)
 
 SAVED_VAR(/obj/effect/fluid, last_flow_strength)
 SAVED_VAR(/obj/effect/fluid, last_flow_dir)
+SAVED_VAR(/obj/effect/fluid, reagents)
 
 SAVED_VAR(/obj/effect/effect/smoke/chem, splash_amount)
 SAVED_VAR(/obj/effect/effect/smoke/chem, destination)
+SAVED_VAR(/obj/effect/effect/smoke/chem, reagents)
 
 ///////////////////////////////////////////////////////////////////////////////
 // Structures
@@ -1158,6 +1160,14 @@ SAVED_VAR(/obj/machinery/embedded_controller/radio/docking_port_multi, child_tag
 SAVED_VAR(/obj/machinery/embedded_controller/radio/airlock/docking_port, display_name)
 
 SAVED_VAR(/obj/machinery/embedded_controller/radio/airlock, cycle_to_external_air)
+SAVED_VAR(/obj/machinery/embedded_controller/radio/airlock, tag_exterior_door)
+SAVED_VAR(/obj/machinery/embedded_controller/radio/airlock, tag_interior_door)
+SAVED_VAR(/obj/machinery/embedded_controller/radio/airlock, tag_airpump)
+SAVED_VAR(/obj/machinery/embedded_controller/radio/airlock, tag_chamber_sensor)
+SAVED_VAR(/obj/machinery/embedded_controller/radio/airlock, tag_exterior_sensor)
+SAVED_VAR(/obj/machinery/embedded_controller/radio/airlock, tag_interior_sensor)
+SAVED_VAR(/obj/machinery/embedded_controller/radio/airlock, tag_secure)
+SAVED_VAR(/obj/machinery/embedded_controller/radio/airlock, tag_air_alarm)
 
 SAVED_VAR(/obj/machinery/light_switch, on)
 
