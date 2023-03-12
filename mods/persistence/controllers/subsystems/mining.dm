@@ -1,4 +1,5 @@
 /turf/exterior/barren/mining
+/turf/exterior/volcanic/mining
 
 /datum/random_map/automata/cave_system/outreach
 	floor_type = /turf/exterior/barren/mining
@@ -62,6 +63,9 @@ SUBSYSTEM_DEF(mining)
 /area
 	var/ignore_mining_regen = TRUE
 
+/obj/abstract/level_data
+	var/datum/random_map/automata/cave_system/level_gen_type //Map generator for mining regen subsystem
+
 /datum/controller/subsystem/mining/Initialize()
 	if(!length(global.using_map.mining_levels))
 		suspend()
@@ -103,7 +107,12 @@ SUBSYSTEM_DEF(mining)
 	SpitOutMobs(eject_mobs, 3)
 
 	for(var/z_level in global.using_map.mining_levels)
-		var/datum/random_map/automata/cave_system/outreach/generator = new(TRANSITIONEDGE, TRANSITIONEDGE, z_level, world.maxx - TRANSITIONEDGE, world.maxy - TRANSITIONEDGE, FALSE, FALSE, FALSE)
+		var/obj/abstract/level_data/ld = LAZYACCESS(global.levels_by_z, "[z_level]")
+		var/datum/random_map/automata/cave_system/generator
+		if(ld?.level_gen_type)
+			generator = new ld.level_gen_type(TRANSITIONEDGE, TRANSITIONEDGE, z_level, world.maxx - TRANSITIONEDGE, world.maxy - TRANSITIONEDGE, FALSE, FALSE, FALSE)
+		else
+			generator = new /datum/random_map/automata/cave_system/outreach(TRANSITIONEDGE, TRANSITIONEDGE, z_level, world.maxx - TRANSITIONEDGE, world.maxy - TRANSITIONEDGE, FALSE, FALSE, FALSE)
 		generators.Add(generator)
 
 	generating_mines = FALSE

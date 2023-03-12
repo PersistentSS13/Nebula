@@ -593,3 +593,8 @@ INITIALIZE_IMMEDIATE(/obj/abstract/level_data_spawner)
 		CHECK_TICK
 	mining_turfs = null
 
+
+
+/datum/level_data/transit_level
+	name = "Transit Level"
+	level_flags = ZLEVEL_SEALED

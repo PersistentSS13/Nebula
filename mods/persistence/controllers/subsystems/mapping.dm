@@ -4,6 +4,7 @@
 
 /datum/controller/subsystem/mapping/Initialize(timeofday)
 	. = ..()
+	var/save_exists = FALSE
 #ifndef UNIT_TEST
 	if(SSpersistence.SaveExists())
 		report_progress_serializer("Existing save found. Loading save...")
