@@ -1066,6 +1066,15 @@ SAVED_VAR(/obj/machinery/atmospherics/omni, tag_east)
 SAVED_VAR(/obj/machinery/atmospherics/omni, tag_south)
 SAVED_VAR(/obj/machinery/atmospherics/omni, tag_west)
 
+SAVED_VAR(/datum/omni_port, master)
+SAVED_VAR(/datum/omni_port, direction)
+SAVED_VAR(/datum/omni_port, mode)
+SAVED_VAR(/datum/omni_port, concentration)
+SAVED_VAR(/datum/omni_port, con_lock)
+SAVED_VAR(/datum/omni_port, air)
+SAVED_VAR(/datum/omni_port, nodes)
+SAVED_VAR(/datum/omni_port, filtering)
+
 SAVED_VAR(/obj/machinery/atmospherics/portables_connector, connected_device)
 
 SAVED_VAR(/obj/machinery/atmospherics/unary/outlet_injector, injecting)
