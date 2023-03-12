@@ -197,7 +197,6 @@
 #include "modules\organs\external\head.dm"
 #include "modules\organs\internal\brain.dm"
 #include "modules\organs\internal\stack.dm"
-#include "modules\overmap\_overmap.dm"
 #include "modules\overmap\asteroid_magnet.dm"
 #include "modules\overmap\created_sectors.dm"
 #include "modules\overmap\overmap.dm"
