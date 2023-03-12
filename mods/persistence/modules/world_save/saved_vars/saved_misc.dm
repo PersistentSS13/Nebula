@@ -945,6 +945,7 @@ SAVED_VAR(/obj/effect/fluid, reagents)
 
 SAVED_VAR(/obj/effect/effect/smoke/chem, splash_amount)
 SAVED_VAR(/obj/effect/effect/smoke/chem, destination)
+SAVED_VAR(/obj/effect/effect/smoke/chem, reagents)
 
 ///////////////////////////////////////////////////////////////////////////////
 // Structures
