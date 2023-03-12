@@ -11,6 +11,7 @@ var/global/list/internet_repeaters = list()
 	use_power = POWER_USE_ACTIVE
 	idle_power_usage = 50
 	active_power_usage = 5000
+	construct_state = /decl/machine_construction/default/panel_closed
 
 /obj/machinery/internet_repeater/Initialize()
 	. = ..()
@@ -32,7 +33,7 @@ var/global/list/internet_repeaters = list()
 /obj/machinery/internet_repeater/on_update_icon()
 	icon_state = initial(icon_state)
 	if(panel_open)
-		icon_state = "[icon_state]_o" 
+		icon_state = "[icon_state]_o"
 	if(use_power != POWER_USE_ACTIVE || !operable())
 		icon_state = "[icon_state]_off"
 

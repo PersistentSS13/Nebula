@@ -476,6 +476,9 @@
 /datum/fabricator_recipe/imprinter/circuit/relay
 	path = /obj/item/stock_parts/circuitboard/relay
 
+/datum/fabricator_recipe/imprinter/circuit/modem
+	path = /obj/item/stock_parts/circuitboard/modem
+
 /datum/fabricator_recipe/imprinter/circuit/relay_wall_mounted
 	path = /obj/item/stock_parts/circuitboard/relay/wall_mounted
 
