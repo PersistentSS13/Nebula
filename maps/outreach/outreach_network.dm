@@ -1,2 +1,2 @@
 /datum/map/outreach
-	spawn_network = "outreach"
+	spawn_network = "outnet"
