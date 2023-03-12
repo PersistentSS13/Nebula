@@ -188,4 +188,5 @@
 	. = ..(machine, part, get_step(machine.loc, machine.dir))
 
 /decl/stock_part_preset/terminal_setup/offset_dir/apply(obj/machinery/machine, obj/item/stock_parts/power/terminal/part)
+	part.terminal_dir = machine.dir //Make the terminal in the direction we're facing
 	. = ..(machine, part)
