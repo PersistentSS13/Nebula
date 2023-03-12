@@ -2,6 +2,7 @@
 	name = "\improper Colony Pod"
 	icon_state = "crew_quarters"
 	requires_power = FALSE
+	sound_env = SMALL_ENCLOSED
 	var/obj/abstract/landmark/chargen_spawn/chargen_landmark //Cached landmark for the current pod
 	var/static/chargen_area_counter = 0
 
