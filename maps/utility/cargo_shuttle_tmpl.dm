@@ -247,6 +247,7 @@
 	icon          = 'icons/turf/flooring/tiles.dmi'
 	icon_state    = "reinforced_light"
 	footstep_type = /decl/footsteps/plating
+	initial_gas = list(/decl/material/gas/oxygen = MOLES_O2STANDARD, /decl/material/gas/nitrogen = MOLES_N2STANDARD)
 
 /turf/simulated/floor/indestructible/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
 	return
