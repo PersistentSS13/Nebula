@@ -11,3 +11,7 @@
 	if(persistent_id)
 		return ..(mapload, dir, FALSE)
 	return ..()
+
+/obj/machinery/door/update_connections(propagate)
+	if(!persistent_id) //Don't let it do this when loading from save
+		. = ..()
