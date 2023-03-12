@@ -12,6 +12,9 @@
 		/area/exoplanet = NO_SCRUBBER|NO_VENT|NO_APC
 	)
 
+	///Area types that will be completely skipped over when testing areas
+	var/list/apc_test_excluded_areas
+
 	var/list/area_coherency_test_exempt_areas = list(
 		/area/space
 	)

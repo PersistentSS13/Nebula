@@ -1,6 +1,7 @@
+//Add to the default areas
 /datum/map/outreach
-	lobby_tracks = list(
-		/decl/music_track/dirtyoldfrogg
+	apc_test_excluded_areas = list(
+		/area/outreach/outpost/janitorial, 	//That's an intended multi-z area, stop whining
 	)
 
 /datum/map_template/planetoid/persistent/outreach
