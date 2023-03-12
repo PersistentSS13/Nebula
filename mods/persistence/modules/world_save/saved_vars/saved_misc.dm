@@ -941,6 +941,7 @@ SAVED_VAR(/obj/effect/fusion_particle_catcher, mysize)
 
 SAVED_VAR(/obj/effect/fluid, last_flow_strength)
 SAVED_VAR(/obj/effect/fluid, last_flow_dir)
+SAVED_VAR(/obj/effect/fluid, reagents)
 
 SAVED_VAR(/obj/effect/effect/smoke/chem, splash_amount)
 SAVED_VAR(/obj/effect/effect/smoke/chem, destination)
