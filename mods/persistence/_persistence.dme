@@ -39,6 +39,7 @@
 #include "datums\extensions\eye\area_control.dm"
 #include "datums\mind\mind.dm"
 #include "datums\music_tracks\blood_loss.dm"
+#include "datums\music_tracks\dirtyoldfrogg.dm"
 #include "datums\music_tracks\juno.dm"
 #include "datums\music_tracks\neogrotesque.dm"
 #include "datums\music_tracks\neon_koto.dm"
