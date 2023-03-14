@@ -826,3 +826,13 @@
 
 /obj/structure/disposalpipe/broken/welded()
 	qdel(src)
+
+
+//Pipe caps cause
+//a trunk joining to a disposal bin or outlet on the same turf
+/obj/structure/disposalpipe/cap
+	name = "disposal pipe cap"
+	icon_state = "pipe-cap"
+
+/obj/structure/disposalpipe/cap/nextdir(var/fromdir)
+	return turn(fromdir, 180)
