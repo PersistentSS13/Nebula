@@ -29,7 +29,8 @@
 /obj/effect/overmap/trade_beacon/proc/move_to_starting_location()
 	var/datum/overmap/overmap = global.overmaps_by_name[overmap_id]
 	var/location
-
+	if(!overmap)
+		return
 	if(start_x && start_y)
 		location = locate(start_x, start_y, overmap.assigned_z)
 	else
