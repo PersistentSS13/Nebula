@@ -29,11 +29,13 @@
 
 /obj/effect/overmap/trade_beacon/Destroy()
 	SStrade_beacons.all_trade_beacons.Remove(src)
-	QDEL_NULL(possible_imports)
-	QDEL_NULL(possible_exports)
-	QDEL_NULL(active_imports)
-	QDEL_NULL(active_exports)
-	linked_controller = null
+	QDEL_NULL_LIST(possible_imports)
+	QDEL_NULL_LIST(possible_exports)
+	QDEL_NULL_LIST(active_imports)
+	QDEL_NULL_LIST(active_exports)
+	if(linked_controller)
+		linked_controller.linked_beacon = null
+		linked_controller = null
 	QDEL_NULL(beacon_account)
 	. = ..()
 /obj/effect/overmap/trade_beacon/proc/move_to_starting_location()
