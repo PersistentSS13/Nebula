@@ -212,7 +212,6 @@
 #include "modules\overmap\exoplanets\turfs.dm"
 #include "modules\overmap\internet\internet_uplink.dm"
 #include "modules\overmap\ships\landable.dm"
-#include "modules\overmap_trade\tradebeacon.dm"
 #include "modules\paperwork\printer.dm"
 #include "modules\power\apc.dm"
 #include "modules\power\cable.dm"
