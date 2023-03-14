@@ -323,7 +323,7 @@
 	if(href_list["select_telepad"])
 		detect_telepads()
 		var/obj/T = locate(href_list["select_telepad"])
-		if(T && T in detected_telepads)
+		if(T && (T in detected_telepads))
 			selected_telepad = T
 		return TOPIC_REFRESH
 	if(href_list["refresh_telepad"])
