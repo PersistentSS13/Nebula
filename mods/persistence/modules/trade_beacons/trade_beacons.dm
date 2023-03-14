@@ -49,7 +49,7 @@
 
 
 /obj/effect/overmap/trade_beacon/Initialize()
-	..()
+	. = ..()
 	beacon_account = new()
 	beacon_account.account_name = name
 	move_to_starting_location()
