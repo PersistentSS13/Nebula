@@ -23,6 +23,7 @@
 /datum/beacon_export/proc/resetExport()
 	checked_closet = null
 
+
 /datum/beacon_export/proc/checkExport(var/turf/L)
 	if(!L) return "No valid location detected"
 	var/obj/closet_found = 0

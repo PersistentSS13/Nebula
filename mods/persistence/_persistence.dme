@@ -27,7 +27,6 @@
 #include "controllers\subsystems\mining.dm"
 #include "controllers\subsystems\persistence.dm"
 #include "controllers\subsystems\skills.dm"
-#include "controllers\subsystems\trade_beacons.dm"
 #include "controllers\subsystems\initialization\chargen.dm"
 #include "controllers\subsystems\initialization\fabrication.dm"
 #include "controllers\subsystems\processing\specifications.dm"

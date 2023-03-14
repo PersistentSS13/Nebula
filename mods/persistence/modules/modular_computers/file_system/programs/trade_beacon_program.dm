@@ -66,6 +66,237 @@
 /datum/computer_file/program/trade_management/proc/resetExport()
 	return selected_export.resetExport()
 
+/datum/computer_file/program/trade_management/proc/buyImport()
+	var/import_tax = 0
+	if(!selected_import || !selected_beacon)
+		return
+	if(!(selected_import in selected_beacon.active_imports))
+		selected_import = null
+		return
+	if(!selected_telepad)
+		to_chat(usr, SPAN_WARNING("You must select a telepad to send the import to."))
+		return TOPIC_REFRESH
+	if(selected_beacon && selected_beacon.linked_controller)
+		import_tax = selected_beacon.linked_controller.import_tax
+	var/cost = selected_import.get_cost(import_tax)
+	var/tax_portion = selected_import.get_tax(import_tax)
+	switch(payment_type)
+		if(1)
+			var/datum/computer_file/data/account/A = computer.get_account()
+			if(A)
+
+				var/oerr = checkImport()
+				if(oerr)
+					to_chat(usr, SPAN_WARNING("Import purchase failed: [oerr]"))
+					return TOPIC_HANDLED
+				var/datum/money_account/child/network/money_account = A.money_account
+				if(money_account)
+					var/terr = money_account.can_afford(cost, selected_beacon.beacon_account)
+					if(terr)
+						to_chat(usr, SPAN_WARNING("Import purchase failed: [terr]"))
+						return TOPIC_HANDLED
+					var/final_cost = cost-tax_portion
+					var/err = money_account.transfer(selected_beacon.beacon_account, final_cost, "Import Purchase ([selected_import.name] from [selected_beacon.name])")
+					if(err)
+						to_chat(usr, SPAN_WARNING("Import purchase failed: [err]."))
+						return TOPIC_HANDLED
+					else
+						if(tax_portion)
+							var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
+							if(network && network.banking_mainframe && network.banking_mainframe.get_parent_account())
+								err = money_account.transfer(network.banking_mainframe.get_parent_account(), tax_portion, "Import Purchase Tax ([selected_import.name] from [selected_beacon.name])")
+								if(err)
+									selected_beacon.beacon_account.transfer(money_account, final_cost, "Refunded Import Purchase ([selected_import.name] from [selected_beacon.name])")
+								else
+									spawnImport()
+						else
+							spawnImport()
+				else
+					to_chat(usr, SPAN_WARNING("No banking account associated with this network. Contact your system administrator.."))
+			else
+				to_chat(usr, SPAN_WARNING("You must login to a valid account on your network to pay digitally."))
+		if(2)
+			var/obj/item/stock_parts/computer/charge_stick_slot/charge_slot = computer.get_component(PART_MSTICK)
+			if(!charge_slot || !charge_slot.stored_stick)
+				to_chat(usr, SPAN_WARNING("No charge stick is inserted into the computer."))
+				return TOPIC_REFRESH
+			var/obj/item/charge_stick/stick = charge_slot.stored_stick
+			if(cost > stick.loaded_worth)
+				to_chat(usr, SPAN_WARNING("The loaded charge stick does not have enough credits stored!"))
+				return TOPIC_HANDLED
+			var/oerr = checkImport()
+			if(oerr)
+				to_chat(usr, SPAN_WARNING("Import purchase failed: [oerr]"))
+				return TOPIC_HANDLED
+			stick.adjust_worth(-(cost))
+			if(tax_portion)
+				var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
+				if(network && network.banking_mainframe && network.banking_mainframe.get_parent_account())
+					var/datum/money_account/child/network/money_account = network.banking_mainframe.get_parent_account()
+					money_account.deposit(tax_portion, "Import Purchase Tax ([selected_import.name] from [selected_beacon.name])")
+			spawnImport()
+		if(3)
+			var/datum/computer_network/net = computer.get_network()
+			var/list/accesses = computer.get_access(usr)
+			if(net && net.banking_mainframe)
+				if(!net.banking_mainframe.has_access(accesses))
+					to_chat(usr, SPAN_WARNING("You do not have access to the parent account on your current network."))
+					return TOPIC_REFRESH
+				else
+					var/datum/money_account/parent/network/money_account = net.banking_mainframe.get_parent_account()
+					if(money_account)
+						var/terr = money_account.can_afford(cost, selected_beacon.beacon_account)
+						if(terr)
+							to_chat(usr, SPAN_WARNING("Import purchase failed: [terr]"))
+							return TOPIC_HANDLED
+						var/oerr = checkImport()
+						if(oerr)
+							to_chat(usr, SPAN_WARNING("Import purchase failed: [oerr]"))
+							return TOPIC_HANDLED
+						if(tax_portion)
+							var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
+							if(network && network.banking_mainframe && network.banking_mainframe.get_parent_account())
+								if(network.banking_mainframe.get_parent_account() == money_account) // dont pay tax from the account into the same account
+									tax_portion = 0
+									cost = selected_import.get_cost(0)
+							else // remove tax if we cant find a parent account to pay it to.
+								tax_portion = 0
+								cost = selected_import.get_cost(0)
+						if(money_account.money < cost)
+							to_chat(usr, SPAN_WARNING("Import purchase failed: Insufficent funds."))
+							return TOPIC_HANDLED
+						var/final_cost = cost-tax_portion
+						var/err = money_account.transfer(selected_beacon.beacon_account, final_cost, "Import Purchase ([selected_import.name] from [selected_beacon.name])")
+						if(err)
+							to_chat(usr, SPAN_WARNING("Import purchase failed: [err]."))
+							return TOPIC_HANDLED
+						else
+							if(tax_portion)
+								var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
+								if(network && network.banking_mainframe && network.banking_mainframe.get_parent_account())
+									err = money_account.transfer(network.banking_mainframe.get_parent_account(), tax_portion, "Import Purchase Tax ([selected_import.name] from [selected_beacon.name])")
+									if(err)
+										selected_beacon.beacon_account.transfer(money_account, final_cost, "Refunded Import Purchase ([selected_import.name] from [selected_beacon.name])")
+									else
+										spawnImport()
+							else
+								spawnImport()
+			else
+				to_chat(usr, SPAN_WARNING("The network does not have a central account."))
+				return TOPIC_REFRESH
+	return TOPIC_REFRESH
+
+/datum/computer_file/program/trade_management/proc/buyExport()
+	var/export_tax = 0
+	if(!selected_export || !selected_beacon)
+		return TOPIC_REFRESH
+	if(!(selected_export in selected_beacon.active_exports))
+		selected_export = null
+		return
+	if(!selected_telepad)
+		to_chat(usr, SPAN_WARNING("You must select a telepad to send the export to."))
+		return TOPIC_REFRESH
+	if(selected_beacon && selected_beacon.linked_controller)
+		export_tax = selected_beacon.linked_controller.export_tax
+	var/cost = selected_export.get_cost(export_tax)
+	var/tax_portion = selected_export.get_tax(export_tax)
+	switch(payment_type)
+		if(1)
+			var/datum/computer_file/data/account/A = computer.get_account()
+			if(A)
+				var/datum/money_account/child/network/money_account = A.money_account
+				if(money_account)
+					var/e_err = checkExport()
+					if(e_err)
+						to_chat(usr, SPAN_WARNING("Export failed: [e_err]."))
+						resetExport()
+						return TOPIC_HANDLED
+					var/err = money_account.deposit(cost, "Export ([selected_export.name] from [selected_beacon.name])")
+					if(err)
+						to_chat(usr, SPAN_WARNING("Export failed: [err]."))
+						resetExport()
+						return TOPIC_HANDLED
+					else
+
+						if(tax_portion)  // SUCCESS
+							var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
+							if(network && network.banking_mainframe && network.banking_mainframe.get_parent_account())
+								var/datum/money_account/acc = network.banking_mainframe.get_parent_account()
+								err = acc.deposit(tax_portion, "Export Tax ([selected_export.name] from [selected_beacon.name])")
+						var/result = takeExport()
+						if(result)
+							to_chat(usr, SPAN_WARNING("Export failed: [e_err]."))
+				else
+					to_chat(usr, SPAN_WARNING("No banking account associated with this network. Contact your system administrator."))
+					return TOPIC_REFRESH
+			else
+				to_chat(usr, SPAN_WARNING("You must login to a valid account on your network to pay digitally."))
+				return TOPIC_REFRESH
+		if(2)
+			var/obj/item/stock_parts/computer/charge_stick_slot/charge_slot = computer.get_component(PART_MSTICK)
+			if(!charge_slot || !charge_slot.stored_stick)
+				to_chat(usr, SPAN_WARNING("No charge stick is inserted into the computer."))
+				return TOPIC_REFRESH
+			var/obj/item/charge_stick/stick = charge_slot.stored_stick
+			var/e_err = checkExport()
+			if(e_err)
+				to_chat(usr, SPAN_WARNING("Export failed: [e_err]."))
+				resetExport()
+				return TOPIC_HANDLED
+			stick.adjust_worth(cost)
+			if(tax_portion)
+				var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
+				if(network && network.banking_mainframe && network.banking_mainframe.get_parent_account())
+					var/datum/money_account/acc = network.banking_mainframe.get_parent_account()
+					acc.deposit(tax_portion, "Export Tax ([selected_export.name] from [selected_beacon.name])")
+			var/result = takeExport()
+			if(result)
+				to_chat(usr, SPAN_WARNING("Export failed: [e_err]."))
+		if(3)
+			var/datum/computer_network/net = computer.get_network()
+			var/list/accesses = computer.get_access(usr)
+			if(net && net.banking_mainframe)
+				if(!net.banking_mainframe.has_access(accesses))
+					to_chat(usr, SPAN_WARNING("You do not have access to the parent account on your current network."))
+					return TOPIC_REFRESH
+				else
+					var/datum/money_account/parent/network/money_account = net.banking_mainframe.get_parent_account()
+					if(money_account)
+						if(tax_portion)
+							var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
+							if(network && network.banking_mainframe && network.banking_mainframe.get_parent_account())
+								if(network.banking_mainframe.get_parent_account() == money_account) // dont pay tax from the account into the same account
+									tax_portion = 0
+									cost = selected_export.get_cost(0)
+							else // remove tax if we cant find a parent account to pay it to.
+								tax_portion = 0
+								cost = selected_export.get_cost(0)
+						var/e_err = checkExport()
+						if(e_err)
+							to_chat(usr, SPAN_WARNING("Export failed: [e_err]."))
+							resetExport()
+							return TOPIC_HANDLED
+						var/err = money_account.deposit(cost, "Export ([selected_export.name] to [selected_beacon.name])")
+						if(err)
+							to_chat(usr, SPAN_WARNING("Export failed: [err]."))
+							resetExport()
+							return TOPIC_HANDLED
+
+						else // SUCCESS
+							if(tax_portion)
+								var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
+								if(network && network.banking_mainframe && network.banking_mainframe.get_parent_account())
+									var/datum/money_account/acc = network.banking_mainframe.get_parent_account()
+									err = acc.deposit(tax_portion, "Export Tax ([selected_export.name] from [selected_beacon.name])")
+							var/result = takeExport()
+							if(result)
+								to_chat(usr, SPAN_WARNING("Export failed: [e_err]."))
+
+			else
+				to_chat(usr, SPAN_WARNING("The network does not have a central account."))
+				return TOPIC_REFRESH
+	return TOPIC_REFRESH
+
 
 /datum/nano_module/program/trade_management/ui_interact(mob/user, ui_key, datum/nanoui/ui, force_open, datum/nanoui/master_ui, datum/topic_state/state)
 	var/list/data = host.initial_data()
@@ -330,231 +561,6 @@
 		detect_telepads()
 		return TOPIC_REFRESH
 	if(href_list["buy_import"])
-		var/import_tax = 0
-		if(!selected_import || !selected_beacon)
-			return
-		if(!(selected_import in selected_beacon.active_imports))
-			selected_import = null
-			return
-		if(!selected_telepad)
-			to_chat(usr, SPAN_WARNING("You must select a telepad to send the import to."))
-			return TOPIC_REFRESH
-		if(selected_beacon && selected_beacon.linked_controller)
-			import_tax = selected_beacon.linked_controller.import_tax
-		var/cost = selected_import.get_cost(import_tax)
-		var/tax_portion = selected_import.get_tax(import_tax)
-		switch(payment_type)
-			if(1)
-				var/datum/computer_file/data/account/A = computer.get_account()
-				if(A)
-
-					var/oerr = checkImport()
-					if(oerr)
-						to_chat(usr, SPAN_WARNING("Import purchase failed: [oerr]"))
-						return TOPIC_HANDLED
-					var/datum/money_account/child/network/money_account = A.money_account
-					if(money_account)
-						var/terr = money_account.can_afford(cost, selected_beacon.beacon_account)
-						if(terr)
-							to_chat(usr, SPAN_WARNING("Import purchase failed: [terr]"))
-							return TOPIC_HANDLED
-						var/final_cost = cost-tax_portion
-						var/err = money_account.transfer(selected_beacon.beacon_account, final_cost, "Import Purchase ([selected_import.name] from [selected_beacon.name])")
-						if(err)
-							to_chat(usr, SPAN_WARNING("Import purchase failed: [err]."))
-							return TOPIC_HANDLED
-						else
-							if(tax_portion)
-								var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
-								if(network && network.banking_mainframe && network.banking_mainframe.get_parent_account())
-									err = money_account.transfer(network.banking_mainframe.get_parent_account(), tax_portion, "Import Purchase Tax ([selected_import.name] from [selected_beacon.name])")
-									if(err)
-										selected_beacon.beacon_account.transfer(money_account, final_cost, "Refunded Import Purchase ([selected_import.name] from [selected_beacon.name])")
-									else
-										spawnImport()
-							else
-								spawnImport()
-					else
-						to_chat(usr, SPAN_WARNING("No banking account associated with this network. Contact your system administrator.."))
-				else
-					to_chat(usr, SPAN_WARNING("You must login to a valid account on your network to pay digitally."))
-			if(2)
-				var/obj/item/stock_parts/computer/charge_stick_slot/charge_slot = computer.get_component(PART_MSTICK)
-				if(!charge_slot || !charge_slot.stored_stick)
-					to_chat(usr, SPAN_WARNING("No charge stick is inserted into the computer."))
-					return TOPIC_REFRESH
-				var/obj/item/charge_stick/stick = charge_slot.stored_stick
-				if(cost > stick.loaded_worth)
-					to_chat(usr, SPAN_WARNING("The loaded charge stick does not have enough credits stored!"))
-					return TOPIC_HANDLED
-				var/oerr = checkImport()
-				if(oerr)
-					to_chat(usr, SPAN_WARNING("Import purchase failed: [oerr]"))
-					return TOPIC_HANDLED
-				stick.adjust_worth(-(cost))
-				if(tax_portion)
-					var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
-					if(network && network.banking_mainframe && network.banking_mainframe.get_parent_account())
-						var/datum/money_account/child/network/money_account = network.banking_mainframe.get_parent_account()
-						money_account.deposit(tax_portion, "Import Purchase Tax ([selected_import.name] from [selected_beacon.name])")
-				spawnImport()
-			if(3)
-				var/datum/computer_network/net = computer.get_network()
-				var/list/accesses = computer.get_access(usr)
-				if(net && net.banking_mainframe)
-					if(!net.banking_mainframe.has_access(accesses))
-						to_chat(usr, SPAN_WARNING("You do not have access to the parent account on your current network."))
-						return TOPIC_REFRESH
-					else
-						var/datum/money_account/parent/network/money_account = net.banking_mainframe.get_parent_account()
-						if(money_account)
-							var/terr = money_account.can_afford(cost, selected_beacon.beacon_account)
-							if(terr)
-								to_chat(usr, SPAN_WARNING("Import purchase failed: [terr]"))
-								return TOPIC_HANDLED
-							var/oerr = checkImport()
-							if(oerr)
-								to_chat(usr, SPAN_WARNING("Import purchase failed: [oerr]"))
-								return TOPIC_HANDLED
-							if(tax_portion)
-								var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
-								if(network && network.banking_mainframe && network.banking_mainframe.get_parent_account())
-									if(network.banking_mainframe.get_parent_account() == money_account) // dont pay tax from the account into the same account
-										tax_portion = 0
-										cost = selected_import.get_cost(0)
-								else // remove tax if we cant find a parent account to pay it to.
-									tax_portion = 0
-									cost = selected_import.get_cost(0)
-							if(money_account.money < cost)
-								to_chat(usr, SPAN_WARNING("Import purchase failed: Insufficent funds."))
-								return TOPIC_HANDLED
-							var/final_cost = cost-tax_portion
-							var/err = money_account.transfer(selected_beacon.beacon_account, final_cost, "Import Purchase ([selected_import.name] from [selected_beacon.name])")
-							if(err)
-								to_chat(usr, SPAN_WARNING("Import purchase failed: [err]."))
-								return TOPIC_HANDLED
-							else
-								if(tax_portion)
-									var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
-									if(network && network.banking_mainframe && network.banking_mainframe.get_parent_account())
-										err = money_account.transfer(network.banking_mainframe.get_parent_account(), tax_portion, "Import Purchase Tax ([selected_import.name] from [selected_beacon.name])")
-										if(err)
-											selected_beacon.beacon_account.transfer(money_account, final_cost, "Refunded Import Purchase ([selected_import.name] from [selected_beacon.name])")
-										else
-											spawnImport()
-								else
-									spawnImport()
-				else
-					to_chat(usr, SPAN_WARNING("The network does not have a central account."))
-					return TOPIC_REFRESH
-		return TOPIC_REFRESH
+		return buyImport()
 	if(href_list["buy_export"])
-		var/export_tax = 0
-		if(!selected_export || !selected_beacon)
-			return TOPIC_REFRESH
-		if(!(selected_export in selected_beacon.active_exports))
-			selected_export = null
-			return
-		if(!selected_telepad)
-			to_chat(usr, SPAN_WARNING("You must select a telepad to send the export to."))
-			return TOPIC_REFRESH
-		if(selected_beacon && selected_beacon.linked_controller)
-			export_tax = selected_beacon.linked_controller.export_tax
-		var/cost = selected_export.get_cost(export_tax)
-		var/tax_portion = selected_export.get_tax(export_tax)
-		switch(payment_type)
-			if(1)
-				var/datum/computer_file/data/account/A = computer.get_account()
-				if(A)
-					var/datum/money_account/child/network/money_account = A.money_account
-					if(money_account)
-						var/e_err = checkExport()
-						if(e_err)
-							to_chat(usr, SPAN_WARNING("Export failed: [e_err]."))
-							resetExport()
-							return TOPIC_HANDLED
-						var/err = money_account.deposit(cost, "Export ([selected_export.name] from [selected_beacon.name])")
-						if(err)
-							to_chat(usr, SPAN_WARNING("Export failed: [err]."))
-							resetExport()
-							return TOPIC_HANDLED
-						else
-
-							if(tax_portion)  // SUCCESS
-								var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
-								if(network && network.banking_mainframe && network.banking_mainframe.get_parent_account())
-									var/datum/money_account/acc = network.banking_mainframe.get_parent_account()
-									err = acc.deposit(tax_portion, "Export Tax ([selected_export.name] from [selected_beacon.name])")
-							var/result = takeExport()
-							if(result)
-								to_chat(usr, SPAN_WARNING("Export failed: [e_err]."))
-					else
-						to_chat(usr, SPAN_WARNING("No banking account associated with this network. Contact your system administrator."))
-						return TOPIC_REFRESH
-				else
-					to_chat(usr, SPAN_WARNING("You must login to a valid account on your network to pay digitally."))
-					return TOPIC_REFRESH
-			if(2)
-				var/obj/item/stock_parts/computer/charge_stick_slot/charge_slot = computer.get_component(PART_MSTICK)
-				if(!charge_slot || !charge_slot.stored_stick)
-					to_chat(usr, SPAN_WARNING("No charge stick is inserted into the computer."))
-					return TOPIC_REFRESH
-				var/obj/item/charge_stick/stick = charge_slot.stored_stick
-				var/e_err = checkExport()
-				if(e_err)
-					to_chat(usr, SPAN_WARNING("Export failed: [e_err]."))
-					resetExport()
-					return TOPIC_HANDLED
-				stick.adjust_worth(cost)
-				if(tax_portion)
-					var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
-					if(network && network.banking_mainframe && network.banking_mainframe.get_parent_account())
-						var/datum/money_account/acc = network.banking_mainframe.get_parent_account()
-						acc.deposit(tax_portion, "Export Tax ([selected_export.name] from [selected_beacon.name])")
-				var/result = takeExport()
-				if(result)
-					to_chat(usr, SPAN_WARNING("Export failed: [e_err]."))
-			if(3)
-				var/datum/computer_network/net = computer.get_network()
-				var/list/accesses = computer.get_access(usr)
-				if(net && net.banking_mainframe)
-					if(!net.banking_mainframe.has_access(accesses))
-						to_chat(usr, SPAN_WARNING("You do not have access to the parent account on your current network."))
-						return TOPIC_REFRESH
-					else
-						var/datum/money_account/parent/network/money_account = net.banking_mainframe.get_parent_account()
-						if(money_account)
-							if(tax_portion)
-								var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
-								if(network && network.banking_mainframe && network.banking_mainframe.get_parent_account())
-									if(network.banking_mainframe.get_parent_account() == money_account) // dont pay tax from the account into the same account
-										tax_portion = 0
-										cost = selected_export.get_cost(0)
-								else // remove tax if we cant find a parent account to pay it to.
-									tax_portion = 0
-									cost = selected_export.get_cost(0)
-							var/e_err = checkExport()
-							if(e_err)
-								to_chat(usr, SPAN_WARNING("Export failed: [e_err]."))
-								resetExport()
-								return TOPIC_HANDLED
-							var/err = money_account.deposit(cost, "Export ([selected_export.name] to [selected_beacon.name])")
-							if(err)
-								to_chat(usr, SPAN_WARNING("Export failed: [err]."))
-								resetExport()
-								return TOPIC_HANDLED
-
-							else // SUCCESS
-								if(tax_portion)
-									var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
-									if(network && network.banking_mainframe && network.banking_mainframe.get_parent_account())
-										var/datum/money_account/acc = network.banking_mainframe.get_parent_account()
-										err = acc.deposit(tax_portion, "Export Tax ([selected_export.name] from [selected_beacon.name])")
-								var/result = takeExport()
-								if(result)
-									to_chat(usr, SPAN_WARNING("Export failed: [e_err]."))
-
-				else
-					to_chat(usr, SPAN_WARNING("The network does not have a central account."))
-					return TOPIC_REFRESH
-		return TOPIC_REFRESH
+		return buyExport()
