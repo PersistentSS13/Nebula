@@ -3554,5 +3554,8 @@
 #include "maps\~mapsystem\maps_unit_testing.dm"
 #include "maps\~unit_tests\unit_testing.dm"
 #include "mods\_modpack.dm"
+#include "mods\persistence\modules\trade_beacons\exports.dm"
+#include "mods\persistence\modules\trade_beacons\imports.dm"
+#include "mods\persistence\modules\trade_beacons\trade_beacons.dm"
 #include "~code\global_init.dm"
 // END_INCLUDE
