@@ -19,4 +19,8 @@
 		id = sanitize(id)
 		if(CanInteract(user, DefaultTopicState()) && id) telepad_id = id
 
-	return component_attackby(O, user)
+	..()
+
+/obj/machinery/telepad_cargo/examine(mob/user)
+	. = ..()
+	to_chat(user, "It has a telepad ID of [telepad_id].")
