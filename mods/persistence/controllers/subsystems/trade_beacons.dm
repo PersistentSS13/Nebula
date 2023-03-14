@@ -7,8 +7,10 @@ SUBSYSTEM_DEF(trade_beacons)
 	var/last_cycle = 0
 
 /datum/controller/subsystem/trade_beacons/Initialize()
+	all_trade_beacons = list()
 	for(var/x in wanted_trade_beacons)
 		var/obj/effect/overmap/trade_beacon/beacon = new x()
+		all_trade_beacons |= beacon
 		beacon.Initialize()
 	. = ..()
 
