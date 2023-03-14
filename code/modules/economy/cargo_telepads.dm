@@ -9,9 +9,10 @@
 	active_power_usage = 500
 	var/telepad_id = 0
 	obj_flags = OBJ_FLAG_ANCHORABLE
+
 /obj/machinery/telepad_cargo/Initialize()
 	telepad_id = random_id(type,10000,99999)
-	..()
+	. = ..()
 
 /obj/machinery/telepad_cargo/attackby(obj/item/O as obj, mob/user as mob, params)
 	if(IS_MULTITOOL(O))

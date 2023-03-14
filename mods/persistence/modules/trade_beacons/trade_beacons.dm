@@ -25,7 +25,9 @@
 	var/datum/money_account/beacon_account
 	var/start_x = 0
 	var/start_y = 0
-
+/obj/effect/overmap/trade_beacon/Destroy()
+	SStrade_beacons.all_trade_beacons.Remove(src)
+	. = ..()
 /obj/effect/overmap/trade_beacon/proc/move_to_starting_location()
 	var/datum/overmap/overmap = global.overmaps_by_name[overmap_id]
 	var/location
