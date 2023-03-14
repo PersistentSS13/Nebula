@@ -68,6 +68,7 @@
 	. = ..()
 
 /obj/effect/overmap/trade_beacon/proc/regenerate_imports()
+	if(!active_imports) active_imports = list()
 	active_imports.Cut()
 	for(var/import in possible_imports)
 		if(!prob(possible_imports[import])) continue
@@ -76,6 +77,7 @@
 
 
 /obj/effect/overmap/trade_beacon/proc/regenerate_exports()
+	if(!active_exports) active_exports = list()
 	active_exports.Cut()
 	for(var/export in possible_exports)
 		if(!prob(possible_exports[export])) continue

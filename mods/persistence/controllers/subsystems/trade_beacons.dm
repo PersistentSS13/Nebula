@@ -11,7 +11,6 @@ SUBSYSTEM_DEF(trade_beacons)
 	for(var/x in wanted_trade_beacons)
 		var/obj/effect/overmap/trade_beacon/beacon = new x()
 		all_trade_beacons |= beacon
-		beacon.Initialize()
 	. = ..()
 
 /datum/controller/subsystem/trade_beacons/fire(resumed = FALSE)
@@ -21,3 +20,4 @@ SUBSYSTEM_DEF(trade_beacons)
 		for(var/obj/effect/overmap/trade_beacon/x in all_trade_beacons)
 			x.regenerate_imports()
 			x.regenerate_exports()
+
