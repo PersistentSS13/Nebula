@@ -107,3 +107,22 @@
 	additional_spawn_components = list(
 		/obj/item/stock_parts/power/apc/buildable = 1
 	)
+
+
+/obj/item/stock_parts/circuitboard/trade_controller
+	name = "circuitboard (trade control device)"
+	build_path = /obj/machinery/network/trade_controller
+	origin_tech = "{'programming':4,'magnets':3}"
+	req_components = list(
+		/obj/item/stock_parts/capacitor = 1,
+		/obj/item/stock_parts/scanning_module = 2
+		)
+
+	additional_spawn_components = list(
+		/obj/item/stock_parts/power/apc/buildable = 1
+	)
+
+/obj/item/stock_parts/circuitboard/telepad
+	name = "circuitboard (cargo telepad)"
+	build_path = /obj/machinery/telepad_cargo
+

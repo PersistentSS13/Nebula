@@ -24,6 +24,8 @@
 	var/datum/money_account/parent/network/parent_account
 	var/list/datum/extension/network_device/money_cube/money_cubes = list()
 
+	var/datum/extension/network_device/trade_controller/trade_controller
+
 	var/network_features_enabled = NET_ALL_FEATURES
 	var/intrusion_detection_enabled
 	var/intrusion_detection_alarm
@@ -108,6 +110,7 @@
 
 		banking_mainframe = D
 		add_log("New banking mainframe set", newtag)
+
 	else if(istype(D, /datum/extension/network_device/money_cube))
 		if(!parent_account)
 			return FALSE
@@ -116,6 +119,12 @@
 		if(banking_mainframe)
 			parent_account.adjust_money(cube.stored_money)
 			cube.stored_money = 0
+
+	else if(istype(D, /datum/extension/network_device/trade_controller))
+		if(trade_controller)
+			return FALSE
+		trade_controller = D
+		add_log("New Trade Control set", newtag)
 
 	D.network_tag = newtag
 	devices |= D

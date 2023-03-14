@@ -1,0 +1,179 @@
+<div class='item'>
+	<div class='itemLabel'>
+		Connected Trade Beacon:
+	</div>
+	<div class='itemContent'>
+		{{:helper.link(data.beacon_name, '', {'select_beacon' : 1 })}}
+	</div>
+</div>
+<table style="width:100%">
+	<tr><td style="width:40%">Telepad
+	{{for data.telepads}}
+		<tr class="candystripe">
+		<td>{{:helper.link(value.telepad_name, '', {'select_telepad' : value.telepad_ref}, value.selected ? 'selected' : null)}}
+	{{/for}}
+</table>
+{{:helper.link('Rescan for Telepads', '', { 'refresh_telepad' : 1 })}}
+<br>
+<div class='item'>
+	<div class='itemLabel'>
+		Inventories Reset:
+	</div>
+	<div class='itemContent'>
+		{{:data.update_time}}
+	</div>
+</div>
+<br><hr>
+{{if !data.selected_beacon}}
+	<h1>No Trade Beacon Connected! You must connect to a trade beacon to use this program.</h1>
+{{else}}
+	{{if data.beacon_access}}
+		{{:helper.link('Import', null, { 'import' : 1 }, data.import ? 'selected' : null)}}
+		{{:helper.link('Export', null, { 'export' : 1 }, data.export ? 'selected' : null)}}
+		{{:helper.link('Transaction Log', null, { 'log' : 1 }, data.log ? 'selected' : null)}}
+		<br>
+		{{if data.import}}
+			<h2>Import Selection</h2>
+			{{if data.import_tax}}
+				<div class='itemLabel'>
+					Current Import Tariff %:
+				</div>
+				<div class='itemContent'>
+					{{:data.import_tax}}
+				</div>
+				<br>
+				The beacon is under control the control of the network '{{:data.controlling_network}}' which is taxing all imports from the beacon by {{:data.import_tax}}%. This increase is automatically included in the prices here.
+			<br><hr>
+			{{/if}}
+			<table style="width:100%">
+				<tr><td style="width:40%">Import Pack<th>Cost$<th>Remaining Stock
+				{{for data.imports}}
+					<tr class="candystripe">
+					<td>{{:helper.link(value.import_name, '', {'select_import' : value.import_ref})}}
+					<td>{{:value.import_cost}}
+					<td>{{:value.import_remaining}}
+				{{/for}}
+			</table>
+		{{/if}}
+		{{if data.export}}
+			<h2>Export Selection</h2>
+			<br>
+			{{if data.export_tax}}
+				<div class='itemLabel'>
+					Current Export Tariff %:
+				</div>
+				<div class='itemContent'>
+					{{:data.export_tax}}
+				</div>
+				<br>
+				The beacon is under control the control of the network '{{:data.controlling_network}}' which is taxing all exports from the beacon by {{:data.export_tax}}% This deduction is already included in the payments listed here.
+				<br><hr>
+			{{/if}}
+			<table style="width:100%">
+				<tr><td style="width:40%">Export Pack<th>Payment$<th>Remaining Demand
+				{{for data.exports}}
+					<tr class="candystripe">
+					<td>{{:helper.link(value.export_name, '', {'select_export' : value.export_ref})}}
+					<td>{{:value.export_cost}}
+					<td>{{:value.export_remaining}}
+				{{/for}}
+			</table>
+		{{/if}}
+
+
+		{{if data.log}}
+			{{if data.log_access}}
+				<h2>Transaction Log</h2>
+				<table style="width:100%">
+					<tr><td style="width:40%">Transaction<th>Payment<th>
+					{{for data.transactions}}
+						<tr class="candystripe">
+						<td>{{:value.transaction}}
+						<td>{{:value.transaction_cost}}
+					{{/for}}
+				</table>
+			{{else}}
+				The beacon is under control the control of the network '{{:data.controlling_network}}' which has restricted access to the transaction log.
+			{{/if}}
+		{{/if}}
+
+		{{if data.selected_import}}
+			<h2>{{:data.selected_import}} ${{:data.import_cost}}</h2>
+			<div class="statusDisplay" style="min-height: 120px;">
+				{{:data.import_desc}}
+			</div>
+			<br><hr>
+			<table style="width:100%">
+			<tr><td style="width:40%">Purchase Option<th>Balance$
+				<tr class="candystripe">
+				{{if data.personal_account}}
+					<td>{{:helper.link(data.personal_account, '', {'select_personal_account' : 1}, data.personal_account_sel ? 'selected' : null)}}
+					<td>${{:data.personal_account_balance}}
+				{{else}}
+					<td>{{:data.personal_account_error}}
+					<td>*N/A*
+				{{/if}}
+				<tr class="candystripe">
+				{{if data.charge_stick}}
+					<td>{{:helper.link('Charge Stick', '', {'select_charge_stick' : 1}, data.charge_stick_sel ? 'selected' : null)}}
+					<td>${{:data.charge_stick_balance}}
+				{{else}}
+					<td>{{:data.charge_stick_error}}
+					<td>*N/A*
+				{{/if}}
+				<tr class="candystripe">
+				{{if data.network_account}}
+					<td>{{:helper.link(data.network_account, '', {'select_network_account' : 1}, data.network_account_sel ? 'selected' : null)}}
+					<td>${{:data.network_account_balance}}
+				{{else}}
+					<td>{{:data.network_account_error}}
+					<td>*N/A*
+				{{/if}}
+			</table>
+			<br><hr>
+			{{:helper.link('Purchase Import', 'cart', { 'buy_import' : 1 })}}
+			{{:helper.link('Back', 'arrowthickstop-1-w', {'import' : 1})}}
+		{{/if}}
+
+
+		{{if data.selected_export}}
+			<h2>{{:data.selected_export}} ${{:data.export_cost}}</h2>
+			<div class="statusDisplay" style="min-height: 120px;">
+				{{:data.export_desc}}
+			</div>
+			<br><hr>
+			<table style="width:100%">
+			<tr><td style="width:40%">Purchase Option<th>Balance$
+				<tr class="candystripe">
+				{{if data.personal_account}}
+					<td>{{:helper.link(data.personal_account, '', {'select_personal_account' : 1}, data.personal_account_sel ? 'selected' : null)}}
+					<td>${{:data.personal_account_balance}}
+				{{else}}
+					<td>{{:data.personal_account_error}}
+					<td>*N/A*
+				{{/if}}
+				<tr class="candystripe">
+				{{if data.charge_stick}}
+					<td>{{:helper.link('Charge Stick', '', {'select_charge_stick' : 1}, data.charge_stick_sel ? 'selected' : null)}}
+					<td>${{:data.charge_stick_balance}}
+				{{else}}
+					<td>{{:data.charge_stick_error}}
+					<td>*N/A*
+				{{/if}}
+				<tr class="candystripe">
+				{{if data.network_account}}
+					<td>{{:helper.link(data.network_account, '', {'select_network_account' : 1}, data.network_account_sel ? 'selected' : null)}}
+					<td>${{:data.network_account_balance}}
+				{{else}}
+					<td>{{:data.network_account_error}}
+					<td>*N/A*
+				{{/if}}
+			</table>
+			<br><hr>
+			{{:helper.link('Process Export', 'cart', { 'buy_export' : 1 }, null)}}
+			{{:helper.link('Back', 'arrowthickstop-1-w', {'export' : 1})}}
+		{{/if}}
+	{{else}}
+		The beacon is under control the control of the network '{{:data.controlling_network}}' which has restricted access.
+	{{/if}}
+{{/if}}
