@@ -1,0 +1,68 @@
+<!-- 
+Title: Trade Beacon UI
+Used In File(s): mods\persistence\modules\overmap_trade\trade_beacon.dm
+ -->
+
+<H3>{{:data.title}}</H3>
+
+<div class='item'>
+	<div class='itemLabel'>
+		Linked Network:
+	</div>
+	<div class='itemContent'>
+		{{:data.network}}<br>{{:helper.link('Disconnect from Network', '', {'disconnect' : 1}, null, null)}}
+	</div>
+</div>
+<div class='item'>
+	<div class='itemLabel'>
+		Tax Rate:
+	</div>
+	<div class='itemContent'>
+		{{:helper.link( data.tax, '', {'change_tax' : 1}, data.authed ? null : 'disabled', null)}}%
+	</div>
+</div>
+<br><hr><br>
+{{:helper.link('View Imports', 'cart', {'set_screen' : 1}, data.screen == 1 ? 'selected' : null)}}
+{{:helper.link('View Exports', 'calculator', {'set_screen' : 2}, data.screen == 2 ? 'selected' : null)}}
+{{if data.screen == 1}}
+<H3>Items Available to Import</H3>
+	{{for data.categories}}
+		{{:helper.link(value, null, {'select_category' : value}, data.category == value ? 'selected' : null)}}
+	{{/for}}
+	{{if data.category}}
+		<table style="width:100%">
+		<tr>{{#def.common_supply_header}}
+		{{for data.possible_purchases}}
+			<tr class="candystripe">
+			<td>{{:value.name}}
+			<td>{{:value.cost}} {{:data.currency}}
+			<td>
+			{{if data.showing_contents_of && data.showing_contents_of == value.ref}}
+				{{:helper.link('Close', null, {'hide_contents' : 1})}}
+				<tr class="candystripe"><th colspan="3">Contents
+				{{for data.contents_of_order :content :content_index}}
+					<tr class="candystripe">
+					<td colspan="3">{{:content.name}} × {{:content.amount}}
+				{{/for}}
+			<hr>
+				<tr>{{#def.common_supply_header}}
+			{{else}}
+				{{:helper.link('Contents', null, {'show_contents' : value.ref})}}
+			{{/if}}
+		{{/for}}
+		</table>
+	{{/if}}
+
+{{else data.screen == 2}}
+	<H3>Items Available to Export</H3>
+	<table style="width:100%">
+	<tr>{{#def.common_supply_header}}
+	{{for data.exports}}
+		<tr class="candystripe">
+		<td>{{:value.name}}
+		<td>{{:value.cost}} {{:data.currency}}
+		<td>
+	{{/for}}
+	</table>
+
+{{/if}}
