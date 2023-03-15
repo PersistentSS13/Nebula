@@ -35,7 +35,6 @@
 	QDEL_NULL_LIST(active_imports)
 	QDEL_NULL_LIST(active_exports)
 	..()
-	return QDEL_HINT_HARDDEL
 
 
 /obj/effect/overmap/trade_beacon/proc/move_to_starting_location()
