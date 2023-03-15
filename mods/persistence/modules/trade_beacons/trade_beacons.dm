@@ -28,7 +28,7 @@
 
 
 /obj/effect/overmap/trade_beacon/Destroy(force)
-	loc = null
+	forceMove(null)
 	if(SStrade_beacons && SStrade_beacons.all_trade_beacons)
 		SStrade_beacons.all_trade_beacons -= src
 	QDEL_NULL_LIST(active_imports)
