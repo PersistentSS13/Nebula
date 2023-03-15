@@ -12,9 +12,11 @@ SUBSYSTEM_DEF(trade_beacons)
 
 /datum/controller/subsystem/trade_beacons/Initialize()
 	all_trade_beacons = list()
+#ifndef UNIT_TEST
 	for(var/x in wanted_trade_beacons)
 		var/obj/effect/overmap/trade_beacon/beacon = new x()
 		all_trade_beacons |= beacon
+#endif
 	. = ..()
 
 /datum/controller/subsystem/trade_beacons/fire(resumed = FALSE)
