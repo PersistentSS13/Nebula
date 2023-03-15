@@ -30,9 +30,11 @@
 /obj/effect/overmap/trade_beacon/Destroy()
 	forceMove(null)
 	if(SStrade_beacons && SStrade_beacons.all_trade_beacons)
-		SStrade_beacons.all_trade_beacons -= src
-	else
-		return QDEL_HINT_IFFAIL_FINDREFERENCE
+		SStrade_beacons.all_trade_beacons.Remove(src)
+	QDEL_NULL(beacon_account)
+	QDEL_NULL_LIST(active_imports)
+	QDEL_NULL_LIST(active_exports)
+	return QDEL_HINT_HARDDEL
 	. = ..()
 
 
