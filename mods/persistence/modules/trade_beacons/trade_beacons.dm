@@ -28,6 +28,7 @@
 
 
 /obj/effect/overmap/trade_beacon/Destroy(force)
+	loc = null
 	if(SStrade_beacons && SStrade_beacons.all_trade_beacons)
 		SStrade_beacons.all_trade_beacons -= src
 	QDEL_NULL_LIST(active_imports)
@@ -40,6 +41,7 @@
 	active_exports = null
 	beacon_account = null
 	. = ..()
+
 /obj/effect/overmap/trade_beacon/proc/move_to_starting_location()
 	var/datum/overmap/overmap = global.overmaps_by_name[overmap_id]
 	var/location
