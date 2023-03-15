@@ -27,8 +27,9 @@
 	var/start_y = 0
 
 
-/obj/effect/overmap/trade_beacon/Destroy()
-	SStrade_beacons.all_trade_beacons.Remove(src)
+/obj/effect/overmap/trade_beacon/Destroy(force)
+	if(SStrade_beacons && SStrade_beacons.all_trade_beacons)
+		SStrade_beacons.all_trade_beacons -= src
 	QDEL_NULL_LIST(active_imports)
 	QDEL_NULL_LIST(active_exports)
 	if(linked_controller)
