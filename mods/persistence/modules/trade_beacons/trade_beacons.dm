@@ -31,19 +31,8 @@
 	forceMove(null)
 	if(SStrade_beacons && SStrade_beacons.all_trade_beacons)
 		SStrade_beacons.all_trade_beacons -= src
-	QDEL_NULL_LIST(active_imports)
-	QDEL_NULL_LIST(active_exports)
-	if(linked_controller)
-		linked_controller.linked_beacon = null
-		linked_controller = null
-	QDEL_NULL(beacon_account)
-	active_imports = null
-	active_exports = null
-	beacon_account = null
-	STOP_PROCESSING(SSobj, src)
-	SSovermap.moving_entities -= src
-	speed = list(0, 0)
-	position = list(0, 0)
+	else
+		return QDEL_HINT_IFFAIL_FINDREFERENCE
 	. = ..()
 
 
