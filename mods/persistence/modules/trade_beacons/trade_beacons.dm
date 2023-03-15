@@ -27,7 +27,7 @@
 	var/start_y = 0
 
 
-/obj/effect/overmap/trade_beacon/Destroy(force)
+/obj/effect/overmap/trade_beacon/Destroy()
 	forceMove(null)
 	if(SStrade_beacons && SStrade_beacons.all_trade_beacons)
 		SStrade_beacons.all_trade_beacons -= src
@@ -40,7 +40,12 @@
 	active_imports = null
 	active_exports = null
 	beacon_account = null
+	STOP_PROCESSING(SSobj, src)
+	SSovermap.moving_entities -= src
+	speed = list(0, 0)
+	position = list(0, 0)
 	. = ..()
+
 
 /obj/effect/overmap/trade_beacon/proc/move_to_starting_location()
 	var/datum/overmap/overmap = global.overmaps_by_name[overmap_id]
