@@ -35,6 +35,9 @@
 		linked_controller.linked_beacon = null
 		linked_controller = null
 	QDEL_NULL(beacon_account)
+	active_imports = null
+	active_exports = null
+	beacon_account = null
 	. = ..()
 /obj/effect/overmap/trade_beacon/proc/move_to_starting_location()
 	var/datum/overmap/overmap = global.overmaps_by_name[overmap_id]
