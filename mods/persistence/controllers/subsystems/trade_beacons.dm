@@ -25,4 +25,4 @@ SUBSYSTEM_DEF(trade_beacons)
 			x.regenerate_imports()
 			x.regenerate_exports()
 
-	..()
+	. = ..()
