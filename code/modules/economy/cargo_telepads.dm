@@ -21,7 +21,7 @@
 		if(CanInteract(user, DefaultTopicState()) && id) telepad_id = id
 		return TRUE
 
-	..()
+	. = ..()
 
 /obj/machinery/telepad_cargo/examine(mob/user)
 	. = ..()
