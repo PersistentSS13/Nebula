@@ -19,6 +19,7 @@
 		var/id = input(user, "Enter a new telepad ID", "Telepad ID") as text|null
 		id = sanitize(id)
 		if(CanInteract(user, DefaultTopicState()) && id) telepad_id = id
+		return TRUE
 
 	..()
 
