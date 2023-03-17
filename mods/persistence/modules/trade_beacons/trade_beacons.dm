@@ -28,7 +28,6 @@
 
 
 /obj/effect/overmap/trade_beacon/Destroy()
-	forceMove(null)
 	if(SStrade_beacons && SStrade_beacons.all_trade_beacons)
 		SStrade_beacons.all_trade_beacons.Remove(src)
 	QDEL_NULL(beacon_account)
