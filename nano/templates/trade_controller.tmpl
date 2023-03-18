@@ -1,0 +1,49 @@
+{{if data.error}}
+	<h2>An error has occured:</h2>
+	Additional information: {{:data.error}}<br>
+	<i>Please try again. If the problem persists contact your system administrator for assistance.</i>
+	<div class="item">
+		{{:helper.link('REFRESH', null, { "refresh" : 1 })}}
+		{{:helper.link("NETWORK SETTINGS", null, { "settings" : 1 })}}
+	</div>
+{{else}}
+
+	<i>Welcome to the Trade control device. You may control a nearby trade beacon, adding taxes or restricting access as required.</i><hr>
+	<div class="itemContent">
+		{{:helper.link("NETWORK SETTINGS", null, { "settings" : 1 })}}
+	</div>
+	{{if !data.connected}}
+		<h2>Disconnected from network.</h2>
+	{{else}}
+	<	<table><th>Setting<th>Toggle<th>Info
+		<tr><td>CONNECTED BEACON:
+			<td>{{:helper.link(data.connected_beacon, null, { "connect_beacon" : 1 })}}
+			<td>{{:helper.link('?', null, { "info" : "connect_beacon"})}}
+		{{if data.valid_beacon}}
+
+			<tr><td>RESTRICT BEACON
+				<td>{{:helper.link(data.beacon_restrict ? 'ON' : 'OFF', null, { "toggle_beacon_restrict" : 1 })}}
+				<td>{{:helper.link('?', null, { "info" : "restrict_beacon_access"})}}
+			{{if data.beacon_restrict}}
+				<tr><td>BEACON ACCESS
+					<td>{{:helper.link(data.selected_beacon_access, null, { "select_beacon_access" : 1 })}}
+					<td>{{:helper.link('?', null, { "info" : "select_beacon_access"})}}
+			{{/if}}
+			<tr><td>IMPORT TARIFF %
+				<td>{{:helper.link(data.import_tax, null, { "change_import_tax" : 1 })}}
+				<td>{{:helper.link('?', null, { "info" : "import_tax"})}}
+			<tr><td>EXPORT TARIFF %
+				<td>{{:helper.link(data.export_tax, null, { "change_export_tax" : 1 })}}
+				<td>{{:helper.link('?', null, { "info" : "export_tax"})}}
+			<tr><td>RESTRICT TRANSACTION LOG
+				<td>{{:helper.link(data.log_restrict ? 'ON' : 'OFF', null, { "toggle_log_restrict" : 1 })}}
+				<td>{{:helper.link('?', null, { "info" : "restrict_log_access"})}}
+				{{if data.log_restrict}}
+					<tr><td>TRANSACTION LOG ACCESS
+						<td>{{:helper.link(data.selected_log_access, null, { "select_log_access" : 1 })}}
+						<td>{{:helper.link('?', null, { "info" : "select_log_access"})}}
+				{{/if}}
+		{{/if}}
+		</table>
+	{{/if}}
+{{/if}}
