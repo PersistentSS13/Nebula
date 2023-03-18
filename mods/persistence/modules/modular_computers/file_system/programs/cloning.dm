@@ -12,16 +12,56 @@
 	size = 12
 	nanomodule_path = /datum/nano_module/program/cloning
 
-	var/error
-	var/datum/file_storage/network/current_filesource = /datum/file_storage/network
-
-/datum/computer_file/program/cloning/on_startup(var/mob/living/user, var/datum/extension/interactive/os/new_host)
+/datum/computer_file/program/cloning/on_file_select(datum/file_storage/disk, datum/computer_file/directory/dir, datum/computer_file/selected, selecting_key, mob/user)
+	// We pass the weakref instead of the network tag for safety reasons.
+	var/weakref/CP_ref = selecting_key
+	if(istype(CP_ref))
+		var/datum/extension/network_device/cloning_pod/CP = CP_ref.resolve()
+		if(istype(CP))
+			CP.finished_scan = null
 	. = ..()
-	current_filesource = new(new_host)
 
-/datum/computer_file/program/cloning/on_shutdown()
+/datum/computer_file/program/cloning/Topic(href, href_list)
 	. = ..()
-	qdel(current_filesource)
+	if(.)
+		return
+
+	var/mob/user = usr
+	var/datum/computer_network/network = computer.get_network()
+	if(!network)
+		return
+
+	if(href_list["backup"])
+		var/datum/extension/network_device/cloning_pod/CP = network.get_device_by_tag(href_list["machine"])
+		if(!istype(CP))
+			return TOPIC_REFRESH
+		CP.begin_scan(user)
+		return TOPIC_REFRESH
+
+	if(href_list["save"])
+		var/datum/extension/network_device/cloning_pod/CP = network.get_device_by_tag(href_list["machine"])
+		if(!istype(CP))
+			return TOPIC_REFRESH
+
+		if(!CP.finished_scan)
+			return TOPIC_REFRESH
+		var/browser_desc = "Save cloning scan as:"
+		view_file_browser(user, weakref(CP), /datum/computer_file/data/cloning, OS_WRITE_ACCESS, browser_desc, CP.finished_scan)
+		return TOPIC_HANDLED
+
+	if(href_list["clone"])
+		var/datum/extension/network_device/cloning_pod/CP = network.get_device_by_tag(href_list["machine"])
+		if(!istype(CP))
+			return TOPIC_REFRESH
+		CP.begin_clone(user)
+		return TOPIC_REFRESH
+
+	if(href_list["eject"])
+		var/datum/extension/network_device/cloning_pod/CP = network.get_device_by_tag(href_list["machine"])
+		if(!istype(CP))
+			return TOPIC_REFRESH
+		CP.eject_occupant(user)
+		return TOPIC_REFRESH
 
 /datum/nano_module/program/cloning
 	name = "Organic Backup System"
@@ -29,17 +69,8 @@
 /datum/nano_module/program/cloning/ui_interact(mob/user, ui_key, datum/nanoui/ui, force_open, datum/nanoui/master_ui, datum/topic_state/state)
 	var/list/data = host.initial_data()
 	var/datum/computer_file/program/cloning/PRG = program
-	if(PRG.error)
-		data["error"] = PRG.error
-
 	var/datum/computer_network/network = PRG.computer.get_network()
-	if(!PRG.error && network)
-		data["fileserver"] = PRG.current_filesource.server
-		var/datum/extension/network_device/mainframe/MF = PRG.current_filesource.get_mainframe()
-		if(MF)
-			data["used_space"] = MF.get_used()
-			data["total_space"] = MF.get_capacity()
-
+	if(network)
 		var/list/cloning_pods = list()
 		for(var/datum/extension/network_device/cloning_pod/CP in network.devices)
 			var/obj/machinery/machine = CP.holder
@@ -51,13 +82,16 @@
 				"total_progress" = 1
 			)
 			cloning_pod["can_clone"] = CP.check_clone()
-			cloning_pod["can_backup"] = CP.check_scan() 
+			cloning_pod["can_backup"] = CP.check_scan()
+			cloning_pod["can_save"] = !!CP.finished_scan
 			if(!cloning_pod["online"])
 				cloning_pod["status"] = "Offline."
 			else if(CP.occupied)
 				cloning_pod["status"] = "Occupied."
-				if(CP.scanning || CP.cloning)
-					cloning_pod["operation"] = CP.scanning ? "Scanning." : "Cloning."
+				if(CP.finished_scan)
+					cloning_pod["operation"] = "Scan complete"
+				else if(CP.scanning || CP.cloning)
+					cloning_pod["operation"] = CP.scanning ? "Scanning" : "Cloning"
 					cloning_pod["progress"] = (world.time - CP.task_started_on) / (TASK_SCAN_TIME)
 					cloning_pod["remaining"] = round((TASK_SCAN_TIME + CP.task_started_on - world.time) / 10)
 				var/atom/movable/occupant = CP.get_occupant()
@@ -85,39 +119,3 @@
 		ui.set_initial_data(data)
 		ui.set_auto_update(1)
 		ui.open()
-
-/datum/computer_file/program/cloning/Topic(href, href_list)
-	. = ..()
-	if(.)
-		return
-
-	var/mob/user = usr
-	if(href_list["refresh"])
-		error = null
-
-	var/datum/computer_network/network = computer.get_network()
-	if(!network)
-		return
-
-	if(href_list["change_file_server"])
-		var/list/file_servers = network.get_file_server_tags(MF_ROLE_CLONING, computer.get_access(user))
-		var/file_server = input(usr, "Choose a fileserver to view files on:", "Select File Server") as null|anything in file_servers
-		if(file_server)
-			current_filesource.server = file_server
-
-	if(href_list["backup"])
-		error = current_filesource.check_errors()
-		if(error)
-			return
-		var/datum/extension/network_device/cloning_pod/CP = network.get_device_by_tag(href_list["machine"])
-		CP.begin_scan(user, current_filesource)
-
-	if(href_list["clone"])
-		var/datum/extension/network_device/cloning_pod/CP = network.get_device_by_tag(href_list["machine"])
-		CP.begin_clone(user)
-
-	if(href_list["eject"])
-		var/datum/extension/network_device/cloning_pod/CP = network.get_device_by_tag(href_list["machine"])
-		CP.eject_occupant(user)
-
-	return TOPIC_REFRESH
