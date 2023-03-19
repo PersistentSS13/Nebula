@@ -37,6 +37,8 @@
 #define SS_PRIORITY_ZCOPY          10  // Builds appearances for Z-Mimic.
 #define SS_PRIORITY_PROJECTILES    10  // Projectile processing!
 #define SS_PRIORITY_MONEY_ACCOUNTS 10  // Money accounts processing.
+#define SS_PRIORITY_QUADRANTS 11  // Money accounts processing.
+#define SS_PRIORITY_TRADE_BEACONS 12  // Money accounts processing.
 
 // SS_BACKGROUND
 #define SS_PRIORITY_OBJECTS       100  // processing_objects processing.
