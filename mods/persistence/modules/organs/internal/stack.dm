@@ -2,14 +2,14 @@ var/global/list/cortical_stacks = list()
 /proc/switchToStack(var/obj/stack_holder, var/datum/mind/mind)
 	// See if we can find the stack in whatever the holder was, usually a person.
 	var/obj/item/organ/internal/stack/target = locate() in stack_holder
-	if(!target)
+	if(!target || target.mind_id != mind.unique_id)
 		for(var/obj/item/organ/internal/stack/S in global.cortical_stacks)
 			if(S.mind_id == mind.unique_id)
 				target = S
 				break
 	if(!target)
 		return null
-	target.stackmob = new(target)
+	target.stackmob = new(target, target)
 	target.stackmob.SetName(mind.current.real_name)
 	target.stackmob.real_name = mind.current.real_name
 	mind.transfer_to(target.stackmob)
@@ -40,7 +40,8 @@ var/global/list/cortical_stacks = list()
 	global.cortical_stacks -= src
 	QDEL_NULL(backup)
 	if(stackmob)
-		stackmob.forceMove(null) // Move the stackmob to null space to allow it to otherwise resleeve.
+		stackmob.forceMove(SSchargen.limbo_holder) // Move the stackmob to the limbo holder to allow it to otherwise resleeve.
+		stackmob.cortical_stack = null
 		stackmob = null
 	. = ..()
 
@@ -127,3 +128,8 @@ var/global/list/cortical_stacks = list()
 			stack.verbs |= /obj/item/organ/internal/stack/proc/change_cortical_alias
 			if(!stack.cortical_alias)
 				stack.cortical_alias = Gibberish(name, 100)
+
+SAVED_VAR(/obj/item/organ/internal/stack, stackmob)
+SAVED_VAR(/obj/item/organ/internal/stack, backup)
+SAVED_VAR(/obj/item/organ/internal/stack, cortical_alias)
+SAVED_VAR(/obj/item/organ/internal/stack, mind_id)

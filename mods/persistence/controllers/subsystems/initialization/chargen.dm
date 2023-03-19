@@ -8,6 +8,8 @@ SUBSYSTEM_DEF(chargen)
 	flags = SS_NO_FIRE
 	var/map_z			// What z-level is being used for the pods.
 
+	var/obj/abstract/limbo_holder
+
 /datum/controller/subsystem/chargen/Initialize()
 	INCREMENT_WORLD_Z_SIZE
 	map_z = world.maxz
@@ -30,6 +32,8 @@ SUBSYSTEM_DEF(chargen)
 				chargen_pod_counter++
 				maploader.load_map(file("maps/chargen/chargen.dmm"), ((x - 1) * width) + 1, ((y - 1) * height) + 1, map_z, no_changeturf = TRUE)
 				CHECK_TICK
+
+	limbo_holder = new(locate(world.maxx / 2, world.maxy / 2, map_z))
 
 /datum/controller/subsystem/chargen/proc/assign_spawn_pod(var/area/chargen/pod)
 	chargen_areas[pod] += 1

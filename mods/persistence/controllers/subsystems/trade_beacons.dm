@@ -22,3 +22,11 @@ SUBSYSTEM_DEF(trade_beacons)
 	for(var/obj/effect/overmap/trade_beacon/x in all_trade_beacons)
 		x.regenerate_imports()
 		x.regenerate_exports()
+
+/datum/controller/subsystem/trade_beacons/fire(resumed = FALSE)
+	if(REALTIMEOFDAY >= (last_cycle + 2 HOURS))
+		last_cycle = REALTIMEOFDAY
+		for(var/obj/effect/overmap/trade_beacon/x in all_trade_beacons)
+			x.regenerate_imports()
+			x.regenerate_exports()
+	return

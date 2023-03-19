@@ -5,11 +5,11 @@
 	var/occupied = FALSE
 	var/scanning = FALSE
 	var/cloning = FALSE
-	var/cloning_progress = 0 // Used to display messages to whoever is being clone while they're in the vat. 
+	var/cloning_progress = 0 // Used to display messages to whoever is being clone while they're in the vat.
 	var/task_started_on
 	var/current_task 		 // Timer ID of task
 
-	var/datum/file_transfer/scan
+	var/datum/computer_file/data/cloning/finished_scan
 
 // Checks if this is a valid place for a mob to use as a cloning respawn point.
 /datum/extension/network_device/cloning_pod/proc/is_valid_respawn(var/mind_id)
@@ -46,15 +46,16 @@
 	new_character.sync_organ_dna()
 	new_character.add_language(/decl/language/human/common)
 	new_character.default_language = /decl/language/human/common
+	mind.transfer_to(new_character)
 
 	// The body forms 'around' the stack, so reinstall it.
 	if(stack)
 		var/obj/item/organ/O = new_character.get_organ(stack.parent_organ)
 		new_character.add_organ(stack, O)
+		qdel(stack.stackmob)
 	else
 		mind.philotic_damage += 10
 
-	mind.transfer_to(new_character)
 	// TODO: More feedback on philotic damage in general.
 	if(mind.philotic_damage > 75)
 		to_chat(new_character, SPAN_WARNING("Colors seem to lack the vibrance they used to have. It would be easy to just go to sleep and never wake up."))
@@ -99,7 +100,7 @@
 			return
 	cloning_progress += 1
 
-/datum/extension/network_device/cloning_pod/proc/begin_scan(var/mob/caller, var/filesource)
+/datum/extension/network_device/cloning_pod/proc/begin_scan(var/mob/caller)
 	if(!check_scan())
 		return
 	cancel_task() // Delete any in progress timers just in case.
@@ -109,24 +110,17 @@
 
 	scanning = TRUE
 	task_started_on = world.time
-	var/datum/computer_file/data/cloning/cloneFile = new()
-	cloneFile.initialize_backup(occupant)
-	scan = new(null, filesource, cloneFile)
 	current_task = addtimer(CALLBACK(src, /datum/extension/network_device/cloning_pod/proc/finish_scan), TASK_SCAN_TIME, TIMER_STOPPABLE)
 	to_chat(occupant, SPAN_NOTICE("Lights flash around you as a cortical scan begins."))
 
 /datum/extension/network_device/cloning_pod/proc/finish_scan()
+	scanning = FALSE
 	var/atom/movable/occupant = get_occupant()
 	if(!occupant)
 		return
 
-	scanning = FALSE
-	if(!scan || !scan.transfer_to)
-		return
-	scan.transfer_to.store_file(scan.transferring)
-
-	qdel(scan)
-	scan = null
+	finished_scan = new()
+	finished_scan.initialize_backup(occupant)
 
 /datum/extension/network_device/cloning_pod/proc/cancel_task()
 	deltimer(current_task)
@@ -134,7 +128,7 @@
 	cloning = FALSE
 
 /datum/extension/network_device/cloning_pod/proc/check_clone()
-	if(cloning || scanning)
+	if(cloning || scanning || finished_scan)
 		return FALSE
 	var/atom/movable/occupant = get_occupant()
 	if(!istype(occupant, /obj/item/organ/internal/stack))
@@ -146,7 +140,7 @@
 	return FALSE
 
 /datum/extension/network_device/cloning_pod/proc/check_scan()
-	if(cloning || scanning)
+	if(cloning || scanning || finished_scan)
 		return FALSE
 	var/atom/movable/occupant = get_occupant()
 	if(!istype(occupant, /mob/living/carbon))
