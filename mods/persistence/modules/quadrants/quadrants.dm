@@ -1,10 +1,4 @@
-/datum/overmap_quadrant_controller
-	var/list/all_quadrants = list()
 
-/datum/overmap_quadrant_controller/proc/get_quadrant(var/turf/T) // turf must be off the overmap
-	for(var/datum/overmap_quadrant/quadrant in all_quadrants)
-		if(quadrant.check_tile(T))
-			return quadrant
 
 /datum/overmap_quadrant
 	var/name = "Overmap Quadrant"
@@ -17,17 +11,30 @@
 
 	var/default_sec_level = 1
 	var/default_hostility_level = 1
+	var/color = "#ff9900"
 
 /datum/overmap_quadrant/New()
 	var/list/final_bounds = list()
-	for(var/x in bounds)
-		var/y = bounds[x]
-		final_bounds |= new /datum/overmap_tile(x,y)
+	for(var/str in bounds)
+		var/list/split = splittext(str, ",")
+		var/x = text2num(split[1])
+		var/ind = text2num(split[2])
+		for(var/i = x; i <= ind; i++)
+			for(var/y in bounds[str])
+				final_bounds |= new /datum/overmap_tile(i,y)
 	bounds = final_bounds
 	monster_table = new monster_table()
 	asteroid_table = new asteroid_table()
 	security_level = new security_level()
 	hostility_level = new hostility_level()
+
+
+
+/datum/overmap_quadrant/southernrim
+	name = "Southern Rim"
+	desc = "The southern rim of the Outreach system is plagued by brigands and hostile lifeforms migrating from space beyond the frontier system. If the security level is driven low enough, rare and valuable materials will become mineable here."
+	color = "#fa0000"
+	bounds = list("1,27" = list(1), "1,24" = list(2),"1,22" = list(3,4,5) "1,17" = list(6), "1,12" = list(7), "1,10" = list(8), "1,9" = list(9,10,11), "1,7" = list(12,13), "1,6" = list(14), "1,5" = list(15), "1,4" = list(16,17), "1,2" = list(18,19))
 
 /datum/overmap_quadrant/proc/check_tile(var/turf/T)
 	for(var/datum/overmap_tile in bounds)

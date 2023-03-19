@@ -3,7 +3,7 @@ SUBSYSTEM_DEF(quadrants)
 	wait = 1 MINUTE
 	priority = SS_PRIORITY_QUADRANTS
 	var/list/all_quadrants = list()
-	var/list/wanted_quadrants = list(/obj/effect/overmap/trade_beacon/test_beacon, /obj/effect/overmap/trade_beacon/test_beacon2) // list(//obj/effect/overmap/trade_beacon/example, /obj/effect/overmap/trade_beacon/steel, /obj/effect/overmap/trade_beacon/xandahar)
+	var/list/wanted_quadrants = list(/datum/overmap_quadrant) // list(//obj/effect/overmap/trade_beacon/example, /obj/effect/overmap/trade_beacon/steel, /obj/effect/overmap/trade_beacon/xandahar)
 
 
 /datum/controller/subsystem/quadrants/proc/get_quadrant(var/turf/T) // turf must be off the overmap
