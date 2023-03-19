@@ -304,6 +304,7 @@
 	var/datum/extension/interactive/os/computer = PRG.computer
 	var/list/telepads[0]
 	var/update_time = time2text((SStrade_beacons.next_fire),"hh:mm")
+  
 	for(var/obj/machinery/telepad_cargo/x in PRG.detected_telepads)
 		var/selected = 0
 		if(x == PRG.selected_telepad) selected = 1
