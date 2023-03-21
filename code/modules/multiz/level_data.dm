@@ -137,6 +137,8 @@ INITIALIZE_IMMEDIATE(/obj/abstract/level_data)
 		exterior_atmosphere.check_tile_graphic()
 
 /obj/abstract/level_data/proc/get_exterior_atmosphere()
+	if(isnull(exterior_atmosphere) || islist(exterior_atmosphere)) //#FIXME: remove once we get the level_data improvements in
+		build_exterior_atmosphere()
 	if(exterior_atmosphere)
 		var/datum/gas_mixture/gas = new
 		gas.copy_from(exterior_atmosphere)

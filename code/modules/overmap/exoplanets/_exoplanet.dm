@@ -6,7 +6,7 @@
 	free_landing = TRUE
 
 	var/area/planetary_area
-	
+
 	// Day/night cycle tracking.
 	var/night = TRUE
 	var/daycycle 			//How often do we change day and night
@@ -93,10 +93,10 @@
 	if(length(possible_strata))
 		crust_strata = pick(possible_strata)
 
-/obj/effect/overmap/visitable/sector/exoplanet/Initialize(mapload, z_level)
-	if(global.overmaps_by_name[overmap_id])
-		forceMove(locate(1, 1, z_level))
-	return ..()
+// /obj/effect/overmap/visitable/sector/exoplanet/Initialize(mapload, z_level)
+// 	if(global.overmaps_by_name[overmap_id])
+// 		forceMove(locate(1, 1, z_level))
+// 	return ..()
 
 /obj/effect/overmap/visitable/sector/exoplanet/proc/build_level(max_x, max_y)
 
@@ -130,7 +130,7 @@
 	for(var/datum/exoplanet_theme/T in themes)
 		T.adjust_atmosphere(src)
 	select_strata()
-	
+
 	generate_flora()
 	generate_map()
 	generate_landing(2)
@@ -173,7 +173,7 @@
 			update_daynight()
 
 /obj/effect/overmap/visitable/sector/exoplanet/proc/update_daynight()
-	var/obj/abstract/level_data/level_data = zlevels[1]
+	var/obj/abstract/level_data/level_data = SSmapping.levels_by_z[map_z[1]]
 	var/light = 0.1
 	if(!night)
 		light = level_data.ambient_light_level

@@ -162,7 +162,7 @@ SUBSYSTEM_DEF(mapping)
 		PRINT_STACK_TRACE("Missing z-level data type for z["[world.maxz]"]!")
 		return
 
-	var/obj/abstract/level_data/level = new new_level_type(locate(round(world.maxx*0.5), round(world.maxz*0.5), world.maxz), defer_setup)
+	var/obj/abstract/level_data/level = new new_level_type(locate(round(world.maxx*0.5), round(world.maxy*0.5), world.maxz), defer_setup)
 	level.initialize_level()
 	return level
 

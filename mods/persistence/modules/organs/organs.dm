@@ -1,7 +1,6 @@
 SAVED_VAR(/obj/item/organ/external, burn_dam)
 SAVED_VAR(/obj/item/organ/external, last_dam)
 SAVED_VAR(/obj/item/organ/external, limb_flags)
-SAVED_VAR(/obj/item/organ/external, icon_name)
 SAVED_VAR(/obj/item/organ/external, body_part)
 SAVED_VAR(/obj/item/organ/external, icon_position)
 SAVED_VAR(/obj/item/organ/external, model)

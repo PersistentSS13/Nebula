@@ -22,9 +22,8 @@
 	fauna_types = list(/mob/living/simple_animal/thinbug, /mob/living/simple_animal/hostile/retaliate/beast/samak/alt, /mob/living/simple_animal/yithian, /mob/living/simple_animal/tindalos, /mob/living/simple_animal/hostile/retaliate/jelly)
 	megafauna_types = list(/mob/living/simple_animal/hostile/retaliate/jelly/mega)
 
-
-/obj/effect/overmap/visitable/sector/exoplanet/outreach/Initialize(var/mapload, var/z_level)
-	. = ..(mapload, global.using_map.station_levels[4])
+/obj/effect/overmap/visitable/sector/exoplanet/outreach/Initialize()
+	. = ..()
 	docking_codes = "[global.using_map.dock_name]"
 
 	// Build Level workaround
@@ -34,36 +33,16 @@
 	y_origin = TRANSITIONEDGE + 1
 	x_size = maxx - 2 * (TRANSITIONEDGE + 1)
 	y_size = maxy - 2 * (TRANSITIONEDGE + 1)
-	landing_points_to_place = min(round(0.1 * (x_size * y_size) / (shuttle_size * shuttle_size)), 3)
+	landing_points_to_place = 0
 	planetary_area = ispath(planetary_area) ? new planetary_area : planetary_area
 
 	generate_habitability()
 	generate_atmosphere()
-	generate_flora()
 	generate_planet_image()
 	START_PROCESSING(SSobj, src)
-
-/obj/effect/overmap/visitable/sector/exoplanet/outreach/update_daynight()
-	var/light = 0.05
-	if(!night)
-		light = 0.5
-	for(var/turf/exterior/T in block(locate(daycolumn, TRANSITIONEDGE, max(map_z)), locate(daycolumn,maxy - TRANSITIONEDGE, max(map_z))))
-		T.set_light(light, 0.1, 2)
-	daycolumn++
-	if(daycolumn > maxx)
-		daycolumn = 0
-	
 
 /obj/effect/overmap/visitable/sector/exoplanet/outreach/generate_habitability()
 	habitability_class = HABITABILITY_BAD
 
 /obj/effect/overmap/visitable/sector/exoplanet/outreach/get_atmosphere_color()
 	return COLOR_GREEN_GRAY
-
-/obj/effect/overmap/visitable/sector/exoplanet/outreach/generate_atmosphere()
-	atmosphere = new
-	atmosphere.adjust_gas(/decl/material/gas/chlorine, MOLES_CELLSTANDARD * 0.17)
-	atmosphere.adjust_gas(/decl/material/gas/carbon_dioxide, MOLES_CELLSTANDARD * 0.11)
-	atmosphere.adjust_gas(/decl/material/gas/nitrogen, MOLES_CELLSTANDARD * 0.63)
-	atmosphere.temperature = T0C + 7
-	atmosphere.update_values()

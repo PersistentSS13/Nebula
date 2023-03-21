@@ -1,8 +1,9 @@
 //Generates initial generic alien plants
 /obj/effect/overmap/visitable/sector/exoplanet/proc/generate_flora()
 
-	var/obj/abstract/level_data/level_data = zlevels[1]
-	var/temperature = level_data?.exterior_atmosphere?.temperature || T20C
+	var/obj/abstract/level_data/level_data = SSmapping.levels_by_z[map_z[1]]
+	var/datum/gas_mixture/atmosphere = level_data?.get_exterior_atmosphere()
+	var/temperature = atmosphere?.temperature || T20C
 
 	for(var/i = 1 to flora_diversity)
 		var/datum/seed/S = new()
@@ -43,8 +44,8 @@
 //Adapts seeds to this planet's atmopshere. Any special planet-speicific adaptations should go here too
 /obj/effect/overmap/visitable/sector/exoplanet/proc/adapt_seed(var/datum/seed/S)
 
-	var/obj/abstract/level_data/level_data = zlevels[1]
-	var/datum/gas_mixture/atmosphere = level_data?.exterior_atmosphere
+	var/obj/abstract/level_data/level_data = SSmapping.levels_by_z[map_z[1]]
+	var/datum/gas_mixture/atmosphere = level_data?.get_exterior_atmosphere()
 	var/atmosphere_temperature = atmosphere?.temperature || T20C
 	var/atmosphere_pressure = atmosphere?.return_pressure() || 0
 
