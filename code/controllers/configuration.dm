@@ -203,7 +203,7 @@ var/global/list/gamemode_cache = list()
 	var/dsay_allowed = 1
 	var/aooc_allowed = 1
 
-	var/starlight = 0	// Whether space turfs have ambient light or not
+	var/exterior_ambient_light = 0	// The strength of ambient light applied to outside turfs
 
 	var/law_zero = "ERROR ER0RR $R0RRO$!R41.%%!!(%$^^__+ @#F0E4'ALL LAWS OVERRIDDEN#*?&110010"
 
@@ -253,6 +253,9 @@ var/global/list/gamemode_cache = list()
 	var/no_throttle_localhost
 
 	var/dex_malus_brainloss_threshold = 30 //The threshold of when brainloss begins to affect dexterity.
+	var/grant_default_darksight = FALSE
+	var/default_darksight_range = 2
+	var/default_darksight_effectiveness = 0.05
 
 	// Economy variables
 	var/withdraw_period = 1 DAY
@@ -751,9 +754,9 @@ var/global/list/gamemode_cache = list()
 					config.event_delay_upper[EVENT_LEVEL_MODERATE] = MinutesToTicks(values[2])
 					config.event_delay_upper[EVENT_LEVEL_MAJOR] = MinutesToTicks(values[3])
 
-				if("starlight")
+				if("exterior_ambient_light")
 					value = text2num(value)
-					config.starlight = value >= 0 ? value : 0
+					config.exterior_ambient_light = value >= 0 ? value : 0
 
 				if("law_zero")
 					law_zero = value
@@ -914,7 +917,12 @@ var/global/list/gamemode_cache = list()
 					config.use_loyalty_implants = 1
 				if("dexterity_malus_brainloss_threshold")
 					config.dex_malus_brainloss_threshold = text2num(value)
-
+				if("grant_default_darksight")
+					config.grant_default_darksight = TRUE
+				if("default_darksight_range")
+					config.default_darksight_range = max(text2num(value), 0)
+				if("default_darksight_effectiveness")
+					config.default_darksight_effectiveness = clamp(text2num(value), 0, 1)
 				// Economy config.
 				if("withdraw_period")
 					config.withdraw_period = value DAYS

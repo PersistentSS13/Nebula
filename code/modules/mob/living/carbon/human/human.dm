@@ -154,11 +154,11 @@
 				dat += "<BR><A href='?src=\ref[src];item=tie;holder=\ref[C]'>Remove accessory</A>"
 	dat += "<BR><HR>"
 
-	for(var/bp in held_item_slots)
-		var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, bp)
+	for(var/hand_slot in held_item_slots)
+		var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, hand_slot)
 		if(E)
-			var/datum/inventory_slot/inv_slot = held_item_slots[bp]
-			dat += "<BR><b>[capitalize(E.name)]:</b> <A href='?src=\ref[src];item=[bp]'>[inv_slot.holding?.name || "nothing"]</A>"
+			var/datum/inventory_slot/inv_slot = held_item_slots[hand_slot]
+			dat += "<BR><b>[capitalize(E.name)]:</b> <A href='?src=\ref[src];item=[hand_slot]'>[inv_slot.holding?.name || "nothing"]</A>"
 
 	// Do they get an option to set internals?
 	if(istype(get_equipped_item(slot_wear_mask_str), /obj/item/clothing/mask) || istype(get_equipped_item(slot_head_str), /obj/item/clothing/head/helmet/space))
@@ -1287,13 +1287,6 @@
 	bodytemperature += value
 	return bodytemperature
 
-/mob/living/carbon/human/proc/get_hands_organs()
-	. = list()
-	for(var/bp in held_item_slots)
-		var/org = GET_EXTERNAL_ORGAN(src, bp)
-		if(org)
-			. |= org
-
 /mob/living/carbon/human/get_admin_job_string()
 	return job || uppertext(species.name)
 
@@ -1315,11 +1308,11 @@
 /mob/living/carbon/human/set_internals_to_best_available_tank(var/breathes_gas = /decl/material/gas/oxygen, var/list/poison_gas = list(/decl/material/gas/chlorine))
 	. = ..(species.breath_type, species.poison_types)
 
-/mob/living/carbon/human/get_possible_internals_sources()
+/mob/living/carbon/human/get_equipped_internals_sources()
 	. = ..() | list(
 		"suit" =         list(get_equipped_item(slot_s_store_str), "on"),
 		"belt" =         list(get_equipped_item(slot_belt_str),    "on"),
-		"left_pocket" =  list(get_equipped_item(slot_l_store_str), "in"),
+		"left pocket" =  list(get_equipped_item(slot_l_store_str), "in"),
 		"right pocket" = list(get_equipped_item(slot_r_store_str), "in"),
 		"rig" =          list(wearing_rig?.air_supply, "in")
 	)
@@ -1365,6 +1358,18 @@
 		species_name = global.using_map.default_species //Humans cannot exist without a species!
 
 	set_species(species_name)
+
+	if(!skin_colour)
+		skin_colour = species.base_color
+	if(!hair_colour)
+		hair_colour = species.base_hair_color
+	if(!facial_hair_colour)
+		facial_hair_colour = species.base_hair_color
+	if(!eye_colour)
+		eye_colour = species.base_eye_color
+	species.set_default_hair(src, override_existing = FALSE, defer_update_hair = TRUE)
+	if(!b_type && length(species?.blood_types))
+		b_type = pickweight(species.blood_types)
 
 	if(new_dna)
 		set_real_name(new_dna.real_name)

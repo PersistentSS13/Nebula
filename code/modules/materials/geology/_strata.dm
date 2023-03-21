@@ -7,7 +7,8 @@
 	var/maximum_temperature = INFINITY
 
 /decl/strata/proc/is_valid_exoplanet_strata(var/obj/effect/overmap/visitable/sector/exoplanet/planet)
-	var/check_temp = planet?.atmosphere?.temperature || 0
+	var/obj/abstract/level_data/level_data = planet?.zlevels[1]
+	var/check_temp = level_data?.exterior_atmosphere?.temperature || 0
 	. = check_temp <= maximum_temperature
 
 /decl/strata/Initialize()
@@ -28,6 +29,6 @@
 	else if(isnull(ores_rich) && islist(ores_sparse))
 		ores_rich = ores_sparse.Copy()
 
-	for(var/mat_type in (ores_sparse|ores_rich))
+	for(var/mat_type in (base_materials|ores_sparse|ores_rich))
 		var/decl/material/mat = GET_DECL(mat_type)
 		maximum_temperature = min((mat.melting_point-1), maximum_temperature)

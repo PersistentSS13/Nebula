@@ -258,7 +258,7 @@
 /datum/unit_test/map_image_map_test/start_test()
 	var/failed = FALSE
 
-	for(var/z in global.using_map.map_levels)
+	for(var/z in SSmapping.map_levels)
 		var/file_name = map_image_file_name(z)
 		var/file_path = MAP_IMAGE_PATH + file_name
 		if(!fexists(file_path))
@@ -538,20 +538,20 @@
 
 //=======================================================================================
 
-/datum/unit_test/station_pipes_shall_not_leak
-	name = "MAP: Station pipes shall not leak"
+/datum/unit_test/pipes_shall_not_leak
+	name = "MAP: Pipes shall not leak unless allowed"
 
-/datum/unit_test/station_pipes_shall_not_leak/start_test()
+/datum/unit_test/pipes_shall_not_leak/start_test()
 	var/failures = 0
 	for(var/obj/machinery/atmospherics/pipe/P in SSmachines.machinery)
-		if(P.leaking && isStationLevel(P.z))
+		if(P.leaking && !(locate(/obj/abstract/landmark/allowed_leak) in get_turf(P)))
 			failures++
 			log_bad("Following pipe is leaking: [log_info_line(P)]")
 
 	if(failures)
-		fail("[failures] station pipe\s leak.")
+		fail("[failures] pipe\s leaking without allowed leak landmark!")
 	else
-		pass("No station pipes are leaking")
+		pass("No pipes are leaking.")
 	return 1
 
 //=======================================================================================

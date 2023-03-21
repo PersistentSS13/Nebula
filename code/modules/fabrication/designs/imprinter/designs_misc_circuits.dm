@@ -269,6 +269,9 @@
 /datum/fabricator_recipe/imprinter/circuit/design_console
 	path = /obj/item/stock_parts/circuitboard/design_console
 
+/datum/fabricator_recipe/imprinter/circuit/design_database
+	path = /obj/item/stock_parts/circuitboard/design_database
+
 /datum/fabricator_recipe/imprinter/circuit/sensors
 	path = /obj/item/stock_parts/circuitboard/sensors
 
@@ -446,6 +449,9 @@
 /datum/fabricator_recipe/imprinter/circuit/merchant_pad
 	path = /obj/item/stock_parts/circuitboard/merchant_pad
 
+/datum/fabricator_recipe/imprinter/circuit/radiocarbon_spectrometer
+	path = /obj/item/stock_parts/circuitboard/radiocarbon_spectrometer
+
 /datum/fabricator_recipe/imprinter/circuit/jukebox
 	path = /obj/item/stock_parts/circuitboard/jukebox
 
@@ -473,6 +479,9 @@
 /datum/fabricator_recipe/imprinter/circuit/router_wall_mounted
 	path = /obj/item/stock_parts/circuitboard/router/wall_mounted
 
+/datum/fabricator_recipe/imprinter/circuit/modem
+	path = /obj/item/stock_parts/circuitboard/modem
+
 /datum/fabricator_recipe/imprinter/circuit/relay
 	path = /obj/item/stock_parts/circuitboard/relay
 
@@ -493,3 +502,6 @@
 
 /datum/fabricator_recipe/imprinter/circuit/photocopier
 	path = /obj/item/stock_parts/circuitboard/photocopier
+
+/datum/fabricator_recipe/imprinter/circuit/holomap
+	path = /obj/item/stock_parts/circuitboard/holomap
