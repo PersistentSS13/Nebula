@@ -48,14 +48,15 @@
 		return TRUE
 	return FALSE
 
+//#FIXME: This has to go. It's causing hard deletes in unit tests for something that really should be handled differently.
 // This is terrible, but because of when they are generated, there's no good way to override the creation of visiting_shuttle landmarks without
 // a ridiculous amount of copypasta.
-/obj/effect/overmap/visitable/add_landmark(obj/effect/shuttle_landmark/landmark, shuttle_restricted_type)
-	if(istype(landmark, /obj/effect/shuttle_landmark/visiting_shuttle))
-		SSshuttle.unregister_landmark(landmark)
-		qdel(landmark)
-		return
-	. = ..()
+// /obj/effect/overmap/visitable/add_landmark(obj/effect/shuttle_landmark/landmark, shuttle_restricted_type)
+// 	if(istype(landmark, /obj/effect/shuttle_landmark/visiting_shuttle))
+// 		SSshuttle.unregister_landmark(landmark)
+// 		qdel(landmark)
+// 		return
+// 	. = ..()
 
 SAVED_VAR(/obj/effect/overmap/visitable/sector/exoplanet, planetary_area)
 SAVED_VAR(/obj/effect/overmap/visitable/sector/exoplanet, night)
