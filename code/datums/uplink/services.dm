@@ -86,7 +86,7 @@
 	if(state != AWAITING_ACTIVATION)
 		to_chat(user, "<span class='warning'>\The [src] won't activate again.</span>")
 		return
-	var/obj/effect/overmap/visitable/O = global.overmap_sectors["[get_z(src)]"]
+	var/obj/effect/overmap/visitable/O = global.overmap_sectors[num2text(get_z(src))]
 	var/choice = alert(user, "This will only affect your current location[istype(O) ? " ([O])" : ""]. Proceed?","Confirmation", "Yes", "No")
 	if(choice != "Yes")
 		return
@@ -161,7 +161,7 @@
 	service_label = "Ion Storm Announcement"
 
 /obj/item/uplink_service/fake_ion_storm/enable(var/mob/user = usr)
-	ion_storm_announcement(GetConnectedZlevels(get_z(src)))
+	ion_storm_announcement(SSmapping.get_connected_levels(get_z(src)))
 	. = ..()
 
 /*****************
@@ -191,7 +191,7 @@
 
 	if(CanUseTopic(user, global.hands_topic_state) != STATUS_INTERACTIVE)
 		return FALSE
-	command_announcement.Announce(message, title, msg_sanitized = 1, zlevels = GetConnectedZlevels(get_z(src)))
+	command_announcement.Announce(message, title, msg_sanitized = 1, zlevels = SSmapping.get_connected_levels(get_z(src)))
 	return TRUE
 
 /*********************************

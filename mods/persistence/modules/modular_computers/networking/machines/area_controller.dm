@@ -28,7 +28,7 @@
 	set_extension(src, /datum/extension/eye/blueprints/area_control)
 	for(var/A in owned_areas)
 		global.protected_areas[A] = src
-	
+
 	recalculate_power()
 	update_protected_count()
 
@@ -61,11 +61,11 @@
 /obj/machinery/network/area_controller/proc/check_area_access(var/mob/user, var/area/checked_area)
 	if(!(checked_area in owned_areas))
 		return TRUE
-	
+
 	// Area controller needs to be active to work.
 	if(use_power != POWER_USE_ACTIVE)
 		return TRUE
-	if(stat & (NOPOWER|BROKEN)) 
+	if(stat & (NOPOWER|BROKEN))
 		return TRUE
 
 	var/list/req_access = list(owned_areas[checked_area]) // List of a list for OR type access check.
@@ -86,10 +86,10 @@
 	. = ..()
 	if(.)
 		return
-		
+
 	if(href_list["create_area"])
 		var/datum/extension/eye/area_eye = get_extension(src, /datum/extension/eye)
-		area_eye.look(user, list(GetConnectedZlevels(z), "AREA CONTROLLER", src))
+		area_eye.look(user, list(SSmapping.get_connected_levels(z), "AREA CONTROLLER", src))
 		return TOPIC_REFRESH
 
 	var/datum/extension/network_device/net_device = get_extension(src, /datum/extension/network_device)
@@ -160,7 +160,7 @@
 
 /obj/machinery/network/area_controller/ui_data(mob/user, ui_key)
 	. = ..()
-	
+
 	var/datum/extension/network_device/net_device = get_extension(src, /datum/extension/network_device)
 	var/datum/computer_network/net = net_device.get_network()
 	if(!net)
@@ -243,7 +243,7 @@
 			max_protected_areas += 3
 		else
 			max_protected_areas +=2
-	
+
 	. = ..()
 
 /atom/proc/check_area_protection(var/mob/user, var/area/checked_area)
@@ -257,9 +257,9 @@
 	if(!ac)
 		global.protected_areas -= checked_area
 		return TRUE
-	if(!(ac.z in GetConnectedZlevels(z))) // Area controller must be in the same sector.
+	if(!(ac.z in SSmapping.get_connected_levels(z))) // Area controller must be in the same sector.
 		return TRUE
-	
+
 	return ac.check_area_access(user, checked_area)
 
 /obj/item/stock_parts/circuitboard/area_controller

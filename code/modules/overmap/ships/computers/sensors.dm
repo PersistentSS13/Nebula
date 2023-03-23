@@ -155,7 +155,7 @@
 
 	if (href_list["print"])
 		playsound(loc, "sound/machines/dotprinter.ogg", 30, 1)
-		new/obj/item/paper/(get_turf(src), last_scan["data"], "paper (Sensor Scan - [last_scan["name"]])")
+		new/obj/item/paper/(get_turf(src), null, last_scan["data"], "paper (Sensor Scan - [last_scan["name"]])")
 		return TOPIC_HANDLED
 
 /obj/machinery/shipsensors
@@ -163,7 +163,8 @@
 	desc = "Long range gravity scanner with various other sensors, used to detect irregularities in surrounding space. Can only run in vacuum to protect delicate quantum BS elements."
 	icon = 'icons/obj/machines/ship_sensors.dmi'
 	icon_state = "sensors"
-	anchored = 1
+	anchored = TRUE
+	density = TRUE
 	var/critical_heat = 50 // sparks and takes damage when active & above this heat
 	var/heat_reduction = 1.5 // mitigates this much heat per tick
 	var/heat = 0
@@ -175,6 +176,7 @@
 	stat_immune = NOSCREEN | NOINPUT
 	frame_type = /obj/machinery/constructable_frame
 	base_type = /obj/machinery/shipsensors
+	stock_part_presets = list(/decl/stock_part_preset/terminal_connect)
 
 /obj/machinery/shipsensors/proc/in_vacuum()
 	var/turf/T=get_turf(src)

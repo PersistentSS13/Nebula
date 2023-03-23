@@ -51,28 +51,28 @@
 
 // These are procs rather than macros so they can be used as predicates, I think(?)
 /proc/isSealedLevel(var/level)
-	return level in global.using_map.sealed_levels
+	return level in SSmapping.sealed_levels
 
 /proc/isMapLevel(var/level)
-	return level in global.using_map.map_levels
+	return level in SSmapping.map_levels
 
 /proc/isStationLevel(var/level)
-	return level in global.using_map.station_levels
+	return level in SSmapping.station_levels
 
 /proc/isNotStationLevel(var/level)
 	return !isStationLevel(level)
 
 /proc/isPlayerLevel(var/level)
-	return level in global.using_map.player_levels
+	return level in SSmapping.player_levels
 
 /proc/isAdminLevel(var/level)
-	return level in global.using_map.admin_levels
+	return level in SSmapping.admin_levels
 
 /proc/isNotAdminLevel(var/level)
 	return !isAdminLevel(level)
 
 /proc/isContactLevel(var/level)
-	return level in global.using_map.contact_levels
+	return level in SSmapping.contact_levels
 
 /proc/circlerange(center=usr,radius=3)
 

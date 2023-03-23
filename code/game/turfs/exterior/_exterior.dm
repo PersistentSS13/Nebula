@@ -5,7 +5,7 @@
 	icon_state = "0"
 	layer = PLATING_LAYER
 	open_turf_type = /turf/exterior/open
-	turf_flags = TURF_FLAG_BACKGROUND
+	turf_flags = TURF_FLAG_BACKGROUND | TURF_IS_HOLOMAP_PATH
 	var/base_color
 	var/diggable = 1
 	var/dirt_color = "#7c5e42"
@@ -18,9 +18,8 @@
 
 // Bit faster than return_air() for exoplanet exterior turfs
 /turf/exterior/get_air_graphic()
-	if(owner)
-		return owner.atmosphere?.graphic
-	return global.using_map.exterior_atmosphere?.graphic
+	var/obj/abstract/level_data/level = SSmapping.levels_by_z[z]
+	return level?.exterior_atmosphere?.graphic
 
 /turf/exterior/Initialize(mapload, no_update_icon = FALSE)
 
@@ -31,7 +30,7 @@
 
 	if(possible_states > 0)
 		icon_state = "[rand(0, possible_states)]"
-	owner = LAZYACCESS(global.overmap_sectors, "[z]")
+	owner = LAZYACCESS(global.overmap_sectors, num2text(z))
 	if(!istype(owner))
 		owner = null
 	else
@@ -83,13 +82,10 @@
 	. = ..()
 
 /turf/exterior/return_air()
-	var/datum/gas_mixture/gas
-	if(owner)
-		gas = new
-		gas.copy_from(owner.atmosphere)
-	else
-		gas = global.using_map.get_exterior_atmosphere()
-
+	var/obj/abstract/level_data/level = SSmapping.levels_by_z[z]
+	var/datum/gas_mixture/gas = level?.get_exterior_atmosphere()
+	if(!gas)
+		return
 	var/initial_temperature = gas.temperature
 	if(weather)
 		initial_temperature = weather.adjust_temperature(initial_temperature)

@@ -93,6 +93,10 @@
 	},
 /turf/exterior/concrete/reinforced,
 /area/exoplanet/kleibkhar/mines/exits)
+"ao" = (
+/obj/abstract/level_data/exoplanet/kleibkhar/underground,
+/turf/exterior/planet_edge,
+/area/exoplanet/kleibkhar/mines/depth_1)
 "ap" = (
 /obj/machinery/light/small/emergency/cabled,
 /obj/effect/decal/cleanable/dirt,
@@ -771,7 +775,7 @@ aj
 aj
 aj
 aj
-aj
+ao
 "}
 (2,1,1) = {"
 aj

@@ -223,7 +223,7 @@
 		var/d_z = get_z(D.holder)
 		var/b_z = get_z(B.holder)
 
-		if(!ARE_Z_CONNECTED(d_z, b_z))
+		if(!LEVELS_ARE_Z_CONNECTED(d_z, b_z))
 			continue
 
 		if(d_z != b_z)  // If the broadcaster is not in the same z-level as the device, the broadcast strength is halved.
@@ -324,7 +324,7 @@
 /proc/get_local_network_at(turf/T)
 	for(var/id in SSnetworking.networks)
 		var/datum/computer_network/net = SSnetworking.networks[id]
-		if(net.router && ARE_Z_CONNECTED(get_z(net.router.holder), get_z(T)))
+		if(net.router && LEVELS_ARE_Z_CONNECTED(get_z(net.router.holder), get_z(T)))
 			return net
 
 /datum/computer_network/proc/get_mainframes_by_role(mainframe_role = MF_ROLE_FILESERVER, list/accesses)

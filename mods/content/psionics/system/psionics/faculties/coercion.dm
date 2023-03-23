@@ -130,10 +130,10 @@
 		to_chat(target, "<span class='danger'>The muscles in your arms cramp horrendously!</span>")
 		if(prob(75))
 			target.emote("scream")
-		for(var/bp in target.held_item_slots)
-			var/datum/inventory_slot/inv_slot = target.held_item_slots[bp]
-			if(inv_slot?.holding?.simulated && prob(75) && target.unEquip(inv_slot.holding))
-				var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(target, bp)
+		for(var/hand_slot in target.held_item_slots)
+			var/obj/item/thing = target.get_equipped_item(hand_slot)
+			if(thing?.simulated && prob(75) && target.unEquip(thing))
+				var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(target, hand_slot)
 				target.visible_message(SPAN_DANGER("\The [target] drops what they were holding as their [E ? E.name : "hand"] spasms!"))
 		return TRUE
 

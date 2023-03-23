@@ -28,6 +28,8 @@
 	starting_money = 5000
 	department_money = 0
 	salary_modifier = 0.2
+	num_exoplanets = 0
+	overmap_ids = list(OVERMAP_ID_SPACE = /datum/overmap) //Default to null overmap, which prevents overmap marker from initializing properly
 
 /datum/map/outreach/get_map_info()
 	return "You are en route to Outreach, a desolate planet previously targeted for mining operations, but now largely abandoned. Judges - corporate law enforcement - remain in the sector to keep the order. Colonists come from a wide variety of backgrounds, but universally with only the shirt on their backs."

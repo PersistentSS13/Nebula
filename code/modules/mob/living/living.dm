@@ -5,9 +5,8 @@
 	else
 		add_to_living_mob_list()
 
-/mob/living/examine(mob/user, distance, infix, suffix)
-	. = ..()
-	if (admin_paralyzed)
+/mob/living/show_other_examine_strings(mob/user, distance, infix, suffix, hideflags, decl/pronouns/pronouns)
+	if(admin_paralyzed)
 		to_chat(user, SPAN_OCCULT("OOC: They have been paralyzed by staff. Please avoid interacting with them unless cleared to do so by staff."))
 
 //mob verbs are faster than object verbs. See above.
@@ -63,7 +62,7 @@ default behaviour is:
 	// End boilerplate.
 
 	spawn(0)
-		if ((!( yes ) || now_pushing) || !loc)
+		if (!yes || now_pushing || QDELETED(src) || QDELETED(AM) || !loc || !AM.loc)
 			return
 
 		now_pushing = 1
@@ -108,6 +107,8 @@ default behaviour is:
 
 		now_pushing = 0
 		spawn(0)
+			if (QDELETED(src) || QDELETED(AM) || !loc || !AM.loc)
+				return
 			..()
 			var/saved_dir = AM.dir
 			if (!istype(AM, /atom/movable) || AM.anchored)
@@ -1080,3 +1081,4 @@ default behaviour is:
 
 /mob/living/get_speech_bubble_state_modifier()
 	return isSynthetic() ? "synth" : ..()
+
