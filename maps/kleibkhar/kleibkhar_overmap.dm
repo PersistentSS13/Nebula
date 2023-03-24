@@ -7,17 +7,12 @@
 	map_size_x = 50
 	map_size_y = 50
 
-	var/map_file = "maps/kleibkhar/kleibkhar-overmap.dmm"
+	// var/map_file = "maps/kleibkhar/kleibkhar-overmap.dmm"
 
-/datum/overmap/kleibkhar/generate_overmap()
-	testing("Building overmap [name]...")
-	INCREMENT_WORLD_Z_SIZE
-	assigned_z = world.maxz
-	testing("Putting [name] on [assigned_z].")
-	maploader.load_map(file(map_file), 1, 1, assigned_z)
-
-	global.using_map.sealed_levels |= assigned_z
-	testing("Overmap build for [name] complete.")
+// /datum/overmap/kleibkhar/generate_overmap()
+// 	. = ..()
+// 	maploader.load_map(file(map_file), 1, 1, assigned_z)
+// 	testing("Overmap build for [name] complete.")
 
 /obj/effect/shuttle_landmark/supply/station
 	landmark_tag = "nav_cargo_station"

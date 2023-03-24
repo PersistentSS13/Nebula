@@ -47,6 +47,7 @@ var/global/list/overmap_unknown_ids = list()
 	. = ..()
 
 	if(!length(global.using_map.overmap_ids))
+		log_debug("Deleting [src] since there is no overmap set for the current map..")
 		return INITIALIZE_HINT_QDEL
 
 	if(requires_contact)

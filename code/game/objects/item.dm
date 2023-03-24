@@ -102,7 +102,7 @@
 
 /obj/item/proc/dropped_sound_callback()
 	if(!ismob(loc) && drop_sound)
-		playsound(src, drop_sound, 25, 0)
+		playsound(src, pick(drop_sound), 25, 0)
 
 /obj/item/proc/get_origin_tech()
 	return origin_tech
@@ -208,7 +208,7 @@
 	var/desc_comp = "" //For "description composite"
 	desc_comp += "It is a [w_class_description()] item."
 
-	var/desc_damage = get_examined_damage_string()
+	var/desc_damage = get_examined_damage_string(health / max_health)
 	if(length(desc_damage))
 		desc_comp += "<BR/>[desc_damage]"
 
@@ -675,20 +675,21 @@ var/global/list/slot_flags_enumeration = list(
 
 	return TRUE
 
-var/global/list/blood_overlay_cache = list()
-
+var/global/list/_blood_overlay_cache = list()
+var/global/list/_item_blood_mask = icon('icons/effects/blood.dmi', "itemblood")
 /obj/item/proc/generate_blood_overlay(force = FALSE)
 	if(blood_overlay && !force)
 		return
-	if(global.blood_overlay_cache["[icon]" + icon_state])
-		blood_overlay = global.blood_overlay_cache["[icon]" + icon_state]
+	var/cache_key = "[icon]-[icon_state]"
+	if(global._blood_overlay_cache[cache_key])
+		blood_overlay = global._blood_overlay_cache[cache_key]
 		return
 	var/icon/I = new /icon(icon, icon_state)
-	I.Blend(new /icon('icons/effects/blood.dmi', rgb(255,255,255)),ICON_ADD) //fills the icon_state with white (except where it's transparent)
-	I.Blend(new /icon('icons/effects/blood.dmi', "itemblood"),ICON_MULTIPLY) //adds blood and the remaining white areas become transparant
+	I.MapColors(0,0,0, 0,0,0, 0,0,0, 1,1,1)         // Sets the icon RGB channel to pure white.
+	I.Blend(global._item_blood_mask, ICON_MULTIPLY) // Masks the blood overlay against the generated mask.
 	blood_overlay = image(I)
 	blood_overlay.appearance_flags |= NO_CLIENT_COLOR|RESET_COLOR
-	global.blood_overlay_cache["[icon]" + icon_state] = blood_overlay
+	global._blood_overlay_cache[cache_key] = blood_overlay
 
 /obj/item/proc/showoff(mob/user)
 	for(var/mob/M in view(user))
@@ -900,7 +901,7 @@ modules/mob/living/carbon/human/life.dm if you die, you will be zoomed out.
 		screen_loc = null
 	else if(client)
 		client.screen |= src
-		if(!client.mob || !client.mob.hud_used || !slot || (!client.mob.hud_used.inventory_shown && (slot in global.hidden_inventory_slots)))
+		if(!client.mob?.item_should_have_screen_presence(src, slot))
 			screen_loc = null
 
 /obj/item/proc/gives_weather_protection()

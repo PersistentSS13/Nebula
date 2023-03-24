@@ -21,7 +21,7 @@
 	// These variables are for the *device's* public variables and methods, if they exist.
 	var/list/device_variables
 	var/list/device_methods
-	
+
 /datum/extension/network_device/New(datum/holder, n_id, n_key, r_type, autojoin = TRUE)
 	..()
 	network_id = n_id
@@ -211,7 +211,7 @@
 	// Overmap isn't used, a modem alone provides internet connection.
 	if(!length(global.using_map.overmap_ids))
 		return TRUE
-	var/obj/effect/overmap/visitable/sector = global.overmap_sectors["[get_z(holder)]"]
+	var/obj/effect/overmap/visitable/sector = global.overmap_sectors[num2text(get_z(holder))]
 	if(!istype(sector))
 		return
 	return sector.has_internet_connection(connecting_network)
@@ -274,7 +274,7 @@
 	var/datum/computer_network/network = get_network()
 	if(!network)
 		return TRUE // If not on network, always TRUE for access, as there isn't anything to access.
-	var/obj/M = holder
+	var/obj/M = get_top_holder()
 	if(!accesses)
 		accesses  = list()
 	return M.check_access_list(accesses)
@@ -309,12 +309,12 @@
 	return public_variables
 
 /datum/extension/network_device/proc/get_holder_methods()
-	var/obj/machinery/M = holder
+	var/obj/machinery/M = get_top_holder()
 	if(istype(M))
 		return M.public_methods?.Copy()
 
 /datum/extension/network_device/proc/get_holder_variables()
-	var/obj/machinery/M = holder
+	var/obj/machinery/M = get_top_holder()
 	if(istype(M))
 		return M.public_variables?.Copy()
 
@@ -453,6 +453,10 @@
 /**Returns the outward facing URI for this network device.*/
 /datum/extension/network_device/proc/get_network_URI()
 	return "[network_tag].[network_id]"
+
+/**Returns the object that should be handling access and command checks.*/
+/datum/extension/network_device/proc/get_top_holder()
+	return holder
 
 //Subtype for passive devices, doesn't init until asked for
 /datum/extension/network_device/lazy

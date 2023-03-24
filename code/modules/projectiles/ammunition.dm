@@ -18,7 +18,7 @@
 	var/spent_icon = "pistolcasing-spent"
 	var/bullet_color = COLOR_COPPER
 	var/marking_color
-	var/fall_sounds = list('sound/weapons/guns/casingfall1.ogg','sound/weapons/guns/casingfall2.ogg','sound/weapons/guns/casingfall3.ogg')
+	drop_sound = list('sound/weapons/guns/casingfall1.ogg','sound/weapons/guns/casingfall2.ogg','sound/weapons/guns/casingfall3.ogg')
 
 /obj/item/ammo_casing/Initialize()
 	if(ispath(projectile_type))
@@ -53,7 +53,7 @@
 			return
 
 		if(!MOVING_DELIBERATELY(L) && prob(10))
-			playsound(src, pick(fall_sounds), 50, 1)
+			playsound(src, pick(drop_sound), 50, 1)
 			var/turf/turf_current = get_turf(src)
 			var/turf/turf_destiinaton = get_step(turf_current, AM.dir)
 			if(turf_destiinaton.Adjacent(turf_current))
@@ -66,14 +66,11 @@
 		put_residue_on(G)
 		var/mob/living/carbon/human/H = G.get_recursive_loc_of_type(/mob/living/carbon/human)
 		if(H)
-			for(var/bp in H.held_item_slots)
-				var/datum/inventory_slot/inv_slot = H.held_item_slots[bp]
-				if(G == inv_slot?.holding)
-					var/target = H.get_covering_equipped_item_by_zone(bp)
-					if(!target)
-						target = GET_EXTERNAL_ORGAN(H, bp)
+			var/holding_slot = H.get_held_slot_for_item(G)
+			if(holding_slot)
+				var/target = H.get_covering_equipped_item_by_zone(holding_slot) || GET_EXTERNAL_ORGAN(H, holding_slot)
+				if(target)
 					put_residue_on(target)
-					break
 	if(prob(30))
 		put_residue_on(get_turf(src))
 
@@ -182,6 +179,7 @@
 		if(!user.unEquip(C, src))
 			return
 		stored_ammo.Add(C)
+		playsound(user, 'sound/weapons/guns/interaction/bullet_insert.ogg', 50, 1)
 		update_icon()
 	else ..()
 

@@ -13,15 +13,17 @@
 
 	for(var/datum/exoplanet_theme/theme in themes)
 		skybox_image.overlays += theme.get_planet_image_extra()
-	
+
 	if(water_color) //TODO: move water levels out of randommap into exoplanet
 		var/image/water = image('icons/skybox/planet.dmi', "water")
 		water.color = water_color
 		water.appearance_flags = PIXEL_SCALE
 		water.transform = water.transform.Turn(rand(0,360))
 		skybox_image.overlays += water
-	
-	if(atmosphere && atmosphere.return_pressure() > SOUND_MINIMUM_PRESSURE)
+
+	var/obj/abstract/level_data/level_data = SSmapping.levels_by_z[map_z[1]]
+	var/datum/gas_mixture/atmosphere = level_data?.get_exterior_atmosphere()
+	if(atmosphere?.return_pressure() > SOUND_MINIMUM_PRESSURE)
 
 		var/atmo_color = get_atmosphere_color()
 		if(!atmo_color)
@@ -37,7 +39,7 @@
 
 		var/image/atmo = image('icons/skybox/planet.dmi', "atmoring")
 		skybox_image.underlays += atmo
-		
+
 	var/image/shadow = image('icons/skybox/planet.dmi', "shadow")
 	shadow.blend_mode = BLEND_MULTIPLY
 	skybox_image.overlays += shadow
@@ -62,8 +64,10 @@
 
 /obj/effect/overmap/visitable/sector/exoplanet/proc/get_atmosphere_color()
 	var/list/colors = list()
-	for(var/g in atmosphere.gas)
-		var/decl/material/mat = GET_DECL(g)
-		colors += mat.color
+	for(var/Z in map_z)
+		var/obj/abstract/level_data/level_data = SSmapping.levels_by_z[Z]
+		for(var/g in level_data.exterior_atmosphere?.gas)
+			var/decl/material/mat = GET_DECL(g)
+			colors += mat.color
 	if(colors.len)
 		return MixColors(colors)
