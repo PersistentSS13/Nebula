@@ -13,8 +13,8 @@
 #endif
 	// Load our maps dynamically.
 	for(var/map_file in global.using_map.default_levels)
-		var/level_type = global.using_map.default_levels[map_file]
 #ifndef UNIT_TEST
+		var/level_type = global.using_map.default_levels[map_file]
 		if(save_exists && level_type)
 			// Load a default map instead.
 			SSmapping.increment_world_z_size(level_type)
