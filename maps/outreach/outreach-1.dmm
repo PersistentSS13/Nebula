@@ -24,12 +24,21 @@
 /turf/simulated/wall/concrete,
 /area/exoplanet/outreach/underground/d2)
 "af" = (
-/obj/machinery/door/airlock/glass/civilian{
-	icon_state = "closed"
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
 	},
-/obj/machinery/door/firedoor/autoset,
-/turf/simulated/floor/tiled/steel_ridged,
-/area/outreach/outpost/hallway/south/basement2)
+/obj/machinery/atmospherics/pipe/cap/hidden/supply{
+	icon_state = "cap-supply";
+	dir = 8
+	},
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/hallway/north/basement2)
 "ag" = (
 /turf/simulated/wall/concrete,
 /area/outreach/outpost/maint/waste/b2)
@@ -88,10 +97,17 @@
 /turf/simulated/wall/r_wall,
 /area/outreach/outpost/engineering/b2/smes)
 "as" = (
-/obj/machinery/door/firedoor/autoset,
-/obj/machinery/door/airlock/glass/maintenance,
-/turf/simulated/floor/tiled/steel_ridged,
-/area/outreach/outpost/stairwell/basement2)
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/b2/northeast)
 "at" = (
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/west/basement2)
@@ -139,6 +155,7 @@
 	icon_state = "tube_map";
 	dir = 1
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/engineering/b2/smes)
 "az" = (
@@ -154,6 +171,7 @@
 	},
 /obj/effect/floor_decal/industrial/fire/corner,
 /obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "aB" = (
@@ -162,16 +180,25 @@
 	},
 /obj/effect/floor_decal/industrial/fire,
 /obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "aC" = (
-/obj/effect/floor_decal/industrial/warning/corner,
-/turf/simulated/floor/tiled/techfloor/grid/airless,
-/area/outreach/outpost/atmospherics/b2/tank_outer)
+/obj/structure/railing/mapped{
+	icon_state = "railing_preview";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/d2)
 "aD" = (
-/obj/effect/floor_decal/industrial/warning,
-/turf/simulated/floor/tiled/techfloor/grid/airless,
-/area/outreach/outpost/atmospherics/b2/tank_outer)
+/obj/structure/railing/mapped{
+	icon_state = "railing_preview";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/d2)
 "aE" = (
 /obj/effect/catwalk_plated,
 /obj/structure/cable/yellow{
@@ -206,16 +233,12 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "aH" = (
-/obj/structure/sign/warning/compressed_gas{
-	icon_state = "hikpa";
-	dir = 1
-	},
-/obj/effect/floor_decal/industrial/warning,
-/turf/simulated/floor/tiled/techfloor/grid/airless,
+/obj/effect/floor_decal/industrial/warning/corner,
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "aI" = (
 /obj/effect/floor_decal/industrial/warning,
-/turf/simulated/floor/plating/outreach,
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "aJ" = (
 /turf/simulated/wall/concrete,
@@ -227,23 +250,21 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/waste/b2)
 "aM" = (
-/obj/structure/sign/warning/compressed_gas{
-	icon_state = "hikpa";
-	dir = 1
-	},
 /obj/effect/floor_decal/industrial/warning,
-/turf/simulated/floor/plating/outreach,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "aN" = (
 /obj/machinery/alarm,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b2/northwest)
 "aO" = (
-/obj/effect/floor_decal/industrial/warning/corner{
-	icon_state = "stripecorner";
-	dir = 8
+/obj/structure/sign/warning/compressed_gas{
+	icon_state = "hikpa";
+	dir = 1
 	},
-/turf/simulated/floor/plating/outreach,
+/obj/effect/floor_decal/industrial/warning,
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "aP" = (
 /obj/structure/railing/mapped{
@@ -257,11 +278,10 @@
 /turf/simulated/floor/reinforced/oxygen,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "aR" = (
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 8
-	},
-/turf/simulated/floor/plating/outreach,
+/obj/effect/floor_decal/industrial/warning,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "aS" = (
 /obj/structure/cable/yellow{
@@ -288,11 +308,12 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/waste/b2)
 "aU" = (
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 4
+/obj/effect/floor_decal/industrial/warning/corner{
+	icon_state = "stripecorner";
+	dir = 8
 	},
-/turf/simulated/floor/tiled/techfloor/grid/airless,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "aV" = (
 /turf/simulated/floor/tiled/techmaint,
@@ -370,15 +391,12 @@
 /turf/simulated/floor/reinforced/airless,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "bh" = (
-/obj/structure/sign/warning/compressed_gas{
-	icon_state = "hikpa";
-	dir = 4
-	},
 /obj/effect/floor_decal/industrial/warning{
 	icon_state = "stripe";
-	dir = 8
+	dir = 4
 	},
-/turf/simulated/floor/plating/outreach,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "bi" = (
 /obj/machinery/air_sensor{
@@ -432,10 +450,9 @@
 "bq" = (
 /obj/effect/floor_decal/industrial/warning{
 	icon_state = "stripe";
-	dir = 1
+	dir = 8
 	},
-/obj/structure/sign/warning/compressed_gas,
-/turf/simulated/floor/tiled/techfloor/grid/airless,
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "br" = (
 /turf/simulated/floor/tiled/steel_grid,
@@ -514,11 +531,9 @@
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "by" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/techfloor/grid/outreach,
-/area/exoplanet/outreach/underground/d2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/b2/northeast)
 "bz" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -585,6 +600,7 @@
 	icon_state = "2-8"
 	},
 /obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "bG" = (
@@ -596,6 +612,7 @@
 	icon_state = "2-4"
 	},
 /obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "bH" = (
@@ -620,10 +637,11 @@
 "bJ" = (
 /obj/machinery/light{
 	icon_state = "tube_map";
-	dir = 1
+	dir = 8
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/west/basement2)
+/area/outreach/outpost/hallway/north/basement2)
 "bK" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
@@ -671,15 +689,9 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/stairwell/basement2)
 "bQ" = (
-/obj/structure/sign/poster/bay_17{
-	pixel_y = 28
-	},
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 8
-	},
-/obj/machinery/recharge_station,
-/turf/simulated/floor/tiled/techmaint,
+/obj/structure/ladder,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
 /area/outreach/outpost/maint/power/b2)
 "bR" = (
 /turf/simulated/floor/tiled/techmaint,
@@ -703,8 +715,16 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b2/northwest)
 "bV" = (
-/obj/structure/ladder,
-/turf/simulated/floor/plating,
+/obj/structure/sign/poster/bay_17{
+	pixel_y = 28
+	},
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 8
+	},
+/obj/machinery/recharge_station,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/power/b2)
 "bW" = (
 /turf/simulated/floor/plating,
@@ -751,24 +771,9 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/hallway/north/basement2)
 "ca" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
-	},
-/obj/effect/catwalk_plated,
-/obj/structure/disposalpipe/segment/bent{
-	icon_state = "pipe-c";
-	dir = 1
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/hallway/central/basement2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/waste/b2)
 "cb" = (
 /obj/structure/cable/white{
 	icon_state = "2-8"
@@ -781,16 +786,17 @@
 	icon_state = "4-8"
 	},
 /obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "cc" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
+/obj/machinery/light_switch{
+	icon_state = "light0";
+	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/stairwell/basement2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/waste/b2)
 "cd" = (
 /obj/structure/cable/yellow{
 	icon_state = "0-2"
@@ -802,11 +808,13 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/west/basement2)
 "ce" = (
-/obj/structure/sign/deck/first{
-	pixel_y = 32
+/obj/machinery/light_switch/on{
+	icon_state = "light0";
+	dir = 8
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/stairwell/basement2)
+/area/outreach/outpost/hallway/north/basement2)
 "cf" = (
 /obj/structure/cable/white{
 	icon_state = "2-8"
@@ -816,6 +824,7 @@
 	dir = 8
 	},
 /obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "cg" = (
@@ -839,6 +848,7 @@
 /area/outreach/outpost/maint/passage/b2/northwest)
 "cj" = (
 /obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "ck" = (
@@ -857,9 +867,7 @@
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/outreach/outpost/engineering/b2/geothermals)
 "cl" = (
-/obj/structure/cable/white{
-	icon_state = "4-8"
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/engineering/b2/smes)
 "cm" = (
@@ -914,19 +922,13 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/waste/b2)
 "cq" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
+/obj/machinery/light_switch{
+	icon_state = "light0";
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/north/basement2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/atmos/b2)
 "cr" = (
 /obj/structure/cable/yellow{
 	icon_state = "2-4"
@@ -997,6 +999,7 @@
 	icon_state = "stripecee";
 	dir = 8
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "cw" = (
@@ -1244,12 +1247,9 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/atmos/b2)
 "cS" = (
-/obj/machinery/atmospherics/unary/vent_pump/on{
-	icon_state = "map_vent_out";
-	dir = 1
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/maint/waste/b2)
+/area/outreach/outpost/maint/atmos/b2)
 "cT" = (
 /obj/structure/cable/yellow,
 /obj/machinery/power/apc/high{
@@ -1279,13 +1279,13 @@
 	dir = 2;
 	id_tag = "ob_b2_conveyor_disposal"
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/disposals)
 "cX" = (
-/obj/machinery/alarm{
-	icon_state = "alarm0";
-	dir = 4
-	},
+/obj/machinery/recharge_station,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/power/b2)
 "cY" = (
@@ -1304,13 +1304,11 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/power/b2)
 "da" = (
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 1
+/obj/machinery/alarm{
+	icon_state = "alarm0";
+	dir = 4
 	},
-/obj/structure/cable/yellow{
-	icon_state = "1-4"
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/power/b2)
 "db" = (
@@ -1331,6 +1329,7 @@
 	dir = 8;
 	id_tag = "ob_b2_conveyor_disposal"
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/disposals)
 "dd" = (
@@ -1339,6 +1338,7 @@
 	dir = 8
 	},
 /obj/structure/disposalpipe/trunk,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/disposals)
 "de" = (
@@ -1386,6 +1386,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "0-4"
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/south/basement2)
 "di" = (
@@ -1400,11 +1401,19 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/north/basement2)
 "dj" = (
-/obj/machinery/door/airlock/glass/civilian{
-	icon_state = "closed"
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
-/obj/machinery/door/firedoor/autoset,
-/turf/simulated/floor/tiled/steel_ridged,
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/north/basement2)
 "dk" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
@@ -1432,18 +1441,9 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/central/basement2)
 "do" = (
-/obj/structure/sign/deck/first{
-	dir = 1;
-	icon_state = "deck-1";
-	pixel_y = -32
-	},
-/obj/machinery/light/small,
-/obj/structure/disposalpipe/up{
-	icon_state = "pipe-u";
-	dir = 1
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/atmos/b2)
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/volcanic/outreach/abyss,
+/area/exoplanet/outreach/underground/d2)
 "dp" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
@@ -1467,15 +1467,13 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/central/basement2)
 "ds" = (
-/obj/structure/cable/yellow{
-	icon_state = "0-2"
-	},
-/obj/machinery/power/apc/high{
-	icon_state = "apc0";
+/obj/machinery/atmospherics/unary/vent_pump/on{
+	icon_state = "map_vent_out";
 	dir = 1
 	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/central/basement2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/waste/b2)
 "dt" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
 	icon_state = "map_vent_out";
@@ -1504,23 +1502,11 @@
 /area/outreach/outpost/hallway/west/basement2)
 "dv" = (
 /obj/structure/cable/yellow{
-	icon_state = "4-8"
+	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
-	},
-/obj/effect/catwalk_plated,
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe-s";
-	dir = 4
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/hallway/central/basement2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
+/area/exoplanet/outreach/underground/d2)
 "dw" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -1570,12 +1556,13 @@
 /turf/exterior/volcanic/outreach/abyss,
 /area/outreach/outpost/engineering/b2/geothermals)
 "dz" = (
-/obj/machinery/atmospherics/unary/vent_scrubber/on{
-	icon_state = "map_scrubber_on";
-	dir = 8
+/obj/machinery/door/airlock/glass/civilian{
+	icon_state = "closed"
 	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/central/basement2)
+/obj/machinery/door/firedoor/autoset,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged,
+/area/outreach/outpost/hallway/north/basement2)
 "dA" = (
 /obj/machinery/light{
 	icon_state = "tube_map";
@@ -1652,14 +1639,13 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/east/basement2)
 "dF" = (
-/obj/structure/cable/yellow{
-	icon_state = "2-4"
+/obj/machinery/alarm{
+	icon_state = "alarm0";
+	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden,
-/obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/b2/northeast)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/atmos/b2)
 "dG" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -1709,20 +1695,15 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/maint/power/b2)
 "dM" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/cap/hidden/supply{
-	icon_state = "cap-supply";
+/obj/machinery/atmospherics/pipe/manifold/hidden/supply{
+	icon_state = "map-supply";
 	dir = 8
 	},
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 1
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/hallway/north/basement2)
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/effect/floor_decal/industrial/warning,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/atmos/b2)
 "dN" = (
 /turf/simulated/wall/r_wall,
 /area/outreach/outpost/hallway/south/basement2)
@@ -1823,24 +1804,52 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "dW" = (
-/obj/structure/cable/white{
-	icon_state = "4-8"
+/obj/effect/floor_decal/industrial/fire{
+	icon_state = "stripe";
+	dir = 8
 	},
-/obj/effect/catwalk_plated,
-/turf/simulated/floor/plating,
-/area/outreach/outpost/engineering/b2/geothermals)
-"dX" = (
 /obj/structure/cable/white{
 	icon_state = "1-2"
 	},
+/obj/structure/cable/white,
+/obj/effect/floor_decal/industrial/fire/cee{
+	icon_state = "stripecee";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/engineering/b2/geothermals)
+"dX" = (
 /obj/effect/floor_decal/industrial/fire{
 	icon_state = "stripe";
 	dir = 4
 	},
+/obj/structure/cable/white{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/white,
+/obj/effect/floor_decal/industrial/fire/cee{
+	icon_state = "stripecee";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "dY" = (
-/turf/exterior/volcanic/outreach/abyss,
+/obj/structure/cable/white{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/white,
+/obj/effect/floor_decal/industrial/fire{
+	icon_state = "stripe";
+	dir = 8
+	},
+/obj/effect/floor_decal/industrial/fire/cee{
+	icon_state = "stripecee";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "dZ" = (
 /obj/effect/floor_decal/industrial/fire{
@@ -1863,9 +1872,14 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/power/b2)
 "eb" = (
-/obj/structure/cable/yellow{
-	icon_state = "2-8"
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
 	},
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/power/b2)
 "ec" = (
@@ -1873,6 +1887,7 @@
 	icon_state = "stripe";
 	dir = 9
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/disposals)
 "ed" = (
@@ -1899,49 +1914,27 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/waste/b2)
 "ef" = (
-/obj/structure/ladder,
-/obj/machinery/atmospherics/pipe/zpipe/up/scrubbers{
-	icon_state = "up-scrubbers";
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/hidden{
+	icon_state = "11";
+	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/zpipe/up/supply{
-	icon_state = "up-supply";
-	dir = 1
-	},
+/obj/effect/floor_decal/industrial/warning/corner,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
-/area/outreach/outpost/maint/atmos/b2)
+/area/outreach/outpost/maint/passage/b2/northeast)
 "eg" = (
-/obj/machinery/alarm{
-	icon_state = "alarm0";
-	dir = 4
-	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/maint/atmos/b2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
+/area/exoplanet/outreach/underground/d2)
 "eh" = (
-/obj/machinery/atmospherics/pipe/manifold/hidden/supply{
-	icon_state = "map-supply";
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/obj/effect/floor_decal/industrial/warning,
+/obj/machinery/light/small,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/maint/atmos/b2)
+/area/outreach/outpost/maint/waste/b2)
 "ei" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers,
-/obj/machinery/atmospherics/pipe/manifold/hidden/supply{
-	icon_state = "map-supply";
-	dir = 1
-	},
-/obj/effect/catwalk_plated,
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe-s";
-	dir = 4
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/hallway/west/basement2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/central/basement2)
 "ej" = (
 /obj/machinery/door/firedoor/autoset,
 /obj/effect/wallframe_spawn/reinforced,
@@ -1958,6 +1951,7 @@
 	icon_state = "stripe";
 	dir = 1
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/disposals)
 "el" = (
@@ -1983,6 +1977,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "en" = (
@@ -2048,12 +2043,18 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/east/basement2)
 "ez" = (
-/obj/machinery/power/apc/high,
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
+/obj/structure/ladder,
+/obj/machinery/atmospherics/pipe/zpipe/up/scrubbers{
+	icon_state = "up-scrubbers";
+	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/zpipe/up/supply{
+	icon_state = "up-supply";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/b2/northeast)
+/area/outreach/outpost/maint/atmos/b2)
 "eA" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -2086,33 +2087,27 @@
 /turf/simulated/floor/plating/outreach,
 /area/exoplanet/outreach/underground/d2)
 "eD" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
+/obj/structure/sign/deck/first{
+	dir = 1;
+	icon_state = "deck-1";
+	pixel_y = -32
 	},
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
-	},
-/obj/machinery/power/apc/high{
-	icon_state = "apc0";
+/obj/machinery/light/small,
+/obj/structure/disposalpipe/up{
+	icon_state = "pipe-u";
 	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/manifold/hidden{
-	icon_state = "map";
-	dir = 1
-	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/airlock/basement2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/atmos/b2)
 "eE" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 8
 	},
-/obj/machinery/door/airlock/external/glass{
-	dir = 8;
-	icon_state = "closed";
-	id_tag = "OH_l1_e_alck_outer"
-	},
-/turf/simulated/floor/tiled/steel_ridged,
-/area/outreach/outpost/airlock/basement2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/atmos/b2)
 "eF" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -2138,11 +2133,11 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b2/northeast)
 "eH" = (
-/obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "11";
-	dir = 4
+/obj/machinery/light_switch{
+	icon_state = "light0";
+	dir = 1
 	},
-/obj/effect/floor_decal/industrial/warning/corner,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b2/northeast)
 "eI" = (
@@ -2162,49 +2157,33 @@
 /area/outreach/outpost/hallway/east/basement2)
 "eJ" = (
 /obj/structure/cable/yellow{
-	icon_state = "4-8"
+	icon_state = "2-4"
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "11";
-	dir = 4
-	},
-/obj/machinery/door/airlock/external/glass{
-	dir = 8;
-	icon_state = "closed";
-	id_tag = "OH_l1_e_alck_inner"
-	},
-/turf/simulated/floor/tiled/steel_ridged,
-/area/outreach/outpost/airlock/basement2)
+/obj/machinery/atmospherics/pipe/simple/hidden,
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/b2/northeast)
 "eK" = (
 /turf/simulated/floor/tiled/techfloor/grid/outreach,
 /area/exoplanet/outreach/underground/d2)
 "eL" = (
-/obj/effect/floor_decal/industrial/warning/corner{
-	icon_state = "stripecorner";
+/obj/structure/railing/mapped{
+	icon_state = "railing_preview";
 	dir = 4
 	},
-/turf/simulated/floor/tiled/techfloor/grid/airless,
-/area/outreach/outpost/atmospherics/b2/tank_outer)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/d2)
 "eM" = (
+/obj/machinery/power/apc/high,
 /obj/structure/cable/yellow{
-	icon_state = "4-8"
+	icon_state = "0-8"
 	},
-/obj/machinery/embedded_controller/radio/airlock/advanced_airlock_controller{
-	cycle_to_external_air = 1;
-	dir = 2;
-	icon_state = "airlock_control_off";
-	id_tag = "OH_l1_e_alck";
-	tag_air_alarm = "OH_l1_e_alck_alarm";
-	tag_airpump = "OH_l1_e_alck_pump";
-	tag_chamber_sensor = "OH_l1_e_alck_sensor";
-	tag_exterior_door = "OH_l1_e_alck_outer";
-	tag_exterior_sensor = "OH_l1_e_alck_exterior_sensor";
-	tag_interior_door = "OH_l1_e_alck_inner";
-	tag_interior_sensor = "OH_l1_e_alck_interior_sensor";
-	tag_secure = 1
-	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/airlock/basement2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/b2/northeast)
 "eN" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
 	icon_state = "map_vent_out";
@@ -2217,9 +2196,21 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/atmos/b2)
 "eO" = (
-/obj/machinery/light/small,
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/maint/waste/b2)
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/black,
+/obj/machinery/button/access/wired/exterior{
+	dir = 4;
+	id_tag = "OH_l1_e_alck";
+	pixel_x = 0
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
+/area/exoplanet/outreach/underground/d2)
 "eP" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -2262,6 +2253,7 @@
 	icon_state = "stripe";
 	dir = 1
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/disposals)
 "eT" = (
@@ -2272,16 +2264,15 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b2/northwest)
 "eU" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/structure/sign/engineering{
+	dir = 4;
+	icon_state = "engineering";
+	pixel_x = -32
 	},
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 1
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/b2/northeast)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/west/basement2)
 "eV" = (
 /obj/machinery/alarm,
 /obj/machinery/atmospherics/unary/vent_scrubber/on,
@@ -2295,38 +2286,48 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/west/basement2)
 "eX" = (
-/obj/machinery/light_switch{
-	icon_state = "light0";
-	dir = 1
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/b2/northwest)
-"eY" = (
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 1
-	},
-/turf/simulated/floor/tiled/techfloor/grid/airless,
-/area/outreach/outpost/atmospherics/b2/tank_outer)
-"eZ" = (
-/obj/effect/floor_decal/industrial/fire{
-	icon_state = "stripe";
-	dir = 4
-	},
-/obj/structure/cable/white{
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/engineering/b2/geothermals)
-"fa" = (
 /obj/effect/floor_decal/industrial/warning{
 	icon_state = "stripe";
 	dir = 1
 	},
 /obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/light{
+	icon_state = "tube_map";
+	dir = 1
+	},
+/obj/structure/cable/yellow{
 	icon_state = "2-4"
 	},
-/turf/simulated/floor/tiled/techfloor/grid/airless,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid,
+/area/outreach/outpost/atmospherics/b2/tank_outer)
+"eY" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 4
+	},
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
+/area/outreach/outpost/atmospherics/b2/tank_outer)
+"eZ" = (
+/obj/structure/cable/white{
+	icon_state = "4-8"
+	},
+/obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/engineering/b2/geothermals)
+"fa" = (
+/obj/structure/sign/warning/compressed_gas{
+	icon_state = "hikpa";
+	dir = 4
+	},
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 8
+	},
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "fb" = (
 /obj/structure/cable/yellow{
@@ -2342,20 +2343,7 @@
 /turf/simulated/floor/tiled/techfloor/grid/outreach,
 /area/exoplanet/outreach/underground/d2)
 "fc" = (
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 1
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/light{
-	icon_state = "tube_map";
-	dir = 1
-	},
-/obj/structure/cable/yellow{
-	icon_state = "2-4"
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "fd" = (
@@ -2403,31 +2391,17 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b2/northeast)
 "fh" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
+/obj/machinery/light{
+	icon_state = "tube_map";
+	dir = 1
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/east/basement2)
+/area/outreach/outpost/hallway/west/basement2)
 "fi" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/effect/floor_decal/industrial/shutoff{
-	icon_state = "shutoff";
-	dir = 8
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 4
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/south/basement2)
+/area/outreach/outpost/hallway/west/basement2)
 "fj" = (
 /obj/machinery/door/airlock/hatch/maintenance{
 	icon_state = "closed";
@@ -2445,14 +2419,18 @@
 	icon_state = "alarm0";
 	dir = 8
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/disposals)
 "fl" = (
-/obj/structure/flora/pottedplant/largebush,
-/obj/machinery/alarm{
-	icon_state = "alarm0";
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/machinery/power/apc/high{
+	icon_state = "apc0";
 	dir = 1
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/central/basement2)
 "fm" = (
@@ -2466,21 +2444,12 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b2/southeast)
 "fn" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
+/obj/structure/sign/warning/engineering_access{
+	dir = 8;
+	icon_state = "securearea";
+	pixel_x = 32
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 4
-	},
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe-s";
-	dir = 4
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/south/basement2)
 "fo" = (
@@ -2516,21 +2485,10 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b2/northwest)
 "fr" = (
-/obj/machinery/atmospherics/pipe/manifold/hidden/supply{
-	icon_state = "map-supply";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers{
-	icon_state = "map-scrubbers";
-	dir = 8
-	},
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/effect/catwalk_plated,
-/obj/structure/disposalpipe/segment,
-/turf/simulated/floor/plating,
-/area/outreach/outpost/hallway/south/basement2)
+/obj/structure/disposalpipe/segment/bent,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/central/basement2)
 "fs" = (
 /obj/machinery/atmospherics/unary/vent_pump/cabled/airlock{
 	dir = 8;
@@ -2579,8 +2537,9 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/smes)
 "fx" = (
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/airlock/basement2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/east/basement2)
 "fy" = (
 /obj/machinery/atmospherics/pipe/simple/hidden{
 	icon_state = "11";
@@ -2605,14 +2564,23 @@
 	id_tag = "OH_l1_e_alck_interior_sensor";
 	pixel_y = 0
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/east/basement2)
 "fA" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden{
+	icon_state = "11";
+	dir = 4
+	},
 /obj/machinery/door/airlock/external/glass{
 	dir = 8;
 	icon_state = "closed";
 	id_tag = "OH_l1_e_alck_inner"
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/airlock/basement2)
 "fB" = (
@@ -2633,24 +2601,43 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement2)
 "fD" = (
-/obj/machinery/atmospherics/pipe/manifold/hidden/black,
-/obj/machinery/camera/network/security{
-	icon_state = "camera";
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/machinery/power/apc/high{
+	icon_state = "apc0";
 	dir = 1
 	},
+/obj/machinery/atmospherics/pipe/manifold/hidden{
+	icon_state = "map";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement2)
 "fE" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/black{
-	icon_state = "11";
-	dir = 4
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/external/glass{
-	dir = 8;
-	icon_state = "closed";
-	id_tag = "OH_l1_e_alck_outer"
+/obj/machinery/embedded_controller/radio/airlock/advanced_airlock_controller{
+	cycle_to_external_air = 1;
+	dir = 2;
+	icon_state = "airlock_control_off";
+	id_tag = "OH_l1_e_alck";
+	tag_air_alarm = "OH_l1_e_alck_alarm";
+	tag_airpump = "OH_l1_e_alck_pump";
+	tag_chamber_sensor = "OH_l1_e_alck_sensor";
+	tag_exterior_door = "OH_l1_e_alck_outer";
+	tag_exterior_sensor = "OH_l1_e_alck_exterior_sensor";
+	tag_interior_door = "OH_l1_e_alck_inner";
+	tag_interior_sensor = "OH_l1_e_alck_interior_sensor";
+	tag_secure = 1
 	},
-/turf/simulated/floor/tiled/steel_ridged,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement2)
 "fF" = (
 /turf/simulated/wall/r_wall,
@@ -2671,36 +2658,26 @@
 /area/exoplanet/outreach/underground/d2)
 "fH" = (
 /obj/structure/cable/yellow{
-	icon_state = "1-2"
+	icon_state = "4-8"
 	},
-/obj/structure/cable/yellow{
-	icon_state = "0-2"
+/obj/machinery/door/airlock/external/glass{
+	dir = 8;
+	icon_state = "closed";
+	id_tag = "OH_l1_e_alck_outer"
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/black,
-/obj/machinery/button/access/wired/exterior{
-	dir = 4;
-	id_tag = "OH_l1_e_alck";
-	pixel_x = 0
-	},
-/turf/simulated/floor/tiled/techfloor/grid/outreach,
-/area/exoplanet/outreach/underground/d2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged,
+/area/outreach/outpost/airlock/basement2)
 "fI" = (
 /obj/effect/floor_decal/industrial/warning,
 /turf/simulated/floor/plating/outreach,
 /area/exoplanet/outreach/underground/d2)
 "fJ" = (
 /obj/structure/cable/white{
-	icon_state = "1-2"
+	icon_state = "4-8"
 	},
-/obj/structure/cable/white{
-	icon_state = "0-2"
-	},
-/obj/machinery/power/terminal{
-	icon_state = "term";
-	dir = 4
-	},
-/obj/effect/catwalk_plated/dark,
-/turf/simulated/floor/plating,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/engineering/b2/smes)
 "fK" = (
 /obj/structure/cable/yellow{
@@ -2711,10 +2688,12 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/black,
 /obj/effect/floor_decal/industrial/hatch/orange,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor/grid/outreach,
 /area/exoplanet/outreach/underground/d2)
 "fL" = (
-/turf/simulated/floor/tiled/techfloor/grid,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "fM" = (
 /obj/effect/wallframe_spawn/reinforced,
@@ -2755,19 +2734,42 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/west/basement2)
 "fP" = (
-/obj/machinery/camera/network/security{
-	icon_state = "camera";
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers,
+/obj/machinery/atmospherics/pipe/manifold/hidden/supply{
+	icon_state = "map-supply";
 	dir = 1
 	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/west/basement2)
-"fQ" = (
-/obj/machinery/camera/network/security{
-	icon_state = "camera";
+/obj/effect/catwalk_plated,
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe-s";
 	dir = 4
 	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/south/basement2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/hallway/west/basement2)
+"fQ" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/effect/catwalk_plated,
+/obj/structure/disposalpipe/segment/bent{
+	icon_state = "pipe-c";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/hallway/central/basement2)
 "fR" = (
 /obj/machinery/camera/network/security{
 	icon_state = "camera";
@@ -2783,12 +2785,25 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/west/basement2)
 "fT" = (
-/obj/machinery/camera/network/security{
-	icon_state = "camera";
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
 	dir = 4
 	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/stairwell/basement2)
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/effect/catwalk_plated,
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe-s";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/hallway/central/basement2)
 "fU" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
 	icon_state = "map_vent_out";
@@ -2909,17 +2924,21 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/hallway/south/basement2)
 "gg" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/airlock/basement2)
+"gh" = (
+/obj/machinery/conveyor{
+	dir = 2;
+	id_tag = "ob_b2_conveyor_disposal"
 	},
-/obj/machinery/atmospherics/pipe/cap/hidden/supply{
-	icon_state = "cap-supply";
-	dir = 8
+/obj/machinery/recycler{
+	icon_state = "grinder-o0";
+	dir = 1
 	},
-/obj/effect/floor_decal/industrial/warning,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
-/area/outreach/outpost/hallway/south/basement2)
+/area/outreach/outpost/disposals)
 "gi" = (
 /obj/machinery/atmospherics/unary/vent_pump/on,
 /turf/simulated/floor/plating,
@@ -2952,12 +2971,16 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/hallway/west/basement2)
 "gm" = (
-/obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers{
-	icon_state = "map-scrubbers";
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/structure/sign/warning/high_voltage{
+	dir = 4;
+	icon_state = "shock";
+	pixel_x = -32;
+	pixel_y = 0
 	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/b2/southwest)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/west/basement2)
 "gn" = (
 /obj/machinery/light/small{
 	icon_state = "bulb_map";
@@ -2966,12 +2989,11 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b2/northwest)
 "go" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/obj/structure/sign/engineering{
-	dir = 4;
-	icon_state = "engineering";
-	pixel_x = -32
+/obj/machinery/camera/network/security{
+	icon_state = "camera";
+	dir = 1
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/west/basement2)
 "gp" = (
@@ -2991,16 +3013,17 @@
 	dir = 4
 	},
 /obj/machinery/light/small,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b2/southwest)
 "gs" = (
-/obj/machinery/atmospherics/pipe/cap/hidden/scrubbers,
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 8
+/obj/machinery/door/airlock/glass/engineering{
+	icon_state = "closed"
 	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/b2/northwest)
+/obj/machinery/door/firedoor/autoset,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid,
+/area/outreach/outpost/atmospherics/b2/tank_outer)
 "gt" = (
 /obj/machinery/atmospherics/unary/vent_scrubber/on{
 	icon_state = "map_scrubber_on";
@@ -3041,6 +3064,14 @@
 /obj/effect/catwalk_plated/dark,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/smes)
+"gx" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/disposals)
 "gy" = (
 /obj/machinery/light_switch/on{
 	icon_state = "light0";
@@ -3054,8 +3085,9 @@
 	},
 /obj/effect/floor_decal/industrial/fire{
 	icon_state = "stripe";
-	dir = 8
+	dir = 4
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "gA" = (
@@ -3067,31 +3099,13 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/north/basement2)
 "gB" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/obj/structure/sign/warning/high_voltage{
-	dir = 4;
-	icon_state = "shock";
-	pixel_x = -32;
-	pixel_y = 0
-	},
+/obj/structure/disposalpipe/segment,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/west/basement2)
 "gC" = (
-/obj/structure/cable/white{
-	icon_state = "1-2"
-	},
-/obj/structure/cable/white{
-	icon_state = "0-2"
-	},
-/obj/effect/floor_decal/industrial/fire{
-	icon_state = "stripe";
-	dir = 4
-	},
-/obj/effect/floor_decal/industrial/fire/cee{
-	icon_state = "stripecee";
-	dir = 8
-	},
-/turf/simulated/floor/plating,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/volcanic/outreach/abyss,
 /area/outreach/outpost/engineering/b2/geothermals)
 "gD" = (
 /obj/structure/cable/yellow{
@@ -3124,20 +3138,28 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "gF" = (
-/obj/structure/sign/warning/engineering_access{
-	dir = 8;
-	icon_state = "securearea";
-	pixel_x = 32
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe-s";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/south/basement2)
 "gG" = (
-/obj/machinery/door/airlock/glass/engineering{
-	icon_state = "closed"
-	},
-/obj/machinery/door/firedoor/autoset,
-/turf/simulated/floor/tiled/techfloor/grid,
-/area/outreach/outpost/atmospherics/b2/tank_outer)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/b2/northwest)
 "gH" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
@@ -3187,10 +3209,19 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/east/basement2)
 "gM" = (
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment/bent{
+	icon_state = "pipe-c";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/disposals)
 "gN" = (
@@ -3224,19 +3255,21 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b2/southeast)
 "gR" = (
-/obj/machinery/light{
-	icon_state = "tube_map";
-	dir = 8
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/north/basement2)
-"gS" = (
-/obj/machinery/firealarm{
-	icon_state = "casing";
+/obj/machinery/light_switch/on{
+	icon_state = "light0";
 	dir = 1
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/stairwell/basement2)
+/area/outreach/outpost/hallway/west/basement2)
+"gS" = (
+/obj/machinery/light_switch/on{
+	icon_state = "light0";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/central/basement2)
 "gT" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -3366,13 +3399,10 @@
 /turf/simulated/wall,
 /area/outreach/outpost/maint/passage/b2/northeast)
 "hm" = (
-/obj/machinery/airlock_sensor{
-	dir = 1;
-	id_tag = "OH_l1_e_alck_sensor";
-	pixel_y = 0
-	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/airlock/basement2)
+/obj/structure/disposalpipe/junction,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/central/basement2)
 "hn" = (
 /turf/simulated/wall,
 /area/outreach/outpost/maint/passage/b2/southwest)
@@ -3400,21 +3430,6 @@
 /turf/simulated/floor/reinforced/airless,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "hs" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 4
-	},
-/obj/structure/disposalpipe/segment/bent{
-	icon_state = "pipe-c";
-	dir = 1
-	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/disposals)
-"ht" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
 	},
@@ -3430,6 +3445,12 @@
 	icon_state = "pipe-s";
 	dir = 4
 	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/disposals)
+"ht" = (
+/obj/effect/floor_decal/industrial/warning/fulltile,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/disposals)
 "hu" = (
@@ -3455,15 +3476,20 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/disposals)
 "hv" = (
-/obj/effect/floor_decal/industrial/warning/fulltile,
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/disposals)
-"hw" = (
 /obj/machinery/light,
 /obj/machinery/atmospherics/unary/vent_pump/on{
 	icon_state = "map_vent_out";
 	dir = 1
 	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/disposals)
+"hw" = (
+/obj/machinery/light_switch{
+	icon_state = "light0";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/disposals)
 "hx" = (
@@ -3479,18 +3505,13 @@
 /turf/unsimulated/rock,
 /area/exoplanet/outreach/underground/d2)
 "hz" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
+/obj/machinery/atmospherics/unary/vent_scrubber/on{
+	icon_state = "map_scrubber_on";
+	dir = 8
 	},
-/obj/structure/cable/yellow,
-/obj/machinery/atmospherics/pipe/simple/hidden/black,
-/obj/machinery/button/access/wired/exterior{
-	dir = 4;
-	id_tag = "OH_l1_e_alck";
-	pixel_x = 0
-	},
-/turf/simulated/floor/tiled/techfloor/grid/outreach,
-/area/exoplanet/outreach/underground/d2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/central/basement2)
 "hA" = (
 /obj/effect/catwalk_plated,
 /obj/effect/wallframe_spawn/borosilicate,
@@ -3562,14 +3583,14 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/power/b2)
 "hI" = (
+/obj/effect/floor_decal/industrial/fire{
+	icon_state = "stripe";
+	dir = 8
+	},
 /obj/structure/cable/white{
-	icon_state = "1-4"
+	icon_state = "1-2"
 	},
-/obj/effect/floor_decal/industrial/fire/corner{
-	icon_state = "stripecorner";
-	dir = 4
-	},
-/obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "hJ" = (
@@ -3580,49 +3601,47 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b2/southwest)
 "hK" = (
-/obj/structure/cable/white{
-	icon_state = "4-8"
-	},
 /obj/effect/floor_decal/industrial/fire{
 	icon_state = "stripe";
-	dir = 1
-	},
-/obj/effect/catwalk_plated,
-/turf/simulated/floor/plating,
-/area/outreach/outpost/engineering/b2/geothermals)
-"hL" = (
-/obj/effect/floor_decal/industrial/fire/corner{
-	icon_state = "stripecorner";
-	dir = 1
-	},
-/obj/structure/cable/white{
-	icon_state = "4-8"
-	},
-/obj/structure/cable/white{
-	icon_state = "1-8"
-	},
-/obj/effect/catwalk_plated,
-/turf/simulated/floor/plating,
-/area/outreach/outpost/engineering/b2/geothermals)
-"hM" = (
-/obj/machinery/door/firedoor/autoset{
-	icon_state = "open";
-	dir = 8
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/b2/northwest)
-"hN" = (
-/obj/effect/floor_decal/industrial/fire/corner{
-	icon_state = "stripecorner";
 	dir = 4
 	},
 /obj/structure/cable/white{
-	icon_state = "4-8"
+	icon_state = "1-2"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/engineering/b2/geothermals)
+"hL" = (
+/obj/structure/cable/white{
+	icon_state = "1-2"
+	},
+/obj/effect/floor_decal/industrial/fire{
+	icon_state = "stripe";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/engineering/b2/geothermals)
+"hM" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor,
+/area/outreach/outpost/maint/passage/b2/northwest)
+"hN" = (
+/obj/structure/cable/white{
+	icon_state = "1-2"
 	},
 /obj/structure/cable/white{
-	icon_state = "1-4"
+	icon_state = "0-2"
 	},
-/obj/effect/catwalk_plated,
+/obj/effect/floor_decal/industrial/fire{
+	icon_state = "stripe";
+	dir = 4
+	},
+/obj/effect/floor_decal/industrial/fire/cee{
+	icon_state = "stripecee";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "hO" = (
@@ -3641,14 +3660,21 @@
 /turf/simulated/floor/plating,
 /area/exoplanet/outreach/underground/d2)
 "hQ" = (
+/obj/effect/floor_decal/industrial/fire{
+	icon_state = "stripe";
+	dir = 8
+	},
 /obj/structure/cable/white{
-	icon_state = "1-8"
+	icon_state = "1-2"
 	},
-/obj/effect/floor_decal/industrial/fire/corner{
-	icon_state = "stripecorner";
-	dir = 1
+/obj/structure/cable/white{
+	icon_state = "0-2"
 	},
-/obj/effect/catwalk_plated,
+/obj/effect/floor_decal/industrial/fire/cee{
+	icon_state = "stripecee";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "hR" = (
@@ -3674,40 +3700,49 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/central/basement2)
 "hS" = (
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 8
-	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/maint/atmos/b2)
-"hT" = (
 /obj/machinery/light_switch/on{
 	icon_state = "light0";
 	dir = 1
 	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/central/basement2)
-"hU" = (
-/obj/machinery/light_switch/on{
-	icon_state = "light0";
-	dir = 8
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/north/basement2)
-"hV" = (
-/obj/machinery/light_switch/on{
-	icon_state = "light0";
-	dir = 1
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/west/basement2)
-"hW" = (
-/obj/machinery/light_switch/on{
-	icon_state = "light0";
-	dir = 1
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/east/basement2)
+"hT" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/east/basement2)
+"hU" = (
+/obj/machinery/door/airlock/external/glass{
+	dir = 8;
+	icon_state = "closed";
+	id_tag = "OH_l1_e_alck_inner"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged,
+/area/outreach/outpost/airlock/basement2)
+"hV" = (
+/obj/machinery/airlock_sensor{
+	dir = 1;
+	id_tag = "OH_l1_e_alck_sensor";
+	pixel_y = 0
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/airlock/basement2)
+"hW" = (
+/obj/machinery/atmospherics/pipe/manifold/hidden/black,
+/obj/machinery/camera/network/security{
+	icon_state = "camera";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/airlock/basement2)
 "hX" = (
 /obj/machinery/light_switch/on{
 	icon_state = "light0";
@@ -3716,31 +3751,36 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/south/basement2)
 "hY" = (
-/obj/machinery/light_switch{
-	icon_state = "light0";
-	dir = 8
+/obj/machinery/atmospherics/pipe/simple/hidden/black{
+	icon_state = "11";
+	dir = 4
 	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/maint/waste/b2)
+/obj/machinery/door/airlock/external/glass{
+	dir = 8;
+	icon_state = "closed";
+	id_tag = "OH_l1_e_alck_outer"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged,
+/area/outreach/outpost/airlock/basement2)
 "hZ" = (
-/obj/machinery/light_switch{
-	icon_state = "light0";
-	dir = 4
-	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/maint/atmos/b2)
+/obj/machinery/door/firedoor/autoset,
+/obj/machinery/door/airlock/glass/maintenance,
+/obj/structure/disposalpipe/segment,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged,
+/area/outreach/outpost/stairwell/basement2)
 "ia" = (
-/obj/machinery/light_switch{
-	icon_state = "light0";
-	dir = 8
-	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/disposals)
+/obj/machinery/door/firedoor/autoset,
+/obj/machinery/door/airlock/glass/maintenance,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged,
+/area/outreach/outpost/stairwell/basement2)
 "ib" = (
-/obj/machinery/light_switch{
-	icon_state = "light0";
-	dir = 4
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/power/b2)
 "ic" = (
@@ -3763,14 +3803,39 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b2/southeast)
 "ig" = (
-/turf/simulated/floor/tiled/techfloor/grid,
+/obj/effect/floor_decal/industrial/fire{
+	icon_state = "stripe";
+	dir = 4
+	},
+/obj/structure/cable/white{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/white{
+	icon_state = "0-2"
+	},
+/obj/effect/floor_decal/industrial/fire/cee{
+	icon_state = "stripecee";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "ih" = (
-/obj/effect/floor_decal/industrial/fire/corner,
 /obj/structure/cable/white{
-	icon_state = "2-4"
+	icon_state = "1-2"
 	},
-/obj/effect/catwalk_plated,
+/obj/structure/cable/white{
+	icon_state = "0-2"
+	},
+/obj/effect/floor_decal/industrial/fire{
+	icon_state = "stripe";
+	dir = 8
+	},
+/obj/effect/floor_decal/industrial/fire/cee{
+	icon_state = "stripecee";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "ii" = (
@@ -3780,44 +3845,57 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/engineering/b2/smes)
 "ij" = (
-/obj/effect/floor_decal/industrial/fire,
 /obj/structure/cable/white{
-	icon_state = "4-8"
+	icon_state = "1-4"
+	},
+/obj/effect/floor_decal/industrial/fire/corner{
+	icon_state = "stripecorner";
+	dir = 4
 	},
 /obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "ik" = (
-/obj/effect/floor_decal/industrial/fire,
 /obj/structure/cable/white{
 	icon_state = "4-8"
 	},
+/obj/effect/floor_decal/industrial/fire{
+	icon_state = "stripe";
+	dir = 1
+	},
 /obj/effect/catwalk_plated,
-/turf/simulated/floor/plating/outreach,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "il" = (
 /obj/effect/floor_decal/industrial/fire/corner{
 	icon_state = "stripecorner";
-	dir = 8
+	dir = 1
 	},
 /obj/structure/cable/white{
 	icon_state = "4-8"
 	},
 /obj/structure/cable/white{
-	icon_state = "2-8"
+	icon_state = "1-8"
 	},
 /obj/effect/catwalk_plated,
-/turf/simulated/floor/plating/outreach,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "im" = (
 /obj/effect/floor_decal/industrial/fire/corner{
 	icon_state = "stripecorner";
-	dir = 8
+	dir = 4
 	},
 /obj/structure/cable/white{
-	icon_state = "2-8"
+	icon_state = "4-8"
+	},
+/obj/structure/cable/white{
+	icon_state = "1-4"
 	},
 /obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
 "in" = (
@@ -3870,9 +3948,13 @@
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/outreach/outpost/engineering/b2/smes)
 "is" = (
-/obj/structure/disposalpipe/segment,
+/obj/structure/disposalpipe/segment/bent{
+	icon_state = "pipe-c";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/west/basement2)
+/area/outreach/outpost/hallway/central/basement2)
 "it" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -3907,12 +3989,17 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b2/northwest)
 "iw" = (
-/obj/machinery/light/small{
-	icon_state = "bulb_map";
-	dir = 8
+/obj/structure/cable/white{
+	icon_state = "1-8"
 	},
+/obj/effect/floor_decal/industrial/fire/corner{
+	icon_state = "stripecorner";
+	dir = 1
+	},
+/obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/b2/southwest)
+/area/outreach/outpost/engineering/b2/geothermals)
 "ix" = (
 /obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers{
 	icon_state = "map-scrubbers";
@@ -3944,11 +4031,14 @@
 /turf/simulated/wall/r_wall,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "iC" = (
-/obj/machinery/door/firedoor/autoset,
-/obj/machinery/door/airlock/glass/maintenance,
-/obj/structure/disposalpipe/segment,
-/turf/simulated/floor/tiled/steel_ridged,
-/area/outreach/outpost/stairwell/basement2)
+/obj/structure/flora/pottedplant/largebush,
+/obj/machinery/alarm{
+	icon_state = "alarm0";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/central/basement2)
 "iD" = (
 /obj/structure/disposalpipe/segment/bent{
 	icon_state = "pipe-c";
@@ -3967,6 +4057,20 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/central/basement2)
 "iF" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/yellow,
+/obj/machinery/atmospherics/pipe/simple/hidden/black,
+/obj/machinery/button/access/wired/exterior{
+	dir = 4;
+	id_tag = "OH_l1_e_alck";
+	pixel_x = 0
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
+/area/exoplanet/outreach/underground/d2)
+"iG" = (
 /obj/machinery/alarm,
 /obj/machinery/light_switch/on{
 	icon_state = "light0";
@@ -3977,13 +4081,7 @@
 	dir = 4
 	},
 /obj/machinery/disposal,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/stairwell/basement2)
-"iG" = (
-/obj/structure/disposalpipe/segment/bent{
-	icon_state = "pipe-c";
-	dir = 8
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/stairwell/basement2)
 "iH" = (
@@ -4044,9 +4142,13 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/central/basement2)
 "iK" = (
-/obj/structure/disposalpipe/junction,
+/obj/structure/disposalpipe/segment/bent{
+	icon_state = "pipe-c";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/central/basement2)
+/area/outreach/outpost/stairwell/basement2)
 "iL" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -4147,6 +4249,7 @@
 	icon_state = "stripe";
 	dir = 4
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/maint/passage/b2/northwest)
 "iW" = (
@@ -4186,15 +4289,21 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/south/basement2)
 "jb" = (
-/obj/machinery/light{
-	icon_state = "tube_map";
-	dir = 8
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
 	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/south/basement2)
+/area/outreach/outpost/stairwell/basement2)
 "jc" = (
 /turf/exterior/barren/outreach,
 /area/exoplanet/outreach/underground/d2)
+"jd" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/stairwell/basement2)
 "je" = (
 /obj/effect/geyser,
 /turf/exterior/volcanic/outreach/abyss,
@@ -4265,24 +4374,28 @@
 /area/outreach/outpost/engineering/b2/smes)
 "jl" = (
 /obj/structure/cable/yellow{
-	icon_state = "1-2"
+	icon_state = "1-8"
 	},
-/obj/machinery/alarm{
-	icon_state = "alarm0";
-	dir = 4
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
 	},
-/obj/machinery/computer/station_alert/engineering{
-	icon_state = "computer";
-	dir = 4
-	},
-/turf/simulated/floor/tiled/techfloor,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid,
 /area/outreach/outpost/engineering/b2/smes)
 "jm" = (
-/obj/machinery/atmospherics/unary/vent_scrubber/on{
-	icon_state = "map_scrubber_on";
+/obj/structure/cable/white{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/white{
+	icon_state = "0-2"
+	},
+/obj/machinery/power/terminal{
+	icon_state = "term";
 	dir = 4
 	},
-/turf/simulated/floor/tiled/techfloor,
+/obj/effect/catwalk_plated/dark,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/smes)
 "jn" = (
 /obj/structure/cable/yellow{
@@ -4317,10 +4430,12 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/engineering/b2/smes)
 "jp" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
+/obj/structure/cable/yellow,
+/obj/machinery/power/smes/buildable/preset/outreach{
+	output_level = 250000
 	},
-/turf/simulated/floor/tiled/techfloor,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/engineering/b2/smes)
 "jq" = (
 /obj/structure/cable/yellow{
@@ -4349,11 +4464,15 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/machinery/button/blast_door{
-	dir = 4;
-	icon_state = "blastctrl";
-	id_tag = "geo_blast_doors"
+/obj/machinery/alarm{
+	icon_state = "alarm0";
+	dir = 4
 	},
+/obj/machinery/computer/station_alert/engineering{
+	icon_state = "computer";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/engineering/b2/smes)
 "jt" = (
@@ -4364,16 +4483,18 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/engineering/b2/smes)
 "ju" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 9
+/obj/machinery/atmospherics/unary/vent_scrubber/on{
+	icon_state = "map_scrubber_on";
+	dir = 4
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/engineering/b2/smes)
 "jv" = (
 /obj/structure/cable/yellow{
-	icon_state = "1-4"
+	icon_state = "4-8"
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/engineering/b2/smes)
 "jw" = (
@@ -4416,15 +4537,8 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/west/basement2)
 "jy" = (
-/obj/effect/floor_decal/industrial/fire{
-	icon_state = "stripe";
-	dir = 1
-	},
-/obj/structure/cable/white{
-	icon_state = "4-8"
-	},
-/obj/effect/catwalk_plated,
-/turf/simulated/floor/plating,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid,
 /area/outreach/outpost/engineering/b2/geothermals)
 "jz" = (
 /obj/effect/catwalk_plated,
@@ -4441,11 +4555,12 @@
 /turf/simulated/floor/plating,
 /area/exoplanet/outreach/underground/d2)
 "jB" = (
-/obj/effect/catwalk_plated,
 /obj/structure/cable/yellow{
-	icon_state = "1-4"
+	icon_state = "1-2"
 	},
-/turf/simulated/floor/plating,
+/obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
 /area/exoplanet/outreach/underground/d2)
 "jC" = (
 /obj/structure/cable/yellow,
@@ -4458,15 +4573,18 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/engineering/b2/smes)
 "jD" = (
-/obj/effect/floor_decal/industrial/hatch,
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
+/obj/machinery/door/blast/regular/wired/open{
+	density = 1;
+	icon_state = "pdoor0";
+	id_tag = "geo_blast_doors"
 	},
 /obj/structure/cable/yellow{
-	icon_state = "1-8"
+	icon_state = "0-2"
 	},
-/turf/simulated/floor/tiled/techfloor,
-/area/exoplanet/outreach/underground/d2)
+/obj/machinery/door/airlock/external/glass/wired,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid,
+/area/outreach/outpost/engineering/b2/geothermals)
 "jE" = (
 /obj/effect/catwalk_plated,
 /obj/structure/cable/yellow{
@@ -4508,11 +4626,16 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/power/b2)
 "jI" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-8"
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/power/b2)
+"jJ" = (
+/obj/structure/sign/deck/first{
+	pixel_y = 32
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/stairwell/basement2)
 "jK" = (
 /obj/machinery/light{
 	icon_state = "tube_map";
@@ -4521,24 +4644,39 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/engineering/b2/smes)
 "jL" = (
-/obj/structure/sign/warning/high_voltage{
-	icon_state = "shock";
-	dir = 8
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
 	},
+/obj/machinery/button/blast_door{
+	dir = 4;
+	icon_state = "blastctrl";
+	id_tag = "geo_blast_doors"
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/engineering/b2/smes)
 "jM" = (
-/obj/machinery/light,
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 9
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/engineering/b2/smes)
 "jN" = (
-/obj/structure/cable/yellow{
-	icon_state = "0-2"
+/obj/structure/cable/white{
+	icon_state = "2-8"
 	},
-/obj/machinery/power/smes/buildable/preset/outreach{
-	output_level = 250000
+/obj/structure/cable/white{
+	icon_state = "0-8"
 	},
-/turf/simulated/floor/tiled/techmaint,
+/obj/machinery/power/terminal{
+	icon_state = "term";
+	dir = 4
+	},
+/obj/effect/catwalk_plated/dark,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/smes)
 "jO" = (
 /obj/effect/floor_decal/industrial/fire/corner{
@@ -4589,17 +4727,13 @@
 /turf/simulated/floor/tiled/techfloor/grid,
 /area/outreach/outpost/engineering/b2/geothermals)
 "jS" = (
-/obj/machinery/door/blast/regular/wired/open{
-	density = 1;
-	icon_state = "pdoor0";
-	id_tag = "geo_blast_doors"
-	},
+/obj/effect/catwalk_plated,
 /obj/structure/cable/yellow{
-	icon_state = "0-2"
+	icon_state = "4-8"
 	},
-/obj/machinery/door/airlock/external/glass/wired,
-/turf/simulated/floor/tiled/techfloor/grid,
-/area/outreach/outpost/engineering/b2/geothermals)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/exoplanet/outreach/underground/d2)
 "jT" = (
 /obj/effect/catwalk_plated,
 /obj/structure/cable/yellow{
@@ -4622,6 +4756,61 @@
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/engineering/b2/smes)
+"jV" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/b2/southeast)
+"jW" = (
+/obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers{
+	icon_state = "map-scrubbers";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/b2/southwest)
+"jX" = (
+/obj/machinery/door/airlock/glass/civilian{
+	icon_state = "closed"
+	},
+/obj/machinery/door/firedoor/autoset,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged,
+/area/outreach/outpost/hallway/south/basement2)
+"jY" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/floor_decal/industrial/shutoff{
+	icon_state = "shutoff";
+	dir = 8
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/south/basement2)
+"jZ" = (
+/obj/machinery/camera/network/security{
+	icon_state = "camera";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/stairwell/basement2)
+"ka" = (
+/obj/machinery/firealarm{
+	icon_state = "casing";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/stairwell/basement2)
 "kb" = (
 /obj/effect/floor_decal/industrial/warning{
 	icon_state = "stripe";
@@ -4629,21 +4818,309 @@
 	},
 /turf/simulated/floor/plating/outreach,
 /area/exoplanet/outreach/underground/d2)
-"nD" = (
-/obj/machinery/light/small{
-	icon_state = "bulb_map";
+"kc" = (
+/obj/machinery/camera/network/security{
+	icon_state = "camera";
 	dir = 4
 	},
-/turf/simulated/floor/tiled/techfloor,
-/area/outreach/outpost/atmospherics/b2/tank_outer)
-"uA" = (
-/turf/simulated/floor/tiled/techfloor,
-/area/outreach/outpost/atmospherics/b2/tank_outer)
-"Gj" = (
-/obj/machinery/recharge_station,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/south/basement2)
+"kd" = (
+/obj/machinery/atmospherics/pipe/manifold/hidden/supply{
+	icon_state = "map-supply";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers{
+	icon_state = "map-scrubbers";
+	dir = 8
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/effect/catwalk_plated,
+/obj/structure/disposalpipe/segment,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/hallway/south/basement2)
+"ke" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/b2/southwest)
+"kf" = (
+/obj/machinery/light{
+	icon_state = "tube_map";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/south/basement2)
+"kg" = (
+/obj/machinery/light_switch,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/b2/southeast)
+"kh" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/cap/hidden/supply{
+	icon_state = "cap-supply";
+	dir = 8
+	},
+/obj/effect/floor_decal/industrial/warning,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/hallway/south/basement2)
+"ki" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/d2)
+"kj" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/d2)
+"kk" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/power/b2)
-"KL" = (
+"kl" = (
+/obj/machinery/light_switch{
+	icon_state = "light0";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/power/b2)
+"km" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/machinery/power/smes/buildable/preset/outreach{
+	output_level = 250000
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/engineering/b2/smes)
+"kn" = (
+/obj/machinery/light{
+	icon_state = "tube_map";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor,
+/area/outreach/outpost/engineering/b2/smes)
+"ko" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor,
+/area/outreach/outpost/engineering/b2/smes)
+"kp" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor,
+/area/outreach/outpost/engineering/b2/smes)
+"kq" = (
+/obj/structure/cable/white{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid,
+/area/outreach/outpost/engineering/b2/smes)
+"kr" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor,
+/area/outreach/outpost/engineering/b2/smes)
+"ks" = (
+/obj/structure/sign/warning/high_voltage{
+	icon_state = "shock";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor,
+/area/outreach/outpost/engineering/b2/smes)
+"kt" = (
+/obj/machinery/light,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor,
+/area/outreach/outpost/engineering/b2/smes)
+"ku" = (
+/obj/machinery/door/firedoor/autoset{
+	icon_state = "open";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/b2/northwest)
+"kv" = (
+/obj/machinery/atmospherics/pipe/cap/hidden/scrubbers,
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/b2/northwest)
+"kw" = (
+/obj/machinery/light_switch{
+	icon_state = "light0";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/b2/northwest)
+"kx" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
+/area/outreach/outpost/atmospherics/b2/tank_outer)
+"ky" = (
+/obj/effect/floor_decal/industrial/warning/corner{
+	icon_state = "stripecorner";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
+/area/outreach/outpost/atmospherics/b2/tank_outer)
+"kz" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
+	},
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
+/area/outreach/outpost/atmospherics/b2/tank_outer)
+"kA" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
+	},
+/obj/structure/sign/warning/compressed_gas,
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
+/area/outreach/outpost/atmospherics/b2/tank_outer)
+"kB" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
+/area/outreach/outpost/atmospherics/b2/tank_outer)
+"kC" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/turf/simulated/floor/tiled/techfloor/grid/outreach,
+/area/outreach/outpost/atmospherics/b2/tank_outer)
+"kD" = (
+/obj/structure/railing/mapped,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/d2)
+"kE" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/d2)
+"kF" = (
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/d2)
+"kG" = (
+/obj/effect/floor_decal/industrial/warning,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/d2)
+"kH" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/volcanic/outreach/abyss,
+/area/exoplanet/outreach/underground/d2)
+"kI" = (
+/obj/effect/floor_decal/industrial/fire/corner,
+/obj/structure/cable/white{
+	icon_state = "2-4"
+	},
+/obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/engineering/b2/geothermals)
+"kJ" = (
+/obj/effect/floor_decal/industrial/fire,
+/obj/structure/cable/white{
+	icon_state = "4-8"
+	},
+/obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/engineering/b2/geothermals)
+"kK" = (
+/obj/effect/floor_decal/industrial/fire,
+/obj/structure/cable/white{
+	icon_state = "4-8"
+	},
+/obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
+/area/outreach/outpost/engineering/b2/geothermals)
+"kL" = (
+/obj/effect/floor_decal/industrial/fire/corner{
+	icon_state = "stripecorner";
+	dir = 8
+	},
+/obj/structure/cable/white{
+	icon_state = "4-8"
+	},
+/obj/structure/cable/white{
+	icon_state = "2-8"
+	},
+/obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
+/area/outreach/outpost/engineering/b2/geothermals)
+"kM" = (
+/obj/effect/floor_decal/industrial/fire/corner{
+	icon_state = "stripecorner";
+	dir = 8
+	},
+/obj/structure/cable/white{
+	icon_state = "2-8"
+	},
+/obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/engineering/b2/geothermals)
+"kN" = (
 /obj/effect/floor_decal/industrial/fire{
 	icon_state = "stripe";
 	dir = 8
@@ -4657,19 +5134,66 @@
 	dir = 4
 	},
 /obj/effect/decal/cleanable/blood/oil,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/engineering/b2/geothermals)
-"OM" = (
-/obj/machinery/conveyor{
-	dir = 2;
-	id_tag = "ob_b2_conveyor_disposal"
+"kO" = (
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 8
 	},
-/obj/machinery/recycler{
-	icon_state = "grinder-o0";
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/b2/southwest)
+"kP" = (
+/obj/effect/floor_decal/industrial/fire{
+	icon_state = "stripe";
 	dir = 1
 	},
+/obj/structure/cable/white{
+	icon_state = "4-8"
+	},
+/obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
-/area/outreach/outpost/disposals)
+/area/outreach/outpost/engineering/b2/geothermals)
+"kQ" = (
+/obj/effect/floor_decal/industrial/hatch,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor,
+/area/exoplanet/outreach/underground/d2)
+"kR" = (
+/obj/effect/catwalk_plated,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/exoplanet/outreach/underground/d2)
+"kS" = (
+/obj/effect/catwalk_plated,
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/exoplanet/outreach/underground/d2)
+"nD" = (
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 4
+	},
+/turf/simulated/floor/tiled/techfloor,
+/area/outreach/outpost/atmospherics/b2/tank_outer)
+"uA" = (
+/turf/simulated/floor/tiled/techfloor,
+/area/outreach/outpost/atmospherics/b2/tank_outer)
 "YA" = (
 /obj/machinery/network/relay/wall_mounted/outreach{
 	icon_state = "wall_router";
@@ -15483,20 +16007,20 @@ jf
 jf
 jf
 jf
-ac
+do
 ac
 jf
 jf
 ac
+do
+ac
+ac
+do
 ac
 ac
 ac
-ac
-ac
-ac
-ac
-ac
-ac
+do
+do
 jf
 jf
 jf
@@ -15686,21 +16210,21 @@ jz
 io
 io
 hP
-io
+kR
 io
 io
 hP
-io
-io
-io
-jT
-io
+kR
 io
 io
 jT
 io
 io
-jB
+kR
+jT
+io
+io
+kS
 jf
 jf
 ac
@@ -15884,7 +16408,7 @@ jf
 ac
 jf
 jf
-jA
+jS
 ao
 ao
 ck
@@ -16091,18 +16615,18 @@ ao
 aA
 cv
 cv
+gz
+hN
+hN
+ij
+jy
+kI
 dX
-gC
-gC
-hI
+dX
+hK
 ig
-ih
-dT
-dT
-eZ
-gV
-gV
-hI
+ig
+ij
 ao
 jA
 jf
@@ -16293,18 +16817,18 @@ ao
 aB
 dy
 dy
-dY
+gC
 dy
 dy
-hK
+ik
 ao
-ij
+kJ
 dy
 dy
-dY
+gC
 dy
 dy
-jy
+kP
 ao
 jA
 jf
@@ -16475,14 +16999,14 @@ jf
 jf
 ac
 ae
+aD
+az
+aD
 az
 az
+aD
 az
-az
-az
-az
-az
-az
+aD
 az
 ae
 ac
@@ -16495,18 +17019,18 @@ ao
 aB
 dK
 dK
-dY
+gC
 dK
 dK
-hK
-ao
 ik
+ao
+kK
 dK
 dK
-dY
+gC
 dK
 dK
-jy
+kP
 ao
 jA
 jf
@@ -16677,15 +17201,15 @@ jf
 jf
 ac
 au
-aC
-aU
-aU
-aU
-aU
-aU
-aU
-aU
-eL
+aH
+bh
+eY
+eY
+eY
+eY
+bh
+eY
+ky
 gI
 ac
 jf
@@ -16695,20 +17219,20 @@ jf
 jA
 aq
 bF
-dS
-dS
-dZ
-gE
-gE
-hL
-ig
+dW
+dW
+hI
+hQ
+hQ
 il
-dS
-dS
-dZ
-gE
-gE
-hL
+jy
+kL
+dW
+dW
+hI
+hQ
+hQ
+il
 aq
 jA
 jf
@@ -16878,8 +17402,8 @@ jf
 jf
 jf
 ac
-au
-aD
+aC
+aI
 aK
 aK
 aK
@@ -16887,7 +17411,7 @@ aK
 aK
 aK
 aK
-eY
+kz
 gI
 ac
 jf
@@ -16897,20 +17421,20 @@ jf
 aE
 av
 bG
-dT
-dT
-eZ
-gV
-gV
-hN
+dX
+dX
+hK
 ig
+ig
+im
+jy
 bG
-dT
-dT
-eZ
-gV
-gV
-hN
+dX
+dX
+hK
+ig
+ig
+im
 jR
 jP
 jf
@@ -17081,7 +17605,7 @@ jf
 jf
 ac
 au
-aD
+aI
 aK
 aK
 aK
@@ -17089,30 +17613,30 @@ aK
 aK
 aK
 aK
-eY
+kz
 gI
 ac
 ac
 jf
 jf
 jf
-jA
+jS
 ao
 aB
 dy
 dy
-dY
+gC
 dy
 dy
-hK
-ao
 ik
+ao
+kK
 dy
 dy
-dY
+gC
 dy
 dy
-jy
+kP
 ao
 jA
 jf
@@ -17283,7 +17807,7 @@ jf
 jf
 ac
 au
-aD
+aM
 aK
 aK
 bn
@@ -17291,8 +17815,8 @@ bp
 bo
 aK
 aK
-bq
-gI
+kA
+kD
 ac
 jf
 ac
@@ -17303,18 +17827,18 @@ ao
 aB
 dK
 dK
-dY
+gC
 dK
 dK
-hK
-ao
 ik
+ao
+kK
 dK
 dK
-dY
+gC
 dK
 dK
-jy
+kP
 ao
 jA
 jf
@@ -17485,7 +18009,7 @@ jf
 jf
 ac
 au
-aD
+aI
 aK
 aK
 bo
@@ -17493,8 +18017,8 @@ hq
 bv
 aK
 aK
-eY
-gI
+kB
+kD
 ac
 jf
 jf
@@ -17503,20 +18027,20 @@ jf
 jA
 aq
 bF
-dS
-dS
-dZ
-gE
-gE
-hL
-ig
+dW
+dW
+hI
+hQ
+hQ
 il
-dS
-dS
-dZ
-gE
-gE
-hL
+jy
+kL
+dW
+dW
+hI
+hQ
+hQ
+il
 aq
 jA
 jf
@@ -17686,8 +18210,8 @@ jf
 jf
 jf
 ac
-au
-aD
+aC
+aI
 aK
 aK
 bo
@@ -17695,7 +18219,7 @@ bb
 bo
 aK
 aK
-eY
+kB
 gI
 ac
 jf
@@ -17705,20 +18229,20 @@ ac
 aE
 av
 bG
-dT
-dT
-eZ
-gV
-gV
-hN
+dX
+dX
+hK
 ig
+ig
+im
+jy
 bG
-dT
-dT
-eZ
-gV
-gV
-hN
+dX
+dX
+hK
+ig
+ig
+im
 jR
 jP
 jf
@@ -17889,7 +18413,7 @@ jf
 jf
 ac
 au
-aH
+aO
 aK
 aK
 bo
@@ -17897,30 +18421,30 @@ bu
 bo
 aK
 aK
-eY
+kz
 gI
 ac
 jf
 jf
 ac
-ac
-bl
+do
+kE
 ao
 aB
 dy
 dy
-dY
+gC
 dy
 dy
-hK
-ao
 ik
+ao
+kK
 dy
 dy
-dY
+gC
 dy
 dy
-jy
+kP
 ao
 jA
 jf
@@ -18091,7 +18615,7 @@ jf
 jf
 ac
 au
-aD
+aI
 aK
 aK
 aK
@@ -18099,8 +18623,8 @@ aK
 aK
 aK
 aK
-eY
-gI
+kB
+kD
 ac
 jf
 jf
@@ -18111,18 +18635,18 @@ ao
 aB
 dK
 dK
-dY
+gC
 dK
 dK
-hK
-ao
 ik
+ao
+kK
 dK
 dK
-dY
+gC
 dK
 dK
-jy
+kP
 ao
 jA
 jf
@@ -18293,7 +18817,7 @@ jf
 jf
 ac
 au
-aD
+aI
 aK
 aK
 aK
@@ -18301,30 +18825,30 @@ aK
 aK
 aK
 aK
-eY
+kz
 gI
 ac
 ac
 jf
-ac
+do
 ac
 bl
 aq
 cb
-dU
-dU
-gz
-ha
-ha
+dY
+dY
 hL
-ig
+ih
+ih
 il
-KL
-dS
-dZ
-gE
-gE
-hL
+jy
+kL
+kN
+dW
+hI
+hQ
+hQ
+il
 aq
 jA
 jf
@@ -18495,7 +19019,7 @@ jf
 jf
 ac
 au
-aD
+aM
 aK
 aK
 aQ
@@ -18503,30 +19027,30 @@ aZ
 aW
 aK
 aK
-bq
+kA
 gI
-ac
+do
 ac
 jf
 ac
-ac
+do
 jQ
 av
 bG
-dT
-dT
-eZ
-gV
-gV
-hN
+dX
+dX
+hK
 ig
+ig
+im
+jy
 bG
-dT
-dT
-eZ
-gV
-gV
-hN
+dX
+dX
+hK
+ig
+ig
+im
 jR
 jP
 jf
@@ -18697,7 +19221,7 @@ jf
 jf
 ac
 au
-aD
+aM
 aK
 aK
 aW
@@ -18705,7 +19229,7 @@ ba
 bi
 aK
 aK
-eY
+kB
 gI
 ac
 ac
@@ -18717,18 +19241,18 @@ ao
 aB
 dy
 dy
-dY
+gC
 dy
 dy
-hK
-ao
 ik
+ao
+kK
 dy
 dy
-dY
+gC
 dy
 dy
-jy
+kP
 ao
 jA
 jf
@@ -18898,8 +19422,8 @@ jf
 jf
 jf
 ac
-au
-aD
+aC
+aI
 aK
 aK
 aW
@@ -18907,30 +19431,30 @@ bt
 aW
 aK
 aK
-fa
+kC
 bz
 bz
 bz
 bz
-bz
+jB
 bz
 gJ
 ao
 aB
 dK
 dK
-dY
+gC
 dK
 dK
-hK
-ao
 ik
+ao
+kK
 dK
 dK
-dY
+gC
 dK
 dK
-jy
+kP
 ao
 jA
 jf
@@ -19101,7 +19625,7 @@ jf
 jf
 ac
 au
-aH
+aO
 aK
 aK
 aW
@@ -19121,18 +19645,18 @@ ao
 cb
 dU
 dU
-gz
-ha
-ha
 hL
-ig
+ha
+ha
 il
-dS
-dS
-dZ
-gE
-gE
-hL
+jy
+kL
+dW
+dW
+hI
+hQ
+hQ
+il
 aq
 jA
 jf
@@ -19303,7 +19827,7 @@ jf
 jf
 ac
 au
-aD
+aM
 aK
 aK
 aK
@@ -19312,29 +19836,29 @@ aK
 aK
 aK
 em
-fL
-gG
-iR
+fc
+gs
+hM
 iX
-iR
+hM
 iT
-iR
+hM
 ao
 bG
 dT
 dT
-eZ
+hK
 gV
 gV
-hN
-ig
+im
+jy
 bG
-dT
-dT
-eZ
-gV
-gV
-hN
+dX
+dX
+hK
+ig
+ig
+im
 jR
 jP
 jf
@@ -19505,7 +20029,7 @@ jf
 jf
 ac
 au
-aD
+aR
 aK
 aK
 aK
@@ -19513,10 +20037,10 @@ aK
 aK
 aK
 aK
-fc
+eX
 fN
 hB
-iR
+hM
 iR
 iR
 iR
@@ -19525,18 +20049,18 @@ ao
 aB
 dy
 dy
-dY
+gC
 dy
 dy
-hK
-ao
 ik
+ao
+kK
 dy
 dy
-dY
+gC
 dy
 dy
-jy
+kP
 ao
 jA
 jf
@@ -19706,8 +20230,8 @@ jf
 jf
 jf
 ac
-au
-aH
+aC
+aO
 aK
 aK
 aX
@@ -19721,26 +20245,26 @@ iB
 iU
 iR
 iR
-iR
+hM
 iR
 ao
 aB
 dK
 dK
-dY
+gC
 dK
 dK
-hK
-ao
 ik
-dK
-dK
-dY
-dK
-dK
-jy
 ao
-jA
+kK
+dK
+dK
+gC
+dK
+dK
+kP
+ao
+jS
 jf
 jf
 jf
@@ -19909,7 +20433,7 @@ jf
 jf
 ac
 au
-aD
+aI
 aK
 aK
 aY
@@ -19918,10 +20442,10 @@ bw
 aK
 aK
 bX
-uA
+fL
 iB
 iR
-iR
+hM
 iR
 iR
 iR
@@ -19929,20 +20453,20 @@ ao
 cf
 dV
 dU
-gz
+hL
 ha
 hD
-hQ
-ig
-im
+iw
+jy
+kM
 jh
 dS
 dZ
 gE
 jw
 jO
-jS
 jD
+kQ
 jf
 jf
 jf
@@ -20111,7 +20635,7 @@ jf
 jf
 ac
 au
-aI
+aM
 aK
 aK
 aY
@@ -20126,25 +20650,25 @@ iR
 iR
 iR
 iR
-iR
+hM
 ao
 cj
-dW
+eZ
 cj
 cj
 cj
-dW
-cj
-ao
-cj
-dW
-cj
-cj
-cj
-dW
+eZ
 cj
 ao
-jA
+cj
+eZ
+cj
+cj
+cj
+eZ
+cj
+ao
+jS
 jf
 jf
 jf
@@ -20312,8 +20836,8 @@ jf
 jf
 jf
 ac
-au
-aI
+aC
+aM
 aK
 aK
 aY
@@ -20322,12 +20846,12 @@ aY
 aK
 aK
 aG
-uA
+fL
 iB
 iR
 iR
 iR
-iR
+hM
 iR
 ar
 ar
@@ -20533,20 +21057,20 @@ iR
 iR
 ar
 aw
-cl
+fJ
 aw
 ii
 iQ
 jj
-jl
-jo
 js
+jo
+jL
 jj
-iQ
-jv
+ko
+kp
 aw
+fJ
 cl
-aw
 ar
 jA
 jf
@@ -20716,7 +21240,7 @@ jf
 jf
 jf
 ac
-au
+aC
 aI
 aK
 aK
@@ -20726,11 +21250,11 @@ aK
 aK
 aK
 ad
-uA
+fL
 iB
 iR
-iR
-iR
+hM
+hM
 iR
 iR
 ar
@@ -20738,17 +21262,17 @@ ay
 ax
 bK
 iq
-fJ
+jm
 gw
 aw
-jp
+jv
 aw
-ax
+jN
 bK
-iq
-fJ
+kq
+jm
 gw
-jM
+kt
 ar
 jA
 jf
@@ -20919,7 +21443,7 @@ jf
 jf
 ac
 au
-aM
+aO
 aK
 aK
 aX
@@ -20934,23 +21458,23 @@ iR
 iR
 iR
 iR
-iR
+hM
 ar
 aw
 cg
 gv
-ir
+jl
 jC
-iS
-jm
+jp
+ju
 jq
 jt
-jN
+km
 jU
 ir
 ji
 iS
-aw
+cl
 ar
 jA
 ac
@@ -21132,13 +21656,13 @@ aK
 ad
 nD
 iB
-iR
+hM
 iY
 iW
 iV
 iV
 ar
-aw
+cl
 jK
 gy
 iu
@@ -21146,16 +21670,16 @@ jg
 jk
 jn
 jr
-ju
+jM
+kn
+aw
+kr
 jK
-aw
-aw
-jK
-jL
-aw
+ks
+cl
 ar
 jA
-ac
+do
 jf
 jf
 jf
@@ -21323,7 +21847,7 @@ jf
 ac
 ac
 au
-aI
+aM
 aK
 aK
 aY
@@ -21337,8 +21861,8 @@ al
 al
 al
 al
-hM
-hM
+ku
+ku
 ar
 ar
 ar
@@ -21524,7 +22048,7 @@ jf
 jf
 ac
 ac
-au
+aC
 aI
 aK
 aK
@@ -21536,23 +22060,23 @@ aK
 eu
 al
 ci
-ci
+gG
 ci
 gn
 iv
-gs
+kv
 gk
 bU
 gl
-go
+eU
 gj
-gB
+gm
 gl
 gp
-gm
+jW
 hJ
 bW
-iw
+kO
 bW
 bW
 hc
@@ -21739,14 +22263,14 @@ ev
 al
 fZ
 ci
-ci
+gG
 ci
 ci
 ci
 gq
-eX
+kw
 cx
-bJ
+fh
 cA
 at
 cx
@@ -21756,7 +22280,7 @@ bW
 bW
 bW
 bW
-bW
+ke
 bW
 es
 bl
@@ -21928,7 +22452,7 @@ jf
 jf
 ac
 ac
-au
+aC
 aI
 aK
 aK
@@ -21959,10 +22483,10 @@ hf
 hf
 hf
 bW
-bW
+ke
 es
 bl
-ac
+do
 ac
 ac
 jf
@@ -22131,17 +22655,17 @@ jf
 ac
 ac
 au
-aO
-aR
-bh
-aR
-aR
-aR
-bh
-aR
+aU
+bq
+fa
+kx
+bq
+kx
+fa
+bq
 eA
 al
-ci
+gG
 ci
 en
 am
@@ -22152,20 +22676,20 @@ an
 cx
 at
 jx
-fP
+go
 ah
-iF
+iG
 bP
 cD
-bP
-fT
+jd
+jZ
 dR
 bW
 bW
 es
 bl
 ac
-ac
+do
 ac
 jf
 jf
@@ -22334,13 +22858,13 @@ jf
 ac
 ae
 aP
+eL
 aP
 aP
 aP
+eL
 aP
-aP
-aP
-aP
+eL
 bl
 al
 ci
@@ -22352,23 +22876,23 @@ am
 am
 am
 dJ
-at
+fi
 du
-is
-iC
-iG
+gB
+hZ
+iK
 cn
 bP
 cK
-gS
+ka
 hf
 bW
 bW
 es
-bl
+kE
 ac
 ac
-ac
+do
 jf
 jf
 jf
@@ -22541,7 +23065,7 @@ ac
 ac
 ac
 ac
-ac
+do
 ac
 bl
 al
@@ -22558,14 +23082,14 @@ at
 dw
 dG
 bN
-cc
+jb
 ct
 hj
 cL
 dI
 hf
 bW
-bW
+ke
 es
 bl
 ac
@@ -22756,13 +23280,13 @@ am
 am
 am
 dJ
-at
+fi
 dx
 at
-as
-bP
-bP
-bP
+ia
+jd
+jd
+jd
 bP
 bP
 hf
@@ -22771,7 +23295,7 @@ hc
 es
 bl
 ac
-ac
+do
 ac
 ac
 jf
@@ -22942,15 +23466,15 @@ jf
 jf
 jf
 ac
+do
 ac
+do
 ac
-ac
-ac
-ac
+do
 bl
 al
 ci
-ci
+gG
 hi
 am
 am
@@ -22960,18 +23484,18 @@ am
 cx
 at
 dx
-at
+fi
 ah
-ce
-bP
+jJ
+jd
 cJ
 cM
-bP
+jd
 hf
 bW
 bW
 es
-bl
+kE
 ac
 ac
 ac
@@ -23151,7 +23675,7 @@ ac
 ac
 bl
 al
-ci
+gG
 ci
 he
 he
@@ -23161,7 +23685,7 @@ he
 he
 ag
 cy
-ei
+fP
 dH
 bL
 bM
@@ -23170,7 +23694,7 @@ bM
 bM
 bM
 bM
-bW
+ke
 bW
 es
 bl
@@ -23347,20 +23871,20 @@ jf
 jf
 ac
 ac
+do
 ac
 ac
-ac
-ac
+do
 bl
 al
 ci
 ci
 he
+ca
 aL
+ca
 aL
-aL
-aL
-aL
+ca
 ag
 at
 dx
@@ -23368,16 +23892,16 @@ at
 bL
 cW
 cW
-OM
+gh
 cW
-hv
+ht
 bM
 bW
 bW
 es
-bl
+kE
 ac
-ac
+do
 ac
 jf
 jf
@@ -23564,17 +24088,17 @@ aL
 aL
 aL
 ag
-bJ
+fh
 dx
 eW
 bL
 dc
 ec
-gM
-gM
-gM
+gx
+gx
+gx
 bM
-bW
+ke
 ft
 es
 bm
@@ -23752,29 +24276,29 @@ jf
 jf
 jf
 ac
-ac
+do
 bl
 et
 et
 al
 cI
-ci
+gG
 he
 aT
 bI
-cS
+ds
 aL
-eO
+eh
 ag
 at
 dx
-hV
+gR
 bL
 dc
 ek
 gN
 jF
-hw
+hv
 bM
 bW
 gr
@@ -23957,15 +24481,15 @@ ac
 ac
 bl
 bA
-fI
+kG
 hi
 fq
 eT
 he
-aL
+ca
 cp
 aL
-aL
+ca
 YA
 ag
 cz
@@ -23975,7 +24499,7 @@ bL
 dd
 eS
 gO
-hs
+gM
 hG
 bM
 gi
@@ -23984,7 +24508,7 @@ hn
 kb
 bA
 bl
-ac
+do
 jf
 jf
 jf
@@ -24158,33 +24682,33 @@ ac
 jf
 ac
 bl
-bC
+kj
 fI
 hi
 cu
 aj
 he
-hY
+cc
 cr
 cT
 ee
 ag
 dl
-ds
+fl
 hR
-hT
+gS
 dl
 bL
 fk
 hg
-ht
-ia
+hs
+hw
 bM
 dg
 dp
 hn
 kb
-bC
+kj
 bl
 ac
 jf
@@ -24372,7 +24896,7 @@ ag
 ag
 dl
 dr
-dm
+ei
 bY
 iD
 iP
@@ -24560,34 +25084,34 @@ ac
 ac
 jf
 jf
-ac
+do
 bl
 bC
 fI
 hk
 cG
-gR
+bJ
 bO
 ch
-cq
-cN
 dj
+cN
+dz
 dm
-dm
+ei
 dt
 iH
-iK
-iD
-dm
-af
+hm
+is
+ei
+jX
 dh
-fn
-fQ
+gF
+kc
 ja
-jb
+kf
 gb
 ho
-kb
+ki
 bC
 bl
 ac
@@ -24763,8 +25287,8 @@ jf
 jf
 jf
 ac
-bl
-bC
+kE
+kj
 fI
 hk
 df
@@ -24785,12 +25309,12 @@ ej
 eP
 gK
 fo
-fr
+kd
 fo
 gc
 ho
 kb
-bC
+kj
 bl
 ac
 jf
@@ -24967,34 +25491,34 @@ jf
 ac
 bl
 bC
-fI
+kG
 hk
-dM
+af
 br
 bT
-hU
+ce
 bs
 gA
-dj
-dm
+dz
+ei
 cU
 id
 iJ
-dz
+hz
 dm
-dm
-af
-gF
-fi
+ei
+jX
+fn
+jY
 hX
 fV
 eR
-gg
+kh
 ho
 kb
 bC
 bl
-ac
+do
 jf
 jf
 jf
@@ -25180,10 +25704,10 @@ aJ
 aJ
 dl
 dA
-cU
-ca
+fr
+fQ
 dm
-fl
+iC
 dl
 ak
 ak
@@ -25370,33 +25894,33 @@ jf
 jf
 ac
 bl
-bC
-fI
+kj
+kG
 hl
-eU
+as
 ie
 gZ
-hZ
+cq
 cs
 cY
-eg
+dF
 aJ
 dl
 dm
-dv
+fT
 gu
 dl
 ak
-cX
+da
 ea
 eQ
-ib
+kl
 hh
-if
+kg
 fu
 hp
 kb
-bC
+kj
 bl
 ac
 jf
@@ -25570,8 +26094,8 @@ jf
 jf
 jf
 jf
-ac
-bl
+do
+kE
 bA
 fI
 hl
@@ -25581,23 +26105,23 @@ gZ
 aV
 cB
 dO
-eh
-ef
+dM
+ez
 aJ
 aF
 dC
 aF
 ak
-bV
+bQ
 cZ
-bR
+jI
 gP
 bR
 hh
 gd
 iz
 hp
-kb
+ki
 bA
 bl
 ac
@@ -25772,26 +26296,26 @@ ac
 jf
 jf
 ac
-ac
+do
 bl
 et
 et
 eo
 fp
-ep
+by
 gZ
 bH
 cC
 de
 dk
-do
+eD
 aJ
 fe
 dD
-hW
+hS
 ak
 ed
-da
+eb
 hF
 jG
 hH
@@ -25975,28 +26499,28 @@ ac
 jf
 ac
 ac
-bm
+kF
 bz
 gH
 eo
 iy
 ep
 gZ
-aV
+cS
 cR
 cH
 eN
-hS
+eE
 aJ
 ey
 dE
 fR
 ak
-bQ
+bV
 db
 bR
 jH
-bR
+jI
 hh
 er
 iA
@@ -26178,30 +26702,30 @@ ac
 ac
 ac
 ac
-ac
-bl
+do
+kE
 eo
-ep
+by
 ep
 gZ
+cS
 aV
 aV
-aV
-aV
-aV
+cS
+cS
 aJ
-dB
+fx
 ff
 dB
 ak
-Gj
-eb
+cX
+ib
 iZ
+kk
 jI
-bR
 hh
 er
-er
+jV
 eq
 bl
 ac
@@ -26378,7 +26902,7 @@ ac
 ac
 ac
 ac
-ac
+do
 ac
 ac
 bl
@@ -26583,14 +27107,14 @@ ac
 ac
 ac
 ac
-bl
+kE
 eo
 ep
 ep
 ep
 ep
 ep
-ep
+by
 ep
 ep
 ew
@@ -26598,11 +27122,11 @@ dB
 ff
 dB
 hC
+jV
 er
 er
 er
-er
-er
+jV
 er
 er
 er
@@ -26789,24 +27313,24 @@ bl
 eo
 gU
 ep
-ep
+by
 ep
 ep
 ep
 ex
-ie
+eH
 ew
 ey
 ff
-dB
+fx
 hC
 if
 fU
+jV
 er
 er
 er
-er
-er
+jV
 hd
 eq
 bl
@@ -26986,30 +27510,30 @@ jf
 ac
 ac
 ac
-ac
+do
 bl
 eo
-ep
+by
 ep
 ep
 ep
 gW
 fX
 fy
-dF
+eJ
 eB
 eI
 iM
-fh
+hT
 fj
 fv
 fW
 ga
 hb
+jV
 er
 er
-er
-er
+jV
 eq
 bl
 ac
@@ -27198,14 +27722,14 @@ eo
 eo
 eo
 eG
-ez
+eM
 ew
 fz
 ge
-dB
+fx
 hC
 fm
-er
+jV
 eq
 eq
 eq
@@ -27389,7 +27913,7 @@ ac
 jf
 jf
 jf
-ac
+do
 ac
 bm
 bz
@@ -27399,12 +27923,12 @@ bz
 bz
 gH
 eo
-eH
+ef
 iN
 fF
-eJ
-fF
 fA
+fF
+hU
 fF
 gY
 er
@@ -27597,18 +28121,18 @@ ac
 ac
 ac
 ac
+do
 ac
-ac
-bl
+kE
 eo
 fg
 iO
 fF
-eD
+fD
 fd
-hm
+hV
 fF
-er
+jV
 er
 eq
 bl
@@ -27795,9 +28319,9 @@ jf
 jf
 jf
 ac
+do
 ac
-ac
-ac
+do
 ac
 ac
 ac
@@ -27807,7 +28331,7 @@ fg
 iO
 fF
 eF
-fx
+gg
 fC
 fF
 er
@@ -28002,18 +28526,18 @@ ac
 ac
 jf
 ac
-ac
+do
 bl
 eo
 gX
 iO
 fF
-eM
+fE
 fB
-fD
+hW
 fF
 er
-er
+jV
 eq
 bl
 ac
@@ -28199,7 +28723,7 @@ ac
 ac
 jf
 jf
-ac
+do
 ac
 jf
 jf
@@ -28210,9 +28734,9 @@ eo
 eo
 eo
 fF
-eE
+fH
 fF
-fE
+hY
 fF
 eq
 eq
@@ -28405,20 +28929,20 @@ jf
 jf
 jf
 jf
-ac
+do
 ac
 bm
-by
+dv
 fb
 fG
-fH
+eO
 fK
 gD
 gT
-hz
+iF
 hE
 ip
-by
+dv
 eC
 ac
 jf
@@ -28609,20 +29133,20 @@ jf
 jf
 jf
 ac
-ac
+kH
 eK
 fs
 eK
 ac
+do
 ac
 ac
-ac
-ac
-eK
+do
+eg
 fs
 eK
-ac
-ac
+do
+do
 jf
 jf
 jf
@@ -28813,16 +29337,16 @@ jf
 jf
 ac
 eK
-eK
-eK
+eg
+eg
+do
 ac
 ac
-ac
-ac
+do
 ac
 eK
 eK
-eK
+eg
 ac
 ac
 jf
@@ -29017,15 +29541,15 @@ ac
 ac
 ac
 ac
+do
 ac
 ac
 ac
 ac
+do
 ac
 ac
-ac
-ac
-ac
+do
 ac
 jf
 jf
@@ -29223,7 +29747,7 @@ ac
 ac
 ac
 ac
-ac
+do
 ac
 ac
 ac

@@ -34,9 +34,12 @@
 /turf/simulated/floor/tiled/steel_ridged/outreach,
 /area/exoplanet/outreach)
 "ag" = (
-/obj/machinery/alarm,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/stairwell/ground)
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/north/hangar)
 "ah" = (
 /turf/simulated/wall/concrete,
 /area/outreach/outpost/hallway/west/ground)
@@ -109,16 +112,12 @@
 /turf/exterior/concrete/reinforced,
 /area/exoplanet/outreach)
 "az" = (
-/obj/machinery/atmospherics/pipe/cap/hidden/scrubbers{
-	icon_state = "cap-scrubbers";
-	dir = 4
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/cap/hidden/supply{
-	icon_state = "cap-supply";
-	dir = 4
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/south/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/north/hangar)
 "aA" = (
 /obj/structure/stairs/long,
 /turf/exterior/concrete/reinforced,
@@ -197,17 +196,9 @@
 /turf/simulated/wall/r_wall,
 /area/outreach/outpost/airlock/ground)
 "aP" = (
-/obj/machinery/door/airlock/external/glass{
-	density = 1;
-	dir = 8;
-	icon_state = "closed";
-	id_tag = "OH_l3_e_alck_inner"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/steel_ridged,
-/area/outreach/outpost/airlock/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/barren/outreach,
+/area/exoplanet/outreach)
 "aQ" = (
 /turf/simulated/wall,
 /area/outreach/outpost/maint/passage/ground/east/eva)
@@ -232,13 +223,10 @@
 /turf/simulated/wall/concrete,
 /area/outreach/outpost/maint/atmos/ground)
 "aV" = (
-/obj/machinery/atmospherics/pipe/zpipe/up{
-	icon_state = "up";
-	dir = 8
-	},
-/obj/structure/railing/mapped,
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/waste/ground)
+/obj/effect/floor_decal/industrial/warning,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "aW" = (
 /obj/structure/ladder,
 /obj/structure/lattice,
@@ -256,24 +244,13 @@
 /turf/simulated/wall,
 /area/outreach/outpost/maint/atmos/ground)
 "aY" = (
-/obj/structure/cable/yellow{
-	icon_state = "16-0"
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 4
 	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-2"
-	},
-/obj/structure/sign/deck/third{
-	pixel_y = 32
-	},
-/obj/machinery/light/small{
-	icon_state = "bulb_map";
-	dir = 1
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/power/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "aZ" = (
 /obj/structure/boulder,
 /turf/exterior/chlorine_sand/outreach,
@@ -292,26 +269,16 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/north)
 "be" = (
-/obj/machinery/door/airlock/glass/civilian{
-	icon_state = "closed"
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
 	},
-/obj/machinery/door/firedoor/autoset,
-/turf/simulated/floor/tiled/steel_ridged,
-/area/outreach/outpost/stairwell/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/north/hangar)
 "bf" = (
-/obj/effect/floor_decal/industrial/hatch/orange,
-/obj/machinery/power/apc/hyper{
-	icon_state = "apc0";
-	dir = 1
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/reinforced,
-/area/outreach/outpost/airlock/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete,
+/area/exoplanet/outreach)
 "bg" = (
 /obj/machinery/atmospherics/pipe/manifold/hidden/supply{
 	icon_state = "map-supply";
@@ -340,30 +307,14 @@
 /turf/simulated/floor/reinforced,
 /area/outreach/outpost/airlock/ground)
 "bj" = (
-/obj/effect/floor_decal/industrial/hatch/orange,
-/obj/machinery/atmospherics/pipe/manifold/hidden/black{
-	icon_state = "map";
-	dir = 1
+/obj/effect/floor_decal/corner/grey/border{
+	icon_state = "bordercolor";
+	dir = 8
 	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/embedded_controller/radio/airlock/advanced_airlock_controller{
-	cycle_to_external_air = 1;
-	dir = 2;
-	icon_state = "airlock_control_off";
-	id_tag = "OH_l3_e_alck";
-	tag_air_alarm = "OH_l3_e_alck_alarm";
-	tag_airpump = "OH_l3_e_alck_pump";
-	tag_chamber_sensor = "OH_l3_e_alck_sensor";
-	tag_exterior_door = "OH_l3_e_alck_outer";
-	tag_exterior_sensor = "OH_l3_e_alck_exterior_sensor";
-	tag_interior_door = "OH_l3_e_alck_inner";
-	tag_interior_sensor = "OH_l3_e_alck_interior_sensor";
-	tag_secure = 1
-	},
-/turf/simulated/floor/reinforced,
-/area/outreach/outpost/airlock/ground)
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
+/area/exoplanet/outreach)
 "bk" = (
 /obj/effect/floor_decal/industrial/warning{
 	icon_state = "stripe";
@@ -424,12 +375,9 @@
 /turf/simulated/wall/r_wall,
 /area/outreach/outpost/maint/passage/ground/east/eva)
 "bq" = (
-/obj/machinery/light_switch{
-	icon_state = "light0";
-	dir = 1
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/maint/storage/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/north/hangar)
 "br" = (
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/hallway/west/ground)
@@ -437,26 +385,20 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hangar/north/shuttle_area)
 "bt" = (
-/obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers{
-	icon_state = "map-scrubbers";
-	dir = 1
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/manifold/hidden/supply{
-	icon_state = "map-supply";
-	dir = 1
-	},
-/obj/structure/disposalpipe/segment/bent{
-	icon_state = "pipe-c";
-	dir = 4
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
 "bu" = (
 /turf/simulated/wall/concrete,
 /area/outreach/outpost/hallway/north/ground)
 "bv" = (
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/north/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "bw" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -537,19 +479,17 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/hallway/north/ground)
 "bD" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
+/obj/machinery/docking_beacon/mapped{
+	icon_state = "injector0";
+	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
+/obj/effect/floor_decal/industrial/warning/cee{
+	icon_state = "stripecee";
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/north/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/hangar/north)
 "bE" = (
 /turf/simulated/wall/r_wall,
 /area/outreach/outpost/maint/passage/ground/northwest)
@@ -569,25 +509,17 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/west/ground)
 "bI" = (
-/obj/structure/railing/mapped/stairwell{
-	icon_state = "railing_preview";
-	dir = 1
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/stairwell/ground)
+/obj/effect/floor_decal/industrial/warning/corner,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "bJ" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 8
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 4
-	},
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe-s";
-	dir = 4
-	},
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
 "bK" = (
@@ -608,8 +540,13 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/northwest)
 "bN" = (
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/atmos/ground)
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "bO" = (
 /obj/machinery/light_switch{
 	icon_state = "light0";
@@ -628,10 +565,12 @@
 "bQ" = (
 /obj/effect/floor_decal/industrial/warning{
 	icon_state = "stripe";
-	dir = 8
+	dir = 1
 	},
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/maint/power/ground)
+/area/outreach/outpost/hangar/north)
 "bR" = (
 /obj/machinery/atmospherics/unary/vent_scrubber/on,
 /obj/structure/sign/directions/medical{
@@ -696,11 +635,8 @@
 /turf/exterior/concrete,
 /area/exoplanet/outreach)
 "ca" = (
-/obj/effect/floor_decal/corner/grey/border{
-	icon_state = "bordercolor";
-	dir = 9
-	},
-/turf/exterior/concrete,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
 /area/exoplanet/outreach)
 "cb" = (
 /obj/effect/floor_decal/corner/grey/bordercorner{
@@ -716,9 +652,10 @@
 "cd" = (
 /obj/effect/floor_decal/corner/grey/border{
 	icon_state = "bordercolor";
-	dir = 10
+	dir = 4
 	},
-/turf/exterior/concrete,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
 /area/exoplanet/outreach)
 "ce" = (
 /turf/simulated/open,
@@ -783,32 +720,23 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/east/ground)
 "cm" = (
-/obj/machinery/power/apc,
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/maint/storage/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/hangar/north/shuttle_area)
 "cn" = (
 /obj/machinery/atmospherics/unary/vent_scrubber/on,
 /obj/machinery/alarm,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/east/ground)
 "co" = (
-/obj/machinery/light{
-	icon_state = "tube_map";
-	dir = 8
-	},
-/obj/item/radio/intercom{
-	icon_state = "intercom";
+/obj/machinery/atmospherics/unary/vent_scrubber/on{
+	icon_state = "map_scrubber_on";
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 6
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/north/ground)
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "cp" = (
 /turf/simulated/wall,
 /area/outreach/outpost/maint/power/ground)
@@ -839,23 +767,17 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/maint/waste/ground)
 "cs" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	icon_state = "11-supply";
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
-	},
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe-s";
-	dir = 4
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/north/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "ct" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	icon_state = "11-supply";
@@ -876,18 +798,21 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/atmos/ground)
 "cv" = (
-/obj/effect/floor_decal/industrial/warning,
+/obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers{
+	icon_state = "map-scrubbers";
+	dir = 1
+	},
 /obj/machinery/atmospherics/pipe/manifold/hidden/supply{
 	icon_state = "map-supply";
+	dir = 1
+	},
+/obj/structure/disposalpipe/segment/bent{
+	icon_state = "pipe-c";
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 10
-	},
-/obj/structure/disposalpipe/segment,
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/atmos/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "cw" = (
 /obj/structure/cable/yellow{
 	icon_state = "2-4"
@@ -925,12 +850,21 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/east/eva)
 "cz" = (
-/obj/machinery/atmospherics/unary/vent_pump/on{
-	icon_state = "map_vent_out";
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
 	dir = 4
 	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/central/ground)
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe-s";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "cA" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
@@ -982,18 +916,21 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/west/junct)
 "cG" = (
-/obj/machinery/atmospherics/unary/vent_scrubber/on{
-	icon_state = "map_scrubber_on";
-	dir = 4
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 8
 	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/hangar/north)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/north/hangar)
 "cH" = (
-/obj/machinery/atmospherics/unary/vent_pump/high_volume/airlock{
-	id_tag = "OH_l3_e_alck_pump"
+/obj/effect/floor_decal/corner/grey/border{
+	icon_state = "bordercolor";
+	dir = 8
 	},
-/turf/simulated/floor/reinforced,
-/area/outreach/outpost/airlock/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
+/area/exoplanet/outreach)
 "cI" = (
 /obj/machinery/alarm{
 	icon_state = "alarm0";
@@ -1046,12 +983,13 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/waste/ground)
 "cN" = (
-/obj/item/radio/intercom{
-	icon_state = "intercom";
-	dir = 1
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
 	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/west/ground)
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/north/hangar)
 "cO" = (
 /obj/item/radio/intercom{
 	icon_state = "intercom";
@@ -1074,12 +1012,17 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/east/eva)
 "cR" = (
-/obj/machinery/atmospherics/pipe/simple/visible/black{
-	icon_state = "11";
-	dir = 10
+/obj/machinery/atmospherics/unary/vent_scrubber/on{
+	icon_state = "map_scrubber_on";
+	dir = 8
 	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/east/eva)
+/obj/machinery/light{
+	icon_state = "tube_map";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "cS" = (
 /obj/machinery/light/small{
 	icon_state = "bulb_map";
@@ -1095,12 +1038,10 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/west/junct)
 "cV" = (
-/obj/machinery/alarm,
-/obj/machinery/suit_cycler/emergency/prepared{
-	locked = 0
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/north)
+/obj/structure/rack,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "cW" = (
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/east/eva)
@@ -1127,8 +1068,10 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
 "cZ" = (
-/turf/simulated/floor/reinforced,
-/area/outreach/outpost/airlock/ground)
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/barren/outreach,
+/area/exoplanet/outreach)
 "da" = (
 /obj/machinery/door/firedoor/autoset,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
@@ -1186,12 +1129,17 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
 "dh" = (
-/obj/machinery/light_switch{
-	icon_state = "light0";
+/obj/machinery/light{
+	icon_state = "tube_map";
+	dir = 8
+	},
+/obj/effect/floor_decal/industrial/warning/corner{
+	icon_state = "stripecorner";
 	dir = 4
 	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/south/ground/business_wing)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "di" = (
 /obj/machinery/light{
 	icon_state = "tube_map";
@@ -1220,28 +1168,21 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
 "dm" = (
-/obj/machinery/camera/network/security{
-	icon_state = "camera";
+/obj/machinery/atmospherics/unary/vent_pump/on{
+	icon_state = "map_vent_out";
 	dir = 1
 	},
-/obj/effect/floor_decal/industrial/outline/orange,
-/obj/structure/hand_cart{
-	icon_state = "cart";
-	dir = 8
-	},
+/obj/structure/rack,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
 "dn" = (
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
+/obj/effect/floor_decal/corner/grey/border{
+	icon_state = "bordercolor";
+	dir = 1
 	},
-/obj/machinery/button/blast_door/wired{
-	dir = 1;
-	icon_state = "blastctrl";
-	id_tag = "ob_gf_shed_n_shutters";
-	name = "shutters control"
-	},
-/turf/simulated/floor/reinforced/airless,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
 /area/exoplanet/outreach)
 "do" = (
 /obj/structure/cable/yellow{
@@ -1265,15 +1206,12 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/west/junct)
 "ds" = (
-/obj/structure/sign/deck/third{
-	pixel_y = 32
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 6
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/west/ground)
+/obj/machinery/light,
+/obj/effect/floor_decal/industrial/outline/orange,
+/obj/structure/reagent_dispensers/fueltank,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "dt" = (
 /obj/item/radio/intercom{
 	icon_state = "intercom";
@@ -1283,48 +1221,28 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
 "du" = (
-/obj/structure/cable/yellow{
-	icon_state = "0-2"
-	},
-/obj/machinery/power/apc{
-	icon_state = "apc0";
-	dir = 4
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/west/junct)
+/obj/effect/floor_decal/industrial/outline/orange,
+/obj/structure/reagent_dispensers/fueltank,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
 "dv" = (
-/obj/structure/cable/yellow{
-	icon_state = "0-2"
-	},
-/obj/effect/floor_decal/industrial/warning/corner{
-	icon_state = "stripecorner";
-	dir = 4
-	},
-/obj/machinery/power/apc{
-	icon_state = "apc0";
-	dir = 8
-	},
-/obj/machinery/alarm,
+/obj/structure/closet/toolcloset,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/maint/power/ground)
+/area/outreach/outpost/hangar/north)
 "dw" = (
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 1
-	},
-/obj/machinery/atmospherics/unary/vent_pump/on,
+/obj/effect/floor_decal/industrial/outline/orange,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/maint/power/ground)
+/area/outreach/outpost/hangar/north)
 "dx" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 1
-	},
+/obj/machinery/light,
+/obj/effect/floor_decal/industrial/outline/orange,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/blood/oil,
 /turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/maint/power/ground)
+/area/outreach/outpost/hangar/north)
 "dy" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/airlock{
 	dir = 1;
@@ -1356,20 +1274,13 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/north/ground)
 "dB" = (
-/obj/machinery/door/airlock/external/glass{
-	dir = 8;
-	icon_state = "closed";
-	id_tag = "OH_l3_e_alck_outer"
+/obj/effect/floor_decal/corner/grey/border{
+	icon_state = "bordercolor";
+	dir = 5
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/black{
-	icon_state = "11";
-	dir = 4
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/tiled/steel_ridged,
-/area/outreach/outpost/airlock/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
+/area/exoplanet/outreach)
 "dC" = (
 /obj/effect/floor_decal/industrial/hatch/orange,
 /obj/structure/cable/yellow{
@@ -1382,26 +1293,9 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/east/ground)
 "dD" = (
-/obj/structure/cable/yellow{
-	icon_state = "0-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/black{
-	icon_state = "11";
-	dir = 6
-	},
-/obj/machinery/light/small/wired{
-	icon_state = "bulb_map";
-	dir = 1
-	},
-/obj/machinery/button/access/wired/exterior{
-	dir = 4;
-	id_tag = "OH_l3_e_alck";
-	pixel_x = 0
-	},
-/obj/structure/cable/yellow{
-	icon_state = "2-4"
-	},
-/turf/simulated/floor/reinforced/airless,
+/obj/effect/catwalk_plated/dark,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
 /area/exoplanet/outreach)
 "dE" = (
 /turf/simulated/wall/concrete,
@@ -1422,27 +1316,33 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/central/ground)
 "dH" = (
-/obj/machinery/suit_cycler/emergency/prepared{
-	locked = 0
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/north)
-"dI" = (
-/obj/machinery/portable_atmospherics/canister/oxygen,
-/obj/machinery/light/small{
-	icon_state = "bulb_map";
+/obj/machinery/camera/network/security{
+	icon_state = "camera";
 	dir = 1
 	},
-/obj/machinery/atmospherics/portables_connector{
-	icon_state = "map_connector";
+/obj/effect/floor_decal/industrial/outline/orange,
+/obj/structure/hand_cart{
+	icon_state = "cart";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/hangar/north)
+"dI" = (
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
 	dir = 4
 	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/north)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/north/hangar)
 "dJ" = (
-/obj/structure/cable/yellow{
-	icon_state = "2-4"
+/obj/machinery/light/small,
+/obj/machinery/light_switch{
+	icon_state = "light0";
+	dir = 8
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/north/hangar)
 "dK" = (
@@ -1484,18 +1384,11 @@
 /area/exoplanet/outreach)
 "dP" = (
 /obj/structure/cable/yellow{
-	icon_state = "0-2"
+	icon_state = "1-4"
 	},
-/obj/machinery/power/apc{
-	icon_state = "apc0";
-	dir = 1
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 10
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/west/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/north/hangar)
 "dQ" = (
 /obj/effect/floor_decal/industrial/shutoff{
 	icon_state = "shutoff";
@@ -1517,26 +1410,23 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/maint/storage/ground)
 "dS" = (
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/stairwell/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/northwest)
 "dT" = (
 /obj/structure/cable/yellow{
-	icon_state = "1-2"
+	icon_state = "2-4"
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/stairwell/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/northwest)
 "dU" = (
-/obj/structure/sign/deck/third{
-	pixel_y = 32
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
-/obj/machinery/firealarm{
-	icon_state = "casing";
-	dir = 4
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/stairwell/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/northwest)
 "dV" = (
 /turf/simulated/open,
 /area/outreach/outpost/stairwell/ground)
@@ -1548,9 +1438,12 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/hallway/south/ground)
 "dX" = (
-/obj/structure/closet,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/north)
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/north/hangar)
 "dY" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -1566,35 +1459,30 @@
 /turf/simulated/wall,
 /area/outreach/outpost/hallway/west/ground)
 "ea" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/north/ground)
+"eb" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/north)
-"eb" = (
-/obj/machinery/light{
-	icon_state = "tube_map";
-	dir = 8
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/maint/storage/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/northwest)
 "ec" = (
 /obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/effect/catwalk_plated,
-/obj/structure/disposalpipe/segment,
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 5
+	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	icon_state = "11-supply";
-	dir = 9
+	dir = 4
 	},
-/turf/simulated/floor/plating,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/north/ground)
 "ed" = (
 /obj/machinery/light{
@@ -1626,14 +1514,13 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/maint/storage/ground)
 "eh" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
+/obj/machinery/light{
+	icon_state = "tube_map";
+	dir = 8
 	},
-/obj/structure/disposalpipe/segment,
-/obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/west/ground)
+/area/outreach/outpost/maint/storage/ground)
 "ei" = (
 /obj/machinery/camera/network/security{
 	icon_state = "camera";
@@ -1694,16 +1581,9 @@
 /turf/simulated/wall/concrete,
 /area/outreach/outpost/hallway/south/ground/business_wing)
 "en" = (
-/obj/machinery/atmospherics/unary/vent_pump/on{
-	icon_state = "map_vent_out";
-	dir = 4
-	},
-/obj/structure/railing/mapped/stairwell{
-	icon_state = "railing_preview";
-	dir = 8
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/stairwell/ground)
+/area/outreach/outpost/maint/storage/ground)
 "eo" = (
 /obj/structure/cable/yellow{
 	icon_state = "0-4"
@@ -1715,17 +1595,10 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/south/ground/business_wing)
 "ep" = (
-/obj/machinery/door/airlock/glass/maintenance{
-	icon_state = "closed"
-	},
-/obj/machinery/door/firedoor/autoset,
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/turf/simulated/floor/tiled/steel_ridged,
-/area/outreach/outpost/eva/gf/north)
+/obj/machinery/light/small,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/north/hangar)
 "eq" = (
 /obj/structure/cable/yellow,
 /obj/item/radio/intercom{
@@ -1809,17 +1682,10 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/east/ground)
 "ez" = (
-/obj/effect/floor_decal/industrial/warning,
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 6
-	},
-/obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers{
-	icon_state = "map-scrubbers";
-	dir = 8
-	},
+/obj/structure/barricade/wood,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
-/area/outreach/outpost/maint/atmos/ground)
+/area/outreach/outpost/maint/passage/ground/north/hangar)
 "eA" = (
 /turf/simulated/wall/concrete,
 /area/outreach/outpost/maint/passage/ground/south/offices)
@@ -1845,9 +1711,9 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/stairwell/ground)
+/area/outreach/outpost/maint/storage/ground)
 "eE" = (
 /obj/machinery/light{
 	icon_state = "tube_map";
@@ -1885,29 +1751,29 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/stairwell/ground)
 "eI" = (
-/obj/machinery/light_switch/on{
+/obj/machinery/light_switch{
 	icon_state = "light0";
 	dir = 1
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/stairwell/ground)
+/area/outreach/outpost/maint/storage/ground)
 "eJ" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
+/obj/machinery/light{
+	icon_state = "tube_map";
+	dir = 8
 	},
-/obj/structure/cable/yellow{
-	icon_state = "2-8"
+/obj/item/radio/intercom{
+	icon_state = "intercom";
+	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	icon_state = "11-supply";
-	dir = 4
+	dir = 6
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/north)
+/area/outreach/outpost/hallway/north/ground)
 "eK" = (
 /obj/machinery/door/airlock/hatch/maintenance{
 	icon_state = "closed";
@@ -2046,13 +1912,13 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/east/ground)
 "eS" = (
+/obj/machinery/power/apc,
 /obj/structure/cable/yellow{
-	icon_state = "1-2"
+	icon_state = "0-8"
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/west/ground)
+/area/outreach/outpost/maint/storage/ground)
 "eT" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -2166,25 +2032,36 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/central/ground)
 "fa" = (
-/obj/machinery/camera/network/security{
-	icon_state = "camera";
-	dir = 4
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
 	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/central/ground)
+/obj/effect/catwalk_plated,
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 5
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 9
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/hallway/north/ground)
 "fb" = (
-/obj/machinery/light_switch/on{
-	icon_state = "light0";
+/obj/structure/tank_rack/oxygen,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/north)
+"fc" = (
+/obj/machinery/atmospherics/pipe/zpipe/up{
+	icon_state = "up";
 	dir = 8
 	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/central/ground)
-"fc" = (
-/obj/structure/cable/yellow{
-	icon_state = "2-4"
-	},
+/obj/structure/railing/mapped,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/east/eva)
+/area/outreach/outpost/maint/waste/ground)
 "fd" = (
 /obj/machinery/firealarm{
 	icon_state = "casing";
@@ -2356,28 +2233,19 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/east/ground)
 "fv" = (
-/obj/effect/floor_decal/industrial/hatch/orange,
-/obj/machinery/camera/network/security{
-	icon_state = "camera";
-	dir = 1
-	},
-/turf/simulated/floor/reinforced,
-/area/outreach/outpost/airlock/ground)
+/obj/effect/floor_decal/corner/grey/border,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
+/area/exoplanet/outreach)
 "fw" = (
-/obj/machinery/door/airlock/external/glass{
-	dir = 8;
-	icon_state = "closed";
-	id_tag = "OH_l3_e_alck_outer"
-	},
-/turf/simulated/floor/tiled/steel_ridged,
-/area/outreach/outpost/airlock/ground)
+/obj/effect/floor_decal/industrial/warning/dust,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
+/area/exoplanet/outreach)
 "fx" = (
-/obj/effect/floor_decal/industrial/warning/corner{
-	icon_state = "stripecorner";
-	dir = 1
-	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/maint/power/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/waste/ground)
 "fy" = (
 /obj/machinery/door/airlock/glass/maintenance{
 	icon_state = "closed"
@@ -2396,6 +2264,7 @@
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/south)
 "fA" = (
@@ -2470,16 +2339,9 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/east/eva)
 "fF" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
-	},
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/effect/floor_decal/industrial/warning/corner,
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/maint/power/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/atmos/ground)
 "fG" = (
 /obj/structure/sign/number/seven{
 	icon_state = "number_7";
@@ -2544,12 +2406,13 @@
 /turf/simulated/open,
 /area/outreach/outpost/maint/power/ground)
 "fN" = (
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 8
+/obj/machinery/alarm,
+/obj/machinery/suit_cycler/emergency/prepared{
+	locked = 0
 	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/atmos/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/north)
 "fO" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -2597,8 +2460,9 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/hangar/north)
 "fT" = (
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/maint/power/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/north)
 "fU" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
 	icon_state = "11-scrubbers";
@@ -2704,13 +2568,15 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/north/hangar)
 "gh" = (
-/obj/machinery/light/small,
-/obj/machinery/light_switch{
-	icon_state = "light0";
-	dir = 8
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
 	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/north/hangar)
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/west/ground)
 "gi" = (
 /obj/machinery/door/airlock/hatch/maintenance{
 	icon_state = "closed";
@@ -2740,15 +2606,9 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/north/hangar)
 "gn" = (
-/obj/structure/cable/yellow{
-	icon_state = "0-2"
-	},
-/obj/machinery/power/apc{
-	icon_state = "apc0";
-	dir = 8
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/south/offices)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/west/ground)
 "go" = (
 /obj/machinery/light_switch{
 	icon_state = "light0";
@@ -2775,11 +2635,9 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/maint/passage/ground/north/hangar)
 "gq" = (
-/obj/structure/cable/yellow{
-	icon_state = "2-4"
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/northwest)
+/area/outreach/outpost/maint/outer_wall/ground)
 "gr" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -2819,10 +2677,29 @@
 /area/outreach/outpost/maint/passage/ground/northwest)
 "gu" = (
 /obj/structure/cable/yellow{
-	icon_state = "1-2"
+	icon_state = "0-4"
 	},
+/obj/machinery/atmospherics/pipe/cap/hidden/supply{
+	icon_state = "cap-supply";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/cap/hidden/scrubbers{
+	icon_state = "cap-scrubbers";
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/obj/structure/disposalpipe/cap{
+	icon_state = "pipe-cap";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/northwest)
+/area/outreach/outpost/hallway/west/ground)
 "gv" = (
 /obj/structure/sign/warning/moving_parts{
 	dir = 1;
@@ -2869,11 +2746,12 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/west/ground)
 "gA" = (
-/obj/machinery/light/small/wired,
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
+/obj/effect/floor_decal/industrial/warning/dust/corner{
+	icon_state = "warningcorner_dust";
+	dir = 8
 	},
-/turf/simulated/floor/reinforced/airless,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
 /area/exoplanet/outreach)
 "gB" = (
 /obj/machinery/door/airlock/hatch/bolted,
@@ -2901,10 +2779,24 @@
 /area/outreach/outpost/maint/passage/ground/south/offices)
 "gH" = (
 /obj/structure/cable/yellow{
-	icon_state = "1-4"
+	icon_state = "4-8"
 	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 4
+	},
+/obj/effect/catwalk_plated,
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe-s";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/west/junct)
+/area/outreach/outpost/hallway/west/ground)
 "gI" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -3037,26 +2929,22 @@
 /area/outreach/outpost/maint/outer_wall/ground)
 "gT" = (
 /obj/structure/cable/yellow{
-	icon_state = "0-4"
+	icon_state = "4-8"
 	},
-/obj/machinery/atmospherics/pipe/cap/hidden/supply{
-	icon_state = "cap-supply";
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/cap/hidden/scrubbers{
-	icon_state = "cap-scrubbers";
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
 	dir = 4
 	},
-/obj/structure/cable/yellow{
-	icon_state = "1-4"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "2-4"
-	},
-/obj/structure/disposalpipe/cap{
-	icon_state = "pipe-cap";
+/obj/effect/catwalk_plated,
+/obj/structure/disposalpipe/junction{
+	icon_state = "pipe-j1";
 	dir = 4
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/west/ground)
 "gU" = (
@@ -3100,11 +2988,13 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/central/ground)
 "gX" = (
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
+/obj/item/radio/intercom{
+	icon_state = "intercom";
+	dir = 1
 	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/south/offices)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/west/ground)
 "gY" = (
 /obj/machinery/door/firedoor/autoset{
 	icon_state = "open";
@@ -3147,22 +3037,13 @@
 /area/outreach/outpost/hallway/west/ground)
 "hc" = (
 /obj/structure/cable/yellow{
-	icon_state = "4-8"
+	icon_state = "1-2"
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 4
-	},
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe-s";
-	dir = 4
-	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/south/ground/business_wing)
+/area/outreach/outpost/hallway/west/ground)
 "hd" = (
 /obj/machinery/door/airlock/external/bolted{
 	icon_state = "closed";
@@ -3188,21 +3069,16 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/east/eva)
 "hg" = (
-/obj/machinery/light_switch{
-	icon_state = "light0";
+/obj/machinery/portable_atmospherics/canister/oxygen,
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
 	dir = 1
 	},
-/obj/structure/rack/dark,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
+/obj/machinery/atmospherics/portables_connector{
+	icon_state = "map_connector";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/north)
 "hh" = (
@@ -3220,18 +3096,13 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/east/eva)
 "hk" = (
-/obj/structure/cable/yellow,
-/obj/effect/floor_decal/industrial/warning/corner,
-/obj/item/radio/intercom{
-	icon_state = "intercom";
-	dir = 1
+/obj/machinery/atmospherics/pipe/simple/visible/black{
+	icon_state = "11";
+	dir = 10
 	},
-/obj/machinery/power/apc{
-	icon_state = "apc0";
-	dir = 8
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
-/area/outreach/outpost/maint/atmos/ground)
+/area/outreach/outpost/maint/passage/ground/east/eva)
 "hl" = (
 /turf/simulated/wall/concrete,
 /area/outreach/outpost/eva/gf/north)
@@ -3256,19 +3127,8 @@
 /turf/unsimulated/rock,
 /area/exoplanet/outreach)
 "ho" = (
-/obj/machinery/button/blast_door/wired{
-	dir = 1;
-	icon_state = "blastctrl";
-	id_tag = "ob_gf_shed_n_shutters";
-	name = "shutters control"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/turf/simulated/floor/reinforced/airless,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/airless,
 /area/exoplanet/outreach)
 "hp" = (
 /turf/simulated/open,
@@ -3317,41 +3177,34 @@
 /turf/simulated/wall,
 /area/outreach/outpost/vacant/ground/office7)
 "hv" = (
-/obj/machinery/power/apc{
-	icon_state = "apc0";
-	dir = 4
-	},
-/obj/structure/cable/yellow,
-/obj/structure/rack/dark,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/north)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/east/eva)
 "hw" = (
-/obj/machinery/power/terminal,
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
 	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
-/area/outreach/outpost/maint/power/ground)
+/area/outreach/outpost/maint/waste/ground)
 "hx" = (
-/obj/machinery/power/terminal,
 /obj/structure/cable/yellow{
-	icon_state = "0-8"
+	icon_state = "1-2"
 	},
+/obj/effect/catwalk_plated,
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 6
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 10
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
-/area/outreach/outpost/maint/power/ground)
+/area/outreach/outpost/hallway/north/ground)
 "hy" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -3389,12 +3242,14 @@
 	id_tag = "ob_gf_shed_n_shutters";
 	name = "shutters control"
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/north)
 "hC" = (
-/obj/structure/barricade/wood,
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/south/offices)
+/obj/structure/disposalpipe/segment,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/west/ground)
 "hD" = (
 /turf/simulated/wall/ocp_wall/prepainted,
 /area/outreach/outpost/maint/outer_wall/ground)
@@ -3470,28 +3325,24 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/north/hangar)
 "hO" = (
-/obj/machinery/light/small,
 /obj/machinery/suit_cycler/emergency/prepared{
 	locked = 0
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/north)
 "hP" = (
-/obj/machinery/light/small{
-	icon_state = "bulb_map";
-	dir = 1
-	},
-/obj/machinery/suit_cycler/emergency/prepared{
-	locked = 0
-	},
+/obj/structure/closet,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
+/area/outreach/outpost/eva/gf/north)
 "hQ" = (
-/obj/machinery/suit_cycler/emergency/prepared{
-	locked = 0
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
 	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/east/eva)
 "hR" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
@@ -3503,12 +3354,13 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/east/eva)
 "hS" = (
-/obj/machinery/alarm{
-	icon_state = "alarm0";
-	dir = 1
+/obj/machinery/door/airlock/glass/civilian{
+	icon_state = "closed"
 	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/west/junct)
+/obj/machinery/door/firedoor/autoset,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged,
+/area/outreach/outpost/stairwell/ground)
 "hT" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
 	icon_state = "map_vent_out";
@@ -3585,38 +3437,39 @@
 /area/outreach/outpost/vacant/ground/depot)
 "ic" = (
 /obj/structure/cable/yellow{
-	icon_state = "1-4"
+	icon_state = "1-8"
 	},
-/obj/item/radio/intercom{
-	icon_state = "intercom";
-	dir = 1
-	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/maint/power/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/north/hangar)
 "id" = (
-/obj/machinery/light_switch,
-/obj/structure/rack/dark,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
-"ie" = (
-/obj/machinery/light/small,
-/obj/machinery/portable_atmospherics/canister/oxygen,
-/obj/machinery/atmospherics/portables_connector{
-	icon_state = "map_connector";
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe-s";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
+/area/outreach/outpost/hallway/north/ground)
+"ie" = (
+/obj/item/radio/intercom{
+	icon_state = "intercom";
+	dir = 8
+	},
+/obj/structure/closet,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/north)
 "if" = (
 /obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers,
 /turf/simulated/floor/plating,
@@ -3717,9 +3570,14 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/vacant/ground/depot)
 "it" = (
+/obj/machinery/door/airlock/glass/civilian{
+	icon_state = "closed"
+	},
+/obj/machinery/door/firedoor/autoset,
 /obj/structure/disposalpipe/segment,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/west/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged,
+/area/outreach/outpost/stairwell/ground)
 "iu" = (
 /obj/effect/floor_decal/corner/grey/border{
 	icon_state = "bordercolor";
@@ -3735,10 +3593,11 @@
 /turf/exterior/concrete/reinforced,
 /area/exoplanet/outreach)
 "iw" = (
-/obj/effect/floor_decal/corner/grey/border{
-	icon_state = "bordercolor";
-	dir = 5
+/obj/effect/floor_decal/industrial/warning/dust{
+	icon_state = "warning_dust";
+	dir = 8
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/exterior/concrete/reinforced,
 /area/exoplanet/outreach)
 "ix" = (
@@ -3749,11 +3608,12 @@
 /turf/exterior/concrete/reinforced,
 /area/exoplanet/outreach)
 "iy" = (
-/obj/effect/floor_decal/corner/grey/border{
-	icon_state = "bordercolor";
-	dir = 4
+/obj/effect/floor_decal/corner/grey/bordercorner{
+	icon_state = "bordercolorcorner";
+	dir = 1
 	},
-/turf/exterior/concrete,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
 /area/exoplanet/outreach)
 "iz" = (
 /obj/structure/cable/yellow{
@@ -3789,31 +3649,28 @@
 /turf/simulated/wall/ocp_wall/prepainted,
 /area/outreach/outpost/storage_shed/gf/north)
 "iG" = (
-/obj/effect/floor_decal/industrial/warning/fulltile,
-/obj/machinery/door/blast/shutters/open{
-	id_tag = "ob_gf_shed_n_shutters"
+/obj/effect/floor_decal/industrial/warning/dust{
+	icon_state = "warning_dust";
+	dir = 4
 	},
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/turf/simulated/floor/tiled/steel_ridged/airless,
-/area/outreach/outpost/storage_shed/gf/north)
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
+/area/exoplanet/outreach)
 "iH" = (
 /turf/simulated/wall/ocp_wall/prepainted,
 /area/outreach/outpost/storage_shed/gf/south)
 "iI" = (
-/obj/effect/floor_decal/industrial/warning/fulltile,
-/obj/machinery/door/blast/shutters/open{
-	id_tag = "ob_gf_shed_n_shutters"
-	},
-/turf/simulated/floor/tiled/steel_ridged/airless,
-/area/outreach/outpost/storage_shed/gf/north)
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/airless,
+/area/exoplanet/outreach)
 "iJ" = (
-/obj/machinery/light/small/wired,
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
+/obj/effect/floor_decal/industrial/warning/dust{
+	icon_state = "warning_dust";
+	dir = 1
 	},
-/turf/simulated/floor/reinforced/airless,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
 /area/exoplanet/outreach)
 "iK" = (
 /obj/effect/floor_decal/industrial/warning{
@@ -3839,21 +3696,24 @@
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/north)
 "iM" = (
-/obj/structure/cable/yellow{
-	icon_state = "16-0"
+/obj/effect/floor_decal/industrial/warning/dust/corner{
+	icon_state = "warningcorner_dust";
+	dir = 1
 	},
-/obj/structure/cable/yellow,
-/turf/simulated/floor/plating,
-/area/outreach/outpost/storage_shed/gf/north)
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
+/area/exoplanet/outreach)
 "iN" = (
-/obj/structure/cable/yellow{
-	icon_state = "16-0"
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
 	},
 /obj/structure/cable/yellow{
-	icon_state = "0-2"
+	icon_state = "4-8"
 	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/storage_shed/gf/south)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/airless,
+/area/outreach/outpost/storage_shed/gf/north)
 "iO" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -3865,18 +3725,12 @@
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/north)
 "iP" = (
-/obj/machinery/light/small/wired{
-	icon_state = "bulb_map";
-	dir = 1
+/obj/effect/floor_decal/corner/grey/border{
+	icon_state = "bordercolor";
+	dir = 9
 	},
-/obj/structure/cable/yellow{
-	icon_state = "0-2"
-	},
-/obj/machinery/light/spot/wired{
-	icon_state = "tube_map";
-	dir = 8
-	},
-/turf/simulated/floor/reinforced/airless,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
 /area/exoplanet/outreach)
 "iQ" = (
 /obj/machinery/button/blast_door{
@@ -3889,17 +3743,12 @@
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/north)
 "iR" = (
-/obj/structure/cable/yellow{
-	icon_state = "0-2"
+/obj/structure/cable/cyan{
+	icon_state = "4-8"
 	},
-/obj/structure/cable/yellow{
-	icon_state = "2-4"
-	},
-/obj/machinery/light/spot/wired{
-	icon_state = "tube_map";
-	dir = 8
-	},
-/turf/simulated/floor/reinforced/airless,
+/obj/effect/catwalk_plated/dark,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
 /area/exoplanet/outreach)
 "iS" = (
 /obj/effect/floor_decal/industrial/warning{
@@ -3913,6 +3762,7 @@
 /area/outreach/outpost/storage_shed/gf/north)
 "iT" = (
 /obj/machinery/light_switch,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/north)
 "iU" = (
@@ -3932,23 +3782,17 @@
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/north)
 "iW" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
+/obj/effect/floor_decal/corner/grey/bordercorner{
+	icon_state = "bordercolorcorner";
+	dir = 4
 	},
-/obj/machinery/light/small/wired{
-	icon_state = "bulb_map";
-	dir = 1
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
-	},
-/turf/simulated/floor/reinforced/airless,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
 /area/exoplanet/outreach)
 "iX" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-8"
-	},
-/turf/simulated/floor/reinforced/airless,
+/obj/effect/floor_decal/corner/grey/bordercorner,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
 /area/exoplanet/outreach)
 "iY" = (
 /obj/effect/floor_decal/industrial/outline/yellow,
@@ -3962,13 +3806,7 @@
 /turf/simulated/floor/tiled/steel_ridged/airless,
 /area/outreach/outpost/storage_shed/gf/north)
 "ja" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/machinery/light/small{
-	icon_state = "bulb_map";
-	dir = 8
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/north)
 "jb" = (
@@ -4005,17 +3843,16 @@
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/north)
 "jf" = (
-/obj/effect/floor_decal/industrial/hatch/orange,
-/obj/machinery/atmospherics/pipe/manifold/hidden/black{
-	icon_state = "map";
-	dir = 4
-	},
 /obj/structure/cable/yellow{
-	icon_state = "1-8"
+	icon_state = "0-4"
 	},
-/obj/structure/cable/yellow{
-	icon_state = "2-8"
+/obj/machinery/button/blast_door/wired{
+	dir = 1;
+	icon_state = "blastctrl";
+	id_tag = "ob_gf_shed_n_shutters";
+	name = "shutters control"
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/reinforced/airless,
 /area/exoplanet/outreach)
 "jg" = (
@@ -4023,10 +3860,13 @@
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/north)
 "jh" = (
-/obj/machinery/light/small,
-/obj/effect/floor_decal/industrial/outline/yellow,
-/turf/simulated/floor/tiled/techfloor/airless,
-/area/outreach/outpost/storage_shed/gf/north)
+/obj/machinery/light/small/wired,
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
 "ji" = (
 /obj/effect/floor_decal/industrial/outline/yellow,
 /turf/simulated/floor/tiled/techfloor/airless,
@@ -4045,13 +3885,16 @@
 /turf/simulated/floor/reinforced/airless,
 /area/exoplanet/outreach)
 "jm" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
 /obj/machinery/light/small{
 	icon_state = "bulb_map";
-	dir = 1
+	dir = 8
 	},
-/obj/effect/floor_decal/industrial/outline/yellow,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor/airless,
-/area/outreach/outpost/storage_shed/gf/south)
+/area/outreach/outpost/storage_shed/gf/north)
 "jn" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -4060,30 +3903,30 @@
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/south)
 "jo" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/black,
-/obj/structure/cable/yellow,
+/obj/machinery/button/blast_door/wired{
+	dir = 1;
+	icon_state = "blastctrl";
+	id_tag = "ob_gf_shed_n_shutters";
+	name = "shutters control"
+	},
 /obj/structure/cable/yellow{
-	icon_state = "1-2"
+	icon_state = "0-4"
 	},
-/obj/machinery/airlock_sensor/wired{
-	dir = 4;
-	id_tag = "OH_l3_e_alck_exterior_sensor";
-	pixel_x = 0
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
 	},
-/obj/structure/cable/cyan{
-	icon_state = "1-4"
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/reinforced/airless,
 /area/exoplanet/outreach)
 "jp" = (
 /obj/structure/cable/yellow{
-	icon_state = "1-2"
+	icon_state = "16-0"
 	},
-/obj/machinery/light/small{
-	icon_state = "bulb_map";
-	dir = 8
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
 	},
-/turf/simulated/floor/tiled/techfloor/airless,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
 /area/outreach/outpost/storage_shed/gf/south)
 "jq" = (
 /obj/effect/floor_decal/industrial/warning/fulltile,
@@ -4103,18 +3946,16 @@
 /turf/simulated/floor/tiled/steel_ridged/airless,
 /area/outreach/outpost/storage_shed/gf/south)
 "js" = (
-/obj/effect/floor_decal/industrial/hatch/orange,
-/obj/machinery/atmospherics/pipe/simple/hidden/black,
+/obj/machinery/light/small/wired,
 /obj/structure/cable/yellow{
-	icon_state = "1-2"
+	icon_state = "0-8"
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/reinforced/airless,
 /area/exoplanet/outreach)
 "jt" = (
-/obj/machinery/light/small{
-	icon_state = "bulb_map";
-	dir = 4
-	},
+/obj/effect/floor_decal/industrial/outline/yellow,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/south)
 "ju" = (
@@ -4136,14 +3977,12 @@
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/south)
 "jw" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-4"
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 1
 	},
-/obj/machinery/button/blast_door{
-	dir = 1;
-	id_tag = "ob_gf_shed_s_shutters";
-	name = "shutters control"
-	},
+/obj/effect/floor_decal/industrial/outline/yellow,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/south)
 "jx" = (
@@ -4181,22 +4020,17 @@
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/south)
 "jA" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/light/small,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/south)
 "jB" = (
-/obj/effect/floor_decal/industrial/hatch/orange,
-/obj/machinery/atmospherics/pipe/manifold/hidden,
-/obj/machinery/airlock_sensor{
-	dir = 1;
-	id_tag = "OH_l3_e_alck_sensor";
-	pixel_y = 0
+/obj/effect/floor_decal/corner/grey/border{
+	icon_state = "bordercolor";
+	dir = 8
 	},
-/turf/simulated/floor/reinforced,
-/area/outreach/outpost/airlock/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete,
+/area/exoplanet/outreach)
 "jC" = (
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
@@ -4210,18 +4044,24 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/north/hangar)
 "jE" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-4"
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/north/hangar)
-"jF" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 9
-	},
+/obj/machinery/atmospherics/pipe/simple/visible/universal,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/east/eva)
+"jF" = (
+/obj/structure/cable/yellow,
+/obj/effect/floor_decal/industrial/warning/corner,
+/obj/item/radio/intercom{
+	icon_state = "intercom";
+	dir = 1
+	},
+/obj/machinery/power/apc{
+	icon_state = "apc0";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/atmos/ground)
 "jG" = (
 /obj/machinery/door/airlock/hatch/maintenance{
 	icon_state = "closed";
@@ -4241,11 +4081,18 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/eva/gf/north)
 "jH" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-8"
+/obj/effect/floor_decal/industrial/warning,
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 6
 	},
+/obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers{
+	icon_state = "map-scrubbers";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/north/hangar)
+/area/outreach/outpost/maint/atmos/ground)
 "jI" = (
 /turf/simulated/wall/r_wall/prepainted,
 /area/outreach/outpost/maint/passage/ground/east/eva)
@@ -4267,9 +4114,19 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/south/offices)
 "jM" = (
-/obj/machinery/light/small,
+/obj/effect/floor_decal/industrial/warning,
+/obj/machinery/atmospherics/pipe/manifold/hidden/supply{
+	icon_state = "map-supply";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 10
+	},
+/obj/structure/disposalpipe/segment,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/east/eva)
+/area/outreach/outpost/maint/atmos/ground)
 "jN" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -4285,26 +4142,23 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/south)
 "jO" = (
-/obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "11";
-	dir = 5
-	},
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
 /obj/structure/cable/yellow{
-	icon_state = "1-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
+	icon_state = "2-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	icon_state = "11-supply";
 	dir = 4
 	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
+/area/outreach/outpost/eva/gf/north)
 "jP" = (
 /obj/effect/floor_decal/industrial/warning{
 	icon_state = "stripe";
@@ -4331,18 +4185,16 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/east/airlock)
 "jS" = (
-/obj/machinery/door/airlock/external/glass{
-	density = 1;
-	dir = 8;
-	icon_state = "closed";
-	id_tag = "OH_l3_e_alck_inner"
+/obj/effect/floor_decal/industrial/warning/fulltile,
+/obj/machinery/door/blast/shutters/open{
+	id_tag = "ob_gf_shed_n_shutters"
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden{
-	dir = 4;
-	icon_state = "11"
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
 	},
-/turf/simulated/floor/tiled/steel_ridged,
-/area/outreach/outpost/airlock/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged/airless,
+/area/outreach/outpost/storage_shed/gf/north)
 "jT" = (
 /obj/machinery/button/blast_door{
 	dir = 1;
@@ -4362,10 +4214,14 @@
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/south)
 "jV" = (
-/obj/machinery/light_switch{
-	icon_state = "light0";
-	dir = 1
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
 	},
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/south)
 "jW" = (
@@ -4405,49 +4261,25 @@
 /turf/simulated/wall/r_wall/prepainted,
 /area/outreach/outpost/maint/passage/ground/east/airlock)
 "jZ" = (
-/obj/machinery/atmospherics/pipe/simple/hidden{
-	dir = 4;
-	icon_state = "11"
+/obj/effect/floor_decal/industrial/warning/fulltile,
+/obj/machinery/door/blast/shutters/open{
+	id_tag = "ob_gf_shed_n_shutters"
 	},
-/obj/structure/cable/yellow{
-	icon_state = "2-8"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 4
-	},
-/obj/effect/floor_decal/industrial/warning/corner{
-	icon_state = "stripecorner";
-	dir = 4
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/east/airlock)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged/airless,
+/area/outreach/outpost/storage_shed/gf/north)
 "ka" = (
-/obj/structure/cable/yellow,
-/obj/structure/cable/yellow{
-	icon_state = "1-4"
-	},
-/obj/machinery/light/spot/wired{
-	icon_state = "tube_map";
-	dir = 8
-	},
-/turf/simulated/floor/reinforced/airless,
+/obj/structure/girder/displaced,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/airless,
 /area/exoplanet/outreach)
 "kb" = (
-/obj/machinery/light/small/wired,
-/obj/structure/cable/yellow,
-/obj/machinery/light/spot/wired{
-	icon_state = "tube_map";
-	dir = 8
+/obj/effect/floor_decal/corner/grey/border{
+	icon_state = "bordercolor";
+	dir = 10
 	},
-/turf/simulated/floor/reinforced/airless,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete,
 /area/exoplanet/outreach)
 "kc" = (
 /obj/structure/cable/yellow{
@@ -4507,24 +4339,13 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/vacant/ground/office1)
 "ki" = (
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 1
-	},
-/obj/structure/cable/yellow{
-	icon_state = "1-4"
-	},
-/turf/simulated/floor/reinforced/airless,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/mud/dark,
 /area/exoplanet/outreach)
 "kj" = (
-/obj/machinery/light/small/wired{
-	icon_state = "bulb_map";
-	dir = 1
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
-	},
-/turf/simulated/floor/reinforced/airless,
+/obj/effect/floor_decal/corner/grey/border,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete,
 /area/exoplanet/outreach)
 "kk" = (
 /obj/effect/shuttle_landmark/automatic/clearing{
@@ -4714,9 +4535,10 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/south/ground/business_wing)
 "kG" = (
-/obj/structure/sign/number/five,
+/obj/machinery/alarm,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/south/ground/business_wing)
+/area/outreach/outpost/stairwell/ground)
 "kH" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -4853,31 +4675,21 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/vacant/ground/office3)
 "kX" = (
-/obj/structure/tank_rack/oxygen,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 9
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/east/eva)
 "kY" = (
-/obj/machinery/atmospherics/pipe/simple/hidden,
-/obj/structure/cable/yellow{
-	icon_state = "0-2"
+/obj/machinery/network/relay/wall_mounted/outreach{
+	icon_state = "wall_router";
+	dir = 1
 	},
-/obj/machinery/power/apc{
-	icon_state = "apc0";
-	dir = 4
-	},
-/obj/structure/rack/dark,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/waste/ground)
 "kZ" = (
 /obj/machinery/light/small{
 	icon_state = "bulb_map";
@@ -4905,25 +4717,25 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/east/airlock)
 "lb" = (
-/obj/item/radio/intercom{
-	icon_state = "intercom";
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/central/ground)
+"lc" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
 	dir = 8
 	},
-/obj/structure/closet,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/atmos/ground)
+"ld" = (
+/obj/machinery/light/small,
+/obj/machinery/suit_cycler/emergency/prepared{
+	locked = 0
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/north)
-"lc" = (
-/obj/item/radio/intercom{
-	icon_state = "intercom";
-	dir = 8
-	},
-/obj/structure/closet,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
-"ld" = (
-/obj/structure/closet,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
 "le" = (
 /obj/machinery/atmospherics/unary/vent_pump/on,
 /turf/simulated/floor/tiled/steel_grid,
@@ -4945,20 +4757,18 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/south/ground/business_wing)
 "lg" = (
-/obj/machinery/disposal,
-/obj/structure/disposalpipe/trunk{
-	icon_state = "pipe-t";
-	dir = 8
-	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/stairwell/ground)
 "lh" = (
-/obj/machinery/alarm{
-	icon_state = "alarm0";
-	dir = 4
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
 	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/vacant/ground/office5)
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/stairwell/ground)
 "li" = (
 /obj/machinery/atmospherics/pipe/cap/hidden/supply,
 /obj/machinery/atmospherics/pipe/cap/hidden/scrubbers,
@@ -4988,15 +4798,10 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/vacant/ground/office7)
 "lm" = (
-/obj/machinery/power/apc{
-	icon_state = "apc0";
-	dir = 8
-	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/vacant/ground/office1)
+/obj/structure/disposalpipe/segment,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/stairwell/ground)
 "ln" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -5020,15 +4825,16 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/vacant/ground/office1)
 "lq" = (
-/obj/machinery/power/apc{
-	icon_state = "apc0";
-	dir = 8
+/obj/structure/sign/deck/third{
+	pixel_y = 32
 	},
-/obj/structure/cable/yellow{
-	icon_state = "0-4"
+/obj/machinery/firealarm{
+	icon_state = "casing";
+	dir = 4
 	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/vacant/ground/office3)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/stairwell/ground)
 "lr" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -5286,23 +5092,17 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/vacant/ground/office8)
 "lO" = (
-/obj/structure/cable/yellow{
-	icon_state = "2-8"
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
+/obj/machinery/atmospherics/unary/vent_pump/on{
+	icon_state = "map_vent_out";
 	dir = 4
 	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 4
+/obj/structure/railing/mapped/stairwell{
+	icon_state = "railing_preview";
+	dir = 8
 	},
-/obj/structure/disposalpipe/segment{
-	icon_state = "pipe-s";
-	dir = 4
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/vacant/ground/office8)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/stairwell/ground)
 "lP" = (
 /obj/machinery/atmospherics/pipe/cap/hidden/supply{
 	icon_state = "cap-supply";
@@ -5448,20 +5248,24 @@
 /area/outreach/outpost/vacant/ground/office2)
 "mf" = (
 /obj/structure/cable/yellow{
-	icon_state = "4-8"
+	icon_state = "1-2"
 	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/vacant/ground/office2)
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/stairwell/ground)
 "mg" = (
-/obj/machinery/power/apc{
-	icon_state = "apc0";
+/obj/machinery/atmospherics/pipe/cap/hidden/scrubbers{
+	icon_state = "cap-scrubbers";
 	dir = 4
 	},
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
+/obj/machinery/atmospherics/pipe/cap/hidden/supply{
+	icon_state = "cap-supply";
+	dir = 4
 	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/vacant/ground/office2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/south/ground)
 "mh" = (
 /turf/simulated/floor/plating,
 /area/outreach/outpost/vacant/ground/office4)
@@ -5485,15 +5289,13 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/vacant/ground/office4)
 "ml" = (
-/obj/machinery/power/apc{
-	icon_state = "apc0";
-	dir = 4
+/obj/structure/railing/mapped/stairwell{
+	icon_state = "railing_preview";
+	dir = 1
 	},
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/vacant/ground/office4)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/stairwell/ground)
 "mm" = (
 /turf/simulated/wall,
 /area/outreach/outpost/vacant/ground/office4)
@@ -5527,12 +5329,13 @@
 /turf/simulated/wall,
 /area/outreach/outpost/vacant/ground/office8)
 "ms" = (
-/obj/machinery/alarm{
-	icon_state = "alarm0";
-	dir = 4
+/obj/machinery/light_switch/on{
+	icon_state = "light0";
+	dir = 1
 	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/vacant/ground/office2)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/stairwell/ground)
 "mt" = (
 /obj/machinery/atmospherics/pipe/cap/hidden/supply{
 	icon_state = "cap-supply";
@@ -5607,12 +5410,17 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/vacant/ground/office6)
 "mA" = (
-/obj/machinery/light{
-	icon_state = "tube_map";
-	dir = 4
+/obj/item/radio/intercom{
+	icon_state = "intercom";
+	dir = 1
 	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/vacant/ground/office6)
+/obj/structure/disposalpipe/segment/bent{
+	icon_state = "pipe-c";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/stairwell/ground)
 "mB" = (
 /turf/simulated/wall/concrete,
 /area/outreach/outpost/vacant/ground/office9)
@@ -5714,12 +5522,14 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/vacant/ground/office2)
 "mM" = (
-/obj/machinery/light{
-	icon_state = "tube_map";
+/obj/machinery/disposal,
+/obj/structure/disposalpipe/trunk{
+	icon_state = "pipe-t";
 	dir = 8
 	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/vacant/ground/office4)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/stairwell/ground)
 "mN" = (
 /obj/machinery/light{
 	icon_state = "tube_map";
@@ -5743,6 +5553,7 @@
 	icon_state = "map_scrubber_on";
 	dir = 1
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/south)
 "mR" = (
@@ -5883,7 +5694,12 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/east/ground)
 "nf" = (
-/obj/structure/tank_rack/oxygen,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/north)
 "ng" = (
@@ -5906,23 +5722,44 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/east/airlock)
 "nh" = (
-/obj/machinery/alarm{
-	icon_state = "alarm0";
+/obj/machinery/light_switch{
+	icon_state = "light0";
 	dir = 1
 	},
-/obj/machinery/suit_cycler/emergency/prepared{
-	locked = 0
-	},
+/obj/structure/rack/dark,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
+/area/outreach/outpost/eva/gf/north)
 "ni" = (
-/obj/effect/floor_decal/industrial/shutoff{
-	icon_state = "shutoff";
-	dir = 1
+/obj/machinery/power/apc{
+	icon_state = "apc0";
+	dir = 4
 	},
-/obj/machinery/atmospherics/valve/shutoff,
+/obj/structure/cable/yellow,
+/obj/structure/rack/dark,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/south/ground)
+/area/outreach/outpost/eva/gf/north)
 "nj" = (
 /obj/machinery/light{
 	icon_state = "tube_map";
@@ -5984,12 +5821,10 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/east/airlock)
 "nn" = (
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 10
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/east/airlock)
+/obj/effect/floor_decal/industrial/outline/yellow,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/airless,
+/area/outreach/outpost/storage_shed/gf/north)
 "no" = (
 /obj/machinery/power/apc{
 	icon_state = "apc0";
@@ -6303,28 +6138,21 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/vacant/ground/depot)
 "nS" = (
-/obj/machinery/door/airlock/glass/civilian{
-	icon_state = "closed"
-	},
-/obj/machinery/door/firedoor/autoset,
-/obj/structure/disposalpipe/segment,
-/turf/simulated/floor/tiled/steel_ridged,
-/area/outreach/outpost/stairwell/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/west/junct)
 "nT" = (
 /obj/structure/disposalpipe/segment,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/stairwell/ground)
 "nU" = (
-/obj/item/radio/intercom{
-	icon_state = "intercom";
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
 	dir = 1
 	},
-/obj/structure/disposalpipe/segment/bent{
-	icon_state = "pipe-c";
-	dir = 1
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/stairwell/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/west/junct)
 "nV" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -6403,21 +6231,24 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/south/ground/business_wing)
 "oe" = (
-/obj/machinery/disposal,
-/obj/structure/disposalpipe/trunk{
-	icon_state = "pipe-t";
-	dir = 8
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
 	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/south/ground/business_wing)
-"of" = (
-/obj/machinery/atmospherics/pipe/simple/visible/black{
-	dir = 4;
-	icon_state = "11"
+/obj/machinery/power/apc{
+	icon_state = "apc0";
+	dir = 4
 	},
-/obj/machinery/meter,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/east/airlock)
+/area/outreach/outpost/maint/passage/ground/west/junct)
+"of" = (
+/obj/structure/cable/yellow{
+	icon_state = "16-0"
+	},
+/obj/structure/cable/yellow,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/storage_shed/gf/north)
 "og" = (
 /obj/machinery/atmospherics/pipe/simple/visible/black{
 	dir = 4;
@@ -6443,6 +6274,7 @@
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/east/airlock)
 "oj" = (
@@ -6495,6 +6327,7 @@
 	icon_state = "4-8"
 	},
 /obj/machinery/atmospherics/pipe/simple/visible/black,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/east/airlock)
 "or" = (
@@ -6521,13 +6354,11 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/maint/passage/ground/east/airlock)
 "ou" = (
-/obj/machinery/atmospherics/pipe/simple/visible/cyan{
-	icon_state = "11";
-	dir = 4
-	},
-/obj/machinery/meter,
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/east/airlock)
+/obj/machinery/light/small,
+/obj/effect/floor_decal/industrial/outline/yellow,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/airless,
+/area/outreach/outpost/storage_shed/gf/north)
 "ov" = (
 /obj/machinery/light/small,
 /obj/machinery/atmospherics/omni/filter{
@@ -6567,20 +6398,10 @@
 /turf/simulated/wall,
 /area/outreach/outpost/maint/passage/ground/east/airlock)
 "oB" = (
-/obj/machinery/firealarm{
-	icon_state = "casing";
-	dir = 1
-	},
-/obj/effect/floor_decal/industrial/shutoff{
-	icon_state = "shutoff";
-	dir = 8
-	},
-/obj/machinery/atmospherics/valve/shutoff{
-	icon_state = "map_vclamp0";
-	dir = 4
-	},
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/hallway/west/ground)
+/obj/machinery/light/small,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/east/eva)
 "oC" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -6606,6 +6427,7 @@
 	icon_state = "map_vent_out";
 	dir = 4
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/south/ground)
 "oE" = (
@@ -6644,6 +6466,7 @@
 	icon_state = "map_scrubber_on";
 	dir = 8
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/south/ground)
 "oH" = (
@@ -6717,21 +6540,10 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/north/ground)
 "oN" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-2"
-	},
-/obj/effect/catwalk_plated,
-/obj/structure/disposalpipe/segment,
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 6
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 10
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/hallway/north/ground)
+/obj/structure/disposalpipe/segment/bent,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/central/ground)
 "oO" = (
 /obj/machinery/alarm{
 	icon_state = "alarm0";
@@ -6752,16 +6564,16 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/central/ground)
 "oQ" = (
-/obj/machinery/light{
-	icon_state = "tube_map";
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/machinery/power/apc{
+	icon_state = "apc0";
 	dir = 8
 	},
-/obj/effect/floor_decal/industrial/warning/corner{
-	icon_state = "stripecorner";
-	dir = 4
-	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/hangar/north)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/south/offices)
 "oR" = (
 /obj/machinery/light/spot{
 	icon_state = "tube_map";
@@ -6774,22 +6586,29 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
 "oS" = (
-/obj/machinery/atmospherics/unary/vent_scrubber/on{
-	icon_state = "map_scrubber_on";
-	dir = 8
+/obj/machinery/door/airlock/glass/maintenance{
+	icon_state = "closed"
 	},
-/obj/machinery/light{
-	icon_state = "tube_map";
-	dir = 4
+/obj/machinery/door/firedoor/autoset,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
 	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/hangar/north)
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged,
+/area/outreach/outpost/eva/gf/north)
 "oT" = (
-/obj/machinery/light,
-/obj/effect/floor_decal/industrial/outline/orange,
-/obj/structure/reagent_dispensers/fueltank,
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/hangar/north)
+/obj/structure/sign/deck/third{
+	pixel_y = 32
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 6
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/west/ground)
 "oU" = (
 /obj/machinery/light/spot{
 	icon_state = "tube_map";
@@ -6810,16 +6629,20 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/maint/storage/ground)
 "oW" = (
-/obj/machinery/docking_beacon/mapped{
-	icon_state = "injector0";
-	dir = 8
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
 	},
-/obj/effect/floor_decal/industrial/warning/cee{
-	icon_state = "stripecee";
-	dir = 4
+/obj/machinery/power/apc{
+	icon_state = "apc0";
+	dir = 1
 	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/hangar/north)
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 10
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/west/ground)
 "oX" = (
 /obj/structure/cable/cyan{
 	icon_state = "2-4"
@@ -7058,11 +6881,9 @@
 /turf/simulated/floor/plating/outreach,
 /area/exoplanet/outreach)
 "pA" = (
-/obj/effect/catwalk_plated/dark,
-/obj/structure/cable/cyan{
-	icon_state = "0-8"
-	},
-/turf/simulated/floor/plating/outreach,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete,
 /area/exoplanet/outreach)
 "pB" = (
 /obj/effect/catwalk_plated/dark,
@@ -7107,15 +6928,13 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/power/ground)
 "pG" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
+/obj/machinery/atmospherics/unary/vent_pump/on{
+	icon_state = "map_vent_out";
 	dir = 4
 	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/maint/power/ground)
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/central/ground)
 "pH" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
 	icon_state = "map_vent_out";
@@ -7228,10 +7047,549 @@
 /obj/machinery/light/small,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/south/offices)
+"pY" = (
+/obj/machinery/light/small/wired{
+	icon_state = "bulb_map";
+	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/machinery/light/spot/wired{
+	icon_state = "tube_map";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
+"pZ" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/obj/machinery/light/spot/wired{
+	icon_state = "tube_map";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
+"qa" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/light/small/wired{
+	icon_state = "bulb_map";
+	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
+"qb" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
+"qc" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/black{
+	icon_state = "11";
+	dir = 6
+	},
+/obj/machinery/light/small/wired{
+	icon_state = "bulb_map";
+	dir = 1
+	},
+/obj/machinery/button/access/wired/exterior{
+	dir = 4;
+	id_tag = "OH_l3_e_alck";
+	pixel_x = 0
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
+"qd" = (
+/obj/machinery/door/airlock/external/glass{
+	density = 1;
+	dir = 8;
+	icon_state = "closed";
+	id_tag = "OH_l3_e_alck_inner"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged,
+/area/outreach/outpost/airlock/ground)
+"qe" = (
+/obj/effect/floor_decal/industrial/hatch/orange,
+/obj/machinery/power/apc/hyper{
+	icon_state = "apc0";
+	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced,
+/area/outreach/outpost/airlock/ground)
+"qf" = (
+/obj/effect/floor_decal/industrial/hatch/orange,
+/obj/machinery/atmospherics/pipe/manifold/hidden/black{
+	icon_state = "map";
+	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/embedded_controller/radio/airlock/advanced_airlock_controller{
+	cycle_to_external_air = 1;
+	dir = 2;
+	icon_state = "airlock_control_off";
+	id_tag = "OH_l3_e_alck";
+	tag_air_alarm = "OH_l3_e_alck_alarm";
+	tag_airpump = "OH_l3_e_alck_pump";
+	tag_chamber_sensor = "OH_l3_e_alck_sensor";
+	tag_exterior_door = "OH_l3_e_alck_outer";
+	tag_exterior_sensor = "OH_l3_e_alck_exterior_sensor";
+	tag_interior_door = "OH_l3_e_alck_inner";
+	tag_interior_sensor = "OH_l3_e_alck_interior_sensor";
+	tag_secure = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced,
+/area/outreach/outpost/airlock/ground)
+"qg" = (
+/obj/machinery/door/airlock/external/glass{
+	dir = 8;
+	icon_state = "closed";
+	id_tag = "OH_l3_e_alck_outer"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/black{
+	icon_state = "11";
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged,
+/area/outreach/outpost/airlock/ground)
+"qh" = (
+/obj/effect/floor_decal/industrial/hatch/orange,
+/obj/machinery/atmospherics/pipe/manifold/hidden/black{
+	icon_state = "map";
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
+"qi" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
+"qj" = (
+/obj/machinery/atmospherics/unary/vent_pump/high_volume/airlock{
+	id_tag = "OH_l3_e_alck_pump"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced,
+/area/outreach/outpost/airlock/ground)
+"qk" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced,
+/area/outreach/outpost/airlock/ground)
+"ql" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/black,
+/obj/structure/cable/yellow,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/airlock_sensor/wired{
+	dir = 4;
+	id_tag = "OH_l3_e_alck_exterior_sensor";
+	pixel_x = 0
+	},
+/obj/structure/cable/cyan{
+	icon_state = "1-4"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
+"qm" = (
+/obj/effect/catwalk_plated/dark,
+/obj/structure/cable/cyan{
+	icon_state = "4-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach)
+"qn" = (
+/obj/effect/catwalk_plated/dark,
+/obj/structure/cable/cyan{
+	icon_state = "0-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach)
+"qo" = (
+/obj/machinery/door/airlock/external/glass{
+	density = 1;
+	dir = 8;
+	icon_state = "closed";
+	id_tag = "OH_l3_e_alck_inner"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden{
+	dir = 4;
+	icon_state = "11"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged,
+/area/outreach/outpost/airlock/ground)
 "qp" = (
 /obj/effect/floor_decal/industrial/outline/orange,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
+"qq" = (
+/obj/effect/floor_decal/industrial/hatch/orange,
+/obj/machinery/atmospherics/pipe/manifold/hidden,
+/obj/machinery/airlock_sensor{
+	dir = 1;
+	id_tag = "OH_l3_e_alck_sensor";
+	pixel_y = 0
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced,
+/area/outreach/outpost/airlock/ground)
+"qr" = (
+/obj/effect/floor_decal/industrial/hatch/orange,
+/obj/machinery/camera/network/security{
+	icon_state = "camera";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced,
+/area/outreach/outpost/airlock/ground)
+"qs" = (
+/obj/machinery/door/airlock/external/glass{
+	dir = 8;
+	icon_state = "closed";
+	id_tag = "OH_l3_e_alck_outer"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged,
+/area/outreach/outpost/airlock/ground)
+"qt" = (
+/obj/effect/floor_decal/industrial/hatch/orange,
+/obj/machinery/atmospherics/pipe/simple/hidden/black,
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
+"qu" = (
+/obj/effect/floor_decal/corner/grey/bordercorner{
+	icon_state = "bordercolorcorner";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
+/area/exoplanet/outreach)
+"qv" = (
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
+"qw" = (
+/obj/machinery/atmospherics/unary/tank/air/airlock,
+/obj/effect/floor_decal/industrial/warning/fulltile,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/east/airlock)
+"qx" = (
+/obj/structure/cable/yellow,
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/machinery/light/spot/wired{
+	icon_state = "tube_map";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
+"qy" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/light/small/wired,
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
+"qz" = (
+/obj/machinery/atmospherics/pipe/simple/hidden{
+	dir = 4;
+	icon_state = "11"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 4
+	},
+/obj/effect/floor_decal/industrial/warning/corner{
+	icon_state = "stripecorner";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/east/airlock)
+"qA" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 10
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/east/airlock)
+"qB" = (
+/obj/machinery/light/small/wired,
+/obj/structure/cable/yellow,
+/obj/machinery/light/spot/wired{
+	icon_state = "tube_map";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
+"qC" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/east/airlock)
+"qD" = (
+/obj/effect/catwalk_plated/dark,
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach)
+"qE" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/east/airlock)
+"qF" = (
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/south/offices)
+"qG" = (
+/obj/machinery/atmospherics/pipe/simple/visible/cyan{
+	icon_state = "11";
+	dir = 4
+	},
+/obj/machinery/meter,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/east/airlock)
+"qH" = (
+/obj/machinery/atmospherics/pipe/simple/visible/black{
+	dir = 4;
+	icon_state = "11"
+	},
+/obj/machinery/meter,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/east/airlock)
+"qI" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/south/offices)
+"qJ" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/south/offices)
+"qK" = (
+/obj/effect/floor_decal/corner/grey/border{
+	icon_state = "bordercolor";
+	dir = 9
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete,
+/area/exoplanet/outreach)
+"qL" = (
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/south/offices)
+"qM" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/south/offices)
+"qN" = (
+/obj/effect/floor_decal/industrial/warning/fulltile,
+/obj/machinery/door/blast/shutters/open{
+	id_tag = "ob_gf_shed_s_shutters"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged/airless,
+/area/outreach/outpost/storage_shed/gf/south)
+"qO" = (
+/obj/effect/floor_decal/industrial/warning/fulltile,
+/obj/machinery/door/blast/shutters/open{
+	id_tag = "ob_gf_shed_s_shutters"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged/airless,
+/area/outreach/outpost/storage_shed/gf/south)
+"qP" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
+"qQ" = (
+/obj/machinery/light/small/wired{
+	icon_state = "bulb_map";
+	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
+"qR" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/chlorine_sand/outreach,
+/area/exoplanet/outreach)
+"qS" = (
+/obj/effect/floor_decal/industrial/warning/dust/corner,
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
+/area/exoplanet/outreach)
+"qT" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/south/offices)
+"qU" = (
+/obj/effect/floor_decal/industrial/warning/dust/corner{
+	icon_state = "warningcorner_dust";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
+/area/exoplanet/outreach)
+"qV" = (
+/obj/effect/floor_decal/corner/grey/border{
+	icon_state = "bordercolor";
+	dir = 10
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete/reinforced,
+/area/exoplanet/outreach)
+"qW" = (
+/obj/effect/floor_decal/corner/grey/border{
+	icon_state = "bordercolor";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/exterior/concrete,
+/area/exoplanet/outreach)
+"qX" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged/outreach,
+/area/exoplanet/outreach)
+"qY" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_ridged/outreach,
+/area/exoplanet/outreach)
+"qZ" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/west/junct)
+"ra" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/west/junct)
+"rb" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/south/offices)
+"rc" = (
+/obj/structure/barricade/wood,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/south/offices)
 "rd" = (
 /obj/effect/floor_decal/industrial/warning/corner{
 	icon_state = "stripecorner";
@@ -7239,40 +7597,639 @@
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
-"BL" = (
+"re" = (
+/obj/machinery/alarm{
+	icon_state = "alarm0";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/west/junct)
+"rf" = (
+/obj/machinery/light_switch{
+	icon_state = "light0";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/south/offices)
+"rg" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office1)
+"rh" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office3)
+"ri" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office5)
+"rj" = (
+/obj/machinery/light_switch{
+	icon_state = "light0";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/south/ground/business_wing)
+"rk" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office7)
+"rl" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe-s";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/south/ground/business_wing)
+"rm" = (
+/obj/machinery/alarm{
+	icon_state = "alarm0";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office5)
+"rn" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/south/ground/business_wing)
+"ro" = (
+/obj/machinery/power/apc{
+	icon_state = "apc0";
+	dir = 8
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office1)
+"rp" = (
+/obj/machinery/power/apc{
+	icon_state = "apc0";
+	dir = 8
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office3)
+"rq" = (
 /obj/machinery/network/relay/wall_mounted/outreach{
 	icon_state = "wall_router";
 	dir = 8
 	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/south/offices)
-"CK" = (
+"rr" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office8)
+"rs" = (
+/obj/structure/sign/number/five,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/south/ground/business_wing)
+"rt" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe-s";
+	dir = 4
+	},
+/obj/effect/catwalk_plated,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/hallway/south/ground/business_wing)
+"ru" = (
+/obj/structure/cable/yellow{
+	icon_state = "2-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 4
+	},
+/obj/structure/disposalpipe/segment{
+	icon_state = "pipe-s";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office8)
+"rv" = (
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/south/offices)
+"rw" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office2)
+"rx" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office2)
+"ry" = (
+/obj/machinery/power/apc{
+	icon_state = "apc0";
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office2)
+"rz" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office4)
+"rA" = (
+/obj/machinery/power/apc{
+	icon_state = "apc0";
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office4)
+"rB" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office6)
+"rC" = (
+/obj/machinery/alarm{
+	icon_state = "alarm0";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office2)
+"rD" = (
+/obj/machinery/light{
+	icon_state = "tube_map";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office6)
+"rE" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office9)
+"rF" = (
+/obj/machinery/light{
+	icon_state = "tube_map";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/vacant/ground/office4)
+"rG" = (
+/obj/machinery/disposal,
+/obj/structure/disposalpipe/trunk{
+	icon_state = "pipe-t";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/south/ground/business_wing)
+"rH" = (
+/obj/machinery/light/small,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/passage/ground/south/offices)
+"rI" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-4"
 	},
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/south/offices)
+"rJ" = (
+/obj/machinery/firealarm{
+	icon_state = "casing";
+	dir = 1
+	},
+/obj/effect/floor_decal/industrial/shutoff{
+	icon_state = "shutoff";
+	dir = 8
+	},
+/obj/machinery/atmospherics/valve/shutoff{
+	icon_state = "map_vclamp0";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/west/ground)
+"rK" = (
+/obj/structure/disposalpipe/segment/bent{
+	icon_state = "pipe-c";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/central/ground)
+"rL" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
+/obj/machinery/atmospherics/pipe/simple/hidden/supply,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/east/ground)
+"rM" = (
+/obj/machinery/camera/network/security{
+	icon_state = "camera";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/central/ground)
+"rN" = (
+/obj/machinery/light_switch/on{
+	icon_state = "light0";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/central/ground)
+"rO" = (
+/obj/structure/cable/yellow{
+	icon_state = "16-0"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/structure/sign/deck/third{
+	pixel_y = 32
+	},
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/power/ground)
+"rP" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/power/ground)
+"rQ" = (
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 1
+	},
+/obj/machinery/suit_cycler/emergency/prepared{
+	locked = 0
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
+"rR" = (
+/obj/machinery/light_switch,
+/obj/structure/rack/dark,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
+"rS" = (
+/obj/machinery/atmospherics/pipe/simple/hidden,
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/machinery/power/apc{
+	icon_state = "apc0";
+	dir = 4
+	},
+/obj/structure/rack/dark,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
+"rT" = (
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/effect/floor_decal/industrial/warning/corner{
+	icon_state = "stripecorner";
+	dir = 4
+	},
+/obj/machinery/power/apc{
+	icon_state = "apc0";
+	dir = 8
+	},
+/obj/machinery/alarm,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/power/ground)
+"rU" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
+	},
+/obj/machinery/atmospherics/unary/vent_pump/on,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/power/ground)
+"rV" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/power/ground)
+"rW" = (
+/obj/effect/floor_decal/industrial/warning/corner{
+	icon_state = "stripecorner";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/power/ground)
+"rX" = (
+/obj/machinery/suit_cycler/emergency/prepared{
+	locked = 0
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
+"rY" = (
+/obj/machinery/atmospherics/pipe/simple/hidden{
+	icon_state = "11";
+	dir = 5
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
+"rZ" = (
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-2"
+	},
+/obj/effect/floor_decal/industrial/warning/corner,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/power/ground)
+"sa" = (
+/obj/item/radio/intercom{
+	icon_state = "intercom";
+	dir = 8
+	},
+/obj/structure/closet,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
+"sb" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/power/ground)
+"sc" = (
+/obj/machinery/power/terminal,
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/power/ground)
+"sd" = (
+/obj/machinery/power/terminal,
+/obj/structure/cable/yellow{
+	icon_state = "0-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/maint/power/ground)
+"se" = (
+/obj/structure/closet,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
+"sf" = (
+/obj/effect/floor_decal/industrial/shutoff{
+	icon_state = "shutoff";
+	dir = 1
+	},
+/obj/machinery/atmospherics/valve/shutoff,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/hallway/south/ground)
+"sg" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/item/radio/intercom{
+	icon_state = "intercom";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/power/ground)
+"sh" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techmaint,
+/area/outreach/outpost/maint/power/ground)
+"si" = (
+/obj/machinery/alarm{
+	icon_state = "alarm0";
+	dir = 1
+	},
+/obj/machinery/suit_cycler/emergency/prepared{
+	locked = 0
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
+"sj" = (
+/obj/machinery/light/small,
+/obj/machinery/portable_atmospherics/canister/oxygen,
+/obj/machinery/atmospherics/portables_connector{
+	icon_state = "map_connector";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
+"sk" = (
+/obj/structure/tank_rack/oxygen,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
+"sl" = (
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
+"sm" = (
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/airless,
+/area/outreach/outpost/storage_shed/gf/south)
+"sn" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/machinery/button/blast_door{
+	dir = 1;
+	id_tag = "ob_gf_shed_s_shutters";
+	name = "shutters control"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/airless,
+/area/outreach/outpost/storage_shed/gf/south)
+"so" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/light/small,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/airless,
+/area/outreach/outpost/storage_shed/gf/south)
+"sp" = (
+/obj/effect/floor_decal/industrial/warning,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/airless,
+/area/outreach/outpost/storage_shed/gf/south)
+"sq" = (
+/obj/machinery/light_switch{
+	icon_state = "light0";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/techfloor/airless,
+/area/outreach/outpost/storage_shed/gf/south)
+"sr" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
+"ss" = (
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/reinforced/airless,
+/area/exoplanet/outreach)
 "Dq" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
 	},
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/south/offices)
-"Ea" = (
-/obj/structure/rack,
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/hangar/north)
 "FP" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
 	},
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/south/offices)
-"Gp" = (
-/obj/effect/floor_decal/industrial/outline/orange,
-/obj/structure/reagent_dispensers/fueltank,
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/hangar/north)
 "Gz" = (
 /obj/structure/table/steel_reinforced,
 /turf/simulated/floor/tiled/techmaint,
@@ -7280,30 +8237,11 @@
 "GQ" = (
 /turf/simulated/wall/ocp_wall/prepainted,
 /area/outreach/outpost/maint/passage/ground/north/hangar)
-"HR" = (
-/obj/machinery/network/relay/wall_mounted/outreach{
-	icon_state = "wall_router";
-	dir = 1
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/waste/ground)
-"IP" = (
-/obj/machinery/atmospherics/unary/vent_pump/on{
-	icon_state = "map_vent_out";
-	dir = 1
-	},
-/obj/structure/rack,
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/hangar/north)
 "JI" = (
 /obj/effect/floor_decal/industrial/warning/corner{
 	icon_state = "stripecorner";
 	dir = 1
 	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/hangar/north)
-"JU" = (
-/obj/effect/floor_decal/industrial/warning/corner,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
 "Lh" = (
@@ -7321,22 +8259,6 @@
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
-"Mc" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/machinery/light/small/wired,
-/obj/structure/cable/yellow{
-	icon_state = "0-8"
-	},
-/turf/simulated/floor/reinforced/airless,
-/area/exoplanet/outreach)
-"Mj" = (
-/obj/structure/cable/yellow{
-	icon_state = "2-8"
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/passage/ground/south/offices)
 "OC" = (
 /obj/effect/floor_decal/industrial/warning,
 /turf/simulated/floor/tiled/techmaint,
@@ -7355,10 +8277,6 @@
 	icon_state = "stripe";
 	dir = 1
 	},
-/turf/simulated/floor/tiled/techmaint,
-/area/outreach/outpost/hangar/north)
-"UB" = (
-/obj/structure/closet/toolcloset,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
 "WP" = (
@@ -16768,7 +17686,7 @@ ac
 ac
 bU
 ax
-bV
+fv
 ac
 ac
 aD
@@ -16970,7 +17888,7 @@ ac
 ac
 bU
 ax
-bV
+fv
 ac
 ac
 aD
@@ -17172,7 +18090,7 @@ ac
 ac
 bU
 ax
-bV
+fv
 ac
 ac
 aD
@@ -17574,8 +18492,8 @@ ac
 ac
 ac
 ac
-bU
-ax
+dn
+ca
 bV
 ac
 ac
@@ -17776,10 +18694,10 @@ ac
 ac
 ac
 ac
-bU
+dn
 ax
 bV
-ac
+aP
 ac
 ac
 ac
@@ -17974,28 +18892,28 @@ ac
 ac
 ac
 ac
+aP
 ac
 ac
-ac
-ac
-bU
+aP
+dn
 ax
 bV
+aP
+aP
 ac
 ac
 ac
 ac
-ac
-ac
-ac
-ac
+aP
+aP
 ac
 ac
 ac
 ac
 aD
 ac
-aD
+qR
 ac
 aD
 aD
@@ -18165,38 +19083,38 @@ ab
 ab
 aD
 ac
-iv
+iP
+cH
+bT
+bT
+cH
 bT
 bT
 bT
 bT
 bT
 bT
-bT
-bT
-bT
-bT
-bT
-bT
+cH
+cH
 bT
 bT
 bW
 ax
 cb
 bT
+cH
+bT
+cH
+bT
+cH
+cH
 bT
 bT
 bT
 bT
 bT
 bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
+cH
 ix
 aD
 aD
@@ -18373,6 +19291,13 @@ ax
 ax
 ax
 ax
+ca
+ax
+ca
+ca
+ax
+ax
+ca
 ax
 ax
 ax
@@ -18383,23 +19308,16 @@ ax
 ax
 ax
 ax
+ca
 ax
 ax
 ax
 ax
 ax
+ca
 ax
 ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-bV
+fv
 ac
 aD
 aD
@@ -18570,8 +19488,14 @@ ac
 ac
 ac
 bU
-ax
-io
+ca
+iX
+bS
+bS
+bS
+bS
+bS
+cd
 bS
 bS
 bS
@@ -18579,6 +19503,8 @@ bS
 bS
 bS
 bS
+cd
+cd
 bS
 bS
 bS
@@ -18586,15 +19512,7 @@ bS
 bS
 bS
 bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
+cd
 bS
 bS
 bS
@@ -18772,7 +19690,7 @@ ab
 ac
 ac
 bU
-ax
+ca
 bV
 av
 am
@@ -18787,7 +19705,7 @@ av
 av
 am
 av
-av
+ho
 av
 av
 av
@@ -18800,9 +19718,9 @@ av
 av
 av
 am
-av
+ho
 bU
-ax
+ca
 bV
 ac
 aD
@@ -18980,7 +19898,7 @@ av
 av
 av
 av
-av
+ho
 av
 av
 av
@@ -18994,12 +19912,12 @@ av
 av
 am
 am
+ho
+ho
 av
 av
 av
-av
-av
-am
+ka
 av
 am
 av
@@ -19192,17 +20110,17 @@ av
 am
 av
 av
+ho
 av
 av
 av
 av
+ho
+ho
 av
 av
-av
-av
-av
-av
-av
+ho
+ho
 am
 av
 bU
@@ -19383,21 +20301,16 @@ bV
 av
 av
 av
+ho
+av
+av
+av
+ho
 av
 av
 av
 av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-am
+ho
 av
 av
 av
@@ -19405,11 +20318,16 @@ av
 am
 av
 av
+ho
+ho
+am
 av
+ho
+ho
 am
 bU
 ax
-bV
+fv
 ac
 ac
 ac
@@ -19580,20 +20498,13 @@ ac
 ac
 ac
 bU
-ax
+ca
 bV
 am
 av
 am
-av
-av
-av
-av
-av
-av
-av
-av
-am
+ho
+ho
 av
 av
 av
@@ -19601,16 +20512,23 @@ av
 av
 av
 am
-av
-av
+ho
+ho
+ho
 av
 av
 av
 am
 av
+av
+ho
+av
+av
+am
+ho
 av
 bU
-ax
+ca
 bV
 ac
 ac
@@ -19788,6 +20706,22 @@ av
 av
 av
 av
+ho
+ho
+av
+av
+av
+am
+av
+av
+am
+av
+ho
+ho
+am
+av
+av
+av
 av
 av
 av
@@ -19795,26 +20729,10 @@ av
 av
 am
 av
-av
-am
-av
-av
-av
-am
-av
-av
-av
-av
-av
-av
-av
-av
-am
-av
-bU
+dn
 ax
 bV
-ac
+aP
 ac
 ac
 aD
@@ -19982,12 +20900,12 @@ ac
 ac
 ac
 ac
-ac
+aP
 bU
 ax
 bV
 av
-am
+ka
 av
 av
 am
@@ -20001,7 +20919,7 @@ av
 av
 av
 av
-av
+ho
 av
 av
 av
@@ -20184,9 +21102,9 @@ ac
 ac
 ac
 ac
-ac
-bU
-ax
+aP
+dn
+ca
 bV
 av
 av
@@ -20217,7 +21135,7 @@ av
 am
 bU
 ax
-bV
+fv
 ac
 ab
 aD
@@ -20388,7 +21306,7 @@ ac
 ac
 ac
 bU
-ax
+ca
 bV
 av
 av
@@ -20397,24 +21315,24 @@ am
 av
 av
 av
+ho
+ho
 av
 av
+av
+ka
+ho
 av
 av
 av
 am
+ho
+ho
 av
 av
 av
 av
-am
-av
-av
-av
-av
-av
-av
-av
+ho
 av
 am
 bU
@@ -20590,17 +21508,9 @@ ac
 ac
 ac
 bU
-ax
-bV
-av
-av
-am
-av
-av
-av
-av
-av
-av
+ca
+fv
+ho
 av
 am
 av
@@ -20608,12 +21518,20 @@ av
 av
 av
 av
+ho
+av
 am
 av
 av
+ho
+ho
+ho
+am
 av
 av
-av
+ho
+ho
+ho
 av
 av
 av
@@ -20621,7 +21539,7 @@ av
 am
 bU
 ax
-bV
+fv
 ac
 ac
 aD
@@ -20802,13 +21720,7 @@ av
 av
 av
 av
-av
-av
-am
-av
-av
-av
-av
+ho
 av
 am
 av
@@ -20816,14 +21728,20 @@ av
 av
 av
 av
+am
+av
+av
+av
+ho
+ho
 av
 av
 av
 am
 av
 bU
-ax
-bV
+ca
+fv
 ac
 aD
 aD
@@ -20994,20 +21912,20 @@ ac
 ac
 ac
 bU
-ax
+ca
 bV
 am
 av
 av
 av
 am
+ho
+ho
+av
+ho
 av
 av
-av
-av
-av
-av
-av
+ho
 am
 av
 av
@@ -21015,8 +21933,8 @@ av
 am
 am
 av
-av
-av
+ho
+ho
 av
 av
 av
@@ -21025,7 +21943,7 @@ am
 av
 bU
 ax
-bV
+fv
 ac
 aD
 aD
@@ -21187,8 +22105,8 @@ ac
 ac
 ac
 ac
-ac
-ac
+aP
+aP
 ac
 ac
 ac
@@ -21196,38 +22114,38 @@ ac
 ac
 ac
 bU
-ax
+ca
 bV
 am
 av
 av
 av
 av
+ho
+ho
+ho
+ho
+av
+av
+ho
 av
 av
 av
 av
 av
 av
+ho
+ho
 av
 av
 av
 av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
+ho
 av
 am
 bU
 ax
-bV
+fv
 ac
 ac
 aD
@@ -21383,31 +22301,31 @@ ac
 ac
 ac
 ac
+aP
+ac
+aP
+ac
+ac
+aP
+aP
 ac
 ac
 ac
 ac
 ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
+aP
+aP
 bU
 ax
 bV
-av
+ho
 av
 am
 av
 av
+ho
 av
-av
-av
+ho
 av
 av
 av
@@ -21426,10 +22344,10 @@ av
 av
 am
 av
-av
+ho
 bU
 ax
-bV
+fv
 ac
 ac
 ac
@@ -21577,34 +22495,34 @@ aD
 ac
 iv
 bT
+cH
+bT
+cH
+cH
 bT
 bT
 bT
 bT
 bT
+cH
+cH
+bT
+bT
+cH
 bT
 bT
 bT
 bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
+cH
+cH
+cH
 bT
 bW
 ax
-bV
+fv
+ho
 av
-av
-av
+ho
 av
 am
 av
@@ -21630,32 +22548,32 @@ av
 av
 am
 bU
-ax
+ca
 cb
 bT
 bT
 bT
+cH
+bT
+bT
+bT
+cH
+cH
+bT
+bT
+cH
+bT
+bT
+cH
+cH
+cH
 bT
 bT
 bT
 bT
+cH
 bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-ix
+qV
 ac
 ac
 aD
@@ -21777,79 +22695,25 @@ aD
 aD
 aD
 ac
-bU
+dn
+ax
+ca
+ca
+ax
+ca
+ax
+ca
+ax
+ca
 ax
 ax
 ax
 ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-bV
-am
-am
-av
-av
-av
-av
-av
-av
-av
-av
-av
-hA
-av
-av
-av
-hA
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-am
-bU
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
+ca
+ca
+ca
+ca
+ca
 ax
 ax
 ax
@@ -21858,6 +22722,60 @@ ax
 ax
 ax
 bV
+am
+am
+av
+ho
+av
+av
+av
+av
+ho
+av
+av
+hA
+av
+ho
+av
+hA
+av
+ho
+av
+ho
+av
+av
+av
+av
+ho
+av
+am
+bU
+ax
+ax
+ca
+ax
+ax
+ca
+ca
+ax
+ca
+ca
+ax
+ax
+ax
+ca
+ca
+ax
+ax
+ax
+ax
+ax
+ax
+ca
+ax
+ax
+ax
+fv
 ac
 ac
 aD
@@ -21984,45 +22902,46 @@ ax
 io
 bS
 bS
-bS
+cd
 bX
 io
+cd
 bS
 bS
 bS
 bS
+cd
+cd
 bS
 bS
 bS
 bS
+cd
+cd
 bS
 bS
 bS
 bS
-bS
-bS
-bS
-bS
-bS
-bX
+iW
 bV
 av
 av
 am
+ho
 av
 av
-av
-av
+ho
 av
 av
 av
 av
 hA
 av
-av
-av
+ho
+ho
 hA
 av
+ho
 av
 av
 av
@@ -22030,29 +22949,28 @@ av
 av
 av
 av
-av
-av
+ho
 am
-bU
+dn
 io
 bS
 bS
 bS
 bS
 bS
+cd
 bS
 bS
 bS
 bS
+cd
 bS
 bS
+cd
 bS
+cd
 bS
-bS
-bS
-bS
-bS
-bX
+iW
 io
 bS
 bS
@@ -22060,7 +22978,7 @@ bS
 bX
 ax
 bV
-ac
+aP
 ac
 aD
 aD
@@ -22184,21 +23102,17 @@ ac
 bU
 ax
 bV
+aP
+ac
+ac
+dn
+fv
 ac
 ac
 ac
-bU
-bV
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
+aP
+aP
+aP
 ac
 ac
 ac
@@ -22206,37 +23120,41 @@ ac
 ac
 ac
 ac
-bU
-bV
+ac
+ac
+ac
+ac
+dn
+fv
 am
 av
 av
 av
 av
 av
+ho
 av
 av
-av
-av
-av
-hA
-av
-av
+ho
 av
 hA
+ho
+ho
+ho
+hA
+av
+ho
 av
 av
 av
 av
+ho
 av
 av
-av
-av
-av
-av
+ho
 am
-bU
-bV
+dn
+fv
 ac
 ac
 ac
@@ -22250,16 +23168,16 @@ ac
 ac
 ac
 ac
+aP
 ac
 ac
 ac
-ac
-bU
-bV
-ac
+dn
+fv
 ac
 ac
-bU
+ac
+dn
 ax
 bV
 ac
@@ -22385,22 +23303,22 @@ aD
 ac
 bU
 ax
-bV
-ac
-ac
-ac
+fv
+aP
+aP
+aP
 pL
 pN
+aP
+ac
+ac
+aP
 ac
 ac
 ac
 ac
-ac
-ac
-ac
-ac
-ac
-ac
+aP
+aP
 ac
 ac
 ac
@@ -22417,37 +23335,37 @@ av
 av
 av
 av
+ho
+ho
 av
 av
-av
-av
+hE
+ho
+ho
+ho
 hE
 av
 av
 av
-hE
+ho
+ho
+ho
+ho
 av
-av
-av
-av
-av
-av
-av
-av
-av
+ho
 av
 am
 pL
 pN
+aP
+aP
 ac
 ac
+aP
 ac
 ac
-ac
-ac
-ac
-ac
-ac
+aP
+aP
 ac
 ac
 ac
@@ -22460,10 +23378,10 @@ pL
 pN
 ac
 ac
-ac
-bU
+aP
+dn
 ax
-bV
+fv
 ac
 ac
 aD
@@ -22586,82 +23504,82 @@ ac
 aD
 ac
 bU
-ax
+ca
 bV
 ac
 ac
-ac
+aP
 pT
 aw
 hE
-aC
+bf
+bf
+hE
+bf
 aC
 hE
-aC
+bf
+bf
+hE
+bf
 aC
 hE
+bf
 aC
-aC
-hE
-aC
-aC
-hE
-aC
-aC
-aC
-hE
-aw
-aw
-hE
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-hE
-av
-av
-av
-hE
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
+bf
 hE
 aw
 aw
 hE
+av
+av
+ho
+av
+av
+av
+av
+av
+av
+av
+hE
+ho
+av
+ho
+hE
+av
+av
+av
+av
+av
+av
+av
+av
+av
+av
+hE
+aw
+aw
+hE
+bf
 aC
-aC
-aC
+bf
 hE
 aC
-aC
+bf
 hE
 aC
+bf
+hE
+bf
 aC
 hE
-aC
-aC
-hE
-aC
-aC
+bf
+bf
 hE
 aw
 pK
-ac
-ac
+aP
+aP
 ac
 bU
 ax
@@ -22790,7 +23708,7 @@ ac
 bU
 ax
 cb
-bT
+cH
 pQ
 pS
 GQ
@@ -22864,7 +23782,7 @@ QQ
 QQ
 pO
 pQ
-bT
+cH
 bW
 ax
 bV
@@ -22989,14 +23907,18 @@ ac
 ac
 ac
 ac
-bU
-ax
+dn
+ca
 io
-bS
+cd
 pR
 aA
 GQ
-dJ
+ag
+be
+jD
+jD
+be
 jD
 jD
 jD
@@ -23007,18 +23929,14 @@ jD
 jD
 jD
 jD
+be
 jD
 jD
+cN
+be
+be
 jD
-jD
-jD
-jD
-jD
-jD
-jD
-jD
-jD
-jD
+be
 jD
 jD
 jD
@@ -23029,11 +23947,32 @@ jD
 jK
 cB
 gS
-gS
+gq
 gS
 gG
 jL
 Dq
+qI
+Dq
+qI
+Dq
+Dq
+qI
+Dq
+Dq
+qI
+Dq
+Dq
+qI
+Dq
+Dq
+Dq
+Dq
+Dq
+Dq
+qI
+Dq
+qI
 Dq
 Dq
 Dq
@@ -23041,35 +23980,14 @@ Dq
 Dq
 Dq
 Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-CK
+rI
 QQ
 aB
 pR
-bS
+cd
 bX
 ax
-bV
+fv
 ac
 ac
 aD
@@ -23191,14 +24109,14 @@ ab
 ac
 ac
 ac
-bU
+dn
 ax
 bV
 ac
-ac
+aP
 hE
 GQ
-hW
+az
 cB
 cB
 cB
@@ -23267,10 +24185,10 @@ gG
 gQ
 QQ
 hE
-ac
+aP
 ac
 bU
-ax
+ca
 bV
 ac
 ac
@@ -23398,42 +24316,42 @@ ax
 bV
 ac
 ac
-aC
+bf
 GQ
 hW
 cB
+bq
 dq
-dq
-dq
-dq
-gf
-dq
-dq
-dq
+bq
 dq
 gf
+bq
 dq
 dq
-dq
-dq
+bq
 gf
+bq
+bq
 dq
 dq
+cG
 dq
 dq
+bq
+bq
 gi
 bM
-bM
+dS
 dp
 at
-eb
+eh
 aq
 aq
 ow
-bq
+eI
 dE
 eL
-gT
+gu
 hb
 ib
 is
@@ -23443,38 +24361,38 @@ mW
 mW
 nP
 bK
-cU
+nS
 cU
 ik
 ig
 pI
 gE
-gE
+qT
 pW
 gE
-BL
+rq
 gE
 gE
+rv
+gE
+gE
+gE
+qT
 pW
 gE
+qT
 gE
-gE
-gE
-pW
-gE
-gE
-gE
-gE
+qT
 gG
-gQ
+qJ
 QQ
-aC
-ac
+bf
+aP
 ac
 bU
 ax
 bV
-ac
+aP
 ac
 aD
 aD
@@ -23595,8 +24513,8 @@ aD
 aD
 ac
 ac
-bU
-ax
+dn
+ca
 bV
 ac
 ac
@@ -23605,6 +24523,7 @@ GQ
 hW
 cB
 gb
+bq
 dq
 dq
 dq
@@ -23617,24 +24536,23 @@ dq
 dq
 dq
 dq
-dq
-dq
+bq
 dq
 dq
 gg
-gh
+dJ
 gj
 im
-gq
-gu
+dT
+eb
 an
 as
 as
-as
+eD
 bz
 dR
 eg
-eh
+gh
 el
 iq
 mR
@@ -23645,7 +24563,7 @@ nO
 nO
 nR
 cF
-gH
+qZ
 cU
 db
 db
@@ -23666,17 +24584,17 @@ mb
 mb
 mb
 mb
-pX
+rH
 gG
 gQ
 QQ
-aC
-ac
+bf
+aP
 ac
 bU
 ax
-bV
-ac
+fv
+aP
 ac
 aD
 aD
@@ -23801,7 +24719,7 @@ bU
 ax
 bV
 ac
-ac
+aP
 hE
 GQ
 hW
@@ -23834,7 +24752,7 @@ aq
 aq
 aq
 pn
-cm
+eS
 dE
 bG
 ir
@@ -23848,36 +24766,36 @@ mW
 nP
 cT
 gI
-hS
+re
 db
-kh
+rg
 kt
-kh
+rg
 kh
 kM
-lm
+ro
 lA
 kB
 kU
 fP
 lS
+rw
+rC
 mc
-ms
-mc
-mc
+rw
 mL
-mc
+rw
 mb
 gE
 gG
-gQ
+qJ
 QQ
 hE
-ac
+aP
 ac
 bU
-ax
-bV
+ca
+fv
 ac
 aD
 aD
@@ -24004,43 +24922,43 @@ ax
 bV
 ac
 ac
-aC
+bf
 GQ
-hW
+az
 cB
 dq
 dq
 aj
-JU
+bI
+aY
+aY
+oR
+LJ
+aY
 LJ
 LJ
 oR
 LJ
 LJ
+aY
 LJ
-LJ
-oR
-LJ
-LJ
-LJ
-LJ
-oQ
-cG
-Ea
+dh
+co
+cV
 aj
 pJ
 gr
 pJ
 at
-aq
+en
 aq
 aq
 dN
 cI
 dE
 bG
-eM
-bG
+gH
+gn
 ib
 mT
 nM
@@ -24048,14 +24966,14 @@ mW
 mW
 mW
 nP
-cU
+nS
 gI
 cU
 db
 kh
 kh
 kh
-kh
+rg
 kh
 ln
 lA
@@ -24064,19 +24982,19 @@ lf
 na
 lS
 md
+rw
 mc
 mc
-mc
-mc
+rw
 mc
 mb
-gE
+qT
 gG
 gQ
 QQ
-aC
-ac
-ac
+bf
+aP
+aP
 bU
 ax
 bV
@@ -24202,7 +25120,7 @@ aD
 aD
 ac
 bU
-ax
+ca
 bV
 ac
 ac
@@ -24213,36 +25131,36 @@ cB
 dq
 dq
 aj
-OC
+aV
+cm
 bs
 bs
 bs
 bs
 bs
 bs
-bs
-bs
-bs
+cm
+cm
 bs
 bs
 bs
 Rk
 cX
-IP
+dm
 aj
 pJ
-gr
+dU
 pJ
 at
 aq
-aq
+en
 aq
 dN
 cO
 dE
 bG
 eM
-bG
+gn
 ib
 mU
 nM
@@ -24250,14 +25168,14 @@ mW
 mW
 mW
 nP
-cU
-gI
-cU
+nS
+ra
+nS
 db
+rg
 kh
 kh
-kh
-kh
+rg
 kN
 lo
 lB
@@ -24272,15 +25190,15 @@ mc
 mc
 mc
 mb
-gE
+qT
 gG
 gQ
 QQ
-aC
+bf
 ac
 ac
 bU
-ax
+ca
 bV
 aD
 aD
@@ -24407,13 +25325,13 @@ bU
 ax
 bV
 ac
-ac
+aP
 hE
 GQ
 hW
 cB
 dq
-dq
+bq
 aj
 Lh
 bs
@@ -24428,16 +25346,16 @@ bs
 bs
 bs
 bs
-Rk
+bN
 cY
-oT
+ds
 aj
 bM
-gr
+dU
 dp
 at
-aq
-aq
+en
+en
 aq
 nQ
 oV
@@ -24452,13 +25370,13 @@ mW
 mW
 mW
 nP
-bK
+nU
 gI
 cU
 db
 kh
 kh
-kh
+rg
 kh
 kh
 lp
@@ -24467,19 +25385,19 @@ fP
 lz
 ns
 lS
-mf
+rx
 mc
 mc
 mc
-mc
+rw
 mc
 mb
-gE
+qT
 gG
-gQ
+qJ
 QQ
 hE
-ac
+aP
 ac
 bU
 ax
@@ -24607,10 +25525,10 @@ aD
 ac
 bU
 ax
-bV
+fv
 ac
 ac
-aC
+bf
 GQ
 hW
 cB
@@ -24620,6 +25538,7 @@ aj
 OC
 bs
 bs
+cm
 bs
 bs
 bs
@@ -24629,14 +25548,13 @@ bs
 bs
 bs
 bs
-bs
-Rk
+bN
 cY
-Gp
+du
 aj
 bM
-gr
-bM
+dU
+dS
 at
 at
 at
@@ -24655,28 +25573,28 @@ cJ
 cJ
 cJ
 cU
-gI
+ra
 cU
 db
-kh
+rg
 kh
 kh
 kh
 kO
-kh
+rg
 lA
 fP
 lD
 fP
 lS
-mg
+ry
 mu
 mF
 mc
 mc
-mc
+rw
 mb
-pX
+rH
 gG
 gQ
 QQ
@@ -24685,7 +25603,7 @@ ac
 ac
 bU
 ax
-bV
+fv
 ac
 ac
 ac
@@ -24810,9 +25728,9 @@ ac
 bU
 ax
 bV
-ac
-ac
-aC
+aP
+aP
+bf
 GQ
 hW
 cB
@@ -24833,7 +25751,7 @@ bs
 bs
 bs
 Rk
-cY
+cs
 dt
 aj
 bM
@@ -24846,19 +25764,19 @@ ce
 ce
 ce
 ah
-bG
+gn
 eM
-cN
+gX
 ai
-ag
+kG
 dV
 eC
 dV
-bI
+ml
 eK
 cU
-gI
-cU
+ra
+nS
 db
 db
 db
@@ -24878,14 +25796,14 @@ mb
 mb
 mb
 mb
-gE
+qT
 gG
 gQ
 QQ
-aC
+bf
 ac
 ac
-bU
+dn
 ax
 bV
 ac
@@ -25010,10 +25928,10 @@ aD
 ac
 ac
 bU
-ax
+ca
 bV
 ac
-ac
+aP
 hE
 GQ
 hW
@@ -25028,18 +25946,18 @@ bs
 bs
 bs
 bs
-bs
-bs
+cm
+cm
 bs
 bs
 bs
 bs
 Rk
 cY
-UB
+dv
 aj
 bM
-gr
+dU
 gv
 gy
 ce
@@ -25048,37 +25966,37 @@ ce
 ce
 ce
 br
-bG
-eM
-bG
-be
-dS
-en
+gn
+gH
+gn
+hS
+lg
+lO
 eF
 lk
-eI
+ms
 cJ
 cT
 gI
 cU
 df
-kn
+rh
 ku
 kn
-kn
+rh
 kP
-lq
+rp
 lC
 kE
 lG
 nt
 lV
-mh
+rz
 mv
 mh
 mh
-mM
-mh
+rF
+rz
 mm
 gE
 gG
@@ -25212,18 +26130,18 @@ ac
 ac
 ac
 bU
-ax
+ca
 bV
+aP
 ac
-ac
-aC
+bf
 GQ
 hW
 cB
 dq
 dq
 aj
-OC
+aV
 bs
 bs
 bs
@@ -25234,10 +26152,10 @@ bs
 bs
 bs
 bs
-bs
+cm
 bs
 Rk
-cY
+cs
 qp
 aj
 bM
@@ -25250,21 +26168,21 @@ ce
 ce
 ce
 br
-bG
+gn
 fO
-eS
+hc
 bB
-dT
+lh
 eB
-eD
+mf
 eG
 gV
 cJ
-cU
+nS
 gI
 cU
 df
-kn
+rh
 kn
 kn
 kn
@@ -25286,7 +26204,7 @@ gE
 gG
 gQ
 QQ
-aC
+bf
 ac
 ac
 bU
@@ -25417,7 +26335,7 @@ bU
 ax
 bV
 ac
-ac
+aP
 aC
 GQ
 hW
@@ -25439,7 +26357,7 @@ bs
 bs
 bs
 Rk
-cY
+cs
 Yc
 aj
 bM
@@ -25452,23 +26370,23 @@ ce
 ce
 ce
 br
-bG
-ir
+gn
+gT
+hC
 it
-nS
+lm
+lm
 nT
-nT
-nT
-nT
-nU
+lm
+mA
 cJ
 bK
 gI
-cU
+nS
 df
 kn
 kn
-kn
+rh
 kn
 kQ
 ls
@@ -25479,21 +26397,21 @@ nr
 lX
 mj
 mw
-mh
+rz
 mh
 mh
 mh
 mm
-gE
+qT
 gG
-gQ
+qJ
 QQ
-aC
+bf
 ac
 ac
 bU
 ax
-bV
+fv
 ac
 ac
 aD
@@ -25654,25 +26572,25 @@ ce
 ce
 ce
 ah
-bG
+gn
 eM
-bG
+gn
 ai
-dU
-dS
+lq
+lg
 eE
 eH
-lg
+mM
 cJ
 cU
 gI
 cU
 df
 kn
+rh
 kn
 kn
-kn
-kn
+rh
 lt
 lC
 fP
@@ -25683,19 +26601,19 @@ mk
 mh
 mh
 mh
-mh
+rz
 mh
 mm
 pX
 gG
-gQ
+qJ
 QQ
 hE
 ac
-ac
+aP
 bU
 ax
-bV
+fv
 ac
 ac
 ab
@@ -25817,19 +26735,20 @@ aD
 aD
 ac
 ac
-bU
+dn
 ax
 bV
 ac
-ac
-aC
+aP
+bf
 GQ
 hW
 cB
 dq
 dq
 aj
-OC
+aV
+cm
 bs
 bs
 bs
@@ -25841,9 +26760,8 @@ bs
 bs
 bs
 bs
-bs
-Rk
-cY
+bN
+cs
 Gz
 aj
 bM
@@ -25868,36 +26786,36 @@ cJ
 cJ
 cU
 gI
-cU
+nS
 df
-kn
+rh
 kn
 kn
 kn
 kW
-kn
+rh
 lC
 fP
 lD
 fP
 lV
-ml
+rA
 mx
 mh
 mh
 mh
-mh
+rz
 mm
 gE
 gG
 gQ
 QQ
-aC
+bf
 ac
 ac
 bU
 ax
-bV
+fv
 ac
 ac
 aD
@@ -26018,11 +26936,11 @@ aD
 aD
 ac
 ac
-ac
-bU
+aP
+dn
 ax
 bV
-ac
+aP
 ac
 aC
 GQ
@@ -26040,11 +26958,11 @@ bs
 bs
 bs
 bs
+cm
 bs
 bs
 bs
-bs
-Rk
+bQ
 cY
 Gz
 aj
@@ -26053,12 +26971,12 @@ gr
 bM
 aS
 aT
-cL
+hw
 ch
 ch
-ch
+fx
 aR
-ds
+oT
 eU
 hJ
 al
@@ -26068,8 +26986,8 @@ hp
 hp
 hp
 hq
-cU
-gI
+nS
+ra
 cU
 df
 df
@@ -26080,8 +26998,8 @@ df
 df
 lC
 fP
-lD
-fP
+rt
+rn
 lV
 mm
 mm
@@ -26094,8 +27012,8 @@ gE
 gG
 gQ
 QQ
-aC
-ac
+bf
+aP
 ac
 bU
 ax
@@ -26225,7 +27143,7 @@ bU
 ax
 bV
 ac
-ac
+aP
 hE
 GQ
 hW
@@ -26235,34 +27153,34 @@ dq
 aj
 OC
 bs
+cm
 bs
 bs
 bs
 bs
 bs
+cm
+cm
 bs
 bs
 bs
-bs
-bs
-bs
-Rk
+bN
 cY
-qp
+dw
 aj
 bM
 gr
 bM
 aS
-aV
+fc
 cL
+fx
 ch
-ch
-ch
+fx
 aR
 eV
 hH
-oB
+rJ
 al
 hp
 hp
@@ -26274,35 +27192,35 @@ cU
 gI
 cU
 ex
-kp
+ri
 kv
 kp
 kp
-lh
+rm
 lu
 fm
 kB
 lD
 fP
 lY
-mn
+rB
 my
 mn
 mn
 mN
 mn
 nZ
-gE
+qT
 gG
 gQ
 QQ
 hE
-ac
+aP
 ac
 bU
 ax
 bV
-ac
+aP
 ac
 ac
 ac
@@ -26424,11 +27342,11 @@ ac
 ac
 ac
 bU
-ax
+ca
 bV
 ac
 ac
-aC
+bf
 GQ
 hW
 cB
@@ -26443,14 +27361,14 @@ bs
 bs
 bs
 bs
+cm
 bs
-bs
-bs
-bs
+cm
+cm
 bs
 Rk
 cY
-Yc
+dx
 aj
 bM
 gr
@@ -26462,7 +27380,7 @@ fU
 fY
 ga
 aR
-dP
+oW
 eW
 oF
 al
@@ -26474,35 +27392,35 @@ hp
 hq
 bK
 gI
-cU
+nS
 ex
 kp
 kp
 kp
-kp
+ri
 kp
 lv
 fm
-kG
+rs
 lM
 nv
 lY
 mo
 mn
+rB
 mn
-mn
-mn
+rB
 mn
 nZ
 gE
 gG
 gQ
 QQ
-aC
+bf
 ac
 ac
 bU
-ax
+ca
 bV
 ac
 ac
@@ -26626,8 +27544,8 @@ ac
 ac
 ac
 bU
-ax
-bV
+ca
+fv
 ac
 ac
 aC
@@ -26637,7 +27555,7 @@ cB
 gb
 dq
 aj
-OC
+aV
 bs
 bs
 bs
@@ -26647,22 +27565,22 @@ bs
 bs
 bs
 bs
-bs
+cm
 bs
 bs
 Rk
 cY
-dm
+dH
 aj
 gd
 gs
 gw
 aS
 bA
-ch
+fx
 fV
 ch
-HR
+kY
 aR
 eu
 gY
@@ -26679,7 +27597,7 @@ gJ
 hT
 ex
 kp
-kp
+ri
 kp
 kp
 li
@@ -26701,7 +27619,7 @@ gG
 gQ
 QQ
 aC
-ac
+aP
 ac
 bU
 ax
@@ -26795,6 +27713,9 @@ aD
 ac
 ac
 ac
+aP
+ac
+aP
 ac
 ac
 ac
@@ -26804,34 +27725,31 @@ ac
 ac
 ac
 ac
+aP
+ac
+ac
+aP
+aP
+ac
+aP
+ac
+ac
+aP
+aP
+aP
+aP
 ac
 ac
 ac
 ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
+aP
 ac
 ac
 bU
 ax
-bV
-ac
-ac
+fv
+aP
+aP
 hE
 GQ
 hW
@@ -26842,25 +27760,25 @@ aj
 OC
 bs
 bs
+cm
 bs
 bs
 bs
 bs
-bs
-bs
+cm
 bs
 bs
 bs
 bs
 Rk
-cY
+cs
 dl
 aj
 gc
 gt
 go
 aS
-ch
+fx
 bl
 fW
 eq
@@ -26876,14 +27794,14 @@ hp
 hp
 hp
 hq
-du
+oe
 gL
 hU
 ex
 kp
 kp
 kp
-kp
+ri
 lj
 ly
 fm
@@ -26892,13 +27810,13 @@ lU
 nx
 lY
 mq
-mA
+rD
+rB
 mn
 mn
-mn
-mn
+rB
 nZ
-gE
+qT
 gG
 gQ
 QQ
@@ -26906,10 +27824,10 @@ hE
 ac
 ac
 bU
-ax
-bV
+ca
+fv
 ac
-af
+qX
 ak
 ak
 ak
@@ -26997,42 +27915,42 @@ ac
 ac
 aC
 bT
+bj
+bT
+bT
+bT
+cH
+cH
+bT
+bT
+cH
+bT
+bT
+cH
+bT
+bT
+cH
+bT
+bT
+bT
+cH
+cH
+cH
+bT
+bT
+bT
+cH
+cH
 bT
 bT
 bT
 bT
 bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
+cH
 bW
 ax
 bV
-ac
+aP
 ac
 aC
 GQ
@@ -27044,8 +27962,8 @@ aj
 dk
 bs
 bs
-bs
-bs
+cm
+cm
 bs
 bs
 bs
@@ -27055,7 +27973,7 @@ bs
 bs
 bs
 Rk
-cY
+cs
 ew
 aj
 bu
@@ -27070,7 +27988,7 @@ bb
 pa
 bc
 hK
-ha
+rK
 oP
 bb
 al
@@ -27091,7 +28009,7 @@ fm
 fm
 kJ
 lW
-fP
+rn
 lY
 lY
 lY
@@ -27100,19 +28018,19 @@ lY
 lY
 lY
 lY
-gE
+qT
 gG
 gQ
 QQ
-aC
+bf
 ac
 ac
-bU
-ax
+dn
+ca
 pb
 bZ
 iz
-pf
+qY
 pi
 pf
 pf
@@ -27196,30 +28114,30 @@ aD
 ac
 ac
 ac
-aC
-aC
+bf
+bf
+ax
+ca
+ax
+ca
+ca
+ax
+ax
+ax
+ax
+ca
+ax
+ax
+ax
+ax
+ca
+ca
 ax
 ax
 ax
 ax
 ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
+ca
 ax
 ax
 ax
@@ -27236,7 +28154,7 @@ ax
 bV
 ac
 ac
-aC
+bf
 GQ
 hW
 cB
@@ -27248,35 +28166,35 @@ bs
 bs
 bs
 bs
+cm
 bs
 bs
 bs
 bs
+cm
 bs
 bs
-bs
-bs
-Rk
+bN
 cY
-ao
-fS
 bv
-bD
+fS
+ea
+ec
 cg
-co
+eJ
 bo
 oM
-bD
+ec
 au
+lb
 bc
-bc
-cz
+pG
 eO
 nG
 ha
-fa
+rM
 dW
-az
+mg
 fd
 nb
 nj
@@ -27284,29 +28202,29 @@ oD
 ek
 fg
 dc
-dh
+rj
 eo
 fP
 hs
-fP
+rn
 ip
 km
 kK
 mX
 ny
-fP
+rn
 ip
 fP
-fP
+rn
 fP
 oa
-fP
+rn
 ks
 gE
 gG
 gQ
 QQ
-aC
+bf
 ac
 ac
 bU
@@ -27316,7 +28234,7 @@ ax
 ph
 ax
 ax
-ax
+ca
 ax
 ax
 ax
@@ -27399,32 +28317,32 @@ ac
 ac
 ac
 ac
-aC
+bf
+ax
+ax
+ca
 ax
 ax
 ax
 ax
 ax
+ca
+ax
+ax
+ca
 ax
 ax
 ax
+ca
+ca
+ca
 ax
+ca
 ax
+ca
 ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
+ca
+ca
 ax
 ax
 ax
@@ -27437,7 +28355,7 @@ ax
 ax
 bV
 ac
-ac
+aP
 hE
 GQ
 hW
@@ -27447,27 +28365,27 @@ dq
 aj
 Lh
 bs
+cm
+bs
+bs
+cm
+cm
 bs
 bs
 bs
-bs
-bs
-bs
-bs
-bs
-bs
+cm
 bs
 bs
 Rk
-bt
+cv
 cA
 da
 dd
 dA
 cj
-ec
+fa
 oL
-oN
+hx
 bw
 fh
 fQ
@@ -27504,12 +28422,12 @@ nB
 ob
 od
 em
-gE
+qT
 gG
-gQ
+qJ
 QQ
 hE
-ac
+aP
 ac
 bU
 ax
@@ -27599,9 +28517,16 @@ ac
 ac
 ac
 ac
-ac
-aC
-aC
+aP
+bf
+bf
+bS
+cd
+bS
+bS
+cd
+bS
+cd
 bS
 bS
 bS
@@ -27609,38 +28534,31 @@ bS
 bS
 bS
 bS
+cd
+cd
+bS
+bS
+cd
+cd
 bS
 bS
 bS
+cd
+bS
+cd
+cd
 bS
 bS
+cd
 bS
 bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
+cd
 bX
 ax
-bV
+fv
 ac
 ac
-aC
+bf
 GQ
 hW
 cB
@@ -27651,38 +28569,38 @@ OC
 bs
 bs
 bs
+cm
 bs
 bs
 bs
 bs
 bs
+cm
+cm
 bs
-bs
-bs
-bs
-Rk
-bJ
+bN
+cz
 ee
 fS
 bx
-bD
+ec
 ck
 ei
 dQ
 oO
-cs
+id
 au
-bc
-gZ
+lb
+oN
 nF
 nI
 eY
 bc
-fb
+rN
 dW
 ek
 gR
-ni
+sf
 oH
 oG
 ek
@@ -27690,7 +28608,7 @@ fl
 dc
 ed
 fG
-hc
+rl
 hZ
 fP
 ip
@@ -27698,25 +28616,25 @@ ed
 kS
 mZ
 ns
-fP
+rn
 ip
 ed
 nA
-hc
+rl
 oc
-oe
+rG
 ks
 pX
 gG
-gQ
+qJ
 QQ
-aC
-ac
+bf
+aP
 ac
 bU
 ax
 pc
-iy
+qW
 pd
 pf
 pj
@@ -27801,6 +28719,7 @@ aD
 ac
 ac
 ac
+aP
 ac
 ac
 ac
@@ -27822,20 +28741,19 @@ ac
 ac
 ac
 ac
+cZ
+aP
 ac
 ac
 ac
 ac
 ac
+aP
+aP
 ac
 ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
+aP
+aP
 ac
 bU
 ax
@@ -27853,17 +28771,17 @@ OC
 bs
 bs
 bs
+cm
 bs
 bs
 bs
 bs
-bs
-bs
+cm
 bs
 bs
 bs
 Rk
-bJ
+cz
 ej
 aj
 gk
@@ -27878,7 +28796,7 @@ bb
 eZ
 gZ
 eP
-bc
+lb
 bP
 bb
 ap
@@ -27916,7 +28834,7 @@ aC
 ac
 ac
 bU
-ax
+ca
 bV
 ac
 iA
@@ -28007,18 +28925,18 @@ ac
 ac
 ac
 ac
+aP
 ac
-ac
-ac
-ac
-ac
-aD
-aD
-aD
-aD
+aP
 ac
 ac
 aD
+aD
+aD
+aD
+ac
+ac
+aD
 ac
 aD
 ac
@@ -28026,7 +28944,7 @@ ac
 ac
 ac
 ac
-ac
+aP
 ac
 ac
 ac
@@ -28040,10 +28958,10 @@ ab
 ac
 ac
 bU
-ax
-bV
+ca
+fv
 ac
-ac
+aP
 hE
 GQ
 hW
@@ -28051,20 +28969,20 @@ cB
 dq
 dq
 aj
-OC
+aV
+bs
+bs
+bs
+cm
 bs
 bs
 bs
 bs
+cm
 bs
 bs
 bs
-bs
-bs
-bs
-bs
-bs
-Rk
+bN
 ci
 cE
 aj
@@ -28072,43 +28990,43 @@ gl
 gx
 pm
 aX
-bN
+fF
 bO
 nC
-hk
+jF
 aU
 bb
-bc
+lb
 eQ
 cP
 bb
 ap
-dv
+rT
 fC
 fX
-ic
+sg
 cp
-gn
+oQ
 gO
-ig
+rf
 hu
-kq
+rk
 kw
 ky
 kL
-kq
+rk
 hu
-lJ
+rr
 lL
-lO
+ru
 lR
-lJ
+rr
 mr
-mC
+rE
 mG
 mI
 nX
-mC
+rE
 mE
 gE
 gG
@@ -28118,8 +29036,8 @@ hE
 ac
 ac
 bU
-ax
-bV
+ca
+fv
 ac
 pe
 pl
@@ -28243,10 +29161,10 @@ ac
 ac
 bU
 ax
-bV
+fv
 ac
 ac
-aC
+bf
 GQ
 hW
 cB
@@ -28254,17 +29172,17 @@ dq
 dq
 aj
 rd
+bt
 WP
 WP
 WP
 WP
+bD
 WP
-oW
-WP
-WP
-WP
-WP
-WP
+bJ
+bt
+bt
+bt
 WP
 JI
 dg
@@ -28277,7 +29195,7 @@ aX
 bF
 cq
 ct
-ez
+jH
 aW
 aU
 bm
@@ -28285,9 +29203,9 @@ eR
 bm
 ap
 fL
-dw
+rU
 fD
-fT
+sb
 pC
 cp
 gC
@@ -28297,7 +29215,7 @@ hu
 kr
 kq
 kz
-kq
+rk
 ll
 hu
 lK
@@ -28316,12 +29234,12 @@ gE
 gG
 gQ
 QQ
-aC
+bf
 ac
 ac
 bU
 ax
-bV
+fv
 ac
 ac
 ac
@@ -28457,60 +29375,60 @@ dq
 aj
 di
 ao
+bv
+ao
+oU
+ao
+bv
 ao
 ao
 oU
 ao
 ao
+bv
 ao
-ao
-oU
-ao
-ao
-ao
-ao
-oS
-ao
+cR
+bv
 aj
-dq
+bq
 hW
 ij
 aX
 cf
 cu
 bg
-cv
+jM
 fI
 aU
 bn
 fp
 oJ
 ap
-aY
-dx
-fF
+rO
+rV
+rZ
 pF
-pG
+sh
 cp
 gD
-gQ
+qJ
 gE
 hu
 kq
 kq
-kq
+rk
 kq
 kq
 hu
 lJ
 lJ
-lJ
+rr
 lJ
 lJ
 mr
+rE
 mC
-mC
-mC
+rE
 mC
 mC
 mE
@@ -28521,9 +29439,9 @@ QQ
 aC
 ac
 ac
-bU
+dn
 ax
-bV
+fv
 ac
 ac
 ac
@@ -28645,11 +29563,11 @@ aD
 aD
 ac
 ac
-bU
+dn
 ax
 bV
 ac
-ac
+aP
 hE
 GQ
 hW
@@ -28676,10 +29594,10 @@ aj
 aj
 dq
 hW
-dq
+bq
 aX
-bN
-bN
+fF
+fF
 fJ
 nD
 nE
@@ -28691,30 +29609,30 @@ ap
 fM
 er
 fH
-hw
+sc
 pD
 cp
 gE
 gQ
 gE
 hu
-kq
+rk
 kq
 kA
 kq
-kq
+rk
 hu
-lJ
+rr
 lJ
 lQ
 lJ
-lJ
+rr
 mr
-mC
-mC
+rE
+rE
 mK
 mC
-mC
+rE
 mE
 pX
 gG
@@ -28723,7 +29641,7 @@ QQ
 hE
 ac
 ac
-bU
+dn
 ax
 bV
 ac
@@ -28846,13 +29764,13 @@ aD
 aD
 ac
 ac
-ac
-bU
+aP
+dn
 ax
 bV
 ac
 ac
-aC
+bf
 GQ
 hW
 cB
@@ -28875,29 +29793,29 @@ dq
 dq
 dq
 dq
-dq
-dq
+bq
+bq
 hX
 dq
 aX
-bN
-bN
-bN
+fF
+fF
+fF
 fK
-fN
+lc
 aU
 et
 oI
 oK
 ap
-bQ
-fx
+rP
+rW
 fR
-hx
+sd
 pE
 cp
 gE
-gX
+rb
 gE
 hu
 hu
@@ -28918,14 +29836,14 @@ mE
 mE
 mE
 mE
-gE
+qT
 gG
 gQ
 QQ
-aC
-ac
-ac
-bU
+bf
+aP
+aP
+dn
 ax
 bV
 ac
@@ -29048,10 +29966,10 @@ aD
 aD
 ac
 ac
-ac
+aP
 bU
 ax
-bV
+fv
 ac
 ac
 aC
@@ -29076,11 +29994,11 @@ dq
 dq
 dq
 dq
-ge
+dI
 dq
 dq
 dq
-dq
+bq
 ar
 ar
 ar
@@ -29098,8 +30016,13 @@ hL
 hL
 hL
 hL
+qT
 gE
 gE
+qT
+kZ
+gE
+qT
 gE
 gE
 kZ
@@ -29109,28 +30032,23 @@ gE
 gE
 kZ
 gE
-gE
-gE
-gE
-kZ
-gE
-gE
+qT
 gE
 gE
 kZ
 gE
 gE
-gE
+qT
 gG
-gQ
+qJ
 QQ
-aC
+bf
 ac
-ac
+aP
 bU
 ax
-bV
-ac
+fv
+aP
 aD
 aD
 aD
@@ -29255,7 +30173,7 @@ bU
 ax
 bV
 ac
-ac
+aP
 hE
 GQ
 hW
@@ -29281,24 +30199,24 @@ cB
 cB
 cB
 cB
-ij
+ep
 gj
 ar
-cV
-dH
-dH
-dH
+fN
 hO
+hO
+hO
+ld
 hl
 cn
 nJ
 fr
 hF
-hP
-hQ
-hQ
-hQ
-nh
+rQ
+rX
+rX
+rX
+si
 hL
 gF
 gD
@@ -29331,7 +30249,7 @@ ac
 ac
 bU
 ax
-bV
+fv
 ac
 aD
 aD
@@ -29456,7 +30374,7 @@ ac
 bU
 ax
 cb
-bT
+cH
 pQ
 aA
 GQ
@@ -29481,52 +30399,52 @@ jD
 jD
 jD
 jD
-jE
+dP
 cB
 dq
 gj
-nf
+fb
 bd
-bd
+fT
 le
 cw
-ea
-ep
+nf
+oS
 ev
 nK
-ev
+rL
 fy
 fz
 fA
 mO
 hM
-hM
-kX
+sl
+sk
 gF
-gE
+qT
 gG
-OZ
+qL
+qI
+Dq
+qI
 Dq
 Dq
 Dq
 Dq
+qI
+qI
 Dq
 Dq
 Dq
 Dq
+qI
+Dq
+qI
+Dq
+qI
 Dq
 Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-Dq
-FP
+qM
 QQ
 aB
 pQ
@@ -29656,9 +30574,9 @@ ab
 aD
 ac
 bU
-ax
+ca
 io
-bS
+cd
 pR
 pU
 GQ
@@ -29687,25 +30605,25 @@ hW
 cB
 il
 gj
-nf
-bd
+fb
+fT
 bd
 mP
 dY
-hg
+nh
 hl
 nd
 fe
 ne
 hF
-id
+rR
 jN
 mQ
 hM
 hM
-kX
+sk
 gF
-hC
+rc
 gG
 gQ
 QQ
@@ -29732,9 +30650,9 @@ QQ
 QQ
 pP
 pR
-bS
+cd
 bX
-ax
+ca
 bV
 ac
 ac
@@ -29862,83 +30780,83 @@ ax
 bV
 ac
 ac
-ac
+aP
 pV
 ay
 hE
-aC
-aC
-hE
-aC
+bf
 aC
 hE
 aC
 aC
 hE
 aC
-aC
+bf
 hE
 aC
+bf
+hE
+bf
 aC
-aC
+bf
 hE
 ay
 ay
 GQ
 hW
 cB
-il
+ez
 gj
 ar
-dI
-dX
-lb
-eJ
-hv
+hg
+hP
+ie
+jO
+ni
 hG
 by
 fe
 fs
 or
-kY
-jO
-lc
-ld
-ie
+rS
+rY
+sa
+se
+sj
 hL
 gF
-hC
+rc
 gG
-gQ
+qJ
 QQ
 ay
 ay
 hE
-aC
-aC
-aC
-hE
+bf
 aC
 aC
 hE
-aC
+bf
+bf
+hE
+bf
 aC
 hE
-aC
-aC
+bf
+bf
 hE
 aC
-aC
+bf
 hE
 ay
 pM
-ac
+aP
 ac
 ac
 bU
 ax
 bV
-ac
+aP
 ac
 aD
 ac
@@ -30060,36 +30978,36 @@ aD
 ac
 ac
 bU
-ax
-bV
+ca
+fv
 ac
 ac
-ac
+aP
 pL
 pN
+aP
+ac
+ac
+ac
+ac
+aP
+aP
 ac
 ac
 ac
 ac
 ac
 ac
+aP
 ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
+aP
 ac
 pL
 ax
 GQ
 hW
 cB
-dq
+bq
 dq
 ar
 oh
@@ -30108,8 +31026,8 @@ hL
 hL
 on
 hL
-gE
-gE
+qT
+qT
 gG
 gQ
 QQ
@@ -30136,12 +31054,12 @@ pL
 pN
 ac
 ac
-ac
-bU
+aP
+dn
 ax
 bV
-ac
-ac
+aP
+aP
 aD
 aD
 aD
@@ -30263,36 +31181,36 @@ ac
 ac
 bU
 ax
-bV
-ac
-ac
-ac
-bU
-bV
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
+fv
+aP
 ac
 ac
 bU
 bV
+ac
+ac
+ac
+ac
+ac
+ac
+ac
+ac
+ac
+ac
+ac
+ac
+ac
+ac
+aP
+aP
+aP
+dn
+fv
 GQ
 hW
 cB
 dq
-ij
+ep
 aQ
 cx
 dz
@@ -30300,15 +31218,15 @@ he
 hm
 jJ
 aO
-aP
+qd
 aO
-jS
+qo
 aO
 jP
-jZ
+qz
 no
 om
-ou
+qG
 oA
 gD
 gE
@@ -30340,10 +31258,10 @@ ac
 ac
 ac
 bU
-ax
+ca
 bV
 ac
-ac
+aP
 aD
 aD
 aD
@@ -30466,19 +31384,19 @@ ac
 bU
 ax
 cb
+cH
 bT
 bT
-bT
-bW
+iy
 cb
+cH
+cH
 bT
 bT
 bT
 bT
 bT
-bT
-bT
-bT
+cH
 bT
 bT
 bT
@@ -30489,22 +31407,22 @@ bT
 bT
 bT
 bW
-bV
+fv
 GQ
 hW
 cB
-dq
-dq
+bq
+bq
 aQ
 cy
 dF
-hf
+jE
 hy
-cW
+hv
 aO
-bf
-cH
-jB
+qe
+qj
+qq
 aO
 jQ
 la
@@ -30512,27 +31430,27 @@ np
 oo
 ov
 oA
-gE
-gE
+qT
+qT
 gG
 gQ
 QQ
 bU
 cb
 bT
+cH
 bT
 bT
 bT
 bT
 bT
+cH
 bT
 bT
 bT
 bT
 bT
-bT
-bT
-bT
+cH
 bT
 bT
 bT
@@ -30675,14 +31593,14 @@ ax
 ax
 ax
 ax
+ca
 ax
 ax
 ax
 ax
-ax
-ax
-ax
-ax
+ca
+ca
+ca
 ax
 ax
 ax
@@ -30705,21 +31623,21 @@ hz
 cW
 aO
 bi
-cZ
+qk
 dK
 aO
-jQ
+qw
 ng
 nq
 ok
-of
+qH
 ol
 gG
 gG
 gG
-gQ
+qJ
 QQ
-bU
+dn
 ax
 ax
 ax
@@ -30738,13 +31656,13 @@ ax
 ax
 ax
 ax
+ca
 ax
 ax
 ax
 ax
 ax
-ax
-ax
+ca
 bV
 ac
 ac
@@ -30895,20 +31813,20 @@ pg
 ax
 bV
 GQ
-hN
+dX
 jD
-jD
-jE
+be
+dP
 bp
 cQ
-fc
+hQ
 hi
 hR
-jM
+oB
 aO
-bj
+qf
 dy
-fv
+qr
 aO
 jR
 nk
@@ -30918,8 +31836,8 @@ og
 ol
 OZ
 Dq
-Dq
-FP
+qI
+qM
 QQ
 bU
 ax
@@ -31068,10 +31986,10 @@ aD
 aD
 aD
 aD
-ac
+aP
 bU
 pg
-ax
+ca
 ax
 ax
 ax
@@ -31095,22 +32013,22 @@ ax
 ax
 pg
 ax
-bV
+fv
 GQ
 GQ
 GQ
 GQ
-hW
+az
 bp
-cR
+hk
 fE
 hf
 if
 jI
 aO
-dB
+qg
 aO
-fw
+qs
 aO
 jY
 nm
@@ -31124,13 +32042,14 @@ QQ
 QQ
 QQ
 bU
-ax
+ca
 pg
 ax
 ax
 ax
 ax
 ax
+ca
 ax
 ax
 ax
@@ -31138,8 +32057,7 @@ ax
 ax
 ax
 ax
-ax
-ax
+ca
 ax
 ax
 ax
@@ -31270,13 +32188,14 @@ ab
 aD
 aD
 ac
-ac
+aP
 bU
 pg
 aF
 aL
 aL
 aL
+iG
 aL
 aL
 aL
@@ -31286,20 +32205,19 @@ aL
 aL
 aL
 aL
+iG
 aL
 aL
 aL
 aL
-aL
-aL
-aL
+iG
 aH
 ax
 pg
 ax
 cb
-bZ
-cd
+jB
+kb
 GQ
 GQ
 hW
@@ -31307,28 +32225,28 @@ bp
 cS
 gK
 hj
-jF
+kX
 jI
-dD
-jf
-jo
-js
+qc
+qh
+ql
+qt
 jx
 jY
-nn
+qA
 oj
 os
 oz
 ol
-gQ
+qJ
 QQ
 QQ
-ca
+qK
 bZ
 bW
 ax
 pg
-ax
+ca
 aF
 aL
 aL
@@ -31336,6 +32254,7 @@ aL
 aL
 aL
 aL
+iG
 aL
 aL
 aL
@@ -31345,8 +32264,7 @@ aL
 aL
 aL
 aL
-aL
-aL
+iG
 aL
 aL
 aH
@@ -31472,7 +32390,7 @@ aD
 ab
 aD
 ac
-ac
+aP
 bU
 pg
 aJ
@@ -31502,36 +32420,36 @@ ax
 ax
 ax
 cb
-cd
+kb
 GQ
 hW
 bp
-cW
+hv
 gK
-cW
+hv
 jI
 jI
 jc
-jl
+qi
 oY
-jl
+qi
 jc
 jY
 jY
-ok
-os
-ok
+qC
+qE
+qC
 ol
 gQ
 QQ
+qK
+iy
+ax
 ca
-bW
-ax
-ax
 ax
 pg
 ax
-aJ
+fw
 av
 av
 av
@@ -31677,7 +32595,7 @@ aD
 ac
 bU
 pg
-aJ
+fw
 av
 av
 av
@@ -31697,28 +32615,28 @@ av
 av
 av
 av
-aM
+iJ
 ax
 pg
 ax
 ax
 ax
 ax
-cc
+kj
 GQ
-hW
+az
 bp
 bp
 hd
 bp
 jI
-iR
-iX
+pZ
+qb
 jl
 oY
 jl
-jC
-ka
+qv
+qx
 jY
 ol
 ot
@@ -31744,18 +32662,18 @@ av
 av
 av
 av
+ho
+ho
+ho
+av
+av
+ho
 av
 av
 av
-av
-av
-av
-av
-av
-av
-aM
+iJ
 pg
-bV
+fv
 ac
 ac
 aD
@@ -31903,36 +32821,36 @@ aM
 ax
 pg
 ax
-ax
+ca
 ax
 ax
 cc
 GQ
-hN
+dX
+be
 jD
-jD
-jH
+ic
 GQ
 GQ
-iW
+qa
 jl
 jl
 oY
 jl
 jl
-Mc
+qy
 QQ
 QQ
-Mj
+qF
 Dq
-Dq
+qI
 FP
 QQ
 bY
 ax
 ax
 ax
-ax
+ca
 pg
 ax
 aJ
@@ -31949,7 +32867,7 @@ av
 av
 av
 av
-av
+ho
 av
 av
 av
@@ -32079,7 +32997,7 @@ aD
 aD
 ac
 ac
-bU
+dn
 pg
 aJ
 av
@@ -32098,7 +33016,7 @@ av
 av
 av
 av
-av
+ho
 av
 av
 aM
@@ -32115,15 +33033,15 @@ GQ
 GQ
 GQ
 GQ
-iP
-iX
+pY
+qb
 jl
 jl
 oY
-jl
+qi
 jl
 jC
-kb
+qB
 QQ
 QQ
 QQ
@@ -32131,7 +33049,7 @@ QQ
 QQ
 QQ
 bU
-ax
+ca
 ax
 ax
 ax
@@ -32147,14 +33065,14 @@ av
 av
 av
 av
+ho
 av
 av
 av
 av
 av
 av
-av
-av
+ho
 av
 av
 aM
@@ -32285,7 +33203,7 @@ bU
 pg
 aJ
 av
-av
+ho
 av
 av
 av
@@ -32308,27 +33226,27 @@ ax
 pg
 ax
 ax
-ax
+ca
 ax
 cb
 bT
 bT
 bT
 bT
-bT
-bT
+cH
+cH
+ca
 ax
 ax
-ax
-ax
+ca
 oY
 ax
 ax
 ax
-ax
+ca
 bT
 bT
-bT
+cH
 bT
 bT
 bT
@@ -32339,30 +33257,30 @@ ax
 ax
 pg
 ax
-aJ
+fw
+av
+av
+ho
+av
+ho
+ho
+av
+av
+av
+ho
 av
 av
 av
 av
 av
 av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
+ho
+ho
 av
 aM
 pg
-bV
-ac
+fv
+aP
 ac
 ac
 ac
@@ -32485,7 +33403,11 @@ aD
 ac
 bU
 pg
-aJ
+fw
+av
+ho
+ho
+ho
 av
 av
 av
@@ -32497,16 +33419,12 @@ av
 av
 av
 av
-av
-av
-av
-av
-av
+ho
 av
 av
 av
 aM
-ax
+ca
 oX
 ju
 ju
@@ -32546,13 +33464,13 @@ av
 av
 av
 av
+ho
 av
 av
 av
 av
-av
-av
-av
+ho
+ho
 av
 av
 av
@@ -32691,22 +33609,22 @@ aJ
 av
 av
 av
+ho
+ho
+ho
+av
+av
+ho
+ho
+ho
 av
 av
 av
 av
+ho
 av
 av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
+ho
 aM
 ax
 oY
@@ -32716,25 +33634,25 @@ bS
 bS
 bS
 bS
+cd
 bS
 bS
-bS
-bS
+cd
 ax
 ax
-ax
+ca
 ax
 ax
 oY
 ax
-ax
+ca
 ax
 ax
 ax
 bS
 bS
 bS
-bS
+cd
 bS
 bS
 bS
@@ -32747,23 +33665,23 @@ aJ
 av
 av
 av
+ho
+ho
 av
 av
 av
 av
 av
+ho
 av
 av
 av
+ho
+ho
 av
 av
 av
-av
-av
-av
-av
-av
-aM
+iJ
 pg
 bV
 ac
@@ -32892,6 +33810,10 @@ pg
 aJ
 av
 av
+ho
+av
+av
+ho
 av
 av
 av
@@ -32901,18 +33823,14 @@ av
 av
 av
 av
+ho
 av
 av
-av
-av
-av
-av
-av
-av
+ho
 aM
 ax
 oY
-bV
+fv
 iF
 iF
 iF
@@ -32931,7 +33849,7 @@ oY
 ax
 ax
 ax
-ax
+ca
 iC
 iH
 iH
@@ -32949,6 +33867,7 @@ aJ
 av
 av
 av
+ho
 av
 av
 av
@@ -32959,15 +33878,14 @@ av
 av
 av
 av
-av
-av
+ho
 av
 av
 av
 av
 aM
 pg
-bV
+fv
 ac
 ac
 ac
@@ -33103,11 +34021,11 @@ av
 av
 av
 av
+ho
+ho
 av
-av
-av
-av
-av
+ho
+ho
 av
 av
 av
@@ -33115,14 +34033,14 @@ aM
 ax
 oY
 ax
-dn
+jf
 iF
 hB
 iU
-ja
+jm
 je
 iZ
-iM
+of
 iF
 ac
 iB
@@ -33136,22 +34054,22 @@ ax
 iC
 ac
 iH
-iN
+jp
 jd
 jn
-jp
+jV
 jv
-jw
+sn
 iH
 kc
 ax
 oY
-ax
+ca
 aJ
 av
 av
-av
-av
+ho
+ho
 av
 av
 av
@@ -33291,7 +34209,7 @@ aD
 aD
 aD
 ac
-bU
+dn
 pg
 aJ
 av
@@ -33306,31 +34224,31 @@ av
 aN
 av
 av
+ho
+av
+ho
 av
 av
-av
-av
-av
-av
+ho
 av
 aa
 ju
 po
 ax
 dL
-iG
+jS
 iK
+ja
 iV
-iV
-iY
+nn
 iF
 iF
 iF
 ac
 ac
 iB
-ax
-ax
+ca
+ca
 oY
 ax
 ax
@@ -33342,17 +34260,17 @@ iH
 iH
 ji
 jk
-jk
+jA
 jy
 jq
-kd
-ax
+sr
+ca
 pt
 ju
 dO
 av
 av
-av
+ho
 av
 av
 av
@@ -33493,9 +34411,15 @@ ab
 aD
 ac
 ac
-bU
-pg
-aJ
+dn
+dD
+fw
+av
+av
+av
+av
+ho
+ho
 av
 av
 av
@@ -33504,29 +34428,23 @@ av
 av
 av
 av
+ho
 av
 av
+ho
 av
-av
-av
-av
-av
-av
-av
-av
-av
-aM
+iJ
 ax
 oY
 ax
 dM
-iI
+jZ
 iL
 iV
 iV
-iY
-iY
-iY
+nn
+nn
+nn
 iF
 ac
 ac
@@ -33540,18 +34458,19 @@ ac
 ac
 ac
 iH
+jt
 ji
 ji
-ji
-jk
-jk
+jA
+jA
 jz
 jr
-ke
-ax
+ss
+ca
 oY
-ax
+ca
 aJ
+ho
 av
 av
 av
@@ -33568,8 +34487,7 @@ av
 av
 av
 av
-av
-av
+ho
 av
 aM
 pg
@@ -33696,42 +34614,42 @@ ac
 ac
 ac
 bU
-pg
+dD
 aJ
 av
 av
 av
 av
+ho
+av
+av
+av
+ho
 av
 av
 av
 av
 av
+ho
 av
 av
 av
 av
-av
-av
-av
-av
-av
-av
-aM
-ax
+iJ
+ca
 oY
 ax
 dM
-iI
-iL
+jZ
+iN
 iV
+ja
 iV
-iV
-iV
+ja
 jg
 iF
 ac
-ac
+aP
 ac
 ac
 bU
@@ -33744,7 +34662,7 @@ ac
 iH
 jj
 jk
-jk
+jA
 jk
 jk
 jz
@@ -33752,11 +34670,12 @@ jr
 ke
 ax
 oY
-ax
+ca
 aJ
 av
 av
 av
+ho
 av
 av
 av
@@ -33769,11 +34688,10 @@ av
 av
 av
 av
+ho
 av
 av
-av
-av
-aM
+iJ
 pg
 bV
 ac
@@ -33898,7 +34816,7 @@ aD
 ac
 ac
 bU
-pg
+dD
 aJ
 av
 av
@@ -33908,32 +34826,32 @@ av
 av
 av
 av
+ho
 av
 av
 av
 av
-av
-av
-av
+ho
+ho
 av
 av
 av
 av
 aM
-ax
+ca
 oY
 ax
-gA
+jh
 iF
 iO
-iY
-iY
-iY
-iY
-iY
+nn
+nn
+nn
+nn
+nn
 iF
 ac
-ac
+aP
 ac
 ac
 bU
@@ -33949,7 +34867,7 @@ ji
 ji
 ji
 ji
-jA
+so
 iH
 kf
 ax
@@ -33969,15 +34887,15 @@ av
 av
 av
 av
+ho
 av
 av
 av
 av
 av
-av
-aM
+iJ
 pg
-bV
+fv
 ac
 ac
 ac
@@ -34100,32 +35018,32 @@ ab
 ac
 ac
 bU
-pg
-aJ
+dD
+fw
 av
 av
 av
 av
 av
+ho
+av
+ho
+ho
+ho
+av
+av
+ho
+ho
 av
 av
 av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
+ho
 av
 aM
-ax
+ca
 oY
-ax
-ho
+ca
+jo
 iF
 iQ
 iY
@@ -34146,7 +35064,7 @@ ac
 ac
 ac
 iH
-ji
+jt
 ji
 ji
 ji
@@ -34154,10 +35072,16 @@ ji
 jT
 iH
 kg
+ca
+iR
 ax
-oY
-ax
-aJ
+fw
+av
+ho
+av
+av
+av
+ho
 av
 av
 av
@@ -34171,13 +35095,7 @@ av
 av
 av
 av
-av
-av
-av
-av
-av
-av
-aM
+iJ
 pg
 bV
 ac
@@ -34301,39 +35219,39 @@ aD
 aD
 aD
 ac
-bU
+dn
 pg
 aJ
 av
+ho
 av
 av
 av
 av
+ho
+ho
+av
+ho
+ho
 av
 av
+ho
 av
 av
-av
-av
-av
-av
-av
-av
-av
-av
-av
+ho
+ho
 av
 aM
 ax
 oY
 ax
 dL
-iG
+jS
 iK
 iV
 iV
 iV
-iV
+ja
 iV
 iF
 ac
@@ -34350,16 +35268,24 @@ ac
 iH
 jk
 jk
+jA
 jk
-jk
-jk
+jA
 jy
-jq
+qN
 kd
 ax
 oY
 ax
-aJ
+fw
+av
+av
+av
+av
+ho
+iI
+ho
+ho
 av
 av
 av
@@ -34369,19 +35295,11 @@ av
 av
 av
 av
-av
-av
-av
-av
-av
-av
-av
-av
-av
+ho
 av
 aM
 pg
-bV
+fv
 ac
 ac
 aD
@@ -34503,26 +35421,26 @@ aD
 aD
 ab
 ac
-bU
-pg
+dn
+dD
 aJ
 av
 av
 av
 av
+ho
+ho
+ho
 av
 av
 av
+ho
+av
+ho
+ho
 av
 av
-av
-av
-av
-av
-av
-av
-av
-av
+ho
 av
 av
 aM
@@ -34530,13 +35448,13 @@ ax
 oY
 ax
 dM
-iI
-iL
-iY
+jZ
+iN
+nn
 iV
-iY
+nn
 iV
-iY
+nn
 iF
 ac
 ac
@@ -34544,7 +35462,7 @@ ac
 ac
 bU
 oY
-bV
+fv
 ac
 ac
 ac
@@ -34554,9 +35472,9 @@ ji
 jk
 ji
 jk
-ji
-jz
-jr
+jt
+sp
+qO
 ke
 ax
 oY
@@ -34566,6 +35484,10 @@ av
 av
 av
 av
+iI
+ho
+av
+ho
 av
 av
 av
@@ -34575,11 +35497,7 @@ av
 av
 av
 av
-av
-av
-av
-av
-av
+ho
 av
 aM
 pg
@@ -34712,19 +35630,19 @@ av
 av
 av
 av
+ho
+ho
 av
 av
 av
 av
+ho
+av
+ho
 av
 av
-av
-av
-av
-av
-av
-av
-av
+ho
+iI
 av
 av
 aM
@@ -34732,13 +35650,13 @@ ax
 oY
 ax
 ht
-iG
+jS
 iS
-iY
+nn
 iV
-iY
+nn
 iV
-jh
+ou
 iF
 ac
 ac
@@ -34746,27 +35664,29 @@ ac
 ac
 bU
 oY
-bV
+fv
 ac
 ac
 ac
 ac
 iH
-jm
+jw
 jk
 ji
-jk
+jA
 ji
 jU
-jq
-ki
-ax
+qN
+qP
+ca
 oY
 ax
 aJ
 av
 av
 av
+ho
+ho
 av
 av
 av
@@ -34775,9 +35695,7 @@ av
 av
 av
 av
-av
-av
-av
+ho
 av
 av
 av
@@ -34910,22 +35828,22 @@ ac
 bU
 pg
 aJ
+ho
+av
+av
+ho
+ho
 av
 av
 av
 av
 av
+ho
 av
 av
 av
 av
-av
-av
-av
-av
-av
-av
-av
+ho
 av
 av
 av
@@ -34933,14 +35851,14 @@ aM
 ax
 oY
 ax
-iJ
+js
 iF
 iT
-iY
+nn
 jb
-iY
-iV
-iY
+nn
+ja
+nn
 iF
 ac
 ac
@@ -34948,24 +35866,26 @@ ac
 ac
 bU
 oY
-bV
+fv
 ac
 ac
 ac
 ac
 iH
 ji
-jk
-ji
+jA
 jt
+sm
 ji
-jV
+sq
 iH
-kj
+qQ
 ax
 oY
 ax
-aJ
+fw
+ho
+ho
 av
 av
 av
@@ -34980,9 +35900,7 @@ av
 av
 av
 av
-av
-av
-av
+ho
 av
 av
 aM
@@ -35115,21 +36033,21 @@ aJ
 av
 av
 av
+ho
 av
 av
 av
 av
 av
 av
+ho
+ho
 av
 av
 av
 av
 av
-av
-av
-av
-av
+ho
 av
 aM
 ax
@@ -35150,7 +36068,7 @@ ac
 ac
 bU
 oY
-bV
+fv
 ac
 ac
 ac
@@ -35166,9 +36084,10 @@ iH
 iH
 bU
 oY
-ax
+ca
 aJ
 av
+ho
 av
 av
 av
@@ -35186,8 +36105,7 @@ av
 av
 av
 av
-av
-aM
+iJ
 pg
 bV
 ac
@@ -35313,7 +36231,11 @@ ac
 ac
 bU
 pg
-aG
+gA
+iw
+aK
+aK
+iw
 aK
 aK
 aK
@@ -35322,18 +36244,14 @@ aK
 aK
 aK
 aK
+iw
+iw
 aK
 aK
 aK
 aK
 aK
-aK
-aK
-aK
-aK
-aK
-aK
-aI
+iM
 ax
 oY
 cb
@@ -35343,7 +36261,7 @@ bT
 bT
 bT
 bT
-bT
+cH
 bT
 bT
 bT
@@ -35358,21 +36276,27 @@ bT
 bT
 bT
 bT
+cH
 bT
 bT
 bT
 bT
-bT
-bT
+cH
 bT
 bT
 bW
-oY
+iR
 ax
 aG
 aK
 aK
 aK
+iw
+aK
+aK
+aK
+aK
+iw
 aK
 aK
 aK
@@ -35381,13 +36305,7 @@ aK
 aK
 aK
 aK
-aK
-aK
-aK
-aK
-aK
-aK
-aK
+iw
 aK
 aI
 pg
@@ -35512,9 +36430,14 @@ ab
 ab
 ab
 ac
-ac
-bU
-pg
+aP
+dn
+dD
+ca
+ax
+ax
+ca
+ca
 ax
 ax
 ax
@@ -35523,22 +36446,21 @@ ax
 ax
 ax
 ax
+ca
 ax
 ax
 ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
+ca
 ax
 ax
 ax
 ax
 oY
 ax
+ca
+ax
+ca
+ca
 ax
 ax
 ax
@@ -35547,26 +36469,22 @@ ax
 ax
 ax
 ax
-ax
-ax
-ax
-ax
-ax
+ca
 ax
 py
 ax
+ca
 ax
 ax
 ax
+ca
+ax
+ca
 ax
 ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
+ca
+ca
+ca
 ax
 ax
 oY
@@ -35574,26 +36492,26 @@ ax
 ax
 ax
 ax
+ca
+ax
+ax
+ca
+ax
+ax
+ca
+ca
 ax
 ax
 ax
+ca
 ax
 ax
 ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
+ca
 ax
 ax
 pg
-bV
+fv
 ac
 ac
 aD
@@ -35743,7 +36661,7 @@ oY
 pg
 pg
 pg
-pg
+dD
 pg
 pg
 pg
@@ -35926,11 +36844,11 @@ ax
 ax
 ax
 ax
+ca
 ax
 ax
-ax
-ax
-ax
+ca
+ca
 ax
 ax
 ax
@@ -35950,7 +36868,7 @@ ax
 ax
 ax
 ax
-ax
+ca
 ax
 ax
 ax
@@ -35963,10 +36881,10 @@ ax
 ax
 ax
 ax
+ca
 ax
 ax
-ax
-ax
+ca
 ax
 ax
 ax
@@ -35975,6 +36893,13 @@ ax
 ax
 oY
 ax
+ca
+ca
+ax
+ax
+ax
+ca
+ca
 ax
 ax
 ax
@@ -35983,19 +36908,12 @@ ax
 ax
 ax
 ax
+ca
 ax
 ax
 ax
 ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
+ca
 pg
 bV
 ac
@@ -36131,6 +37049,7 @@ aL
 aL
 aL
 aL
+iG
 aL
 aL
 aL
@@ -36138,9 +37057,8 @@ aL
 aL
 aL
 aL
-aL
-aL
-aL
+iG
+iG
 aH
 ax
 oY
@@ -36156,14 +37074,14 @@ bS
 bS
 bS
 bS
-bS
-bS
-bX
+cd
+cd
+iW
 py
 io
 bS
 bS
-bS
+cd
 bS
 bS
 bS
@@ -36176,28 +37094,28 @@ bS
 bS
 bX
 oY
-ax
-aF
+ca
+qS
+aL
+aL
+aL
+aL
+iG
+aL
+aL
+iG
+aL
+aL
+iG
 aL
 aL
 aL
 aL
 aL
 aL
+iG
 aL
-aL
-aL
-aL
-aL
-aL
-aL
-aL
-aL
-aL
-aL
-aL
-aL
-aH
+qU
 pg
 bV
 ac
@@ -36396,7 +37314,7 @@ av
 av
 av
 av
-av
+ho
 av
 av
 aM
@@ -36544,7 +37462,7 @@ av
 av
 av
 av
-av
+ho
 aM
 ax
 oY
@@ -36557,7 +37475,7 @@ aC
 aC
 aC
 aC
-aC
+bf
 aC
 aC
 iE
@@ -36570,7 +37488,7 @@ iE
 aC
 aC
 aC
-aC
+bf
 aC
 aC
 aC
@@ -36599,7 +37517,7 @@ av
 av
 av
 av
-av
+ho
 av
 aM
 pg
@@ -36728,10 +37646,10 @@ ac
 bU
 pg
 aJ
-av
-av
-av
-av
+ho
+ho
+ho
+ho
 av
 av
 av
@@ -36748,7 +37666,7 @@ av
 av
 av
 aM
-ax
+ca
 oY
 bV
 iD
@@ -36759,7 +37677,7 @@ aC
 aC
 aC
 aC
-aC
+bf
 aC
 aC
 aC
@@ -36770,20 +37688,20 @@ bV
 iD
 aC
 aC
+bf
 aC
+bf
+bf
 aC
-aC
-aC
-aC
-aC
-aC
+bf
+bf
 aC
 aC
 iD
 bU
 oY
 ax
-aJ
+fw
 av
 av
 av
@@ -36795,6 +37713,7 @@ av
 av
 av
 av
+ho
 av
 av
 av
@@ -36802,10 +37721,9 @@ av
 av
 av
 av
-av
-aM
+iJ
 pg
-bV
+fv
 ac
 ac
 aD
@@ -36927,8 +37845,8 @@ aD
 ac
 ac
 ac
-bU
-pg
+dn
+dD
 aJ
 av
 av
@@ -36936,6 +37854,7 @@ av
 av
 av
 av
+ho
 av
 av
 av
@@ -36946,8 +37865,7 @@ av
 av
 av
 av
-av
-av
+ho
 av
 aM
 ax
@@ -36958,8 +37876,8 @@ aC
 aC
 aC
 aC
-aC
-aC
+bf
+bf
 aC
 aC
 aC
@@ -36976,7 +37894,7 @@ aC
 aC
 aC
 aC
-aC
+bf
 aC
 aC
 aC
@@ -37130,7 +38048,7 @@ aD
 aD
 ac
 bU
-pg
+dD
 aJ
 av
 av
@@ -37138,18 +38056,18 @@ av
 av
 av
 av
+ho
+ho
 av
 av
 av
 av
 av
+ho
 av
 av
-av
-av
-av
-av
-av
+ho
+ho
 av
 aM
 ax
@@ -37159,10 +38077,10 @@ iD
 aC
 aC
 aC
+bf
 aC
-aC
-aC
-aC
+bf
+bf
 aC
 aC
 aC
@@ -37179,14 +38097,14 @@ aC
 aC
 aC
 aC
+bf
 aC
-aC
-aC
+bf
 aC
 iD
 bU
 oY
-ax
+ca
 aJ
 av
 av
@@ -37202,7 +38120,7 @@ av
 av
 av
 av
-av
+ho
 av
 av
 av
@@ -37332,7 +38250,7 @@ ab
 aD
 ac
 bU
-pg
+dD
 aJ
 av
 av
@@ -37341,17 +38259,17 @@ av
 av
 av
 av
+ho
 av
 av
+ho
 av
 av
+ho
+ho
+ho
 av
-av
-av
-av
-av
-av
-av
+ho
 av
 aM
 ax
@@ -37364,19 +38282,19 @@ aC
 aC
 aC
 aC
-aC
-aC
+bf
+bf
 aC
 aC
 aC
 iD
-bU
+dn
 py
-bV
+fv
 iD
 aC
 aC
-aC
+bf
 aC
 aC
 aC
@@ -37392,6 +38310,11 @@ ax
 aJ
 av
 av
+ho
+av
+av
+av
+ho
 av
 av
 av
@@ -37402,12 +38325,7 @@ av
 av
 av
 av
-av
-av
-av
-av
-av
-av
+ho
 av
 aM
 pg
@@ -37545,19 +38463,19 @@ av
 av
 av
 av
+ho
+ho
+ho
 av
+ho
 av
+ho
 av
-av
-av
-av
-av
-av
-av
+ho
 av
 aM
 ax
-oY
+iR
 bV
 iD
 aC
@@ -37567,38 +38485,38 @@ aC
 aC
 aC
 aC
-aC
-aC
+bf
+bf
 aC
 aC
 iD
 bU
 py
-bV
+fv
 iD
 aC
 aC
+bf
+bf
 aC
 aC
-aC
-aC
-aC
-aC
-aC
+bf
+bf
+bf
 aC
 aC
 iD
-bU
+dn
 oY
 ax
-aJ
+fw
 av
 av
 av
 av
 av
-av
-av
+ho
+ho
 av
 av
 av
@@ -37749,18 +38667,18 @@ av
 av
 av
 av
+ho
+ho
+ho
 av
 av
 av
-av
-av
-av
-av
+ho
 av
 aM
 ax
 oY
-bV
+fv
 iD
 aC
 aC
@@ -37781,16 +38699,16 @@ iD
 aC
 aC
 aC
+bf
 aC
 aC
 aC
 aC
-aC
-aC
-aC
+bf
+bf
 aC
 iD
-bU
+dn
 oY
 ax
 aJ
@@ -37799,7 +38717,7 @@ av
 av
 av
 av
-av
+ho
 av
 av
 av
@@ -37939,7 +38857,7 @@ ab
 ac
 bU
 pg
-aJ
+fw
 av
 av
 av
@@ -37952,12 +38870,12 @@ av
 av
 av
 av
+ho
+ho
 av
 av
 av
-av
-av
-av
+ho
 av
 aM
 ax
@@ -37982,15 +38900,15 @@ bV
 iD
 aC
 aC
+bf
+pA
+bf
 aC
 aC
 aC
 aC
 aC
-aC
-aC
-aC
-aC
+bf
 iD
 bU
 oY
@@ -38000,8 +38918,8 @@ av
 av
 av
 av
-av
-av
+ho
+ho
 av
 av
 av
@@ -38141,8 +39059,8 @@ ac
 ac
 bU
 pg
-aJ
-av
+fw
+ho
 av
 av
 av
@@ -38153,29 +39071,29 @@ av
 av
 aN
 av
+ho
+ho
+ho
 av
+ho
 av
-av
-av
-av
-av
-av
+iI
 av
 aa
 ju
 po
 bV
 iD
+bf
+aC
+bf
 aC
 aC
 aC
 aC
 aC
 aC
-aC
-aC
-aC
-aC
+bf
 aC
 pw
 px
@@ -38185,12 +39103,12 @@ pB
 aC
 aC
 aC
+bf
 aC
 aC
 aC
 aC
-aC
-aC
+bf
 aC
 aC
 iD
@@ -38202,7 +39120,7 @@ av
 av
 av
 av
-av
+ho
 av
 av
 av
@@ -38217,7 +39135,7 @@ av
 av
 av
 av
-aM
+iJ
 pg
 bV
 ac
@@ -38354,27 +39272,27 @@ av
 av
 av
 av
+ho
+ho
 av
+ho
 av
+ho
 av
-av
-av
-av
-av
-av
+iI
 av
 aM
 ax
 oY
 bV
 iD
+bf
+aC
+bf
 aC
 aC
 aC
-aC
-aC
-aC
-aC
+bf
 aC
 aC
 aC
@@ -38387,12 +39305,12 @@ iD
 aC
 aC
 aC
+bf
 aC
 aC
 aC
 aC
-aC
-aC
+bf
 aC
 aC
 iD
@@ -38404,6 +39322,7 @@ av
 av
 av
 av
+ho
 av
 av
 av
@@ -38414,9 +39333,8 @@ av
 av
 av
 av
-av
-av
-av
+ho
+ho
 av
 av
 aM
@@ -38555,36 +39473,36 @@ av
 av
 av
 av
+ho
+ho
+av
+av
+ho
 av
 av
 av
-av
-av
-av
-av
-av
-av
+iI
 av
 aM
 ax
 oY
 bV
 iD
+bf
+aC
+bf
 aC
 aC
+bf
+bf
+bf
 aC
 aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
+bf
 iD
 bU
 py
-bV
+fv
 iD
 aC
 aC
@@ -38593,8 +39511,8 @@ aC
 aC
 aC
 aC
-aC
-aC
+bf
+bf
 aC
 aC
 iD
@@ -38606,6 +39524,7 @@ av
 av
 av
 av
+ho
 av
 av
 av
@@ -38617,9 +39536,8 @@ av
 av
 av
 av
-av
-av
-av
+ho
+ho
 av
 aM
 pg
@@ -38754,6 +39672,10 @@ av
 av
 av
 av
+ho
+av
+ho
+ho
 av
 av
 av
@@ -38763,51 +39685,48 @@ av
 av
 av
 av
-av
-av
-av
-av
-aM
+iJ
 ax
 oY
 bV
 iD
+bf
 aC
 aC
 aC
 aC
+bf
+aC
+bf
 aC
 aC
-aC
-aC
-aC
-aC
-aC
+bf
 iD
 bU
 py
-bV
+fv
 iD
+bf
 aC
 aC
 aC
 aC
 aC
+bf
 aC
 aC
 aC
-aC
-aC
-aC
+bf
 iD
-bU
-oY
+dn
+iR
 ax
 aJ
 av
 av
 av
 av
+ho
 av
 av
 av
@@ -38820,12 +39739,11 @@ av
 av
 av
 av
-av
-av
+ho
 av
 aM
 pg
-bV
+fv
 ac
 aD
 aD
@@ -38956,6 +39874,7 @@ av
 av
 av
 av
+ho
 av
 av
 av
@@ -38968,9 +39887,8 @@ av
 av
 av
 av
-av
-aM
-ax
+iJ
+ca
 oY
 bV
 iD
@@ -38978,11 +39896,11 @@ aC
 aC
 aC
 aC
+bf
+bf
 aC
-aC
-aC
-aC
-aC
+bf
+bf
 aC
 aC
 iD
@@ -38990,20 +39908,20 @@ bU
 py
 bV
 iD
+bf
 aC
 aC
 aC
-aC
-aC
-aC
-aC
+bf
+bf
+bf
 aC
 aC
 aC
 aC
 iD
 bU
-oY
+iR
 ax
 aJ
 av
@@ -39151,7 +40069,10 @@ ab
 ac
 bU
 pg
-aJ
+fw
+av
+av
+ho
 av
 av
 av
@@ -39166,25 +40087,22 @@ av
 av
 av
 av
-av
-av
-av
-av
-av
+ho
+ho
 aM
-ax
+ca
 oY
 bV
 iD
 aC
 aC
 aC
+bf
+bf
 aC
 aC
 aC
-aC
-aC
-aC
+bf
 aC
 aC
 iD
@@ -39196,17 +40114,17 @@ aC
 aC
 aC
 aC
+bf
 aC
 aC
 aC
 aC
-aC
-aC
+bf
 aC
 iD
 bU
-oY
-ax
+iR
+ca
 aJ
 av
 av
@@ -39352,8 +40270,11 @@ aD
 ab
 ac
 bU
-pg
-aJ
+dD
+fw
+av
+av
+ho
 av
 av
 av
@@ -39369,35 +40290,32 @@ av
 av
 av
 av
-av
-av
-av
-av
+ho
 aM
 ax
 oY
-bV
+fv
 iD
 aC
 aC
 aC
+bf
 aC
 aC
 aC
 aC
+pA
 aC
-aC
-aC
-aC
-iD
+bf
+ki
 bU
 py
 bV
 iD
 aC
 aC
-aC
-aC
+bf
+bf
 aC
 aC
 aC
@@ -39408,10 +40326,10 @@ aC
 iD
 bU
 oY
-ax
+ca
 aJ
 av
-av
+ho
 av
 av
 av
@@ -39554,64 +40472,64 @@ aD
 aD
 ac
 bU
-pg
+dD
 aJ
 av
 av
+ho
 av
 av
 av
 av
 av
+ho
 av
 av
 av
 av
+ho
 av
-av
-av
-av
-av
-av
+ho
+ho
 av
 av
 aM
 ax
-oY
+iR
+fv
+iD
+aC
+aC
+aC
+aC
+aC
+aC
+aC
+aC
+bf
+bf
+aC
+iD
+dn
+qm
 bV
 iD
 aC
 aC
 aC
+bf
 aC
 aC
 aC
 aC
-aC
-aC
-aC
-aC
-iD
-bU
-py
-bV
-iD
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
+bf
+bf
 aC
 iD
 bU
 oY
 ax
-aJ
+fw
 av
 av
 av
@@ -39628,11 +40546,11 @@ av
 av
 av
 av
+ho
 av
-av
-av
-aM
-pg
+ho
+iJ
+dD
 bV
 ac
 ac
@@ -39755,14 +40673,14 @@ aD
 aD
 aD
 ac
-bU
-pg
+dn
+dD
 aJ
 av
 av
+ho
 av
-av
-av
+ho
 av
 av
 av
@@ -39783,9 +40701,9 @@ oY
 bV
 iD
 iE
-aC
-aC
-aC
+bf
+bf
+bf
 aC
 aC
 aC
@@ -39795,9 +40713,9 @@ aC
 iE
 iD
 bU
-py
+qm
 bV
-iD
+ki
 iE
 aC
 aC
@@ -39813,7 +40731,7 @@ iD
 bU
 oY
 ax
-aJ
+fw
 av
 av
 av
@@ -39830,12 +40748,12 @@ av
 av
 av
 av
-av
+ho
 av
 av
 aM
-pg
-bV
+dD
+fv
 ac
 ac
 ac
@@ -39962,14 +40880,14 @@ pg
 aJ
 av
 av
+ho
+ho
+ho
 av
 av
 av
-av
-av
-av
-av
-av
+ho
+ho
 av
 av
 av
@@ -39980,17 +40898,17 @@ av
 av
 av
 aM
-ax
+ca
 oY
 bV
 iD
 iD
+ki
 iD
 iD
 iD
 iD
-iD
-iD
+ki
 iD
 iD
 iD
@@ -39998,8 +40916,8 @@ iD
 iD
 bU
 py
-bV
-iD
+fv
+ki
 iD
 iD
 iD
@@ -40019,6 +40937,8 @@ aJ
 av
 av
 av
+ho
+ho
 av
 av
 av
@@ -40029,15 +40949,13 @@ av
 av
 av
 av
-av
-av
-av
-av
+ho
+ho
 av
 av
 aM
 pg
-bV
+fv
 ac
 ac
 ac
@@ -40164,13 +41082,13 @@ pg
 aG
 aK
 aK
+iw
+iw
 aK
 aK
 aK
-aK
-aK
-aK
-aK
+iw
+iw
 aK
 aK
 aK
@@ -40182,7 +41100,7 @@ aK
 aK
 aK
 aI
-ax
+ca
 oY
 cb
 bT
@@ -40192,29 +41110,29 @@ bT
 bT
 bT
 bT
+cH
+cH
 bT
 bT
-bT
-bT
-bT
-bT
+cH
+cH
 bW
-py
-cb
+qm
+qu
+bT
+bT
+bT
+bT
+bT
+cH
 bT
 bT
 bT
 bT
 bT
 bT
-bT
-bT
-bT
-bT
-bT
-bT
-bT
-bW
+cH
+iy
 oY
 ax
 aG
@@ -40222,18 +41140,18 @@ aK
 aK
 aK
 aK
+iw
+iw
+aK
+aK
+iw
+iw
 aK
 aK
 aK
 aK
-aK
-aK
-aK
-aK
-aK
-aK
-aK
-aK
+iw
+iw
 aK
 aK
 aK
@@ -40366,6 +41284,7 @@ pg
 ax
 ax
 ax
+ca
 ax
 ax
 ax
@@ -40374,14 +41293,45 @@ ax
 ax
 ax
 ax
+ca
 ax
 ax
 ax
 ax
 ax
 ax
+ca
+ca
+ax
+oY
 ax
 ax
+ax
+ca
+ax
+ax
+ax
+ax
+ax
+ca
+ax
+ax
+ax
+ax
+ax
+qm
+ax
+ax
+ax
+ax
+ax
+ca
+ax
+ax
+ax
+ca
+ca
+ca
 ax
 ax
 ax
@@ -40393,48 +41343,16 @@ ax
 ax
 ax
 ax
+ca
+ca
 ax
 ax
+ca
+ca
+ca
 ax
 ax
-ax
-ax
-ax
-ax
-py
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-oY
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
-ax
+ca
 ax
 ax
 ax
@@ -40563,7 +41481,9 @@ ac
 ac
 ac
 ac
-bU
+dn
+dD
+dD
 pg
 pg
 pg
@@ -40579,6 +41499,36 @@ pg
 pg
 pg
 pg
+pg
+pg
+dD
+dD
+dD
+pg
+oY
+pg
+pg
+pg
+pg
+dD
+dD
+pg
+pg
+pg
+pg
+pg
+pg
+pg
+pg
+dD
+qm
+pg
+pg
+pg
+pg
+pg
+dD
+dD
 pg
 pg
 pg
@@ -40596,47 +41546,15 @@ pg
 pg
 pg
 pg
+dD
+dD
+dD
+dD
 pg
-pg
-pg
-pg
-pg
-pg
-pg
-py
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-oY
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
+dD
+dD
+dD
+dD
 pg
 pg
 pg
@@ -40765,8 +41683,10 @@ ac
 aD
 ab
 ac
-bU
-pg
+dn
+dD
+ax
+ca
 ax
 ax
 ax
@@ -40779,13 +41699,11 @@ ax
 ax
 ax
 ax
+ca
 ax
 ax
-ax
-ax
-ax
-ax
-ax
+ca
+ca
 ax
 ax
 ax
@@ -40793,25 +41711,25 @@ oY
 ax
 ax
 ax
+ca
+ca
 ax
 ax
 ax
 ax
+ca
 ax
 ax
 ax
-ax
-ax
-ax
-ax
-ax
+ca
+ca
 py
 ax
 ax
 ax
 ax
-ax
-ax
+ca
+ca
 ax
 ax
 ax
@@ -40840,8 +41758,8 @@ ax
 ax
 ax
 ax
-ax
-ax
+ca
+ca
 ax
 ax
 pg
@@ -40973,6 +41891,11 @@ aF
 aL
 aL
 aL
+iG
+aL
+aL
+aL
+iG
 aL
 aL
 aL
@@ -40980,13 +41903,8 @@ aL
 aL
 aL
 aL
-aL
-aL
-aL
-aL
-aL
-aL
-aL
+iG
+iG
 aL
 aL
 aH
@@ -40995,6 +41913,7 @@ oY
 io
 bS
 bS
+cd
 bS
 bS
 bS
@@ -41003,22 +41922,21 @@ bS
 bS
 bS
 bS
-bS
-bS
-bS
+cd
+cd
 bX
 py
 io
 bS
 bS
+cd
+cd
 bS
 bS
 bS
 bS
 bS
-bS
-bS
-bS
+cd
 bS
 bS
 bS
@@ -41042,12 +41960,12 @@ aL
 aL
 aL
 aL
+iG
 aL
 aL
-aL
-aH
+qU
 pg
-bV
+fv
 ac
 ac
 aD
@@ -41173,6 +42091,7 @@ bU
 pg
 aJ
 av
+ho
 av
 av
 av
@@ -41189,10 +42108,9 @@ av
 av
 av
 av
-av
-av
-aM
-ax
+ho
+iJ
+ca
 oY
 bV
 iD
@@ -41213,13 +42131,13 @@ py
 bV
 iD
 iD
+ki
 iD
 iD
 iD
 iD
 iD
-iD
-iD
+ki
 iD
 iD
 iD
@@ -41243,10 +42161,10 @@ av
 av
 av
 av
+ho
+ho
 av
-av
-av
-av
+ho
 aM
 pg
 bV
@@ -41371,10 +42289,12 @@ aD
 aD
 aD
 ac
-bU
+dn
 pg
 aJ
 av
+ho
+ho
 av
 av
 av
@@ -41383,22 +42303,21 @@ av
 av
 av
 av
+ho
+ho
+ho
 av
 av
 av
-av
-av
-av
-av
-av
-av
+ho
 av
 aM
-ax
+ca
 oY
 bV
 iD
 iE
+bf
 aC
 aC
 aC
@@ -41406,8 +42325,7 @@ aC
 aC
 aC
 aC
-aC
-aC
+bf
 iE
 iD
 bU
@@ -41445,10 +42363,10 @@ av
 av
 av
 av
+ho
 av
 av
-av
-av
+ho
 aM
 pg
 bV
@@ -41578,6 +42496,7 @@ pg
 aJ
 av
 av
+ho
 av
 av
 av
@@ -41588,16 +42507,31 @@ av
 av
 av
 av
-av
-av
-av
-av
+ho
+ho
+ho
 av
 av
 av
 aM
 ax
 oY
+fv
+iD
+bf
+aC
+aC
+aC
+bf
+bf
+aC
+bf
+aC
+aC
+aC
+iD
+dn
+qm
 bV
 iD
 aC
@@ -41605,23 +42539,7 @@ aC
 aC
 aC
 aC
-aC
-aC
-aC
-aC
-aC
-aC
-iD
-bU
-py
-bV
-iD
-aC
-aC
-aC
-aC
-aC
-aC
+bf
 aC
 aC
 aC
@@ -41639,6 +42557,7 @@ av
 av
 av
 av
+ho
 av
 av
 av
@@ -41646,8 +42565,7 @@ av
 av
 av
 av
-av
-av
+ho
 av
 av
 av
@@ -41780,12 +42698,68 @@ pg
 aJ
 av
 av
+ho
+ho
 av
 av
 av
 av
 av
 av
+av
+av
+av
+av
+av
+ho
+ho
+av
+av
+aM
+ax
+oY
+fv
+iD
+aC
+aC
+aC
+aC
+aC
+aC
+aC
+bf
+aC
+aC
+bf
+iD
+dn
+qm
+fv
+iD
+aC
+aC
+bf
+aC
+aC
+aC
+aC
+bf
+bf
+aC
+bf
+iD
+bU
+oY
+ax
+fw
+ho
+av
+av
+av
+av
+av
+ho
+ho
 av
 av
 av
@@ -41798,64 +42772,8 @@ av
 av
 av
 aM
-ax
-oY
-bV
-iD
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-iD
-bU
-py
-bV
-iD
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-iD
-bU
-oY
-ax
-aJ
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-aM
-pg
-bV
+dD
+fv
 ac
 ac
 aD
@@ -41983,6 +42901,7 @@ aJ
 av
 av
 av
+ho
 av
 av
 av
@@ -41995,30 +42914,29 @@ av
 av
 av
 av
-av
-av
-av
+ho
+ho
 av
 aM
 ax
 oY
-bV
+fv
 iD
 aC
 aC
+bf
 aC
 aC
 aC
 aC
 aC
 aC
-aC
-aC
-aC
+bf
+bf
 iD
 bU
 py
-bV
+fv
 iD
 aC
 aC
@@ -42036,6 +42954,17 @@ bU
 oY
 ax
 aJ
+ho
+ho
+av
+av
+av
+av
+ho
+av
+av
+ho
+ho
 av
 av
 av
@@ -42044,19 +42973,8 @@ av
 av
 av
 av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-aM
-pg
+iJ
+dD
 bV
 ac
 ac
@@ -42180,26 +43098,26 @@ ab
 aD
 ac
 bU
-pg
-aJ
+dD
+fw
+av
+av
+av
+ho
+ho
+av
+av
+av
+ho
 av
 av
 av
 av
+ho
+ho
 av
 av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
+ho
 av
 aM
 ax
@@ -42207,10 +43125,10 @@ oY
 bV
 iD
 aC
+bf
 aC
-aC
-aC
-aC
+bf
+bf
 aC
 aC
 aC
@@ -42220,7 +43138,7 @@ aC
 iD
 bU
 py
-bV
+fv
 iD
 aC
 aC
@@ -42239,6 +43157,7 @@ oY
 ax
 aJ
 av
+ho
 av
 av
 av
@@ -42247,6 +43166,7 @@ av
 av
 av
 av
+ho
 av
 av
 av
@@ -42255,9 +43175,7 @@ av
 av
 av
 av
-av
-av
-aM
+iJ
 pg
 bV
 ac
@@ -42381,9 +43299,14 @@ ab
 aD
 ac
 ac
-bU
-pg
-aJ
+dn
+dD
+fw
+av
+av
+av
+av
+ho
 av
 av
 av
@@ -42392,19 +43315,14 @@ av
 av
 av
 av
+ho
 av
 av
 av
-av
-av
-av
-av
-av
-av
-av
+ho
 av
 aM
-ax
+ca
 oY
 bV
 iD
@@ -42426,19 +43344,19 @@ bV
 iD
 aC
 aC
+bf
+bf
+bf
 aC
-aC
-aC
-aC
-aC
-aC
+bf
+bf
 aC
 aC
 aC
 iD
 bU
 oY
-ax
+ca
 aJ
 av
 av
@@ -42450,16 +43368,16 @@ av
 av
 av
 av
+ho
+av
+av
+ho
+ho
 av
 av
 av
-av
-av
-av
-av
-av
-av
-aM
+ho
+iJ
 pg
 bV
 ac
@@ -42583,7 +43501,7 @@ aD
 aD
 ac
 ac
-bU
+dn
 pg
 aJ
 av
@@ -42593,17 +43511,17 @@ av
 av
 av
 av
+ho
 av
 av
 av
 av
 av
+ho
 av
 av
 av
-av
-av
-av
+ho
 av
 aM
 ax
@@ -42614,11 +43532,11 @@ aC
 aC
 aC
 aC
+bf
 aC
 aC
 aC
-aC
-aC
+bf
 aC
 aC
 iD
@@ -42640,7 +43558,7 @@ aC
 iD
 bU
 oY
-ax
+ca
 aJ
 av
 av
@@ -42652,12 +43570,12 @@ av
 av
 av
 av
+ho
 av
 av
+ho
 av
-av
-av
-av
+ho
 av
 av
 av
@@ -42798,14 +43716,14 @@ av
 av
 av
 av
+ho
+av
+ho
+ho
 av
 av
 av
-av
-av
-av
-av
-av
+ho
 av
 aM
 ax
@@ -42814,14 +43732,14 @@ bV
 iD
 aC
 aC
+bf
 aC
 aC
 aC
 aC
-aC
-aC
-aC
-aC
+bf
+bf
+bf
 aC
 iD
 bU
@@ -42833,8 +43751,8 @@ aC
 aC
 aC
 aC
-aC
-aC
+bf
+bf
 aC
 aC
 aC
@@ -42846,7 +43764,7 @@ ax
 aJ
 av
 av
-av
+ho
 av
 av
 av
@@ -42865,7 +43783,7 @@ av
 av
 aM
 pg
-bV
+fv
 ac
 ac
 ac
@@ -42991,18 +43909,18 @@ bU
 pg
 aJ
 av
+ho
 av
 av
 av
 av
-av
-av
+ho
 av
 av
 aN
 av
 av
-av
+ho
 av
 av
 av
@@ -43014,16 +43932,16 @@ ju
 pp
 bV
 iD
+bf
+aC
+bf
 aC
 aC
+bf
 aC
+bf
 aC
-aC
-aC
-aC
-aC
-aC
-aC
+bf
 aC
 pw
 px
@@ -43036,9 +43954,9 @@ aC
 aC
 aC
 aC
-aC
-aC
-aC
+bf
+bf
+bf
 aC
 aC
 iD
@@ -43048,7 +43966,7 @@ ju
 dO
 av
 av
-av
+ho
 av
 av
 av
@@ -43067,7 +43985,7 @@ av
 av
 aM
 pg
-bV
+fv
 ac
 ac
 ac
@@ -43207,7 +44125,7 @@ av
 av
 av
 av
-av
+ho
 av
 av
 av
@@ -43218,14 +44136,14 @@ bV
 iD
 aC
 aC
+bf
 aC
+bf
+bf
 aC
+bf
 aC
-aC
-aC
-aC
-aC
-aC
+bf
 aC
 iD
 bU
@@ -43240,8 +44158,8 @@ aC
 aC
 aC
 aC
-aC
-aC
+bf
+bf
 aC
 iD
 bU
@@ -43250,10 +44168,10 @@ ax
 aJ
 av
 av
+ho
 av
 av
-av
-av
+ho
 av
 av
 av
@@ -43269,7 +44187,7 @@ av
 av
 aM
 pg
-bV
+fv
 ac
 ac
 ac
@@ -43398,6 +44316,7 @@ av
 av
 av
 av
+ho
 av
 av
 av
@@ -43407,22 +44326,21 @@ av
 av
 av
 av
-av
-av
-av
+ho
+ho
 av
 av
 av
 aM
-ax
-pg
-bV
+ca
+dD
+fv
 iD
 aC
+bf
+bf
 aC
-aC
-aC
-aC
+bf
 aC
 aC
 aC
@@ -43435,7 +44353,7 @@ py
 bV
 iD
 aC
-aC
+bf
 aC
 aC
 aC
@@ -43448,30 +44366,30 @@ aC
 iD
 bU
 pg
-ax
-aJ
+ca
+fw
+av
+av
+av
+av
+ho
+ho
+av
+av
+av
+ho
 av
 av
 av
 av
 av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
+ho
+ho
 av
 av
 aM
 pg
-bV
+fv
 ac
 ac
 ac
@@ -43612,19 +44530,19 @@ av
 av
 av
 av
-av
+ho
 av
 av
 aM
 ax
 pg
-bV
+fv
 iD
 aC
+bf
 aC
-aC
-aC
-aC
+bf
+bf
 aC
 aC
 aC
@@ -43637,26 +44555,26 @@ py
 bV
 iD
 aC
+bf
+aC
+bf
 aC
 aC
 aC
 aC
 aC
-aC
-aC
-aC
-aC
+bf
 aC
 iD
 bU
 pg
-ax
+ca
 aJ
 av
 av
 av
 av
-av
+ho
 av
 av
 av
@@ -43795,7 +44713,7 @@ ac
 ac
 ac
 ac
-bU
+dn
 pg
 aJ
 av
@@ -43817,37 +44735,37 @@ av
 av
 av
 av
-aM
+iJ
 ax
 pg
+fv
+iD
+aC
+aC
+aC
+bf
+aC
+aC
+aC
+bf
+bf
+aC
+bf
+iD
+dn
+qm
 bV
 iD
 aC
+bf
 aC
 aC
 aC
+bf
+bf
 aC
 aC
-aC
-aC
-aC
-aC
-aC
-iD
-bU
-py
-bV
-iD
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
+bf
 aC
 iD
 bU
@@ -43858,11 +44776,11 @@ av
 av
 av
 av
+ho
 av
 av
 av
-av
-av
+ho
 av
 av
 av
@@ -43997,18 +44915,74 @@ aD
 ac
 ac
 ac
+dn
+pg
+aJ
+av
+ho
+ho
+av
+av
+av
+ho
+ho
+av
+av
+av
+av
+ho
+ho
+ho
+av
+av
+av
+av
+aM
+ax
+pg
+fv
+iD
+aC
+aC
+bf
+bf
+aC
+aC
+aC
+aC
+bf
+aC
+aC
+iD
+bU
+qm
+bV
+iD
+aC
+bf
+aC
+aC
+aC
+aC
+bf
+aC
+aC
+bf
+aC
+iD
 bU
 pg
+ax
 aJ
 av
 av
 av
 av
+ho
 av
 av
-av
-av
-av
+ho
+ho
 av
 av
 av
@@ -44020,65 +44994,9 @@ av
 av
 av
 aM
-ax
 pg
 bV
-iD
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-iD
-bU
-py
-bV
-iD
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-aC
-iD
-bU
-pg
-ax
-aJ
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-av
-aM
-pg
-bV
-ac
+aP
 ac
 ac
 ac
@@ -44199,11 +45117,13 @@ aD
 ab
 ac
 ac
-bU
-pg
+dn
+dD
 aJ
 av
 av
+ho
+ho
 av
 av
 av
@@ -44211,10 +45131,8 @@ av
 av
 av
 av
-av
-av
-av
-av
+ho
+ho
 av
 av
 av
@@ -44224,22 +45142,22 @@ av
 aM
 ax
 pg
-bV
+fv
 iD
 aC
+bf
+bf
 aC
 aC
 aC
 aC
-aC
-aC
-aC
-aC
+bf
+bf
 aC
 aC
 iD
 bU
-py
+qm
 bV
 iD
 aC
@@ -44248,16 +45166,21 @@ aC
 aC
 aC
 aC
+bf
+bf
 aC
-aC
-aC
-aC
+bf
 aC
 iD
 bU
 pg
 ax
-aJ
+fw
+av
+av
+av
+ho
+ho
 av
 av
 av
@@ -44266,21 +45189,16 @@ av
 av
 av
 av
+ho
+ho
 av
 av
 av
-av
-av
-av
-av
-av
-av
-av
-av
+ho
 aM
 pg
 bV
-ac
+aP
 ac
 ac
 ac
@@ -44402,8 +45320,12 @@ aD
 ac
 ac
 bU
-pg
-aJ
+dD
+fw
+av
+av
+av
+ho
 av
 av
 av
@@ -44411,6 +45333,7 @@ av
 av
 av
 av
+ho
 av
 av
 av
@@ -44418,26 +45341,21 @@ av
 av
 av
 av
-av
-av
-av
-av
-av
-aM
+iJ
 ax
-pg
-bV
+dD
+fv
 iD
 aC
 aC
+bf
 aC
 aC
 aC
+bf
+bf
 aC
-aC
-aC
-aC
-aC
+bf
 aC
 iD
 bU
@@ -44463,6 +45381,7 @@ aJ
 av
 av
 av
+ho
 av
 av
 av
@@ -44473,17 +45392,16 @@ av
 av
 av
 av
+ho
+ho
+ho
 av
-av
-av
-av
-av
-av
-aM
+ho
+iJ
 pg
 bV
-ac
-ac
+aP
+aP
 aD
 aD
 ab
@@ -44605,7 +45523,7 @@ ac
 ac
 bU
 pg
-aJ
+fw
 av
 av
 av
@@ -44616,18 +45534,18 @@ av
 av
 av
 av
+ho
+ho
 av
 av
+ho
+ho
 av
 av
-av
-av
-av
-av
-av
+ho
 aM
-ax
-pg
+ca
+dD
 bV
 iD
 iE
@@ -44660,7 +45578,7 @@ iE
 iD
 bU
 pg
-ax
+ca
 aJ
 av
 av
@@ -44681,11 +45599,11 @@ av
 av
 av
 av
-aM
+iJ
 pg
-bV
+fv
 ac
-ac
+aP
 ac
 aD
 aD
@@ -44808,6 +45726,7 @@ ac
 bU
 pg
 aJ
+ho
 av
 av
 av
@@ -44817,18 +45736,17 @@ av
 av
 av
 av
+ho
 av
 av
 av
-av
-av
-av
+ho
 av
 av
 av
 av
 aM
-ax
+ca
 pg
 bV
 iD
@@ -44869,25 +45787,25 @@ av
 av
 av
 av
+ho
+ho
 av
 av
 av
 av
 av
+ho
+ho
 av
 av
 av
 av
 av
-av
-av
-av
-av
-aM
+iJ
 pg
 bV
 ac
-ac
+aP
 ac
 aD
 aD
@@ -45009,19 +45927,19 @@ ac
 ac
 bU
 pg
-aG
+gA
+iw
 aK
 aK
 aK
 aK
+iw
+iw
 aK
 aK
 aK
 aK
-aK
-aK
-aK
-aK
+iw
 aK
 aK
 aK
@@ -45030,39 +45948,39 @@ aK
 aK
 aK
 aI
-ax
+ca
 pg
 cb
 bT
 bT
 bT
 bT
+cH
 bT
 bT
 bT
 bT
-bT
-bT
+cH
 bT
 bT
 bT
 bW
 py
 cb
+cH
+bT
+cH
+cH
 bT
 bT
 bT
 bT
 bT
+cH
+cH
 bT
 bT
-bT
-bT
-bT
-bT
-bT
-bT
-bW
+iy
 pg
 ax
 aG
@@ -45072,13 +45990,13 @@ aK
 aK
 aK
 aK
+iw
 aK
 aK
 aK
 aK
-aK
-aK
-aK
+iw
+iw
 aK
 aK
 aK
@@ -45210,25 +46128,36 @@ aD
 ab
 ac
 bU
+dD
+dD
 pg
 pg
 pg
 pg
+dD
+dD
 pg
 pg
 pg
 pg
 pg
+dD
+dD
 pg
+dD
 pg
 pg
 pg
 pg
+dD
+dD
 pg
 pg
 pg
 pg
 pg
+dD
+dD
 pg
 pg
 pg
@@ -45238,48 +46167,37 @@ pg
 pg
 pg
 pg
+qn
+dD
 pg
 pg
+dD
+qD
+dD
+dD
 pg
 pg
+dD
 pg
+dD
+dD
 pg
+dD
 pg
 pg
+dD
 pg
 pg
 pg
-pA
 pg
 pg
 pg
 pg
+dD
 pg
 pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
-pg
+dD
+dD
 pg
 pg
 pg
@@ -45411,48 +46329,48 @@ aD
 aD
 ab
 ac
-iw
+dB
+cd
 bS
 bS
 bS
 bS
 bS
+cd
+bS
+bS
+cd
+bS
+bS
+bS
+bS
+cd
+cd
+cd
+bS
+bS
+cd
+bS
+cd
 bS
 bS
 bS
 bS
 bS
+cd
+cd
 bS
 bS
 bS
+cd
 bS
 bS
+cd
 bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
+cd
+ca
+ca
 ax
-ax
-ax
 bS
 bS
 bS
@@ -45461,33 +46379,33 @@ bS
 bS
 bS
 bS
+cd
+bS
+bS
+bS
+bS
+cd
+bS
+cd
+cd
+bS
+bS
+bS
+cd
+bS
+bS
+bS
+bS
+bS
+cd
+cd
 bS
 bS
 bS
 bS
 bS
 bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
-bS
+cd
 bS
 bS
 bS
@@ -45646,6 +46564,28 @@ ac
 ac
 ac
 ac
+aP
+ac
+ac
+ac
+ac
+aP
+ac
+ac
+ac
+ac
+ac
+aP
+ac
+ac
+ac
+ac
+ac
+aP
+ac
+ac
+ac
+aP
 ac
 ac
 ac
@@ -45659,6 +46599,7 @@ ac
 ac
 ac
 ac
+aP
 ac
 ac
 ac
@@ -45666,31 +46607,8 @@ ac
 ac
 ac
 ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
-ac
+aP
+aP
 ac
 ac
 ac
