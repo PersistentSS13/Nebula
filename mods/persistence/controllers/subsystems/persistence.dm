@@ -13,8 +13,9 @@
 
 	var/list/saved_areas	= 	list()
 	var/list/saved_levels 	= 	list()	// Saved levels are saved entirely and optimized with get_base_turf()
-	var/list/saved_extensions = list()  // Extensions mark themselves to be saved on world save.
+	var/list/nondynamic_levels = list() // Saved levels which should not change their z-level between loads.
 
+	var/list/saved_extensions = list()  // Extensions mark themselves to be saved on world save.
 	var/rent_enabled = FALSE			// Whether or not rent will be required for created sectors.
 
 	var/serializer/sql/serializer = new() // The serializer impl for actually saving.
@@ -27,9 +28,6 @@
 	var/loading_world = FALSE
 
 	var/list/late_wrappers = list() // Some wrapped objects need special behavior post-load. This list is cleared post-atom Init.
-
-/datum/controller/subsystem/persistence/Initialize()
-	saved_levels = global.using_map.saved_levels
 
 /datum/controller/subsystem/persistence/proc/SaveExists()
 	if(!save_exists)
@@ -132,8 +130,8 @@
 		// This will prepare z_level translations.
 		var/list/z_transform = list()
 		var/new_z_index = 1
-		// First we find the highest non-dynamic z_level.
-		for(var/z in SSmapping.station_levels) //#FIXME: That logic is flawed. We got levels that aren't dynamic and aren't station levels!!!!
+		// First we find the highest nondynamic z_level.
+		for(var/z in nondynamic_levels)
 			if(z in saved_levels)
 				new_z_index = max(new_z_index, z)
 
@@ -142,7 +140,7 @@
 			var/datum/persistence/load_cache/z_level/z_level = new()
 			z_level.default_turf = get_base_turf(z)
 			z_level.index = z
-			if(z in SSmapping.station_levels) //#FIXME: That logic is flawed. We got levels that aren't dynamic and aren't station levels!!!!
+			if(z in nondynamic_levels)
 				z_level.dynamic = FALSE
 				z_level.new_index = z
 			else
@@ -375,7 +373,6 @@
 		loading_world = TRUE
 
 		// Start with rebuilding the z-levels.
-		//var/last_index = world.maxz
 		for(var/datum/persistence/load_cache/z_level/z_level in serializer.resolver.z_levels)
 			if(z_level.dynamic)
 				SSmapping.increment_world_z_size(/obj/abstract/level_data/space)
@@ -528,8 +525,6 @@
 	saved_levels |= z
 
 /datum/controller/subsystem/persistence/proc/RemoveSavedLevel(var/z)
-	if(z in global.using_map.saved_levels)
-		return
 	saved_levels -= z
 
 /datum/controller/subsystem/persistence/proc/AddSavedArea(var/area/A)
@@ -626,7 +621,6 @@
 
 /datum/controller/subsystem/persistence/proc/print_db_status()
 	return SQLS_Print_DB_STATUS()
-
 //Stats datum
 /datum/serialization_stat
 	var/time_spent   = 0

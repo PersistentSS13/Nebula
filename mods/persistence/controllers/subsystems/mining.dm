@@ -55,15 +55,11 @@ SUBSYSTEM_DEF(mining)
 	var/list/generators = list()
 	var/generating_mines = FALSE
 
-
-/datum/map
-	var/list/mining_levels = list()
-
 /area
 	var/ignore_mining_regen = TRUE
 
 /datum/controller/subsystem/mining/Initialize()
-	if(!length(global.using_map.mining_levels))
+	if(!length(SSmapping.mining_levels))
 		suspend()
 		return
 	Regenerate()
@@ -72,7 +68,7 @@ SUBSYSTEM_DEF(mining)
 /datum/controller/subsystem/mining/fire()
 	if(collapse_imminent)
 		if(world.timeofday - last_collapse >= ((regen_interval + warning_wait) * 600))
-			var/list/z_levels = SSmapping.get_connected_levels(global.using_map.mining_levels[1])
+			var/list/z_levels = SSmapping.get_connected_levels(SSmapping.mining_levels[1])
 			for(var/mob/M in global.player_list)
 				if(M.z in z_levels)
 					to_chat(M, SPAN_DANGER(collapse_message))
@@ -82,7 +78,7 @@ SUBSYSTEM_DEF(mining)
 			Regenerate()
 	else
 		if(world.timeofday - last_collapse >= regen_interval * 600)
-			var/list/z_levels = SSmapping.get_connected_levels(global.using_map.mining_levels[1])
+			var/list/z_levels = SSmapping.get_connected_levels(SSmapping.mining_levels[1])
 			for(var/mob/M in global.player_list)
 				if(M.z in z_levels)
 					to_chat(M, SPAN_DANGER(warning_message))
@@ -98,11 +94,11 @@ SUBSYSTEM_DEF(mining)
 	generators.Cut(1)
 	var/list/eject_mobs = list()
 	for(var/mob/M in SSmobs.mob_list)
-		if(M.z in global.using_map.mining_levels)
+		if(M.z in SSmapping.mining_levels)
 			eject_mobs += M
 	SpitOutMobs(eject_mobs, 3)
 
-	for(var/z_level in global.using_map.mining_levels)
+	for(var/z_level in SSmapping.mining_levels)
 		var/datum/random_map/automata/cave_system/outreach/generator = new(TRANSITIONEDGE, TRANSITIONEDGE, z_level, world.maxx - TRANSITIONEDGE, world.maxy - TRANSITIONEDGE, FALSE, FALSE, FALSE)
 		generators.Add(generator)
 
@@ -110,7 +106,7 @@ SUBSYSTEM_DEF(mining)
 
 /obj/structure/ladder/updown/mine/climb(mob/M, obj/item/I = null)
 	if(SSmining.generating_mines)
-		to_chat(M, "<span class='notice'>With the ground shaking, it doesn't feel safe to climb down \the [src].</span>")
+		to_chat(M, SPAN_NOTICE("With the ground shaking, it doesn't feel safe to climb down \the [src]."))
 		return
 	return ..(M, I)
 

@@ -4,11 +4,18 @@
 	restricted_area = 50
 
 /obj/effect/overmap/visitable/sector/created/Initialize(var/mapload, var/name, var/start_x, var/start_y, var/color)
-	if(name) src.name = name
-	if(start_x) src.start_x = start_x
-	if(start_y) src.start_y = start_y
-	if(color) src.color = color
+	if(name)
+		src.name = name
+	if(start_x)
+		src.start_x = start_x
+	if(start_y)
+		src.start_y = start_y
+	if(color)
+		src.color = color
 	. = ..(mapload)
+
+	for(var/sector_z in map_z)
+		SSpersistence.AddSavedLevel(sector_z)
 
 /obj/effect/overmap/visitable/ship/created
 	desc = "A large ship intended to remain permanently in space."
@@ -16,8 +23,15 @@
 	restricted_area = 50
 
 /obj/effect/overmap/visitable/ship/created/Initialize(var/mapload, var/name, var/start_x, var/start_y, var/color)
-	if(name) src.name = name
-	if(start_x) src.start_x = start_x
-	if(start_y) src.start_y = start_y
-	if(color) src.color = color
+	if(name)
+		src.name = name
+	if(start_x)
+		src.start_x = start_x
+	if(start_y)
+		src.start_y = start_y
+	if(color)
+		src.color = color
 	. = ..(mapload)
+
+	for(var/sector_z in map_z)
+		SSpersistence.AddSavedLevel(sector_z)

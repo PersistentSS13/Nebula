@@ -1,26 +1,13 @@
 /datum/map/kleibkhar
-#ifndef UNIT_TEST
-	// Hotloading module
 	default_levels = list(
-		"1" = "maps/kleibkhar/kleibkhar-1.dmm",
-		"2" = "maps/kleibkhar/kleibkhar-2.dmm",
-		"3" = "maps/kleibkhar/kleibkhar-3.dmm",
-		"4" = "maps/kleibkhar/kleibkhar-4.dmm",
-		"5" = "maps/utility/cargo_shuttle_tmpl.dmm",
+		"maps/kleibkhar/kleibkhar-1.dmm" = null,
+		"maps/kleibkhar/kleibkhar-2.dmm" = null,
+		"maps/kleibkhar/kleibkhar-3.dmm" = /obj/abstract/level_data/exoplanet/kleibkhar,
+		"maps/kleibkhar/kleibkhar-4.dmm" = /obj/abstract/level_data/exoplanet/kleibkhar/sky,
+		"maps/utility/cargo_shuttle_tmpl.dmm" = null
 	)
-
-#else
-	default_levels = list(
-		"4" = "maps/kleibkhar/kleibkhar-1.dmm",
-		"5" = "maps/kleibkhar/kleibkhar-2.dmm",
-		"6" = "maps/kleibkhar/kleibkhar-3.dmm",
-		"7" = "maps/kleibkhar/kleibkhar-4.dmm",
-		"8" = "maps/utility/cargo_shuttle_tmpl.dmm",
-	)
-#endif
-
 /obj/abstract/level_data/exoplanet/kleibkhar
-	level_flags = (ZLEVEL_CONTACT|ZLEVEL_PLAYER|ZLEVEL_SAVED)
+	level_flags = (ZLEVEL_CONTACT|ZLEVEL_PLAYER|ZLEVEL_SAVED|ZLEVEL_NONDYNAMIC)
 	ambient_light_level = 1.0
 	base_turf = /turf/exterior/kleibkhar_grass
 	exterior_atmosphere = list(
