@@ -1228,12 +1228,15 @@ var/global/list/floor_decals = list()
 
 /obj/effect/floor_decal/floordetail/pryhole
 	icon_state = "pryhole"
+	name = "pry hole"
 
 /obj/effect/floor_decal/floordetail/edgedrain
 	icon_state = "edge"
+	name = "edge drain"
 
 /obj/effect/floor_decal/floordetail/traction
 	icon_state = "traction"
+	name = "traction"
 
 /obj/effect/floor_decal/ntlogo
 	icon_state = "ntlogo"

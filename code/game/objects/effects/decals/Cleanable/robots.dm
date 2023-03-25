@@ -31,15 +31,19 @@
 				break
 
 /obj/effect/decal/cleanable/blood/gibs/robot/limb
+	icon_state = "gibarm"
 	random_icon_states = list("gibarm", "gibleg")
 
 /obj/effect/decal/cleanable/blood/gibs/robot/up
+	icon_state = "gibup1"
 	random_icon_states = list("gib1", "gib2", "gib3", "gib4", "gib5", "gib6", "gib7","gibup1","gibup1") //2:7 is close enough to 1:4
 
 /obj/effect/decal/cleanable/blood/gibs/robot/down
+	icon_state = "gibdown1"
 	random_icon_states = list("gib1", "gib2", "gib3", "gib4", "gib5", "gib6", "gib7","gibdown1","gibdown1") //2:7 is close enough to 1:4
 
 /obj/effect/decal/cleanable/blood/oil
+	color = SYNTH_BLOOD_COLOR
 	basecolor = SYNTH_BLOOD_COLOR
 	chemical = /decl/material/liquid/lube
 	cleanable_scent = "industrial lubricant"
@@ -48,5 +52,6 @@
 	return
 
 /obj/effect/decal/cleanable/blood/oil/streak
+	icon_state = "mgibbl1"
 	random_icon_states = list("mgibbl1", "mgibbl2", "mgibbl3", "mgibbl4", "mgibbl5")
 	amount = 2

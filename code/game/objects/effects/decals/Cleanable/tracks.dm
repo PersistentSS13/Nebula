@@ -158,10 +158,12 @@ var/global/list/image/fluidtrack_cache=list()
 	drydesc = "They look like dried tracks left by footwear."
 	coming_state = "human1"
 	going_state  = "human2"
+	icon_state = "human1"
 
 /obj/effect/decal/cleanable/blood/tracks/footprints/reversed
 	coming_state = "human2"
 	going_state = "human1"
+	icon_state = "human2"
 
 /obj/effect/decal/cleanable/blood/tracks/footprints/reversed/AddTracks(var/list/DNA, var/comingdir, var/goingdir, var/bloodcolor=COLOR_BLOOD_HUMAN)
 	comingdir = comingdir && global.reverse_dir[comingdir]
@@ -175,6 +177,7 @@ var/global/list/image/fluidtrack_cache=list()
 	drydesc = "They look like dried tracks left by a giant snake."
 	coming_state = "snake1"
 	going_state  = "snake2"
+	icon_state = "snake1"
 
 /obj/effect/decal/cleanable/blood/tracks/paw
 	name = "wet tracks"
@@ -183,6 +186,7 @@ var/global/list/image/fluidtrack_cache=list()
 	drydesc = "They look like dried tracks left by a mammal."
 	coming_state = "paw1"
 	going_state  = "paw2"
+	icon_state = "paw1"
 
 /obj/effect/decal/cleanable/blood/tracks/claw
 	name = "wet tracks"
@@ -191,6 +195,7 @@ var/global/list/image/fluidtrack_cache=list()
 	drydesc = "They look like dried tracks left by a reptile."
 	coming_state = "claw1"
 	going_state  = "claw2"
+	icon_state = "claw1"
 
 /obj/effect/decal/cleanable/blood/tracks/wheels
 	name = "wet tracks"
@@ -200,6 +205,7 @@ var/global/list/image/fluidtrack_cache=list()
 	coming_state = "wheels"
 	going_state  = ""
 	gender = PLURAL
+	icon_state = "wheels"
 
 /obj/effect/decal/cleanable/blood/tracks/body
 	name = "wet trails"
@@ -208,3 +214,4 @@ var/global/list/image/fluidtrack_cache=list()
 	drydesc = "A dried trail left by someone crawling."
 	coming_state = "trail1"
 	going_state  = "trail2"
+	icon_state = "trail1"
