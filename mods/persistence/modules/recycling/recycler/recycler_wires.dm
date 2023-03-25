@@ -24,13 +24,14 @@ var/global/const/RECYCLER_WIRE_POWER_SUPPLY    = 5
 	. += ..()
 	. += "<br>"
 	. += "\The [src] is [(R.operable() && R.use_power)? "online" : "offline"].<br>"
-	. += "\The [src] is [R.emergency_stopped? "in emergency stop mode" : "in normal mode"].<br>"
+	. += "\The [src] is [(R.recycler_state &  RECYCLER_FLAG_EMERGENCY)? "in emergency stop mode" : "in normal mode"].<br>"
 	. += "\The [src] is waiting [R.emergency_stop_time/(1 SECOND)] second(s) on emergency stops.<br>"
-	. += "\The [src]'s check engine light is [R.overheating? "blinking yellow" : "solid green"].<br>"
-	if(R.overheating)
-		. += "\The [src] seems to be spinning faster..<br>"
-	if(R.shorted)
-		. += "\The [src] seems to be making a weird low buzzing sound..<br>"
+	. += "\The [src]'s check engine light is [(R.recycler_state & RECYCLER_FLAG_OVERHEATING)? "blinking yellow" : "solid green"].<br>"
+	if(R.is_running())
+		if(R.recycler_state & RECYCLER_FLAG_OVERHEATING)
+			. += "\The [src] seems to be spinning faster..<br>"
+		if(R.recycler_state & RECYCLER_FLAG_SHORTED)
+			. += "\The [src] seems to be making a weird low buzzing sound..<br>"
 
 /datum/wires/recycler/UpdateCut(var/index, var/mended)
 	var/obj/machinery/recycler/R = holder
@@ -39,22 +40,26 @@ var/global/const/RECYCLER_WIRE_POWER_SUPPLY    = 5
 		if(RECYCLER_WIRE_POWER)
 			if(user && !user.skill_check(SKILL_ELECTRICAL, SKILL_PROF))
 				R.shock(user, 50)
-			R.power_cut = TRUE
-			R.update_use_power(POWER_USE_OFF)
+			if(mended)
+				R.recycler_state &= ~RECYCLER_FLAG_POWER_CUT
+				R.update_use_power(POWER_USE_IDLE)
+			else
+				R.recycler_state |= RECYCLER_FLAG_POWER_CUT
+				R.update_use_power(POWER_USE_OFF)
 
 		if(RECYCLER_WIRE_SAFETY_ON)
-			R.ignore_safety = !mended
+			R.recycler_state = !mended? (R.recycler_state | RECYCLER_FLAG_UNSAFE) : (R.recycler_state & (~RECYCLER_FLAG_UNSAFE))
 
 		if (RECYCLER_WIRE_SAFETY_DURATION)
 			R.emergency_stop_time = mended? initial(R.emergency_stop_time) : ((user.skill_check(SKILL_ELECTRICAL, SKILL_EXPERT))? 0 : (1 SECOND))
 
 		if(RECYCLER_WIRE_MOTOR_LIMITER)
-			R.set_overheating(!mended)
+			R.recycler_state = !mended? (R.recycler_state | RECYCLER_FLAG_OVERHEATING) : (R.recycler_state & (~RECYCLER_FLAG_OVERHEATING))
 
 		if(RECYCLER_WIRE_POWER_SUPPLY)
 			if(user && !user.skill_check(SKILL_ELECTRICAL, SKILL_PROF))
 				R.shock(user, 50)
-			R.set_shorted(!mended)
+			R.recycler_state = !mended? (R.recycler_state | RECYCLER_FLAG_SHORTED) : (R.recycler_state & (~RECYCLER_FLAG_SHORTED))
 	R.update_icon()
 
 /datum/wires/alarm/UpdatePulsed(var/index)
@@ -62,14 +67,14 @@ var/global/const/RECYCLER_WIRE_POWER_SUPPLY    = 5
 	var/mob/living/user = usr
 	switch(index)
 		if(RECYCLER_WIRE_POWER)
-			if(!R.power_cut)
+			if(!(R.recycler_state & RECYCLER_FLAG_POWER_CUT))
 				addtimer(CALLBACK(src, /datum/wires/recycler/.proc/clear_power_cut, 10 SECONDS))
 				R.update_use_power(POWER_USE_OFF)
-				R.power_cut = TRUE
+				R.recycler_state |= RECYCLER_FLAG_POWER_CUT
 
 		if(RECYCLER_WIRE_SAFETY_ON)
-			if(!R.ignore_safety)
-				R.ignore_safety = TRUE
+			if(!(R.recycler_state & RECYCLER_FLAG_UNSAFE))
+				R.recycler_state |= RECYCLER_FLAG_UNSAFE
 				addtimer(CALLBACK(src, /datum/wires/recycler/.proc/clear_ignore_safety, 5 SECONDS))
 
 		if (RECYCLER_WIRE_SAFETY_DURATION)
@@ -78,13 +83,13 @@ var/global/const/RECYCLER_WIRE_POWER_SUPPLY    = 5
 				addtimer(CALLBACK(src, /datum/wires/recycler/.proc/clear_emergency_stop_time, 5 SECONDS))
 
 		if(RECYCLER_WIRE_MOTOR_LIMITER)
-			if(!R.overheating)
-				R.set_overheating(TRUE)
+			if(!(R.recycler_state & RECYCLER_FLAG_OVERHEATING))
+				R.recycler_state |= RECYCLER_FLAG_OVERHEATING
 				addtimer(CALLBACK(src, /datum/wires/recycler/.proc/clear_overheating, 5 SECONDS))
 
 		if(RECYCLER_WIRE_POWER_SUPPLY)
-			if(R.shorted)
-				R.set_shorted(TRUE)
+			if(!(R.recycler_state & RECYCLER_FLAG_SHORTED))
+				R.recycler_state |= RECYCLER_FLAG_SHORTED
 				addtimer(CALLBACK(src, /datum/wires/recycler/.proc/clear_shorted, 5 SECONDS))
 	R.update_icon()
 
@@ -92,14 +97,14 @@ var/global/const/RECYCLER_WIRE_POWER_SUPPLY    = 5
 	var/obj/machinery/recycler/R = holder
 	if(QDELETED(R))
 		return
-	R.ignore_safety = FALSE
+	R.recycler_state &= ~RECYCLER_FLAG_UNSAFE
 	R.update_icon()
 
 /datum/wires/recycler/proc/clear_power_cut()
 	var/obj/machinery/recycler/R = holder
 	if(QDELETED(R))
 		return
-	R.power_cut = FALSE
+	R.recycler_state &= ~RECYCLER_FLAG_POWER_CUT
 	if(R.use_power == POWER_USE_OFF)
 		R.update_use_power(POWER_USE_IDLE)
 	R.update_icon()
@@ -115,10 +120,10 @@ var/global/const/RECYCLER_WIRE_POWER_SUPPLY    = 5
 	var/obj/machinery/recycler/R = holder
 	if(QDELETED(R))
 		return
-	R.set_overheating(FALSE)
+	R.recycler_state &= ~RECYCLER_FLAG_OVERHEATING
 
 /datum/wires/recycler/proc/clear_shorted()
 	var/obj/machinery/recycler/R = holder
 	if(QDELETED(R))
 		return
-	R.set_shorted(FALSE)
+	R.recycler_state &= ~RECYCLER_FLAG_SHORTED

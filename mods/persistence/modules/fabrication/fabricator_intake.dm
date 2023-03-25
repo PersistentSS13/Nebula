@@ -1,3 +1,9 @@
+//Disable the annoyance.
+/obj/machinery/fabricator
+	has_recycler = FALSE
+/obj/machinery/fabricator/can_ingest(obj/item/thing)
+	return istype(thing, /obj/item/stack/material) //Prevents the fabricators from eating things you didn't want it to eat
+
 /obj/machinery/fabricator/attackby(obj/item/O, mob/user)
 	if(user.a_intent != I_HURT)
 		if(istype(O, /obj/item/stock_parts/computer/hard_drive/portable))

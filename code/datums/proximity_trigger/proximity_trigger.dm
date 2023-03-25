@@ -109,7 +109,8 @@ var/global/const/PROXIMITY_EXCLUDE_HOLDER_TURF = 1 // When acquiring turfs to mo
 	for(var/t in seen_turfs_)
 		events_repository.unregister(/decl/observ/entered, t, src, /datum/proximity_trigger/proc/on_turf_entered)
 
-	call(proc_owner, on_turfs_changed)(seen_turfs_.Copy(), list())
+	if(on_turfs_changed)
+		call(proc_owner, on_turfs_changed)(seen_turfs_.Copy(), list())
 
 	turfs_in_range.Cut()
 	seen_turfs_.Cut()
@@ -119,7 +120,8 @@ var/global/const/PROXIMITY_EXCLUDE_HOLDER_TURF = 1 // When acquiring turfs to mo
 	if(listequal(seen_turfs_, new_seen_turfs_))
 		return
 
-	call(proc_owner, on_turfs_changed)(seen_turfs_.Copy(), new_seen_turfs_.Copy())
+	if(on_turfs_changed)
+		call(proc_owner, on_turfs_changed)(seen_turfs_.Copy(), new_seen_turfs_.Copy())
 
 	for(var/t in (seen_turfs_ - new_seen_turfs_))
 		events_repository.unregister(/decl/observ/entered, t, src, /datum/proximity_trigger/proc/on_turf_entered)
