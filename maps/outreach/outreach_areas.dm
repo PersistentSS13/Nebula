@@ -3,8 +3,11 @@
 ///////////////////////////////////////////////////
 /area/exoplanet/outreach
 	name             = "Outreach Surface"
-	base_turf        = /turf/exterior/barren/outreach
-	open_turf        = /turf/exterior/barren/outreach //Prevent people from creating free holes everywhere
+	icon             = 'icons/turf/areas.dmi'
+	icon_state       = "black"
+	alpha            = 128
+	base_turf        = OUTREACH_SURFACE_TURF
+	open_turf        = OUTREACH_SURFACE_TURF //Prevent people from creating free holes everywhere
 	turf_initializer = /decl/turf_initializer/outreach_surface
 	sound_env        = QUARRY
 	ambience         = null
@@ -39,6 +42,7 @@
 	area_flags      = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_RAD_SHIELDED | AREA_FLAG_ION_SHIELDED
 	is_outside      = OUTSIDE_NO
 	sound_env       = CAVE
+	abstract_type   = /area/exoplanet/outreach/underground
 	forced_ambience = null
 	ambience        = list(
 		'sound/ambience/spookyspace1.ogg',
@@ -61,8 +65,6 @@
 	icon_state          = "cave"
 	area_flags          = AREA_FLAG_IS_BACKGROUND | AREA_FLAG_RAD_SHIELDED | AREA_FLAG_ION_SHIELDED | AREA_FLAG_IS_NOT_PERSISTENT
 	ignore_mining_regen = FALSE
-	base_turf           = /turf/exterior/volcanic/mining
-	open_turf           = /turf/exterior/volcanic/mining //Prevents people from creating free holes everywhere
 	ambience            = list(
 		'sound/ambience/ominous1.ogg',
 		'sound/ambience/ominous2.ogg',
@@ -74,9 +76,7 @@
 /area/exoplanet/outreach/underground/mines/b1
 	name = "Outreach Subterrane"
 /area/exoplanet/outreach/underground/mines/gf
-	name      = "Outreach Excavation"
-	base_turf = /turf/exterior/volcanic/mining
-	open_turf = /turf/exterior/volcanic/mining //Prevents people from creating free holes everywhere
+	name = "Outreach Excavation"
 
 /area/exoplanet/outreach/mine_entrance
 	name                = "Outreach Topside Mines Access"
@@ -85,16 +85,12 @@
 	is_outside          = OUTSIDE_NO
 	sound_env           = QUARRY
 	forced_ambience     = null
-	base_turf           = /turf/exterior/volcanic
-	open_turf           = /turf/exterior/volcanic //Prevents people from creating free holes everywhere
 
 /area/exoplanet/outreach/underground/mines/stairwell
 	name                = "Outreach Mines Stairwell"
 	icon_state          = "exit"
 	ignore_mining_regen = TRUE
 	sound_env           = CAVE
-	base_turf           = /turf/exterior/volcanic
-	open_turf           = /turf/exterior/volcanic //Prevents people from creating free holes everywhere
 
 /area/exoplanet/outreach/underground/mines/stairwell/gf
 	name = "Outreach GF Mines Stairwell"
@@ -108,8 +104,6 @@
 	icon_state          = "exit"
 	ignore_mining_regen = TRUE
 	sound_env           = CAVE
-	base_turf           = /turf/exterior/volcanic
-	open_turf           = /turf/exterior/volcanic //Prevents people from creating free holes everywhere
 
 /area/exoplanet/outreach/underground/mines/access/b1
 	name = "Outreach Subterrane Mine Access"
@@ -120,16 +114,17 @@
 //Outpost
 ///////////////////////////////////////////////////
 /area/outreach
-	name       = "DONT USE ME"
-	icon_state = "toilet"
-	area_flags = AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED
-	base_turf  = /turf/exterior/barren/outreach
-	open_turf  = /turf/exterior/open
+	name          = "DONT USE ME"
+	icon_state    = "toilet"
+	area_flags    = AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED
+	base_turf     = OUTREACH_SURFACE_TURF
+	open_turf     = /turf/exterior/open
+	abstract_type = /area/outreach
 
 /area/outreach/outpost
 	name      = "Outpost"
 	open_turf = /turf/simulated/open
-	base_turf = /turf/exterior/barren/outreach
+	base_turf = OUTREACH_SURFACE_TURF
 	///turf/simulated/floor/asteroid //Underground floors use this, and all floors above will use the open_turf instead
 
 ///////////////////////////////////////////////////
@@ -793,26 +788,6 @@
 	name       = "OB GF South EVA Storage"
 
 ///////////////////////////////////////////////////
-//Unit Test Areas
-///////////////////////////////////////////////////
-//Prevents unit tests from complaining about vents/scrubbers/etc
-
-
-// /area/outreach/outpost/southern_tunnel
-// 	name             = "OB GF South Tunnel"
-// 	icon_state       = "blue-red-d"
-// 	sound_env        = PARKING_LOT
-// 	ambience         = null
-// 	forced_ambience  = list(
-// 		'sound/effects/wind/desert0.ogg',
-// 		'sound/effects/wind/desert1.ogg',
-// 		'sound/effects/wind/desert2.ogg',
-// 		'sound/effects/wind/desert3.ogg',
-// 		'sound/effects/wind/desert4.ogg',
-// 		'sound/effects/wind/desert5.ogg',
-// 	)
-
-///////////////////////////////////////////////////
 //Elevators
 ///////////////////////////////////////////////////
 /area/turbolift/outreach
@@ -845,5 +820,5 @@
 	name       = "Supply Shuttle Dock"
 	icon_state = "yellow"
 	base_turf  = /turf/simulated/floor/plating //Needed for shuttles
-	open_turf  = /turf/exterior/barren
+	open_turf  = OUTREACH_SURFACE_TURF
 	area_flags = AREA_FLAG_IS_NOT_PERSISTENT | AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED | AREA_FLAG_EXTERNAL

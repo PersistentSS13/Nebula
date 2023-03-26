@@ -1,4 +1,6 @@
 #if !defined(USING_MAP_DATUM)
+#define OUTREACH_SURFACE_TURF /turf/exterior/barren/outreach
+
 	// Mods section
 	#include "../../mods/persistence/_persistence.dme"
 	#include "../../mods/species/bayliens/_bayliens.dme"

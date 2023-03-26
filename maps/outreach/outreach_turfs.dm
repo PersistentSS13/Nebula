@@ -21,32 +21,30 @@
 // Outreach Atmos Floors
 ///////////////////////////////////////////////////////////////////////////////////
 
+///Starts with outreach's atmos
 /turf/simulated/floor/tiled/techfloor/grid/outreach
 	initial_gas = OUTREACH_ATMOS
 	temperature = OUTREACH_TEMP
 
+///Starts with outreach's atmos
 /turf/simulated/floor/tiled/techfloor/outreach
 	initial_gas = OUTREACH_ATMOS
 	temperature = OUTREACH_TEMP
 
+///Starts with outreach's atmos
 /turf/simulated/floor/tiled/steel_ridged/outreach
 	initial_gas = OUTREACH_ATMOS
 	temperature = OUTREACH_TEMP
 
+///Starts with outreach's atmos
 /turf/simulated/floor/tiled/dark/monotile/outreach
 	initial_gas = OUTREACH_ATMOS
 	temperature = OUTREACH_TEMP
 
+///Starts with outreach's atmos
 /turf/simulated/floor/plating/outreach
 	initial_gas = OUTREACH_ATMOS
 	temperature = OUTREACH_TEMP
-
-/turf/simulated/floor/asteroid/outreach
-	initial_gas          = OUTREACH_ATMOS
-	temperature          = OUTREACH_TEMP
-	heat_capacity        = 80000
-	thermal_conductivity = 0.005
-	open_turf_type       = /turf/simulated/open
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Painted walls
@@ -106,35 +104,35 @@
 	stripe_color = COLOR_COMMAND_BLUE
 
 ///////////////////////////////////////////////////////////////////////////////////
-// Underground Turfs
+// Underground Wall Turfs
 ///////////////////////////////////////////////////////////////////////////////////
 
-//Underground Outpost Rock Floors
-/turf/simulated/floor/volcanic/outreach
-	name = "igneous rock floor"
-	open_turf_type = /turf/simulated/open
+/turf/exterior/wall/outreach
+	name           = "erroded wall"
+	open_turf_type = OUTREACH_SURFACE_TURF //Don't allow just removing this easily
+	floor_type     = OUTREACH_SURFACE_TURF
 
 //Outpost Rock Walls
 /turf/exterior/wall/outreach/mountain
 	name = "weathered sandstone wall"
 	strata   = /decl/strata/outreach/mountain
 	material = /decl/material/solid/stone/sandstone
-	floor_type = /turf/simulated/floor/asteroid/outreach
+	floor_type = OUTREACH_SURFACE_TURF
 	open_turf_type = /turf/simulated/open
 
 /turf/exterior/wall/outreach/subterrane
 	name = "erroded sandstone wall"
 	strata = /decl/strata/outreach/subterrane
 	material = /decl/material/solid/stone/sandstone
-	floor_type = /turf/simulated/floor/asteroid/outreach
+	floor_type = OUTREACH_SURFACE_TURF
 	open_turf_type = /turf/simulated/open
 
 /turf/exterior/wall/outreach/abyss
 	name = "compacted slate wall"
 	strata   = /decl/strata/outreach/abyssal
 	material = /decl/material/solid/stone/slate
-	floor_type = /turf/simulated/floor/volcanic/outreach
-	open_turf_type = /turf/simulated/magma
+	floor_type = /turf/exterior/lava
+	open_turf_type = /turf/exterior/lava
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Mining Turfs
@@ -170,30 +168,24 @@
 ///////////////////////////////////////////////////////////////////////////////////
 // Surface Turfs
 ///////////////////////////////////////////////////////////////////////////////////
-//Just some pre-reserved types for later modifications
+
+///Ground turf for outreach. This turf will have surface props spawned onto it by the random_map.
 /turf/exterior/barren/outreach
 	name = "ground"
 
-/turf/exterior/wall/outreach
-	name           = "erroded wall"
-	open_turf_type = /turf/exterior/barren/outreach //Don't allow just removing this easily
-	floor_type     = /turf/exterior/barren/outreach
+/turf/exterior/barren/subterrane/outreach
+	icon           = 'icons/turf/flooring/asteroid.dmi'
+	icon_state     = "asteroid"
+	open_turf_type = /turf/exterior/open
 
 /turf/exterior/chlorine_sand/outreach
 	name           = "chlorine salts"
-	open_turf_type = /turf/exterior/barren/outreach //Don't allow just removing this easily
+	open_turf_type = OUTREACH_SURFACE_TURF //Don't allow just removing this easily
 
 /turf/exterior/water/outreach
 	name           = "muriatic acid swamp"
 	reagent_type   = /decl/material/liquid/acid/hydrochloric
 	open_turf_type = /turf/exterior/chlorine_sand/outreach //Don't allow just removing this easily
-
-/turf/exterior/barren/subterrane
-	icon = 'icons/turf/flooring/asteroid.dmi'
-	icon_state = "asteroid"
-
-/turf/exterior/barren/subterrane/outreach
-	open_turf_type = /turf/exterior/open
 
 /turf/exterior/volcanic/outreach/abyss
 	open_turf_type = /turf/simulated/magma
