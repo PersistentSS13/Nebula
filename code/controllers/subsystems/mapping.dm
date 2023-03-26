@@ -53,6 +53,8 @@ SUBSYSTEM_DEF(mapping)
 	var/list/planetoid_data_by_id
 	///List of all z-levels in the world where the index corresponds to a z-level, and the key at that index is the planetoid_data datum for the associated planet
 	var/list/planetoid_data_by_z = list()
+	/// List of z-levels that regenerates mining turfs periodically
+	var/list/mining_levels =  list()
 
 /datum/controller/subsystem/mapping/PreInit()
 	reindex_lists()

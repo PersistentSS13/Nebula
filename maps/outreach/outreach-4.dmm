@@ -2381,7 +2381,7 @@
 /turf/simulated/floor/airless,
 /area/exoplanet/outreach/sky)
 "fd" = (
-/obj/abstract/level_data/player_level/outreach_4,
+/obj/abstract/level_data/exoplanet/outreach/sky,
 /turf/exterior/planet_edge,
 /area/exoplanet/outreach/sky)
 "fe" = (

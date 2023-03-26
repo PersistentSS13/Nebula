@@ -26,57 +26,63 @@
 /////////////////////////////////////////////////////////////////////////////
 // Station Building Levels
 /////////////////////////////////////////////////////////////////////////////
-/obj/abstract/level_data/player_level/outreach_1
+/obj/abstract/level_data/exoplanet/outreach/underground/abyss
 	name        = "Outreach Depths"
-	level_id    = "outreach_1"
-	connects_to = list("outreach_south_1" = SOUTH, "outreach_2" = UP)
-	level_flags = ZLEVEL_STATION | ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_PERSISTENT
+	level_id    = "outreach_abyss"
+	connects_to = list("outreach_south_abyss" = SOUTH, "outreach_underground" = UP)
+	level_flags = ZLEVEL_STATION | ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_SAVED | ZLEVEL_SEALED
 	base_turf   = /turf/exterior/barren
 
-/obj/abstract/level_data/player_level/outreach_2
+/obj/abstract/level_data/exoplanet/outreach/underground
 	name        = "Outreach Underground"
-	level_id    = "outreach_2"
-	connects_to = list("outreach_south_2" = SOUTH, "outreach_1" = DOWN, "outreach_3" = UP)
-	level_flags = ZLEVEL_STATION | ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_PERSISTENT
+	level_id    = "outreach_underground"
+	connects_to = list("outreach_south_underground" = SOUTH, "outreach_abyss" = DOWN, "outreach_surface" = UP)
+	level_flags = ZLEVEL_STATION | ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_SAVED
 	base_turf   = /turf/exterior/barren
+	ambient_light_level = 0.2
+	ambient_light_color = COLOR_YELLOW_GRAY
 
-/obj/abstract/level_data/player_level/outreach_3
+/obj/abstract/level_data/exoplanet/outreach
 	name        = "Outreach Surface"
-	level_id    = "outreach_3"
-	connects_to = list("outreach_south_3" = SOUTH, "outreach_2" = DOWN, "outreach_4" = UP)
-	level_flags = ZLEVEL_STATION | ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_PERSISTENT
+	level_id    = "outreach_surface"
+	connects_to = list("outreach_south_mountain" = SOUTH, "outreach_underground" = DOWN, "outreach_sky" = UP)
+	level_flags = ZLEVEL_STATION | ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_SAVED
 	base_turf   = /turf/exterior/barren
+	ambient_light_level = 0.7
+	ambient_light_color = COLOR_GREEN_GRAY
+	exterior_atmos_temp = OUTREACH_TEMP
+	exterior_atmosphere = OUTREACH_ATMOS
 
-/obj/abstract/level_data/player_level/outreach_4
+/obj/abstract/level_data/exoplanet/outreach/sky
 	name        = "Outreach Sky"
-	level_id    = "outreach_4"
-	connects_to = list("outreach_3" = DOWN)
-	level_flags = ZLEVEL_STATION | ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_PERSISTENT
+	level_id    = "outreach_sky"
+	connects_to = list("outreach_surface" = DOWN)
+	level_flags = ZLEVEL_STATION | ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_SAVED
 	base_turf   = /turf/exterior/open
 
 /////////////////////////////////////////////////////////////////////////////
 // Adjacent Mining levels
 /////////////////////////////////////////////////////////////////////////////
-/obj/abstract/level_data/player_level/outreach_1/south
+/obj/abstract/level_data/exoplanet/outreach/underground/abyss/south
 	name           = "Outreach Southern Abyss"
-	level_id       = "outreach_south_1"
-	connects_to    = list("outreach_1" = NORTH, "outreach_south_2" = UP)
+	level_id       = "outreach_south_abyss"
+	connects_to    = list("outreach_abyss" = NORTH, "outreach_south_underground" = UP)
 	level_flags    = ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_MINING
 	level_gen_type = /datum/random_map/automata/cave_system/outreach/abyss
 	base_turf      = /turf/exterior/barren/mining
 
-/obj/abstract/level_data/player_level/outreach_2/south
+/obj/abstract/level_data/exoplanet/outreach/underground/south
 	name           = "Outreach Southern Underground"
-	level_id       = "outreach_south_2"
-	connects_to    = list("outreach_2" = NORTH, "outreach_south_1" = DOWN, "outreach_south_3" = UP)
+	level_id       = "outreach_south_underground"
+	connects_to    = list("outreach_underground" = NORTH, "outreach_south_abyss" = DOWN, "outreach_south_mountain" = UP)
 	level_flags    = ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_MINING
 	level_gen_type = /datum/random_map/automata/cave_system/outreach/subterrane
 	base_turf      = /turf/exterior/barren/mining
 
-/obj/abstract/level_data/player_level/outreach_3/south
+/obj/abstract/level_data/exoplanet/outreach/south
 	name           = "Outreach Southern Mountain"
-	level_id       = "outreach_south_3"
-	connects_to    = list("outreach_3" = NORTH, "outreach_south_2" = DOWN)
+	level_id       = "outreach_south_mountain"
+	connects_to    = list("outreach_surface" = NORTH, "outreach_south_underground" = DOWN)
 	level_flags    = ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_MINING
 	level_gen_type = /datum/random_map/automata/cave_system/outreach/mountain
 	base_turf      = /turf/exterior/barren/mining

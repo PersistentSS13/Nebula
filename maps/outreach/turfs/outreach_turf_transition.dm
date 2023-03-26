@@ -17,10 +17,10 @@
 
 /turf/exterior/transition_edge/Initialize()
 	. = ..()
-	var/obj/effect/overmap/visitable/sector/exoplanet/E = global.overmap_sectors["[z]"]
+	var/obj/effect/overmap/visitable/sector/exoplanet/E = global.overmap_sectors[num2text(z)]
 	if(!istype(E))
 		return
-	var/obj/abstract/level_data/ldat = global.levels_by_z["[z]"]
+	var/obj/abstract/level_data/ldat = SSmapping.levels_by_z[z]
 
 	//Figure out our orientation on the map
 	var/edge_dir = 0
@@ -46,7 +46,7 @@
 		ChangeTurf(/turf/unsimulated/wall, FALSE, FALSE, FALSE)
 		return .
 
-	var/obj/abstract/level_data/target_ldat = global.levels_by_id[connected_level]
+	var/obj/abstract/level_data/target_ldat = SSmapping.levels_by_id[connected_level]
 	if(!target_ldat)
 		CRASH("Got transition_edge turf([x], [y], [z]) linking to a non-existent level id '[connected_level]'!")
 	mimicx = x
@@ -73,7 +73,7 @@
 
 /turf/exterior/transition_edge/Bumped(atom/movable/A)
 	. = ..()
-	var/obj/effect/overmap/visitable/sector/exoplanet/E = global.overmap_sectors["[mimicz]"]
+	var/obj/effect/overmap/visitable/sector/exoplanet/E = global.overmap_sectors[num2text(mimicz)]
 	if(!istype(E))
 		return
 	if(E.planetary_area && istype(loc, world.area))

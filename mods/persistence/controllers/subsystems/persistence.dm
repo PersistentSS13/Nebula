@@ -128,7 +128,6 @@
 		var/time_start_zprepare = REALTIMEOFDAY
 		// This will prepare z_level translations.
 		var/list/z_transform = list()
-		var/new_z_index = 1
 		// First we find the highest non-dynamic z_level.
 		for(var/z in SSmapping.player_levels) //#FIXME: That logic is flawed. We got levels that aren't dynamic and aren't station levels!!!!
 			if(z in saved_levels)

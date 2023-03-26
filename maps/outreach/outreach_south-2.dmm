@@ -27,7 +27,7 @@
 /turf/unsimulated/rock,
 /area/exoplanet/outreach/underground)
 "ah" = (
-/obj/abstract/level_data/player_level/outreach_2/south,
+/obj/abstract/level_data/exoplanet/outreach/underground/south,
 /turf/unsimulated/rock,
 /area/exoplanet/outreach/underground)
 "ai" = (

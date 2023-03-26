@@ -107,7 +107,7 @@ SUBSYSTEM_DEF(mining)
 	SpitOutMobs(eject_mobs, 3)
 
 	for(var/z_level in global.using_map.mining_levels)
-		var/obj/abstract/level_data/ld = LAZYACCESS(global.levels_by_z, "[z_level]")
+		var/obj/abstract/level_data/ld = LAZYACCESS(SSmapping.levels_by_z, z_level)
 		var/datum/random_map/automata/cave_system/generator
 		if(ld?.level_gen_type)
 			generator = new ld.level_gen_type(TRANSITIONEDGE, TRANSITIONEDGE, z_level, world.maxx - TRANSITIONEDGE, world.maxy - TRANSITIONEDGE, FALSE, FALSE, FALSE)

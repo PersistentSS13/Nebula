@@ -41,7 +41,7 @@
 /turf/exterior/wall/outreach/abyss,
 /area/exoplanet/outreach/underground/mines/access/b2)
 "aj" = (
-/obj/abstract/level_data/player_level/outreach_1/south,
+/obj/abstract/level_data/exoplanet/outreach/underground/abyss/south,
 /turf/unsimulated/rock,
 /area/exoplanet/outreach/underground)
 "ak" = (

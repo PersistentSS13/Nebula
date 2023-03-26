@@ -3501,7 +3501,7 @@
 /turf/simulated/floor/reinforced/airless,
 /area/outreach/outpost/atmospherics/b2/tank_outer)
 "hy" = (
-/obj/abstract/level_data/player_level/outreach_1,
+/obj/abstract/level_data/exoplanet/outreach/underground/abyss,
 /turf/unsimulated/rock,
 /area/exoplanet/outreach/underground/d2)
 "hz" = (
