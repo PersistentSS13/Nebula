@@ -97,7 +97,6 @@
 	)
 	///Types of objects which are ignored only when the safeties are on
 	var/static/list/recycler_safety_blacklist = list(
-		//Disallow typical station inhabitants
 		/mob/living/bot,
 		/mob/living/carbon/human,
 		/mob/living/silicon/robot,
@@ -108,7 +107,6 @@
 		/mob/living/simple_animal/chicken,
 		/mob/living/simple_animal/cow,
 
-		//Disallow containers and dangerous stuff
 		/obj/structure/closet,
 		/obj/structure/safe,
 		/obj/structure/aicore,
@@ -116,7 +114,6 @@
 		/obj/structure/stasis_cage,
 		/obj/structure/artifact,
 
-		//Disallow obvious dangerous items
 		/obj/item/anobattery,
 		/obj/item/anodevice,
 		/obj/item/grenade,
