@@ -928,7 +928,12 @@ var/global/list/gamemode_cache = list()
 					config.withdraw_period = value DAYS
 				if("interest_period")
 					config.interest_period = value DAYS
-
+				if("grant_default_darksight")
+					config.grant_default_darksight = TRUE
+				if("default_darksight_range")
+					config.default_darksight_range = max(text2num(value), 0)
+				if("default_darksight_effectiveness")
+					config.default_darksight_effectiveness = clamp(text2num(value), 0, 1)
 				if("interest_mod_delay")
 					config.interest_mod_delay = value DAYS
 				if("withdraw_mod_delay")

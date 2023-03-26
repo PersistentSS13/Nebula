@@ -7,8 +7,19 @@
 #define TURF_IS_HOLOMAP_PATH          BITFLAG(4)
 #define TURF_IS_HOLOMAP_ROCK          BITFLAG(5)
 
-#define TRANSITIONEDGE 7 // Distance from edge to move to another z-level.
+///Width or height of a transition edge area along the map's borders where transition edge turfs are placed to connect levels together.
+#define TRANSITIONEDGE 7
+///Extra spacing needed between any random ruins and the transition edge of a level.
 #define RUIN_MAP_EDGE_PAD 15
+
+///Enum value for a level edge that's to be untouched
+#define LEVEL_EDGE_NONE 0
+///Enum value for a level edge that's to be looped with the opposite edge
+#define LEVEL_EDGE_LOOP 1
+///Enum value for a level edge that's to be filled with a wall filler turfs
+#define LEVEL_EDGE_WALL 2
+///Enum value for a level edge that's to be connected with another z-level
+#define LEVEL_EDGE_CON  3
 
 // Invisibility constants.
 #define INVISIBILITY_LIGHTING    20
