@@ -20,9 +20,6 @@
 	lobby_screens = list(
 		'maps/outreach/lobby/exoplanet.png'
 	)
-	//Lobby tracks moved to outreach_music.dm otherwise would cause all sort of problems
-
-	var/tmp/outreach_initialized = FALSE //Used to prevent the exoplanet from being initialized twice
 	num_exoplanets = 0
 	overmap_ids = list(OVERMAP_ID_SPACE = /datum/overmap) //Default to null overmap, which prevents overmap marker from initializing properly
 	welcome_sound = 'sound/music/stingers/stinger_scifi.ogg'

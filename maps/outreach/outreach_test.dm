@@ -15,7 +15,10 @@
 		"maps/outreach/outreach-1.dmm",
 		"maps/outreach/outreach-2.dmm",
 		"maps/outreach/outreach-3.dmm",
-		"maps/outreach/outreach-4.dmm"
+		"maps/outreach/outreach-4.dmm",
+		"maps/outreach/outreach_south-1.dmm",
+		"maps/outreach/outreach_south-2.dmm",
+		"maps/outreach/outreach_south-3.dmm",
 	)
 
 /datum/level_data/planetoid/exoplanet/outreach

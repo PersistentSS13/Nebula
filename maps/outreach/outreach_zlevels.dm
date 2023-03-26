@@ -1,28 +1,3 @@
-/datum/map/outreach
-#ifndef UNIT_TEST
-	// Hotloading module
-	default_levels = list(
-		"maps/outreach/outreach-1.dmm",
-		"maps/outreach/outreach-2.dmm",
-		"maps/outreach/outreach-3.dmm",
-		"maps/outreach/outreach-4.dmm",
-		"maps/outreach/outreach_south-1.dmm",
-		"maps/outreach/outreach_south-2.dmm",
-		"maps/outreach/outreach_south-3.dmm",
-	)
-
-#else
-	default_levels = list(
-		"maps/outreach/outreach-1.dmm",
-		"maps/outreach/outreach-2.dmm",
-		"maps/outreach/outreach-3.dmm",
-		"maps/outreach/outreach-4.dmm",
-		"maps/outreach/outreach_south-1.dmm",
-		"maps/outreach/outreach_south-2.dmm",
-		"maps/outreach/outreach_south-3.dmm",
-	)
-#endif
-
 /////////////////////////////////////////////////////////////////////////////
 // Station Building Levels
 /////////////////////////////////////////////////////////////////////////////
