@@ -36,7 +36,7 @@
 /turf/exterior/planet_edge,
 /area/exoplanet/outreach/mines/depth_2)
 "i" = (
-/obj/abstract/level_data/exoplanet/outreach/mining,
+/obj/abstract/level_data_spawner/exoplanet/outreach/mining,
 /turf/exterior/planet_edge,
 /area/exoplanet/outreach/mines/depth_2)
 

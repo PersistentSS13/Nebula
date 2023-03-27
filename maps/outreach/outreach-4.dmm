@@ -1268,7 +1268,7 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint)
 "cX" = (
-/obj/abstract/level_data/exoplanet/outreach,
+/obj/abstract/level_data_spawner/exoplanet/outreach,
 /turf/exterior/planet_edge,
 /area/exoplanet/outreach)
 "cY" = (

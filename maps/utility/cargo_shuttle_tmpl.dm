@@ -1,3 +1,13 @@
+//Cargo shuttle template
+/datum/map_template/cargo_shuttle
+	name                   = "Supply shuttle"
+	template_flags         = TEMPLATE_FLAG_SPAWN_GUARANTEED
+	modify_tag_vars        = FALSE
+	mappaths               = list("maps/utility/cargo_shuttle_tmpl.dmm")
+	shuttles_to_initialise = list(/datum/shuttle/autodock/ferry/supply/cargo)
+	level_data_type        = /datum/level_data/space
+	template_categories    = list(MAP_TEMPLATE_CATEGORY_MAIN_SITE)
+
 /area/shuttle/supply_shuttle
 	name = "Supply Shuttle"
 	icon_state = "shuttle3"

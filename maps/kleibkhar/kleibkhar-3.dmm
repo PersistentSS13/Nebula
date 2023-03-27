@@ -4129,7 +4129,7 @@
 /turf/exterior/concrete,
 /area/exoplanet/kleibkhar)
 "jQ" = (
-/obj/abstract/level_data/exoplanet/kleibkhar,
+/obj/abstract/level_data_spawner/exoplanet/kleibkhar,
 /turf/exterior/planet_edge,
 /area/exoplanet/kleibkhar)
 "ry" = (

@@ -353,6 +353,8 @@
 // Accessors
 //
 /datum/level_data/proc/get_exterior_atmosphere()
+	if(!istype(exterior_atmosphere)) //#FIXME: Temporary measure until the exoplanet gen stuff is moved out of overmap markers
+		setup_exterior_atmosphere()
 	if(exterior_atmosphere)
 		var/datum/gas_mixture/gas = new
 		gas.copy_from(exterior_atmosphere)
@@ -478,6 +480,8 @@ INITIALIZE_IMMEDIATE(/obj/abstract/level_data_spawner)
 /obj/abstract/level_data_spawner/mining_level
 	level_data_type = /datum/level_data/mining_level
 
+/obj/abstract/level_data_spawner/exoplanet
+	level_data_type = /datum/level_data/exoplanet
 
 ////////////////////////////////////////////
 // Level Data Implementations

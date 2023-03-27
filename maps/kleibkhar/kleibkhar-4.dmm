@@ -599,7 +599,7 @@
 /turf/simulated/floor,
 /area/kleibkhar/atmos_pump)
 "bn" = (
-/obj/abstract/level_data/exoplanet/kleibkhar/sky,
+/obj/abstract/level_data_spawner/exoplanet/kleibkhar/sky,
 /turf/exterior/planet_edge,
 /area/exoplanet/kleibkhar/sky)
 "bo" = (

@@ -29,8 +29,8 @@
 		A.SetName("alien creature")
 		A.real_name = "alien creature"
 		A.verbs |= /mob/living/simple_animal/proc/name_species
-	var/datum/level_data/level_data = zlevels[1]
-	if(level_data.exterior_atmosphere)
+	var/datum/level_data/level_data = SSmapping.levels_by_z[map_z[1]]
+	if(level_data.get_exterior_atmosphere()) //Generates the atmos if uninitialized
 		//Set up gases for living things
 		var/list/all_gasses = decls_repository.get_decl_paths_of_subtype(/decl/material/gas)
 		if(!LAZYLEN(breathgas))

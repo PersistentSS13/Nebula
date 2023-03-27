@@ -338,7 +338,7 @@
 /turf/exterior/concrete/reinforced,
 /area/exoplanet/kleibkhar/mines/exits)
 "M" = (
-/obj/abstract/level_data/exoplanet/kleibkhar/underground/bottom,
+/obj/abstract/level_data_spawner/exoplanet/kleibkhar/underground/bottom,
 /turf/exterior/planet_edge,
 /area/exoplanet/kleibkhar/mines/depth_2)
 

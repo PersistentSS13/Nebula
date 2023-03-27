@@ -3096,7 +3096,7 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/atmospherics)
 "gR" = (
-/obj/abstract/level_data/exoplanet/outreach,
+/obj/abstract/level_data_spawner/exoplanet/outreach,
 /turf/exterior/planet_edge,
 /area/exoplanet/outreach)
 "gS" = (

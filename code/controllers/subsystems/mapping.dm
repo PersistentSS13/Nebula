@@ -81,6 +81,8 @@ SUBSYSTEM_DEF(mapping)
 	// This needs to be non-null even if the overmap isn't created for this map.
 	overmap_event_handler = GET_DECL(/decl/overmap_event_handler)
 
+	//PS13 Build main map sites templates
+	global.using_map.build_main_sites()
 	// Build away sites.
 	global.using_map.build_away_sites()
 

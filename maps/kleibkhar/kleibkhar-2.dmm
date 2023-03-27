@@ -94,7 +94,7 @@
 /turf/exterior/concrete/reinforced,
 /area/exoplanet/kleibkhar/mines/exits)
 "ao" = (
-/obj/abstract/level_data/exoplanet/kleibkhar/underground,
+/obj/abstract/level_data_spawner/exoplanet/kleibkhar/underground,
 /turf/exterior/planet_edge,
 /area/exoplanet/kleibkhar/mines/depth_1)
 "ap" = (

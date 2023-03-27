@@ -19,7 +19,7 @@
 	spawn_weight = 10	// meat
 
 /obj/effect/overmap/visitable/sector/exoplanet/meat/generate_map()
-	var/datum/level_data/level_data = zlevels[1]
+	var/datum/level_data/level_data = SSmapping.levels_by_z[map_z[1]]
 	level_data.ambient_light_level = rand(1,7)/10
 	..()
 
