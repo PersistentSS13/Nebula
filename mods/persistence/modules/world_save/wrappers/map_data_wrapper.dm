@@ -16,6 +16,7 @@
 	
 /datum/wrapper/map_data/on_deserialize(var/serializer/curr_serializer)
 	var/list/coords = splittext(landmark_loc, ",")
+	report_progress_serializer("Deserialized map data on z [text2num(coords[3])]")
 	var/turf/T = locate(text2num(coords[1]), text2num(coords[2]), text2num(coords[3]))
 	return new /obj/abstract/map_data(T, text2num(height))
 	

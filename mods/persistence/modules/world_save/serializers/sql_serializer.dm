@@ -285,7 +285,7 @@ var/global/list/serialization_time_spent_type
 		var/EV = null
 		if(!isnum(key))
 			try
-				EV = _list[key]
+				EV = _list[key] //#FIXME: We really need to get rid of this awful way to check if lists are associative.
 			catch
 				EV = null // NBD... No value.
 		if (isnull(key))
@@ -626,9 +626,9 @@ var/global/list/serialization_time_spent_type
 	var/z_insert_index = 1
 	for(var/z in z_transform)
 		var/datum/persistence/load_cache/z_level/z_level = z_transform[z]
-		z_inserts += "([z_insert_index],[z_level.new_index],[z_level.dynamic],'[z_level.default_turf]','[z_level.metadata]','[json_encode(z_level.areas)]')"
+		z_inserts += "([z_insert_index],[z_level.new_index],[z_level.dynamic],'[z_level.default_turf]','[z_level.metadata]','[json_encode(z_level.areas)]','[z_level.level_data_subtype]')"
 		z_insert_index++
-	var/DBQuery/query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_Z_LEVELS]` (`id`,`z`,`dynamic`,`default_turf`,`metadata`,`areas`) VALUES[jointext(z_inserts, ",")]")
+	var/DBQuery/query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_Z_LEVELS]` (`id`,`z`,`dynamic`,`default_turf`,`metadata`,`areas`,`level_data_subtype`) VALUES[jointext(z_inserts, ",")]")
 	SQLS_EXECUTE_AND_REPORT_ERROR(query, "Z_LEVEL SERIALIZATION FAILED:")
 	return TRUE
 

@@ -19,8 +19,9 @@
 	report_progress_serializer("Unit testing, so not loading saved map")
 #else
 	if(save_exists)
-		report_progress_serializer("Loading world save.")
+		report_progress_serializer("Loading world save...")
 		SSpersistence.LoadWorld()
+		report_progress_serializer("Finished loading world save!")
 #endif
 
 /datum/controller/subsystem/mapping/proc/Save()
