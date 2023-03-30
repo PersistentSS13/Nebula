@@ -41,7 +41,7 @@
 /turf/exterior/barren/mining,
 /area/exoplanet/kleibkhar/mines/exits)
 "h" = (
-/turf/exterior/planet_edge,
+/turf/unsimulated/mineral,
 /area/exoplanet/kleibkhar/mines/depth_2)
 "i" = (
 /obj/effect/floor_decal/industrial/warning/dust{
@@ -339,7 +339,7 @@
 /area/exoplanet/kleibkhar/mines/exits)
 "M" = (
 /obj/abstract/level_data_spawner/exoplanet/kleibkhar/underground/bottom,
-/turf/exterior/planet_edge,
+/turf/exterior/barren/mining,
 /area/exoplanet/kleibkhar/mines/depth_2)
 
 (1,1,1) = {"
@@ -542,7 +542,7 @@ h
 h
 h
 h
-M
+h
 "}
 (2,1,1) = {"
 h
@@ -1949,7 +1949,7 @@ a
 a
 a
 a
-a
+M
 h
 h
 h

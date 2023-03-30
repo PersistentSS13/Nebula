@@ -1,13 +1,13 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
 "aa" = (
-/turf/exterior/planet_edge,
+/turf/unsimulated/dark_border,
 /area/exoplanet/kleibkhar/sky)
 "ab" = (
 /turf/exterior/open,
 /area/exoplanet/kleibkhar/sky)
 "ac" = (
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar,
-/turf/exterior/planet_edge,
+/turf/exterior/open,
 /area/exoplanet/kleibkhar/sky)
 "ad" = (
 /obj/structure/railing/mapped{
@@ -600,13 +600,13 @@
 /area/kleibkhar/atmos_pump)
 "bn" = (
 /obj/abstract/level_data_spawner/exoplanet/kleibkhar/sky,
-/turf/exterior/planet_edge,
+/turf/exterior/open,
 /area/exoplanet/kleibkhar/sky)
 "bo" = (
 /obj/abstract/map_data{
 	height = 4
 	},
-/turf/exterior/planet_edge,
+/turf/exterior/open,
 /area/exoplanet/kleibkhar/sky)
 
 (1,1,1) = {"
@@ -808,8 +808,8 @@ aa
 aa
 aa
 aa
-ac
-bn
+aa
+aa
 "}
 (2,1,1) = {"
 aa
@@ -1011,7 +1011,7 @@ aa
 aa
 aa
 aa
-bo
+aa
 "}
 (3,1,1) = {"
 aa
@@ -2215,8 +2215,8 @@ ab
 ab
 ab
 ab
-ab
-ab
+ac
+bn
 aa
 aa
 aa
@@ -2418,7 +2418,7 @@ ab
 ab
 ab
 ab
-ab
+bo
 aa
 aa
 aa

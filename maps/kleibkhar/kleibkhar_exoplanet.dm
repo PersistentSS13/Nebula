@@ -4,7 +4,6 @@
 	daycycle = 25 MINUTES
 	daycycle_column_delay = 10 SECONDS
 	night = FALSE
-	daycolumn = 1
 
 	start_x = 27
 	start_y = 23
@@ -28,14 +27,14 @@
 	megafauna_types = list(/mob/living/simple_animal/hostile/retaliate/parrot/space/megafauna, /mob/living/simple_animal/hostile/retaliate/goose/dire)
 	possible_themes = null
 
-/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/Initialize(var/mapload, var/z_level)
+/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/Initialize(mapload, z_level)
 	. = ..()
-	docking_codes = "[global.using_map.dock_name]"
 	return INITIALIZE_HINT_LATELOAD
 
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/LateInitialize()
 	. = ..()
 	build_level()
+	name = initial(name)
 
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/select_strata()
 	return

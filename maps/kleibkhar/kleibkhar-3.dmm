@@ -108,7 +108,7 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/kleibkhar/outpost/mining)
 "aq" = (
-/turf/exterior/planet_edge,
+/turf/unsimulated/dark_border,
 /area/exoplanet/kleibkhar)
 "ar" = (
 /obj/machinery/conveyor{
@@ -4130,7 +4130,7 @@
 /area/exoplanet/kleibkhar)
 "jQ" = (
 /obj/abstract/level_data_spawner/exoplanet/kleibkhar,
-/turf/exterior/planet_edge,
+/turf/exterior/kleibkhar_grass,
 /area/exoplanet/kleibkhar)
 "ry" = (
 /turf/simulated/floor/tiled/techfloor,
@@ -4358,7 +4358,7 @@ aq
 aq
 aq
 aq
-jQ
+aq
 "}
 (2,1,1) = {"
 aq
@@ -5765,7 +5765,7 @@ ih
 ih
 ih
 ih
-ih
+jQ
 aq
 aq
 aq

@@ -47,7 +47,7 @@
 /turf/exterior/concrete/reinforced,
 /area/exoplanet/kleibkhar/mines/exits)
 "aj" = (
-/turf/exterior/planet_edge,
+/turf/unsimulated/mineral,
 /area/exoplanet/kleibkhar/mines/depth_1)
 "ak" = (
 /obj/effect/floor_decal/industrial/warning/dust{
@@ -95,7 +95,7 @@
 /area/exoplanet/kleibkhar/mines/exits)
 "ao" = (
 /obj/abstract/level_data_spawner/exoplanet/kleibkhar/underground,
-/turf/exterior/planet_edge,
+/turf/exterior/barren/mining,
 /area/exoplanet/kleibkhar/mines/depth_1)
 "ap" = (
 /obj/machinery/light/small/emergency/cabled,
@@ -775,7 +775,7 @@ aj
 aj
 aj
 aj
-ao
+aj
 "}
 (2,1,1) = {"
 aj
@@ -2182,7 +2182,7 @@ ae
 ae
 ae
 ae
-ae
+ao
 aj
 aj
 aj

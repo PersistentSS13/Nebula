@@ -1,5 +1,5 @@
 /area/exoplanet/outreach
-	name = "Outreach"
+	name = "\improper Outreach"
 
 /area/outreach/outpost
 	//safe_zone = TRUE
@@ -13,7 +13,7 @@
 	icon_state = "cryo"
 
 /area/outreach/outpost/hallway
-	name = "\improper Hallways"
+	name = "hallways"
 	icon_state = "hallC1"
 
 /area/outreach/outpost/judges
@@ -61,11 +61,14 @@
 	ignore_mining_regen = FALSE
 
 /area/exoplanet/outreach/mines/depth_1
+	name = "\improper Outreach mines"
 	icon_state = "cave"
 
 /area/exoplanet/outreach/mines/depth_2
+	name = "\improper Outreach mines bottom"
 	icon_state = "cave"
 
 /area/exoplanet/outreach/mines/exits
+	name = "\improper Outreach mines exit"
 	icon_state = "exit"
 	ignore_mining_regen = TRUE
