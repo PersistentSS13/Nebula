@@ -5,7 +5,6 @@
 	daycycle = 25 MINUTES
 	daycycle_column_delay = 10 SECONDS
 	night = TRUE
-	daycolumn = 1
 
 	rock_colors = list(COLOR_GRAY80, COLOR_PALE_GREEN_GRAY, COLOR_PALE_BTL_GREEN)
 	plant_colors = list(COLOR_PALE_PINK, COLOR_PALE_GREEN_GRAY, COLOR_CIVIE_GREEN)
@@ -13,33 +12,34 @@
 	water_color = COLOR_BOTTLE_GREEN
 	crust_strata = /decl/strata/sedimentary
 
-	ruin_tags_whitelist = RUIN_NATURAL | RUIN_WATER
 	features_budget = 0
-
 	has_trees = FALSE
 	flora_diversity = 5
 
 	fauna_types = list(/mob/living/simple_animal/thinbug, /mob/living/simple_animal/hostile/retaliate/beast/samak/alt, /mob/living/simple_animal/yithian, /mob/living/simple_animal/tindalos, /mob/living/simple_animal/hostile/retaliate/jelly)
 	megafauna_types = list(/mob/living/simple_animal/hostile/retaliate/jelly/mega)
 
-/obj/effect/overmap/visitable/sector/exoplanet/outreach/Initialize()
+
+/obj/effect/overmap/visitable/sector/exoplanet/outreach/Initialize(mapload, z_level)
 	. = ..()
-	docking_codes = "[global.using_map.dock_name]"
+	return INITIALIZE_HINT_LATELOAD
 
-	// Build Level workaround
-	maxx = world.maxx
-	maxy = world.maxy
-	x_origin = TRANSITIONEDGE + 1
-	y_origin = TRANSITIONEDGE + 1
-	x_size = maxx - 2 * (TRANSITIONEDGE + 1)
-	y_size = maxy - 2 * (TRANSITIONEDGE + 1)
-	landing_points_to_place = 0
-	planetary_area = ispath(planetary_area) ? new planetary_area : planetary_area
+/obj/effect/overmap/visitable/sector/exoplanet/outreach/LateInitialize()
+	. = ..()
+	build_level()
+	name = initial(name)
 
-	generate_habitability()
-	generate_atmosphere()
-	generate_planet_image()
-	START_PROCESSING(SSobj, src)
+/obj/effect/overmap/visitable/sector/exoplanet/outreach/select_strata()
+	return
+
+/obj/effect/overmap/visitable/sector/exoplanet/outreach/generate_landing()
+	return
+
+/obj/effect/overmap/visitable/sector/exoplanet/outreach/generate_features()
+	return
+
+/obj/effect/overmap/visitable/sector/exoplanet/outreach/get_target_temperature()
+	return T0C
 
 /obj/effect/overmap/visitable/sector/exoplanet/outreach/generate_habitability()
 	habitability_class = HABITABILITY_BAD

@@ -1,10 +1,16 @@
 /area/exoplanet/outreach
 	name = "\improper Outreach"
 
+/area/exoplanet/outreach/sky
+	name = "\improper Outreach sky"
+
 /area/outreach/outpost
 	//safe_zone = TRUE
 
 /area/outreach/outpost/maint
+	name = "\improper Maintenance"
+	icon_state = "maintcentral"
+/area/outreach/outpost/maint/upper
 	name = "\improper Maintenance"
 	icon_state = "maintcentral"
 
@@ -15,6 +21,9 @@
 /area/outreach/outpost/hallway
 	name = "hallways"
 	icon_state = "hallC1"
+/area/outreach/outpost/hallway/upper
+	name = "upper hallways"
+	icon_state = "hallC2"
 
 /area/outreach/outpost/judges
 	name = "judges room"
