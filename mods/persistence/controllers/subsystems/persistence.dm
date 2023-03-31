@@ -28,9 +28,6 @@
 
 	var/list/late_wrappers = list() // Some wrapped objects need special behavior post-load. This list is cleared post-atom Init.
 
-/datum/controller/subsystem/persistence/Initialize()
-	saved_levels = global.using_map.saved_levels
-
 /datum/controller/subsystem/persistence/proc/SaveExists()
 	if(!save_exists)
 		save_exists = establish_save_db_connection() && serializer.save_exists()
@@ -562,8 +559,6 @@
 	saved_levels |= z
 
 /datum/controller/subsystem/persistence/proc/RemoveSavedLevel(var/z)
-	if(z in global.using_map.saved_levels)
-		return
 	saved_levels -= z
 
 /datum/controller/subsystem/persistence/proc/AddSavedArea(var/area/A)

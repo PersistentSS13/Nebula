@@ -1,6 +1,4 @@
 /datum/controller/subsystem/mapping
-	/// List of z-levels that are marked to be saved
-	var/list/saved_levels =  list()
 	/// List of z-levels that regenerates mining turfs periodically
 	var/list/mining_levels =  list()
 
