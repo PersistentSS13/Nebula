@@ -26,6 +26,8 @@
 		// Not valid when spawned manually.
 		/obj/effect/overmap,
 		/obj/effect/shuttle_landmark,
+		// Docking controllers can only exist once with a given id_tag in the world. And some subtypes are defined with an id_tag
+		/obj/machinery/embedded_controller/radio/simple_docking_controller,
 	) + list(
 		// Exclude only this type, since it's not meant to be spawned but its subtypes are.
 		// TODO: Consider whether this warrants abstract_type?

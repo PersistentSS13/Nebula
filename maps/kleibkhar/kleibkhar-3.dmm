@@ -1653,9 +1653,7 @@
 /turf/simulated/floor/tiled/monotile,
 /area/kleibkhar/outpost/hallway)
 "ed" = (
-/obj/effect/shuttle_landmark/supply/station{
-	dir = 8
-	},
+/obj/effect/shuttle_landmark/supply/dock,
 /turf/simulated/floor/plating,
 /area/exoplanet/kleibkhar/supply_shuttle_dock)
 "ee" = (
@@ -3835,12 +3833,17 @@
 /area/kleibkhar/outpost/cargo)
 "jk" = (
 /obj/machinery/computer/modular/preset/supply_public{
-	icon_state = "computer";
-	dir = 8
+	dir = 8;
+	icon_state = "console-off"
 	},
 /obj/machinery/light{
 	icon_state = "tube_map";
 	dir = 4
+	},
+/obj/machinery/embedded_controller/radio/simple_docking_controller/indestructible/supply_station{
+	dir = 8;
+	icon_state = "airlock_control_off";
+	tag_door = "_k_cargo_dock_shutter"
 	},
 /turf/simulated/floor/tiled,
 /area/kleibkhar/outpost/cargo)

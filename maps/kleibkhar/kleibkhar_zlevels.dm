@@ -1,8 +1,11 @@
 ///Map template for loading the kelbkhar map
 /datum/map_template/persistent/kleibkhar
-	name     = "planet kleibkhar"
-	tallness = 4
-	mappaths = list(
+	name                 = "planet kleibkhar"
+	template_flags       = TEMPLATE_FLAG_SPAWN_GUARANTEED | TEMPLATE_FLAG_NO_RUINS
+	modify_tag_vars      = FALSE
+	template_categories  = list(MAP_TEMPLATE_CATEGORY_MAIN_SITE) //Templates must have a category, or they won't spawn
+	tallness             = 4
+	mappaths             = list(
 		"maps/kleibkhar/kleibkhar-1.dmm",
 		"maps/kleibkhar/kleibkhar-2.dmm",
 		"maps/kleibkhar/kleibkhar-3.dmm",

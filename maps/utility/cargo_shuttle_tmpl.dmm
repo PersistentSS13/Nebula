@@ -1,16 +1,14 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
 "a" = (
-/turf/space/transit/east,
-/area/space)
+/turf/unsimulated/wall,
+/area/cargo_shuttle_dock)
 "b" = (
 /obj/machinery/door/blast/shutters/indestructible{
 	dir = 4;
-	icon_state = "shutter1";
-	id_tag = "_cargo_shuttle_doors"
+	icon_state = "shutter1"
 	},
 /obj/machinery/conveyor/indestructible{
-	dir = 8;
-	id_tag = "_cargo_shuttle_conveyors"
+	dir = 8
 	},
 /turf/simulated/floor/indestructible,
 /area/shuttle/supply_shuttle)
@@ -24,7 +22,6 @@
 /obj/machinery/button/blast_door/indestructible{
 	dir = 8;
 	icon_state = "blastctrl";
-	id_tag = "_cargo_shuttle_doors";
 	pixel_x = 0;
 	pixel_y = -24
 	},
@@ -32,8 +29,7 @@
 /area/shuttle/supply_shuttle)
 "e" = (
 /obj/machinery/conveyor/indestructible{
-	dir = 8;
-	id_tag = "_cargo_shuttle_conveyors"
+	dir = 8
 	},
 /obj/effect/floor_decal/industrial/outline/orange,
 /turf/simulated/floor/indestructible,
@@ -44,8 +40,7 @@
 "g" = (
 /obj/effect/floor_decal/industrial/outline/orange,
 /obj/machinery/conveyor/indestructible{
-	dir = 8;
-	id_tag = "_cargo_shuttle_conveyors"
+	dir = 8
 	},
 /turf/simulated/floor/indestructible,
 /area/shuttle/supply_shuttle)
@@ -57,34 +52,48 @@
 /turf/simulated/floor/indestructible,
 /area/shuttle/supply_shuttle)
 "i" = (
-/obj/effect/floor_decal/industrial/hatch/yellow,
 /obj/structure/railing/mapped{
 	dir = 8
 	},
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/indestructible,
 /area/shuttle/supply_shuttle)
 "j" = (
-/obj/machinery/embedded_controller/radio/simple_docking_controller/indestructible{
-	dir = 8;
-	id_tag = "cargo_bay";
-	pixel_x = 20;
-	pixel_y = 0;
-	tag_door = "_cargo_shuttle_doors"
+/obj/structure/shuttle/engine/heater{
+	dir = 4;
+	icon_state = "heater";
+	pixel_x = -8;
+	pixel_y = 0
+	},
+/obj/structure/sign/warning/hot_exhaust/indestructible{
+	icon_state = "fire";
+	dir = 1
 	},
 /turf/simulated/floor/indestructible,
 /area/shuttle/supply_shuttle)
+"k" = (
+/obj/machinery/embedded_controller/radio/simple_docking_controller/indestructible/supply_offsite,
+/turf/unsimulated/floor/tiled/steel_grid,
+/area/cargo_shuttle_dock)
 "l" = (
 /obj/effect/floor_decal/industrial/outline/orange,
 /obj/machinery/conveyor/indestructible{
-	dir = 8;
-	id_tag = "_cargo_shuttle_conveyors"
+	dir = 8
 	},
-/obj/effect/shuttle_landmark/supply/start,
+/obj/effect/shuttle_landmark/supply/offsite,
 /turf/simulated/floor/indestructible,
 /area/shuttle/supply_shuttle)
 "m" = (
-/obj/structure/fake_computer{
+/obj/machinery/door/blast/shutters/indestructible{
+	dir = 4;
+	icon_state = "shutter1"
+	},
+/obj/machinery/conveyor/indestructible{
 	dir = 8
+	},
+/obj/machinery/conveyor_switch/indestructible{
+	pixel_x = -12;
+	pixel_y = -16
 	},
 /turf/simulated/floor/indestructible,
 /area/shuttle/supply_shuttle)
@@ -101,24 +110,135 @@
 /turf/simulated/floor/indestructible,
 /area/shuttle/supply_shuttle)
 "p" = (
-/obj/machinery/conveyor_switch/indestructible{
-	id_tag = "_cargo_shuttle_conveyors"
-	},
+/obj/machinery/conveyor_switch/indestructible,
 /obj/machinery/button/blast_door/indestructible{
 	dir = 8;
-	id_tag = "_cargo_shuttle_doors";
 	pixel_x = 24;
 	pixel_y = 0
 	},
 /turf/simulated/floor/indestructible,
 /area/shuttle/supply_shuttle)
+"q" = (
+/turf/simulated/wall/r_titanium/indestructible,
+/area/cargo_shuttle_dock)
 "r" = (
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/obj/chargen/light{
+	icon_state = "tube_map";
+	dir = 1
+	},
+/turf/simulated/floor/indestructible,
+/area/shuttle/supply_shuttle)
+"s" = (
+/obj/chargen/airlock,
+/turf/unsimulated/floor/tiled/steel_ridged,
+/area/cargo_shuttle_dock)
+"t" = (
+/turf/unsimulated/floor/tiled/steel_grid,
+/area/cargo_shuttle_dock)
+"u" = (
+/obj/machinery/conveyor/indestructible{
+	dir = 8
+	},
+/obj/effect/floor_decal/industrial/outline/orange,
+/obj/structure/railing/mapped{
+	icon_state = "railing_preview";
+	dir = 1
+	},
+/turf/simulated/floor/indestructible,
+/area/shuttle/supply_shuttle)
+"v" = (
+/obj/structure/plasticflaps/airtight/indestructible,
+/obj/machinery/door/blast/shutters/indestructible/supply_dock{
+	icon_state = "shutter1";
+	dir = 4
+	},
+/turf/unsimulated/floor/tiled/steel_ridged,
+/area/cargo_shuttle_dock)
+"x" = (
+/obj/effect/floor_decal/industrial/outline/orange,
+/obj/machinery/conveyor/indestructible{
+	dir = 8
+	},
+/obj/structure/railing/mapped{
+	icon_state = "railing_preview";
+	dir = 1
+	},
+/turf/simulated/floor/indestructible,
+/area/shuttle/supply_shuttle)
+"y" = (
+/obj/machinery/conveyor/indestructible{
+	dir = 8
+	},
+/obj/effect/floor_decal/industrial/outline/orange,
+/obj/structure/railing/mapped,
+/turf/simulated/floor/indestructible,
+/area/shuttle/supply_shuttle)
+"z" = (
+/obj/effect/floor_decal/industrial/outline/orange,
+/obj/machinery/conveyor/indestructible{
+	dir = 8
+	},
+/obj/structure/railing/mapped,
+/turf/simulated/floor/indestructible,
+/area/shuttle/supply_shuttle)
+"A" = (
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/turf/simulated/floor/indestructible,
+/area/shuttle/supply_shuttle)
+"B" = (
+/obj/machinery/conveyor/indestructible{
+	dir = 8
+	},
+/obj/effect/floor_decal/industrial/outline/orange,
+/obj/structure/railing/mapped{
+	icon_state = "railing_preview";
+	dir = 1
+	},
+/obj/chargen/light{
+	icon_state = "tube_map";
+	dir = 1
+	},
+/turf/simulated/floor/indestructible,
+/area/shuttle/supply_shuttle)
+"C" = (
+/obj/structure/fake_computer,
+/obj/machinery/embedded_controller/radio/simple_docking_controller/indestructible/supply_shuttle{
+	dir = 8;
+	pixel_x = 20;
+	pixel_y = 0
+	},
+/turf/simulated/floor/indestructible,
+/area/shuttle/supply_shuttle)
+"D" = (
+/obj/chargen/light{
+	icon_state = "tube_map";
+	dir = 4
+	},
+/turf/simulated/floor/indestructible,
+/area/shuttle/supply_shuttle)
+"E" = (
+/obj/machinery/conveyor/indestructible{
+	dir = 8
+	},
+/obj/effect/floor_decal/industrial/outline/orange,
+/obj/structure/railing/mapped,
+/obj/chargen/light,
+/turf/simulated/floor/indestructible,
+/area/shuttle/supply_shuttle)
+"F" = (
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/obj/chargen/light,
+/turf/simulated/floor/indestructible,
+/area/shuttle/supply_shuttle)
+"G" = (
 /obj/structure/shuttle/engine/heater{
 	dir = 4;
 	icon_state = "heater";
 	pixel_x = -8;
 	pixel_y = 0
 	},
+/obj/structure/sign/warning/hot_exhaust/indestructible,
 /turf/simulated/floor/indestructible,
 /area/shuttle/supply_shuttle)
 
@@ -137,53 +257,53 @@ a
 "}
 (2,1,1) = {"
 a
-d
-c
-b
-b
-b
-b
-b
-c
-o
+a
+q
+k
+t
+t
+t
+t
+q
+a
 a
 "}
 (3,1,1) = {"
 a
-r
-c
-e
-e
-e
-e
-e
-c
-r
+a
+q
+q
+v
+v
+v
+q
+q
+a
 a
 "}
 (4,1,1) = {"
 a
 a
+d
 c
-e
-e
-e
-e
-e
+b
+b
+m
 c
+o
 a
 a
 "}
 (5,1,1) = {"
 a
 a
+j
 c
-g
-g
-g
-g
-g
+B
+e
+E
 c
+G
 a
 a
 "}
@@ -191,11 +311,11 @@ a
 a
 a
 c
-g
-g
-l
-g
-g
+c
+u
+e
+y
+c
 c
 a
 a
@@ -204,11 +324,11 @@ a
 a
 a
 c
+f
+x
 g
-g
-g
-g
-g
+z
+f
 c
 a
 a
@@ -216,43 +336,69 @@ a
 (8,1,1) = {"
 a
 a
-h
-i
-n
-n
-n
-i
-h
+c
+f
+x
+l
+z
+f
+c
 a
 a
 "}
 (9,1,1) = {"
 a
-a
+q
 c
-p
-j
-m
-f
-p
+r
+g
+g
+g
+F
 c
-a
+q
 a
 "}
 (10,1,1) = {"
 a
-a
-c
-c
-c
-c
-c
-c
-c
-a
+s
+h
+A
+i
+n
+i
+A
+h
+s
 a
 "}
 (11,1,1) = {"
+a
+q
+c
+c
+C
+D
+p
+c
+c
+q
+a
+"}
+(12,1,1) = {"
+a
+a
+a
+c
+c
+c
+c
+c
+a
+a
+a
+"}
+(13,1,1) = {"
 a
 a
 a

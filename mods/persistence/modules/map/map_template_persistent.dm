@@ -1,8 +1,5 @@
 ///Map template for the main map that skips loading from file when a save exists.
 /datum/map_template/persistent
-	template_flags       = TEMPLATE_FLAG_SPAWN_GUARANTEED | TEMPLATE_FLAG_NO_RUINS
-	modify_tag_vars      = FALSE
-	template_categories  = list(MAP_TEMPLATE_CATEGORY_MAIN_SITE) //Templates must have a category, or they won't spawn
 	template_parent_type = /datum/map_template/persistent
 
 /datum/map_template/persistent/load_new_z(no_changeturf, centered)

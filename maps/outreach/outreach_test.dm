@@ -4,9 +4,12 @@
 	)
 
 /datum/map_template/persistent/outreach
-	name     = "planet outreach"
-	tallness = 4
-	mappaths = list(
+	name                 = "planet outreach"
+	template_flags       = TEMPLATE_FLAG_SPAWN_GUARANTEED | TEMPLATE_FLAG_NO_RUINS
+	modify_tag_vars      = FALSE
+	template_categories  = list(MAP_TEMPLATE_CATEGORY_MAIN_SITE) //Templates must have a category, or they won't spawn
+	tallness             = 4
+	mappaths             = list(
 		"maps/outreach/outreach-1.dmm",
 		"maps/outreach/outreach-2.dmm",
 		"maps/outreach/outreach-3.dmm",
