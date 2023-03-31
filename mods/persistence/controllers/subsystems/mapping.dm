@@ -7,21 +7,14 @@
 /datum/controller/subsystem/mapping/Initialize(timeofday)
 	. = ..()
 #ifndef UNIT_TEST
-	var/save_exists = SSpersistence.SaveExists()
-	if(save_exists)
-		report_progress_serializer("Existing save found.")
-	else
-		report_progress_serializer("No existing save found.")
-#endif
-
-	// Build the list of static persisted levels from our map.
-#ifdef UNIT_TEST
-	report_progress_serializer("Unit testing, so not loading saved map")
-#else
-	if(save_exists)
-		report_progress_serializer("Loading world save...")
+	if(SSpersistence.SaveExists())
+		report_progress_serializer("Existing save found. Loading save...")
 		SSpersistence.LoadWorld()
-		report_progress_serializer("Finished loading world save!")
+		report_progress_serializer("Finished loading save!")
+	else
+		report_progress_serializer("No existing save found. Loading from map files..")
+#else
+	report_progress_serializer("Unit testing, so not loading saved data.")
 #endif
 
 /datum/controller/subsystem/mapping/proc/Save()

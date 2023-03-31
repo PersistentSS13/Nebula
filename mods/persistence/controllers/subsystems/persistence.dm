@@ -33,7 +33,7 @@
 
 /datum/controller/subsystem/persistence/proc/SaveExists()
 	if(!save_exists)
-		save_exists = serializer.save_exists()
+		save_exists = establish_save_db_connection() && serializer.save_exists()
 		in_loaded_world = save_exists
 	return save_exists
 
