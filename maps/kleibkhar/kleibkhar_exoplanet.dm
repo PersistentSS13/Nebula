@@ -4,7 +4,6 @@
 	daycycle = 25 MINUTES
 	daycycle_column_delay = 10 SECONDS
 	night = FALSE
-	daycolumn = 1
 
 	start_x = 27
 	start_y = 23
@@ -26,37 +25,25 @@
 	flora_diversity = 6
 	fauna_types = list(/mob/living/simple_animal/yithian, /mob/living/simple_animal/tindalos, /mob/living/simple_animal/hostile/retaliate/jelly)
 	megafauna_types = list(/mob/living/simple_animal/hostile/retaliate/parrot/space/megafauna, /mob/living/simple_animal/hostile/retaliate/goose/dire)
+	possible_themes = null
 
-/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/Initialize(var/mapload, var/z_level)
+/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/Initialize(mapload, z_level)
 	. = ..()
-	docking_codes = "[global.using_map.dock_name]"
+	return INITIALIZE_HINT_LATELOAD
 
-	// Build Level workaround
-	maxx = world.maxx
-	maxy = world.maxy
-	x_origin = TRANSITIONEDGE + 1
-	y_origin = TRANSITIONEDGE + 1
-	x_size = maxx - 2 * (TRANSITIONEDGE + 1)
-	y_size = maxy - 2 * (TRANSITIONEDGE + 1)
-	landing_points_to_place = min(round(0.1 * (x_size * y_size) / (shuttle_size * shuttle_size)), 3)
-	planetary_area = ispath(planetary_area) ? new planetary_area : planetary_area
+/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/LateInitialize()
+	. = ..()
+	build_level()
+	name = initial(name)
 
-	generate_habitability()
-	generate_atmosphere()
-	generate_flora()
-	generate_map()
-	generate_planet_image()
-	START_PROCESSING(SSobj, src)
+/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/select_strata()
+	return
 
-/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/generate_map()
-	for(var/zlevel in map_z)
-		var/list/edges
-		edges += block(locate(1, 1, zlevel), locate(TRANSITIONEDGE, maxy, zlevel))
-		edges |= block(locate(maxx-TRANSITIONEDGE, 1, zlevel),locate(maxx, maxy, zlevel))
-		edges |= block(locate(1, 1, zlevel), locate(maxx, TRANSITIONEDGE, zlevel))
-		edges |= block(locate(1, maxy-TRANSITIONEDGE, zlevel),locate(maxx, maxy, zlevel))
-		for(var/turf/T in edges)
-			T.ChangeTurf(/turf/exterior/planet_edge)
+/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/generate_landing()
+	return
+
+/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/generate_features()
+	return
 
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/generate_habitability()
 	habitability_class = HABITABILITY_IDEAL

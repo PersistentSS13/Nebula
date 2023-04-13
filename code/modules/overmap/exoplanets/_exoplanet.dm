@@ -110,7 +110,8 @@
 
 	var/planet_name = generate_planet_name()
 	SetName("[planet_name], \a [name]")
-	planetary_area = new planetary_area()
+	if(ispath(planetary_area))
+		planetary_area = new planetary_area()
 	global.using_map.area_purity_test_exempt_areas += planetary_area.type
 	planetary_area.SetName("Surface of [planet_name]")
 
@@ -173,13 +174,13 @@
 			update_daynight()
 
 /obj/effect/overmap/visitable/sector/exoplanet/proc/update_daynight()
-	var/obj/abstract/level_data/level_data = SSmapping.levels_by_z[map_z[1]]
+	var/datum/level_data/level_data = SSmapping.levels_by_z[map_z[1]]
 	var/light = 0.1
 	if(!night)
 		light = level_data.ambient_light_level
 	for(var/turf/exterior/T in block(locate(daycolumn,1,min(map_z)),locate(daycolumn,maxy,max(map_z))))
 		if (light)
-			T.set_ambient_light(COLOR_WHITE, light)
+			T.set_ambient_light(COLOR_WHITE, light) //#FIXME: Use the ambient color from the level!!
 		else
 			T.clear_ambient_light()
 	daycolumn++
@@ -221,7 +222,7 @@
 	spawned_features = seed_ruins(map_z, features_budget, /area/exoplanet, possible_features, maxx, maxy)
 
 /obj/effect/overmap/visitable/sector/exoplanet/proc/generate_daycycle()
-	var/obj/abstract/level_data/level_data = zlevels[1]
+	var/datum/level_data/level_data = SSmapping.levels_by_z[map_z[1]]
 	if(level_data.ambient_light_level)
 		night = FALSE //we start with a day if we have light.
 
@@ -264,8 +265,8 @@
 /obj/effect/overmap/visitable/sector/exoplanet/get_scan_data(mob/user)
 	. = ..()
 	var/list/extra_data = list("<br>")
-	var/obj/abstract/level_data/level_data = zlevels[1]
-	var/datum/gas_mixture/atmosphere = level_data.exterior_atmosphere
+	var/datum/level_data/level_data = SSmapping.levels_by_z[map_z[1]]
+	var/datum/gas_mixture/atmosphere = level_data.get_exterior_atmosphere()
 	if(atmosphere)
 		if(user.skill_check(SKILL_SCIENCE, SKILL_EXPERT) || user.skill_check(SKILL_ATMOS, SKILL_EXPERT))
 			var/list/gases = list()

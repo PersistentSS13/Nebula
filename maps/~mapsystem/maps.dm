@@ -254,7 +254,7 @@ var/global/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 			world.maxy = planet_size[2]
 	for(var/i = 0, i < num_exoplanets, i++)
 		var/exoplanet_type = pick_exoplanet()
-		var/obj/abstract/level_data/exoplanet/planet_level = SSmapping.increment_world_z_size(/obj/abstract/level_data/exoplanet, TRUE)
+		var/datum/level_data/exoplanet/planet_level = SSmapping.increment_world_z_size(/datum/level_data/exoplanet, TRUE)
 		var/obj/effect/overmap/visitable/sector/exoplanet/new_planet = new exoplanet_type(locate(1, 1, world.maxz))
 		new_planet.zlevels += planet_level
 		new_planet.build_level(planet_size[1], planet_size[2])
@@ -414,3 +414,31 @@ var/global/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 /datum/map/proc/populate_overmap_events()
 	for(var/overmap_id in global.overmaps_by_name)
 		SSmapping.overmap_event_handler.create_events(global.overmaps_by_name[overmap_id])
+
+///Loads main sites templates. Main sites template are not always saved btw, and may still be loaded when there is saved data
+/datum/map/proc/build_main_sites()
+	report_progress("Loading main sites...")
+	var/list/sites_by_spawn_weight = list()
+	var/list/sites_templates = SSmapping.get_templates_by_category(MAP_TEMPLATE_CATEGORY_MAIN_SITE)
+
+	for (var/site_name in sites_templates)
+		var/datum/map_template/site = sites_templates[site_name]
+		if((site.template_flags & TEMPLATE_FLAG_SPAWN_GUARANTEED) && site.load_new_z()) // no check for budget, but guaranteed means guaranteed
+			report_progress("Processed guaranteed main site [site]!")
+			away_site_budget -= site.get_template_cost()
+			continue
+		sites_by_spawn_weight[site] = site.get_spawn_weight()
+
+	while (away_site_budget > 0 && sites_by_spawn_weight.len)
+		var/datum/map_template/selected_site = pickweight(sites_by_spawn_weight)
+		if (!selected_site)
+			break
+		sites_by_spawn_weight -= selected_site
+		var/site_cost = selected_site.get_template_cost()
+		if(site_cost > away_site_budget)
+			continue
+		if (selected_site.load_new_z())
+			report_progress("Loaded main site [selected_site]!")
+			away_site_budget -= site_cost
+
+	report_progress("Finished loading main sites, remaining budget [away_site_budget], remaining sites [sites_by_spawn_weight.len]")

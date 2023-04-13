@@ -43,11 +43,11 @@
 /turf/exterior/barren,
 /area/exoplanet/outreach/mines/exits)
 "j" = (
-/turf/exterior/planet_edge,
+/turf/unsimulated/mineral,
 /area/exoplanet/outreach/mines/depth_1)
 "k" = (
-/obj/abstract/level_data/exoplanet/outreach/mining,
-/turf/exterior/planet_edge,
+/obj/abstract/level_data_spawner/exoplanet/outreach/mining,
+/turf/exterior/barren,
 /area/exoplanet/outreach/mines/depth_1)
 
 (1,1,1) = {"
@@ -250,7 +250,7 @@ j
 j
 j
 j
-k
+j
 "}
 (2,1,1) = {"
 j
@@ -1657,7 +1657,7 @@ e
 e
 e
 e
-e
+k
 j
 j
 j

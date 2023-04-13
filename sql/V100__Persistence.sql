@@ -56,6 +56,7 @@ CREATE TABLE IF NOT EXISTS `z_level` (
   `default_turf` varchar(256) DEFAULT NULL,
   `metadata` varchar(64) DEFAULT NULL,
   `areas` longtext NOT NULL,
+  `level_data_subtype` VARCHAR(256) NOT NULL DEFAULT 'space',
   PRIMARY KEY (`id`),
   UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

@@ -81,6 +81,8 @@ SUBSYSTEM_DEF(mapping)
 	// This needs to be non-null even if the overmap isn't created for this map.
 	overmap_event_handler = GET_DECL(/decl/overmap_event_handler)
 
+	//PS13 Build main map sites templates
+	global.using_map.build_main_sites()
 	// Build away sites.
 	global.using_map.build_away_sites()
 
@@ -89,9 +91,9 @@ SUBSYSTEM_DEF(mapping)
 	config.generate_map = TRUE
 #endif
 	for(var/z = 1 to world.maxz)
-		var/obj/abstract/level_data/level = levels_by_z[z]
+		var/datum/level_data/level = levels_by_z[z]
 		if(!istype(level))
-			level = new /obj/abstract/level_data/space(locate(round(world.maxx*0.5), round(world.maxy*0.5), z))
+			level = new /datum/level_data/space(z)
 			PRINT_STACK_TRACE("Missing z-level data object for z[num2text(z)]!")
 		level.setup_level_data()
 
@@ -141,9 +143,10 @@ SUBSYSTEM_DEF(mapping)
 // Z-Level procs after this point.
 /datum/controller/subsystem/mapping/proc/get_gps_level_name(var/z)
 	if(z)
-		var/obj/abstract/level_data/level = levels_by_z[z]
-		if(level?.name)
-			return level.get_gps_level_name()
+		var/datum/level_data/level = levels_by_z[z]
+		. = level.get_display_name()
+		if(length(.))
+			return .
 	return "Unknown Sector"
 
 /datum/controller/subsystem/mapping/proc/reindex_lists()
@@ -162,24 +165,72 @@ SUBSYSTEM_DEF(mapping)
 		PRINT_STACK_TRACE("Missing z-level data type for z["[world.maxz]"]!")
 		return
 
-	var/obj/abstract/level_data/level = new new_level_type(locate(round(world.maxx*0.5), round(world.maxy*0.5), world.maxz), defer_setup)
-	level.initialize_level()
+	var/datum/level_data/level = new new_level_type(world.maxz, defer_setup)
+	level.initialize_new_level()
 	return level
 
 /datum/controller/subsystem/mapping/proc/get_connected_levels(z)
 	if(z <= 0  || z > length(levels_by_z))
 		CRASH("Invalid z-level supplied to get_connected_levels: [isnull(z) ? "NULL" : z]")
-	. = list(z)
+	var/list/root_stack = list(z)
 	// Traverse up and down to get the multiz stack.
 	for(var/level = z, HasBelow(level), level--)
-		. |= level-1
+		root_stack |= level-1
 	for(var/level = z, HasAbove(level), level++)
-		. |= level+1
+		root_stack |= level+1
+	. = list()
 	// Check stack for any laterally connected neighbors.
-	for(var/tz in .)
-		var/obj/abstract/level_data/level = levels_by_z[tz]
+	for(var/tz in root_stack)
+		var/datum/level_data/level = levels_by_z[tz]
 		if(level)
-			level.find_connected_levels(.)
+			var/list/cur_connected = level.get_all_connected_level_z()
+			if(length(cur_connected))
+				. |= cur_connected
+	. |= root_stack
+
+///Returns a list of all the level data of all the connected z levels to the given z.DBColumn
+/datum/controller/subsystem/mapping/proc/get_connected_levels_data(z)
+	if(z <= 0  || z > length(levels_by_z))
+		CRASH("Invalid z-level supplied to get_connected_levels_data: [isnull(z) ? "NULL" : z]")
+	var/list/root_lvl_data = list(levels_by_z[z])
+
+	// Traverse up and down to get the multiz stack.
+	for(var/level = z, HasBelow(level), level--)
+		root_lvl_data |= levels_by_z[level - 1]
+	for(var/level = z, HasAbove(level), level++)
+		root_lvl_data |= levels_by_z[level + 1]
+
+	. = list()
+	// Check stack for any laterally connected neighbors.
+	for(var/datum/level_data/L in root_lvl_data)
+		var/list/cur_connected = L.get_all_connected_level_data()
+		if(length(cur_connected))
+			. |= cur_connected
+	. |= root_lvl_data
+
+/datum/controller/subsystem/mapping/proc/get_connected_levels_ids(z)
+	if(z <= 0  || z > length(levels_by_z))
+		CRASH("Invalid z-level supplied to get_connected_levels_ids: [isnull(z) ? "NULL" : z]")
+	var/datum/level_data/LD = levels_by_z[z]
+	var/list/root_lvl_ids = list(LD.level_id)
+
+	// Traverse up and down to get the multiz stack.
+	for(var/level = z, HasBelow(level), level--)
+		var/datum/level_data/L = levels_by_z[level - 1]
+		root_lvl_ids |= L.level_id
+	for(var/level = z, HasAbove(level), level++)
+		var/datum/level_data/L = levels_by_z[level + 1]
+		root_lvl_ids |= L.level_id
+
+	. = list()
+	// Check stack for any laterally connected neighbors.
+	for(var/id in root_lvl_ids)
+		var/datum/level_data/level = levels_by_id[id]
+		if(level)
+			var/list/cur_connected = level.get_all_connected_level_ids()
+			if(length(cur_connected))
+				. |= cur_connected
+	. |= root_lvl_ids
 
 /datum/controller/subsystem/mapping/proc/are_connected_levels(var/zA, var/zB)
 	if (zA <= 0 || zB <= 0 || zA > world.maxz || zB > world.maxz)
@@ -196,3 +247,56 @@ SUBSYSTEM_DEF(mapping)
 		connected_z_cache.len = zA
 	connected_z_cache[zA] = new_entry
 	return new_entry[zB]
+
+/// Registers all the needed infos from a level_data into the mapping subsystem
+/datum/controller/subsystem/mapping/proc/register_level_data(var/datum/level_data/LD)
+	if(levels_by_z.len < LD.level_z)
+		levels_by_z.len = max(levels_by_z.len, LD.level_z)
+		PRINT_STACK_TRACE("Attempting to initialize a z-level([LD.level_z]) that has not incremented world.maxz.")
+
+	//Assign level z
+	var/datum/level_data/old_level = levels_by_z[LD.level_z]
+	levels_by_z[LD.level_z] = LD
+
+	if(old_level)
+		// Swap out the old one but preserve any relevant references etc.
+		old_level.replace_with(LD)
+		QDEL_NULL(old_level)
+
+	//Setup ID ref
+	if(isnull(LD.level_id))
+		PRINT_STACK_TRACE("Null level_id specified for z[LD.level_z].")
+	else if(LD.level_id in levels_by_id)
+		PRINT_STACK_TRACE("Duplicate level_id '[LD.level_id]' for z[LD.level_z].")
+	else
+		levels_by_id[LD.level_id] = LD
+
+	//Always add base turf for Z. It'll get replaced as needed.
+	base_turf_by_z[LD.level_z] = LD.base_turf || world.turf
+
+	//Add to level flags lookup lists
+	if(LD.level_flags & ZLEVEL_STATION)
+		station_levels |= LD.level_z
+	if(LD.level_flags & ZLEVEL_ADMIN)
+		admin_levels   |= LD.level_z
+	if(LD.level_flags & ZLEVEL_CONTACT)
+		contact_levels |= LD.level_z
+	if(LD.level_flags & ZLEVEL_PLAYER)
+		player_levels  |= LD.level_z
+	if(LD.level_flags & ZLEVEL_SEALED)
+		sealed_levels  |= LD.level_z
+	return TRUE
+
+/datum/controller/subsystem/mapping/proc/unregister_level_data(var/datum/level_data/LD)
+	if(levels_by_z[LD.level_z] == LD)
+		//Clear the level data ref from the list if we're in it.
+		levels_by_z[LD.level_z] = null
+	levels_by_id -= LD.level_id
+
+	base_turf_by_z[LD.level_z] = world.turf
+	station_levels -= LD.level_z
+	admin_levels   -= LD.level_z
+	contact_levels -= LD.level_z
+	player_levels  -= LD.level_z
+	sealed_levels  -= LD.level_z
+	return TRUE

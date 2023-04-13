@@ -27,7 +27,16 @@
 	while(query.NextRow())
 		to_chat(usr, "Z data: (ID: [query.item[1]], Z: [query.item[2]], Dynamic: [query.item[3]], Default Turf: [query.item[4]])")
 
-	query = dbcon_save.NewQuery("SELECT `TABLE_NAME`, `TABLE_ROWS` FROM information_schema.tables WHERE `TABLE_NAME` IN ('[SQLS_TABLE_LIST_ELEM]', '[SQLS_TABLE_DATUM]', '[SQLS_TABLE_DATUM_VARS]')")
+	query = dbcon_save.NewQuery("SELECT DATABASE();")
+	var/my_db_name
+	if(!query.Execute())
+		to_chat(usr, "Error: [query.ErrorMsg()]")
+		return
+
+	query.NextRow()
+	my_db_name = query.item[1]
+
+	query = dbcon_save.NewQuery("SELECT `TABLE_NAME`, `TABLE_ROWS` FROM information_schema.tables WHERE `TABLE_SCHEMA` = '[my_db_name]' AND `TABLE_NAME` IN ('[SQLS_TABLE_LIST_ELEM]', '[SQLS_TABLE_DATUM]', '[SQLS_TABLE_DATUM_VARS]', '[SQLS_TABLE_AREAS]', '[SQLS_TABLE_LIMBO]', '[SQLS_TABLE_LIMBO_DATUM]', '[SQLS_TABLE_LIMBO_DATUM_VARS]', '[SQLS_TABLE_LIMBO_LIST_ELEM]', '[SQLS_TABLE_LIST_ELEM]')")
 	if(!query.Execute())
 		to_chat(usr, "Error: [query.ErrorMsg()]")
 		return
@@ -276,7 +285,7 @@ var/global/list/serialization_time_spent_type
 		var/EV = null
 		if(!isnum(key))
 			try
-				EV = _list[key]
+				EV = _list[key] //#FIXME: We really need to get rid of this awful way to check if lists are associative.
 			catch
 				EV = null // NBD... No value.
 		if (isnull(key))
@@ -617,9 +626,9 @@ var/global/list/serialization_time_spent_type
 	var/z_insert_index = 1
 	for(var/z in z_transform)
 		var/datum/persistence/load_cache/z_level/z_level = z_transform[z]
-		z_inserts += "([z_insert_index],[z_level.new_index],[z_level.dynamic],'[z_level.default_turf]','[z_level.metadata]','[json_encode(z_level.areas)]')"
+		z_inserts += "([z_insert_index],[z_level.new_index],[z_level.dynamic],'[z_level.default_turf]','[z_level.metadata]','[json_encode(z_level.areas)]','[z_level.level_data_subtype]')"
 		z_insert_index++
-	var/DBQuery/query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_Z_LEVELS]` (`id`,`z`,`dynamic`,`default_turf`,`metadata`,`areas`) VALUES[jointext(z_inserts, ",")]")
+	var/DBQuery/query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_Z_LEVELS]` (`id`,`z`,`dynamic`,`default_turf`,`metadata`,`areas`,`level_data_subtype`) VALUES[jointext(z_inserts, ",")]")
 	SQLS_EXECUTE_AND_REPORT_ERROR(query, "Z_LEVEL SERIALIZATION FAILED:")
 	return TRUE
 

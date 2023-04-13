@@ -28,12 +28,9 @@
 
 	var/list/late_wrappers = list() // Some wrapped objects need special behavior post-load. This list is cleared post-atom Init.
 
-/datum/controller/subsystem/persistence/Initialize()
-	saved_levels = global.using_map.saved_levels
-
 /datum/controller/subsystem/persistence/proc/SaveExists()
 	if(!save_exists)
-		save_exists = serializer.save_exists()
+		save_exists = establish_save_db_connection() && serializer.save_exists()
 		in_loaded_world = save_exists
 	return save_exists
 
@@ -133,16 +130,18 @@
 		var/list/z_transform = list()
 		var/new_z_index = 1
 		// First we find the highest non-dynamic z_level.
-		for(var/z in SSmapping.station_levels) //#FIXME: That logic is flawed. We got levels that aren't dynamic and aren't station levels!!!!
+		for(var/z in SSmapping.player_levels) //#FIXME: That logic is flawed. We got levels that aren't dynamic and aren't station levels!!!!
 			if(z in saved_levels)
 				new_z_index = max(new_z_index, z)
 
 		// Now we go through our saved levels and remap all of those.
 		for(var/z in saved_levels)
 			var/datum/persistence/load_cache/z_level/z_level = new()
+			var/datum/level_data/LD = SSmapping.levels_by_z[z]
 			z_level.default_turf = get_base_turf(z)
 			z_level.index = z
-			if(z in SSmapping.station_levels) //#FIXME: That logic is flawed. We got levels that aren't dynamic and aren't station levels!!!!
+			z_level.level_data_subtype = LD.type
+			if(z in SSmapping.player_levels) //#FIXME: That logic is flawed. We got levels that aren't dynamic and aren't station levels!!!!
 				z_level.dynamic = FALSE
 				z_level.new_index = z
 			else
@@ -162,6 +161,8 @@
 				z_level.default_turf = get_base_turf(T.z)
 				z_level.index = T.z
 				z_level.dynamic = TRUE
+				var/datum/level_data/LD = SSmapping.levels_by_z[T.z]
+				z_level.level_data_subtype = LD.type
 				if("[T.z]" in global.overmap_sectors)
 					var/obj/effect/overmap = global.overmap_sectors["[T.z]"]
 					z_level.metadata = "[overmap.x],[overmap.y]"
@@ -376,21 +377,49 @@
 
 		// Start with rebuilding the z-levels.
 		//var/last_index = world.maxz
+		var/list/unmapped_z     = list()
+		var/list/mapped_z       = list()
+		var/list/mapped_indices = list() //Indices reserved by mapped zlevels
+
+		///Sort z-levels on whether they got a mapped z indice, or not
 		for(var/datum/persistence/load_cache/z_level/z_level in serializer.resolver.z_levels)
 			if(z_level.dynamic)
-				SSmapping.increment_world_z_size(/obj/abstract/level_data/space)
-				z_level.new_index = world.maxz
+				unmapped_z |= z_level
 			else
-				z_level.new_index = z_level.index
-			to_world_log("Mapping Save Z ([z_level.index]) to World Z ([z_level.new_index]) with default turf ([z_level.default_turf]).")
+				mapped_z |= z_level
+				mapped_indices |= z_level.index
+
+		//Then handle assigning z levels
+		for(var/datum/persistence/load_cache/z_level/z_level in mapped_z)
+			//If the world z isn't at the index we're loading this level at, increment
+			for(var/z_incr = 1 to  max(z_level.index - world.maxz, 0))
+				// Always init to space new levels. It really doesn't matter
+				SSmapping.increment_world_z_size(text2path("[z_level.level_data_subtype]") || /datum/level_data/space, TRUE)
+				//If we have any unmapped z levels to place, use the empty space between
+				if(length(unmapped_z) && !(world.maxz in mapped_indices))
+					var/datum/persistence/load_cache/z_level/unmapped = unmapped_z[unmapped_z.len]
+					unmapped_z.len--
+					unmapped.new_index = world.maxz
+					serializer.z_map["[unmapped.index]"] = unmapped.new_index
+					report_progress_serializer("Mapping Save Z ([unmapped.index]) to World Z ([unmapped.new_index]) with default turf ([unmapped.default_turf]).")
+
+			report_progress_serializer("Mapping Save Z ([z_level.index]) to World Z ([z_level.new_index]) with default turf ([z_level.default_turf]).")
+			z_level.new_index = z_level.index
+			serializer.z_map[num2text(z_level.index)] = z_level.new_index
+
+		//If any unmapped left, add them
+		for(var/datum/persistence/load_cache/z_level/z_level in unmapped_z)
+			SSmapping.increment_world_z_size(/datum/level_data/space)
+			z_level.new_index = world.maxz
 			serializer.z_map["[z_level.index]"] = z_level.new_index
-		to_world_log("Z-Levels loaded!")
+			report_progress_serializer("Mapping Save Z ([z_level.index]) to World Z ([z_level.new_index]) with default turf ([z_level.default_turf]).")
+		report_progress_serializer("Z-Levels loaded!")
 
 		// This is a sort-of hack. We're going to go back and edit all of the thing_references to their new Z from the z_levels we just modified.
 		for(var/thing_id in serializer.resolver.things)
 			var/datum/persistence/load_cache/thing/thing = serializer.resolver.things[thing_id]
 			thing.z = serializer.z_map["[thing.z]"]
-		to_world_log("Dynamic z-levels populated!")
+		report_progress_serializer("Dynamic z-levels populated!")
 
 		// Now we're going to load the actual data from the save.
 		var/list/turfs_loaded = list()
@@ -411,7 +440,7 @@
 		to_world_log("Load complete! Took [(world.timeofday-start)/10]s to load [length(serializer.resolver.things)] things. Loaded [LAZYLEN(turfs_loaded)] turfs.")
 		in_loaded_world = LAZYLEN(turfs_loaded) > 0
 
-		to_world_log("Adding default turfs and areas...")
+		report_progress_serializer("Adding default turfs and areas...")
 		start = world.timeofday
 
 		for(var/datum/persistence/load_cache/z_level/z_level in serializer.resolver.z_levels)
@@ -450,9 +479,9 @@
 							turf_count = 1
 				if(change_turf && !turfs_loaded["([T.x], [T.y], [T.z])"])
 					T.ChangeTurf(z_level.default_turf)
-		to_world_log("Default turfs and areas complete! Took [(world.timeofday-start)/10]s.")
+		report_progress_serializer("Default turfs and areas complete! Took [(world.timeofday-start)/10]s.")
 
-		to_world_log("Adding other areas...")
+		report_progress_serializer("Adding other areas...")
 		start = world.timeofday
 		for(var/datum/persistence/load_cache/area_chunk/area_chunk in serializer.resolver.area_chunks)
 			var/area/new_area = global.area_dictionary["[area_chunk.area_type], [area_chunk.name]"]
@@ -466,7 +495,7 @@
 				var/turf/T = locate(text2num(coords[1]), text2num(coords[2]), coords[3])
 				new_area.contents += T
 
-		to_world_log("Adding other areas complete! Took [(world.timeofday-start)/10]s.")
+		report_progress_serializer("Adding other areas complete! Took [(world.timeofday-start)/10]s.")
 
 		// Cleanup the cache. It uses a *lot* of memory.
 		for(var/id in serializer.reverse_map)
@@ -474,13 +503,15 @@
 			T.after_deserialize()
 		for(var/id in serializer.reverse_list_map)
 			var/list/_list = serializer.reverse_list_map[id]
+			//#FIXME: If the elements in the list are numbers, this will be even slower than it is right now.
+			//        Since it'll runtime if a number is out of range of the list.
 			for(var/element in _list)
 				var/datum/T = element
 				if(istype(T, /datum))
 					T.after_deserialize()
 				var/datum/TE
 				try
-					TE = _list[element]
+					TE = _list[element] //#FIXME: We really need to get rid of this awful way to check list types.
 				catch
 					continue
 				try
@@ -528,8 +559,6 @@
 	saved_levels |= z
 
 /datum/controller/subsystem/persistence/proc/RemoveSavedLevel(var/z)
-	if(z in global.using_map.saved_levels)
-		return
 	saved_levels -= z
 
 /datum/controller/subsystem/persistence/proc/AddSavedArea(var/area/A)

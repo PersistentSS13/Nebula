@@ -21,9 +21,9 @@
 		water.transform = water.transform.Turn(rand(0,360))
 		skybox_image.overlays += water
 
-	var/obj/abstract/level_data/level_data = SSmapping.levels_by_z[map_z[1]]
-	var/datum/gas_mixture/atmosphere = level_data?.get_exterior_atmosphere()
-	if(atmosphere?.return_pressure() > SOUND_MINIMUM_PRESSURE)
+	var/datum/level_data/level_data = SSmapping.levels_by_z[map_z[1]]
+	var/datum/gas_mixture/atmos = level_data.get_exterior_atmosphere()
+	if(atmos?.return_pressure() > SOUND_MINIMUM_PRESSURE)
 
 		var/atmo_color = get_atmosphere_color()
 		if(!atmo_color)
@@ -64,9 +64,9 @@
 
 /obj/effect/overmap/visitable/sector/exoplanet/proc/get_atmosphere_color()
 	var/list/colors = list()
-	for(var/Z in map_z)
-		var/obj/abstract/level_data/level_data = SSmapping.levels_by_z[Z]
-		for(var/g in level_data.exterior_atmosphere?.gas)
+	for(var/datum/level_data/level_data in zlevels)
+		var/datum/gas_mixture/atmos = level_data.get_exterior_atmosphere()
+		for(var/g in atmos?.gas)
 			var/decl/material/mat = GET_DECL(g)
 			colors += mat.color
 	if(colors.len)
