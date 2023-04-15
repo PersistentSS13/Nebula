@@ -11,7 +11,7 @@ SUBSYSTEM_DEF(chargen)
 	var/obj/abstract/limbo_holder
 
 /datum/controller/subsystem/chargen/Initialize()
-	SSmapping.increment_world_z_size(/obj/abstract/level_data/chargen)
+	SSmapping.increment_world_z_size(/datum/level_data/chargen)
 	map_z = world.maxz
 
 	report_progress("Loading chargen map data.")
@@ -93,7 +93,7 @@ SUBSYSTEM_DEF(chargen)
 		SSchargen.release_spawn_pod(A)
 	return ..()
 
-/obj/abstract/level_data/chargen
+/datum/level_data/chargen
 	level_flags = ZLEVEL_SEALED
 
 //Chargen spawnpoint

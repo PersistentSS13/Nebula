@@ -1,42 +1,74 @@
-/datum/map/kleibkhar
-#ifndef UNIT_TEST
-	// Hotloading module
-	default_levels = list(
-		"1" = "maps/kleibkhar/kleibkhar-1.dmm",
-		"2" = "maps/kleibkhar/kleibkhar-2.dmm",
-		"3" = "maps/kleibkhar/kleibkhar-3.dmm",
-		"4" = "maps/kleibkhar/kleibkhar-4.dmm",
-		"5" = "maps/utility/cargo_shuttle_tmpl.dmm",
+///Map template for loading the kelbkhar map
+/datum/map_template/persistent/kleibkhar
+	name                 = "planet kleibkhar"
+	template_flags       = TEMPLATE_FLAG_SPAWN_GUARANTEED | TEMPLATE_FLAG_NO_RUINS
+	modify_tag_vars      = FALSE
+	template_categories  = list(MAP_TEMPLATE_CATEGORY_MAIN_SITE) //Templates must have a category, or they won't spawn
+	tallness             = 4
+	mappaths             = list(
+		"maps/kleibkhar/kleibkhar-1.dmm",
+		"maps/kleibkhar/kleibkhar-2.dmm",
+		"maps/kleibkhar/kleibkhar-3.dmm",
+		"maps/kleibkhar/kleibkhar-4.dmm",
 	)
 
-#else
-	default_levels = list(
-		"4" = "maps/kleibkhar/kleibkhar-1.dmm",
-		"5" = "maps/kleibkhar/kleibkhar-2.dmm",
-		"6" = "maps/kleibkhar/kleibkhar-3.dmm",
-		"7" = "maps/kleibkhar/kleibkhar-4.dmm",
-		"8" = "maps/utility/cargo_shuttle_tmpl.dmm",
-	)
-#endif
+///////////////////////////////////////////////////////////////////////////////
+// Leve Data
+///////////////////////////////////////////////////////////////////////////////
 
-/obj/abstract/level_data/exoplanet/kleibkhar
-	level_flags = (ZLEVEL_CONTACT|ZLEVEL_PLAYER|ZLEVEL_SAVED)
+/datum/level_data/exoplanet/kleibkhar
+	name                = "kleibkhar surface"
+	level_id            = "kleibkhar_surface"
+	level_flags         = ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_SAVED
 	ambient_light_level = 1.0
-	base_turf = /turf/exterior/kleibkhar_grass
+	base_area           = /area/exoplanet/kleibkhar
+	base_turf           = /turf/exterior/kleibkhar_grass
+	loop_turf_type      = /turf/exterior/mimic_edge/transition/loop
+	border_filler       = /turf/unsimulated/dark_border
 	exterior_atmosphere = list(
 		/decl/material/gas/oxygen =   MOLES_O2STANDARD,
 		/decl/material/gas/nitrogen = MOLES_N2STANDARD
 	)
 
-/obj/abstract/level_data/exoplanet/kleibkhar/sky
+/datum/level_data/exoplanet/kleibkhar/sky
+	name                = "kleibkhar sky"
+	level_id            = "kleibkhar_sky"
 	ambient_light_level = 1.0
-	base_turf = /turf/exterior/open
+	base_area           = /area/exoplanet/kleibkhar/sky
+	base_turf           = /turf/exterior/open
 
-/obj/abstract/level_data/exoplanet/kleibkhar/underground
-	level_flags = (ZLEVEL_CONTACT|ZLEVEL_PLAYER|ZLEVEL_MINING)
+/datum/level_data/exoplanet/kleibkhar/underground
+	name                = "kleibkhar underground"
+	level_id            = "kleibkhar_underground"
+	level_flags         = ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_MINING | ZLEVEL_SAVED
+	ambient_light_level = 0.2
+	base_area           = /area/exoplanet/kleibkhar/mines/depth_1
+	base_turf           = /turf/exterior/barren/mining
+	border_filler       = /turf/unsimulated/mineral
+
+/datum/level_data/exoplanet/kleibkhar/underground/bottom
+	name                = "kleibkhar abyss"
+	level_id            = "kleibkhar_abyss"
 	ambient_light_level = 0.1
-	base_turf = /turf/exterior/barren/mining
+	base_area           = /area/exoplanet/kleibkhar/mines/depth_2
+	base_turf           = /turf/exterior/barren/mining
 
-/obj/abstract/level_data/exoplanet/kleibkhar/underground/bottom
-	ambient_light_level = 0.0
-	base_turf = /turf/exterior/barren/mining
+///////////////////////////////////////////////////////////////////////////////
+// Spawners
+///////////////////////////////////////////////////////////////////////////////
+
+/obj/abstract/level_data_spawner/exoplanet/kleibkhar
+	name            = "kleibkhar surface (level data spawner)"
+	level_data_type = /datum/level_data/exoplanet/kleibkhar
+
+/obj/abstract/level_data_spawner/exoplanet/kleibkhar/sky
+	name            = "kleibkhar sky (level data spawner)"
+	level_data_type = /datum/level_data/exoplanet/kleibkhar/sky
+
+/obj/abstract/level_data_spawner/exoplanet/kleibkhar/underground
+	name            = "kleibkhar underground (level data spawner)"
+	level_data_type = /datum/level_data/exoplanet/kleibkhar/underground
+
+/obj/abstract/level_data_spawner/exoplanet/kleibkhar/underground/bottom
+	name            = "kleibkhar abyss (level data spawner)"
+	level_data_type = /datum/level_data/exoplanet/kleibkhar/underground/bottom

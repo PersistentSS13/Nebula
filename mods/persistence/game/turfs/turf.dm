@@ -46,3 +46,12 @@ SAVED_VAR(/turf, applied_decals)
 	if(T)
 		LAZYCLEARLIST(T.applied_decals) //If we apply a reset, just purge the decal info to avoid accumulating garbage
 
+///Edge blocker turf
+/turf/unsimulated/dark_border
+	name             = "darkness"
+	icon             = 'icons/turf/space.dmi'
+	icon_state       = "black"
+	density          = TRUE
+	opacity          = TRUE
+	permit_ao        = FALSE
+	dynamic_lighting = FALSE

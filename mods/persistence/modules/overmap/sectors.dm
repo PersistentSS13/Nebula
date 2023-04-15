@@ -3,6 +3,7 @@
 					  		 // If the area or z-level is saved, the overmap effect will be saved.
 	var/atom/old_loc	 	 // Where the ship was prior to saving. Used to relocate the ship following saving, not on load.
 
+	//#FIXME: Don't store this here.
 	var/rent_amount = 15000	  // The amount of rent per period.
 	var/paid_rent = 0		  // The rent paid so far.
 	var/rent_period = 14 DAYS // Time between rent payments.

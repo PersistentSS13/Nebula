@@ -18,8 +18,9 @@
 
 // Bit faster than return_air() for exoplanet exterior turfs
 /turf/exterior/get_air_graphic()
-	var/obj/abstract/level_data/level = SSmapping.levels_by_z[z]
-	return level?.exterior_atmosphere?.graphic
+	var/datum/level_data/level = SSmapping.levels_by_z[z]
+	var/datum/gas_mixture/atmos = level?.get_exterior_atmosphere()
+	return atmos?.graphic
 
 /turf/exterior/Initialize(mapload, no_update_icon = FALSE)
 
@@ -82,7 +83,7 @@
 	. = ..()
 
 /turf/exterior/return_air()
-	var/obj/abstract/level_data/level = SSmapping.levels_by_z[z]
+	var/datum/level_data/level = SSmapping.levels_by_z[z]
 	var/datum/gas_mixture/gas = level?.get_exterior_atmosphere()
 	if(!gas)
 		return

@@ -114,7 +114,7 @@
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/hallway)
 "aq" = (
-/turf/exterior/planet_edge,
+/turf/unsimulated/dark_border,
 /area/exoplanet/outreach)
 "ar" = (
 /obj/machinery/door/airlock,
@@ -2348,12 +2348,12 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/atmospherics)
 "fm" = (
-/obj/machinery/power/apc/critical{
-	dir = 4;
-	pixel_x = 24
-	},
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/cable/green,
+/obj/machinery/power/apc{
+	icon_state = "apc0";
+	dir = 4
+	},
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/hallway)
 "fn" = (
@@ -3096,8 +3096,8 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/atmospherics)
 "gR" = (
-/obj/abstract/level_data/exoplanet/outreach,
-/turf/exterior/planet_edge,
+/obj/abstract/level_data_spawner/exoplanet/outreach,
+/turf/exterior/chlorine_sand,
 /area/exoplanet/outreach)
 "gS" = (
 /obj/machinery/atmospherics/pipe/manifold/hidden,
@@ -3908,7 +3908,7 @@ aq
 aq
 aq
 aq
-gR
+aq
 "}
 (2,1,1) = {"
 aq
@@ -5315,7 +5315,7 @@ aa
 aa
 aa
 aa
-aa
+gR
 aq
 aq
 aq

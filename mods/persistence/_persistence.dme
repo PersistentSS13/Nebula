@@ -141,6 +141,7 @@
 #include "modules\hydroponics\spreading\spreading.dm"
 #include "modules\integrated_electronics\printer.dm"
 #include "modules\lighting\lighting_overlay.dm"
+#include "modules\map\map_template_persistent.dm"
 #include "modules\materials\recipes_persistence.dm"
 #include "modules\materials\definitions\materials_solid_metal.dm"
 #include "modules\materials\definitions\materials_stone.dm"

@@ -82,7 +82,7 @@
 	var/overmap_x = origin_sector.x
 	var/overmap_y = origin_sector.y
 
-	SSmapping.increment_world_z_size(/obj/abstract/level_data/space) // Create a new z-level for the sector to correspond to.
+	SSmapping.increment_world_z_size(/datum/level_data/space) // Create a new z-level for the sector to correspond to.
 
 	new /obj/effect/portal(get_turf(src))
 	qdel_self()

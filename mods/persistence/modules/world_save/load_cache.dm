@@ -45,6 +45,7 @@
 	var/dynamic = FALSE // Dynamic z_levels are transformed on load.
 	var/metadata
 	var/default_turf	// The fill turf for the z_level.
+	var/level_data_subtype
 
 	var/list/areas = list() // List of lists corresponding to one horizontal row of areas.
 							// Format is list(list(type, name, tile count), ...)
@@ -56,6 +57,7 @@
 		default_turf = text2path(sql_row["default_turf"])
 		metadata = sql_row["metadata"]
 		areas = json_decode(sql_row["areas"])
+		level_data_subtype = text2path(sql_row["level_data_subtype"])
 
 // A much less performant way of keeping track of areas by recording each individual turf.
 /datum/persistence/load_cache/area_chunk
@@ -91,7 +93,7 @@
 		CRASH("Load_Cache: Couldn't establish DB connection!")
 	// Deserialize levels
 	var/start = world.timeofday
-	var/DBQuery/query = dbcon_save.NewQuery("SELECT `z`,`dynamic`,`default_turf`,`metadata`,`areas` FROM `[SQLS_TABLE_Z_LEVELS]`;")
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT `z`,`dynamic`,`default_turf`,`metadata`,`areas`,`level_data_subtype` FROM `[SQLS_TABLE_Z_LEVELS]`;")
 	SQLS_EXECUTE_AND_REPORT_ERROR(query, "DESERIALIZE Z LEVELS FAILED:")
 	while(query.NextRow())
 		var/items = query.GetRowData()

@@ -40,3 +40,7 @@
 
 /particles
 	should_save = FALSE
+
+//This object is doing a bunch of nasty things, like initializing during new, and moving to nullspace, don't try saving it.
+/obj/abstract/weather_system
+	should_save = FALSE

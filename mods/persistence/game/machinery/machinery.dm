@@ -16,6 +16,8 @@
 		if(length(old_cpart))
 			for(var/obj/item/stock_parts/P in old_cpart)
 				if(!(P in component_parts))
+					if(!(P.atom_flags & ATOM_FLAG_INITIALIZED))
+						SSatoms.InitAtom(P) //Make sure parts are initialized first!
 					install_component(P, FALSE, FALSE)
 			RefreshParts()
 		CLEAR_SV("old_component_parts")
