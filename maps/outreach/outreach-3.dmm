@@ -6658,7 +6658,7 @@
 /turf/simulated/floor/plating/outreach,
 /area/exoplanet/outreach)
 "oZ" = (
-/obj/abstract/level_data/exoplanet/outreach,
+/obj/abstract/level_data_spawner/exoplanet/outreach,
 /turf/unsimulated/rock,
 /area/exoplanet/outreach)
 "pa" = (

@@ -63,7 +63,7 @@ SUBSYSTEM_DEF(mining)
 /area
 	var/ignore_mining_regen = TRUE
 
-/obj/abstract/level_data
+/datum/level_data
 	var/datum/random_map/automata/cave_system/level_gen_type //Map generator for mining regen subsystem
 
 /datum/controller/subsystem/mining/Initialize()
@@ -74,6 +74,7 @@ SUBSYSTEM_DEF(mining)
 	last_collapse = world.timeofday
 
 /datum/controller/subsystem/mining/fire()
+	//#TODO: have level_data handle regeneration, and make sure to avoid regenerating areas that are immune to regen!
 	if(collapse_imminent)
 		if(world.timeofday - last_collapse >= ((regen_interval + warning_wait) * 600))
 			var/list/z_levels = SSmapping.get_connected_levels(global.using_map.mining_levels[1])
@@ -107,7 +108,7 @@ SUBSYSTEM_DEF(mining)
 	SpitOutMobs(eject_mobs, 3)
 
 	for(var/z_level in global.using_map.mining_levels)
-		var/obj/abstract/level_data/ld = LAZYACCESS(SSmapping.levels_by_z, z_level)
+		var/datum/level_data/ld = LAZYACCESS(SSmapping.levels_by_z, z_level)
 		var/datum/random_map/automata/cave_system/generator
 		if(ld?.level_gen_type)
 			generator = new ld.level_gen_type(TRANSITIONEDGE, TRANSITIONEDGE, z_level, world.maxx - TRANSITIONEDGE, world.maxy - TRANSITIONEDGE, FALSE, FALSE, FALSE)

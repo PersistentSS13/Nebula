@@ -25,7 +25,6 @@
 	#include "turfs\outreach_turf_border.dm"
 	#include "turfs\outreach_turf_flooded.dm"
 	#include "turfs\outreach_turf_magma.dm"
-	#include "turfs\outreach_turf_transition.dm"
 	#include "turfs\outreach_turf_volcanic.dm"
 
 	//Unit tests

@@ -1,10 +1,5 @@
-/datum/controller/subsystem/mapping
-	/// List of z-levels that regenerates mining turfs periodically
-	var/list/mining_levels =  list()
-
 /datum/controller/subsystem/mapping/Initialize(timeofday)
 	. = ..()
-	var/save_exists = FALSE
 #ifndef UNIT_TEST
 	if(SSpersistence.SaveExists())
 		report_progress_serializer("Existing save found. Loading save...")
@@ -15,6 +10,3 @@
 #else
 	report_progress_serializer("Unit testing, so not loading saved data.")
 #endif
-
-/datum/controller/subsystem/mapping/proc/Save()
-	SSpersistence.SaveWorld()

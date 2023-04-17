@@ -16434,7 +16434,7 @@
 /turf/simulated/floor/tiled/white,
 /area/outreach/outpost/medbay/storage/medical)
 "EL" = (
-/obj/abstract/level_data/exoplanet/outreach/underground,
+/obj/abstract/level_data_spawner/exoplanet/outreach/underground,
 /turf/unsimulated/rock,
 /area/exoplanet/outreach/underground/d1)
 "EM" = (

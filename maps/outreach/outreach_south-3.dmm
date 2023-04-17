@@ -6,7 +6,7 @@
 /turf/unsimulated/rock,
 /area/exoplanet/outreach/mine_entrance)
 "e" = (
-/obj/abstract/level_data/exoplanet/outreach/south,
+/obj/abstract/level_data_spawner/exoplanet/outreach/south,
 /turf/unsimulated/rock,
 /area/exoplanet/outreach)
 "g" = (
