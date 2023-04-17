@@ -71,22 +71,22 @@ SUBSYSTEM_DEF(mining)
 		suspend()
 		return
 	Regenerate()
-	last_collapse = world.timeofday
+	last_collapse = REALTIMEOFDAY
 
 /datum/controller/subsystem/mining/fire()
 	//#TODO: have level_data handle regeneration, and make sure to avoid regenerating areas that are immune to regen!
 	if(collapse_imminent)
-		if(world.timeofday - last_collapse >= ((regen_interval + warning_wait) * 600))
+		if((REALTIMEOFDAY - last_collapse) >= ((regen_interval + warning_wait) * 600))
 			var/list/z_levels = SSmapping.get_connected_levels(global.using_map.mining_levels[1])
 			for(var/mob/M in global.player_list)
 				if(M.z in z_levels)
 					to_chat(M, SPAN_DANGER(collapse_message))
 					playsound(M, 'mods/persistence/sound/ambience/mineswarning.ogg', 100, 0)
 			collapse_imminent = FALSE
-			last_collapse = world.timeofday
+			last_collapse = REALTIMEOFDAY
 			Regenerate()
 	else
-		if(world.timeofday - last_collapse >= regen_interval * 600)
+		if(REALTIMEOFDAY - last_collapse >= regen_interval * 600)
 			var/list/z_levels = SSmapping.get_connected_levels(global.using_map.mining_levels[1])
 			for(var/mob/M in global.player_list)
 				if(M.z in z_levels)
