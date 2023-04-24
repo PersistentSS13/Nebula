@@ -111,6 +111,9 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 	var/gibbed_anim =   "gibbed-h"
 	var/dusted_anim =   "dust-h"
 
+	/// A modifier applied to move delay when walking on snow.
+	var/snow_slowdown_mod = 0
+
 	var/death_sound
 	var/death_message = "seizes up and falls limp, their eyes dead and lifeless..."
 	var/knockout_message = "collapses, having been knocked unconscious."
@@ -229,6 +232,7 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 	var/decl/pronouns/default_pronouns
 	var/list/available_pronouns = list(
 		/decl/pronouns,
+		/decl/pronouns/neuter/person,
 		/decl/pronouns/female,
 		/decl/pronouns/male
 	)
@@ -869,7 +873,7 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 
 		//Actually disarm them
 		for(var/obj/item/I in holding)
-			if(I && target.unEquip(I))
+			if(I && target.try_unequip(I))
 				target.visible_message("<span class='danger'>[attacker] has disarmed [target]!</span>")
 				playsound(target.loc, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
 				return

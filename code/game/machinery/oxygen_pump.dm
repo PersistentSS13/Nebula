@@ -1,4 +1,4 @@
-#define TANK_MAX_RELEASE_PRESSURE (3*ONE_ATMOSPHERE)
+#define TANK_MAX_RELEASE_PRESSURE (3 ATM)
 #define TANK_DEFAULT_RELEASE_PRESSURE ONE_ATMOSPHERE
 
 /obj/machinery/oxygen_pump
@@ -146,7 +146,7 @@
 		if(tank)
 			to_chat(user, SPAN_WARNING("\The [src] already has a tank installed!"))
 		else
-			if(!user.unEquip(W, src))
+			if(!user.try_unequip(W, src))
 				return
 			tank = W
 			user.visible_message(SPAN_NOTICE("\The [user] installs \the [tank] into \the [src]."), SPAN_NOTICE("You install \the [tank] into \the [src]."))

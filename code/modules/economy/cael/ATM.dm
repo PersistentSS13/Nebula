@@ -87,7 +87,7 @@
 
 		var/obj/item/card/id/idcard = I
 		if(!held_card)
-			if(!user.unEquip(idcard, src))
+			if(!user.try_unequip(idcard, src))
 				return
 			held_card = idcard
 			if(authenticated_account && held_card.associated_account_id != authenticated_account.account_id)
@@ -442,7 +442,7 @@
 					else
 						var/obj/item/I = usr.get_active_hand()
 						if (istype(I, /obj/item/card/id))
-							if(!usr.unEquip(I, src))
+							if(!usr.try_unequip(I, src))
 								return
 							held_card = I
 				else

@@ -30,11 +30,6 @@
 	set_hydration(400)
 	..()
 
-/mob/living/carbon/get_ai_type()
-	if(ispath(species?.ai))
-		return species.ai
-	return ..()
-
 /mob/living/carbon/Move(NewLoc, direct)
 	. = ..()
 	if(!.)
@@ -235,7 +230,7 @@
 		var/obj/item/I = item
 		itemsize = I.w_class
 
-	if(!unEquip(item, play_dropsound = FALSE))
+	if(!try_unequip(item, play_dropsound = FALSE))
 		return
 	if(!item || !isturf(item.loc))
 		return
@@ -283,7 +278,7 @@
 /mob/living/carbon/restrained()
 	return get_equipped_item(slot_handcuffed_str)
 
-/mob/living/carbon/u_equip(obj/item/W)
+/mob/living/carbon/unequip(obj/item/W)
 	. = ..()
 	if(!. && W == get_equipped_item(slot_handcuffed_str))
 		_handcuffed = null

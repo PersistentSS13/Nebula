@@ -175,7 +175,7 @@ else if(##equipment_var) {\
 			to_chat(H, "<span class='danger'>You cannot deploy your helmet while wearing \the [head].</span>")
 			return
 		if(H.equip_to_slot_if_possible(helmet, slot_head_str))
-			helmet.pickup(H)
+			helmet.on_picked_up(H)
 			helmet.canremove = 0
 			playsound(loc, helmet_deploy_sound, 30)
 			to_chat(H, "<span class='info'>You deploy your suit helmet, sealing you off from the world.</span>")
@@ -247,7 +247,7 @@ else if(##equipment_var) {\
 		if(helmet)
 			to_chat(user, "\The [src] already has a helmet installed.")
 		else
-			if(!user.unEquip(W, src))
+			if(!user.try_unequip(W, src))
 				return
 			to_chat(user, "You attach \the [W] to \the [src]'s helmet mount.")
 			src.helmet = W
@@ -260,7 +260,7 @@ else if(##equipment_var) {\
 		if(boots)
 			to_chat(user, "\The [src] already has magboots installed.")
 		else
-			if(!user.unEquip(W, src))
+			if(!user.try_unequip(W, src))
 				return
 			to_chat(user, "You attach \the [W] to \the [src]'s boot mounts.")
 			boots = W
@@ -273,7 +273,7 @@ else if(##equipment_var) {\
 		if(tank)
 			to_chat(user, "\The [src] already has an airtank installed.")
 		else
-			if(!user.unEquip(W, src))
+			if(!user.try_unequip(W, src))
 				return
 			to_chat(user, "You insert \the [W] into \the [src]'s storage compartment.")
 			tank = W

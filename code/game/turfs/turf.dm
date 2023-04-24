@@ -87,6 +87,8 @@
 	if(flooded && !density)
 		make_flooded(TRUE)
 
+	refresh_vis_contents()
+
 	return INITIALIZE_HINT_NORMAL
 
 /turf/examine(mob/user, distance, infix, suffix)
@@ -133,11 +135,11 @@
 /turf/proc/is_solid_structure()
 	return !(turf_flags & TURF_FLAG_BACKGROUND) || locate(/obj/structure/lattice, src)
 
-/turf/proc/get_base_movement_delay()
+/turf/proc/get_base_movement_delay(var/travel_dir, var/mob/mover)
 	return movement_delay
 
-/turf/proc/get_movement_delay(var/travel_dir)
-	. = get_base_movement_delay()
+/turf/proc/get_terrain_movement_delay(var/travel_dir, var/mob/mover)
+	. = get_base_movement_delay(travel_dir, mover)
 	if(weather)
 		. += weather.get_movement_delay(return_air(), travel_dir)
 
@@ -371,7 +373,7 @@
 /turf/proc/update_weather(var/obj/abstract/weather_system/new_weather, var/force_update_below = FALSE)
 
 	if(isnull(new_weather))
-		new_weather = global.weather_by_z[num2text(z)]
+		new_weather = SSweather.get_weather_for_level(z)
 
 	// We have a weather system and we are exposed to it; update our vis contents.
 	if(istype(new_weather) && is_outside())
