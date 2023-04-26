@@ -1,14 +1,20 @@
 /**
- * Turns type path into a path to that type's saved variables singleton datum 
+ * Turns type path into a path to that type's saved variables singleton datum
  * Not meant to be used elsewhere.
 */
-#define GET_SAVED_DECL_FOR(P) text2path("[global.SAVED_VARIABLES_TYPE][P]")
+#define GET_SAVED_DECL_FOR(P) (global.cached_text2path_saved_decls[P]? global.cached_text2path_saved_decls[P] : (global.cached_text2path_saved_decls[P] = text2path("[global.SAVED_VARIABLES_TYPE][P]")))
 
 /**Base type of the saved vars datum*/
 var/global/SAVED_VARIABLES_TYPE = /decl/saved_variables
 
 /**Caches the last ancestor that has defined saved variables for a given type. So we don't spend too much time during lookups */
 var/global/list/cached_sv_child_to_last_ancestor = list()
+
+/**
+ * Caches the /decl/saved_variables type matching a given /datum type path.
+ * Key is /datum typepath, value is the type of the matching /decl/saved_variables.
+*/
+var/global/list/cached_text2path_saved_decls = list()
 
 /////////////////////////////////////////
 // Helper Procs
@@ -17,7 +23,7 @@ var/global/list/cached_sv_child_to_last_ancestor = list()
  * Helper proc to return the saved_variables datum for a given type path.
 */
 /proc/get_saved_decl(var/path)
-	var/decl/saved_variables/SV 
+	var/decl/saved_variables/SV
 	if(cached_sv_child_to_last_ancestor[path])  //Check the ancestor cache first
 		SV = GET_DECL(GET_SAVED_DECL_FOR(cached_sv_child_to_last_ancestor[path]))
 	else
@@ -54,14 +60,19 @@ var/global/get_saved_variables_lookup_time_total = 0
 
 /**
  * Singleton datum for holding saved variables info for a given type.
- * Don't define one of those manually, and instead use the macros. 
+ * Don't define one of those manually, and instead use the macros.
  * Objects of this type expect the path of the entity they contain info on to have their full path in the datum subtype's path. (Ex: /mob/living -> /decl/saved_variables/mob/living )
  */
 /decl/saved_variables
-	var/type_path                //The type path of the object this saved_vars decl is for
-	var/base_type      = /datum  //Used for types that inherit from another, even though the path doesn't represents that (AKA /obj inheriting from /atom/movable, and /atom/movable inheriting from /datum)
-	var/should_flatten = FALSE   //Whether the type should be saved entirely as a json array.
-	var/list/cached              //Saved vars cached after being generated from the macros, since that involves a lot of proc calls
+	///The type path of the object this saved_vars decl is for
+	var/type_path
+	///Used for types that inherit from another, even though the path doesn't represents that
+	///(AKA /obj inheriting from /atom/movable, and /atom/movable inheriting from /datum)
+	var/base_type = /datum
+	///Whether the type should be saved entirely as a json array.
+	var/should_flatten = FALSE
+	///Saved vars cached after being generated from the macros, since that involves a lot of proc calls
+	var/list/cached
 
 /decl/saved_variables/Initialize()
 	. = ..()
@@ -70,7 +81,7 @@ var/global/get_saved_variables_lookup_time_total = 0
 		type_path = text2path(copytext("[type]", length("[SAVED_VARIABLES_TYPE]")))
 
 /**
- * This is called by the macro to override the proc and set the name of the newly added saved var. 
+ * This is called by the macro to override the proc and set the name of the newly added saved var.
  * This shouldn't be called before all decl of this type are instantiated!!!
 */
 /decl/saved_variables/proc/make_saved_variables(var/list/saved = list())
@@ -131,5 +142,5 @@ var/global/get_saved_variables_lookup_time_total = 0
 /decl/saved_variables/mob
 	type_path = /mob
 	base_type = /atom/movable
-	
+
 #undef GET_SAVED_DECL_FOR
