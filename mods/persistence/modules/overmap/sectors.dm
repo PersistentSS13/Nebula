@@ -29,7 +29,7 @@
 	old_loc = loc
 
 	// Force move the sector to its z level(s) so that it can properly reinitialize.
-	forceMove(locate(world.maxx/2, world.maxy/2, map_z[1]))
+	forceMove(locate(world.maxx/2, world.maxy/2, max(map_z)))
 
 	if(check_rent())
 		for(var/sector_z in map_z)
