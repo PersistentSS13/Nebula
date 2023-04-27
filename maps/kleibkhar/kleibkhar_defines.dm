@@ -32,6 +32,7 @@
 	department_money = 0
 	salary_modifier = 0.2
 	num_exoplanets = 0
+	welcome_sound = 'sound/music/stingers/stinger_scifi.ogg'
 
 /datum/map/kleibkhar/get_map_info()
 	return "Kleibkhar Independent Colony. A diverse new commercial venture on the fringe of known space."
