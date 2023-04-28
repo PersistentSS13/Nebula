@@ -26,7 +26,7 @@
 	start_x = x
 	start_y = y
 
-	old_loc = loc
+	CUSTOM_SV("old_loc", loc)
 
 	// Force move the sector to its z level(s) so that it can properly reinitialize.
 	forceMove(locate(world.maxx/2, world.maxy/2, max(map_z)))
@@ -38,7 +38,8 @@
 /obj/effect/overmap/visitable/proc/on_saving_end()
 	for(var/sector_z in map_z)
 		SSpersistence.RemoveSavedLevel(sector_z)
-	forceMove(old_loc)
+	forceMove(LOAD_CUSTOM_SV("old_loc"))
+	CLEAR_SV("old_loc")
 
 /obj/effect/overmap/visitable/proc/check_rent()
 	if(!SSpersistence.rent_enabled || (world.realtime < last_due + rent_period))
@@ -126,3 +127,4 @@ SAVED_VAR(/datum/flora_generator, expected_atmosphere_composition)
 //Planetoid Overmap Markers
 SAVED_VAR(/obj/effect/overmap/visitable/sector/planetoid, planetoid_id)
 SAVED_VAR(/obj/effect/overmap/visitable/sector/planetoid, surface_color)
+SAVED_VAR(/obj/effect/overmap/visitable/sector/planetoid, water_color)
