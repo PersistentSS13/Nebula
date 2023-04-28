@@ -18,10 +18,6 @@
 	flora               = /datum/flora_generator/outreach
 	fauna               = /datum/fauna_generator/outreach
 
-/obj/effect/overmap/visitable/sector/exoplanet/outreach/Initialize(mapload, z_level)
-	. = ..()
-	return INITIALIZE_HINT_LATELOAD
-
 ///////////////////////////////////////
 // Outreach Atmosphere
 ///////////////////////////////////////
