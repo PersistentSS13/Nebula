@@ -20,7 +20,7 @@
 	if(!holder)
 		return
 	var/obj/effect/overmap/visitable/target = holder.get_owning_overmap_object()
-	if(!target || istype(target, /obj/effect/overmap/visitable/sector/exoplanet))
+	if(!target || istype(target, /obj/effect/overmap/visitable/sector/planetoid/exoplanet))
 		return
 	target_sector = weakref(target)
 
@@ -80,7 +80,7 @@
 		if(!target)
 			to_chat(usr, SPAN_WARNING("Unable to locate sector!"))
 			return TOPIC_HANDLED
-		
+
 		target.paid_rent += paid_amount
 		stick.adjust_worth(-(paid_amount))
 		return TOPIC_REFRESH

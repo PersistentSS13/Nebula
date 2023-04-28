@@ -271,3 +271,6 @@
 //#TOOD: Move this somewhere sensible.
 /datum/fauna_generator/proc/get_random_species_name()
 	return "[pick_species_name_prefix()][pick_species_name_middle()][pick_species_name_suffix()]"
+
+/datum/fauna_generator/proc/set_level_data_id(var/_level_data_id)
+	level_data_id = _level_data_id

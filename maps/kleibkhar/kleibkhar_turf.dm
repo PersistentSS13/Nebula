@@ -78,12 +78,12 @@ var/global/list/kleibkhar_possible_tree_seeds = list(
 	color = "#799c4b"
 	footstep_type = /decl/footsteps/grass
 
-/turf/exterior/kleibkhar_grass/Initialize()
+/turf/exterior/kleibkhar_grass/Initialize(mapload, no_update_icon)
 	. = ..()
-	var/obj/effect/overmap/visitable/sector/exoplanet/E = global.overmap_sectors["[z]"]
-	if(istype(E) && E.grass_color)
-		color = E.grass_color
-	
+	var/datum/planetoid_data/PD = SSmapping.planetoid_data_by_z[z]
+	if(istype(PD) && PD.get_grass_color())
+		color = PD.get_grass_color()
+
 	// Turfs don't retain persistent IDs across load currently, so we just check if we're in a loaded world instead.
 	if(!SSpersistence.in_loaded_world)
 		generate_tile_prop()
@@ -91,12 +91,12 @@ var/global/list/kleibkhar_possible_tree_seeds = list(
 /turf/exterior/kleibkhar_grass/proc/generate_tile_prop()
 	if(rand(0, KLEIBKHAR_VEGETATION_CHANCE) != KLEIBKHAR_VEGETATION_CHANCE || length(contents))
 		return //No vegetation/prop for this tile
-	
+
 	//Pick a prop/plant
 	var/picked = pick(
-			prob(60); "plant", 
-			prob(60); "lichen", 
-			prob(40); "dirt", 
+			prob(60); "plant",
+			prob(60); "lichen",
+			prob(40); "dirt",
 			prob(25); "rock",
 			prob(25); "dead_tree",
 			prob(3); "seed_tree",
@@ -130,7 +130,7 @@ var/global/list/kleibkhar_possible_tree_seeds = list(
 				picked_seed = pick(global.kleibkhar_possible_mushroom_seeds)
 		if(picked_seed)
 			prop = new /obj/machinery/portable_atmospherics/hydroponics/soil/invisible(src, picked_seed, prob(50))
-	
+
 	//Add some randomness to the placement
 	prop.pixel_x += rand(-8, 8)
 	prop.pixel_y += rand(-8, 8)
