@@ -18,7 +18,7 @@
 	if(used)
 		return
 	if(alert(user, "Would you like to open \the [src]? All items will drop onto the floor and the box will dissolve.", "[name]", "Yes", "No") == "Yes")
-		user.unEquip(src)
+		user.unequip(src)
 		dump_items(TRUE)
 
 /obj/item/chargen_box/proc/dump_items(qdel_after)

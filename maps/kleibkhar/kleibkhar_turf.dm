@@ -216,7 +216,7 @@ var/global/list/exterior_mud_dark_radial_choices
 	if(istype(W, /obj/item/seeds))
 		var/obj/item/seeds/S = W
 		to_chat(user, SPAN_NOTICE("You begin planting some [S] on \the [src]..."))
-		if(S.seed_type == "grass" && user.do_skilled(5 SECONDS, SKILL_BOTANY, src) && !QDELETED(S) && user.unEquip(S))
+		if(S.seed_type == "grass" && user.do_skilled(5 SECONDS, SKILL_BOTANY, src) && !QDELETED(S) && user.unequip(S))
 			to_chat(user, SPAN_NOTICE("You finished planting \the [S]."))
 			qdel(S)
 			ChangeTurf(/turf/exterior/kleibkhar_grass)
