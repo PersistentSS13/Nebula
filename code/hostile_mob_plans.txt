@@ -1,0 +1,17 @@
+/mob/living/simple_animal/hostile/antlion
+/mob/living/simple_animal/hostile/rogue_drone
+/mob/living/simple_animal/hostile/scarybat
+/mob/living/simple_animal/hostile/bear
+/mob/living/simple_animal/hostile/carp
+/mob/living/simple_animal/hostile/drake
+/mob/living/simple_animal/faithful_hound
+/mob/living/simple_animal/hostile/faithless
+/mob/living/simple_animal/hostile/giant_spider + subtypes
+/mob/living/simple_animal/hostile/hivebot
+/mob/living/simple_animal/hostile/hivebot/tele
+/mob/living/simple_animal/hostile/hivebot/mega
+/mob/living/simple_animal/hostile/leech
+/mob/living/simple_animal/hostile/carp/pike
+/mob/living/simple_animal/hostile/slug
+/mob/living/simple_animal/hostile/vagrant
+/mob/living/simple_animal/hostile/viscerator
