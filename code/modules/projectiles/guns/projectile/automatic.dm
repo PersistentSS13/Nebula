@@ -38,13 +38,13 @@
 		overlays += image(icon, "[get_world_inventory_state()]mag-[round(ammo_magazine.stored_ammo.len,5)]")
 
 /obj/item/gun/projectile/automatic/assault_rifle
-	name = "assault rifle"
-	desc = "The Z8 Bulldog is an older model bullpup carbine. Makes you feel like a space marine when you hold it."
+	name = "STS-556 Longrifle"
+	desc = "STS-556 is a automatic rifle used mostly by military forces. It is made of carbon steel."
 	icon = 'icons/obj/guns/bullpup_rifle.dmi'
 	w_class = ITEM_SIZE_HUGE
 	force = 10
 	caliber = CALIBER_RIFLE
-	origin_tech = "{'combat':7,'materials':3}"
+	origin_tech = "{'combat':8,'materials':3}"
 	ammo_type = /obj/item/ammo_casing/rifle
 	slot_flags = SLOT_BACK
 	load_method = MAGAZINE
@@ -65,10 +65,38 @@
 		/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_TRACE
 	)
 	firemodes = list(
-		list(mode_name="semi auto",      burst=1,    fire_delay=null, one_hand_penalty=8,  burst_accuracy=null,            dispersion=null),
-		list(mode_name="3-round bursts", burst=3,    fire_delay=null, one_hand_penalty=9,  burst_accuracy=list(0,-1,-1),   dispersion=list(0.0, 0.6, 1.0)),
-		list(mode_name="full auto",      burst=1,    fire_delay=0,    burst_delay=1,       one_hand_penalty=7,             burst_accuracy = list(0,-1,-1), dispersion=list(0.0, 0.6, 1.0), autofire_enabled=1)
+		list(mode_name="semi auto",      burst=1,    fire_delay=null, use_launcher=null, one_hand_penalty=8,  burst_accuracy=null,            dispersion=null),
+		list(mode_name="3-round bursts", burst=3,    fire_delay=null, use_launcher=null, one_hand_penalty=9,  burst_accuracy=list(0,-1,-1),   dispersion=list(0.0, 0.6, 1.0)),
+		list(mode_name="fire grenades",  burst=null, fire_delay=null, use_launcher=1,    one_hand_penalty=10, burst_accuracy=null,            dispersion=null),
+		list(mode_name="full auto",      burst=1,    fire_delay=0,    burst_delay=1,     use_launcher=null,   one_hand_penalty=7,             burst_accuracy = list(0,-1,-1), dispersion=list(0.0, 0.6, 1.0), autofire_enabled=1)
 	)
+
+	var/use_launcher = 0
+	var/obj/item/gun/launcher/grenade/underslung/launcher
+
+/obj/item/gun/projectile/automatic/assault_rifle/Initialize()
+	. = ..()
+	launcher = new(src)
+
+/obj/item/gun/projectile/automatic/assault_rifle/attackby(obj/item/I, mob/user)
+	if((istype(I, /obj/item/grenade)))
+		launcher.load(I, user)
+	else
+		..()
+
+/obj/item/gun/projectile/automatic/assault_rifle/attack_hand(mob/user)
+	if(user.is_holding_offhand(src) && use_launcher)
+		launcher.unload(user)
+	else
+		..()
+
+/obj/item/gun/projectile/automatic/assault_rifle/Fire(atom/target, mob/living/user, params, pointblank=0, reflex=0)
+	if(use_launcher)
+		launcher.Fire(target, user, params, pointblank, reflex)
+		if(!launcher.chambered)
+			switch_firemodes() //switch back automatically
+	else
+		..()
 
 /obj/item/gun/projectile/automatic/assault_rifle/update_base_icon()
 	if(ammo_magazine)
@@ -79,116 +107,236 @@
 	else
 		icon_state = get_world_inventory_state()
 
-/obj/item/gun/projectile/automatic/assault_rifle/grenade
-	name = "assault rifle"
-	desc = "The Z8 Bulldog is an older model bullpup carbine. This one has an underslung grenade launcher. REALLY makes you feel like a space marine when you hold it."
-	origin_tech = "{'combat':8,'materials':3}"
-
-	firemodes = list(
-		list(mode_name="semi auto",      burst=1,    fire_delay=null, use_launcher=null, one_hand_penalty=8,  burst_accuracy=null,            dispersion=null),
-		list(mode_name="3-round bursts", burst=3,    fire_delay=null, use_launcher=null, one_hand_penalty=9,  burst_accuracy=list(0,-1,-1),   dispersion=list(0.0, 0.6, 1.0)),
-		list(mode_name="fire grenades",  burst=null, fire_delay=null, use_launcher=1,    one_hand_penalty=10, burst_accuracy=null,            dispersion=null),
-		list(mode_name="full auto",      burst=1,    fire_delay=0,    burst_delay=1,     use_launcher=null,   one_hand_penalty=7,             burst_accuracy = list(0,-1,-1), dispersion=list(0.0, 0.6, 1.0), autofire_enabled=1)
-	)
-
-	var/use_launcher = 0
-	var/obj/item/gun/launcher/grenade/underslung/launcher
-
-/obj/item/gun/projectile/automatic/assault_rifle/grenade/Initialize()
-	. = ..()
-	launcher = new(src)
-
-/obj/item/gun/projectile/automatic/assault_rifle/grenade/attackby(obj/item/I, mob/user)
-	if((istype(I, /obj/item/grenade)))
-		launcher.load(I, user)
-	else
-		..()
-
-/obj/item/gun/projectile/automatic/assault_rifle/grenade/attack_hand(mob/user)
-	if(user.is_holding_offhand(src) && use_launcher)
-		launcher.unload(user)
-	else
-		..()
-
-/obj/item/gun/projectile/automatic/assault_rifle/grenade/Fire(atom/target, mob/living/user, params, pointblank=0, reflex=0)
-	if(use_launcher)
-		launcher.Fire(target, user, params, pointblank, reflex)
-		if(!launcher.chambered)
-			switch_firemodes() //switch back automatically
-	else
-		..()
-
-/obj/item/gun/projectile/automatic/assault_rifle/grenade/examine(mob/user)
+/obj/item/gun/projectile/automatic/assault_rifle/examine(mob/user)
 	. = ..()
 	if(launcher.chambered)
 		to_chat(user, "\The [launcher] has \a [launcher.chambered] loaded.")
 	else
 		to_chat(user, "\The [launcher] is empty.")
 
-/obj/item/gun/projectile/automatic/assault_rifle/grenade/toggle_safety(mob/user)
-	. = ..()
-	launcher.toggle_safety() // Do not pass user to prevent double messages.
-
-// Admin-spawn machine gun. Mech subtype is meant to be used, but this can be spawned for hulks.
-/obj/item/gun/projectile/automatic/machine
-	name = "massive machine gun"
-	desc = "The XC-67 \"Creosote\" is a massive machine gun, and ranks high on most tin-pot dictators' wish lists. Firing this thing without some sort of weapons platform is a hopeless task."
-	icon = 'icons/obj/guns/machine.dmi'
+/obj/item/gun/projectile/automatic/covla
+	name = "Covla-CIV 556"
+	desc = "The Covla-CIV 556 is a semi automatic rifle chambered in 5.56. It is cheaply made and commonly used by civilians."
+	icon = 'icons/obj/guns/bullpup_rifle.dmi'
 	w_class = ITEM_SIZE_HUGE
 	force = 10
 	caliber = CALIBER_RIFLE
-	origin_tech = "{'combat':9,'materials':3}"
+	origin_tech = "{'combat':8,'materials':3}"
 	ammo_type = /obj/item/ammo_casing/rifle
+	slot_flags = SLOT_BACK
 	load_method = MAGAZINE
-	magazine_type = /obj/item/ammo_magazine/rifle/drum
-	allowed_magazines = /obj/item/ammo_magazine/rifle/drum
-	accuracy = 1
+	magazine_type = /obj/item/ammo_magazine/rifle
+	allowed_magazines = /obj/item/ammo_magazine/rifle
+	auto_eject = 1
+	auto_eject_sound = 'sound/weapons/smg_empty_alarm.ogg'
+	accuracy = 2
 	accuracy_power = 7
-	one_hand_penalty = 3000
+	one_hand_penalty = 8
 	bulk = GUN_BULK_RIFLE
-
 	burst_delay = 1
-	burst = 3
-	burst_accuracy = list(0,-1,-1)
-	dispersion = list(0.0, 0.6, 1.0)
-
-	fire_delay = 0
-	autofire_enabled = 1
-
 	mag_insert_sound = 'sound/weapons/guns/interaction/batrifle_magin.ogg'
 	mag_remove_sound = 'sound/weapons/guns/interaction/batrifle_magout.ogg'
 	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/metal/silver = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_TRACE
+	)
+	firemodes = list(
+		list(mode_name="semi auto",      burst=1,    fire_delay=null, use_launcher=null, one_hand_penalty=8,  burst_accuracy=null,            dispersion=null),
+	)
 
-	var/spin_up_time = null
-	var/sound_token
+/obj/item/gun/projectile/automatic/sts556
+	name = "STS-556 Longrifle"
+	desc = "STS-556 is a automatic rifle used mostly by military forces. It is made of carbon steel."
+	icon = 'icons/obj/guns/bullpup_rifle.dmi'
+	w_class = ITEM_SIZE_HUGE
+	force = 10
+	caliber = CALIBER_RIFLE
+	origin_tech = "{'combat':8,'materials':3}"
+	ammo_type = /obj/item/ammo_casing/rifle
+	slot_flags = SLOT_BACK
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/rifle
+	allowed_magazines = /obj/item/ammo_magazine/rifle
+	accuracy = 2
+	accuracy_power = 7
+	one_hand_penalty = 8
+	bulk = GUN_BULK_RIFLE
+	burst_delay = 1
+	mag_insert_sound = 'sound/weapons/guns/interaction/batrifle_magin.ogg'
+	mag_remove_sound = 'sound/weapons/guns/interaction/batrifle_magout.ogg'
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/metal/silver = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_TRACE
+	)
+	firemodes = list(
+		list(mode_name="semi auto",      burst=1,    fire_delay=null, use_launcher=null, one_hand_penalty=8,  burst_accuracy=null,            dispersion=null),
+		list(mode_name="3-round bursts", burst=3,    fire_delay=null, use_launcher=null, one_hand_penalty=9,  burst_accuracy=list(0,-1,-1),   dispersion=list(0.0, 0.6, 1.0)),
+		list(mode_name="full auto",      burst=1,    fire_delay=0,    burst_delay=1,     use_launcher=null,   one_hand_penalty=7,             burst_accuracy = list(0,-1,-1), dispersion=list(0.0, 0.6, 1.0), autofire_enabled=1)
+	)
 
-/obj/item/gun/projectile/automatic/machine/Fire(atom/target, mob/living/user, clickparams, pointblank, reflex, set_click_cooldown)
-	if(!spin_up_time || world.time < spin_up_time + 1 SECONDS)
-		return FALSE
-	. = ..()
+/obj/item/gun/projectile/automatic/sts556/on_update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "world"
+	else
+		icon_state = "world-empty"
 
-/obj/item/gun/projectile/automatic/machine/special_check(mob/user)
-	if(!istype(user, /mob/living))
-		return FALSE
-	if(!user.check_dexterity(DEXTERITY_WEAPONS))
-		return FALSE
+/obj/item/gun/projectile/automatic/shocktrooper
+	name = "Shocktrooper AK"
+	desc = "The Shocktrooper AK is a automatic rifle used mostly by military forces and was commonly used by the serpatist on the genesis worlds."
+	icon = 'icons/obj/guns/shocktrooper.dmi'
+	w_class = ITEM_SIZE_HUGE
+	force = 10
+	caliber = CALIBER_HRIFLE
+	origin_tech = "{'combat':8,'materials':3}"
+	ammo_type = /obj/item/ammo_casing/hrifle
+	slot_flags = SLOT_BACK
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/mrifle
+	allowed_magazines = /obj/item/ammo_magazine/mrifle
+	accuracy = 2
+	accuracy_power = 7
+	one_hand_penalty = 8
+	bulk = GUN_BULK_RIFLE
+	burst_delay = 1
+	mag_insert_sound = 'sound/weapons/guns/interaction/batrifle_magin.ogg'
+	mag_remove_sound = 'sound/weapons/guns/interaction/batrifle_magout.ogg'
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/metal/silver = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_TRACE
+	)
+	firemodes = list(
+		list(mode_name="semi auto",      burst=1,    fire_delay=null, use_launcher=null, one_hand_penalty=8,  burst_accuracy=null,            dispersion=null),
+		list(mode_name="3-round bursts", burst=3,    fire_delay=null, use_launcher=null, one_hand_penalty=9,  burst_accuracy=list(0,-1,-1),   dispersion=list(0.0, 0.6, 1.0)),
+		list(mode_name="full auto",      burst=1,    fire_delay=0,    burst_delay=1,     use_launcher=null,   one_hand_penalty=7,             burst_accuracy = list(0,-1,-1), dispersion=list(0.0, 0.6, 1.0), autofire_enabled=1)
+	)
 
-	var/mob/living/M = user
-	if(M.mob_size < MOB_SIZE_LARGE)
-		to_chat(user, SPAN_WARNING("You can barely lift \the [src], let alone fire it!"))
-		return FALSE
-	return TRUE
 
-/obj/item/gun/projectile/automatic/machine/set_autofire(atom/fire_at, mob/fire_by, autoturn)
-	if(!special_check(fire_by))
-		return FALSE
-	. = ..()
-	if(. && !spin_up_time)
-		if(!sound_token)
-			sound_token = play_looping_sound(src, "machine_gun", 'sound/mecha/hydraulic.ogg', volume = 30)
-		spin_up_time = world.time
+/obj/item/gun/projectile/automatic/shocktrooper/on_update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "world"
+	else
+		icon_state = "world-empty"
 
-/obj/item/gun/projectile/automatic/machine/clear_autofire()
-	. = ..()
-	spin_up_time = null
-	QDEL_NULL(sound_token)
+
+/obj/item/gun/projectile/automatic/shocktroopermk2
+	name = "Paratrooper AK"
+	desc = "The Paratrooper AK is a Modified version of the original shock trooper AK. It is also known as the shocktrooper MK2. the gun is less heavy and have less recoil."
+	icon = 'icons/obj/guns/shocktrooper.dmi'
+	icon_state = "world2"
+	w_class = ITEM_SIZE_LARGE
+	force = 10
+	caliber = CALIBER_RIFLE
+	origin_tech = "{'combat':8,'materials':3}"
+	ammo_type = /obj/item/ammo_casing/rifle
+	slot_flags = SLOT_BACK
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/rifle
+	allowed_magazines = /obj/item/ammo_magazine/rifle
+	accuracy = 1
+	accuracy_power = 7
+	one_hand_penalty = 4
+	bulk = GUN_BULK_RIFLE
+	burst_delay = 1
+	auto_eject = 1
+	auto_eject_sound = 'sound/weapons/smg_empty_alarm.ogg'
+	mag_insert_sound = 'sound/weapons/guns/interaction/batrifle_magin.ogg'
+	mag_remove_sound = 'sound/weapons/guns/interaction/batrifle_magout.ogg'
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/metal/silver = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_TRACE
+	)
+	firemodes = list(
+		list(mode_name="semi auto",      burst=1,    fire_delay=null, use_launcher=null, one_hand_penalty=8,  burst_accuracy=null,            dispersion=null),
+		list(mode_name="full auto",      burst=1,    fire_delay=0,    burst_delay=1,     use_launcher=null,   one_hand_penalty=7,             burst_accuracy = list(0,-1,-1), dispersion=list(0.0, 0.6, 1.0), autofire_enabled=1)
+	)
+
+
+/obj/item/gun/projectile/automatic/shocktroopermk2/on_update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "world2"
+	else
+		icon_state = "world2-empty"
+
+/obj/item/gun/projectile/automatic/sts337
+	name = "STS-337 Stormrider"
+	desc = "The STS-337 is a high-tech rifle produced by Shellguard as the martian service rifle."
+	icon = 'icons/obj/guns/sts337.dmi'
+	icon_state = "world"
+	w_class = ITEM_SIZE_HUGE
+	force = 10
+	caliber = CALIBER_RIFLE
+	origin_tech = "{'combat':8,'materials':3}"
+	ammo_type = /obj/item/ammo_casing/rifle
+	slot_flags = SLOT_BACK
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/sts337
+	allowed_magazines = /obj/item/ammo_magazine/sts337
+	accuracy = 1
+	accuracy_power = 5
+	one_hand_penalty = 4
+	bulk = GUN_BULK_RIFLE
+	burst_delay = 1
+	mag_insert_sound = 'sound/weapons/guns/interaction/batrifle_magin.ogg'
+	mag_remove_sound = 'sound/weapons/guns/interaction/batrifle_magout.ogg'
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/metal/silver = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_TRACE
+	)
+	firemodes = list(
+		list(mode_name="semi auto",      burst=1,    fire_delay=null, use_launcher=null, one_hand_penalty=8,  burst_accuracy=null,            dispersion=null),
+		list(mode_name="full auto",      burst=1,    fire_delay=0,    burst_delay=1,     use_launcher=null,   one_hand_penalty=7,             burst_accuracy = list(0,-1,-1), dispersion=list(0.0, 0.6, 1.0), autofire_enabled=1)
+	)
+
+
+/obj/item/gun/projectile/automatic/sts337/on_update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "world"
+	else
+		icon_state = "world-empty"
+
+/obj/item/gun/projectile/automatic/sts410
+	name = "STS-410 Stonevix"
+	desc = "The STS-410 is a newer version of the older STS. The 410 version have a better ammo capacity and better camoflauge colors for the rifle."
+	icon = 'icons/obj/guns/sts410.dmi'
+	icon_state = "world"
+	w_class = ITEM_SIZE_HUGE
+	force = 10
+	caliber = CALIBER_RIFLE
+	origin_tech = "{'combat':8,'materials':3}"
+	ammo_type = /obj/item/ammo_casing/rifle
+	slot_flags = SLOT_BACK
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/rifle
+	allowed_magazines = /obj/item/ammo_magazine/rifle
+	accuracy = 1
+	accuracy_power = 9
+	one_hand_penalty = 4
+	bulk = GUN_BULK_RIFLE
+	burst_delay = 1
+	mag_insert_sound = 'sound/weapons/guns/interaction/batrifle_magin.ogg'
+	mag_remove_sound = 'sound/weapons/guns/interaction/batrifle_magout.ogg'
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/metal/silver = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_TRACE
+	)
+	firemodes = list(
+		list(mode_name="semi auto",      burst=1,    fire_delay=null, use_launcher=null, one_hand_penalty=8,  burst_accuracy=null,            dispersion=null)
+	)
+
+
+/obj/item/gun/projectile/automatic/sts410/on_update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "world"
+	else
+		icon_state = "world-empty"

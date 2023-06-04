@@ -56,6 +56,21 @@
 	.= lock.emag_act(remaining_charges, user, feedback)
 	update_icon()
 
+/obj/item/storage/secure/steelcase
+	name = "white steel case"
+	desc = "A expensive white steel case with foam on the inside."
+	icon = 'icons/obj/items/storage/briefcase.dmi'
+	icon_state = "whitesteelcase"
+	item_state = "briefcase"
+	obj_flags = OBJ_FLAG_CONDUCTIBLE
+	force = 8.0
+	throw_speed = 1
+	throw_range = 4
+	w_class = ITEM_SIZE_HUGE
+	max_w_class = ITEM_SIZE_HUGE
+	max_storage_space = DEFAULT_BACKPACK_STORAGE
+	use_sound = 'sound/effects/storage/briefcase.ogg'
+
 /obj/item/storage/secure/on_update_icon()
 	. = ..()
 	var/datum/extension/lockable/lock = get_extension(src, /datum/extension/lockable)

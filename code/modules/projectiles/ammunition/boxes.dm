@@ -237,6 +237,34 @@
 	ammo_type = /obj/item/ammo_casing/rifle
 	max_ammo = 100
 
+/obj/item/ammo_magazine/sts337
+	name = "assault rifle magazine"
+	icon_state = "sts337"
+	origin_tech = "{'combat':2}"
+	mag_type = MAGAZINE
+	caliber = CALIBER_RIFLE
+	material = /decl/material/solid/metal/steel
+	ammo_type = /obj/item/ammo_casing/rifle
+	max_ammo = 15 //if we lived in a world where normal mags had 30 rounds, this would be a 20 round mag
+	multiple_sprites = 1
+
+/obj/item/ammo_magazine/sts/empty
+	initial_ammo = 0
+
+/obj/item/ammo_magazine/mrifle
+	name = "shocktrooper rifle magazine"
+	icon_state = "shock"
+	origin_tech = "{'combat':2}"
+	mag_type = MAGAZINE
+	caliber = CALIBER_HRIFLE
+	material = /decl/material/solid/metal/steel
+	ammo_type = /obj/item/ammo_casing/hrifle
+	max_ammo = 20 //if we lived in a world where normal mags had 30 rounds, this would be a 20 round mag
+	multiple_sprites = 1
+
+/obj/item/ammo_magazine/mrifle/empty
+	initial_ammo = 0
+
 /obj/item/ammo_magazine/caps
 	name = "speed loader"
 	desc = "A cheap plastic speed loader for some kind of revolver."

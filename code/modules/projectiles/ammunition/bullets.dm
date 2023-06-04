@@ -5,6 +5,13 @@
 	projectile_type = /obj/item/projectile/bullet/pistol
 	icon = 'icons/obj/ammo/casings/pistol.dmi'
 
+/obj/item/ammo_casing/revolver
+	desc = "A revolver bullet casing."
+	caliber = CALIBER_REVOLVER
+	projectile_type = /obj/item/projectile/bullet/revolver
+	icon = 'icons/obj/ammo/casings/pistol.dmi'
+	color = COLOR_POLISHED_BRASS
+
 /obj/item/ammo_casing/pistol/rubber
 	desc = "A rubber pistol bullet casing."
 	projectile_type = /obj/item/projectile/bullet/pistol/rubber
@@ -181,9 +188,16 @@
 	marking_color = COLOR_NT_RED
 
 /obj/item/ammo_casing/rifle
-	desc = "A military rifle bullet casing."
+	desc = "A rifle bullet casing."
 	caliber = CALIBER_RIFLE
 	projectile_type = /obj/item/projectile/bullet/rifle
+	icon = 'icons/obj/ammo/casings/rifle.dmi'
+	color = COLOR_POLISHED_BRASS
+
+/obj/item/ammo_casing/hrifle
+	desc = "A military rifle bullet casing."
+	caliber = CALIBER_HRIFLE
+	projectile_type = /obj/item/projectile/bullet/hrifle
 	icon = 'icons/obj/ammo/casings/rifle.dmi'
 
 /obj/item/ammo_casing/rifle/practice
