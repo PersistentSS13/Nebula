@@ -35,3 +35,13 @@
 
 /datum/fabricator_recipe/drinkingglass/metalcoffecup
 	path = /obj/item/chems/drinks/glass2/coffeecup/metal
+
+/datum/fabricator_recipe/drinkingglass/square
+	path = /obj/item/storage/box/glasses/square
+
+/datum/fabricator_recipe/drinkingglass/straws
+	path = /obj/item/storage/box/glass_extras/straws
+
+/datum/fabricator_recipe/drinkingglass/sticks
+	path = /obj/item/storage/box/glass_extras/sticks
+

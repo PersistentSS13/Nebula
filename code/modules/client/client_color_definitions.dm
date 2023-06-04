@@ -82,6 +82,45 @@
 /datum/client_color/noir/thirdeye
 	priority = 300
 
+/datum/client_color/phoron
+	client_color = "#7b0f9c"
+	priority = 350
+	wire_colour_substitutions = list(
+		"red" =     "red",
+		"blue" =    "purple",
+		"green" =   "red",
+		"darkred" = "purple",
+		"orange" =  "red",
+		"brown" =   "purple",
+		"gold" =    "red",
+		"cyan" =    "purple",
+		"navy" =    "red",
+		"purple" =  "purple",
+		"pink" =    "red",
+		"yellow" =  "purple",
+		"gray" =    "red"
+	)
+
+/datum/client_color/noir/bluespace
+	client_color = "#4a0eee"
+	priority = 400
+	wire_colour_substitutions = list(
+		"red" =     "blue",
+		"blue" =    "purple",
+		"green" =   "blue",
+		"darkred" = "purple",
+		"orange" =  "blue",
+		"brown" =   "purple",
+		"gold" =    "blue",
+		"cyan" =    "purple",
+		"navy" =    "blue",
+		"purple" =  "purple",
+		"pink" =    "blue",
+		"yellow" =  "purple",
+		"gray" =    "blue"
+	)
+
+
 /datum/client_color/berserk
 	client_color = "#af111c"
 	priority = INFINITY //This effect sort of exists on its own you /have/ to be seeing RED

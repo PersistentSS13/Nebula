@@ -1,7 +1,7 @@
 /obj/item/stock_parts/circuitboard/fusion/core_control
 	name = "circuitboard (fusion core controller)"
 	build_path = /obj/machinery/computer/fusion/core_control
-	origin_tech = "{'programming':4,'engineering':4}"
+//	origin_tech = "{'programming':4,'engineering':4}" CONTROLLER TECHS FREE
 
 /obj/item/stock_parts/circuitboard/kinetic_harvester
 	name = "circuitboard (kinetic harvester)"

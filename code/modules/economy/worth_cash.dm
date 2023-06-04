@@ -182,7 +182,7 @@
 	var/id = "" 		//So the ATM can set it so the EFTPOS can put a valid name on transactions.
 	var/currency
 	var/lock_type = /datum/extension/lockable/charge_stick
-	var/grade = "peasant"
+	var/grade = "notbad.jpg"
 
 /obj/item/charge_stick/Initialize(ml, material_key)
 	. = ..()
@@ -227,9 +227,9 @@
 	if(istype(W, /obj/item/charge_stick))
 		var/obj/item/charge_stick/sender = W
 		var/datum/extension/lockable/W_lock = get_extension(W, /datum/extension/lockable)
-		if(lock.locked)
-			to_chat(user, SPAN_WARNING("Cannot transfer funds to a locked [src]."))
-			return TRUE
+//		if(lock.locked)
+//			to_chat(user, SPAN_WARNING("Cannot transfer funds to a locked [src]."))
+//			return TRUE
 		if(W_lock.locked)
 			to_chat(user, SPAN_WARNING("Cannot transfer funds from a locked [W]."))
 			return TRUE
@@ -271,7 +271,7 @@
 /obj/item/charge_stick/on_update_icon()
 	. = ..()
 
-	if(grade && grade != "peasant")
+	if(grade && grade != "peasant") // this is a really bad idea, im happy to unimplement nonsense
 		var/image/I = image(icon, "[icon_state]-[grade]")
 		I.appearance_flags |= RESET_COLOR
 		overlays += I

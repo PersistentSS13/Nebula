@@ -256,6 +256,40 @@
 		/decl/material/liquid/glowsap = 2
 	)
 
+/decl/chemical_reaction/phorophedamine
+	name = "Phorophedamine"
+	result = /decl/material/liquid/glowsap/phoron
+	result_amount = 2
+	mix_message = "The gleam boils up into sharp spikes before melting into a terrible red substance."
+	minimum_temperature = 40 CELSIUS
+	reaction_sound = 'sound/effects/psi/power_used.ogg'
+	catalysts = list(
+		/decl/material/liquid/blood = 10
+	)
+	required_reagents = list(
+		/decl/material/liquid/greedbile = 1,
+		/decl/material/solid/phoron = 1,
+		/decl/material/liquid/glowsap/gleam = 2
+	)
+
+
+/decl/chemical_reaction/bluespice // 1 bluespace crystal = 40 units of bluespice
+	name = "Bluespice"
+	result = /decl/material/liquid/bluespice
+	result_amount = 10
+	mix_message = "The mixture boils furiously and the blood sizzles away."
+	minimum_temperature = 40 CELSIUS
+	reaction_sound = 'sound/effects/psi/power_used.ogg'
+	catalysts = list(
+		/decl/material/liquid/blood = 30
+	)
+	required_reagents = list(
+		/decl/material/liquid/greedbile = 10,
+		/decl/material/solid/gemstone/bluespacecrystal = 5,
+	)
+
+
+
 /decl/chemical_reaction/immunobooster
 	name = "Immunobooster"
 	result = /decl/material/liquid/immunobooster

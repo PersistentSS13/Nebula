@@ -25,6 +25,8 @@
 	var/list/detected_telepads = list()
 	var/obj/selected_telepad
 
+	var/selected_color
+
 /datum/computer_file/program/trade_management/proc/detect_telepads()
 	detected_telepads = list()
 	for(var/obj/machinery/telepad_cargo/c in orange(3, get_turf(computer)))
@@ -42,23 +44,28 @@
 
 
 /datum/computer_file/program/trade_management/proc/spawnImport()
+	if(!selected_import.recolorable) selected_color = null
 	var/turf/T = get_turf(selected_telepad)
 	flick("pad-beam", selected_telepad)
-	. = selected_import.spawnImport(T)
+	. = selected_import.spawnImport(T, selected_color)
 	if(selected_import.remaining_stock < 1)
 		selected_beacon.active_imports.Remove(selected_import)
 		selected_import = null
+
 /datum/computer_file/program/trade_management/proc/checkImport()
 	var/turf/T = get_turf(selected_telepad)
 	flick("pad-beam", selected_telepad)
 	return selected_import.checkImport(T)
 
 /datum/computer_file/program/trade_management/proc/takeExport()
+	if(!selected_import || !selected_beacon)
+		return "Invalid connection."
 	flick("pad-beam", selected_telepad)
 	. = selected_export.takeExport()
 	if(selected_export.remaining_stock < 1)
-		selected_beacon.active_exports.Remove(selected_export)
+		selected_beacon.finish_export(selected_export)
 		selected_export = null
+
 /datum/computer_file/program/trade_management/proc/checkExport()
 	var/turf/T = get_turf(selected_telepad)
 	return selected_export.checkExport(T)
@@ -323,6 +330,7 @@
 	if(selected_beacon)
 		data["selected_beacon"] = TRUE
 		data["beacon_name"] = selected_beacon.name
+		data["quadrant_sec_level"] = selected_beacon.get_security_level()
 		var/access = 1
 		if(selected_beacon && selected_beacon.linked_controller && selected_beacon.linked_controller.get_network())
 			var/datum/computer_network/network = selected_beacon.linked_controller.get_network()
@@ -387,7 +395,12 @@
 				data["selected_import"] = PRG.selected_import.name
 				data["import_cost"] = PRG.selected_import.get_cost(import_tax)
 				data["import_desc"] = PRG.selected_import.desc
-
+				if(PRG.selected_import.recolorable)
+					data["colorable"] = TRUE
+					if(PRG.selected_color)
+						data["selected_color_text"] = FONT_COLORED(PRG.selected_color, "Selected Color: █")
+					else
+						data["selected_color_text"] = "The item will be shipped in its default color."
 				var/datum/computer_file/data/account/A = PRG.computer.get_account()
 				if(A)
 					var/datum/money_account/child/network/money_account = A.money_account
@@ -501,12 +514,14 @@
 		var/beacon = input(usr, "Select a nearby trade beacon.", "Pick a beacon") as null|anything in possible_trade_beacons
 		if(!CanInteract(usr, global.default_topic_state))
 			return TOPIC_REFRESH
+
 		if(beacon == "*DISCONNECT*")
 			selected_beacon = null
 		else if(beacon)
 			selected_beacon = beacon
 
 		return TOPIC_REFRESH
+
 	if(href_list["import"])
 		import_menu = 1
 		export_menu = 0
@@ -514,6 +529,7 @@
 		selected_import = null
 		selected_export = null
 		return TOPIC_REFRESH
+
 	if(href_list["export"])
 		import_menu = 0
 		export_menu = 1
@@ -521,6 +537,7 @@
 		selected_import = null
 		selected_export = null
 		return TOPIC_REFRESH
+
 	if(href_list["log"])
 		import_menu = 0
 		export_menu = 0
@@ -528,6 +545,7 @@
 		selected_import = null
 		selected_export = null
 		return TOPIC_REFRESH
+
 	if(href_list["select_import"])
 		import_menu = 0
 		export_menu = 0
@@ -535,6 +553,7 @@
 		selected_import = locate(href_list["select_import"])
 		selected_export = null
 		return TOPIC_REFRESH
+
 	if(href_list["select_export"])
 		import_menu = 0
 		export_menu = 0
@@ -542,25 +561,44 @@
 		selected_import = null
 		selected_export = locate(href_list["select_export"])
 		return TOPIC_REFRESH
+
 	if(href_list["select_personal_account"])
 		payment_type = 1
 		return TOPIC_REFRESH
+
 	if(href_list["select_charge_stick"])
 		payment_type = 2
 		return TOPIC_REFRESH
+
 	if(href_list["select_network_account"])
 		payment_type = 3
 		return TOPIC_REFRESH
+
 	if(href_list["select_telepad"])
 		detect_telepads()
 		var/obj/T = locate(href_list["select_telepad"])
 		if(T && (T in detected_telepads))
 			selected_telepad = T
 		return TOPIC_REFRESH
+
 	if(href_list["refresh_telepad"])
 		detect_telepads()
 		return TOPIC_REFRESH
+
 	if(href_list["buy_import"])
 		return buyImport()
+
 	if(href_list["buy_export"])
 		return buyExport()
+
+	if(href_list["select_color"])
+		if(!selected_import || !selected_import.recolorable)
+			return TOPIC_REFRESH
+		var/sanity = selected_import
+		var/color_choice = input(src, "Choose the color the item will come in.", "Color Selection") as color|null
+		if(!CanInteract(usr, global.default_topic_state) || sanity != selected_import)
+			return TOPIC_REFRESH
+		selected_color = color_choice
+
+	if(href_list["reset_color"])
+		selected_color = null

@@ -10,7 +10,7 @@
 	var/mind_id			// Fingerprint of the mob's mind.
 	var/datum/dna/dna
 	var/backup_date
-
+	var/list/used_potentiators = list()
 // Initializes all the data on a backup with an existing mob.
 /datum/computer_file/data/cloning/proc/initialize_backup(var/mob/living/H)
 	languages = H.languages.Copy()
@@ -18,6 +18,8 @@
 	var/list/mob_skill_list = mob_set.skill_list
 	skill_list = mob_skill_list.Copy()
 	skill_points = mob_set.points_remaining
+	used_potentiators = mob_set.used_potentiators.Copy()
+
 	if(H.mind)
 		mind_id = H.mind.unique_id
 		mob_age = H.mind.age

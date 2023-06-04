@@ -1,7 +1,7 @@
 /datum/fabricator_recipe/robotics/organ
 	category = "Prosthetic Organs"
 	path = /obj/item/organ/internal/stomach
-
+	uses = 2
 /datum/fabricator_recipe/robotics/organ/get_product_name()
 	. = "prosthetic organ ([..()])"
 

@@ -16,7 +16,7 @@
 	if(!mind_id)
 		return FALSE
 	var/obj/machinery/cloning_pod/CP = holder
-	if(!CP.operable() || CP.stat & (BROKEN|NOPOWER) || occupied)
+	if(!CP.operable() || CP.stat & (BROKEN|NOPOWER) || occupied || !CP.phoron_sheets || !(CP.phoron_sheets.can_use(5)))
 		return FALSE
 	var/datum/computer_network/network = get_network()
 	if(!network)
@@ -39,6 +39,8 @@
 	if(!istype(backup))
 		backup = network.get_latest_clone_backup(mind.unique_id, TRUE)
 	if(!istype(backup))
+		return
+	if(!CP.phoron_sheets || !(CP.phoron_sheets.use(5)))
 		return
 	var/mob/living/carbon/human/new_character = new(CP, backup.dna.species, backup.dna)
 	new_character.fully_replace_character_name(backup.dna.real_name)
@@ -63,12 +65,14 @@
 	new_character.skillset.points_remaining = backup.skill_points
 	new_character.skillset.skill_list = backup.skill_list.Copy()
 	new_character.skillset.on_levels_change()
-
+	new_character.skillset.used_potentiators = backup.used_potentiators.Copy()
 	new_character.set_sdisability(BLINDED)
 
 	CP.set_occupant(new_character)
 	cloning = TRUE
 	task_started_on = world.time
+
+
 	update_cloning()
 	current_task = addtimer(CALLBACK(src, /datum/extension/network_device/cloning_pod/proc/update_cloning), TASK_CLONE_TIME/4, TIMER_STOPPABLE | TIMER_LOOP)
 	qdel(backup)

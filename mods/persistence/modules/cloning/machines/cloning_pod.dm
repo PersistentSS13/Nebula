@@ -25,6 +25,8 @@
 	var/disallow_occupant_types = list()
 	var/error
 
+	var/obj/item/stack/material/phoron_sheets
+
 /obj/machinery/cloning_pod/Initialize()
 	. = ..()
 	set_extension(src, /datum/extension/network_device/cloning_pod, initial_network_id, initial_network_key, RECEIVER_STRONG_WIRELESS)
@@ -43,7 +45,30 @@
 
 	if(istype(G, /obj/item/organ/internal/stack))
 		attempt_enter(G, user, "[user] starts putting [G] into \the [src].")
+	if(istype(G, /obj/item/stack/material))
+		var/decl/material/mat = G.get_material()
+		if(mat.uid == "phoron" && istype(G, mat.default_solid_form))// Checks for solid phoron
+			if(phoron_sheets)
+				return phoron_sheets.attackby(G, user)
+			else
+				phoron_sheets = G
+				user.unEquip(G, src)
 	return ..()
+
+
+/obj/machinery/cloning_pod/verb/eject_phoron()
+	set name = "Eject Phoron"
+	set category = "Object"
+	set src in oview(1)
+	if(usr.stat != 0)
+		return
+
+	if(phoron_sheets)
+		phoron_sheets.forceMove(loc)
+		phoron_sheets = null
+	add_fingerprint(usr)
+
+	return
 
 /obj/machinery/cloning_pod/proc/check_occupant_allowed(mob/M)
 	var/correct_type = 0

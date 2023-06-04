@@ -121,8 +121,8 @@
 	display_name = "poison berry bush"
 	mutants = list("deathberries")
 	chems = list(
-		/decl/material/liquid/nutriment = list(1), 
-		/decl/material/liquid/bromide = list(3,5), 
+		/decl/material/liquid/nutriment = list(1),
+		/decl/material/liquid/bromide = list(3,5),
 		/decl/material/liquid/poisonberryjuice = list(10,5)
 	)
 
@@ -138,8 +138,8 @@
 	display_name = "death berry bush"
 	mutants = null
 	chems = list(
-		/decl/material/liquid/nutriment = list(1), 
-		/decl/material/liquid/bromide = list(3,3), 
+		/decl/material/liquid/nutriment = list(1),
+		/decl/material/liquid/bromide = list(3,3),
 		/decl/material/gas/carbon_monoxide = list(1,5)
 	)
 
@@ -255,7 +255,7 @@
 	display_name = "quantumato plant"
 	mutants = null
 	chems = list(
-		/decl/material/liquid/nutriment = list(1,20), 
+		/decl/material/liquid/nutriment = list(1,20),
 		/decl/material/liquid/ethanol/bluecuracao = list(10,5)
 	)
 
@@ -339,14 +339,14 @@
 	display_name = "biteleaf patch"
 	mutants = list("biteleafdeus")
 	chems = list(
-		/decl/material/liquid/nutriment = list(1), 
-		/decl/material/liquid/psychoactives = list(1,8), 
-		/decl/material/liquid/burn_meds = list(1,8,1), 
-		/decl/material/liquid/brute_meds = list(1,10,1), 
+		/decl/material/liquid/nutriment = list(1),
+		/decl/material/liquid/psychoactives = list(1,8),
+		/decl/material/liquid/burn_meds = list(1,8,1),
+		/decl/material/liquid/brute_meds = list(1,10,1),
 		/decl/material/liquid/bromide = list(1,10)
 	)
 	kitchen_tag = "biteleaf"
-
+	max_generation = 1
 /datum/seed/ambrosia/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
@@ -365,11 +365,11 @@
 	display_name = "biteleaf deus patch"
 	mutants = null
 	chems = list(
-		/decl/material/liquid/nutriment = list(1), 
-		/decl/material/liquid/brute_meds = list(1,8), 
-		/decl/material/liquid/antidepressants = list(1,8,1), 
-		/decl/material/liquid/stimulants = list(1,8,1), 
-		/decl/material/liquid/amphetamines = list(1,10,1), 
+		/decl/material/liquid/nutriment = list(1),
+		/decl/material/liquid/brute_meds = list(1,8),
+		/decl/material/liquid/antidepressants = list(1,8,1),
+		/decl/material/liquid/stimulants = list(1,8,1),
+		/decl/material/liquid/amphetamines = list(1,10,1),
 		/decl/material/liquid/psychoactives = list(1,10)
 	)
 	kitchen_tag = "biteleafdeus"
@@ -501,6 +501,7 @@
 	display_name = "fly amanita mushroom patch"
 	mutants = list("destroyingangel","plastic")
 	chems = list(/decl/material/liquid/nutriment = list(1), /decl/material/liquid/amatoxin = list(3,3), /decl/material/liquid/psychotropics = list(1,25))
+	max_generation = 2
 
 /datum/seed/mushroom/poison/New()
 	..()
@@ -544,12 +545,14 @@
 	set_trait(TRAIT_PRODUCT_COLOUR,"#d3aca3")
 	set_trait(TRAIT_PLANT_COLOUR,"#dcd9d9")
 	set_trait(TRAIT_PLANT_ICON,"mushroom8")
+
 /datum/seed/mushroom/glowbell
 	name = "glowbell"
 	seed_name = "glowbell"
 	display_name = "glowbell patch"
 	mutants = list("weepingmoon", "caverncandle")
 	chems = list(/decl/material/liquid/glowsap = list(1,20))
+	max_generation = 2
 
 /datum/seed/mushroom/glowbell/New()
 	..()
@@ -646,7 +649,7 @@
 	display_name = "poppy patch"
 	chems = list(/decl/material/liquid/nutriment = list(1,20), /decl/material/liquid/painkillers = list(1,10))
 	kitchen_tag = "poppy"
-
+	max_generation = 2
 /datum/seed/flower/poppy/New()
 	..()
 	set_trait(TRAIT_POTENCY,20)
@@ -1150,6 +1153,27 @@
 	set_trait(TRAIT_WATER_CONSUMPTION, 6)
 	set_trait(TRAIT_PHOTOSYNTHESIS, 1)
 
+/datum/seed/coffea
+	name = "coffea"
+	seed_name = "coffea"
+	display_name = "coffea tree"
+	chems = list(/decl/material/liquid/nutriment/coffee = list(2,4))
+
+/datum/seed/coffee/New()
+	..()
+	set_trait(TRAIT_HARVEST_REPEAT,1)
+	set_trait(TRAIT_MATURATION,5)
+	set_trait(TRAIT_PRODUCTION,5)
+	set_trait(TRAIT_YIELD,2)
+	set_trait(TRAIT_POTENCY,10)
+	set_trait(TRAIT_PRODUCT_ICON,"treefruit")
+	set_trait(TRAIT_PRODUCT_COLOUR,"#343a12")
+	set_trait(TRAIT_PLANT_ICON,"tree2")
+	set_trait(TRAIT_IDEAL_HEAT, 298)
+	set_trait(TRAIT_WATER_CONSUMPTION, 6)
+	set_trait(TRAIT_PHOTOSYNTHESIS, 1)
+
+
 /datum/seed/cherries
 	name = "cherry"
 	seed_name = "cherry"
@@ -1177,6 +1201,7 @@
 	seed_name = "kudzu"
 	display_name = "kudzu vine"
 	chems = list(/decl/material/liquid/nutriment = list(1,50), /decl/material/liquid/antitoxins = list(1,25))
+	max_generation = 2
 
 /datum/seed/kudzu/New()
 	..()
@@ -1197,6 +1222,7 @@
 	display_name = "S'randar's hand patch"
 	chems = list(/decl/material/liquid/brute_meds = list(0,10))
 	kitchen_tag = "shand"
+	max_generation = 2
 
 /datum/seed/shand/New()
 	..()
@@ -1217,6 +1243,7 @@
 	display_name = "Messa's tear patch"
 	chems = list(/decl/material/liquid/nutriment/honey = list(1,10), /decl/material/liquid/burn_meds = list(3,5))
 	kitchen_tag = "mtear"
+	max_generation = 2
 
 /datum/seed/mtear/New()
 	..()

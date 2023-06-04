@@ -43,6 +43,7 @@
 /obj/effect/overmap/visitable/proc/check_rent()
 	if(!SSpersistence.rent_enabled || (world.realtime < last_due + rent_period))
 		return TRUE
+	return TRUE
 	if(paid_rent - rent_amount >= 0)
 		paid_rent -= rent_amount
 		last_due = world.realtime

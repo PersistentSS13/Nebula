@@ -1,70 +1,36 @@
 </div>
 	<div class='block' style='clear: both;'>
-		<center><h2>Welcome to {{:data.map_name}}</h2></center>
+		<center><h2>You have nearly entered; {{:data.map_name}}</h2></center>
 		<center>
-			We're excited that you've decided to join the outer sector immigration program. Please fill out the below application for processing.
+			You have been chosen to be part of an exclusive and pivotal joint colonization project. Good luck, colonist!
 		</center>
 		<center>
-			Once the application is complete, enter the cryopod to begin your journey to {{:data.map_name}}.
+			Once the application is complete, enter the cryopod to begin your journey to {{:data.map_name}}.<br>
+			By completing this application you are accepting permanent residency inside the Frontier and renouncing all former ties you carry with you.<br>
+			You are free here.
 		</center>
 	</div>
 </div>
 
 <div style="float:left;width:50%;">
 	<fieldset style="min-height:180px;background-color: #202020;">
-		<legend style="text-align:center">Dossier Fields</legend> 
+		<legend style="text-align:center">Dossier Fields</legend>
 		<div class='item'>
 			<div class="itemLabelWider">
-				Cortical Stack:
+				Desired career:
 			</div>
 			<div style="float:right">
-				{{if data.finished}}
-					{{:data.stack ? 'Yes' : 'No'}}
-				{{else}}
-					{{:helper.link(data.stack ? 'Yes' : 'No', null, { 'action' : 'toggle_stack'}, null, null)}}
-				{{/if}}
+				{{:data.role}}
 			</div>
 		</div>
 		<div class='item'>
 			<div class="itemLabelWider">
-				Born on:
+				Description:
 			</div>
 			<div style="float:right">
-				{{if data.finished}}
-					{{:data.origin}}
-				{{else}}
-					{{:helper.link(data.origin, null, { 'action' : 'choose_origin'}, null, data.active == 'origin' ? 'yellowButton' : null)}}
-				{{/if}}
+				{{:data.role_desc}}
 			</div>
-		</div> 
-		<div class='item'>
-			<div class="itemLabelWider">
-				Prior career:
-			</div>
-			<div style="float:right">
-				{{if data.finished}}
-					{{:data.role}}
-				{{else}}
-					{{:helper.link(data.role, null, { 'action' : 'choose_role'}, null, data.active == 'role' ? 'yellowButton' : null)}}
-				{{/if}}
-			</div>
-		</div> 
-						<!-- <div class='item'>
-							<div class="itemLabelWider">
-								Special exceptions:
-							</div>
-							<div style="float:right">
-								{{:helper.link('Traits', null, { 'action' : 'choose_traits'}, null, data.active == 'traits' ? 'yellowButton' : null)}}
-							</div>
-						</div>
-						<div class='item'>
-							<div class="itemLabelWider">
-								Background:
-							</div>
-							<div style="float:right">
-								{{:helper.link('Background', null, { 'action' : 'choose_background'}, null, data.active == 'background' ? 'yellowButton' : null)}}
-							</div>
-						</div> -->
+		</div>
 		<div class='item'>
 			<div class="itemLabelWider">
 				{{if data.finished}}
@@ -76,23 +42,19 @@
 		</div>
 	</fieldset>
 </div>
-	
+
 <div style="float:left;width:50%">
-	{{if (data.active == 'origin' || data.active == 'role') && !data.finished }}
+	{{if !data.finished}}
 		<fieldset style="min-height:180px;background-color: #202020;">
 			<legend style="text-align:center">Options</legend>
 			<div class='statusDisplay'>
 				<table style="width:100%">
 				<tr><th style="width:40%">Name<th>Skills<th>Actions
-				{{for data.active == 'origin' ? data.origins : data.roles }}
+				{{for data.roles}}
 					<tr class="candystripe">
 					<td>{{:value.name}}
 					<td>{{:value.skills}}
-					{{if data.active == 'origin'}}
-						<td>{{:helper.link(value.active ? 'Chosen' : 'Choose', null, { 'action' : 'confirm_origin', 'ref': value.ref }, null, value.active ? 'yellowButton' : null)}}
-					{{else}}
-						<td>{{:helper.link(value.active ? 'Chosen' : 'Choose', null, { 'action' : 'confirm_role', 'ref': value.ref }, null, value.active ? 'yellowButton' : null)}}
-					{{/if}}
+					<td>{{:helper.link(value.active ? 'Chosen' : 'Choose', null, { 'action' : 'confirm_role', 'ref': value.ref }, null, value.active ? 'yellowButton' : null)}}
 				{{/for}}
 			</table>
 		</fieldset>

@@ -161,7 +161,7 @@
 /obj/item/storage/backpack/chameleon
 	name = "backpack"
 	desc = "A backpack outfitted with cloaking tech. It seems to have a small dial inside, kept away from the storage."
-	origin_tech = "{'esoteric':3}"
+	origin_tech = "{'esoteric':6}"
 	item_flags = ITEM_FLAG_INVALID_FOR_CHAMELEON
 	icon = 'icons/obj/items/storage/backpack/backpack.dmi'
 	var/static/list/clothing_choices

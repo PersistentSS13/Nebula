@@ -1,7 +1,7 @@
 /datum/fabricator_recipe/protolathe/implant
 	category = "Implants"
 	path = /obj/item/implantcase/chem
-
+	uses = 1
 /datum/fabricator_recipe/protolathe/implant/get_product_name()
 	. = "implant design ([..()])"
 

@@ -2,7 +2,7 @@
 	name = "basic network card"
 	desc = "A basic network card for usage with standard network protocols."
 	power_usage = 50
-	origin_tech = "{'programming':2,'engineering':1}"
+//	origin_tech = "{'programming':2,'engineering':1}" BASIC TECH FREE
 	critical = 0
 	icon_state = "netcard_basic"
 	hardware_size = 1

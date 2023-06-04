@@ -100,7 +100,7 @@
 	presentation_flags = PRESENTATION_FLAG_NAME
 	material = /decl/material/solid/metal/steel
 	material_alteration = MAT_FLAG_ALTERATION_NONE
-	origin_tech = "{'materials':2}"
+	origin_tech = "{'materials':5}"
 	lid_color = COLOR_PALE_BLUE_GRAY
 
 /obj/item/chems/glass/beaker/advanced

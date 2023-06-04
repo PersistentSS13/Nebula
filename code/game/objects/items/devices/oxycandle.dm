@@ -17,7 +17,7 @@
 	var/on = 0
 	var/activation_sound = 'sound/effects/flare.ogg'
 	var/brightness_on = 1 // Moderate-low bright.
-
+	origin_tech = "{'materials':4,'wormholes':5}"
 /obj/item/oxycandle/Initialize()
 	. = ..()
 	update_icon()

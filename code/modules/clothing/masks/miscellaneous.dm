@@ -130,20 +130,20 @@
 	material = /decl/material/solid/cloth
 
 /obj/item/clothing/mask/rubber/barros
-	name = "Amaya Barros mask"
-	desc = "Current Secretary-General of Sol Cental Government. Not that the real thing would visit this pigsty."
+	name = "Princess Jupiter mask"
+	desc = "One of the embodied celestials of Sol. There have been rumors that the real Jupiter came to the Frontier."
 	icon = 'icons/clothing/mask/barros.dmi'
-	visible_name = "Amaya Barros"
+	visible_name = "Princess Jupiter"
 
 /obj/item/clothing/mask/rubber/admiral
 	name = "Admiral Diwali mask"
-	desc = "Admiral that led the infamous last stand at Helios against the Independent Navy in the Gaia conflict. For bridge officers who wish they'd achieve a fraction of that."
+	desc = "Admiral that led the infamous last stand at Helios against the Terran Navy in the second liberation war. For bridge officers who wish they'd achieve a fraction of that."
 	icon = 'icons/clothing/mask/admiral.dmi'
 	visible_name = "Admiral Diwali"
 
 /obj/item/clothing/mask/rubber/turner
 	name = "Charles Turner mask"
-	desc = "Premier of the Gilgamesh Colonial Confederation. Probably shouldn't wear this in front of your veteran uncle."
+	desc = "Starminister of the Terran Federation. He's led the Terrans on all their greatest conflicts."
 	icon = 'icons/clothing/mask/turner.dmi'
 	visible_name = "Charles Turner"
 
@@ -162,7 +162,7 @@
 		if(istype(C))
 			visible_name = C.get_random_name(pick(MALE,FEMALE))
 
-/obj/item/clothing/mask/rubber/species/cat
+/obj/item/clothing/mask/rubber/cat
 	name = "cat mask"
 	desc = "A rubber cat mask."
 	icon = 'icons/clothing/mask/cat.dmi'
@@ -177,7 +177,7 @@
 
 // Bandanas below
 /obj/item/clothing/mask/bandana
-	name = "black bandana"
+	name = "bandana"
 	desc = "A fine bandana. Can be worn on the head or face."
 	icon = 'icons/clothing/head/bandana.dmi'
 	icon_state = ICON_STATE_WORLD

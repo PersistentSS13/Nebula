@@ -1,7 +1,7 @@
 /obj/item/stock_parts/circuitboard/fission_core_control
 	name = "circuit board (fission core controller)"
 	build_path = /obj/machinery/computer/fission
-	origin_tech = "{'programming':2,'engineering':3}"
+//	origin_tech = "{'programming':2,'engineering':3}" CONTROLLER TECH FREE
 
 /obj/item/stock_parts/circuitboard/unary_atmos/fission_core
 	name = "circuit board (fission core)"

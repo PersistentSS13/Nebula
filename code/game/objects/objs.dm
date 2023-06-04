@@ -252,7 +252,7 @@
 	SHOULD_CALL_PARENT(TRUE)
 	if(reagents?.total_volume > 0)
 		log_warning("\The [src] possibly is initializing its reagents more than once!")
-	if(populate)
+	if(populate && !isPersistenceLoaded)
 		populate_reagents()
 
 /**

@@ -3,6 +3,7 @@
 	category = "Textiles"
 	fabricator_types = list(FABRICATOR_CLASS_TEXTILE)
 	required_technology = TRUE
+	uses = 5
 
 /datum/fabricator_recipe/textiles/jeancasual
 	path = /obj/item/clothing/pants/casual
@@ -53,13 +54,13 @@
 /datum/fabricator_recipe/textiles/hat
 	category = "Headwear"
 	path = /obj/item/clothing/head/det
-	
+
 /datum/fabricator_recipe/textiles/hat/fedoragrey
 	path = /obj/item/clothing/head/det/grey
 
 /datum/fabricator_recipe/textiles/hat/fedoradisco
 	path = /obj/item/clothing/head/det/wack
-	
+
 /datum/fabricator_recipe/textiles/hat/bandanablack
 	path = /obj/item/clothing/mask/bandana
 

@@ -47,3 +47,12 @@
 /obj/item/chems/food/meat/chicken/game
 	name = "game bird piece"
 	desc = "Fresh game meat, harvested from some wild bird."
+
+/obj/item/chems/food/meat/greed
+	name = "greed flesh"
+	desc = "The awful stench and distinctive color give it away."
+	color = "#ff9900"
+
+/obj/item/chems/food/meat/greed/populate_reagents()
+	. = ..()
+	reagents.add_reagent(/decl/material/liquid/greedbile, 1)

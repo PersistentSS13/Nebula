@@ -5,6 +5,7 @@
 	var/genetype    // Label used when applying trait.
 	var/list/values // Values to copy into the target seed datum.
 
+
 /datum/seed
 	//Tracking.
 	var/uid                        // Unique identifier.
@@ -36,6 +37,9 @@
 	var/image/dead_overlay
 	var/image/harvest_overlay
 	var/list/growing_overlays
+
+	var/generation = 1
+	var/max_generation = 3
 
 /datum/seed/New()
 
@@ -700,10 +704,13 @@
 			name = "[uid]"
 			SSplants.seeds[name] = src
 
-		if(harvest_sample)
+		if(harvest_sample && generation < max_generation)
 			var/obj/item/seeds/seeds = new(get_turf(user))
 			seeds.seed_type = name
 			seeds.update_seed()
+			if(seeds.seed)
+				seeds.seed.generation = generation+1
+				seeds.seed.max_generation = max_generation
 			return
 
 		var/total_yield = 0
@@ -728,6 +735,10 @@
 					var/obj/item/chems/food/snack = product
 					snack.color = get_trait(TRAIT_PRODUCT_COLOUR)
 					snack.filling_color = get_trait(TRAIT_PRODUCT_COLOUR)
+			if(istype(product, /obj/item/chems/food/grown))
+				var/obj/item/chems/food/grown/grown = product
+				grown.generation = generation
+				grown.max_generation = max_generation
 
 			if(mysterious)
 				product.name += "?"
@@ -763,6 +774,8 @@
 	new_seed.kitchen_tag =      kitchen_tag
 	new_seed.trash_type =       trash_type
 	new_seed.product_type =     product_type
+	new_seed.generation =       generation
+	new_seed.max_generation =   max_generation
 	//Copy over everything else.
 	if(mutants)        new_seed.mutants = mutants.Copy()
 	if(chems)          new_seed.chems = chems.Copy()

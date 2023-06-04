@@ -101,5 +101,7 @@ STACK_SUBTYPES(steel,          "steel",                         solid/metal/stee
 STACK_SUBTYPES(plastic,        "plastic",                       solid/plastic,              strut,      null)
 STACK_SUBTYPES(aluminium,      "aluminium",                     solid/metal/aluminium,      strut,      null)
 STACK_SUBTYPES(titanium,       "titanium",                      solid/metal/titanium,       strut,      null)
-
+STACK_SUBTYPES(phoron,         "phoron",                        solid/phoron,               shiny,      null)
+STACK_SUBTYPES(nebu,           "nebu",                          solid/metal/nebu,           ingot,      null)
+STACK_SUBTYPES(bluespacecrystal,      "bluespace crystal",             solid/gemstone/bluespacecrystal, gemstone,   null)
 #undef STACK_SUBTYPES

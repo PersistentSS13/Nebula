@@ -61,6 +61,9 @@
 
 	//LETTING SIMPLE ANIMALS ATTACK? WHAT COULD GO WRONG. Defaults to zero so Ian can still be cuddly
 	var/obj/item/natural_weapon/natural_weapon
+	var/obj/item/natural_weapon/natural_weapon_terrain
+
+
 	var/friendly = "nuzzles"
 	var/environment_smash = 0
 	var/resistance		  = 0	// Damage reduction
@@ -482,7 +485,9 @@
 		var/mob/living/L = target_mob
 		if(!L.stat && L.health >= 0)
 			return (0)
-	return 1
+		else
+			return 1
+	return 0
 
 /mob/living/simple_animal/say(var/message)
 	var/verb = "says"
@@ -588,6 +593,11 @@
 	if(ispath(natural_weapon))
 		natural_weapon = new natural_weapon(src)
 	return natural_weapon
+
+/mob/living/simple_animal/proc/get_natural_weapon_terrain()
+	if(ispath(natural_weapon_terrain))
+		natural_weapon_terrain = new natural_weapon_terrain(src)
+	return natural_weapon_terrain
 
 /mob/living/simple_animal/getCloneLoss()
 	. = max(0, gene_damage)

@@ -1,3 +1,4 @@
+/**
 /obj/item/stock_parts/circuitboard/holodeckcontrol
 	name = "circuitboard (holodeck control console)"
 	build_path = /obj/machinery/computer/HolodeckControl
@@ -25,3 +26,4 @@
 		restricted_programs 	= HC.restricted_programs.Copy()
 		last_to_emag			= HC.last_to_emag
 		HC.emergencyShutdown()
+**/

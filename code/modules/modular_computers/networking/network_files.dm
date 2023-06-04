@@ -21,9 +21,9 @@
 			return TRUE
 
 // We don't pass the directory since this is generally used in conjunction with get_all_files_of_type
-/datum/computer_network/proc/remove_file(datum/computer_file/F, list/accesses, mob/user, mainframe_role = MF_ROLE_FILESERVER)
+/datum/computer_network/proc/remove_file(datum/computer_file/F, list/accesses, mob/user, mainframe_role = MF_ROLE_FILESERVER, forced = FALSE)
 	for(var/datum/extension/network_device/mainframe/M in get_mainframes_by_role(mainframe_role, accesses))
-		if(M.delete_file(F, accesses, user))
+		if(M.delete_file(F, accesses, user, force = forced))
 			return TRUE
 
 /datum/computer_network/proc/find_file_location(datum/computer_file/F, list/accesses, mainframe_role = MF_ROLE_FILESERVER)

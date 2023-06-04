@@ -1,6 +1,6 @@
 /obj/item/clothing/head/soft
 	name = "cargo cap"
-	desc = "It's a peaked cap in a tasteless yellow color."
+	desc = "It's a peaked cap."
 	icon_state = ICON_STATE_WORLD
 	icon = 'icons/clothing/head/softcap.dmi'
 	color = COLOR_YELLOW_GRAY
@@ -16,7 +16,7 @@
 /obj/item/clothing/head/soft/adjust_mob_overlay(var/mob/living/user_mob, var/bodytype,  var/image/overlay, var/slot, var/bodypart)
 	if(overlay && flipped && check_state_in_icon("[overlay.icon_state]_flipped", overlay.icon))
 		overlay.icon_state = "[overlay.icon_state]_flipped"
-	. = ..()	
+	. = ..()
 
 /obj/item/clothing/head/soft/dropped()
 	src.flipped=0

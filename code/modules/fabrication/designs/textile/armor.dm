@@ -2,10 +2,11 @@
 /datum/fabricator_recipe/textiles/armor
 	category = "Armor"
 	path = /obj/item/clothing/suit/armor/warden
+	uses = 3
 
 /datum/fabricator_recipe/textiles/armor/hos
 	path = /obj/item/clothing/suit/armor/hos
-	
+
 /datum/fabricator_recipe/textiles/armor/jensen
 	path = /obj/item/clothing/suit/armor/hos/jensen
 
@@ -17,7 +18,7 @@
 
 /datum/fabricator_recipe/textiles/armor/plate/medium
 	path = /obj/item/clothing/accessory/armor/plate/medium
-	
+
 /datum/fabricator_recipe/textiles/armor/plate/tactical
 	path = /obj/item/clothing/accessory/armor/plate/tactical
 
@@ -71,7 +72,7 @@
 /datum/fabricator_recipe/textiles/armor/helmet
 	category = "Armor - Helmets"
 	path = /obj/item/clothing/head/helmet
-	
+
 /datum/fabricator_recipe/textiles/helmet/tactical
 	path = /obj/item/clothing/head/helmet/tactical
 

@@ -80,7 +80,8 @@
 		if("victim" in E.vars)//for meteors and other overmap events that uses ships//might need a better solution
 			E.vars["victim"] = ship
 		LAZYADD(ship_events[ship], E)
-
+	if(hazard.disposable)
+		hazard.Destroy()
 /decl/overmap_event_handler/proc/stop_hazard(var/obj/effect/overmap/visitable/ship/ship, var/obj/effect/overmap/event/hazard)
 	for(var/event_type in hazard.events)
 		var/datum/event/E = is_event_active(ship,event_type,hazard.difficulty)
@@ -181,7 +182,7 @@
 	var/weaknesses //if the BSA can destroy them and with what
 	var/list/victims //basically cached events on which Z level
 	var/list/colors = list() //Pick a color from this list on init
-
+	var/disposable = 0
 /obj/effect/overmap/event/Initialize()
 	. = ..()
 	icon_state = pick(event_icon_states)
@@ -224,14 +225,14 @@
 	difficulty = EVENT_LEVEL_MAJOR
 	weaknesses = OVERMAP_WEAKNESS_EMP
 	colors = list("#f5ed0c", "#d9d323", "#faf450")
-
+	icon_state = "electrical1"
 /obj/effect/overmap/event/dust
 	name = "dust cloud"
 	events = list(/datum/event/dust)
 	event_icon_states = list("dust1", "dust2", "dust3", "dust4")
 	weaknesses = OVERMAP_WEAKNESS_MINING | OVERMAP_WEAKNESS_EXPLOSIVE | OVERMAP_WEAKNESS_FIRE
 	color = "#6c6c6c"
-
+	icon_state = "dust1"
 /obj/effect/overmap/event/ion
 	name = "ion cloud"
 	events = list(/datum/event/ionstorm, /datum/event/computer_damage)
@@ -240,6 +241,7 @@
 	difficulty = EVENT_LEVEL_MAJOR
 	weaknesses = OVERMAP_WEAKNESS_EMP
 	colors = list("#02faee", "#34d1c9", "#1b9ce7")
+	icon_state = "ion1"
 
 /obj/effect/overmap/event/carp
 	name = "carp shoal"

@@ -1,4 +1,5 @@
 //Grown foods.
+
 /obj/item/chems/food/grown
 	name = "fruit"
 	icon = 'icons/obj/hydroponics/hydroponics_products.dmi'
@@ -11,6 +12,9 @@
 	var/plantname = "apple" // Setting as a default in case this is spawned manually.
 	var/datum/seed/seed
 	var/potency = -1
+
+	var/max_generation = 3
+	var/generation = 1
 
 /obj/item/chems/food/grown/Initialize(mapload, planttype)
 	if(planttype)

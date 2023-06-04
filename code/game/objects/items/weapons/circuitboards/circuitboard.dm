@@ -2,7 +2,7 @@
 	name = "circuit board"
 	icon = 'icons/obj/modules/module_id.dmi'
 	icon_state = ICON_STATE_WORLD
-	origin_tech = "{'programming':2}"
+	origin_tech = null
 	density = 0
 	anchored = 0
 	w_class = ITEM_SIZE_SMALL

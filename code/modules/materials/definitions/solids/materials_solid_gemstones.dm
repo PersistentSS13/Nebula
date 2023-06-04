@@ -43,3 +43,18 @@
 	hidden_from_codex = TRUE
 	value = 2
 	exoplanet_rarity = MAT_RARITY_UNCOMMON
+
+
+/decl/material/solid/gemstone/bluespacecrystal
+	name = "bluespace crystal"
+	uid = "solid_bluespacecrystal"
+	color = "#2c00ee"
+	opacity = 0.8
+	hardness = MAT_VALUE_VERY_HARD + 50
+	reflectiveness = MAT_VALUE_VERY_SHINY
+	hidden_from_codex = TRUE
+	value = 2
+	exoplanet_rarity = MAT_RARITY_UNCOMMON
+	ore_type_value = ORE_EXOTIC
+	ore_data_value = 2
+	stack_origin_tech = "{'materials':6}"

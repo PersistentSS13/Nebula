@@ -1,5 +1,5 @@
 /obj/item/clothing/shoes/color
-	name = "white shoes"
+	name = "shoes"
 	icon = 'icons/clothing/feet/colored_shoes.dmi'
 	desc = "A pair of shoes."
 
@@ -45,7 +45,7 @@
 	markings_color = COLOR_SUN
 
 /obj/item/clothing/shoes/color/hightops
-	name = "white high tops"
+	name = "high tops"
 	desc = "A pair of shoes that extends past the ankle. Based on a centuries-old, timeless design."
 
 /obj/item/clothing/shoes/color/hightops/red

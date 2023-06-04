@@ -30,6 +30,8 @@
 	var/pry_time = 7 SECONDS //time it takes for mob to pry open a door
 	var/pry_desc = "prying" //"X begins pry_desc the door!"
 
+	var/unrelenting = 0
+
 	//hostile mobs will bash through these in order with their natural weapon
 	var/list/valid_obstacles_by_priority = list(/obj/structure/window,
 												/obj/structure/closet,
@@ -38,7 +40,8 @@
 												/obj/structure/grille,
 												/obj/structure/barricade,
 												/obj/structure/wall_frame,
-												/obj/structure/railing)
+												/obj/structure/railing,
+												/turf/simulated/wall)
 
 /mob/living/simple_animal/hostile/Destroy()
 	LAZYCLEARLIST(friends)
@@ -105,7 +108,8 @@
 	stop_automated_movement = 1
 	if(QDELETED(target_mob) || SA_attackable(target_mob))
 		stance = HOSTILE_STANCE_IDLE
-	if(target_mob in ListTargets(10))
+
+	if((unrelenting && target_mob.z == z) || (target_mob in ListTargets(10)))
 		if(ranged)
 			if(get_dist(src, target_mob) <= ranged_range)
 				OpenFire(target_mob)
@@ -120,7 +124,7 @@
 	if(!target_mob || SA_attackable(target_mob))
 		LoseTarget()
 		return 0
-	if(!(target_mob in ListTargets(10)))
+	if((!unrelenting || target_mob.z != z) && !(target_mob in ListTargets(10)))
 		LostTarget()
 		return 0
 	if (ishuman(target_mob))
@@ -252,7 +256,8 @@
 			new casingtype
 
 	stance = HOSTILE_STANCE_IDLE
-	target_mob = null
+	if(!unrelenting)
+		target_mob = null
 	return
 
 /mob/living/simple_animal/hostile/proc/shoot_wrapper(target, location, user)
@@ -278,28 +283,58 @@
 		var/turf/targ = get_step_towards(src, target_mob)
 		if(!targ)
 			return
-
-		var/obj/effect/shield/S = locate(/obj/effect/shield) in targ
-		if(S && S.gen && S.gen.check_flag(MODEFLAG_NONHUMANS))
-			S.attackby(get_natural_weapon(), src)
-			return
-
-		for(var/type in valid_obstacles_by_priority)
-			var/obj/obstacle = locate(type) in targ
-			if(obstacle)
-				face_atom(obstacle)
-				obstacle.attackby(get_natural_weapon(), src)
+		if(natural_weapon_terrain)
+			if(targ.density)
+				face_atom(targ)
+				targ.attackby(get_natural_weapon_terrain(), src)
 				return
-
-		if(can_pry)
-			for(var/obj/machinery/door/obstacle in targ)
-				if(obstacle.density)
-					if(!obstacle.can_open(1))
-						return
+			var/obj/effect/shield/S = locate(/obj/effect/shield) in targ
+			if(S && S.gen && S.gen.check_flag(MODEFLAG_NONHUMANS))
+				S.attackby(get_natural_weapon_terrain(), src)
+				return
+			for(var/type in valid_obstacles_by_priority)
+				var/obj/obstacle = locate(type) in targ
+				if(obstacle)
 					face_atom(obstacle)
-					var/pry_time_holder = (obstacle.pry_mod * pry_time)
-					pry_door(src, pry_time_holder, obstacle)
+					obstacle.attackby(get_natural_weapon_terrain(), src)
 					return
+
+			if(can_pry)
+				for(var/obj/machinery/door/obstacle in targ)
+					if(obstacle.density)
+						if(!obstacle.can_open(1))
+							return
+						face_atom(obstacle)
+						var/pry_time_holder = (obstacle.pry_mod * pry_time)
+						pry_door(src, pry_time_holder, obstacle)
+						return
+
+		else
+
+			var/obj/effect/shield/S = locate(/obj/effect/shield) in targ
+			if(S && S.gen && S.gen.check_flag(MODEFLAG_NONHUMANS))
+				S.attackby(get_natural_weapon(), src)
+				return
+			if(targ.density)
+				face_atom(targ)
+				targ.attackby(get_natural_weapon(), src)
+				return
+			for(var/type in valid_obstacles_by_priority)
+				var/obj/obstacle = locate(type) in targ
+				if(obstacle)
+					face_atom(obstacle)
+					obstacle.attackby(get_natural_weapon(), src)
+					return
+
+			if(can_pry)
+				for(var/obj/machinery/door/obstacle in targ)
+					if(obstacle.density)
+						if(!obstacle.can_open(1))
+							return
+						face_atom(obstacle)
+						var/pry_time_holder = (obstacle.pry_mod * pry_time)
+						pry_door(src, pry_time_holder, obstacle)
+						return
 
 /mob/living/simple_animal/hostile/proc/pry_door(var/mob/user, var/delay, var/obj/machinery/door/pesky_door)
 	visible_message("<span class='warning'>\The [user] begins [pry_desc] at \the [pesky_door]!</span>")

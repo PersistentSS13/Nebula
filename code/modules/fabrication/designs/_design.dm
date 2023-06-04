@@ -3,6 +3,7 @@
 	var/path
 	var/hidden
 	var/category = "General"
+	var/uses = -1
 	var/list/resources
 	var/list/fabricator_types = list(
 		FABRICATOR_CLASS_GENERAL
@@ -32,6 +33,7 @@
 					required_technology = cached_json_decode(tech)
 				QDEL_NULL_LIST(res)
 		if(!islist(required_technology))
+			uses = -1
 			required_technology = list()
 	if(!resources)
 		get_resources()

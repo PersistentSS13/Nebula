@@ -27,10 +27,14 @@
 /proc/plant_scan_results(obj/target)
 	var/datum/seed/grown_seed
 	var/datum/reagents/grown_reagents
+	var/generation = 1
+	var/max_generation = "Not Valid"
 	if(istype(target,/obj/item/chems/food/grown))
 		var/obj/item/chems/food/grown/G = target
 		grown_seed = SSplants.seeds[G.plantname]
 		grown_reagents = G.reagents
+		generation = G.generation
+		max_generation = G.max_generation
 
 	else if(istype(target,/obj/item/grown))
 		var/obj/item/grown/G = target
@@ -40,12 +44,15 @@
 	else if(istype(target,/obj/item/seeds))
 		var/obj/item/seeds/S = target
 		grown_seed = S.seed
+		generation = grown_seed.generation
+		max_generation = grown_seed.max_generation
 
 	else if(istype(target,/obj/machinery/portable_atmospherics/hydroponics))
 		var/obj/machinery/portable_atmospherics/hydroponics/H = target
 		grown_seed = H.seed
 		grown_reagents = H.reagents
-
+		generation = grown_seed.generation
+		max_generation = grown_seed.max_generation
 	if(!grown_seed)
 		return
 
@@ -70,6 +77,8 @@
 	dat += "<tr><td><b>Maturation time</b></td><td>[grown_seed.get_trait(TRAIT_MATURATION)]</td></tr>"
 	dat += "<tr><td><b>Production time</b></td><td>[grown_seed.get_trait(TRAIT_PRODUCTION)]</td></tr>"
 	dat += "<tr><td><b>Potency</b></td><td>[grown_seed.get_trait(TRAIT_POTENCY)]</td></tr>"
+	dat += "<tr><td><b>Generation</b></td><td>[generation]</td></tr>"
+	dat += "<tr><td><b>Max Generation</b></td><td>[max_generation]</td></tr>"
 	dat += "</table>"
 
 	if(LAZYLEN(grown_reagents?.reagent_volumes))

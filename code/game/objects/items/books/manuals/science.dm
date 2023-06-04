@@ -1,3 +1,432 @@
+/obj/item/book/manual/xenohunter
+	name = "Hunting Darkness"
+	icon_state = "bookHacking"
+	author = "Lamar Jones"
+	title = "Hunting Darkness"
+	dat = {"<html>
+				<head>
+				<style>
+				h1 {font-size: 18px; margin: 15px 0px 5px;}
+				h2 {font-size: 15px; margin: 15px 0px 5px;}
+				li {margin: 2px 0px 2px 15px;}
+				ul {margin: 5px; padding: 0px;}
+				ol {margin: 5px; padding: 0px 15px;}
+				body {font-size: 13px; font-family: Verdana;}
+				</style>
+				</head>
+				<body>
+				<h1>Hunting Darkness</h1>
+
+				The average person dies upon first encountering GREED. With that in mind, I keep this brief:
+				<p>
+				<ol>
+					<li>Get your stack backed up by whatever organization you've thrown in with. They can bring you back when you die.</li>
+					<li>A GREED will never stop chasing you, and eat right through the bulkhead of your ship to kill you. You must kill it first.</li>
+					<li>GREED vomit glutslugs which can bite right into your guts and leave you dying on the operating table.</li>
+					<li>When killed, GREED can explode releasing additional glutslugs.</li>
+					<li>Guard your ship at all costs, if it is compromised you will die.</li>
+					<li>Retreat before you are overwhelmed, injuries mount quickly and you can be swarmed at any time and die.</li>
+					<li>Always count your kills.</li>
+					<li>GREED corpses can be processed at a meat grinder into profitable materials.</li>
+					<li>If you eat GREED meat you will die.</li>
+					<li>Take the skin of the GREED and tan it at a drying rack.</li>
+					<li>Take the leather and secure transpot to the Trade Beacon in Domdaniel, South east of Xanadu.</li>
+					<li>Sell the leather and any meat you have.</li>
+					<li>Buy my next book at the Domdaniel Import Beacon to learn about rare kills and other hostiles.</li>
+					<li>Plus a secret way to make more money from GREED meat.</li>
+				</ol>
+				<p>
+				Finding the GREED should be as easy as telling anyone with a ship that you're crazy enough to go out there. Most mining expeditions will encounter GREED shortly after starting operations. Get paid to tag along as a guard, plus keep the skin and meat.
+				<br>
+				Always count your kills.
+
+				</body>
+			</html>"}
+
+/obj/item/book/manual/shipmaster
+	name = "The Simple Joys of Ships"
+	icon_state = "tb_pilot"
+	author = "Nancy Shillins"
+	title = "The Simple Joys of Ships"
+	dat = {"<html>
+				<head>
+				<style>
+				h1 {font-size: 18px; margin: 15px 0px 5px;}
+				h2 {font-size: 15px; margin: 15px 0px 5px;}
+				li {margin: 2px 0px 2px 15px;}
+				ul {margin: 5px; padding: 0px;}
+				ol {margin: 5px; padding: 0px 15px;}
+				body {font-size: 13px; font-family: Verdana;}
+				</style>
+				</head>
+				<body>
+				<h1>The Simple Joys of Ships</h1>
+
+				Welcome fair reader to the center of the universe. The Frontier is a vast ocean and you will skip across it to find the forture and mystery it holds:
+				<p>
+				<ol>
+					<li>Trade Beacons are scattered across the system which offer opportunities to buy and sell resources for profit.</li>
+					<li>Nearly every opportunity of value requires space travel in the Frontier and that's great for you!</li>
+					<li>Building a ship is incredibly expensive and you wont be able to afford it when you first arrive. It will be a long road to becoming a Ship Master.</li>
+					<li>Find work with established organizations as either a Pilot or an Engineer in order to collect influence and resources.</li>
+					<li>Rise through the ranks until you are made Captain of a ship, or get rich enough to build one for yourself.</li>
+					<li>Small Ships can be constructed at an empty docking beacon, with instructions provided by the beacon.</li>
+					<li>Congratulations, you are now a true Ship Master!</li>
+					<li>There is opportunity in every direction, work with your crew to exploit them.</li>
+					<li>Asteroids will destroy your vessel if it's not properly shielded and you fly through them. If you must pass through them or intend to mine them approach slowly to reduce damage.</li>
+					<li>Imports, exports, roaming monsters and asteroidss are all affected by the security and hostility level of a quadrant. Be extra careful flying through hostile space.</li>
+					<li>Avoid roaming groups of monsters as they can easily tear your vessel apart!</li>
+					<li>Even though the ship is expensive and a key part of your identity, it's not as important as your soul! Back up your stack in case you are killed on an expedition.</li>
+					<li>Here's a tip you can use to prove your value to an organization and make some cash; Nebu ingots can be purchased from the beacon in The Buffer Zone and sold for profit in Wild Space. Import and Export volume is limited, so the less people who know about an opportunity the better!</li>
+					<li>Quadrant Opportunities change based on the security and hostility of a Quadrant. The secret opportunities of the Frontier are a currency every Ship Master trades in, always pay attention to what beacons are buying and selling and which materials come from which quadrants.</li>
+				</ol>
+				<p>
+				It may take a huge amount of hard work and risk before you ever get to pilot a vessel, nevermind captain one. Operating a ship in the frontier is a position of extreme power and authority and must be earned. Good luck!
+
+				</body>
+			</html>"}
+
+/obj/item/book/manual/agent
+	name = "Freedom and Frontier"
+	icon_state = "bookDetective"
+	author = "Samuel Plisken"
+	title = "Freedom and Frontier"
+	dat = {"<html>
+				<head>
+				<style>
+				h1 {font-size: 18px; margin: 15px 0px 5px;}
+				h2 {font-size: 15px; margin: 15px 0px 5px;}
+				li {margin: 2px 0px 2px 15px;}
+				ul {margin: 5px; padding: 0px;}
+				ol {margin: 5px; padding: 0px 15px;}
+				body {font-size: 13px; font-family: Verdana;}
+				</style>
+				</head>
+				<body>
+				<h1>Freedom and Frontier</h1>
+
+				What makes us free? Are we free to choose, or slaves to our biological instincts with the illusion of free will?<br>
+				Are we free to leave? No, as we are wrapped in every direction and even our souls are anchored here permanently. You should accept that as soon as you can.<br>
+				Are we free from them? No, not at all, as they cast a shadow over us, block our sunlight and work us like puppets.
+				<p>
+				<ol>
+					<li>In the fringes of the system are busted looking beacons that have especially profitable imports and exports, but are considered illegal by legitimate authorities.</li>
+					<li>Using illegal beacons extensively will lower the security level of the quadrant leading to more profitable illegal exports and less profitable legal exports.</li>
+					<li>On the reverse, if an illegal beacon goes unused and legitimate imports and exports are performed the security level of the quadrant will rise.</li>
+					<li>Emergent organizations will want to protect the security level of home regions and sabatoge the security level of distant or hostile regions.</li>
+					<li>Learning to influence the beacons with trade will teach you how to influence the organizations that covet and control them.</li>
+					<li>Present a clean, competent demeanor whenever you are dealing with people of power. You are to be respected.</li>
+					<li>Always make yourself valuable but never do anything for less than its worth.</li>
+					<li>Learn secrets and opportunities about the Frontier and your fellow colonists. Trade in them, but remember a secret's value can quickly deflate.</li>
+					<li>You must rely on other individuals and organizations to survive and thrive. Serve them and they will serve you, but always be your own master.</li>
+					<li>Always have an escape plan from everywhere you travel.</li>
+					<li>Back up your stack with an organization that you trust will revive you should the worst happen. Don't let this become leverage against you!</li>
+					<li>Now I will give you useful information; There is an illegal trade beacon in The Alpha Quadrant that buys a limited quantity Gleam for cheap. Not a great opportunity, but if you can fill the order consistently you will drive the Security Level of the region down.</li>
+					<li>Once the Alpha Quadrant has a low enough security level, the lady will start to purchase Phoron at a better rate than you can sell to either of the Great Powers.</li>
+					<li>You will also have proven yourself worthy of finding the next book in this series.</li>
+				</ol>
+				<p>
+				When you escape from one cage you find yourself pressed up against the bars of another, and if escape that one you'll find yourself looking at the Third Order Cage. See you in the Alpha Quadrant!
+				</body>
+			</html>"}
+
+/obj/item/book/manual/civilengineer
+	name = "Engineering Societies"
+	icon_state = "bookEngineering"
+	author = "Wendy Tsusaka"
+	title = "Engineering Societies"
+	dat = {"<html>
+				<head>
+				<style>
+				h1 {font-size: 18px; margin: 15px 0px 5px;}
+				h2 {font-size: 15px; margin: 15px 0px 5px;}
+				li {margin: 2px 0px 2px 15px;}
+				ul {margin: 5px; padding: 0px;}
+				ol {margin: 5px; padding: 0px 15px;}
+				body {font-size: 13px; font-family: Verdana;}
+				</style>
+				</head>
+				<body>
+				<h1>Engineering Societies</h1>
+
+				Welcome to the Frontier! If you've recieved this manual it's because you're a talented engineer who can help build the structures, vessels and networks that the Frontier runs on.
+				<p>
+				<ol>
+					<li>Networks must be built, operated and protected to provide the internet and network functions that many machines and computers rely on.</li>
+					<li>Networks can have optional devices like a banking mainframe or a trade controller which add additional functions to the network.</li>
+					<li>Trade Beacons can be controlled by a trade controller positioned adjacent to a Trade Beacon on the System Map. This allows networks to impose a tax or restrict a trade beacon.</li>
+					<li>Permanent space stations and massive scale ships can be created using a stellar anchor. This is an incredibly expensive process and should only be attempted with a fully developed organization's resources.</li>
+					<li>Space stations and Capital Ships need to pay a massive rent to the Stellar Anchor or else they will be lost to the void.</li>
+					<li>Free gravity wells are available around the System at unique locations. They do not require rent or a stellar anchor, but have no protections against smaller ships landing at them.</li>
+					<li>The first independent Frontier organizations should be founded on Xanadu, and then move operations to the free gravity wells as they develop.</li>
+					<li>Engineers willing to do work will be in huge demand, you should have no problem hiring aboard somewhere and starting to build.</li>
+					<li>Small Ships can be constructed at an empty docking beacon, with instructions provided by the beacon.</li>
+					<li>Free gravity wells that you can land at and explore are hidden across the Frontier, but one is close to Xanadu and adjacent to a trade beacon in The Peel</li>
+					<li>An organization that sets up and takes control of a trade beacon could make huge amounts of money by raising the security level of the quadrant and taxing business through the beacon.</li>
+				</ol>
+				<p>
+				The structures, vessels and networks you build from here on will be a big part of what makes the Frontier a place worth living in! Thank you for your service, engineer.
+				</body>
+			</html>"}
+
+/obj/item/book/manual/inventor
+	name = "Incomprehensible Power"
+	icon_state = "analysis"
+	author = "Gigor Lokivich"
+	title = "Incomprehensible Power"
+	dat = {"<html>
+				<head>
+				<style>
+				h1 {font-size: 18px; margin: 15px 0px 5px;}
+				h2 {font-size: 15px; margin: 15px 0px 5px;}
+				li {margin: 2px 0px 2px 15px;}
+				ul {margin: 5px; padding: 0px;}
+				ol {margin: 5px; padding: 0px 15px;}
+				body {font-size: 13px; font-family: Verdana;}
+				</style>
+				</head>
+				<body>
+				<h1>Incomprehensible Power</h1>
+
+				In innumerable ways the space and time we call the 'Frontier' is objectively <i>different</i> than every other point of spacetime. Because of this many of the research and manufacturing principles we have mastered in normal space must be rediscovered and maintained by individuals trapped within the bluespace bubble.
+				<p>
+				<ol>
+					<li>Networks can contain a research database that skilled individuals can contribute to and derive designs from.</li>
+					<li>Even SolGov and the Terrans are starting from scratch here, so there is plenty of opportunities to sell previously unavailable equipment to individuals and organizations.</li>
+					<li>If you dont control the network that you are researching for, your work will belong to whoever does ultimately. Make sure you are being compensated fairly, and consider going into business for yourself.</li>
+					<li>Designs are paired up with fabrication machines and required materials to produce the produts. Ensuring you have the infrastructure to have your designs made is crucial.</li>
+					<li>Most quadrant trade beacons will only accept simple materials at low security levels but will start seeing rare device imports at higher security levels.</li>
+					<li>Try to do unique research and manufacturing so you have the biggest market to draw from.</li>
+					<li>Trade Beacon imports are usually very overpriced and you can undercut them and still make a huge profit when selling to your fellow colonists.</li>
+					<li>Trade Beacon exports are usually very underpriced and you will do a lot better selling devices directly to your fellow colonists.</li>
+					<li>That being said, the trade beacon in the Beta Quadrant will buy a limited quantity of advanced devices if the security level rises high enough.</li>
+				</ol>
+				<p>
+				Creating designs and manufacturing gadgets can keep a person busy from one cryo cycle to the next, but I seriously encourage anyone reading this to seek out the greater scientific mysteries of the Frontier.<br>
+				It is my hypothesis that almost every 'natural gravity well' that you can find in the Frontier has a secret cache, accessible only through some sort of bluespace reality decryption.
+				</body>
+			</html>"}
+
+
+/obj/item/book/manual/chemist
+	name = "Secrets of Frontier Chemicals"
+	icon_state = "chemistry"
+	author = "Fredricka Heisenberg"
+	title = "Secrets of Frontier Chemicals"
+	dat = {"<html>
+				<head>
+				<style>
+				h1 {font-size: 18px; margin: 15px 0px 5px;}
+				h2 {font-size: 15px; margin: 15px 0px 5px;}
+				li {margin: 2px 0px 2px 15px;}
+				ul {margin: 5px; padding: 0px;}
+				ol {margin: 5px; padding: 0px 15px;}
+				body {font-size: 13px; font-family: Verdana;}
+				</style>
+				</head>
+				<body>
+				<h1>Secrets of Frontier Chemicals</h1>
+
+				Chemistry is the fundemental science that governs all of existence, as it describes the fundemnetal compounds that determine all reality. Chemistry is a tool for healing, power and profit in the Frontier and heres how you do it;
+				<p>
+				<ol>
+					<li>Chemistry can collect and derive reagents and compounds that are useful to your fellow colonists.</li>
+					<li>Find work with an organization, or sell your products yourself either directly to colonists or through a trade beacon.</li>
+					<li>Liquids can be collected from ice comets, uncommon asteroid variants that are only in the more dangerous regions.</li>
+					<li>Some chemistry recipes are exclusive to the Frontier and secret. Look for recipe books in imports to learn the exclusive compounds that fetch a higher profit margin.</li>
+					<li>The Hopeful Landing quadrant is one of the many places you can find chemical exports. The opportunities only get better if the quadrant security level increases.</li>
+				</ol>
+				<p>
+				A fundemental principle of chemistry is cause and effect, which is also a fundemental principle of the Frontier that we're trapped in.<br>
+				</body>
+			</html>"}
+
+/obj/item/book/manual/doctor
+	name = "Life, Death & Life Again"
+	icon_state = "bookMedical"
+	author = "Terrance 'Sluggo' Slughtein"
+	title = "Life, Death & Life Again"
+	dat = {"<html>
+				<head>
+				<style>
+				h1 {font-size: 18px; margin: 15px 0px 5px;}
+				h2 {font-size: 15px; margin: 15px 0px 5px;}
+				li {margin: 2px 0px 2px 15px;}
+				ul {margin: 5px; padding: 0px;}
+				ol {margin: 5px; padding: 0px 15px;}
+				body {font-size: 13px; font-family: Verdana;}
+				</style>
+				</head>
+				<body>
+				<h1>Life, Death & Life Again</h1>
+
+				No one survives the journey through the bluespace bubble and into the Frontier. At the moment of passage between Bluespace your body is seperated from its Anima Vitae which is captured by the neural stack implanted within you.<br>
+				From that point on your causal connection between life and death is severed. 'Time of death' becomes a vector rather than a single point.
+				<p>
+				<ol>
+					<li>As a doctor you have the skills to fight to keep your fellow colonists alive AND bring them back from the dead when required.</li>
+					<li>Resources and facilites can be incredibily difficult to obtain in the Frontier. Consider joining an organisation where you can do the most good.</li>
+					<li>Simply ask for work with any crew or organization and they will gladly welcome a trained doctor.</li>
+					<li>Create backups of peoples neural stack and DNA pattern and you can bring them back even from total loss.</li>
+					<li>If possible, clone people directly from their neural stack to prevent skill loss and lasting philiological damage.</li>
+					<li>Cloning costs five phoron sheets which makes it incredibly expensive. It is best to source the phoron from the internal economy rather than trying to buy it from beacons.</li>
+					<li>Good doctors will be needed everywhere you go. As a crucial member of any team you should be treated with respect and authority.</li>
+					<li>If you can convince your crew to go on an export run to Trasen Territory, you can pick up medical supplies at the trade beacon there. Beacon imports are much more expensive than buying it from your fellow colonists though.</li>
+				</ol>
+				<p>
+				Though the nature of our lives and death has changed we can still act to reduce harm and prolong life; Eliminate pain and lower operating costs. God save our souls.
+				</body>
+			</html>"}
+
+/obj/item/book/manual/diplomat
+	name = "Peace & Purple"
+	icon_state = "analysis"
+	author = "Victor Purple"
+	title = "Peace & Purple"
+	dat = {"<html>
+				<head>
+				<style>
+				h1 {font-size: 18px; margin: 15px 0px 5px;}
+				h2 {font-size: 15px; margin: 15px 0px 5px;}
+				li {margin: 2px 0px 2px 15px;}
+				ul {margin: 5px; padding: 0px;}
+				ol {margin: 5px; padding: 0px 15px;}
+				body {font-size: 13px; font-family: Verdana;}
+				</style>
+				</head>
+				<body>
+				<h1>Peace & Purple</h1>
+
+				Welcome to the Frontier, Colonist! My name is Victor Purple and I am so pleased to welcome you. You have been selected for your variety of skills and charasmatic personality.<br>
+				Peace and diplomacy only come from established organizations and are only conducted by those who are trusted in such organizations. This is my guide for you;
+				<p>
+				<ol>
+					<li>The Frontier is entirely run by colonists! Even Solgov and the Terrans branches are ran by your fellow colonists.</li>
+					<li>Seek your forture and destiny by exploring the unleashed sector on a vessel of your very own design!</li>
+					<li>The fate and character of the Frontier is in your hands!</li>
+					<li>Wait, why am I trying to sell you on this? You're already here!</li>
+					<li>Networks are the backone of every organization, and if you learn how to work with network machines and programs you will be a valuable asset!</li>
+					<li>You wont even need to fight GREED and die horribly!</li>
+					<li>Quadrants have a security level that affects which imports and exports show up. The Higher the better for legitimate beacons.</li>
+					<li>For example, the Alpha Quadrant will buy Phoron at high prices if the security drops low enough.</li>
+					<li>Trasen Territory will buy higher quantities of smelted material with higher security level. Materials that miners be looking to offload for cheap, I might add.</li>
+				</ol>
+				<p>
+				All this writing is making me somber. Take your time and enjoy yourself, meet new people and make memories. That's all you can do here, nothing else matters.
+				<br>
+				-- Victor Purple
+				</body>
+			</html>"}
+
+/obj/item/book/manual/farmingchef
+	name = "Harvest Frontier"
+	icon_state = "analysis"
+	author = "Sarah Quiven"
+	title = "Harvest Frontier"
+	dat = {"<html>
+				<head>
+				<style>
+				h1 {font-size: 18px; margin: 15px 0px 5px;}
+				h2 {font-size: 15px; margin: 15px 0px 5px;}
+				li {margin: 2px 0px 2px 15px;}
+				ul {margin: 5px; padding: 0px;}
+				ol {margin: 5px; padding: 0px 15px;}
+				body {font-size: 13px; font-family: Verdana;}
+				</style>
+				</head>
+				<body>
+				<h1>Harvest Frontier</h1>
+
+				So you want to be a Frontier Farmer, eh? Well, you're gonna need more than a hoe and a shovel.<br>
+				The key to being a successful farmer is growing the right products and taking it to the right markets, you dig?
+				<p>
+				<ol>
+					<li>Seeds must be found or purchased. They can be purchased either from your fellow colonists or the Import beacons spread across the system.</li>
+					<li>It can be tough for folks so tied to 'earth' to secure space travel, but it is quite necessary to run a successful business.</li>
+					<li>If you can't purchase a ship, maybe you can catch a ride with someone else. Try striking a deal!</li>
+					<li>Plastic can only be obtained through botany and it is used in many constructions. Plastic can be readily sold to fellow colonists.</li>
+					<li>Excess seeds could be sold to your fellow colonistss as well.</li>
+					<li>Grow ingredients and sell them to kitchens, or if you have the talent start your own kitchen!</li>
+					<li>Create textiles for a clothing business or to sell to a clothing business.</li>
+					<li>The beacon out in Border Territory sells seeds, but that region of space can be exceptionally dangerous.</li>
+				</ol>
+				<p>
+				Hard work can make anyone a success out here and you have all the skills and opportunities to make something of yourself.
+				</body>
+			</html>"}
+
+
+/obj/item/book/manual/brawler
+	name = "The Unleashed Brawler"
+	icon_state = "bookMagazine"
+	author = "Faurns Goldberg"
+	title = "The Unleashed Brawler"
+	dat = {"<html>
+				<head>
+				<style>
+				h1 {font-size: 18px; margin: 15px 0px 5px;}
+				h2 {font-size: 15px; margin: 15px 0px 5px;}
+				li {margin: 2px 0px 2px 15px;}
+				ul {margin: 5px; padding: 0px;}
+				ol {margin: 5px; padding: 0px 15px;}
+				body {font-size: 13px; font-family: Verdana;}
+				</style>
+				</head>
+				<body>
+				<h1>The Unleashed Brawler</h1>
+
+				Being the champion is more than just being the best boxer in this universe. You are the number one performer, the ultimate entertainer, the star of every room.<br>
+				My rise to the top wasn't all wins, but the view from the summit is so sweet.
+				<p>
+				<ol>
+					<li>Practice your fighting so you are sharp when it's time to get into the ring!</li>
+					<li>Is there no fighting ring or professional sports circuit on the Frontier yet you might want to start one.</li>
+					<li>Or just be a soldier, miner or tough guy while you wait for someone else to start one. Everyone loves fighting!</li>
+					<li>Keep your guard up! Don't let them land any easy shots.</li>
+					<li>If you want to make yourself tougher, check out the Southern Rim beacon. It costs 5000 bucks!</li>
+					<li>You catch more flies with honey than with vinegar.</li>
+				</ol>
+				<p>
+				I remember my last fight on the ruined Faeren gravity well. I thought the win couldn't get any better, and then the secret activated.
+				</body>
+			</html>"}
+
+/obj/item/book/manual/soldier
+	name = "Armies of Darkness"
+	icon_state = "tb_weapon"
+	author = "Gunter L. Harrison"
+	title = "Armies of Darkness"
+	dat = {"<html>
+				<head>
+				<style>
+				h1 {font-size: 18px; margin: 15px 0px 5px;}
+				h2 {font-size: 15px; margin: 15px 0px 5px;}
+				li {margin: 2px 0px 2px 15px;}
+				ul {margin: 5px; padding: 0px;}
+				ol {margin: 5px; padding: 0px 15px;}
+				body {font-size: 13px; font-family: Verdana;}
+				</style>
+				</head>
+				<body>
+				<h1>Armies of Darkness</h1>
+
+				When I was a young man, I served the greater good with my Agarthan brothers and sisters; We resisted SolGov together.
+				Then, Agarthan good demanded that I be left behind, and so I was. And as a young man I became a prisoner of SolGov.
+				Now, I am still a young man. I have served both sides and been prisoner of both sides and now I serve only myself;
+				<p>
+				<ol>
+					<li>Whatever your allegience was before, it was forgotten when you passed into the Frontier. You should make new loyalties here.</li>
+					<li>Signing up with either SolGov or the Terran Federation can be a great way to start out, especially for someone with our skillset.</li>
+					<li>You can gain experience, money and influence serving with them and then leave on your own terms.</li>
+					<li>As long as you don't steal and you submit your resignation appropraitely you won't have to worry about being hunted as a deserter.</li>
+					<li>Talented warriors and leaders will quickly rise through the ranks and be leading operations and patrols.</li>
+					<li>Both SolGov and the Terrans have unique rewards for those who serve them faithfully in the Frontier.</li>
+				</ol>
+				<p>
+				Every person needs a master and you are no different. Though you may have many masters in your long existence here, you will never be free.
+				</body>
+			</html>"}
+
 /obj/item/book/manual/excavation
 	name = "Out on the Dig"
 	icon_state = "excavation"

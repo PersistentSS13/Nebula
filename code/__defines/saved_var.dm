@@ -1,6 +1,6 @@
 /**
- * Define a var from a class as saved. 
- * Also test the CLASSPATH class to see if the var exist at compilation. 
+ * Define a var from a class as saved.
+ * Also test the CLASSPATH class to see if the var exist at compilation.
  */
 #define SAVED_VAR(CLASSPATH, VARNAME) CLASSPATH/proc/zz_compilerVarExistsTest_##VARNAME(){.=src.##VARNAME;}; /decl/saved_variables##CLASSPATH/make_saved_variables(list/saved){LAZYDISTINCTADD(saved, #VARNAME); return ..(saved);}
 

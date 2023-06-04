@@ -54,11 +54,6 @@
 	desc = "A pair of woodland camouflage pants. Probably not the best choice for space."
 	icon = 'icons/clothing/under/pants/pants_camo.dmi'
 
-/obj/item/clothing/pants/baggy
-	name = "baggy pants"
-	desc = "A nondescript pair of baggy pants."
-	icon = 'icons/clothing/under/pants/pants_baggy.dmi'
-
 /obj/item/clothing/pants/baggy/casual
 	name = "baggy jeans"
 	desc = "A nondescript pair of tough baggy blue jeans."

@@ -159,6 +159,45 @@
 		if(prob(15))
 			M.emote(pick("twitch", "giggle"))
 
+
+
+
+/decl/material/liquid/bluespice
+	name = "bluespice"
+	lore_text = "This opulant narcotic is unique to the Frontier. It has a wide variety of positive effects, but it insults the gods to use it."
+	color = "#0000ff"
+	metabolism = REM
+	overdose = 50
+	uid = "chem_bluespice"
+
+/decl/material/liquid/bluespice/affect_blood(var/mob/living/M, var/removed, var/datum/reagents/holder)
+	. = ..()
+	M.add_client_color(/datum/client_color/noir/bluespace)
+	M.add_chemical_effect(CE_THIRDEYE, 1)
+	M.add_chemical_effect(CE_MIND, 2)
+	M.add_chemical_effect(CE_ENERGETIC, 10)
+	M.add_chemical_effect(CE_GLOWINGEYES, 1)
+	M.add_chemical_effect(CE_SPEEDBOOST, 4)
+	ADJ_STATUS(M, STAT_JITTER, 50)
+	if(prob(0.1) && ishuman(M))
+		var/mob/living/carbon/human/H = M
+		H.seizure()
+		H.adjustBrainLoss(rand(8, 12))
+
+/decl/material/liquid/bluespice/on_leaving_metabolism(datum/reagents/metabolism/holder)
+	. = ..()
+	var/mob/M = holder?.my_atom
+	if(istype(M))
+		M.remove_client_color(/datum/client_color/noir/bluespace)
+
+/decl/material/liquid/bluespice/affect_overdose(var/mob/living/M)
+	M.adjustBrainLoss(rand(3, 8))
+	M.add_chemical_effect(CE_ENERGETIC, 10)
+	M.add_chemical_effect(CE_SPEEDBOOST, 10)
+	M.add_chemical_effect(CE_PULSE, 7)
+	ADJ_STATUS(M, STAT_JITTER, rand(200,500))
+
+
 // Welcome back, Three Eye
 /decl/material/liquid/glowsap/gleam
 	name = "Gleam"
@@ -222,6 +261,72 @@
 		M.remove_client_color(/datum/client_color/noir/thirdeye)
 
 /decl/material/liquid/glowsap/gleam/affect_overdose(var/mob/living/M)
+	M.adjustBrainLoss(rand(1, 5))
+	if(ishuman(M) && prob(10))
+		var/mob/living/carbon/human/H = M
+		H.seizure()
+	if(prob(10))
+		to_chat(M, SPAN_DANGER("<font size = [rand(2,4)]>[pick(overdose_messages)]</font>"))
+
+/decl/material/liquid/glowsap/phoron
+	name = "phorophedamine"
+	lore_text = "An awful substance made from gleam. It looks like dead gleam."
+	color = "#c20a03"
+	metabolism = REM
+	overdose = 25
+	uid = "chem_phoron"
+
+	var/static/list/dose_messages = list(
+		"I was there on the day you were born.",
+		"You stand tall and persist against all challenge. You are a proud candle.",
+		"You feel yourself wrap around the entire frontier.",
+		"This is just getting started.",
+		"Secrets in the domdaniel, things you don't know yet.",
+		"Darkness clouds...",
+		"Something slides and twitches within your sinus cavity...",
+		"Before you were born you were dead.",
+		"You feel compelled to greatness.",
+		"This whole place belongs to you.",
+		"What happened before you got here? What happened to bring you here?",
+		"You start to make plans for things that happened a long time ago.",
+		"You want to gome home..",
+		"It's too soon for this. Please go back.",
+		"We miss you. Where are you?",
+		"Come back from there. Please."
+	)
+
+	var/static/list/overdose_messages = list(
+		"GREED GREED GREED GREED GREED GREED GREED GREED",
+		"THIS WHOLE PLACE BELONGS TO US",
+		"KILL KILL KILL THEM ALL",
+		"BETRAYAL REJECTION INFECTION DEATH DEATH DEATH",
+		"AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAHHHHHHHHHHHHHHHHHHHHHHHHHHHHHHH",
+		"you want to go home",
+		"YOU ARE DEAD YOU ARE DEAD YOU ARE DEAD YOU ARE DEAD"
+	)
+
+/decl/material/liquid/glowsap/phoron/affect_blood(var/mob/living/M, var/removed, var/datum/reagents/holder)
+	. = ..()
+	M.add_client_color(/datum/client_color/phoron)
+	M.add_chemical_effect(CE_THIRDEYE, 1)
+	M.add_chemical_effect(CE_MIND, -2)
+	M.set_hallucination(50, 75)
+	ADJ_STATUS(M, STAT_JITTER, 3)
+	ADJ_STATUS(M, STAT_DIZZY,  3)
+	if(prob(0.1) && ishuman(M))
+		var/mob/living/carbon/human/H = M
+		H.seizure()
+		H.adjustBrainLoss(rand(8, 12))
+	if(prob(25))
+		to_chat(M, SPAN_WARNING("<font size = [rand(1,3)]>[pick(dose_messages)]</font>"))
+
+/decl/material/liquid/glowsap/phoron/on_leaving_metabolism(datum/reagents/metabolism/holder)
+	. = ..()
+	var/mob/M = holder?.my_atom
+	if(istype(M))
+		M.remove_client_color(/datum/client_color/phoron)
+
+/decl/material/liquid/glowsap/phoron/affect_overdose(var/mob/living/M)
 	M.adjustBrainLoss(rand(1, 5))
 	if(ishuman(M) && prob(10))
 		var/mob/living/carbon/human/H = M

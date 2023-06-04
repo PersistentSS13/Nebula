@@ -1,7 +1,7 @@
 /datum/fabricator_recipe/protolathe/rig
 	category = "Hardsuit Modules"
 	path = /obj/item/rig_module/vision/meson
-
+	uses = 1
 /datum/fabricator_recipe/protolathe/rig/get_product_name()
 	. = "hardsuit module ([..()])"
 

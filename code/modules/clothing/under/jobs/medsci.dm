@@ -86,7 +86,7 @@
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY
 
 /obj/item/clothing/under/orderly
-	desc = "A white suit to be worn by medical attendants."
+	desc = "A suit to be worn by medical attendants."
 	name = "orderly's uniform"
 	icon = 'icons/clothing/under/uniform_orderly.dmi'
 	permeability_coefficient = 0.50

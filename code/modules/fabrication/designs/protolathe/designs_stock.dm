@@ -1,22 +1,22 @@
 /datum/fabricator_recipe/protolathe/stock
 	category = "Stock Parts"
 	path = /obj/item/stock_parts/capacitor
-
+	uses = 3
 /datum/fabricator_recipe/protolathe/stock/adv_capacitor
 	path = /obj/item/stock_parts/capacitor/adv
 
 /datum/fabricator_recipe/protolathe/stock/super_capacitor
 	path = /obj/item/stock_parts/capacitor/super
-
+	uses = 1
 /datum/fabricator_recipe/protolathe/stock/micro_mani
 	path = /obj/item/stock_parts/manipulator
 
 /datum/fabricator_recipe/protolathe/stock/nano_mani
 	path = /obj/item/stock_parts/manipulator/nano
-
+	uses = 2
 /datum/fabricator_recipe/protolathe/stock/pico_mani
 	path = /obj/item/stock_parts/manipulator/pico
-
+	uses = 1
 /datum/fabricator_recipe/protolathe/stock/basic_matter_bin
 	path = /obj/item/stock_parts/matter_bin
 
@@ -25,7 +25,7 @@
 
 /datum/fabricator_recipe/protolathe/stock/super_matter_bin
 	path = /obj/item/stock_parts/matter_bin/super
-
+	uses = 1
 /datum/fabricator_recipe/protolathe/stock/basic_micro_laser
 	path = /obj/item/stock_parts/micro_laser
 
@@ -34,6 +34,7 @@
 
 /datum/fabricator_recipe/protolathe/stock/ultra_micro_laser
 	path = /obj/item/stock_parts/micro_laser/ultra
+	uses = 1
 
 /datum/fabricator_recipe/protolathe/stock/basic_sensor
 	path = /obj/item/stock_parts/scanning_module
@@ -43,6 +44,7 @@
 
 /datum/fabricator_recipe/protolathe/stock/phasic_sensor
 	path = /obj/item/stock_parts/scanning_module/phasic
+	uses = 1
 
 /datum/fabricator_recipe/protolathe/stock/subspace_ansible
 	path = /obj/item/stock_parts/subspace/ansible
@@ -70,10 +72,10 @@
 
 /datum/fabricator_recipe/protolathe/stock/smes_coil_super_cap
 	path = /obj/item/stock_parts/smes_coil/super_capacity
-
+	uses = 2
 /datum/fabricator_recipe/protolathe/stock/smes_coil_super_io
 	path = /obj/item/stock_parts/smes_coil/super_io
-
+	uses = 1
 /datum/fabricator_recipe/protolathe/stock/card_reader
 	path = /obj/item/stock_parts/item_holder/card_reader
 

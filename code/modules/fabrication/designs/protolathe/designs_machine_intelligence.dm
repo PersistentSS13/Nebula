@@ -1,13 +1,13 @@
 /datum/fabricator_recipe/protolathe/brains
 	category = "Machine Intelligence"
 	path = /obj/item/mmi
-
+	uses = 1
 /datum/fabricator_recipe/protolathe/brains/get_product_name()
 	. = "intelligence storage ([..()])"
 
 /datum/fabricator_recipe/protolathe/brains/mmi_radio
 	path = /obj/item/mmi/radio_enabled
-	
+
 /datum/fabricator_recipe/protolathe/brains/posibrain
 	path = /obj/item/organ/internal/posibrain
 

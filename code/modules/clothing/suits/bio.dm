@@ -89,7 +89,7 @@
 	desc = "It protected doctors from the Black Death, back then. You bet your arse it's gonna help you against space plague."
 	icon = 'icons/clothing/suit/biosuit/plague.dmi'
 	flags_inv = HIDEGLOVES|HIDEJUMPSUIT|HIDETAIL
-	origin_tech = "{'materials':1,'engineering':1,'biotech':1}"
+	origin_tech = "{'materials':2, 'engineering':2}"
 	matter = list(
 		/decl/material/solid/plastic = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/metal/silver = MATTER_AMOUNT_REINFORCEMENT

@@ -33,6 +33,9 @@
 /obj/item/natural_weapon/bite/strong
 	force = 20
 
+/obj/item/natural_weapon/bite/smasher
+	force = 50
+
 /obj/item/natural_weapon/claws
 	name = "claws"
 	attack_verb = list("mauled", "clawed", "slashed")

@@ -177,12 +177,16 @@ SAVED_VAR(/datum/seed, kitchen_tag)
 SAVED_VAR(/datum/seed, trash_type)
 SAVED_VAR(/datum/seed, splat_type)
 SAVED_VAR(/datum/seed, force_layer)
+SAVED_VAR(/datum/seed, max_generation)
+SAVED_VAR(/datum/seed, generation)
+
 
 SAVED_VAR(/datum/seed_pile, name)
 SAVED_VAR(/datum/seed_pile, amount)
 SAVED_VAR(/datum/seed_pile, seed_type)
 SAVED_VAR(/datum/seed_pile, seeds)
 SAVED_VAR(/datum/seed_pile, ID)
+
 
 SAVED_VAR(/datum/shuttle, name)
 SAVED_VAR(/datum/shuttle, shuttle_area)
@@ -255,6 +259,7 @@ SAVED_VAR(/datum/skillset, total_points_added)
 SAVED_VAR(/datum/skillset, min_skill_level)
 SAVED_VAR(/datum/skillset, textbook_skills)
 SAVED_VAR(/datum/skillset, last_read_time)
+SAVED_VAR(/datum/skillset, used_potentiators)
 
 SAVED_VAR(/datum/skill_buff, buffs)
 SAVED_VAR(/datum/skill_buff, limit)
@@ -310,6 +315,7 @@ SAVED_VAR(/datum/computer_network, intrusion_detection_alarm)
 SAVED_VAR(/datum/computer_network, banned_nids)
 SAVED_VAR(/datum/computer_network, chat_channels)
 
+SAVED_VAR(/datum/computer_file/data/cloning, used_potentiators)
 SAVED_VAR(/datum/computer_file/data/cloning, mob_age)
 SAVED_VAR(/datum/computer_file/data/cloning, skill_list)
 SAVED_VAR(/datum/computer_file/data/cloning, languages)
@@ -509,6 +515,8 @@ SAVED_VAR(/obj/item/robot_parts, model_info)
 SAVED_VAR(/obj/item/robot_parts, bp_tag)
 
 SAVED_VAR(/obj/item/seeds, seed_type)
+SAVED_VAR(/obj/item/seeds, seed)
+SAVED_VAR(/obj/item/seeds, modified)
 
 SAVED_VAR(/obj/item/stack, amount)
 SAVED_VAR(/obj/item/stack, stack_merge_type)

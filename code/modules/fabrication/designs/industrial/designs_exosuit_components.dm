@@ -1,6 +1,7 @@
 /datum/fabricator_recipe/industrial/exosuit
 	category = "Exosuit Components"
 	path = /obj/structure/heavy_vehicle_frame
+	uses = 2
 
 /datum/fabricator_recipe/industrial/exosuit/basic_armour
 	path = /obj/item/robot_parts/robot_component/armour/exosuit

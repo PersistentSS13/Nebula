@@ -83,8 +83,6 @@ SUBSYSTEM_DEF(mapping)
 
 	//PS13 Build main map sites templates
 	global.using_map.build_main_sites()
-	// Build away sites.
-	global.using_map.build_away_sites()
 
 	// Initialize z-level objects.
 #ifdef UNIT_TEST

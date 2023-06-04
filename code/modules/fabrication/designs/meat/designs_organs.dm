@@ -1,7 +1,7 @@
 /datum/fabricator_recipe/meat/organ
 	category = "Cloned Organs"
 	path = /obj/item/organ/internal/stomach
-
+	uses = 3
 /datum/fabricator_recipe/meat/organ/get_product_name()
 	. = "cloned organ ([..()])"
 

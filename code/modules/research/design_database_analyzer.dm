@@ -71,7 +71,8 @@
 			if(cached_materials[mat] <= 0)
 				cached_materials -= mat
 		return TRUE
-
+	else
+		return interface_interact(user)
 	. = ..()
 
 /obj/machinery/destructive_analyzer/interface_interact(user)
@@ -121,6 +122,27 @@
 	if(busy)
 		update_icon()
 		busy = FALSE
+
+
+/obj/machinery/destructive_analyzer/proc/process_bluespace(var/required_amount)
+	if(!loaded_item)
+		return	"Analyzer empty."
+	if(!istype(loaded_item, /obj/item/stack/material/gemstone))
+		return "Invalid material inserted."
+	if(!required_amount)
+		return "Invalid required amount."
+
+	var/obj/item/stack/material/gemstone/crystal = loaded_item
+	var/decl/material/mat = crystal.get_material()
+	if(!mat || mat.uid != "solid_bluespacecrystal")
+		return "Invalid material inserted."
+	if(crystal.get_amount() < required_amount)
+		return "Insufficent crystals inserted."
+	busy = TRUE
+	crystal.use(required_amount)
+	flick("d_analyzer_process", src)
+	addtimer(CALLBACK(src, .proc/refresh_busy), 2 SECONDS)
+	return FALSE
 
 /obj/machinery/destructive_analyzer/proc/process_loaded()
 	if(!loaded_item)

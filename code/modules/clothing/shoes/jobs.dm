@@ -5,7 +5,7 @@
 	permeability_coefficient = 0.05
 	item_flags = ITEM_FLAG_NOSLIP
 	bodytype_equip_flags = null
-
+	origin_tech = "{'materials':2,'engineering':2}"
 /obj/item/clothing/shoes/galoshes/Initialize()
 	. = ..()
 	LAZYSET(slowdown_per_slot, slot_shoes_str, 1)
@@ -35,7 +35,7 @@
 	max_pressure_protection = FIRESUIT_MAX_PRESSURE
 	var/artificail_shine = 20
 	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT)
-	origin_tech = "{'materials':2,'engineering':2}"
+	origin_tech = "{'materials':3,'engineering':3,'combat':3}"
 
 /obj/item/clothing/shoes/jackboots/set_material(var/new_material)
 	..()

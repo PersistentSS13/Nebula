@@ -55,7 +55,7 @@
 		</div>
 		<div class="itemContent">
 			<table width = '90%'>
-				<th>Field</th>
+				<th>Research Field</th>
 				<th>Research Points</th>
 				{{for data.research_costs}}
 					<tr>
@@ -64,6 +64,30 @@
 					</tr>
 				{{/for}}
 			</table>
+		</div>
+	</div>
+	<div class="item">
+		<div class="itemLabel">
+			Required Bluespace Crystals:
+		</div>
+		<div class="itemContent">
+			{{:data.required_bluespace}}
+		</div>
+	</div>
+	<div class='item'>
+		<div class='itemLabel'>
+			Design uses before deletion:
+		</div>
+		<div class='itemContent'>
+			{{:data.design_uses}}
+		</div>
+	</div>
+	<div class='item'>
+		<div class='itemLabel'>
+			Selected Analyzer:
+		</div>
+		<div class='itemContent'>
+			{{:helper.link(data.selected_analyzer, null, { "PRG_change_analyzer" : 1 }, null)}}
 		</div>
 	</div>
 	{{:helper.link('Create Design', null, { "PRG_create_design" : 1 })}}

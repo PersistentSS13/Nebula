@@ -113,7 +113,7 @@
 
 /obj/machinery/smartfridge/drying_rack
 	name = "drying rack"
-	desc = "A machine for drying plants."
+	desc = "A machine for drying plants and skin."
 	icon_state = "drying_rack"
 
 /obj/machinery/smartfridge/drying_rack/accept_check(var/obj/item/O)

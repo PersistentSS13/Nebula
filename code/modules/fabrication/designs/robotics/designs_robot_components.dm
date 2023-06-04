@@ -1,7 +1,7 @@
 /datum/fabricator_recipe/robotics/robot_component
 	category = "Robot Component"
 	path = /obj/item/robot_parts/robot_suit
-
+	uses = 3
 /datum/fabricator_recipe/robotics/robot_component/get_product_name()
 	. = ..()
 	return "robot part ([.])"

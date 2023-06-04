@@ -36,6 +36,7 @@
 	color = "#00ffe1"
 
 /obj/item/clothing/ears/dangle
+	name = "pearl dangle earrings"
 	icon = 'icons/clothing/ears/earring_dangle.dmi'
 
 /obj/item/clothing/ears/dangle/glass

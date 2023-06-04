@@ -73,7 +73,7 @@
 	if(network)
 		var/list/cloning_pods = list()
 		for(var/datum/extension/network_device/cloning_pod/CP in network.devices)
-			var/obj/machinery/machine = CP.holder
+			var/obj/machinery/cloning_pod/machine = CP.holder
 			var/list/cloning_pod = list(
 				"id" = CP.network_tag,
 				"online" = !(!machine.operable() || machine.stat & (BROKEN|NOPOWER)),
@@ -81,6 +81,11 @@
 				"contents" = "Empty.",
 				"total_progress" = 1
 			)
+			if(machine.phoron_sheets)
+				cloning_pod["phoron_amount"] = machine.phoron_sheets.get_amount()
+			else
+				cloning_pod["phoron_amount"] = "0"
+
 			cloning_pod["can_clone"] = CP.check_clone()
 			cloning_pod["can_backup"] = CP.check_scan()
 			cloning_pod["can_save"] = !!CP.finished_scan

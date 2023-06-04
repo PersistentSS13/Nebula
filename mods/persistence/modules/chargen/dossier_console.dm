@@ -41,20 +41,11 @@
 
 	var/datum/skillset/skillset = user.mind.chargen_skillset
 	var/decl/hierarchy/chargen/role/role = user.mind.role
-	var/decl/hierarchy/chargen/origin/origin = user.mind.origin
 
 	switch(href_list["action"])
-		if("toggle_stack")
-			user.mind.chargen_stack = !user.mind.chargen_stack
-			return
-		if("choose_origin")
-			active_section = "origin"
 		if("choose_role")
 			active_section = "role"
 		if("submit")
-			if(isnull(user.mind.origin))
-				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter an origin to proceed."))
-				return
 			if(isnull(user.mind.role))
 				to_chat(user, SPAN_NOTICE("The console beeps: Application incomplete. Please enter a role to proceed."))
 				return
@@ -69,18 +60,6 @@
 				slight.update_icon()
 		if("unsubmit")
 			user.mind.finished_chargen = FALSE
-		if("confirm_origin")
-			if(origin)
-				for(var/skill in origin.skills)
-					skillset.skill_list[skill] -= origin.skills[skill]
-
-			var/decl/hierarchy/chargen/origin/origins = GET_DECL(/decl/hierarchy/chargen/origin)
-			for(var/decl/hierarchy/chargen/D in origins.children)
-				if(D.ID == href_list["ref"])
-					// Found.
-					user.mind.origin = D
-					for(var/skill in D.skills)
-						skillset.skill_list[skill] += D.skills[skill]
 
 		if("confirm_role")
 			if(role)
@@ -101,29 +80,25 @@
 		for(var/decl/hierarchy/skill in global.skills)
 			user.mind.chargen_skillset.skill_list[skill.type] = 1
 		user.mind.chargen_skillset.skill_list[SKILL_HAULING] = SKILL_BASIC
-		user.mind.chargen_skillset.skill_list[SKILL_LITERACY] = SKILL_BASIC
+		user.mind.chargen_skillset.skill_list[SKILL_LITERACY] = SKILL_ADEPT
 	. = user.mind.chargen_skillset.get_nano_data(FALSE)
-
-	.["active"] = active_section
+	var/decl/hierarchy/chargen/role/role = user.mind.role
+	.["active"] = role
 	.["finished"] = user.mind.finished_chargen
 	.["map_name"] = global.using_map.station_name
-	.["stack"] = user.mind.chargen_stack
-	.["origin"] = istype(user.mind.origin) ? user.mind.origin.name : "Not set"
 	.["role"] = istype(user.mind.role) ? user.mind.role.name : "Not set"
-
+	.["role_desc"] = istype(user.mind.role) ? user.mind.role.desc : "Not set"
 	// Populate role & origin choices.
-	.["origins"] = list()
 	.["roles"] = list()
-	var/decl/hierarchy/chargen/origin/origins = GET_DECL(/decl/hierarchy/chargen/origin)
 	var/decl/hierarchy/chargen/role/roles = GET_DECL(/decl/hierarchy/chargen/role)
 
-	for(var/decl/hierarchy/chargen/D in (roles.children + origins.children))
+	for(var/decl/hierarchy/chargen/D in roles.children)
 		var/list/fields = list(
 			"name" = D.name,
 			"ref" = D.ID,
 			"skills" = list(),
 			"whitelist_only" = D.whitelist_only,
-			"active" = ((user.mind.origin && D == user.mind.origin) || (user.mind.role && D == user.mind.role))
+			"active" = (user.mind.role && D == user.mind.role)
 		)
 
 		for(var/skill in D.skills)
@@ -136,11 +111,7 @@
 		if(D.remaining_points_offset != 0)
 			fields["skills"] += "Point offset: [D.remaining_points_offset >= 0 ? "+" : ""][D.remaining_points_offset]"
 		fields["skills"] = english_list(fields["skills"])
-
-		if(istype(D, /decl/hierarchy/chargen/origin))
-			.["origins"] += list(fields)
-		else
-			.["roles"] += list(fields)
+		.["roles"] += list(fields)
 
 /obj/structure/fake_computer/chargen/ui_interact(var/mob/user, ui_key = "main", var/datum/nanoui/ui = null, var/force_open = 1)
 	var/list/data = build_ui_data(user)

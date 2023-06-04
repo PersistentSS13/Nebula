@@ -313,7 +313,7 @@
 // If a weed growth is sufficient, this proc is called.
 /obj/machinery/portable_atmospherics/hydroponics/proc/weed_invasion()
 
-	set_seed(SSplants.seeds[pick(list("reishi", "nettles", "amanita", "mushrooms", "plumphelmet", "towercap", "harebells", "weeds"))])
+	set_seed(SSplants.seeds[pick(list("weeds"))]) // "reishi", "nettles", "amanita", "mushrooms", "plumphelmet", "towercap", "harebells",
 
 	if(!seed)
 		return //Weed does not exist, someone fucked up.
@@ -381,14 +381,16 @@
 	toxins =         max(0,min(toxins,10))
 
 /obj/machinery/portable_atmospherics/hydroponics/proc/mutate_species()
-
+	var/max_generation = seed.max_generation
+	var/generation = seed.generation
 	var/previous_plant = seed.display_name
 	var/newseed = seed.get_mutant_variant()
 	if(newseed in SSplants.seeds)
 		set_seed(SSplants.seeds[newseed])
 	else
 		return
-
+	seed.generation = generation
+	seed.max_generation = max_generation
 	dead = 0
 	mutate(1)
 	age = 0

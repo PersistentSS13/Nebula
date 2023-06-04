@@ -19,7 +19,7 @@
 
 /obj/item/clothing/head/caphat/formal
 	name = "parade hat"
-	desc = "No one in a commanding position should be without a perfect, white hat of ultimate authority."
+	desc = "No one in a commanding position should be without a perfect hat of ultimate authority."
 	icon = 'icons/clothing/head/officer_cap.dmi'
 //HOP
 /obj/item/clothing/head/caphat/hop

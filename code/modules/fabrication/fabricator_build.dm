@@ -82,6 +82,19 @@
 
 //Allow storing more details in the order for fabricator subclasses
 /obj/machinery/fabricator/proc/make_order(var/datum/fabricator_recipe/recipe, var/multiplier)
+	var/datum/extension/network_device/device = get_extension(src, /datum/extension/network_device)
+	var/datum/computer_network/network = device.get_network()
+
+	if(recipe.uses != -1 && network)
+		var/list/design_files = network.get_all_files_of_type(/datum/computer_file/data/design, "DESIGN REPOSITORY")
+		for(var/datum/computer_file/data/design/D in design_files)
+			if(D.recipe && D.recipe.type == recipe.type)
+				D.recipe.uses--
+				if(D.recipe.uses <= 0)
+					src.visible_message("<span class='notice'>\The [src] reports that it used the last [recipe.get_product_name()] design use! The design has been deleted from the network.</span>")
+					network.remove_file(D, forced = TRUE)
+					qdel(D)
+					refresh_design_cache()
 	var/datum/fabricator_build_order/order = new
 	order.remaining_time = recipe.build_time
 	order.target_recipe =  recipe

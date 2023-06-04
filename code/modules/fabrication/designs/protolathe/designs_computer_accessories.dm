@@ -1,7 +1,7 @@
 /datum/fabricator_recipe/protolathe/comp_acc
 	category = "Computer Accessories"
 	path = /obj/item/stock_parts/computer/card_slot
-
+	uses = 3
 /datum/fabricator_recipe/protolathe/comp_acc/cardbroadcaster
 	path = /obj/item/stock_parts/computer/card_slot/broadcaster
 

@@ -27,14 +27,22 @@
 		else
 			var/obj/item/chems/food/grown/F = O
 			new_seed_type = SSplants.seeds[F.plantname]
-
+			if(F.generation >= F.max_generation)
+				to_chat(user, "[O] doesn't seem to have any usable seeds inside it.")
+				new_seed_type = null
 		if(new_seed_type)
-			to_chat(user, "<span class='notice'>You extract some seeds from [O].</span>")
-			var/produce = rand(1,4)
+			to_chat(user, "<span class='notice'>You extract a seed from [O].</span>")
+			var/produce = 1
 			for(var/i = 0;i<=produce;i++)
+
 				var/obj/item/seeds/seeds = new /obj/item/seeds/modified(get_turf(src))
 				seeds.seed_type = new_seed_type.name
 				seeds.update_seed()
+				if(!istype(O, /obj/item/grown))
+					var/obj/item/chems/food/grown/F = O
+					if(seeds.seed)
+						seeds.seed.generation = F.generation
+						seeds.seed.max_generation = F.max_generation
 		else
 			to_chat(user, "[O] doesn't seem to have any usable seeds inside it.")
 

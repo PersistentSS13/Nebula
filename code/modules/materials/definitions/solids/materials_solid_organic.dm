@@ -288,6 +288,16 @@
 	. += new/datum/stack_recipe/cloak(src)
 	. += new/datum/stack_recipe/shoes(src)
 
+/decl/material/solid/skin/greed
+	name = "greedskin"
+	uid = "solid_greedskin"
+	color = "#4ba135"
+	tans_to = /decl/material/solid/leather/greed
+	hardness = MAT_VALUE_FLEXIBLE
+	weight = MAT_VALUE_NORMAL
+	exoplanet_rarity = MAT_RARITY_NOWHERE
+
+
 /decl/material/solid/skin/lizard
 	name = "lizardskin"
 	uid = "solid_lizardskin"
@@ -473,6 +483,14 @@
 	hardness = MAT_VALUE_FLEXIBLE + 5
 	weight = MAT_VALUE_LIGHT
 	reflectiveness = MAT_VALUE_SHINY
+
+/decl/material/solid/leather/greed
+	name = "greedleather"
+	uid = "greedleather"
+	color = "#42972d"
+	integrity = 85
+	hardness = MAT_VALUE_FLEXIBLE + 5
+	weight = MAT_VALUE_NORMAL
 
 /decl/material/solid/leather/fur
 	name = "tanned pelt"

@@ -30,7 +30,7 @@
 	color = "#182e44"
 
 /obj/item/clothing/accessory/horrible
-	name = "horrible tie"
+	name = "horrific necktie"
 	desc = "A neosilk clip-on tie. This one is disgusting."
 	icon = 'icons/clothing/accessories/ties/tie_horrible.dmi'
 
@@ -92,6 +92,6 @@
 	icon = 'icons/clothing/accessories/ties/bowtie.dmi'
 
 /obj/item/clothing/accessory/bowtie/ugly
-	name = "horrible bowtie"
+	name = "horrific bowtie"
 	desc = "A neosilk hand-tied bowtie. This one is disgusting."
 	icon = 'icons/clothing/accessories/ties/bowtie_ugly.dmi'

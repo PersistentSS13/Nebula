@@ -1,7 +1,7 @@
 /datum/fabricator_recipe/protolathe/glasses
 	category = "Eyewear"
 	path = /obj/item/clothing/glasses/hud/health
-
+	uses = 3
 /datum/fabricator_recipe/protolathe/glasses/get_product_name()
 	. = "prototype eyewear design ([..()])"
 

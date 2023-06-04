@@ -98,7 +98,7 @@
 
 /obj/item/clothing/head/det
 	name = "fedora"
-	desc = "A brown fedora - either the cornerstone of a detective's style or a poor attempt at looking cool, depending on the person wearing it."
+	desc = "A fedora - either the cornerstone of a unique style or a poor attempt at looking cool, depending on the person wearing it."
 	icon = 'icons/clothing/head/detective.dmi'
 	color = "#725443"
 	armor = list(
@@ -121,12 +121,10 @@
 /obj/item/clothing/head/det/grey
 	color = COLOR_GRAY40
 	markings_color = COLOR_SILVER
-	desc = "A grey fedora - either the cornerstone of a detective's style or a poor attempt at looking cool, depending on the person wearing it."
 
 /obj/item/clothing/head/det/wack
 	color = COLOR_VIOLET
 	markings_color = COLOR_YELLOW
-	desc = "A colorful fedora - either the cornerstone of a detective's style or a poor attempt at looking disco, depending on the person wearing it."
 
 /*
  * Head of Security
@@ -170,7 +168,7 @@
 		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_REINFORCEMENT
 	)
-	origin_tech = "{'materials':3,'engineering':1, 'combat':2}"
+	origin_tech = "{'materials':3,'engineering':2, 'combat':2}"
 
 //Jensen cosplay gear
 /obj/item/clothing/under/head_of_security/jensen
@@ -192,4 +190,4 @@
 		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_REINFORCEMENT
 	)
-	origin_tech = "{'materials':3,'engineering':1, 'combat':2}"
+	origin_tech = "{'materials':3,'engineering':3, 'combat':3}"

@@ -125,6 +125,36 @@
 			return TOPIC_REFRESH
 
 		if(href_list["PRG_create_design"])
+			var/mod_research_cost = current_recipe.get_mod_research_cost()
+			var/total_cost = 0
+			var/bluespace_cost = 0
+			for(var/tech in mod_research_cost)
+				total_cost += mod_research_cost[tech]
+			if(total_cost > 12)
+				bluespace_cost = round(total_cost/13)
+			if(bluespace_cost)
+				var/datum/computer_network/network = computer.get_network()
+				if(!network)
+					to_chat(user, SPAN_WARNING("Network error: Could not connect to network!"))
+					return TOPIC_REFRESH
+				if(!selected_analyzer)
+					to_chat(usr, "No analyzer selected! You must insert the required bluespace crystals into a connected destructive analyzer")
+					return TOPIC_HANDLED
+				var/err
+				var/datum/extension/network_device/D = network.get_device_by_tag(selected_analyzer)
+				if(D)
+					var/obj/machinery/destructive_analyzer/analyzer = D.holder
+					if(!analyzer)
+						err = "No destructive analyzer detected."
+					else
+						err = analyzer.process_bluespace(bluespace_cost)
+				else
+					err = "No destructive analyzer detected."
+					selected_analyzer = null
+				if(err)
+					to_chat(usr, "The selected analyzer reports an error: ([err])")
+					return TOPIC_REFRESH
+				to_chat(usr, "[bluespace_cost] bluespace crystals have been consumed. Make sure you save the file or they will be wasted.")
 			var/browser_desc = "Save design file as:"
 			var/datum/computer_file/data/design/saving_design = new(null, current_recipe)
 			view_file_browser(usr, "saveas_file", /datum/computer_file/data/design, OS_WRITE_ACCESS, browser_desc, saving_design)
@@ -256,13 +286,24 @@
 		if(current_recipe)
 			data["current_recipe"] = current_recipe.get_product_name()
 			data["mat_costs"] = list()
+			data["selected_analyzer"] = (selected_analyzer || "No analyzer selected")
+			if(current_recipe.uses == -1)
+				data["design_uses"] = "Infinite Uses"
+			else
+				data["design_uses"] = current_recipe.uses
 			for(var/mat in current_recipe.resources)
 				var/decl/material/material_type = GET_DECL(mat)
 				data["mat_costs"] += list(list("name" = material_type.name, "amount" = current_recipe.resources[mat]))
 			data["research_costs"] = list()
 			var/mod_research_cost = current_recipe.get_mod_research_cost()
+			var/total_cost = 0
+			var/bluespace_cost = 0
 			for(var/tech in mod_research_cost)
+				total_cost += mod_research_cost[tech]
 				data["research_costs"] += list(list("name" = tech, "amount" = mod_research_cost[tech]))
+			if(total_cost > 12)
+				bluespace_cost = round(total_cost/13)
+			data["bluespace_cost"] = bluespace_cost
 		else
 			error = "Internal Error: Could not locate prototype!"
 

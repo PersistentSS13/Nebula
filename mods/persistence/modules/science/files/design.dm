@@ -32,6 +32,7 @@
 		recipe.required_technology = template_recipe.required_technology.Copy()
 		recipe.name = template_recipe.name
 		recipe.path = template_recipe.path
+		recipe.uses = template_recipe.uses
 		recipe.resources = template_recipe.resources.Copy()
 		recipe.fabricator_types = template_recipe.fabricator_types.Copy()
 		research_requirements = recipe.get_mod_research_cost()

@@ -4,14 +4,14 @@
 	category = "Work Clothing"
 	path = /obj/item/clothing/suit/chef
 
+
+/**
 /datum/fabricator_recipe/textiles/job/chefalt
 	path = /obj/item/clothing/suit/chef/classic
 
 /datum/fabricator_recipe/textiles/job/chaplain_hoodie
 	path = /obj/item/clothing/suit/chaplain_hoodie
 
-/datum/fabricator_recipe/textiles/job/engineerhazardvest
-	path = /obj/item/clothing/suit/storage/hazardvest
 
 /datum/fabricator_recipe/textiles/job/overalls
 	path = /obj/item/clothing/suit/apron/overalls
@@ -114,10 +114,10 @@
 
 /datum/fabricator_recipe/textiles/job/medical/suithospital
 	path = /obj/item/clothing/suit/hospital
-	
+
 /datum/fabricator_recipe/textiles/job/medical/suitmedicalresponder
 	path = /obj/item/clothing/suit/storage/toggle/fr_jacket
-	
+
 /datum/fabricator_recipe/textiles/job/medical/medicalchestrig
 	path = /obj/item/clothing/suit/storage/medical_chest_rig
 
@@ -168,3 +168,5 @@
 
 /datum/fabricator_recipe/textiles/job/security/balabalagetdolla
 	path = /obj/item/clothing/mask/balaclava
+
+**/

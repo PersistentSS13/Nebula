@@ -115,7 +115,7 @@
 	monitoring the power systems."
 	item_cost = 40
 	path = /obj/item/powersink
-
+/**
 /datum/uplink_item/item/tools/teleporter
 	name = "Teleporter Circuit Board"
 	desc = "A circuit board that can be used to create a teleporter console, able to lock onto detected \
@@ -126,7 +126,7 @@
 /datum/uplink_item/item/tools/teleporter/New()
 	..()
 	antag_roles = list(/decl/special_role/mercenary)
-
+**/
 /datum/uplink_item/item/tools/ai_module
 	name = "Hacked AI Upload Module"
 	desc = "A module that can be used anonymously add a singular, top level law to an active AI. \

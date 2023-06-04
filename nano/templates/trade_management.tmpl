@@ -32,6 +32,16 @@
 		{{:helper.link('Export', null, { 'export' : 1 }, data.export ? 'selected' : null)}}
 		{{:helper.link('Transaction Log', null, { 'log' : 1 }, data.log ? 'selected' : null)}}
 		<br>
+		<div class='item'>
+			<div class='itemLabel'>
+				Quadrant Security Level:
+			</div>
+			<div class='itemContent'>
+				{{:data.quadrant_sec_level}}
+			</div>
+				The available imports and exports are affected by the security level of the Quadrant that the beacon is in. See 'Quadrant Status' program for more details.
+		</div>
+		<br><hr>
 		{{if data.import}}
 			<h2>Import Selection</h2>
 			{{if data.import_tax}}
@@ -102,6 +112,14 @@
 			<div class="statusDisplay" style="min-height: 120px;">
 				{{:data.import_desc}}
 			</div>
+			{{if data.colorable}}
+				<div class='itemLabel'>
+					{{:data.selected_color_text}}
+				</div>
+				<div class='itemContent'>
+					{{:helper.link('Select Color', '', { 'select_color' : 1 })}}{{:helper.link('Reset Color', 'refresh', { 'reset_color' : 1 })}}
+				</div>
+			{{/if}}
 			<br><hr>
 			<table style="width:100%">
 			<tr><td style="width:40%">Purchase Option<th>Balance$

@@ -1,7 +1,7 @@
 /datum/fabricator_recipe/protolathe/weapon
 	category = "Weapons"
 	path = /obj/item/chems/spray/chemsprayer
-
+	uses = 3
 /datum/fabricator_recipe/protolathe/weapon/get_product_name()
 	. = "weapon prototype ([..()])"
 

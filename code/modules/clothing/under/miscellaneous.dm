@@ -14,8 +14,8 @@
 	icon = 'icons/clothing/under/rogue_captain.dmi'
 
 /obj/item/clothing/under/scratch
-	name = "white suit"
-	desc = "A white suit, suitable for an excellent host."
+	name = "fancy suit"
+	desc = "A suit, suitable for an excellent host."
 	icon = 'icons/clothing/under/scratch.dmi'
 
 /obj/item/clothing/under/sl_suit
@@ -74,7 +74,7 @@
 	icon = 'icons/clothing/under/jumpsuits/jumpsuit_johnny.dmi'
 
 /obj/item/clothing/under/color/rainbow
-	name = "rainbow"
+	name = "rainbow jumpsuit"
 	icon = 'icons/clothing/under/jumpsuits/jumpsuit_rainbow.dmi'
 
 /obj/item/clothing/under/psysuit
@@ -188,7 +188,7 @@
 	icon = 'icons/clothing/under/dresses/dress_green.dmi'
 
 /obj/item/clothing/under/dress/dress_yellow
-	name = "green dress"
+	name = "yellow dress"
 	desc = "A simple yellow dress."
 	icon = 'icons/clothing/under/dresses/dress_yellow.dmi'
 
@@ -318,48 +318,48 @@
 	icon = 'icons/clothing/under/uniform_assistant_formal.dmi'
 
 /obj/item/clothing/under/suit_jacket/charcoal
-	name = "charcoal suit"
-	desc = "A charcoal suit and red tie. Very professional."
+	name = "charcoal suitpants"
+	desc = "A charcoal suit and white shirt. Very professional."
 	icon = 'icons/clothing/under/suits/suit_pants_charcoal.dmi'
 	starting_accessories = list(
-		/obj/item/clothing/accessory/navy,
-		/obj/item/clothing/accessory/toggleable/charcoal_jacket
+	//	/obj/item/clothing/accessory/navy,
+	//	/obj/item/clothing/accessory/toggleable/charcoal_jacket
 	)
 
 /obj/item/clothing/under/suit_jacket/navy
-	name = "navy suit"
-	desc = "A navy suit and red tie, intended for the galaxy's finest."
+	name = "navy suitpants"
+	desc = "A navy suit and white shirt, intended for the galaxy's finest."
 	icon = 'icons/clothing/under/suits/suit_pants_navy.dmi'
 	starting_accessories = list(
-		/obj/item/clothing/accessory/red,
-		/obj/item/clothing/accessory/toggleable/navy_jacket
+	//	/obj/item/clothing/accessory/red,
+	//	/obj/item/clothing/accessory/toggleable/navy_jacket
 	)
 
 /obj/item/clothing/under/suit_jacket/burgundy
-	name = "burgundy suit"
-	desc = "A burgundy suit and black tie. Somewhat formal."
+	name = "burgundy suitpants"
+	desc = "A burgundy suitpants and white shirt. Somewhat formal."
 	icon = 'icons/clothing/under/suits/suit_pants_burgundy.dmi'
 	starting_accessories = list(
-		/obj/item/clothing/accessory/black,
-		/obj/item/clothing/accessory/toggleable/burgundy_jacket
+	//	/obj/item/clothing/accessory/black,
+	//	/obj/item/clothing/accessory/toggleable/burgundy_jacket
 	)
 
 /obj/item/clothing/under/suit_jacket/checkered
-	name = "checkered suit"
+	name = "checkered suitpants"
 	desc = "That's a very nice suit you have there. Shame if something were to happen to it, eh?"
 	icon = 'icons/clothing/under/suits/suit_pants_checkered.dmi'
 	starting_accessories = list(
-		/obj/item/clothing/accessory/black,
-		/obj/item/clothing/accessory/toggleable/checkered_jacket
+	//	/obj/item/clothing/accessory/black,
+	//	/obj/item/clothing/accessory/toggleable/checkered_jacket
 	)
 
 /obj/item/clothing/under/suit_jacket/tan
-	name = "tan suit"
-	desc = "A tan suit. Smart, but casual."
+	name = "tan suitpants"
+	desc = "A tan suitpants. Smart, but casual."
 	icon = 'icons/clothing/under/suits/suit_pants_tan.dmi'
 	starting_accessories = list(
-		/obj/item/clothing/accessory/long/yellow,
-		/obj/item/clothing/accessory/toggleable/tan_jacket
+	//	/obj/item/clothing/accessory/long/yellow,
+	//	/obj/item/clothing/accessory/toggleable/tan_jacket
 	)
 
 /obj/item/clothing/under/serviceoveralls

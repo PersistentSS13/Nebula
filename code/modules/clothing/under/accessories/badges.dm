@@ -132,16 +132,16 @@
 	badge_string = "Unknown"
 
 /obj/item/clothing/accessory/badge/defenseintel
-	name = "\improper DIA investigator's badge"
-	desc = "A leather-backed silver badge bearing the crest of the Defense Intelligence Agency."
+	name = "\improper TFF badge"
+	desc = "A leather-backed silver badge bearing the crest of the Terran Federation Frontier Corps."
 	icon = 'icons/clothing/accessories/badges/diabadge.dmi'
-	badge_string = "Defense Intelligence Agency"
+	badge_string = "Terran Federation Frontier Corps"
 
 /obj/item/clothing/accessory/badge/interstellarintel
-	name = "\improper OII agent's badge"
-	desc = "A synthleather holographic badge bearing the crest of the Office of Interstellar Intelligence."
+	name = "\improper SFA badge"
+	desc = "A synthleather holographic badge bearing the crest of the SolGov Frontier Administration."
 	icon = 'icons/clothing/accessories/badges/intelbadge.dmi'
-	badge_string = "Office of Interstellar Intelligence"
+	badge_string = "SolGov Frontier Administration"
 
 /obj/item/clothing/accessory/badge/press
 	name = "press badge"

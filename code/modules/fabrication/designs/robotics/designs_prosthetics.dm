@@ -39,6 +39,7 @@
 */
 /datum/fabricator_recipe/robotics/prosthetic
 	var/model
+	uses = 3
 
 /datum/fabricator_recipe/robotics/prosthetic/New()
 	if(model)
@@ -47,23 +48,6 @@
 	else
 		category = "Unbranded Prosthetics"
 	..()
-
-/datum/fabricator_recipe/robotics/prosthetic/is_available_to_fab(var/obj/machinery/fabricator/fab)
-	. = ..() && model
-	if(.)
-		var/obj/machinery/fabricator/robotics/robofab = fab
-		if(!istype(robofab))
-			return FALSE
-		var/decl/prosthetics_manufacturer/company = GET_DECL(model)
-		if(!istype(company))
-			return FALSE
-		var/decl/species/species = get_species_by_key(robofab.picked_prosthetic_species)
-		if(!istype(species))
-			return FALSE
-		var/obj/item/organ/target_limb = path
-		if(!ispath(target_limb, /obj/item/organ))
-			return FALSE
-		return company.check_can_install(initial(target_limb.organ_tag), species.default_bodytype.bodytype_category, robofab.picked_prosthetic_species)
 
 /datum/fabricator_recipe/robotics/prosthetic/get_resources()
 	. = ..()

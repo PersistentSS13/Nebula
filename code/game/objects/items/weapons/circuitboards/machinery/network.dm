@@ -27,7 +27,7 @@
 	name = "circuitboard (router)"
 	build_path = /obj/machinery/network/router
 	board_type = "machine"
-	origin_tech = "{'programming':2,'magnets':3}"
+	origin_tech = "{'programming':2,'magnets':2}"
 	req_components = list(
 		/obj/item/stock_parts/subspace/filter = 1,
 		/obj/item/stock_parts/scanning_module = 1,

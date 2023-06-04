@@ -392,6 +392,8 @@ var/global/list/serialization_time_spent_type
 		return null
 	return l_i
 
+/atom/var/isPersistenceLoaded = 0
+
 /serializer/sql/DeserializeDatum(var/datum/persistence/load_cache/thing/thing)
 #ifdef SAVE_DEBUG
 	var/list/deserialized_vars = list()
@@ -411,9 +413,13 @@ var/global/list/serialization_time_spent_type
 			to_world_log("Attempting to deserialize onto turf [thing.x],[thing.y],[thing.z] failed. Could not locate turf.")
 			return
 		existing = T.ChangeTurf(thing.thing_type)
+		T.isPersistenceLoaded = 1
 	else
 		// default creation
 		existing = new thing.thing_type()
+		var/atom/A = existing
+		if(istype(A))
+			A.isPersistenceLoaded = 1
 	existing.persistent_id = thing.p_id // Upon deserialization we reapply the persistent_id in the thing table to save space.
 	reverse_map["[thing.p_id]"] = existing
 

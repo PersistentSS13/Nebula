@@ -2,7 +2,7 @@
 	name = "circuitboard (message monitor console)"
 	build_path = /obj/machinery/computer/message_monitor
 	origin_tech = "{'programming':3}"
-
+/** NOT PERSISTENT
 /obj/item/stock_parts/circuitboard/aiupload
 	name = "circuitboard (AI upload console)"
 	build_path = /obj/machinery/computer/upload/ai
@@ -17,11 +17,11 @@
 	name = "circuitboard (teleporter control console)"
 	build_path = /obj/machinery/computer/teleporter
 	origin_tech = "{'programming':2,'wormholes':4}"
-
+**/
 /obj/item/stock_parts/circuitboard/atmos_alert
 	name = "circuitboard (atmospheric alert console)"
 	build_path = /obj/machinery/computer/atmos_alert
-
+/**
 /obj/item/stock_parts/circuitboard/robotics
 	name = "circuitboard (robotics control console)"
 	build_path = /obj/machinery/computer/robotics
@@ -31,7 +31,7 @@
 	name = "circuitboard (drone control console)"
 	build_path = /obj/machinery/computer/drone_control
 	origin_tech = "{'programming':3}"
-
+**/
 /obj/item/stock_parts/circuitboard/arcade/battle
 	name = "circuitboard (battle arcade machine)"
 	build_path = /obj/machinery/computer/arcade/battle
@@ -49,7 +49,7 @@
 /obj/item/stock_parts/circuitboard/solar_control
 	name = "circuitboard (solar control console)"
 	build_path = /obj/machinery/power/solar_control
-	origin_tech = "{'programming':2,'powerstorage':2}"
+//	origin_tech = "{'programming':2,'powerstorage':2}"
 
 /obj/item/stock_parts/circuitboard/prisoner
 	name = "circuitboard (prisoner management console)"
@@ -58,7 +58,7 @@
 /obj/item/stock_parts/circuitboard/operating
 	name = "circuitboard (patient monitoring console)"
 	build_path = /obj/machinery/computer/operating
-	origin_tech = "{'programming':2,'biotech':2}"
+//	origin_tech = "{'programming':2,'biotech':2}"
 
 /obj/item/stock_parts/circuitboard/helm
 	name = "circuitboard (helm control console)"
@@ -92,7 +92,7 @@
 	name = "circuitboard (area air control console)"
 	build_path = /obj/machinery/computer/area_atmos
 	origin_tech = "{'programming':2}"
-
+/**
 /obj/item/stock_parts/circuitboard/account_database
 	name = "circuitboard (accounts uplink terminal)"
 	build_path = /obj/machinery/computer/account_database
@@ -100,3 +100,4 @@
 /obj/item/stock_parts/circuitboard/guestpass
 	name = "circuitboard (guest pass terminal)"
 	build_path = /obj/machinery/computer/guestpass
+**/

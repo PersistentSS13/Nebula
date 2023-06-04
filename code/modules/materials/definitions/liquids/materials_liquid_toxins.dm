@@ -43,7 +43,7 @@
 	uid = "liquid_carpotoxin"
 	lore_text = "A deadly neurotoxin produced by the dreaded space carp."
 	taste_description = "fish"
-	color = "#003333"
+	color = "#050033"
 	toxicity_targets_organ = BP_BRAIN
 	toxicity = 10
 	heating_products = list(
@@ -54,6 +54,24 @@
 	taste_mult = 1.2
 	metabolism = REM * 0.25
 	exoplanet_rarity = MAT_RARITY_UNCOMMON
+
+/decl/material/liquid/greedbile
+	name = "greed bile"
+	uid = "liquid_greed_bile"
+	lore_text = "This unnaturally fatty substance is found in the flesh of GREED."
+	taste_description = "sin"
+	color = "#c5952e"
+	toxicity_targets_organ = BP_HEART
+	toxicity = 15
+	heating_products = list(
+		/decl/material/liquid/denatured_toxin = 1
+	)
+	heating_point = 100 CELSIUS
+	heating_message = "begins to smell awful."
+	taste_mult = 1.2
+	metabolism = REM
+	exoplanet_rarity = MAT_RARITY_UNCOMMON
+
 
 /decl/material/liquid/venom
 	name = "spider venom"

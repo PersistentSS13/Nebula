@@ -1,5 +1,4 @@
 var/global/list/plant_seed_sprites = list()
-
 //Seed packet object/procs.
 /obj/item/seeds
 	name = "packet of seeds"
@@ -170,16 +169,16 @@ var/global/list/plant_seed_sprites = list()
 /obj/item/seeds/carrotseed
 	seed_type = "carrot"
 
-/obj/item/seeds/reishimycelium
+/obj/item/seeds/reishimycelium // add all mushrooms
 	seed_type = "reishi"
 
 /obj/item/seeds/amanitamycelium
 	seed_type = "amanita"
 
-/obj/item/seeds/angelmycelium
+/obj/item/seeds/angelmycelium // mutation
 	seed_type = "destroyingangel"
 
-/obj/item/seeds/libertymycelium
+/obj/item/seeds/libertymycelium // mutation
 	seed_type = "libertycap"
 
 /obj/item/seeds/chantermycelium
@@ -191,13 +190,13 @@ var/global/list/plant_seed_sprites = list()
 /obj/item/seeds/glowbell
 	seed_type = "glowbell"
 
-/obj/item/seeds/plumpmycelium
+/obj/item/seeds/plumpmycelium // add all mushrooms
 	seed_type = "plumphelmet"
 
 /obj/item/seeds/walkingmushroommycelium
 	seed_type = "walkingmushroom"
 
-/obj/item/seeds/nettleseed
+/obj/item/seeds/nettleseed // add
 	seed_type = "nettle"
 
 /obj/item/seeds/deathnettleseed
@@ -206,13 +205,13 @@ var/global/list/plant_seed_sprites = list()
 /obj/item/seeds/weeds
 	seed_type = "weeds"
 
-/obj/item/seeds/harebell
+/obj/item/seeds/harebell // add
 	seed_type = "harebells"
 
-/obj/item/seeds/sunflowerseed
+/obj/item/seeds/sunflowerseed // add
 	seed_type = "sunflowers"
 
-/obj/item/seeds/lavenderseed
+/obj/item/seeds/lavenderseed // add
 	seed_type = "lavender"
 
 /obj/item/seeds/brownmold
@@ -227,10 +226,10 @@ var/global/list/plant_seed_sprites = list()
 /obj/item/seeds/goldappleseed
 	seed_type = "goldapple"
 
-/obj/item/seeds/ambrosiavulgarisseed
+/obj/item/seeds/ambrosiavulgarisseed // add
 	seed_type = "biteleaf"
 
-/obj/item/seeds/ambrosiadeusseed
+/obj/item/seeds/ambrosiadeusseed // add
 	seed_type = "ambrosiadeus"
 
 /obj/item/seeds/whitebeetseed
@@ -266,10 +265,13 @@ var/global/list/plant_seed_sprites = list()
 /obj/item/seeds/cocoapodseed
 	seed_type = "cocoa"
 
+/obj/item/seeds/coffeaseed
+	seed_type = "coffea"
+
 /obj/item/seeds/cherryseed
 	seed_type = "cherry"
 
-/obj/item/seeds/tobaccoseed
+/obj/item/seeds/tobaccoseed // add
 	seed_type = "tobacco"
 
 /obj/item/seeds/finetobaccoseed
@@ -278,7 +280,7 @@ var/global/list/plant_seed_sprites = list()
 /obj/item/seeds/puretobaccoseed
 	seed_type = "puretobacco"
 
-/obj/item/seeds/kudzuseed
+/obj/item/seeds/kudzuseed // add
 	seed_type = "kudzu"
 
 /obj/item/seeds/peppercornseed
@@ -290,22 +292,22 @@ var/global/list/plant_seed_sprites = list()
 /obj/item/seeds/onionseed
 	seed_type = "onion"
 
-/obj/item/seeds/algaeseed
+/obj/item/seeds/algaeseed // add
 	seed_type = "algae"
 
-/obj/item/seeds/bamboo
+/obj/item/seeds/bamboo // add
 	seed_type = "bamboo"
 
 /obj/item/seeds/bruisegrassseed
 	seed_type = "bruisegrass"
 
-/obj/item/seeds/clam
+/obj/item/seeds/clam // add
 	seed_type = "clam"
 
-/obj/item/seeds/barnacle
+/obj/item/seeds/barnacle // add
 	seed_type = "barnacle"
 
-/obj/item/seeds/mollusc
+/obj/item/seeds/mollusc // add
 	seed_type = "mollusc"
 
 /obj/item/seeds/cotton

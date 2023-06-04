@@ -18,7 +18,7 @@
 	max_pressure_protection = VOIDSUIT_MAX_PRESSURE
 	min_pressure_protection = 0
 	siemens_coefficient = 0.4
-
+	origin_tech = "{'materials':3, 'engineering':2}"
 /obj/item/clothing/suit/space/void
 	name = "voidsuit"
 	icon = 'icons/clothing/spacesuit/void/nasa/suit.dmi'
@@ -49,7 +49,7 @@
 	var/obj/item/clothing/shoes/magboots/boots = null // Deployable boots, if any.
 	var/obj/item/clothing/head/helmet/helmet = null   // Deployable helmet, if any.
 	var/obj/item/tank/tank = null              // Deployable tank, if any.
-
+	origin_tech = "{'materials':3, 'engineering':2}"
 	action_button_name = "Toggle Helmet"
 	var/helmet_deploy_sound = 'sound/items/helmet_close.ogg'
 	var/helmet_retract_sound = 'sound/items/helmet_open.ogg'
@@ -64,10 +64,17 @@ else if(##equipment_var) {\
 
 /obj/item/clothing/suit/space/void/Initialize()
 	. = ..()
-	VOIDSUIT_INIT_EQUIPMENT(boots,  /obj/item/clothing/shoes/magboots)
-	VOIDSUIT_INIT_EQUIPMENT(helmet, /obj/item/clothing/head/helmet)
-	VOIDSUIT_INIT_EQUIPMENT(tank,   /obj/item/tank)
-
+	if(!isPersistenceLoaded)
+		VOIDSUIT_INIT_EQUIPMENT(boots,  /obj/item/clothing/shoes/magboots)
+		VOIDSUIT_INIT_EQUIPMENT(helmet, /obj/item/clothing/head/helmet)
+		VOIDSUIT_INIT_EQUIPMENT(tank,   /obj/item/tank)
+	else
+		if(ispath(boots))
+			boots = null
+		if(ispath(helmet))
+			helmet = null
+		if(ispath(tank))
+			tank = null
 #undef VOIDSUIT_INIT_EQUIPMENT
 
 /obj/item/clothing/suit/space/void/Destroy()

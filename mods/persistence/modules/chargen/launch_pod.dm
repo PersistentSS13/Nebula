@@ -28,26 +28,25 @@
 		return
 
 	var/mob/living/carbon/human/user = occupant
-	if(occupant.mind.chargen_stack)
-		var/obj/item/organ/internal/stack/charstack = new()
-		var/obj/item/organ/O = occupant.get_organ(charstack.parent_organ)
-		user.add_organ(charstack, O)
-		to_chat(user, SPAN_NOTICE("You have been provided with a Cortical Stack to act as an emergency revival tool."))
-
+//	if(occupant.mind.chargen_stack)
+	var/obj/item/organ/internal/stack/charstack = new()
+	var/obj/item/organ/O = occupant.get_organ(charstack.parent_organ)
+	user.add_organ(charstack, O)
+	to_chat(user, SPAN_NOTICE("As your shuttle approaches the frontier the cryopod you are in suddenly shunts a neural stack into your cortex, wrenching you back to momentary conciousness."))
 	// Updating the mob's skills with the actual chargen choices.
 	var/datum/skillset/mob_set = occupant.skillset
 	var/datum/skillset/char = occupant.mind.chargen_skillset
 	var/list/char_set = char.skill_list
 	mob_set.skill_list = char_set.Copy()
 	mob_set.default_value = char.default_value
-	mob_set.points_remaining = max(STARTING_POINTS + user.mind.origin.remaining_points_offset + user.mind.role.remaining_points_offset, 0)
+	mob_set.points_remaining = max(STARTING_POINTS + user.mind.role.remaining_points_offset, 0)
 	mob_set.on_levels_change()
 	to_chat(user, SPAN_NOTICE("You have an additional [mob_set.points_remaining] skill points to apply to your character. Use the 'Adjust Skills' verb to do so"))
 
 	var/obj/starter_book = user.mind.role.text_book_type
 	if(starter_book)
-		to_chat(user, SPAN_NOTICE("You have brought with you a textbook related to your specialty. It can increase your skills temporarily by reading it, or permanently through dedicated study. It's highly valuable, so don't lose it!"))
-		user.equip_to_slot_or_store_or_drop(new starter_book(user), slot_in_backpack_str)
+		to_chat(user, SPAN_NOTICE("You have brought with you a textbook related to your specialty. It will tell you secrets of the Frontier that can help someone with your skillset."))
+		user.equip_to_storage(new starter_book(user))
 
 	// Find the starting network, and create the crew record + user account for convenience.
 
@@ -86,7 +85,11 @@
 		go_out()
 		C.set_occupant(user, silent = TRUE)
 		C.on_mob_spawn()
-		to_chat(user, SPAN_NOTICE("You've waken up from the cryostasis."))
+		spawn(1 SECOND)
+		to_chat(user, SPAN_NOTICE("<br><br><br>You wake up feeling like you died and came back to life on the journey here."))
+		to_chat(user, SPAN_NOTICE("Find your fortune in the glorious frontier! You should have a book in your inventory that can help you start your journey."))
+		to_chat(user, SPAN_NOTICE("<br><br>Don't forget to assign your extra skillpoints by using 'Adjust your Skills' in the IC menu tab."))
+		C.go_out()
 		return
 
 	// If we didn't find a empty turf, put them on a filled one
@@ -97,6 +100,7 @@
 	else
 		to_chat(user, SPAN_DANGER("UNABLE TO FIND SUITABLE LOCATION, CONTACT AN ADMIN!"))
 		message_admins(SPAN_DANGER("UNABLE TO FIND SUITABLE CRYO SPAWN LOCATION FOR CKEY:'[user.ckey]'([user.name])! CREATE A CRYOPOD."))
+
 
 /obj/machinery/cryopod/chargen/check_occupant_allowed(mob/M)
 	. = ..()

@@ -96,8 +96,8 @@
 	siemens_coefficient = 2.0
 
 /obj/item/clothing/suit/holidaypriest
-	name = "Holiday Priest"
-	desc = "This is a nice holiday my son."
+	name = "priest robe"
+	desc = "This is a nice robe." // i dont know what holiday priest is and i dont know who to ask
 	icon = 'icons/clothing/suit/holidaypriest.dmi'
 	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_ARMS
 	flags_inv = HIDEJUMPSUIT

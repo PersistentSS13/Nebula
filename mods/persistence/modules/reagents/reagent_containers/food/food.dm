@@ -5,7 +5,7 @@
 	. = ..()
 	if(old_nutri_amt)
 		nutriment_amt = old_nutri_amt
-	
+
 SAVED_VAR(/obj/item/grown, plantname)
 SAVED_VAR(/obj/item/grown, potency)
 
@@ -24,3 +24,6 @@ SAVED_VAR(/obj/item/chems/food/fruit_slice, seed)
 
 SAVED_VAR(/obj/item/chems/food/slice, whole_path)
 SAVED_VAR(/obj/item/chems/food/slice, filled)
+
+SAVED_VAR(/obj/item/chems/food/grown, max_generation)
+SAVED_VAR(/obj/item/chems/food/grown, generation)

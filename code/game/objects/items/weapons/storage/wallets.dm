@@ -113,8 +113,9 @@
 
 /obj/item/storage/wallet/poly/Initialize(ml, material_key)
 	. = ..()
-	color = get_random_colour()
-	update_icon()
+	if(!isPersistenceLoaded)
+		color = get_random_colour()
+		update_icon()
 
 /obj/item/storage/wallet/poly/verb/change_color()
 	set name = "Change Wallet Color"
@@ -148,7 +149,7 @@
 
 /decl/interaction_handler/remove_id/wallet/is_possible(atom/target, mob/user, obj/item/prop)
 	. = ..() && ishuman(user)
-	
+
 /decl/interaction_handler/remove_id/wallet/invoked(atom/target, mob/user, obj/item/prop)
 	var/obj/item/storage/wallet/W = target
 	var/obj/item/card/id/id = W.GetIdCard()

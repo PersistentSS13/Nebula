@@ -5,7 +5,7 @@
 	w_class = ITEM_SIZE_TINY
 	default_action_type = /datum/action/item_action/organ
 	material = /decl/material/solid/meat
-	origin_tech = "{'materials':1,'biotech':1}"
+	origin_tech = "{'materials':3,'biotech':3}"
 	throwforce = 2
 	abstract_type = /obj/item/organ
 

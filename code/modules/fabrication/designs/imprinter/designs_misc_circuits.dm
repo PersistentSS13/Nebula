@@ -61,13 +61,13 @@
 
 /datum/fabricator_recipe/imprinter/circuit/bioprinter
 	path = /obj/item/stock_parts/circuitboard/bioprinter
-
+/*
 /datum/fabricator_recipe/imprinter/circuit/teleconsole
 	path = /obj/item/stock_parts/circuitboard/teleporter
 
 /datum/fabricator_recipe/imprinter/circuit/robocontrol
 	path = /obj/item/stock_parts/circuitboard/robotics
-
+*/
 /datum/fabricator_recipe/imprinter/circuit/comm_monitor
 	path = /obj/item/stock_parts/circuitboard/comm_monitor
 
@@ -79,7 +79,7 @@
 
 /datum/fabricator_recipe/imprinter/circuit/message_server
 	path = /obj/item/stock_parts/circuitboard/telecomms/message_server
-
+/*
 /datum/fabricator_recipe/imprinter/circuit/guestpass
 	path = /obj/item/stock_parts/circuitboard/guestpass
 
@@ -94,7 +94,7 @@
 
 /datum/fabricator_recipe/imprinter/circuit/borgupload
 	path = /obj/item/stock_parts/circuitboard/borgupload
-
+*/
 /datum/fabricator_recipe/imprinter/circuit/cryopodcontrol
 	path = /obj/item/stock_parts/circuitboard/cryopodcontrol
 
@@ -169,10 +169,10 @@
 
 /datum/fabricator_recipe/imprinter/circuit/air_management
 	path = /obj/item/stock_parts/circuitboard/air_management
-
+/*
 /datum/fabricator_recipe/imprinter/circuit/dronecontrol
 	path = /obj/item/stock_parts/circuitboard/drone_control
-
+*/
 /datum/fabricator_recipe/imprinter/circuit/solarcontrol
 	path = /obj/item/stock_parts/circuitboard/solar_control
 
@@ -496,6 +496,13 @@
 
 /datum/fabricator_recipe/imprinter/circuit/docking_beacon
 	path = /obj/item/stock_parts/circuitboard/docking_beacon
+
+/datum/fabricator_recipe/imprinter/circuit/banking_mainframe
+	path = /obj/item/stock_parts/circuitboard/banking_mainframe
+
+/datum/fabricator_recipe/imprinter/circuit/trade_controller
+	path = /obj/item/stock_parts/circuitboard/trade_controller
+
 
 /datum/fabricator_recipe/imprinter/circuit/fax_machine
 	path = /obj/item/stock_parts/circuitboard/fax_machine

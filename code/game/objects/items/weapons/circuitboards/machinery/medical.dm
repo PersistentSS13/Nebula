@@ -28,7 +28,7 @@
 	name = "circuitboard (body scanner console)"
 	build_path = /obj/machinery/body_scanconsole
 	board_type = "machine"
-	origin_tech = "{'engineering':2,'biotech':4,'programming':4}"
+//	origin_tech = "{'engineering':2,'biotech':4,'programming':4}" CONSOLES AND SCREENS DONT NEED TECH
 	req_components = list(
 		/obj/item/stock_parts/console_screen = 1)
 	additional_spawn_components = list(
@@ -39,7 +39,7 @@
 /obj/item/stock_parts/circuitboard/body_scanconsole/display
 	name = "circuitboard (body scanner display)"
 	build_path = /obj/machinery/body_scan_display
-	origin_tech = "{'biotech':2,'programming':2}"
+//	origin_tech = "{'biotech':2,'programming':2}" DISPLAY NO TECH
 
 /obj/item/stock_parts/circuitboard/sleeper
 	name = "circuitboard (sleeper)"

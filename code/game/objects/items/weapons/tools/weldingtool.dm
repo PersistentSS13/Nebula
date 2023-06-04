@@ -384,6 +384,7 @@
 	tank     = /obj/item/chems/welder_tank/experimental
 	material = /decl/material/solid/metal/steel
 	matter   = list(/decl/material/solid/fiberglass = MATTER_AMOUNT_REINFORCEMENT)
+	origin_tech = "{'programming':4,'magnets':6,'materials':8,'wormholes':4}"
 
 //////////////////////////////////////////////////////////////////
 // Welding tool tanks

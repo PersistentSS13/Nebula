@@ -1,6 +1,6 @@
 /obj/item/clothing/accessory/cloak // A colorable cloak
-	name = "plain cloak"
-	desc = "A simple, bland cloak."
+	name = "cloak"
+	desc = "A simple cloak."
 	icon = 'icons/clothing/suit/cloaks/_cloak.dmi'
 	w_class = ITEM_SIZE_NORMAL
 	slot = ACCESSORY_SLOT_OVER
