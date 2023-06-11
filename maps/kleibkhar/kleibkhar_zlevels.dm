@@ -6,10 +6,7 @@
 	template_categories  = list(MAP_TEMPLATE_CATEGORY_MAIN_SITE) //Templates must have a category, or they won't spawn
 	tallness             = 4
 	mappaths             = list(
-		"maps/kleibkhar/kleibkhar-1.dmm",
-		"maps/kleibkhar/kleibkhar-2.dmm",
 		"maps/kleibkhar/kleibkhar-3.dmm",
-		"maps/kleibkhar/kleibkhar-4.dmm",
 	)
 
 ///////////////////////////////////////////////////////////////////////////////
