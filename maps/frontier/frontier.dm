@@ -21,7 +21,7 @@
 	#include "frontier_species.dm"
 	#include "frontier_supply.dm"
 
-	#define USING_MAP_DATUM /datum/map/frontier
+	#define USING_MAP_DATUM /datum/map/kleibkhar
 #elif !defined(MAP_OVERRIDE)
 
 	#warn A map has already been included, ignoring frontier

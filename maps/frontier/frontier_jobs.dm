@@ -1,4 +1,4 @@
-/datum/map/frontier
+/datum/map/kleibkhar
 	default_job_type = /datum/job/colonist
 	allowed_jobs = list(/datum/job/colonist)
 
