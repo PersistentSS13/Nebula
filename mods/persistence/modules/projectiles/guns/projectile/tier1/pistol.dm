@@ -1,6 +1,6 @@
 /obj/item/gun/projectile/pistol/simple
-	name = "ZSS HG 'Colt'"
-	desc = "Nobody knows who 'Colt' actually was, but historians generally believe he was a master gunsmith from the ancient past. The 'Colt' pistol is one of his most well-known designs. Because the design to make this model was cracked decades ago, many groups have made their own bastardized versions of the firearm. This one in particular is chambered in 10mm rounds."
+	name = "CT9 pistol"
+	desc = "The CT9 is a small reliable pistol manufactured by HexGuard. This one in particular is chambered in 10mm rounds."
 	icon = 'mods/persistence/icons/obj/guns/tier1/pistol.dmi'
 	fire_delay = 5
 	force = 5

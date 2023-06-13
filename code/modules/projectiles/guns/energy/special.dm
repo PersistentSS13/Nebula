@@ -173,3 +173,18 @@
 	)
 	projectile_type = /obj/item/projectile/beam/incendiary_laser
 	max_shots = 4
+
+/obj/item/gun/energy/lasrevolver
+	name = "roller blaster"
+	desc = "The Martian Arms 'Roller blaster' was a experimental dispersive laser weapon which, instead of firing a focused beam, scan over a target rapidly with the goal of setting it ablaze."
+	icon = 'mods/persistence/icons/obj/guns/tier1/lasrevolver.dmi'
+	icon_state = ICON_STATE_WORLD
+	safety_icon = "safety"
+	origin_tech = "{'combat':7,'magnets':4,'esoteric':4}"
+	material = /decl/material/solid/metal/aluminium
+	matter = list(
+		/decl/material/solid/plastic = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_TRACE
+	)
+	projectile_type = /obj/item/projectile/beam/incendiary_laser
+	max_shots = 6

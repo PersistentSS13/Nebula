@@ -179,6 +179,17 @@
 	ammo_type = /obj/item/ammo_casing/pistol/small
 	max_ammo = 30
 
+/obj/item/ammo_magazine/bigpistol
+	name = "10mm pistol magazine"
+	icon_state = "pistol"
+	origin_tech = "{'combat':2}"
+	mag_type = MAGAZINE
+	caliber = CALIBER_PISTOL
+	material = /decl/material/solid/metal/steel
+	ammo_type = /obj/item/ammo_casing/pistol
+	max_ammo = 7
+	multiple_sprites = 1
+
 /obj/item/ammo_magazine/box/pistol
 	name = "ammunition box (pistol)"
 	icon_state = "smallpistol"
