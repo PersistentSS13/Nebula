@@ -1,5 +1,5 @@
 // These defines are moved here, as we don't want this to generate or require these paths when testing other maps.
-/datum/map/frontier
+/datum/map/kleibkhar
 	overmap_ids = list(OVERMAP_ID_SPACE = /datum/overmap/frontier)
 
 /datum/overmap/frontier
@@ -7,7 +7,7 @@
 	map_size_x = 50
 	map_size_y = 50
 
-	// var/map_file = "maps/kleibkhar/kleibkhar-overmap.dmm"
+	var/map_file = "maps/kleibkhar/frontier-overmap.dmm"
 
 /datum/overmap/frontier/generate_overmap()
 	..()
