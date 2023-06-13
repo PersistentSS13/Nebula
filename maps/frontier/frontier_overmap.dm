@@ -13,7 +13,7 @@
 	..()
 	log_and_message_admins("assigned_z : [assigned_z]")
 
-	maploader.load_map(file("maps/frontier/frontier-overmap.dmm"), 1, 1, assigned_z)
+	maploader.load_map(file("maps/frontier/frontier-overmap.dmm"), 1, 1, assigned_z, level_data_type = /datum/level_data/overmap)
 	testing("Overmap build for [name] complete.")
 
 /obj/effect/shuttle_landmark/supply/station
