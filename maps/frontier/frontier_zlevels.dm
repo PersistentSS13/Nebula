@@ -4,12 +4,9 @@
 	template_flags       = TEMPLATE_FLAG_SPAWN_GUARANTEED | TEMPLATE_FLAG_NO_RUINS
 	modify_tag_vars      = FALSE
 	template_categories  = list(MAP_TEMPLATE_CATEGORY_MAIN_SITE) //Templates must have a category, or they won't spawn
-	tallness             = 4
+	tallness             = 1
 	mappaths             = list(
-		"maps/frontier/frontier-1.dmm",
-		"maps/frontier/frontier-2.dmm",
 		"maps/frontier/frontier-3.dmm",
-		"maps/frontier/frontier-4.dmm",
 	)
 
 ///////////////////////////////////////////////////////////////////////////////

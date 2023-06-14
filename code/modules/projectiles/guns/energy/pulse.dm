@@ -1,7 +1,7 @@
 //Fires bursts of weaker projs
 /obj/item/gun/energy/pulse_pistol
-	name = "pulse pistol"
-	desc = "A weapon that uses advanced pulse-based beam generation technology to emit powerful laser blasts. Even smaller than the carbine."
+	name = "Smart pulse pistol"
+	desc = "The SmartInc (pulser) is a weapon that uses advanced pulse-based beam generation technology to emit powerful laser blasts."
 	icon = 'icons/obj/guns/pulse_pistol.dmi'
 	icon_state = ICON_STATE_WORLD
 	indicator_color = COLOR_LUMINOL

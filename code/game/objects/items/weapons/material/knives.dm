@@ -121,6 +121,15 @@
 /obj/item/knife/combat/titanium
 	material = /decl/material/solid/metal/titanium
 
+/obj/item/knife/combat/bowie
+	name = "bowie knife"
+	desc = "A shaped blade with a nice walnut handle. It seems to be a product of Martian Arms."
+	icon = 'icons/obj/items/weapon/knives/bowie.dmi'
+	material_force_multiplier = 0.2
+	w_class = ITEM_SIZE_SMALL
+	max_force = 15
+	draw_handle = TRUE
+
 //random stuff
 /obj/item/knife/hook
 	name = "meat hook"

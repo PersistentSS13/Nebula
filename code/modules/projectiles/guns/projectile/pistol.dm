@@ -2,7 +2,7 @@
 	name = "pistol"
 	icon = 'icons/obj/guns/pistol.dmi'
 	load_method = MAGAZINE
-	caliber = CALIBER_PISTOL
+	caliber = CALIBER_PISTOL_SMALL
 	magazine_type = /obj/item/ammo_magazine/pistol
 	allowed_magazines = /obj/item/ammo_magazine/pistol
 	accuracy_power = 7
@@ -76,3 +76,23 @@
 	icon_state = ICON_STATE_WORLD
 	w_class = ITEM_SIZE_SMALL
 	material = /decl/material/solid/metal/steel
+
+/obj/item/gun/projectile/pistol/ct45
+	name = "CT-45"
+	desc = "The CT-45 pistol. A handgun with a steel slide and wooden grip. Chambered in 10mm"
+	icon = 'mods/persistence/icons/obj/guns/tier1/ct45.dmi'
+	item_state = null
+	ammo_indicator = FALSE
+	w_class = ITEM_SIZE_SMALL
+	caliber = CALIBER_PISTOL
+	fire_delay = 4
+	origin_tech = "{'combat':2,'materials':2,'esoteric':8}"
+	magazine_type = /obj/item/ammo_magazine/bigpistol
+	allowed_magazines = /obj/item/ammo_magazine/bigpistol
+
+/obj/item/gun/projectile/pistol/ct45/on_update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = "world"
+	else
+		icon_state = "world-empty"

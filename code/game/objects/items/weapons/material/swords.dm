@@ -16,7 +16,7 @@
 	melee_accuracy_bonus = 10
 	material = /decl/material/solid/metal/steel
 	material_alteration = MAT_FLAG_ALTERATION_COLOR | MAT_FLAG_ALTERATION_NAME
-	pickup_sound = 'sound/foley/knife1.ogg' 
+	pickup_sound = 'sound/foley/knife1.ogg'
 	drop_sound = 'sound/foley/knifedrop3.ogg'
 
 	var/draw_handle = TRUE
@@ -34,7 +34,7 @@
 		attack_verb = list("attacked", "smashed", "jabbed", "smacked", "prodded", "bonked")
 		hitsound = "chop"
 	. = ..()
-	
+
 /obj/item/sword/on_update_icon()
 	. = ..()
 	if(material_alteration & MAT_FLAG_ALTERATION_COLOR)
@@ -77,11 +77,13 @@
 	draw_handle = FALSE
 
 /obj/item/sword/katana/vibro
-	name = "vibrokatana"
-	desc = "A high-tech take on a woefully underpowered weapon. Can't mistake its sound for anything."
+	name = "CTAC Katana Vibro"
+	desc = "A high-tech CTAC katana with a very sharp titanium blade."
 	material = /decl/material/solid/metal/titanium
 	hitsound = 'sound/weapons/anime_sword.wav'
 	pickup_sound = 'sound/weapons/katana_out.wav'
+	icon = 'icons/obj/items/weapon/swords/verbokat.dmi'
+	icon_state = ICON_STATE_WORLD
 
 /obj/item/sword/katana/vibro/pickup_sound_callback()
 	if(ismob(loc) && pickup_sound)

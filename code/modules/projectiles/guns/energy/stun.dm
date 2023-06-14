@@ -43,7 +43,7 @@
 
 /obj/item/gun/energy/confuseray
 	name = "disorientator"
-	desc = "The W-T Mk. 4 Disorientator is a small, low capacity, and short-ranged energy projector intended for personal defense with minimal risk of permanent damage or cross-fire."
+	desc = "The SmartInc (Disorientator) is a small, low capacity, and short-ranged energy projector intended for personal defense with minimal risk of permanent damage or cross-fire."
 	icon = 'icons/obj/guns/confuseray.dmi'
 	icon_state = ICON_STATE_WORLD
 	safety_icon = "safety"

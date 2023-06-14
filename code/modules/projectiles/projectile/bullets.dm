@@ -72,6 +72,11 @@
 	damage = 45
 	distance_falloff = 3
 
+/obj/item/projectile/bullet/revolver
+	fire_sound = 'sound/weapons/gunshot/gunshot_pistol.ogg'
+	damage = 30
+	distance_falloff = 3
+
 /obj/item/projectile/bullet/pistol/holdout
 	damage = 40
 	penetration_modifier = 1.2
@@ -121,6 +126,14 @@
 	fire_sound = 'sound/weapons/gunshot/gunshot3.ogg'
 	damage = 45
 	armor_penetration = 25
+	penetration_modifier = 1.5
+	penetrating = 1
+	distance_falloff = 1.5
+
+/obj/item/projectile/bullet/hrifle
+	fire_sound = 'sound/weapons/gunshot/gunshot3.ogg'
+	damage = 65
+	armor_penetration = 30
 	penetration_modifier = 1.5
 	penetrating = 1
 	distance_falloff = 1.5

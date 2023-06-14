@@ -136,3 +136,43 @@
 //Generated subtypes for mapping porpoises
 /obj/item/stool/wood
 	material = /decl/material/solid/wood
+
+/obj/structure/casino/roulette
+	name = "roulette"
+	desc = "Spin the roulette to try your luck."
+	icon = 'icons/obj/furniture.dmi'
+	icon_state = "roulette_r"
+	density = TRUE
+	anchored = TRUE
+	var/busy=0
+
+/obj/structure/casino/roulette/attack_hand(mob/user as mob)
+	if (busy)
+		to_chat(user,"[SPAN_NOTICE("You cannot spin now! \The [src] is already spinning.")] ")
+		return
+	visible_message(SPAN_NOTICE("\ [user]  spins the roulette and throws inside little ball."))
+	busy = 1
+	var/n = rand(0,36)
+	var/color = "green"
+	add_fingerprint(user)
+	if ((n>0 && n<11) || (n>18 && n<29))
+		if (n%2)
+			color="red"
+	else
+		color="black"
+	if ( (n>10 && n<19) || (n>28) )
+		if (n%2)
+			color="black"
+	else
+		color="red"
+	spawn(5 SECONDS)
+		visible_message(SPAN_NOTICE("\The [src] stops spinning, the ball landing on [n], [color]."))
+		busy=0
+
+/obj/structure/casino/table
+	name = "roulette table"
+	desc = "Spin the roulette to try your luck."
+	icon = 'icons/obj/furniture.dmi'
+	icon_state = "roulette_l"
+	density = TRUE
+	anchored = TRUE

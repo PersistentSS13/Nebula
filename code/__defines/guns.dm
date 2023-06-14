@@ -1,11 +1,13 @@
 #define CALIBER_PISTOL_FLECHETTE "4mm"
-#define CALIBER_PISTOL_SMALL     "7mm"
+#define CALIBER_REVOLVER     "32"
+#define CALIBER_PISTOL_SMALL     "9mm"
 #define CALIBER_PISTOL           "10mm"
 #define CALIBER_PISTOL_MAGNUM    "15mm"
 
 #define CALIBER_PISTOL_LASBULB   "11mm lasbulb"
 
-#define CALIBER_RIFLE            "6x45mm"
+#define CALIBER_RIFLE            "556x45mm"
+#define CALIBER_HRIFLE            "6x45mm"
 #define CALIBER_ANTI_MATERIEL    "15×99mm"
 
 #define CALIBER_SHOTGUN          "12g"
