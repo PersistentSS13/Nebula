@@ -2,11 +2,11 @@
 
 The simplest way to obtain the code is using Github's .zip feature.
 
-Click [here](https://github.com/NebulaSS13/Nebula/archive/dev.zip) to get the latest code as a .zip file, then unzip it to wherever you want.
+Click [here](https://github.com/PersistentSS13/Nebula/archive/dev.zip) to get the latest code as a .zip file, then unzip it to wherever you want.
 
 The more complicated and easier to update method is using git.  You'll need to download git or some client from [here](http://git-scm.com/).  When that's installed, right click in any folder and click on "Git Bash".  When that opens, type in:
 
-    git clone https://github.com/NebulaSS13/Nebula.git
+    git clone https://github.com/PersistentSS13/Nebula.git
 
 (hint: hold down ctrl and press insert to paste into git bash)
 
