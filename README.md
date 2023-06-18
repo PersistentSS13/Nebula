@@ -1,34 +1,34 @@
 <h1 align="center">
   <br>
-  <a href="https://github.com/NebulaSS13/Nebula"><img src="https://avatars1.githubusercontent.com/u/61128341" alt="Nebula 13" width="200"></a>
+  <a href="https://github.com/PersistentSS13/Nebula"><img src="https://avatars1.githubusercontent.com/u/61128341" alt="Persistent 13" width="200"></a>
   <br>
-  Nebula 13
+  Persistent SS13
   <br>
 </h1>
 
 <p align="center">
-  <a href="https://github.com/NebulaSS13/Nebula/actions">
-    <img src="https://github.com/NebulaSS13/Nebula/workflows/Run%20Tests/badge.svg"
+  <a href="https://github.com/PersistentSS13/Nebula/actions">
+    <img src="https://github.com/PersistentSS13/Nebula/workflows/Run%20Tests/badge.svg"
          alt="Build Status">
   </a>
-  <a href="https://www.codefactor.io/repository/github/NebulaSS13/Nebula">
-    <img src="https://www.codefactor.io/repository/github/NebulaSS13/Nebula/badge"
+  <a href="https://www.codefactor.io/repository/github/PersistentSS13/Nebula">
+    <img src="https://www.codefactor.io/repository/github/PersistentSS13/Nebula/badge"
          alt="CodeFactor">
   </a>
-  <a href="https://github.com/NebulaSS13/Nebula/commits/dev">
-    <img src="https://img.shields.io/github/last-commit/NebulaSS13/Nebula"
+  <a href="https://github.com/PersistentSS13/Nebula/commits/dev">
+    <img src="https://img.shields.io/github/last-commit/PersistentSS13/Nebula"
          alt="Last Commit">
   </a>
-  <a href="https://github.com/NebulaSS13/Nebula/issues">
-    <img src="https://img.shields.io/github/issues/NebulaSS13/Nebula"
+  <a href="https://github.com/PersistentSS13/Nebula/issues">
+    <img src="https://img.shields.io/github/issues/PersistentSS13/Nebula"
          alt="Issues">
   </a>
-  <a href="https://discord.gg/Ddw58yF">
-    <img src="https://img.shields.io/discord/678820025355862045?style=plastic"
+  <a href="(https://discord.gg/cDAwQwJ">
+    <img src="https://img.shields.io/discord/332252466206998539?style=plastic"
          alt="Discord">
   </a>
   <a href="https://github.com/NebulaSS13/Nebula/blob/dev/LICENSE">
-    <img src="https://img.shields.io/github/license/NebulaSS13/Nebula"
+    <img src="https://img.shields.io/github/license/PersistentSS13/Nebula"
          alt="License">
   </a>
 </p>
