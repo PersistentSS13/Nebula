@@ -6,12 +6,10 @@
 	authorized_modes = list(ALWAYS_AUTHORIZED, AUTHORIZED)
 
 /obj/item/gun/energy/gun/secure
-	name = "smartgun"
-	desc = "A more secure LAEP90, the LAEP90-S is designed to please paranoid constituents. Body cam not included."
+	name = "smartgun LAEP94"
+	desc = "The smartInc secure LAEP94, the LAEP94-S is designed to please paranoid constituents."
 	icon = 'icons/obj/guns/energy_gun_secure.dmi'
 	item_state = null	//so the human update icon uses the icon_state instead.
-	req_access = list(list(access_brig, access_bridge))
-	authorized_modes = list(ALWAYS_AUTHORIZED, AUTHORIZED)
 
 /obj/item/gun/energy/gun/secure/mounted
 	name = "robot energy gun"

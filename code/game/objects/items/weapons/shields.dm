@@ -141,8 +141,8 @@
  */
 
 /obj/item/shield/energy
-	name = "energy combat shield"
-	desc = "A shield capable of stopping most projectile and melee attacks. It can be retracted, expanded, and stored anywhere."
+	name = "energy shield"
+	desc = "A SmartINC shield capable of stopping most projectile and melee attacks. It can be retracted, expanded, and stored anywhere."
 	icon = 'icons/obj/items/shield/e_shield.dmi'
 	icon_state = "eshield0" // eshield1 for expanded
 	obj_flags = OBJ_FLAG_CONDUCTIBLE
@@ -218,5 +218,18 @@
 	icon_state = "[base_name.base_icon_state][active]" 	//Replace 0 with current state
 	if(active)
 		set_light(1.5, 1.5, shield_light_color)
+	else
+		set_light(0)
+
+
+/obj/item/shield/energy/dominia
+	name = "dominian energy barrier"
+	desc = "A hardlight energy shield meant to provide excellent protection in melee engagements."
+	icon_state = "eshield0"
+
+/obj/item/shield/energy/dominia/update_icon()
+	icon_state = "eshield1[active]"
+	if(active)
+		set_light(1.5, 1.5, "#ff5132")
 	else
 		set_light(0)

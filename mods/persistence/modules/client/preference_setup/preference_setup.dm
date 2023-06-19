@@ -4,7 +4,6 @@
 		/datum/category_group/player_setup_category/occupation_preferences,\
 		/datum/category_group/player_setup_category/record_preferences, \
 		/datum/category_group/player_setup_category/controls,\
-		/datum/category_group/player_setup_category/global_preferences,\
 	)
 
 /datum/category_collection/player_setup_collection/header()
