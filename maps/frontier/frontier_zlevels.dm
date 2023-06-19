@@ -6,7 +6,7 @@
 	template_categories  = list(MAP_TEMPLATE_CATEGORY_MAIN_SITE) //Templates must have a category, or they won't spawn
 	tallness             = 1
 	mappaths             = list(
-		"maps/frontier/frontier-3.dmm",
+		"maps/frontier/frontier-3.dmm"
 	)
 
 ///////////////////////////////////////////////////////////////////////////////

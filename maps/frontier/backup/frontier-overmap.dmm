@@ -53,6 +53,7 @@
 "ba" = (/obj/effect/quadrant_border/wildspace,/obj/effect/overmap/event/electric,/turf/unsimulated/map,/area/overmap)
 "bb" = (/obj/effect/quadrant_border/alphaquadrant,/obj/effect/overmap/event/ion,/turf/unsimulated/map,/area/overmap)
 "bc" = (/obj/effect/quadrant_border/xanadu,/obj/effect/overmap/event/dust,/turf/unsimulated/map,/area/overmap)
+"bd" = (/obj/effect/quadrant_border/xanadu,/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar,/turf/unsimulated/map,/area/overmap)
 "be" = (/obj/effect/quadrant_border/hamletjean,/obj/effect/overmap/event/dust,/turf/unsimulated/map,/area/overmap)
 "bf" = (/obj/effect/quadrant_border/thepeel,/obj/effect/overmap/event/dust,/turf/unsimulated/map,/area/overmap)
 "bg" = (/obj/effect/quadrant_border/neutralzone,/obj/effect/overmap/event/dust,/turf/unsimulated/map,/area/overmap)
@@ -96,7 +97,7 @@
 "bS" = (/obj/effect/quadrant_border/southernrim,/obj/effect/overmap/trade_beacon/jupitersoutpost,/turf/unsimulated/map,/area/overmap)
 "bT" = (/obj/effect/quadrant_border/trasenterritory,/obj/effect/overmap/trade_beacon/criminal/syndicate,/turf/unsimulated/map,/area/overmap)
 "bU" = (/obj/effect/quadrant_border/domdaniel,/obj/effect/overmap/trade_beacon/criminal/portfranco,/turf/unsimulated/map,/area/overmap)
-"bV" = (/obj/effect/quadrant_border/southernrim,/obj/effect/overmap/overmap_marker,/obj/abstract/level_data_spawner/overmap,/turf/unsimulated/map/edge,/area/overmap)
+"bV" = (/obj/effect/quadrant_border/southernrim,/obj/abstract/level_data_spawner/overmap,/turf/unsimulated/map/edge,/area/overmap)
 
 (1,1,1) = {"
 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaabababababababababababababababababababababababababababababab
@@ -116,7 +117,7 @@ aaacafafafafafafafafafafakakakakakakakakakaeaeaeaeaeaeajajajajajajaiaiaiaiaVaiai
 aaafafafafafafafaYafakakakakakakakakakakakakakajajajajajajajajajajaiaiaZaiaiaiaiaiaiaiaiaiaiadadaQab
 alafafbJafafaYafafafakakakakakakakbyakakakakakajajajajajajajajajajaiaiaiaiaiaiaiaXaiaiaiaiaiadadadab
 alafbzafafafafafafafakakakakakbKakakakbcakakakajajajajajajajajajajajaiaiaiaiaiaiaiaiaiaiaiaiaZadadab
-alafafafafaYafaYafafakakakakakakakakakakakakakajajajajajbeajajajajajajajajajajajaiaiaiaiaiaiaiadadab
+alafafafafaYafaYafafakakakakakbdakakakakakakakajajajajajbeajajajajajajajajajajajaiaiaiaiaiaiaiadadab
 alaMafafafafafafafafakakakakakbIakakakakakakakajajajajajbAajajajajajajajajajajajaiaiaZaiaiaiaiadadab
 alafafafaYafafafafakakakakakakakakakakakakakakajajajajajajajajajajajajajaxajajajaiaiaiaiaiaiaiamaman
 alafafafafafafafakakakakbcakakakakakakakakakakajajajajajajajajajbeajbLajajajajajajamamamamamamamaman

@@ -31,6 +31,8 @@ var/global/list/known_overmap_sectors
 	var/list/map_z = list()
 	var/list/associated_machinery
 
+	var/list/preset_map_z = list()
+
 /obj/effect/overmap/visitable/proc/get_linked_machines_of_type(var/base_type)
 	ASSERT(ispath(base_type, /obj/machinery))
 	for(var/thing in LAZYACCESS(associated_machinery, base_type))

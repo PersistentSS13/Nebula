@@ -483,6 +483,10 @@ INITIALIZE_IMMEDIATE(/obj/abstract/level_data_spawner)
 /obj/abstract/level_data_spawner/exoplanet
 	level_data_type = /datum/level_data/exoplanet
 
+/obj/abstract/level_data_spawner/overmap
+	level_data_type = /datum/level_data/overmap
+
+
 ////////////////////////////////////////////
 // Level Data Implementations
 ////////////////////////////////////////////

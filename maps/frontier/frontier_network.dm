@@ -1,2 +1,2 @@
-/datum/map/frontier
+/datum/map/kleibkhar
 	spawn_network = "frontier"

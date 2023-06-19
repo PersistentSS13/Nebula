@@ -32,7 +32,7 @@
 	QDEL_NULL(beacon_account)
 	QDEL_NULL_LIST(active_imports)
 	QDEL_NULL_LIST(active_exports)
-	..()
+	return ..() // :)
 
 
 /obj/effect/overmap/trade_beacon/Initialize()

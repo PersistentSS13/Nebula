@@ -3539,6 +3539,7 @@
 #include "maps\exodus\exodus_define.dm"
 #include "maps\frontier\frontier.dm"
 #include "maps\frontier\frontier_defines.dm"
+#include "maps\frontier\frontier-overmap.dmm"
 #include "maps\ministation\ministation_define.dm"
 #include "maps\modpack_testing\modpack_testing_define.dm"
 #include "maps\nexus\nexus_define.dm"

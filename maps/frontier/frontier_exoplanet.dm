@@ -27,6 +27,8 @@
 	megafauna_types = list(/mob/living/simple_animal/hostile/retaliate/parrot/space/megafauna, /mob/living/simple_animal/hostile/retaliate/goose/dire)
 	possible_themes = null
 
+	preset_map_z = list(3)
+
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar/Initialize(mapload, z_level)
 	. = ..()
 	return INITIALIZE_HINT_LATELOAD

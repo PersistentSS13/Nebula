@@ -13,7 +13,7 @@
 	..()
 	log_and_message_admins("assigned_z : [assigned_z]")
 
-	maploader.load_map(file("maps/kleibkhar/kleibkhar-overmap.dmm"), 1, 1, assigned_z)
+//	maploader.load_map(file("maps/kleibkhar/kleibkhar-overmap.dmm"), 1, 1, assigned_z)
 	testing("Overmap build for [name] complete.")
 
 /obj/effect/shuttle_landmark/supply/station

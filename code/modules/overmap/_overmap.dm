@@ -56,8 +56,11 @@
 
 /datum/overmap/proc/generate_overmap()
 	testing("Building overmap [name]...")
-	SSmapping.increment_world_z_size(/datum/level_data/overmap)
-	assigned_z = world.maxz
+	if(overmap_z)
+		assigned_z = overmap_z
+	if(!assigned_z)
+		SSmapping.increment_world_z_size(/datum/level_data/overmap)
+		assigned_z = world.maxz
 	testing("Putting [name] on [assigned_z].")
 	populate_overmap()
 	SSmapping.sealed_levels |= assigned_z

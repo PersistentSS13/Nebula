@@ -6,14 +6,23 @@
 	event_areas = 0
 	map_size_x = 50
 	map_size_y = 50
-
+	assigned_z = 4
 	var/map_file = "maps/kleibkhar/frontier-overmap.dmm"
 
-/datum/overmap/frontier/generate_overmap()
-	..()
-	log_and_message_admins("assigned_z : [assigned_z]")
+var/global/overmap_z
 
-	maploader.load_map(file("maps/frontier/frontier-overmap.dmm"), 1, 1, assigned_z, level_data_type = /datum/level_data/overmap)
+/obj/effect/overmap/overmap_marker
+
+/obj/effect/overmap/overmap_marker/New()
+	if(z)
+		overmap_z = z
+	loc = null
+	qdel(src)
+/datum/overmap/frontier/generate_overmap()
+	if(overmap_z)
+		assigned_z = overmap_z
+
+	return ..()
 	testing("Overmap build for [name] complete.")
 
 /obj/effect/shuttle_landmark/supply/station

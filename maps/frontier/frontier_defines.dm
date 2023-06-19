@@ -1,10 +1,10 @@
 /datum/map/kleibkhar
-	name = "Kleibkhar"
-	full_name = "Kleibkhar Colony"
-	path = "kleibkhar"
+	name = "The Frontier"
+	full_name = "The Bluespace Frontier"
+	path = "frontier"
 
-	station_name  = "Kleibkhar Colony"
-	station_short = "Kleibkhar Colony"
+	station_name  = "The Frontier System"
+	station_short = "Frontier System"
 
 	evac_controller_type = /datum/evacuation_controller/lifepods
 
@@ -34,4 +34,4 @@
 	num_exoplanets = 0
 
 /datum/map/kleibkhar/get_map_info()
-	return "Kleibkhar Independent Colony. A diverse new commercial venture on the fringe of known space."
+	return "The mysterious bluespace frontier awaits colonization."
