@@ -5,6 +5,16 @@
 
 	station_name  = "The Frontier System"
 	station_short = "Frontier System"
+	dock_name     = "The Frontier"
+	boss_name     = "The Bluespace Frontier"
+	boss_short    = "Frontier Colony"
+	company_name  = "The Frontier Colony"
+	company_short = "Joint Colony Group"
+	system_name = "The Bluespace Frontier"
+
+	// Current game year. Uses current system year + game_year num.
+	game_year = 288
+
 
 	evac_controller_type = /datum/evacuation_controller/lifepods
 
