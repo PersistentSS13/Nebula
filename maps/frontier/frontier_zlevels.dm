@@ -16,12 +16,12 @@
 
 
 /datum/level_data/exoplanet/kleibkhar
-	name                = "kleibkhar surface"
+	name                = "xanadu surface"
 	level_id            = "kleibkhar_surface"
 	level_flags         = ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_SAVED
 	ambient_light_level = 1.0
 	base_area           = /area/exoplanet/kleibkhar
-	base_turf           = /turf/exterior/kleibkhar_grass
+	base_turf           = /turf/exterior/sand
 	loop_turf_type      = /turf/exterior/mimic_edge/transition/loop
 	border_filler       = /turf/unsimulated/dark_border
 	exterior_atmosphere = list(
