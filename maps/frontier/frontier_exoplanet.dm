@@ -8,11 +8,11 @@
 	start_x = 16
 	start_y = 33
 
-	color = "#407c40"
-	grass_color = "#407c40"
+	color = "#edf102"
+	grass_color = "#80940c"
 	planetary_area = /area/exoplanet/kleibkhar
 	rock_colors = list(COLOR_ASTEROID_ROCK, COLOR_GRAY80, COLOR_BROWN)
-	plant_colors = list("#215a00","#195a47","#5a7467","#9eab88","#6e7248", "RANDOM")
+	plant_colors = list("#07ac59","#195a47","#5a7467","#9eab88","#6e7248", "RANDOM")
 	surface_color = COLOR_DARK_GREEN_GRAY
 	water_color = COLOR_BLUE_GRAY
 	crust_strata = /decl/strata/base_planet
