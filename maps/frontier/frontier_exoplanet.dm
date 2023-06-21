@@ -1,6 +1,6 @@
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar
-	name = "\proper Kleibkhar"
-	desc = "A habitable border-world, home to a recent dime-a-dozen corporate colony."
+	name = "\proper Xanadu"
+	desc = "The first stop for most colonists coming into the Frontier."
 	daycycle = 25 MINUTES
 	daycycle_column_delay = 10 SECONDS
 	night = FALSE
