@@ -219,7 +219,7 @@
 	name = "Gerena General Supplies"
 	desc = "Named after the first planet liberated by the Terrans, Gerena is also where a lot of these supplies are manufactured, mined or produced. The Terran Federation is happy to help the brave colonists of the frontier."
 	possible_imports = list(
-		/datum/beacon_import/gerena/mining_drill = 100,
+	//	/datum/beacon_import/gerena/mining_drill = 100,
 		/datum/beacon_import/gerena/mining_equipment = 100,
 		/datum/beacon_import/clothing/storage/backpack/generic = 100, // fun
 		/datum/beacon_import/clothing/storage/wallet = 100,
