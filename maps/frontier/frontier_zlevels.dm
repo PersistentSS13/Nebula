@@ -2,17 +2,38 @@
 /datum/map_template/persistent/frontier
 	name                 = "Xanadu"
 	template_flags       = TEMPLATE_FLAG_SPAWN_GUARANTEED | TEMPLATE_FLAG_NO_RUINS
-	modify_tag_vars      = FALSE
 	template_categories  = list(MAP_TEMPLATE_CATEGORY_MAIN_SITE) //Templates must have a category, or they won't spawn
 	tallness             = 1
 	mappaths             = list(
-		"maps/frontier/frontier-3.dmm",
-		"maps/frontier/smashed_nexus.dmm",
-		"maps/frontier/smuggler_haven.dmm",
-		"maps/frontier/free_space.dmm"
+		"maps/frontier/frontier-3.dmm"
 
 	)
+/datum/map_template/persistent/smashed_nexus
+	name                 = "Smashed Nexus"
+	template_flags       = TEMPLATE_FLAG_SPAWN_GUARANTEED | TEMPLATE_FLAG_NO_RUINS
+	template_categories  = list(MAP_TEMPLATE_CATEGORY_MAIN_SITE) //Templates must have a category, or they won't spawn
+	tallness             = 1
+	mappaths             = list(
+		"maps/frontier/smashed-nexus.dmm"
+	)
 
+/datum/map_template/persistent/smuggler_haven
+	name                 = "Smuggler Haven"
+	template_flags       = TEMPLATE_FLAG_SPAWN_GUARANTEED | TEMPLATE_FLAG_NO_RUINS
+	template_categories  = list(MAP_TEMPLATE_CATEGORY_MAIN_SITE) //Templates must have a category, or they won't spawn
+	tallness             = 1
+	mappaths             = list(
+		"maps/frontier/smuggler-haven.dmm"
+	)
+
+/datum/map_template/persistent/free_space
+	name                 = "Free Space"
+	template_flags       = TEMPLATE_FLAG_SPAWN_GUARANTEED | TEMPLATE_FLAG_NO_RUINS
+	template_categories  = list(MAP_TEMPLATE_CATEGORY_MAIN_SITE) //Templates must have a category, or they won't spawn
+	tallness             = 1
+	mappaths             = list(
+		"maps/frontier/free-space.dmm"
+	)
 ///////////////////////////////////////////////////////////////////////////////
 // Leve Data
 ///////////////////////////////////////////////////////////////////////////////
