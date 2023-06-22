@@ -45,6 +45,9 @@
 	// Launch events
 
 	RAISE_EVENT(/decl/observ/world_saving_start_event, src)
+	for(var/obj/effect/overmap/visitable/visit)
+		if(!visit.should_save) continue
+		visit.on_saving_start()
 	try
 		//
 		// 	PREPARATION SECTIONS
@@ -346,7 +349,9 @@
 
 	// Launch event for anything that needs to do cleanup post save.
 	RAISE_EVENT_REPEAT(/decl/observ/world_saving_finish_event, src)
-
+	for(var/obj/effect/overmap/visitable/visit)
+		if(!visit.should_save) continue
+		visit.on_saving_end()
 	//Print out detailed statistics on what time was spent on what types
 	var/list/saved_types_stats = list()
 	global.serialization_time_spent_type = sortTim(global.serialization_time_spent_type, /proc/cmp_serialization_stats_dsc, 1)

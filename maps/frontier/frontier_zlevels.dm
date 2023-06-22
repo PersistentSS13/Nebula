@@ -6,7 +6,11 @@
 	template_categories  = list(MAP_TEMPLATE_CATEGORY_MAIN_SITE) //Templates must have a category, or they won't spawn
 	tallness             = 1
 	mappaths             = list(
-		"maps/frontier/frontier-3.dmm"
+		"maps/frontier/frontier-3.dmm",
+		"maps/frontier/smashed_nexus.dmm",
+		"maps/frontier/smuggler_haven.dmm",
+		"maps/frontier/free_space.dmm"
+
 	)
 
 ///////////////////////////////////////////////////////////////////////////////
@@ -14,6 +18,26 @@
 ///////////////////////////////////////////////////////////////////////////////
 /datum/map/frontier
 
+/datum/level_data/visitable
+	level_flags = (ZLEVEL_CONTACT|ZLEVEL_PLAYER|ZLEVEL_SAVED)
+	level_id = "visitable"
+	name = "visitable"
+
+/datum/level_data/visitable/smashed_nexus
+	level_id = "smashed_nexus"
+	name = "smashed nexus"
+
+/datum/level_data/visitable/smuggler_haven
+	level_id = "smuggler_haven"
+	name = "smuggler haven"
+
+/datum/level_data/visitable/smashed_nexus
+	level_id = "smashed_nexus"
+	name = "smashed nexus"
+
+/datum/level_data/visitable/free_space
+	level_id = "free_space"
+	name = "free space"
 
 /datum/level_data/exoplanet/kleibkhar
 	name                = "xanadu surface"
@@ -71,3 +95,16 @@
 /obj/abstract/level_data_spawner/exoplanet/kleibkhar/underground/bottom
 	name            = "kleibkhar abyss (level data spawner)"
 	level_data_type = /datum/level_data/exoplanet/kleibkhar/underground/bottom
+
+
+/obj/abstract/level_data_spawner/visitable/smuggler_haven
+	name            = "smuggler haven (level data spawner)"
+	level_data_type = /datum/level_data/visitable/smuggler_haven
+
+/obj/abstract/level_data_spawner/visitable/free_space
+	name            = "free_space (level data spawner)"
+	level_data_type = /datum/level_data/visitable/free_space
+
+/obj/abstract/level_data_spawner/visitable/smashed_nexus
+	name            = "smashed_nexus (level data spawner)"
+	level_data_type = /datum/level_data/visitable/smashed_nexus

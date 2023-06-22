@@ -11,15 +11,15 @@
 
 /obj/effect/overmap/visitable/Initialize()
 	. = ..()
-	events_repository.register(/decl/observ/world_saving_start_event, SSpersistence, src, .proc/on_saving_start)
-	events_repository.register(/decl/observ/world_saving_finish_event, SSpersistence, src, .proc/on_saving_end)
+//	events_repository.register(/decl/observ/world_saving_start_event, SSpersistence, src, .proc/on_saving_start)
+//	events_repository.register(/decl/observ/world_saving_finish_event, SSpersistence, src, .proc/on_saving_end)
 	if(!last_due)
 		last_due = world.realtime
 
 /obj/effect/overmap/visitable/Destroy()
 	. = ..()
-	events_repository.unregister(/decl/observ/world_saving_start_event, SSpersistence, src)
-	events_repository.unregister(/decl/observ/world_saving_finish_event, SSpersistence, src)
+//	events_repository.unregister(/decl/observ/world_saving_start_event, SSpersistence, src)
+//	events_repository.unregister(/decl/observ/world_saving_finish_event, SSpersistence, src)
 
 /obj/effect/overmap/visitable/proc/on_saving_start()
 	// Record where to replace the sector upon reinitialization

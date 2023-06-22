@@ -1,3 +1,30 @@
+/obj/effect/overmap/visitable/sector/smashed_nexus
+	name = "\proper Smashed Nexus"
+	desc = "The scattered ruins of a once great space station."
+	start_x = 18
+	start_y = 46
+	color = "#0d017a"
+	icon = 'icons/misc/overmap_icons.dmi'
+	icon_state = "nexus_derelict"
+
+/obj/effect/overmap/visitable/sector/free_space
+	name = "\proper Free Space"
+	desc = "This space is provided by corporate interests for the free use of Frontier Colonists."
+	start_x = 21
+	start_y = 19
+	color = "#ff0000"
+	icon = 'icons/misc/overmap_icons.dmi'
+	icon_state = "vig_derelict"
+
+/obj/effect/overmap/visitable/sector/smuggler_haven
+	name = "\proper Smuggler Haven"
+	desc = "This gravity well has been used by criminal interests in the past."
+	start_x = 20
+	start_y = 9
+	color = "#050101"
+	icon = 'icons/misc/overmap_icons.dmi'
+	icon_state = "vig_derelict"
+
 /obj/effect/overmap/visitable/sector/exoplanet/kleibkhar
 	name = "\proper Xanadu"
 	desc = "The first stop for most colonists coming into the Frontier."

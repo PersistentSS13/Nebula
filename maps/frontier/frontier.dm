@@ -1,4 +1,12 @@
-#if !defined(USING_MAP_DATUM)
+
+/datum/level_data/exoplanet/kleibkhar/underground
+	name                = "kleibkhar underground"
+	level_id            = "kleibkhar_underground"
+	level_flags         = ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_MINING | ZLEVEL_SAVED
+	ambient_light_level = 0.2
+	base_area           = /area/exoplanet/kleibkhar/mines/depth_1
+	base_turf           = /turf/exterior/barren/mining
+	border_filler       = /turf/unsimulated/mineral#if !defined(USING_MAP_DATUM)
 	// Mods section
 //	#include "../../mods/persistence/_persistence.dme"
 	#include "../../mods/species/bayliens/_bayliens.dme"
