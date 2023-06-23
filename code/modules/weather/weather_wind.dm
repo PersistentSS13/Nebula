@@ -7,7 +7,7 @@
 /obj/abstract/weather_system/proc/handle_wind()
 	// TODO: turbulence for chance of wind changes,
 	// ferocity for strength of wind changes
-	if(prob(66))
+	if(prob(100))
 		return
 	if(prob(10))
 		if(!wind_direction)
