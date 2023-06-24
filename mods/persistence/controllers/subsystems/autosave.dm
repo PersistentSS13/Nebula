@@ -39,8 +39,8 @@ SUBSYSTEM_DEF(autosave)
 
 		var/reset_after_save = config.autosave_auto_reset > 0 && world.time >= config.autosave_auto_reset
 
-		if(check_for_restart && reset_after_save)
-			to_world("<font size=4 color='red'>Server is resetting after this save!</font>")
+	//	if(check_for_restart && reset_after_save)
+	//		to_world("<font size=4 color='red'>Server is resetting after this save!</font>")
 
 		saving = 1
 		for(var/datum/controller/subsystem/S in Master.subsystems)

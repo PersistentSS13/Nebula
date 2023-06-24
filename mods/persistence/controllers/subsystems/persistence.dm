@@ -142,6 +142,7 @@
 			saved_levels |= 3
 			message_admins("Main level nearly got skipped??? tell brawler")
 		for(var/z in saved_levels)
+			report_progress_serializer("saving level [z]")
 			var/datum/persistence/load_cache/z_level/z_level = new()
 			var/datum/level_data/LD = SSmapping.levels_by_z[z]
 			z_level.default_turf = get_base_turf(z)
