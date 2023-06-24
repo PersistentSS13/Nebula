@@ -9,11 +9,10 @@
 	var/list/object_types
 	var/objs_inside_only = FALSE
 	var/max_mobs = 5
-
-
+	var/comet = 0
 /decl/asteroid_class/asteroid/ironcarbon
-	name = "Asteroid"
-	outer_types = list(/turf/exterior/wall/asteroid)
+	name = "Low Density Asteroid"
+	outer_types = list(/turf/exterior/wall/asteroid, /turf/space)
 	inner_types = list(/turf/exterior/wall/random/asteroid)
 	mob_types = list(/mob/living/simple_animal/hostile/glutslug, /mob/living/simple_animal/hostile/greed)
 	possible_stratas = list(
@@ -22,8 +21,8 @@
 	)
 
 /decl/asteroid_class/asteroid/copperdense
-	name = "Asteroid"
-	outer_types = list(/turf/exterior/wall/asteroid)
+	name = "Nedium Density Asteroid"
+	outer_types = list(/turf/exterior/wall/asteroid, /turf/space)
 	inner_types = list(/turf/exterior/wall/random/asteroid)
 	mob_types = list(/mob/living/simple_animal/hostile/glutslug, /mob/living/simple_animal/hostile/greed)
 	possible_stratas = list(
@@ -32,22 +31,41 @@
 	)
 
 /decl/asteroid_class/asteroid/shimmeringdense
-	name = "Asteroid"
-	outer_types = list(/turf/exterior/wall/asteroid)
+	name = "High Density Asteroid"
+	outer_types = list(/turf/exterior/wall/asteroid, /turf/space)
 	inner_types = list(/turf/exterior/wall/random/asteroid)
 	mob_types = list(/mob/living/simple_animal/hostile/glutslug, /mob/living/simple_animal/hostile/greed)
-	max_mobs
 	possible_stratas = list(
 		/decl/strata/asteroid/dense,
 		/decl/strata/asteroid/shimmering
 	)
 
+/decl/asteroid_class/asteroid/phoron_low
+	name = "Low Phoron Asteroid"
+	outer_types = list(/turf/exterior/wall/asteroid, /turf/space)
+	inner_types = list(/turf/exterior/wall/random/asteroid)
+	mob_types = list(/mob/living/simple_animal/hostile/glutslug, /mob/living/simple_animal/hostile/greed)
+	max_mobs
+	possible_stratas = list(
+		/decl/strata/asteroid/shimmering,
+		/decl/strata/asteroid/phoron_low
+	)
 
+/decl/asteroid_class/asteroid/phoron_high
+	name = "Medium Phoron Asteroid"
+	outer_types = list(/turf/exterior/wall/asteroid, /turf/space)
+	inner_types = list(/turf/exterior/wall/random/asteroid)
+	mob_types = list(/mob/living/simple_animal/hostile/glutslug, /mob/living/simple_animal/hostile/greed)
+	max_mobs
+	possible_stratas = list(
+		/decl/strata/asteroid/phoron_high,
+		/decl/strata/asteroid/phoron_low
+	)
 
 /decl/asteroid_class/asteroid
 	name = "Asteroid"
 	desc = "A silicate dense remnant of a would-be planet. Rich in metals and other materials of industrial use."
-	outer_types = list(/turf/exterior/wall/asteroid)
+	outer_types = list(/turf/exterior/wall/asteroid, /turf/space)
 	inner_types = list(/turf/exterior/wall/random/asteroid)
 	mob_types = list(/mob/living/simple_animal/hostile/slug)
 	possible_stratas = list(
@@ -76,5 +94,17 @@
 	inner_types = list(/turf/exterior/wall/random/asteroid)
 	possible_stratas = list(
 		/decl/strata/comet/liquid,
+		/decl/strata/comet/gas
+	)
+	comet = 1
+
+/decl/asteroid_class/comet/liquid
+	possible_stratas = list(
+		/decl/strata/comet/liquid
+	)
+
+
+/decl/asteroid_class/comet/gas
+	possible_stratas = list(
 		/decl/strata/comet/gas
 	)

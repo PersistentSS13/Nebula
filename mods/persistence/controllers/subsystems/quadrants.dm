@@ -5,6 +5,10 @@ SUBSYSTEM_DEF(quadrants)
 	var/list/all_quadrants = list()
 	var/list/wanted_quadrants = list() // list(/datum/overmap_quadrant/example, /datum/overmap_quadrant/faljourcorridor)
 
+/atom/proc/get_quadrant()
+	var/obj/effect/overmap/visitable/curr_sector = global.overmap_sectors["[z]"]
+	if(curr_sector && SSquadrants) return SSquadrants.get_quadrant(curr_sector.loc)
+
 /datum/controller/subsystem/quadrants/proc/get_quadrant(var/turf/T) // turf must be off the overmap
 	for(var/datum/overmap_quadrant/quadrant in all_quadrants)
 		if(quadrant.check_tile(T))

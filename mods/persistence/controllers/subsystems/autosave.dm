@@ -50,11 +50,11 @@ SUBSYSTEM_DEF(autosave)
 			S.enable()
 		saving = 0
 		to_world("<font size=4 color='green'>World save complete!</font>")
-
+		/**
 		if(check_for_restart && reset_after_save)
 			to_world("<font size=4 color='red'>Server is going down NOW!</font>")
 			world.Reboot()
-
+		**/
 		last_save = world.time
 
 /datum/controller/subsystem/autosave/proc/AnnounceSave()

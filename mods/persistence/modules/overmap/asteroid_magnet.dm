@@ -7,14 +7,14 @@
 /obj/machinery/asteroid_magnet
 	name = "asteroid magnet"
 	desc = "A massive solenoid used to attract asteroids and other such material from nearby fields for mineral acquisition."
-	icon = 'icons/obj/machines/power/fusion.dmi' 
-	icon_state = "injector0" 
-	density = 1 
+	icon = 'icons/obj/machines/power/fusion.dmi'
+	icon_state = "injector0"
+	density = 1
 	idle_power_usage = 0.1 KILOWATTS // Displays etc. Actual attraction of the asteroid takes far more.
 	active_power_usage = 25 KILOWATTS
-	construct_state = /decl/machine_construction/default/panel_closed 
-	uncreated_component_parts = null 
-	stat_immune = 0 
+	construct_state = /decl/machine_construction/default/panel_closed
+	uncreated_component_parts = null
+	stat_immune = 0
 	base_type = /obj/machinery/asteroid_magnet
 
 	var/attraction_progress = 0 // Progress towards attracting an asteroid.
@@ -55,7 +55,7 @@
 /obj/machinery/asteroid_magnet/Process()
 	if(stat & (BROKEN|NOPOWER) || use_power == POWER_USE_IDLE)
 		return
-	
+
 	var/obj/effect/overmap/event/meteor/asteroid = get_asteroid()
 	if(istype(asteroid)) // Check to ensure the asteroid is still in range.
 		if(attraction_progress >= 100) // Successfully attracted an asteroid.
@@ -70,17 +70,24 @@
 		visible_message(SPAN_WARNING("\The [src] flashes an 'Out of range' error!"))
 		update_use_power(POWER_USE_IDLE)
 		return
-		
+
 /obj/machinery/asteroid_magnet/proc/generate_asteroid(var/obj/effect/overmap/event/meteor/asteroid)
-	if(!asteroid || !asteroid.class)
+	if(!asteroid)
 		return FALSE
 	var/turf/center_turf = get_ranged_target_turf(get_turf(src), dir, ASTEROID_SIZE+1) // +1 for the sake of not enveloping the asteroid magnet.
 	if(!center_turf) // Null check just in case.
 		return FALSE
 
-	asteroid.spent = TRUE
+//	asteroid.spent = TRUE
+	var/class_type
+	var/datum/overmap_quadrant/quadrant = get_quadrant()
 
-	var/decl/asteroid_class/class = GET_DECL(asteroid.class)
+	if(asteroid.comet)
+		class_type = quadrant.get_comet()
+	else
+		class_type = quadrant.get_asteroid()
+
+	var/decl/asteroid_class/class = GET_DECL(class_type)
 	if(!class)
 		return FALSE
 	var/decl/strata/asteroid/asteroid_strata = pick(class.possible_stratas)
@@ -91,7 +98,7 @@
 	var/list/inner_types = class.inner_types // Minerals, open turfs etc.
 	var/list/object_types = class.object_types
 	var/list/mob_types = class.mob_types
-
+	var/max_mobs = class.max_mobs
 	if(!length(outer_types) || !length(inner_types))
 		return FALSE
 
@@ -125,21 +132,26 @@
 			T.ChangeTurf(pick(outer_types))
 		else if(det >= in_lb && det <= in_ub)
 			T.ChangeTurf(pick(inner_types))
-		
-		if(length(mob_types) && !T.density && num_mobs < MAX_MOBS && prob(MOB_PROB)) // Only spawn mobs on non-dense turfs.
+
+		if(length(mob_types) && !T.density && num_mobs < max_mobs && prob(MOB_PROB)) // Only spawn mobs on non-dense turfs.
 			num_mobs++
 			var/mob_type = pickweight(mob_types)
 			new mob_type(T)
-		
+
 		if(length(object_types) && !T.density && num_objs < MAX_OBJS && prob(OBJ_PROB))
 			if(!class.objs_inside_only || (det >= in_lb && det <= in_ub))
 				num_objs++
 				var/obj_type = pickweight(object_types)
 				new obj_type(T)
-
+	if(num_mobs < max_mobs)
+		var/turf/T = get_random_edge_turf(pick(global.cardinal),TRANSITIONEDGE + 2, z)
+		for(var/x = num_mobs, x < max_mobs, x++)
+			var/mob_type = pickweight(mob_types)
+			var/mob/M = new mob_type(T)
+			M.throw_at(center_turf, 250, 10)
 	playsound(src, 'sound/effects/metalscrape3.ogg', 50, 2)
 	visible_message(SPAN_NOTICE("There's a terrible sound of screeching metal as \the [src] attracts a neaby asteroid!"))
-
+	quadrant.raise_asteroid_host()
 	return TRUE
 
 /obj/machinery/asteroid_magnet/proc/get_asteroid()
@@ -159,19 +171,19 @@
 
 	return found_spent ? "Asteroid field has already been exhausted!" : "Could not detect asteroid!"
 
-/obj/item/stock_parts/circuitboard/asteroid_magnet 
-	name = "circuitboard (asteroid magnet)" 
-	board_type = "machine" 
-	build_path = /obj/machinery/asteroid_magnet 
+/obj/item/stock_parts/circuitboard/asteroid_magnet
+	name = "circuitboard (asteroid magnet)"
+	board_type = "machine"
+	build_path = /obj/machinery/asteroid_magnet
 	origin_tech = "{'magnets':2}"
-	req_components = list( 
-		/obj/item/stock_parts/capacitor = 1, 
+	req_components = list(
+		/obj/item/stock_parts/capacitor = 1,
 		/obj/item/stock_parts/micro_laser = 1
-	) 
-	additional_spawn_components = list( 
-		/obj/item/stock_parts/console_screen = 1, 
-		/obj/item/stock_parts/keyboard = 1, 
-		/obj/item/stock_parts/power/apc/buildable = 1 
+	)
+	additional_spawn_components = list(
+		/obj/item/stock_parts/console_screen = 1,
+		/obj/item/stock_parts/keyboard = 1,
+		/obj/item/stock_parts/power/apc/buildable = 1
 	)
 
 #undef ASTEROID_SIZE

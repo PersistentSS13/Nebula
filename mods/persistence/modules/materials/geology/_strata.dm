@@ -154,6 +154,48 @@
 		/decl/material/solid/gemstone/diamond = 3
 	)
 
+/decl/strata/asteroid/phoron_low
+	name = "phoron bearing spaceborne rock"
+	base_materials = list(/decl/material/solid/stone/asteroid)
+	ores_sparse = list(
+		/decl/material/solid/magnetite = 20,
+		/decl/material/solid/metal/gold = 5,
+		/decl/material/solid/phoron = 5,
+		/decl/material/solid/sperrylite = 20,
+		/decl/material/solid/calaverite = 15,
+		/decl/material/solid/crocoite = 20
+	)
+	ores_rich = list(
+		/decl/material/solid/magnetite = 5,
+		/decl/material/solid/phoron = 10,
+		/decl/material/solid/metal/gold = 10,
+		/decl/material/solid/sperrylite = 20,
+		/decl/material/solid/calaverite = 20,
+		/decl/material/solid/gemstone/diamond = 3
+	)
+
+/decl/strata/asteroid/phoron_high
+	name = "phoron bearing spaceborne rock"
+	base_materials = list(/decl/material/solid/stone/asteroid)
+	ores_sparse = list(
+		/decl/material/solid/magnetite = 20,
+		/decl/material/solid/metal/gold = 5,
+		/decl/material/solid/phoron = 8,
+		/decl/material/solid/sperrylite = 20,
+		/decl/material/solid/calaverite = 15,
+		/decl/material/solid/crocoite = 20
+	)
+	ores_rich = list(
+		/decl/material/solid/magnetite = 5,
+		/decl/material/solid/phoron = 10,
+		/decl/material/solid/metal/gold = 10,
+		/decl/material/solid/sperrylite = 20,
+		/decl/material/solid/calaverite = 20,
+		/decl/material/solid/gemstone/diamond = 3
+	)
+
+
+
 /decl/strata/comet/is_valid_exoplanet_strata(obj/effect/overmap/visitable/sector/exoplanet/planet)
 	return FALSE
 

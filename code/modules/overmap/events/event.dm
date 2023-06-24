@@ -216,7 +216,7 @@
 	difficulty = EVENT_LEVEL_MAJOR
 	weaknesses = OVERMAP_WEAKNESS_MINING | OVERMAP_WEAKNESS_EXPLOSIVE
 	colors = list("#fc1100", "#b5251b", "#be1e12")
-
+	var/comet = 0
 /obj/effect/overmap/event/electric
 	name = "electrical storm"
 	events = list(/datum/event/electrical_storm)

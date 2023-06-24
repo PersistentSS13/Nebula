@@ -16,10 +16,10 @@
 	var/starting_hazards = 0
 	var/hazard_multiplier = 1
 	var/spawn_ticks = 0
+	var/host_ticks = 0
 	var/list/adjacent_quadrants = list()
 
 /obj/effect/overmap/event/meteor/quadrant
-	var/comet = 0
 	color = "#ff9900"
 	icon_state = "meteor1"
 
@@ -40,8 +40,14 @@
 	hostility_level = new hostility_level()
 
 /datum/overmap_quadrant/proc/process()
-	if(spawn_ticks >= 3)
+	if(spawn_ticks >= 3) // each tick is 3 seconds? 9 second spawn timer?
 		spawn_ticks = 0
+	if(get_hostility_level() > default_hostility_level)
+		host_ticks += 1
+		if(host_ticks >= 10)
+			host_ticks = 0
+			lower_asteroid_host()
+
 //		spawn_hazards()
 
 
@@ -54,7 +60,20 @@
 	return security_level.get_security_level(src)
 
 /datum/overmap_quadrant/proc/get_hostility_level()
-	return hostility_level.get_hostility_level(src)
+	return default_hostility_level + hostility_level.get_hostility_level(src)
+
+/datum/overmap_quadrant/proc/get_asteroid()
+	return asteroid_table.get_asteroid(get_hostility_level())
+
+/datum/overmap_quadrant/proc/get_comet()
+	return asteroid_table.get_comet(get_hostility_level())
+
+/datum/overmap_quadrant/proc/lower_asteroid_host()
+	if(hostility_level.asteroid_host) hostility_level.asteroid_host--
+
+/datum/overmap_quadrant/proc/raise_asteroid_host()
+	hostility_level.asteroid_host++
+
 
 /datum/security_level
 	var/list/modifiers = list()
@@ -92,9 +111,10 @@
 
 /datum/hostility_level
 	var/list/modifiers = list()
+	var/asteroid_host = 0
 
 /datum/hostility_level/proc/get_hostility_level/(var/datum/overmap_quadrant/quadrant)
-	var/total = 0
+	var/total = asteroid_host
 	for(var/datum/hostility_level_modifier/mod in modifiers)
 		total += mod.get_effect()
 	return clamp(total, 0, 5)
@@ -104,11 +124,6 @@
 	var/name = "Hostility Level Modifier"
 	var/desc = "Description of why its modifying."
 	var/effect = 0
-
-/datum/hostility_level_modifier/asteroid_attracted
-	name = "Asteroid Captured"
-	desc = "Asteroids in the region have been mined, making the local hostiles even more hostile."
-
 /datum/hostility_level_modifier/proc/update()
 	return 0
 
@@ -147,13 +162,38 @@
 
 /datum/asteroid_table
 	var/list/possible_asteroids = list()
-	var/list/active_asteroids = list()
+	var/list/possible_comets = list()
 	var/node_replenishment = 2
+/datum/asteroid_table/proc/get_asteroid(var/host)
+	for(var/x in possible_asteroids)
+		if(host <= possible_asteroids[x])
+			return x
+
+/datum/asteroid_table/proc/get_comet(var/host)
+	for(var/x in possible_comets)
+		if(host <= possible_comets[x])
+			return x
+
+/datum/asteroid_table/irongas_safe
+	possible_asteroids = list(/decl/asteroid_class/asteroid/ironcarbon = 5)
+	possible_comets = list(/decl/asteroid_class/comet/gas = 5)
+
+/datum/asteroid_table/coppergas_safe
+	possible_asteroids = list(/decl/asteroid_class/asteroid/copperdense = 5)
+	possible_comets = list(/decl/asteroid_class/comet/gas = 5)
 
 
+/datum/asteroid_table/ironliquid
+	possible_asteroids = list(/decl/asteroid_class/asteroid/ironcarbon = 3, /decl/asteroid_class/asteroid/phoron_low = 4, /decl/asteroid_class/asteroid/phoron_high = 5)
+	possible_comets = list(/decl/asteroid_class/comet/liquid = 5)
 
+/datum/asteroid_table/coppergas
+	possible_asteroids = list(/decl/asteroid_class/asteroid/copperdense = 3, /decl/asteroid_class/asteroid/phoron_low = 4, /decl/asteroid_class/asteroid/phoron_high = 5)
+	possible_comets = list(/decl/asteroid_class/comet/gas = 5)
 
-
+/datum/asteroid_table/shimmeringliquid
+	possible_asteroids = list(/decl/asteroid_class/asteroid/shimmeringdense = 3, /decl/asteroid_class/asteroid/phoron_low = 4, /decl/asteroid_class/asteroid/phoron_high = 5)
+	possible_comets = list(/decl/asteroid_class/comet/liquid = 5)
 
 
 
@@ -162,73 +202,88 @@
 	desc = "The southern rim of the Frontier system is plagued by GREEDs and other hostile life forms. SolGov was forced out of this region after a defensive bastion was betrayed to darkness."
 	color = "#fa0000"
 	adjacent_quadrants = list("Neutral Zone", "Alpha Quadrant", "Domdaniel", "Hopeful Landing")
-
+	asteroid_table = /datum/asteroid_table/shimmeringliquid
 
 /datum/overmap_quadrant/neutralzone
 	name = "Neutral Zone"
 	desc = "The neutral zone is a neutral territory uncontrolled by either Solgov, Agartha or the rouge Vox AI. It's naturally hostile to life of any kind."
 	color = "#3ec2ff"
 	adjacent_quadrants = list("Southern Rim", "Border Territory", "Wild Space", "Buffer Zone")
+	asteroid_table = /datum/asteroid_table/coppergas
 
 /datum/overmap_quadrant/domdaniel
 	name = "Domdaniel"
 	desc = "Rare and mysterious dealings have been done in the Domdaniel. SolgGov struggles to maintain security in this region and if they slip any further the riches and secrets of this region will be left to those who can survive."
 	color = "#da5d97"
 	adjacent_quadrants = list("Southern Rim", "Hamlet Jean", "The Peel", "Buffer Zone")
+	asteroid_table = /datum/asteroid_table/coppergas
 
 /datum/overmap_quadrant/bufferzone
 	name = "Buffer Zone"
 	desc = "The buffer zone was originally designated to protect SolGov interests in the region and extended all the way to Hopeful Landing. Since being cutoff from SolGov, the Terrans have put up trade beacons in the area."
 	color = "#ff7300"
 	adjacent_quadrants = list("Domdaniel", "Hamlet Jean", "The Peel", "Neutral Zone")
+	asteroid_table = /datum/asteroid_table/ironliquid
 
 /datum/overmap_quadrant/hopefullanding
 	name = "Hopeful Landing"
 	desc = "When the Bluespace bubble collapsed, SolGov forces rushed into the system and first rallied within this Quadrant. The region was named during the seventeen hours prior to the start of the Phoron war."
 	color = "#2f00ff"
 	adjacent_quadrants = list("Southern Rim", "Alpha Quadrant", "The Peel", "Xanadu Zone")
+	asteroid_table = /datum/asteroid_table/irongas_safe
+
 /datum/overmap_quadrant/thepeel
 	name = "The Peel"
 	color = "#aef30d"
 	desc = "A long stretch of space near the center of the system, this was once the center of conflict between the Terrans and Solgov. This area is unique as it's trade beacon is the only one useable by outside MegaCorps to do business in the frontier."
 	adjacent_quadrants = list("Hamlet Jean", "Hopeful Landing", "Domdaniel", "Xanadu Zone")
+	asteroid_table = /datum/asteroid_table/ironliquid
+
 /datum/overmap_quadrant/xanadu
 	name = "Xanadu Zone"
 	color = "#3866ff"
 	desc = "This area is designated to protect the only stable planet in the Frontier; Xanadu. It is governed by both Solgov and the Terran Agarthans making it one of the most secure sectors in the Frontier."
 	adjacent_quadrants = list("Hopeful Landing", "The Peel", "Alpha Quadrant", "Wild Space")
+	asteroid_table = /datum/asteroid_table/irongas_safe
+
 /datum/overmap_quadrant/alphaquadrant
 	name = "Alpha Quadrant"
 	color = "#138308"
 	desc = "This quadrant was first named five years ago by the group of colonists Nanotrasen trapped in the frontier. The mega-asteroid that proved so rich in Phoron has split and diffused it's evil across the quadrant."
 	adjacent_quadrants = list("Xanadu Zone", "Southern Rim", "Beta Quadrant", "Wild Space")
+	asteroid_table = /datum/asteroid_table/shimmeringliquid
 /datum/overmap_quadrant/betaquadrant
 	name = "Beta Quadrant"
 	color = "#be9200"
 	desc = "The infamous Beta Quadrant is where the Terrans first broke in to the frontier. They found the Nanotrasen Colonists but also one of the greater evils of the frontier. This region is still scarred by the terrible weaponry loosed in that initial conflict."
 	adjacent_quadrants = list("Border Territory", "Alpha Quadrant", "Wild Space")
+	asteroid_table = /datum/asteroid_table/coppergas
 /datum/overmap_quadrant/wildspace
 	name = "Wild Space"
 	color = "#111935"
 	desc = "The Terrans held the line at Hamlet Jean so staunchly that the creatures began to amass within the space adjacent to it. This area became known as Wild Space as it has never been worth exploring for either SolGov or the Terrans."
 	adjacent_quadrants = list("Border Territory", "Alpha Quadrant", "Beta Quadrant", "Trasen Territory")
+	asteroid_table = /datum/asteroid_table/coppergas
 /datum/overmap_quadrant/hamletjean
 	name = "Hamlet Jean"
 	color = "#fefeff"
 	desc = "The Terrans prioritized the security of Hamlet Jean and the lines of reinforcement that led to it throughout the Phoron War. The history extreme protection of this region is still reflected in its naturally high security."
 	adjacent_quadrants = list("The Peel", "Buffer Zone", "Domdaniel", "Trasen Territory")
+	asteroid_table = /datum/asteroid_table/ironliquid
+
 /datum/overmap_quadrant/trasenterritory
 	name = "Trasen Territory"
 	color = "#070101"
 	desc = "This mysterious region was once held by the Nanotrasen Warlords; the elite members of Nanotrasen who came to the Frontier decades ago. They were betrayed at the end of the Phoron war by the rouge Vox AI leaving this region in chaos."
 	adjacent_quadrants = list("Border Territory", "Hamlet Jean", "Wild space", "Neutral Zone")
+	asteroid_table = /datum/asteroid_table/ironliquid
 
 /datum/overmap_quadrant/borderterritory
 	name = "Border Territory"
 	color = "#2bff00"
 	desc = "This edge of the frontier is said to border the impossible space where the rouge Vox AI now resides. It's unknown how the minions of the synthetic intelligence infiltrate the frontier, but they do so in extreme concentration here."
 	adjacent_quadrants = list("Neutral Zone", "Wild Space", "Beta Quadrant", "Trasen Territory")
-
+	asteroid_table = /datum/asteroid_table/shimmeringliquid
 
 /obj/effect/quadrant_border
 	name = "quadrant"

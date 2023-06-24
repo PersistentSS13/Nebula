@@ -138,6 +138,9 @@
 				new_z_index = max(new_z_index, z)
 
 		// Now we go through our saved levels and remap all of those.
+		if(!(3 in saved_levels))
+			saved_levels |= 3
+			message_admins("Main level nearly got skipped??? tell brawler")
 		for(var/z in saved_levels)
 			var/datum/persistence/load_cache/z_level/z_level = new()
 			var/datum/level_data/LD = SSmapping.levels_by_z[z]
