@@ -30,10 +30,7 @@
 
 	// Force move the sector to its z level(s) so that it can properly reinitialize.
 	forceMove(locate(world.maxx/2, world.maxy/2, map_z[1]))
-
-	if(check_rent())
-		for(var/sector_z in map_z)
-			SSpersistence.AddSavedLevel(sector_z)
+	save_my_levels()
 
 /obj/effect/overmap/visitable/proc/on_saving_end()
 	for(var/sector_z in map_z)
@@ -49,6 +46,11 @@
 		last_due = world.realtime
 		return TRUE
 	return FALSE
+
+/obj/effect/overmap/visitable/proc/save_my_levels()
+	if(check_rent())
+		for(var/sector_z in map_z)
+			SSpersistence.AddSavedLevel(sector_z)
 
 //#FIXME: This has to go. It's causing hard deletes in unit tests for something that really should be handled differently.
 // This is terrible, but because of when they are generated, there's no good way to override the creation of visiting_shuttle landmarks without

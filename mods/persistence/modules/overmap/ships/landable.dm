@@ -34,7 +34,7 @@
 	start_y = loc.y
 
 	old_loc = loc
-	
+
 	// Find where the ship currently is. If the ship is landed, its home z-level won't be saved unless something else is saving it.
 	var/datum/shuttle/ship_shuttle = SSshuttle.shuttles[shuttle]
 	if(!ship_shuttle || !ship_shuttle.current_location)
@@ -44,8 +44,7 @@
 	if(check_rent())
 		if(ship_shuttle.current_location == landmark)
 			use_mapped_z_levels = TRUE
-			for(var/ship_z in map_z)
-				SSpersistence.AddSavedLevel(ship_z)
+			save_my_levels()
 
 			shuttle_turf = get_turf(ship_shuttle.current_location) // If the entire z-level is saving, the landmark of the shuttle certainly will as well.
 		else
