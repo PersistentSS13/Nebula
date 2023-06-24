@@ -45,7 +45,7 @@
 	// Launch events
 
 	RAISE_EVENT(/decl/observ/world_saving_start_event, src)
-	for(var/obj/effect/overmap/visitable/visit)
+	for(var/obj/effect/overmap/visitable/visit in world)
 		if(!visit.should_save) continue
 		visit.on_saving_start()
 	try
