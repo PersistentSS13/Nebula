@@ -47,9 +47,6 @@
 	RAISE_EVENT(/decl/observ/world_saving_start_event, src)
 	for(var/obj/effect/overmap/visitable/visit in world)
 		visit.on_saving_start()
-	AddSavedLevel(3)
-	AddSavedLevel(4)
-	AddSavedLevel(5)
 	try
 		//
 		// 	PREPARATION SECTIONS
