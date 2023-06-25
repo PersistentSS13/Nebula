@@ -160,6 +160,22 @@
 			view_file_browser(usr, "saveas_file", /datum/computer_file/data/design, OS_WRITE_ACCESS, browser_desc, saving_design)
 			return TOPIC_HANDLED
 
+		if(href_list["PRG_change_analyzer"])
+			var/datum/computer_network/network = computer.get_network()
+			if(!network)
+				to_chat(user, SPAN_WARNING("Network error: Could not connect to network!"))
+				return TOPIC_REFRESH
+			var/list/analyzers = network.get_tags_by_type(/obj/machinery/destructive_analyzer)
+			if(!length(analyzers))
+				to_chat(user, SPAN_WARNING("No destructive analyzers found on the network!"))
+				return TOPIC_HANDLED
+
+			var/tag_choice = input(user, "Select the destructive analyzer you would like to use,", "Destructive Analyzer Selection") as null|anything in analyzers
+			if(!tag_choice || !CanInteract(user, state))
+				return TOPIC_HANDLED
+
+			selected_analyzer = tag_choice
+			return TOPIC_REFRESH
 		prog_mode = MODE_LISTING
 		return TOPIC_REFRESH
 
@@ -303,7 +319,7 @@
 				data["research_costs"] += list(list("name" = tech, "amount" = mod_research_cost[tech]))
 			if(total_cost > 12)
 				bluespace_cost = round(total_cost/13)
-			data["bluespace_cost"] = bluespace_cost
+			data["required_bluespace"] = bluespace_cost
 		else
 			error = "Internal Error: Could not locate prototype!"
 
