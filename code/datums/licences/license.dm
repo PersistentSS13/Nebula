@@ -43,3 +43,7 @@
 /decl/license/cc_by_nc_sa_2_0
 	name = "CC BY-NC-SA 2.0"
 	url = "https://creativecommons.org/licenses/by-nc-sa/2.0/"
+
+/decl/license/public_domain
+	name = "Public Domain"
+	url = "https://en.wikipedia.org/wiki/Public_Domain"
