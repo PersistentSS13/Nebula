@@ -162,7 +162,8 @@
 	icon = 'icons/turf/flooring/tiles.dmi'
 	icon_base = "tiled"
 	color = COLOR_DARK_GUNMETAL
-	has_damage_range = 4
+	has_damage_range = 2
+	has_burn_range = 2
 	damage_temperature = T0C+1400
 	flags = TURF_REMOVE_CROWBAR | TURF_CAN_BREAK | TURF_CAN_BURN
 	build_type = /obj/item/stack/tile/floor
@@ -431,4 +432,7 @@
 	floor_smooth = SMOOTH_NONE
 	wall_smooth = SMOOTH_NONE
 	space_smooth = SMOOTH_NONE
-	height = -FLUID_OVER_MOB_HEAD * 2
+	height = -FLUID_OVER_MOB_HEAD - 50
+
+/decl/flooring/pool/deep
+	height = -FLUID_DEEP - 50

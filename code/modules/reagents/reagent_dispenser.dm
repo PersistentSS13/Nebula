@@ -159,13 +159,16 @@
 		to_chat(user, SPAN_WARNING("There is some kind of device rigged to the tank."))
 
 /obj/structure/reagent_dispensers/fueltank/attack_hand(var/mob/user)
-	if (rig)
-		visible_message(SPAN_NOTICE("\The [user] begins to detach \the [rig] from \the [src]."))
-		if(user.do_skilled(2 SECONDS, SKILL_ELECTRICAL, src))
-			visible_message(SPAN_NOTICE("\The [user] detaches \the [rig] from \the [src]."))
-			rig.dropInto(loc)
-			rig = null
-			update_icon()
+	if (!rig || !user.check_dexterity(DEXTERITY_GRIP, TRUE))
+		return ..()
+	visible_message(SPAN_NOTICE("\The [user] begins to detach \the [rig] from \the [src]."))
+	if(!user.do_skilled(2 SECONDS, SKILL_ELECTRICAL, src))
+		return TRUE
+	visible_message(SPAN_NOTICE("\The [user] detaches \the [rig] from \the [src]."))
+	rig.dropInto(loc)
+	rig = null
+	update_icon()
+	return TRUE
 
 /obj/structure/reagent_dispensers/fueltank/attackby(obj/item/W, mob/user)
 	add_fingerprint(user)
@@ -200,7 +203,7 @@
 /obj/structure/reagent_dispensers/fueltank/bullet_act(var/obj/item/projectile/Proj)
 	//FIXME: Probably should check if it can actual inflict that structure damage first.
 	if(Proj.get_structure_damage())
-		if(istype(Proj.firer))
+		if(isliving(Proj.firer))
 			var/turf/turf = get_turf(src)
 			if(turf)
 				var/area/area = turf.loc || "*unknown area*"
@@ -248,7 +251,9 @@
 	reagents.add_reagent(/decl/material/liquid/water, reagents.maximum_volume)
 
 /obj/structure/reagent_dispensers/water_cooler/attack_hand(var/mob/user)
-	return dispense_cup(user)
+	if(user.check_dexterity(DEXTERITY_GRIP, TRUE))
+		return dispense_cup(user)
+	return ..()
 
 /obj/structure/reagent_dispensers/water_cooler/proc/dispense_cup(var/mob/user, var/skip_text = FALSE)
 	if(cups > 0)

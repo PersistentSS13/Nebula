@@ -58,6 +58,8 @@ var/global/list/areas = list()
 
 	var/tmp/is_outside = OUTSIDE_NO
 
+	var/tmp/saved_map_hash // Used for cleanup when loaded via map templates.
+
 /area/New()
 	icon_state = ""
 	uid = ++global_uid
@@ -123,6 +125,7 @@ var/global/list/areas = list()
 		if(adjacent_turf)
 			T.update_registrations_on_adjacent_area_change()
 
+	T.last_outside_check = OUTSIDE_UNCERTAIN
 	if(T.is_outside == OUTSIDE_AREA && T.is_outside() != old_outside)
 		T.update_weather()
 

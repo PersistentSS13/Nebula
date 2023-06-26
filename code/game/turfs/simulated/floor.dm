@@ -9,6 +9,7 @@
 	turf_flags = TURF_IS_HOLOMAP_PATH
 
 	// Damage to flooring.
+	// These are icon state suffixes, NOT booleans!
 	var/broken
 	var/burnt
 	// Plating data.
@@ -22,6 +23,9 @@
 	var/initial_flooring
 	var/decl/flooring/flooring
 	var/lava = 0
+
+/turf/simulated/floor/can_climb_from_below(var/mob/climber)
+	return TRUE
 
 /turf/simulated/floor/is_plating()
 	return !flooring
@@ -122,3 +126,11 @@
 
 /turf/simulated/floor/is_floor()
 	return TRUE
+
+/turf/simulated/floor/on_defilement()
+	if(flooring?.type != /decl/flooring/reinforced/cult)
+		..()
+		set_flooring(GET_DECL(/decl/flooring/reinforced/cult))
+
+/turf/simulated/floor/is_defiled()
+	return flooring?.type == /decl/flooring/reinforced/cult || ..()

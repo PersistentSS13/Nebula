@@ -12,6 +12,24 @@
 	if(drive_slot)
 		mounted_storage["media"] = new /datum/file_storage/disk/removable(src, "media")
 
+	// Auto-run: must happen after storage mount above
+	var/datum/computer_file/data/autorun = get_file("autorun", "local")
+	if(istype(autorun))
+		run_program(autorun.stored_data)
+
+	// Auto-mounted mainframes.
+	var/datum/computer_file/data/automount_file = get_file("automount", "local")
+	if(istype(automount_file))
+		var/list/automounts = splittext(automount_file.stored_data, ";")
+		for(var/automount in automounts)
+			var/list/automount_split = splittext(automount, "|")
+			if(length(automount_split) != 2)
+				continue
+			var/root_name = automount_split[1]
+			var/mainframe_tag = automount_split[2]
+
+			mount_mainframe(root_name, mainframe_tag)
+
 /datum/extension/interactive/os/system_shutdown()
 	QDEL_LIST_ASSOC_VAL(mounted_storage)
 	. = ..()
@@ -47,6 +65,9 @@
 	return TRUE
 
 /datum/extension/interactive/os/proc/mount_mainframe(root_name, mainframe_tag)
+	var/sanitized_root_name = sanitize_for_file(root_name)
+	if(!length(sanitized_root_name))
+		return "I/O ERROR: Unable to mount mainframe as file system with root directory '[root_name]'."
 	var/datum/computer_network/network = get_network()
 	if(!network)
 		return "NETWORK ERROR: Cannot connect to network."
@@ -54,11 +75,11 @@
 	if(!istype(mainframe))
 		return "NETWORK ERROR: No mainframe with network tag '[mainframe_tag]' found."
 
-	var/datum/file_storage/network/created_storage = mount_storage(/datum/file_storage/network, root_name, FALSE)
+	var/datum/file_storage/network/created_storage = mount_storage(/datum/file_storage/network, sanitized_root_name, FALSE)
 	if(!created_storage)
-		return "I/O ERROR: Unable to mount mainframe as file system with root directory '[root_name]'."
+		return "I/O ERROR: Unable to mount mainframe as file system with root directory '[sanitized_root_name]'."
 	created_storage.server = mainframe_tag
-	return "Successfully mounted mainframe with network tag '[mainframe_tag]' as file system with root directory '[root_name]'."
+	return "Successfully mounted mainframe with network tag '[mainframe_tag]' as file system with root directory '[sanitized_root_name]'."
 
 // Rundown of the filesystem hierarchy:
 // The OS creates instances of /datum/file_storage as local or network disks, referenced in its mounted_storage list.
@@ -201,7 +222,7 @@
 
 /datum/file_storage/proc/check_errors()
 	if(!istype(os))
-		return "No GOOSE compatible device found."
+		return "No compatible device found."
 
 /datum/file_storage/proc/get_transfer_speed()
 	return 1
@@ -268,7 +289,7 @@
 	if(!istype(cloned_file))
 		return OS_FILE_NO_READ
 
-	var/success = store_file(cloned_file, directory, accesses, user)
+	var/success = store_file(cloned_file, directory, TRUE, accesses, user)
 	if(success != OS_FILE_SUCCESS)
 		qdel(cloned_file) // Clean up after ourselves
 	return success
@@ -488,16 +509,16 @@
 	return drive_slot?.stored_drive
 
 /datum/file_storage/disk/removable/check_errors()
-	. = ..()
-	if(.)
-		return
 	var/obj/item/stock_parts/computer/drive_slot/drive_slot = os.get_component(PART_D_SLOT)
 	if(!istype(drive_slot))
 		return "HARDWARE ERROR: No drive slot was found."
 	if(!drive_slot.check_functionality())
-		return "HARDWARE ERROR: [drive_slot] is non-operational"
+		return "HARDWARE ERROR: [drive_slot] is non-operational."
 	if(!istype(drive_slot.stored_drive))
 		return "HARDWARE ERROR: No portable drive inserted."
+	. = ..()
+	if(.)
+		return
 
 // Datum tracking progress between of file transfer between two file streams
 /datum/file_transfer

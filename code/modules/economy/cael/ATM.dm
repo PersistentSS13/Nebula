@@ -92,7 +92,7 @@
 			held_card = idcard
 			if(authenticated_account && held_card.associated_account_id != authenticated_account.account_id)
 				authenticated_account = null
-			attack_hand(user)
+			attack_hand_with_interaction_checks(user)
 
 	else if(authenticated_account)
 		if(istype(I,/obj/item/cash))
@@ -106,7 +106,7 @@
 				playsound(loc, pick('sound/items/polaroid1.ogg', 'sound/items/polaroid2.ogg'), 50, 1)
 
 				to_chat(user, "<span class='info'>You insert [I] into [src].</span>")
-				src.attack_hand(user)
+				attack_hand_with_interaction_checks(user)
 				qdel(I)
 
 		if(istype(I,/obj/item/charge_stick))
@@ -122,7 +122,7 @@
 					playsound(loc, pick('sound/items/polaroid1.ogg', 'sound/items/polaroid2.ogg'), 50, 1)
 
 					to_chat(user, "<span class='info'>You insert [I] into [src].</span>")
-					src.attack_hand(user)
+					attack_hand_with_interaction_checks(user)
 					qdel(I)
 	else
 		..()

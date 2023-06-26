@@ -278,6 +278,11 @@ var/global/list/gamemode_cache = list()
 
 	var/show_typing_indicator_for_whispers = FALSE // Do whispers show typing indicators overhead?
 
+	// Stress-related healing vars.
+	var/adjust_healing_from_stress =       FALSE
+	var/stress_shock_recovery_constant =   0.5
+	var/stress_healing_recovery_constant = 0.3
+	var/stress_blood_recovery_constant =   0.3
 
 	var/exoplanet_min_day_duration = 10 MINUTES
 	var/exoplanet_max_day_duration = 40 MINUTES
@@ -952,6 +957,16 @@ var/global/list/gamemode_cache = list()
 				if("anti_tamper_mod_delay")
 					config.anti_tamper_mod_delay = value DAYS
 
+				if("adjust_healing_from_stress")
+					config.adjust_healing_from_stress = TRUE
+				if("stress_shock_recovery_constant")
+					config.stress_shock_recovery_constant = text2num(value)
+				if("stress_healing_recovery_constant")
+					config.stress_healing_recovery_constant = text2num(value)
+				if("stress_blood_recovery_constant")
+					config.stress_blood_recovery_constant = text2num(value)
+
+
 
 				if("exoplanet_min_day_duration")
 					config.exoplanet_min_day_duration = text2num(value)
@@ -959,6 +974,7 @@ var/global/list/gamemode_cache = list()
 					config.exoplanet_max_day_duration = text2num(value)
 				if("disable_daycycle")
 					config.disable_daycycle = TRUE
+
 				else
 					log_misc("Unknown setting in configuration: '[name]'")
 

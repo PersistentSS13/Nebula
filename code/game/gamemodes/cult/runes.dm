@@ -56,21 +56,23 @@
 		return
 
 /obj/effect/rune/attack_hand(var/mob/user)
+	SHOULD_CALL_PARENT(FALSE)
 	if(!iscultist(user))
 		to_chat(user, "You can't mouth the arcane scratchings without fumbling over them.")
-		return
+		return TRUE
 	if(user.is_silenced())
 		to_chat(user, "You are unable to speak the words of the rune.")
-		return
+		return TRUE
 	var/decl/special_role/cultist/cult = GET_DECL(/decl/special_role/cultist)
 	if(cult.powerless)
 		to_chat(user, "You read the words, but nothing happens.")
-		return fizzle(user)
+		fizzle(user)
+		return TRUE
 	cast(user)
+	return TRUE
 
 /obj/effect/rune/attack_ai(var/mob/user) // Cult borgs!
-	if(Adjacent(user))
-		attack_hand(user)
+	return attack_hand_with_interaction_checks(user)
 
 /obj/effect/rune/proc/cast(var/mob/living/user)
 	fizzle(user)
@@ -295,11 +297,13 @@
 			to_chat(user, "<span class='danger'>It is about to dissipate.</span>")
 
 /obj/effect/cultwall/attack_hand(var/mob/user)
+	SHOULD_CALL_PARENT(FALSE)
 	if(iscultist(user))
 		user.visible_message("<span class='notice'>\The [user] touches \the [src], and it fades.</span>", "<span class='notice'>You touch \the [src], whispering the old ritual, making it disappear.</span>")
 		qdel(src)
 	else
 		to_chat(user, "<span class='notice'>You touch \the [src]. It feels wet and becomes harder the further you push your arm.</span>")
+	return TRUE
 
 /obj/effect/cultwall/attackby(var/obj/item/I, var/mob/user)
 	if(istype(I, /obj/item/nullrod))
@@ -365,7 +369,7 @@
 		if(T.holy)
 			T.holy = 0
 		else
-			T.cultify()
+			T.on_defilement()
 	visible_message("<span class='warning'>\The [src] embeds into the floor and walls around it, changing them!</span>", "You hear liquid flow.")
 	qdel(src)
 
@@ -616,7 +620,7 @@
 			if(T.holy)
 				T.holy = 0
 			else
-				T.cultify()
+				T.on_defilement()
 	visible_message("<span class='warning'>\The [src] embeds into the floor and walls around it, changing them!</span>", "You hear liquid flow.")
 	qdel(src)
 
@@ -631,7 +635,7 @@
 		to_chat(user, "<span class='warning'>You need to be wearing your robes to use this rune.</span>")
 		return fizzle(user)
 	var/turf/T = get_turf(src)
-	if(T.icon_state != "cult" && T.icon_state != "cult-narsie")
+	if(!T.is_defiled())
 		to_chat(user, "<span class='warning'>This rune needs to be placed on the defiled ground.</span>")
 		return fizzle(user)
 	speak_incantation(user, "N'ath reth sh'yro eth d[pick("'","`")]raggathnor!")
@@ -644,7 +648,7 @@
 
 /obj/effect/rune/shell/cast(var/mob/living/user)
 	var/turf/T = get_turf(src)
-	if(T.icon_state != "cult" && T.icon_state != "cult-narsie")
+	if(!T.is_defiled())
 		to_chat(user, "<span class='warning'>This rune needs to be placed on the defiled ground.</span>")
 		return fizzle(user)
 
@@ -760,7 +764,7 @@
 	cultname = "tear reality"
 	var/the_end_comes = 0
 	var/the_time_has_come = 300
-	var/obj/singularity/narsie/large/HECOMES = null
+	var/obj/effect/narsie/summoning_entity = null
 	strokes = 9
 
 /obj/effect/rune/tearreality/cast(var/mob/living/user)
@@ -796,36 +800,37 @@
 
 		for(var/turf/T in range(min(the_end_comes, 15)))
 			if(prob(the_end_comes / 3))
-				T.cultify()
+				T.on_defilement()
 		sleep(10)
 
 	if(the_end_comes >= the_time_has_come)
-		HECOMES = new /obj/singularity/narsie/large(get_turf(src))
+		summoning_entity = new /obj/effect/narsie(get_turf(src))
 	else
 		command_announcement.Announce("Gravitational anomaly has ceased.")
 		qdel(src)
 
 /obj/effect/rune/tearreality/attack_hand(var/mob/user)
-	..()
-	if(HECOMES && !iscultist(user))
-		var/input = input(user, "Are you SURE you want to sacrifice yourself?", "DO NOT DO THIS") in list("Yes", "No")
-		if(input != "Yes")
-			return
-		speak_incantation(user, "Uhrast ka'hfa heldsagen ver[pick("'","`")]lot!")
-		to_chat(user, "<span class='warning'>In the last moment of your humble life, you feel an immense pain as fabric of reality mends... with your blood.</span>")
-		for(var/mob/M in global.living_mob_list_)
-			if(iscultist(M))
-				var/decl/pronouns/G = user.get_pronouns()
-				to_chat(M, "You see a vision of \the [user] keeling over dead, his blood glowing blue as it escapes [G.his] body and dissipates into thin air; you hear an otherwordly scream and feel that a great disaster has just been averted.")
-			else
-				to_chat(M, "You see a vision of [name] keeling over dead, his blood glowing blue as it escapes his body and dissipates into thin air; you hear an otherwordly scream and feel very weak for a moment.")
-		log_and_message_admins("mended reality with the greatest sacrifice", user)
-		user.dust()
-		var/decl/special_role/cultist/cult = GET_DECL(/decl/special_role/cultist)
-		cult.powerless = 1
-		qdel(HECOMES)
-		qdel(src)
-		return
+	SHOULD_CALL_PARENT(FALSE)
+	if(!summoning_entity || iscultist(user))
+		return FALSE
+	var/input = input(user, "Are you SURE you want to sacrifice yourself?", "DO NOT DO THIS") in list("Yes", "No")
+	if(input != "Yes")
+		return TRUE
+	speak_incantation(user, "Uhrast ka'hfa heldsagen ver[pick("'","`")]lot!")
+	to_chat(user, "<span class='warning'>In the last moment of your humble life, you feel an immense pain as fabric of reality mends... with your blood.</span>")
+	for(var/mob/M in global.living_mob_list_)
+		if(iscultist(M))
+			var/decl/pronouns/G = user.get_pronouns()
+			to_chat(M, "You see a vision of \the [user] keeling over dead, his blood glowing blue as it escapes [G.his] body and dissipates into thin air; you hear an otherwordly scream and feel that a great disaster has just been averted.")
+		else
+			to_chat(M, "You see a vision of [name] keeling over dead, his blood glowing blue as it escapes his body and dissipates into thin air; you hear an otherwordly scream and feel very weak for a moment.")
+	log_and_message_admins("mended reality with the greatest sacrifice", user)
+	user.dust()
+	var/decl/special_role/cultist/cult = GET_DECL(/decl/special_role/cultist)
+	cult.powerless = 1
+	qdel(summoning_entity)
+	qdel(src)
+	return TRUE
 
 /obj/effect/rune/tearreality/attackby()
 	if(the_end_comes)

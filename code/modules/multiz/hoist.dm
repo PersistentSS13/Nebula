@@ -38,11 +38,22 @@
 	var/obj/structure/hoist/source_hoist
 
 /obj/effect/hoist_hook/attack_hand(mob/user)
-	return // no, bad
+	if(user.incapacitated() || !user.check_dexterity(DEXTERITY_GRIP) || !source_hoist?.hoistee)
+		return ..()
+	source_hoist.check_consistency()
+	source_hoist.hoistee.forceMove(get_turf(src))
+	user.visible_message(SPAN_NOTICE("[user] detaches \the [source_hoist.hoistee] from the hoist clamp."), SPAN_NOTICE("You detach \the [source_hoist.hoistee] from the hoist clamp."), SPAN_NOTICE("You hear something unclamp."))
+	source_hoist.release_hoistee()
+	return TRUE
 
 /obj/effect/hoist_hook/receive_mouse_drop(atom/dropping, mob/user)
-	. = ..()
-	if(!. && istype(dropping, /atom/movable))
+	// skip the parent buckle logic, handle climbing directly
+	var/mob/living/H = user
+	if(istype(H) && !H.anchored && can_climb(H) && dropping == user)
+		do_climb(dropping)
+		return TRUE
+	// end copypasta'd code
+	if(istype(dropping, /atom/movable))
 		var/atom/movable/AM = dropping
 		if(!AM.simulated || AM.anchored)
 			to_chat(user, SPAN_WARNING("You can't do that with \the [AM]."))
@@ -50,6 +61,11 @@
 		if(source_hoist.hoistee)
 			to_chat(user, SPAN_NOTICE("\The [source_hoist.hoistee] is already attached to \the [src]!"))
 			return TRUE
+		if (user.incapacitated())
+			to_chat(user, SPAN_WARNING("You can't do that while incapacitated."))
+			return
+		if (!user.check_dexterity(DEXTERITY_GRIP))
+			return
 		source_hoist.attach_hoistee(AM)
 		user.visible_message(
 			SPAN_NOTICE("[user] attaches \the [AM] to \the [src]."),
@@ -61,7 +77,8 @@
 	hoistee = AM
 	if(ismob(AM))
 		source_hook.buckle_mob(AM)
-	AM.anchored = TRUE // why isn't this being set by buckle_mob for silicons?
+	else
+		AM.anchored = TRUE // can't buckle non-mobs at the moment
 	source_hook.layer = AM.layer + 0.1
 	if (get_turf(AM) != get_turf(source_hook))
 		AM.forceMove(get_turf(source_hook))
@@ -69,7 +86,10 @@
 	events_repository.register(/decl/observ/destroyed, AM, src, .proc/release_hoistee)
 
 /obj/effect/hoist_hook/handle_mouse_drop(atom/over, mob/user)
-	if(source_hoist.hoistee && isturf(over) && !over.Adjacent(source_hoist.hoistee))
+	if(source_hoist.hoistee && isturf(over) && over.Adjacent(source_hoist.hoistee))
+		if(!user.check_dexterity(DEXTERITY_GRIP))
+			return TRUE
+
 		source_hoist.check_consistency()
 		var/turf/desturf = over
 		source_hoist.hoistee.forceMove(desturf)
@@ -79,7 +99,7 @@
 			"You hear something unclamp.")
 		source_hoist.release_hoistee()
 		return TRUE
-	. = ..()
+	return ..()
 
 // This will handle mobs unbuckling themselves.
 /obj/effect/hoist_hook/unbuckle_mob()
@@ -131,6 +151,7 @@
 		source_hook.unbuckle_mob(hoistee)
 	else
 		hoistee.anchored = FALSE
+		hoistee.fall(get_turf(source_hook || hoistee))
 	events_repository.unregister(/decl/observ/destroyed, hoistee, src)
 	hoistee = null
 	layer = initial(layer)
@@ -161,25 +182,23 @@
 		source_hoist.break_hoist()
 
 /obj/structure/hoist/attack_hand(mob/user)
-	if (!ishuman(user))
-		return
+	if (!ishuman(user) || !user.check_dexterity(DEXTERITY_GRIP, TRUE))
+		return ..()
 
 	if (user.incapacitated())
 		to_chat(user, SPAN_WARNING("You can't do that while incapacitated."))
-		return
-
-	if (!user.check_dexterity(DEXTERITY_GRIP))
-		return
+		return TRUE
 
 	if(broken)
 		to_chat(user, SPAN_WARNING("The hoist is broken!"))
-		return
+		return TRUE
+
 	var/can = can_move_dir(movedir)
 	var/movtext = movedir == UP ? "raise" : "lower"
 	if (!can) // If you can't...
 		movedir = movedir == UP ? DOWN : UP // switch directions!
 		to_chat(user, SPAN_NOTICE("You switch the direction of the pulley."))
-		return
+		return TRUE
 
 	if (!hoistee)
 		user.visible_message(
@@ -187,7 +206,7 @@
 			SPAN_NOTICE("You begin to [movtext] the clamp."),
 			SPAN_NOTICE("You hear the sound of a crank."))
 		move_dir(movedir, 0)
-		return
+		return TRUE
 
 	check_consistency()
 
@@ -205,6 +224,7 @@
 		SPAN_NOTICE("You hear the sound of a crank."))
 	if (do_after(user, (1 SECONDS) * size / 4, src))
 		move_dir(movedir, 1)
+	return TRUE
 
 /obj/structure/hoist/proc/collapse_kit(mob/user)
 	var/obj/item/hoist_kit/kit = new (get_turf(src))

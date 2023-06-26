@@ -330,7 +330,7 @@ default behaviour is:
 
 /mob/living/proc/get_organ_target()
 	var/mob/shooter = src
-	var/t = shooter.zone_sel?.selecting
+	var/t = shooter.get_target_zone()
 	if ((t in list( BP_EYES, BP_MOUTH )))
 		t = BP_HEAD
 	var/obj/item/organ/external/def_zone = ran_zone(t, target = src)
@@ -697,7 +697,7 @@ default behaviour is:
 		to_chat(src, "<span class='notice'>Due to the spookiness of the round, you have taken control of the poor animal as an invading, possessing spirit - roleplay accordingly.</span>")
 		src.universal_speak = TRUE
 		src.universal_understand = TRUE
-		//src.cultify() // Maybe another time.
+		//src.on_defilement() // Maybe another time.
 		return
 
 	to_chat(src, "<b>You are now \the [src]!</b>")
@@ -729,6 +729,8 @@ default behaviour is:
 			add_overlay(A)
 
 /mob/living/Destroy()
+	if(stressors) // Do not QDEL_NULL, keys are managed instances.
+		stressors = null
 	if(auras)
 		for(var/a in auras)
 			remove_aura(a)
@@ -818,11 +820,26 @@ default behaviour is:
 /mob/living/proc/get_digestion_product()
 	return null
 
+/mob/living/proc/handle_additional_vomit_reagents(var/obj/effect/decal/cleanable/vomit/vomit)
+	vomit.reagents.add_reagent(/decl/material/liquid/acid/stomach, 5)
+
 /mob/living/proc/eyecheck()
 	return FLASH_PROTECTION_NONE
 
+/mob/living/proc/get_max_nutrition()
+	return 500
+
+/mob/living/proc/get_nutrition()
+	return get_max_nutrition()
+
 /mob/living/proc/adjust_nutrition(var/amt)
 	return
+
+/mob/living/proc/get_max_hydration()
+	return 500
+
+/mob/living/proc/get_hydration()
+	return get_max_hydration()
 
 /mob/living/proc/adjust_hydration(var/amt)
 	return
@@ -1088,3 +1105,11 @@ default behaviour is:
 /mob/living/get_speech_bubble_state_modifier()
 	return isSynthetic() ? "synth" : ..()
 
+/mob/living/proc/is_on_special_ability_cooldown()
+	return world.time < next_special_ability
+
+/mob/living/proc/set_special_ability_cooldown(var/amt)
+	next_special_ability = max(next_special_ability, world.time+amt)
+
+/mob/living/proc/get_seconds_until_next_special_ability_string()
+	return ticks2readable(next_special_ability - world.time)

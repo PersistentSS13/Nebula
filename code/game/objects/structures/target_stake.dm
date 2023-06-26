@@ -14,12 +14,12 @@
 		set_target(W)
 
 /obj/structure/target_stake/attack_hand(var/mob/user)
-	. = ..()
-	if (pinned_target && ishuman(user))
-		var/obj/item/target/T = pinned_target
-		to_chat(user, "<span class='notice'>You take [T] out of the stake.</span>")
-		set_target(null)
-		user.put_in_hands(T)
+	if (!pinned_target || !user.check_dexterity(DEXTERITY_GRIP, TRUE))
+		return ..()
+	to_chat(user, SPAN_NOTICE("You take \the [pinned_target] off the stake."))
+	user.put_in_hands(pinned_target)
+	set_target(null)
+	return TRUE
 
 /obj/structure/target_stake/proc/set_target(var/obj/item/target/T)
 	if (T)

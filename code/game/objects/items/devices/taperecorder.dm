@@ -70,10 +70,10 @@
 
 
 /obj/item/taperecorder/attack_hand(mob/user)
-	if(user.is_holding_offhand(src) && mytape)
+	if(user.is_holding_offhand(src) && mytape && user.check_dexterity(DEXTERITY_SIMPLE_MACHINES))
 		eject()
-		return
-	..()
+		return TRUE
+	return ..()
 
 
 /obj/item/taperecorder/verb/eject()
@@ -420,12 +420,12 @@
 
 
 /obj/item/magnetic_tape/proc/ruin()
-	ruined = 1
+	ruined = TRUE
 	update_icon()
 
 
 /obj/item/magnetic_tape/proc/fix()
-	ruined = 0
+	ruined = FALSE
 	update_icon()
 
 
@@ -535,7 +535,7 @@
 	desc = "Quantum-enriched self-repairing nanotape, used for magnetic storage of information."
 	icon = 'icons/obj/items/device/tape_casette.dmi'
 	icon_state = "magtape"
-	ruined = 1
+	ruined = TRUE
 
 /obj/item/magnetic_tape/loose/fix()
 	return

@@ -85,10 +85,10 @@
 		..()
 
 /obj/item/gun/launcher/grenade/attack_hand(mob/user)
-	if(user.is_holding_offhand(src))
-		unload(user)
-	else
-		..()
+	if(!user.is_holding_offhand(src) || !user.check_dexterity(DEXTERITY_GRIP, TRUE))
+		return ..()
+	unload(user)
+	return TRUE
 
 /obj/item/gun/launcher/grenade/consume_next_projectile()
 	if(chambered)
@@ -96,7 +96,7 @@
 		chambered.activate(null)
 	return chambered
 
-/obj/item/gun/launcher/grenade/handle_post_fire(mob/user)
+/obj/item/gun/launcher/grenade/handle_post_fire(atom/movable/firer)
 	log_and_message_admins("fired a grenade ([chambered.name]) from a grenade launcher.")
 
 	chambered = null

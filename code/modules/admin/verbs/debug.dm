@@ -318,24 +318,11 @@
 	for(var/obj/machinery/field_generator/F in SSmachines.machinery)
 		if(F.anchored)
 			F.Varedit_start = 1
-	spawn(30)
-		for(var/obj/machinery/the_singularitygen/G in SSmachines.machinery)
+	spawn(3 SECONDS)
+		for(var/obj/machinery/singularity_generator/G in SSmachines.machinery)
 			if(G.anchored)
-				var/obj/singularity/S = new /obj/singularity(get_turf(G), 50)
-				spawn(0)
-					qdel(G)
-				S.energy = 1750
-				S.current_size = 7
-				S.icon = 'icons/effects/224x224.dmi'
-				S.icon_state = "singularity_s7"
-				S.pixel_x = -96
-				S.pixel_y = -96
-				S.grav_pull = 0
-				//S.consume_range = 3
-				S.dissipate = 0
-				//S.dissipate_delay = 10
-				//S.dissipate_track = 0
-				//S.dissipate_strength = 10
+				new /obj/effect/singularity(get_turf(G), 1750)
+				qdel(G)
 
 	for(var/obj/machinery/rad_collector/Rad in SSmachines.machinery)
 		if(Rad.anchored)
@@ -484,7 +471,7 @@
 	trap = GET_DECL(trap)
 	trap.forced(mob)
 
-/client/proc/spawn_exoplanet(exoplanet_type as anything in subtypesof(/datum/map_template/planetoid/exoplanet))
+/client/proc/spawn_exoplanet(exoplanet_type as anything in subtypesof(/datum/map_template/planetoid/random/exoplanet))
 	set category = "Debug"
 	set name = "Create Exoplanet"
 
@@ -511,7 +498,7 @@
 		return
 
 	//#TODO: This definitely could be improved.
-	var/datum/map_template/planetoid/exoplanet/planet_template = SSmapping.get_template_by_type(exoplanet_type)
+	var/datum/map_template/planetoid/random/exoplanet/planet_template = SSmapping.get_template_by_type(exoplanet_type)
 	var/datum/planetoid_data/PD = planet_template.create_planetoid_instance()
 	if(planet_template.subtemplate_budget != budget)
 		PD._budget_override = budget

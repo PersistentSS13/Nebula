@@ -96,7 +96,7 @@ SUBSYSTEM_DEF(mapping)
 	global.using_map.build_main_sites()
 	// Build away sites.
 	global.using_map.build_away_sites()
-	global.using_map.build_exoplanets()
+	global.using_map.build_planets()
 
 	// Initialize z-level objects.
 #ifdef UNIT_TEST
@@ -192,7 +192,7 @@ SUBSYSTEM_DEF(mapping)
 	level.initialize_new_level()
 	return level
 
-/datum/controller/subsystem/mapping/proc/get_connected_levels(z)
+/datum/controller/subsystem/mapping/proc/get_connected_levels(z, include_lateral = TRUE)
 	if(z <= 0  || z > length(levels_by_z))
 		CRASH("Invalid z-level supplied to get_connected_levels: [isnull(z) ? "NULL" : z]")
 	var/list/root_stack = list(z)
@@ -203,12 +203,13 @@ SUBSYSTEM_DEF(mapping)
 		root_stack |= level+1
 	. = list()
 	// Check stack for any laterally connected neighbors.
-	for(var/tz in root_stack)
-		var/datum/level_data/level = levels_by_z[tz]
-		if(level)
-			var/list/cur_connected = level.get_all_connected_level_z()
-			if(length(cur_connected))
-				. |= cur_connected
+	if(include_lateral)
+		for(var/tz in root_stack)
+			var/datum/level_data/level = levels_by_z[tz]
+			if(level)
+				var/list/cur_connected = level.get_all_connected_level_z()
+				if(length(cur_connected))
+					. |= cur_connected
 	. |= root_stack
 
 ///Returns a list of all the level data of all the connected z levels to the given z.DBColumn
@@ -324,12 +325,14 @@ SUBSYSTEM_DEF(mapping)
 	sealed_levels  -= LD.level_z
 	return TRUE
 
-///Adds a planetoid/exoplanet's data to the lookup tables.
+///Adds a planetoid/exoplanet's data to the lookup tables. Optionally if the topmost_level_id var is set on P, will automatically assign all linked levels to P.
 /datum/controller/subsystem/mapping/proc/register_planetoid(var/datum/planetoid_data/P)
 	LAZYSET(planetoid_data_by_id, P.id, P)
 
 	//Keep track of the topmost z-level to speed up looking up things
 	var/datum/level_data/LD = levels_by_id[P.topmost_level_id]
+
+	//#TODO: Check if this actually works, because planetoid_data initializes so early it's not clear if the hierarchy can ever be fully available for this
 	//If we don't have level_data, we'll skip over assigning by z-level for now
 	if(LD)
 		//Assign all connected z-levels in the z list
@@ -360,3 +363,15 @@ SUBSYSTEM_DEF(mapping)
 			planetoid_data_by_z[z] = null
 
 	STOP_PROCESSING(SSobj, P)
+
+///Called by the roundstart hook once we toggle to in-game state
+/datum/controller/subsystem/mapping/proc/start_processing_all_planets()
+	for(var/pid in planetoid_data_by_id)
+		var/datum/planetoid_data/P = planetoid_data_by_id[pid]
+		if(!P)
+			continue
+		P.begin_processing()
+
+/hook/roundstart/proc/start_processing_all_planets()
+	SSmapping.start_processing_all_planets()
+	return TRUE

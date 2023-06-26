@@ -137,7 +137,7 @@
 
 /obj/machinery/alarm/Initialize(mapload, var/dir)
 	. = ..()
-	if (name != "alarm")
+	if (name != BASE_ALARM_NAME)
 		custom_alarm_name = TRUE // this will prevent us from messing with alarms with names set on map
 
 	set_frequency(frequency)
@@ -145,7 +145,6 @@
 	if(!alarm_area)
 		return // spawned in nullspace, presumably as a prototype for construction purposes.
 	area_uid = alarm_area.uid
-	update_name(FALSE)
 
 	// breathable air according to human/Life()
 	var/decl/material/gas_mat = GET_DECL(/decl/material/gas/oxygen)
@@ -162,16 +161,6 @@
 			trace_gas += g
 
 	queue_icon_update()
-
-/obj/machinery/alarm/area_changed(area/old_area, area/new_area)
-	. = ..()
-	alarm_area = get_area(src)
-	update_name(TRUE)
-
-/obj/machinery/alarm/proc/update_name(var/reset = TRUE)
-	name = initial(name)
-	if(name == BASE_ALARM_NAME && alarm_area && alarm_area != global.space_area)
-		SetName("[alarm_area.proper_name] [BASE_ALARM_NAME]")
 
 /obj/machinery/alarm/modify_mapped_vars(map_hash)
 	..()
@@ -395,7 +384,6 @@
 		return 0
 
 	var/datum/signal/signal = new
-	signal.transmission_method = 1 //radio signal
 	signal.source = src
 
 	signal.data = command
@@ -458,7 +446,6 @@
 
 	var/datum/signal/alert_signal = new
 	alert_signal.source = src
-	alert_signal.transmission_method = 1
 	alert_signal.data["zone"] = alarm_area.proper_name
 	alert_signal.data["type"] = "Atmospheric"
 
@@ -795,7 +782,7 @@
 	if(A != alarm_area)
 		return
 	if (!custom_alarm_name)
-		SetName("[A.proper_name] Air Alarm")
+		SetName("[A.proper_name] [BASE_ALARM_NAME]")
 
 /obj/machinery/alarm/area_changed(area/old_area, area/new_area)
 	. = ..()
@@ -808,7 +795,7 @@
 	if(old_area && old_area == alarm_area)
 		alarm_area = null
 		area_uid = null
-		events_repository.register(/decl/observ/name_set, old_area, src, .proc/change_area_name)
+		events_repository.unregister(/decl/observ/name_set, old_area, src, .proc/change_area_name)
 	if(new_area)
 		ASSERT(isnull(alarm_area))
 		alarm_area = new_area

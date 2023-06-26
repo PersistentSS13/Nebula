@@ -130,13 +130,13 @@
 			usr.ClickOn(master)
 	return 1
 
-/obj/screen/zone_sel
+/obj/screen/zone_selector
 	name = "damage zone"
 	icon_state = "zone_sel"
 	screen_loc = ui_zonesel
 	var/selecting = BP_CHEST
 
-/obj/screen/zone_sel/Click(location, control,params)
+/obj/screen/zone_selector/Click(location, control,params)
 	var/list/PL = params2list(params)
 	var/icon_x = text2num(PL["icon-x"])
 	var/icon_y = text2num(PL["icon-y"])
@@ -198,16 +198,19 @@
 	set_selected_zone(new_selecting)
 	return 1
 
-/obj/screen/zone_sel/proc/set_selected_zone(bodypart)
+/obj/screen/zone_selector/Initialize(mapload)
+	. = ..()
+	update_icon()
+
+/obj/screen/zone_selector/proc/set_selected_zone(bodypart)
 	var/old_selecting = selecting
 	selecting = bodypart
 	if(old_selecting != selecting)
 		update_icon()
 		return TRUE
 
-/obj/screen/zone_sel/on_update_icon()
-	overlays.Cut()
-	overlays += image('icons/mob/zone_sel.dmi', "[selecting]")
+/obj/screen/zone_selector/on_update_icon()
+	set_overlays(image('icons/mob/zone_sel.dmi', "[selecting]"))
 
 /obj/screen/intent
 	name = "intent"
@@ -332,29 +335,20 @@
 /obj/screen/inventory/Click()
 	// At this point in client Click() code we have passed the 1/10 sec check and little else
 	// We don't even know if it's a middle click
-	if(!usr.canClick())
-		return 1
-	if(usr.incapacitated())
-		return 1
+	if(!usr.canClick() || usr.incapacitated())
+		return TRUE
 
-	if(iscarbon(usr))
-		var/mob/living/carbon/C = usr
-		if(name in C.held_item_slots)
-			if(name == C.get_active_held_item_slot())
-				C.attack_empty_hand()
-			else
-				C.select_held_item_slot(name)
-			return TRUE
-
-	switch(name)
-		if("swap")
-			usr.swap_hand()
-		if("hand")
-			usr.swap_hand()
+	if(name == "swap" || name == "hand")
+		usr.swap_hand()
+	else if(name in usr.get_held_item_slots())
+		if(name == usr.get_active_held_item_slot())
+			usr.attack_empty_hand()
 		else
-			if(usr.attack_ui(slot_id))
-				usr.update_inv_hands(0)
-	return 1
+			usr.select_held_item_slot(name)
+	else if(usr.attack_ui(slot_id))
+		usr.update_inv_hands(0)
+
+	return TRUE
 
 // Character setup stuff
 /obj/screen/setup_preview

@@ -19,10 +19,17 @@
 	///The last cached color of the gas mixture
 	var/tmp/cached_mix_color
 
-/datum/gas_mixture/New(_volume = CELL_VOLUME, _temperature = 0, _group_multiplier = 1)
-	volume = _volume
-	temperature = _temperature
-	group_multiplier = _group_multiplier
+/datum/gas_mixture/New(_volume, _temperature, _group_multiplier)
+	if(!isnull(_volume))
+		volume = _volume
+	if(!isnull(_temperature))
+		temperature = _temperature
+	if(!isnull(_group_multiplier))
+		group_multiplier = _group_multiplier
+
+	//Since we may have values defined on creation, update everything.
+	if(volume && length(gas))
+		update_values()
 
 /datum/gas_mixture/proc/get_gas(gasid)
 	if(!gas.len)
@@ -88,11 +95,11 @@
 	update_values()
 
 
-//Merges all the gas from another mixture into this one.  Respects group_multipliers and adjusts temperature correctly.
-//Does not modify giver in any way.
+/// Merges all the gas from another mixture into this one.  Respects group_multipliers and adjusts temperature correctly.
+/// Does not modify giver in any way.
 /datum/gas_mixture/proc/merge(const/datum/gas_mixture/giver)
 	if(!giver)
-		return
+		return FALSE
 
 	if(abs(temperature-giver.temperature)>MINIMUM_TEMPERATURE_DELTA_TO_CONSIDER)
 		var/self_heat_capacity = heat_capacity()
@@ -109,6 +116,7 @@
 			gas[g] += giver.gas[g]
 
 	update_values()
+	return TRUE
 
 // Used to equalize the mixture between two zones before sleeping an edge.
 /datum/gas_mixture/proc/equalize(datum/gas_mixture/sharer)

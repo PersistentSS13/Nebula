@@ -82,10 +82,10 @@
 
 /atom/movable/attack_hand(mob/user)
 	// Unbuckle anything buckled to us.
-	if(can_buckle && buckled_mob)
-		user_unbuckle_mob(user)
-		return TRUE
-	return ..()
+	if(!can_buckle || !buckled_mob || !user.check_dexterity(DEXTERITY_SIMPLE_MACHINES, TRUE))
+		return ..()
+	user_unbuckle_mob(user)
+	return TRUE
 
 /atom/movable/hitby(var/atom/movable/AM, var/datum/thrownthing/TT)
 	..()
@@ -321,8 +321,8 @@
 		return master.attackby(I, user)
 
 /atom/movable/overlay/attack_hand(mob/user)
-	if (master)
-		return master.attack_hand(user)
+	SHOULD_CALL_PARENT(FALSE)
+	return master?.attack_hand(user)
 
 /atom/movable/proc/touch_map_edge(var/overmap_id)
 	if(!simulated)
@@ -527,3 +527,15 @@
 /decl/interaction_handler/grab/invoked(atom/target, mob/user, obj/item/prop)
 	var/atom/movable/AM = target
 	AM.try_make_grab(user, defer_hand = TRUE)
+
+/atom/movable/singularity_act()
+	if(!simulated)
+		return 0
+	physically_destroyed()
+	if(!QDELETED(src))
+		qdel(src)
+	return 2
+
+/atom/movable/singularity_pull(S, current_size)
+	if(simulated && !anchored)
+		step_towards(src, S)

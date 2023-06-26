@@ -1,4 +1,4 @@
-/mob/living/proc/set_internals(obj/item/tank/source, source_string)
+/mob/living/set_internals(obj/item/tank/source, source_string)
 	var/old_internal = get_internals()
 	if(!old_internal && source)
 		if(!source_string)
@@ -8,11 +8,9 @@
 	if(old_internal && !source)
 		to_chat(src, SPAN_NOTICE("You are no longer running on internals."))
 
-/mob/living/proc/get_internals()
-	return
+// Set internals on or off.
+/mob/living/toggle_internals(var/mob/living/user)
 
-// Set internals on or off. Implemented properly on /carbon
-/mob/living/proc/toggle_internals(var/mob/living/user)
 	var/atom/movable/internal = get_internals()
 	if(internal)
 		visible_message(SPAN_NOTICE("\The [user] disables \the [src]'s internals!"))
@@ -53,7 +51,7 @@
 
 /mob/living/proc/get_possible_internals_sources()
 	. = get_equipped_internals_sources()
-	for(var/slot in held_item_slots)
+	for(var/slot in get_held_item_slots())
 		var/obj/item/tank/checking = get_equipped_item(slot)
 		if(istype(checking))
 			.[parse_zone(slot)] = list(checking, "in")

@@ -74,7 +74,6 @@
 	possible_trading_items = list(
 		/obj/item/stock_parts/computer/battery_module          = TRADER_SUBTYPES_ONLY,
 		/obj/item/stock_parts/circuitboard                     = TRADER_SUBTYPES_ONLY,
-		/obj/item/stock_parts/circuitboard/telecomms           = TRADER_BLACKLIST,
 		/obj/item/stock_parts/circuitboard/unary_atmos         = TRADER_BLACKLIST,
 		/obj/item/stock_parts/circuitboard/arcade              = TRADER_BLACKLIST,
 		/obj/item/stock_parts/circuitboard/broken              = TRADER_BLACKLIST,
@@ -366,7 +365,7 @@ Sells devices, odds and ends, and medical stuff
 		/obj/item/chems/glass/bottle/sedatives  = TRADER_THIS_TYPE,
 		/obj/item/chems/glass/bottle/antitoxin  = TRADER_THIS_TYPE,
 		/obj/item/bodybag/cryobag               = TRADER_THIS_TYPE,
-		/obj/item/sign/medipolma                = TRADER_THIS_TYPE
+		/obj/item/sign/diploma/fake             = TRADER_THIS_TYPE
 	)
 
 /datum/trader/mining
