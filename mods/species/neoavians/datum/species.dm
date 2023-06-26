@@ -45,7 +45,7 @@
 	blood_volume = 320
 	hunger_factor = DEFAULT_HUNGER_FACTOR * 1.6
 
-	spawn_flags = SPECIES_CAN_JOIN | SPECIES_IS_WHITELISTED
+	spawn_flags = SPECIES_CAN_JOIN | SPECIES_IS_RESTRICTED | SPECIES_IS_WHITELISTED
 	appearance_flags = HAS_HAIR_COLOR | HAS_SKIN_COLOR | HAS_EYE_COLOR
 	bump_flag = MONKEY
 	swap_flags = MONKEY|SIMPLE_ANIMAL
