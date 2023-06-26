@@ -15,7 +15,7 @@
 
 /datum/fabricator_recipe/arms_ammo/hidden
 	path = /obj/item/hatchet/machete/steel
-	hidden = TRUE
+	hidden = FALSE
 
 /datum/fabricator_recipe/arms_ammo/hidden/shotgun
 	name = "ammunition (shotgun, beanbag)"

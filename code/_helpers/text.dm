@@ -127,7 +127,7 @@
 				last_char_group = 3
 
 			// '  -  .
-			if(39,45,46)			//Common name punctuation
+			if(45,46)			//Common name punctuation
 				if(!last_char_group) continue
 				output += ascii2text(ascii_char)
 				last_char_group = 2
@@ -797,7 +797,7 @@ var/global/list/plural_words_unchanged = list(
 		word = splited[splited.len]
 	else
 		splited = null
-	
+
 	//Words that don't change when pluralized
 	if(global.plural_words_unchanged[word])
 		return initial_word
@@ -805,7 +805,7 @@ var/global/list/plural_words_unchanged = list(
 	//Apophonic plurals
 	if(global.apophonic_plurals[word])
 		word = global.apophonic_plurals[word]
-	
+
 	//Siblants + plurals of nouns in -o preceded by a consonant. Loanwords ending in o just ends with an s
 	else if(text_ends_with_any_of(word, global.plural_siblants) || (text_ends_with(word, "o") && !(word in global.english_loanwords)))
 		word = "[word]es"
@@ -828,14 +828,14 @@ var/global/list/plural_words_unchanged = list(
 			word = "[word]es"
 		else
 			word = "[copytext(word, 1, length(word) - 1)]i" //EX: Cactus -> Cacti, Fungus -> Fungi
-	
+
 	//Finally just go with the basic rules
-	else 
+	else
 		if(text_ends_with(word, "s"))
 			word = "[word]es"
 		else
 			word = "[word]s"
-	
+
 	//Put the sentence back together, if applicable
 	if(splited)
 		word = "[jointext(splited, " ", 1, length(splited))] [word]"

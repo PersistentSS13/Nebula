@@ -1,5 +1,5 @@
 //Grown foods.
-
+SAVED_VAR(/obj/item/chems/food/grown, seed)
 /obj/item/chems/food/grown
 	name = "fruit"
 	icon = 'icons/obj/hydroponics/hydroponics_products.dmi'
@@ -17,36 +17,47 @@
 	var/generation = 1
 
 /obj/item/chems/food/grown/Initialize(mapload, planttype)
-	if(planttype)
-		plantname = planttype
-	seed = SSplants.seeds[plantname]
+	if(!persistent_id)
+		if(planttype)
+			plantname = planttype
+		seed = SSplants.seeds[plantname]
+		if(!seed)
+			log_warning("\The [src] couldn't get a seed from SSplants for plant type '[plantname]'. Deleting!")
+			return INITIALIZE_HINT_QDEL
+
+		if(seed.scannable_result)
+			set_extension(src, /datum/extension/scannable, seed.scannable_result)
+
+		SetName("[seed.seed_name]")
+		trash = seed.get_trash_type()
+		if(!dried_type)
+			dried_type = type
+
+		. = ..(mapload) //Init reagents
+		update_icon()
+/obj/item/chems/food/grown/after_deserialize()
 	if(!seed)
 		log_warning("\The [src] couldn't get a seed from SSplants for plant type '[plantname]'. Deleting!")
 		return INITIALIZE_HINT_QDEL
 
-	if(seed.scannable_result)
-		set_extension(src, /datum/extension/scannable, seed.scannable_result)
-
-	SetName("[seed.seed_name]")
 	trash = seed.get_trash_type()
 	if(!dried_type)
 		dried_type = type
-
-	. = ..(mapload) //Init reagents
 	update_icon()
 
 /obj/item/chems/food/grown/initialize_reagents(populate)
-	if(reagents)
-		reagents.clear_reagents()
-	if(!seed?.chems)
-		return
-	potency = seed.get_trait(TRAIT_POTENCY)
+	if(!persistent_id)
+		if(reagents)
+			reagents.clear_reagents()
+		if(!seed?.chems)
+			return
+		potency = seed.get_trait(TRAIT_POTENCY)
 
-	. = ..() //create_reagent and populate_reagents
+		. = ..() //create_reagent and populate_reagents
 
-	update_desc()
-	if(reagents.total_volume > 0)
-		bitesize = 1 + round(reagents.total_volume / 2, 1)
+		update_desc()
+		if(reagents.total_volume > 0)
+			bitesize = 1 + round(reagents.total_volume / 2, 1)
 
 /obj/item/chems/food/grown/populate_reagents()
 	. = ..()

@@ -158,8 +158,8 @@
 	var/obj/effect/overmap/visitable/curr_sector = global.overmap_sectors["[z]"]
 	if(!curr_sector)
 		return "Could not find orientation in space!"
-	if(!istype(curr_sector) || istype(curr_sector, /obj/effect/overmap/visitable/ship/landable))
-		return "Cannot attract an asteroid from this location!"
+//	if(!istype(curr_sector) || istype(curr_sector, /obj/effect/overmap/visitable/ship/landable))
+//		return "Cannot attract an asteroid from this location!"
 	if(!curr_sector.is_still())
 		return "Cannot attract an asteroid while the sector is in motion!"
 	var/found_spent = FALSE // Let players know that the asteroid field has been spent.

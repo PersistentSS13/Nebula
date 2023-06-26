@@ -2,7 +2,7 @@
 	name = "circuitboard (destructive analyzer)"
 	build_path = /obj/machinery/destructive_analyzer
 	board_type = "machine"
-	origin_tech = "{'magnets':2,'engineering':2,'programming':2}"
+	origin_tech = "{'magnets':1,'engineering':1,'programming':1}"
 	req_components = list(
 							/obj/item/stock_parts/scanning_module = 1,
 							/obj/item/stock_parts/manipulator = 1,
