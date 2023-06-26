@@ -28,6 +28,7 @@ var/global/list/overmap_unknown_ids = list()
 	var/overmap_id = OVERMAP_ID_SPACE   // Which overmap datum this object expects to be dealing with
 	var/adjacency_radius = 0            // draws a circle under the effect scaled to this size, 1 = 1 turf
 
+	var/list/gen_asteroid_turfs = list()
 /obj/effect/overmap/proc/get_heading_angle()
 	. = round(Atan2(speed[2], speed[1]))
 	if(. < 0) // Speeds can be negative so invert the degree value.
@@ -164,7 +165,6 @@ var/global/list/overmap_unknown_ids = list()
 
 	if(halted || is_still())
 		return PROCESS_KILL
-
 	if(!can_move)
 		return
 
@@ -188,6 +188,10 @@ var/global/list/overmap_unknown_ids = list()
 			position[i] += (deltas[i] > 0) ? -1 : 1
 
 	if(moved)
+		if(gen_asteroid_turfs.len)
+			for(var/turf/T in gen_asteroid_turfs)
+				T.ChangeTurf(/turf/space)
+			gen_asteroid_turfs.Cut()
 		var/turf/newloc = locate(x + deltas[1], y + deltas[2], z)
 		if(newloc && loc != newloc)
 			Move(newloc)

@@ -22,6 +22,8 @@
 	var/list/device_variables
 	var/list/device_methods
 
+SAVED_VAR(/datum/extension/network_device, network_tag)
+
 /datum/extension/network_device/New(datum/holder, n_id, n_key, r_type, autojoin = TRUE)
 	..()
 	network_id = n_id

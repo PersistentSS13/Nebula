@@ -18,6 +18,7 @@ var/global/overmap_z
 		overmap_z = z
 	loc = null
 	qdel(src)
+
 /datum/overmap/frontier/generate_overmap()
 	if(overmap_z)
 		assigned_z = overmap_z

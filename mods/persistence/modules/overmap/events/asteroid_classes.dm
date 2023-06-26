@@ -22,7 +22,7 @@
 
 /decl/asteroid_class/asteroid/copperdense
 	name = "Nedium Density Asteroid"
-	outer_types = list(/turf/exterior/wall/asteroid, /turf/space)
+	outer_types = list(/turf/exterior/wall/asteroid, /turf/simulated/floor/asteroid)
 	inner_types = list(/turf/exterior/wall/random/asteroid)
 	mob_types = list(/mob/living/simple_animal/hostile/glutslug, /mob/living/simple_animal/hostile/greed)
 	possible_stratas = list(

@@ -1,12 +1,13 @@
 var/global/list/carp_count = list() // a list of Z levels (string), associated with a list of all the carp spawned by carp events
 
-/datum/event/carp_migration
+/datum/event/generic_migration
 	announceWhen	= 45
 	endWhen			= 75
 	var/no_show = FALSE // Carp are laggy, so if there is too much stuff going on we're going to dial it down.
 	var/spawned_carp	//for debugging purposes only?
-	var/carp_per_z = 8
+	var/carp_per_z = 10
 	var/carp_per_event = 5
+	var/list/spawn_table = list()
 
 /datum/event/carp_migration/setup()
 	announceWhen = rand(30, 60)

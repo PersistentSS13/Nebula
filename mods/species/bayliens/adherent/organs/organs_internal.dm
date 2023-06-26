@@ -1,5 +1,8 @@
 #define PROTOCOL_ARTICLE "Protocol article [rand(100,999)]-[uppertext(pick(global.alphabet))] subsection #[rand(10,99)]"
 
+SAVED_VAR(/obj/item/organ/internal/powered/cooling_fins, target_temp)
+
+
 /obj/item/organ/internal/brain/adherent
 	name = "mentality matrix"
 	desc = "The self-contained, self-supporting internal 'brain' of an Adherent unit."
@@ -42,7 +45,7 @@
 					owner.mind.name = owner.real_name
 				owner.SetName(owner.real_name)
 				to_chat(user, "<span class='notice'>You are now designated <b>[owner.real_name]</b>.</span>")
-
+SAVED_VAR(/obj/item/organ/internal/powered, active)
 /obj/item/organ/internal/powered
 	icon = 'mods/species/bayliens/adherent/icons/organs.dmi'
 	organ_properties = ORGAN_PROP_CRYSTAL

@@ -99,6 +99,9 @@
 	var/list/object_types = class.object_types
 	var/list/mob_types = class.mob_types
 	var/max_mobs = class.max_mobs
+
+	var/obj/effect/overmap/visitable/curr_sector = global.overmap_sectors["[z]"]
+	if(!curr_sector) return FALSE
 	if(!length(outer_types) || !length(inner_types))
 		return FALSE
 
@@ -130,9 +133,12 @@
 		// This doesn't play nicely with a switch statement.
 		if(det >= out_lb && det <= out_ub)
 			T.ChangeTurf(pick(outer_types))
+			if(!istype(T, /turf/space))
+				curr_sector.gen_asteroid_turfs |= T
 		else if(det >= in_lb && det <= in_ub)
 			T.ChangeTurf(pick(inner_types))
-
+			if(!istype(T, /turf/space))
+				curr_sector.gen_asteroid_turfs |= T
 		if(length(mob_types) && !T.density && num_mobs < max_mobs && prob(MOB_PROB)) // Only spawn mobs on non-dense turfs.
 			num_mobs++
 			var/mob_type = pickweight(mob_types)
@@ -153,6 +159,7 @@
 	visible_message(SPAN_NOTICE("There's a terrible sound of screeching metal as \the [src] attracts a neaby asteroid!"))
 	quadrant.raise_asteroid_host()
 	return TRUE
+
 
 /obj/machinery/asteroid_magnet/proc/get_asteroid()
 	var/obj/effect/overmap/visitable/curr_sector = global.overmap_sectors["[z]"]
