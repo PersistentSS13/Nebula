@@ -6,7 +6,8 @@
 	ambient_light_level = 0.2
 	base_area           = /area/exoplanet/kleibkhar/mines/depth_1
 	base_turf           = /turf/exterior/barren/mining
-	border_filler       = /turf/unsimulated/mineral#if !defined(USING_MAP_DATUM)
+	border_filler       = /turf/unsimulated/mineral#
+if !defined(USING_MAP_DATUM)
 	// Mods section
 //	#include "../../mods/persistence/_persistence.dme"
 	#include "../../mods/species/bayliens/_bayliens.dme"
