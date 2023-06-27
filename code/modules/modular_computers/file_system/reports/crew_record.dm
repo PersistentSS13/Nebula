@@ -199,8 +199,9 @@ var/global/arrest_security_status =  "Arrest"
 
 //Should only be used for OOC stuff, for player-facing stuff you must go through the network.
 /proc/get_crewmember_record(var/name)
+	var/sanitized_name = sanitize(name)
 	for(var/datum/computer_file/report/crew_record/CR in global.all_crew_records)
-		if(CR.get_name() == name)
+		if(CR.get_name() == sanitized_name)
 			return CR
 	return null
 
