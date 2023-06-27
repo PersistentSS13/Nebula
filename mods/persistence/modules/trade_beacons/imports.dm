@@ -49,6 +49,7 @@
 	var/recolorable = 0
 
 /datum/beacon_import/proc/valid_choice(var/datum/overmap_quadrant/quadrant)
+	if(!quadrant) return 0
 	if(quadrant.get_security_level() < min_sec_level) return 0
 	if(quadrant.get_security_level() > max_sec_level) return 0
 	return 1

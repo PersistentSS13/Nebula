@@ -68,6 +68,7 @@
 /obj/effect/overmap/trade_beacon/proc/regenerate_exports()
 	if(active_exports)
 		var/datum/overmap_quadrant/quadrant = SSquadrants.get_quadrant(loc)
+		if(!quadrant) return
 		if(quadrant.security_level.completed_exports && active_exports.len)
 			quadrant.security_level.completed_exports--
 		if(quadrant.security_level.adjacent_completed_criminal_exports)

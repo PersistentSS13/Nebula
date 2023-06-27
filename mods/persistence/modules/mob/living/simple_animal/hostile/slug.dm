@@ -12,8 +12,10 @@ Small, little HP, poisonous.
 	maxHealth = 15
 	speed = 0
 	move_to_delay = 0
+	minbodytemp = 0
 	density = 1
 	min_gas = null
+	max_gas = null
 	mob_size = MOB_SIZE_MINISCULE
 	can_escape = TRUE
 	pass_flags = PASS_FLAG_TABLE

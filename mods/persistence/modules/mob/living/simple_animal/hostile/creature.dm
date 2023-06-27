@@ -5,8 +5,8 @@
 	desc = "It hurts to look at her."
 	icon = 'icons/mob/simple_animal/creature.dmi'
 	speak_emote = list("gibbers")
-	health = 100
-	maxHealth = 100
+	health = 40
+	maxHealth = 40
 	natural_weapon = /obj/item/natural_weapon/bite/strong
 	speed = 4
 	supernatural = 1
@@ -17,14 +17,10 @@
 	natural_weapon_terrain = /obj/item/natural_weapon/bite/smasher
 	destroy_surroundings = 1
 	break_stuff_probability = 85
-
 		//Space carp aren't affected by atmos.
 	min_gas = null
 	max_gas = null
 	minbodytemp = 0
-
-	break_stuff_probability = 25
-	faction = "carp"
 	bleed_colour = "#5d0d71"
 	pass_flags = PASS_FLAG_TABLE
 

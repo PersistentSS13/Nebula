@@ -142,6 +142,7 @@
 	var/max_sec_level = 5
 
 /datum/beacon_export/proc/valid_choice(var/datum/overmap_quadrant/quadrant)
+	if(!quadrant) return 0
 	if(quadrant.get_security_level() < min_sec_level) return 0
 	if(quadrant.get_security_level() > max_sec_level) return 0
 	return 1
