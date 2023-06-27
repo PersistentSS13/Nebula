@@ -24,11 +24,16 @@
 	var/obj/effect/overmap/event/meteor/asteroid = get_asteroid()
 	if(istype(asteroid))
 		var/decl/asteroid_class/class = GET_DECL(asteroid.class)
+		var/datum/overmap_quadrant/quadrant = get_quadrant()
 		data["error"] = FALSE
 		data["asteroid_type"] = "[class.name]"
 		data["asteroid_desc"] = "[class.desc]"
 		data["attracting"] = (use_power == POWER_USE_ACTIVE)
 		data["progress"] = attraction_progress
+		if(quadrant)
+			data["hostility"] = quadrant.get_hostility_level()
+		else
+			data["hostility"] = 0
 	else
 		data["error"] = asteroid // get_asteroid() returns an error if the asteroid could not be found.
 
