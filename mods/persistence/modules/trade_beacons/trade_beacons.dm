@@ -210,6 +210,7 @@
 		/datum/beacon_import/dicta/computers = 100,
 		/datum/beacon_import/dicta/pointdefense = 100,
 		/datum/beacon_import/dicta/shieldgenerator = 100,
+		/datum/beacon_import/steel = 100,
 		/datum/beacon_import/bluespacecrystal_low = 100
 	)
 	possible_exports = list(
