@@ -1,6 +1,6 @@
 /datum/map
 	var/default_currency = /decl/currency/credits
-	var/default_starting_cash_choice = /decl/starting_cash_choice/credstick/half
+	var/default_starting_cash_choice = /decl/starting_cash_choice/credstick
 
 /decl/starting_cash_choice
 	var/name = "all in bank account"
