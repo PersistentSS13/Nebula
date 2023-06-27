@@ -82,7 +82,7 @@
 		loc.verbs |= /obj/item/stock_parts/computer/charge_stick_slot/proc/verb_eject_stick
 	return TRUE
 
-/obj/item/stock_parts/computer/charge_stick_slot/attackby(obj/item/card/id/I, mob/user)
+/obj/item/stock_parts/computer/charge_stick_slot/attackby(obj/item/charge_stick/I, mob/user)
 	if(!istype(I))
 		return
 	insert_stick(I, user)

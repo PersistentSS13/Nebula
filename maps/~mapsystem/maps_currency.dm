@@ -19,7 +19,7 @@
 	credstick.loaded_worth = min(credstick.max_worth, FLOOR(owner_account.money * transfer_mult))
 	owner_account.adjust_money(-credstick.loaded_worth)
 	return list(credstick)
-
+/*
 /decl/starting_cash_choice/credstick/half
 	name = "split between bank account and charge stick"
 	transfer_mult = 0.5
@@ -59,3 +59,5 @@
 /decl/starting_cash_choice/split/even
 	name = "split between bank account, cash and charge stick"
 	transfer_mult = 0.33
+
+*/
