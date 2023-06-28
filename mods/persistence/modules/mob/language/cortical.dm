@@ -7,6 +7,8 @@
 	shorthand = "CC"
 
 /decl/language/cortical/broadcast(var/mob/living/carbon/human/speaker, var/message, var/speaker_mask)
+	to_chat(speaker, "Cortical chat has been disabled for now.")
+	return
 	if(!istype(speaker))
 		return ..()
 	var/obj/item/organ/internal/stack/stack = (locate() in speaker.internal_organs)

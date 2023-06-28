@@ -108,7 +108,7 @@
 **/
 /datum/fabricator_recipe/protolathe/tool/rped
 	path = /obj/item/storage/part_replacer
-
+	uses = 2
 /datum/fabricator_recipe/protolathe/tool/rped_advanced
 	path = /obj/item/storage/part_replacer/advanced
 	uses = 2

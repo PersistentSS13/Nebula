@@ -105,50 +105,37 @@
 	for(var/mat in storage_capacity)
 		stored_material[mat] = storage_capacity[mat]
 
-/obj/machinery/fabricator/proc/refresh_design_cache(var/list/known_tech)
+/obj/machinery/fabricator/refresh_design_cache(var/list/known_tech)
+	. = ..()
+	var/datum/extension/network_device/device = get_extension(src, /datum/extension/network_device)
+	var/datum/computer_network/network = device.get_network()
 
-	var/list/base_designs = SSfabrication.get_initial_recipes(fabricator_class)
-	design_cache = islist(base_designs) ? base_designs.Copy() : list() // Don't want to mutate the subsystem cache.
+	if(!network)
+		return
 
-	if(length(installed_designs))
-		design_cache |= installed_designs
+	var/list/design_files = network.get_all_files_of_type(/datum/computer_file/data/design, MF_ROLE_DESIGN)
+	if(!length(design_files)) // Return here to avoid sorting again.
+		return
 
-	if(!known_tech)
-		known_tech = get_default_initial_tech_levels()
-		var/datum/extension/network_device/device = get_extension(src, /datum/extension/network_device)
-		var/datum/computer_network/network = device.get_network()
-		if(network)
-			for(var/obj/machinery/design_database/db in network.get_devices_by_type(/obj/machinery/design_database))
-				for(var/tech in db.tech_levels)
-					if(db.tech_levels[tech] > known_tech[tech])
-						known_tech[tech] = db.tech_levels[tech]
-
-	var/list/unlocked_tech = SSfabrication.get_unlocked_recipes(fabricator_class, known_tech)
-	if(length(unlocked_tech))
-		design_cache |= unlocked_tech
-
-	var/list/unique_categories
 	var/list/add_mat_to_storage_cap = list()
-	for(var/datum/fabricator_recipe/R in design_cache)
-
-		for(var/mat in R.resources)
+	var/list/new_designs = add_designs(design_files)
+	for(var/datum/fabricator_recipe/new_recipe in new_designs)
+		for(var/mat in new_recipe.resources)
 			add_mat_to_storage_cap |= mat
 
-		LAZYDISTINCTADD(unique_categories, R.category)
-		if(!length(R.species_locked))
+		if(!length(new_recipe.species_locked))
 			continue
 
 		if(isnull(species_variation))
-			design_cache.Remove(R)
+			design_cache.Remove(new_recipe)
 			continue
 
-		for(var/species_type in R.species_locked)
+		for(var/species_type in new_recipe.species_locked)
 			if(!(ispath(species_variation, species_type)))
-				design_cache.Remove(R)
+				design_cache.Remove(new_recipe)
 				continue
 
 	design_cache = sortTim(design_cache, /proc/cmp_name_asc)
-	ui_nb_categories = LAZYLEN(unique_categories)
 
 	if(length(add_mat_to_storage_cap))
 		var/need_storage_recalc = FALSE
@@ -162,11 +149,6 @@
 
 		if(need_storage_recalc)
 			RefreshParts()
-
-	// We handle this here, as we don't know what materials should be stocked prior to updating our recipes.
-	if(prefilled)
-		prefilled = FALSE
-		fill_to_capacity()
 
 /obj/machinery/fabricator/state_transition(var/decl/machine_construction/default/new_state)
 	. = ..()
@@ -211,7 +193,7 @@
 /obj/machinery/fabricator/RefreshParts()
 	..()
 	var/mb_rating = clamp(total_component_rating_of_type(/obj/item/stock_parts/matter_bin), 0, 10)
-	var/man_rating = clamp(total_component_rating_of_type(/obj/item/stock_parts/manipulator), 0.5, 3.5)
+	var/man_rating = clamp(total_compmat_efficiencyonent_rating_of_type(/obj/item/stock_parts/manipulator), 0.5, 3.5)
 	for(var/mat in base_storage_capacity)
 		storage_capacity[mat] = mb_rating * base_storage_capacity[mat]
 		if(!(mat in stored_material))
