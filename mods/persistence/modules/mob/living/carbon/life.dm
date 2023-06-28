@@ -18,11 +18,11 @@
 	// If the player is in stasis from sleeping etc, we don't want to deal manlnutrition damage.
 	if(stasis_value >= 10)
 		return
-	
+
 	if(!nutrition || !hydration)
 		add_chemical_effect(CE_TOXIN, 1)
 		adjustToxLoss(MALNUTRITION_DAMAGE)
-	
+
 		var/obj/item/organ/internal/stomach_organ = get_organ(BP_STOMACH)
 		var/obj/item/organ/internal/kidneys_organ = get_organ(BP_KIDNEYS)
 
@@ -47,7 +47,7 @@
 			else
 				stasis_level = 10
 			//Apply sleeping stasis.
-			SetStasis(stasis_level, STASIS_SLEEP)
+			set_stasis(stasis_level, STASIS_SLEEP)
 	else
 		logged_out_time = null
 

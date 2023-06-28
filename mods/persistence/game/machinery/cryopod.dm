@@ -95,7 +95,7 @@
 	if(occupant)
 		if(applies_stasis && iscarbon(occupant) && (world.time > time_entered + 20 SECONDS))
 			var/mob/living/carbon/C = occupant
-			C.SetStasis(2)
+			C.set_stasis(2)
 
 		if(despawning)
 			return
