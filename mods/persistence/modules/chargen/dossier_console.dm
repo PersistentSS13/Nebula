@@ -7,7 +7,10 @@
 	anchored = TRUE
 
 /obj/structure/fake_computer/attack_hand(mob/user)
+	if((. = ..()))
+		return .
 	ui_interact(user)
+	return TRUE
 
 /obj/structure/fake_computer/on_update_icon()
 	cut_overlays()

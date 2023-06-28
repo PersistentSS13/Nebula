@@ -238,9 +238,6 @@ SAVED_VAR(/datum/wound, embedded_objects)
 SAVED_VAR(/datum/wound, desc_list)
 SAVED_VAR(/datum/wound, damage_list)
 
-SAVED_VAR(/datum/inventory_slot, slot_id)
-SAVED_VAR(/datum/inventory_slot, holding)
-
 SAVED_VAR(/datum/robot_component, installed)
 SAVED_VAR(/datum/robot_component, powered)
 SAVED_VAR(/datum/robot_component, toggled)
@@ -349,6 +346,9 @@ SAVED_VAR(/mob/living, meat_amount)
 SAVED_VAR(/mob/living, skin_amount)
 SAVED_VAR(/mob/living, bone_amount)
 SAVED_VAR(/mob/living, reagents)
+SAVED_VAR(/mob/living, _held_item_slot_selected)
+SAVED_VAR(/mob/living, _held_item_slots)
+SAVED_VAR(/mob/living, _inventory_slots)
 
 SAVED_VAR(/mob/living/bot, on)
 SAVED_VAR(/mob/living/bot, open)
@@ -715,13 +715,31 @@ SAVED_VAR(/obj/item/assembly_holder, master)
 ///////////////////////////////////////////////////////////////////////////////
 // item/radio
 ///////////////////////////////////////////////////////////////////////////////
-SAVED_VAR(/obj/item/radio/headset, ks1type)
-SAVED_VAR(/obj/item/radio/headset, ks2type)
 
+SAVED_VAR(/obj/item/radio, cell)
 SAVED_VAR(/obj/item/radio, wires)
-SAVED_VAR(/obj/item/radio, b_stat)
+SAVED_VAR(/obj/item/radio, panel_open)
+SAVED_VAR(/obj/item/radio, encryption_keys)
+SAVED_VAR(/obj/item/radio, on)
+SAVED_VAR(/obj/item/radio, frequency)
+SAVED_VAR(/obj/item/radio, traitor_frequency)
 SAVED_VAR(/obj/item/radio, broadcasting)
 SAVED_VAR(/obj/item/radio, listening)
+SAVED_VAR(/obj/item/radio, analog)
+SAVED_VAR(/obj/item/radio, analog_secured)
+
+/obj/item/radio/after_deserialize()
+	encryption_key_capacity = max(encryption_key_capacity, length(encryption_keys))
+	. = ..()
+
+SAVED_VAR(/obj/item/radio/beacon, code)
+SAVED_VAR(/obj/item/radio/beacon, functioning)
+
+SAVED_VAR(/obj/item/radio/intercom/locked, locked_frequency)
+
+
+SAVED_VAR(/obj/item/encryptionkey, can_decrypt) //Can vary at runtime
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // item/card
@@ -1267,11 +1285,6 @@ SAVED_VAR(/obj/machinery/smartfridge, item_records)
 SAVED_VAR(/obj/machinery/smartfridge, locked)
 SAVED_VAR(/obj/machinery/smartfridge, scan_id)
 
-SAVED_VAR(/obj/machinery/telecomms/receiver, links)
-SAVED_VAR(/obj/machinery/telecomms/receiver, listening_levels)
-
-SAVED_VAR(/obj/machinery/telecomms, on)
-
 SAVED_VAR(/obj/machinery/button, active)
 SAVED_VAR(/obj/machinery/button, operating)
 SAVED_VAR(/obj/machinery/button, state)
@@ -1281,14 +1294,6 @@ SAVED_VAR(/obj/machinery/button/access, command)
 SAVED_VAR(/obj/machinery/atmospherics/pipe, leaking)
 
 SAVED_VAR(/obj/machinery/disposal_switch, on)
-
-SAVED_VAR(/obj/machinery/telecomms/bus, change_frequency)
-
-SAVED_VAR(/obj/machinery/telecomms/processor, process_mode)
-
-SAVED_VAR(/obj/machinery/telecomms/server, log_entries)
-SAVED_VAR(/obj/machinery/telecomms/server, stored_names)
-SAVED_VAR(/obj/machinery/telecomms/server, logs)
 
 SAVED_VAR(/obj/machinery/light, on)
 SAVED_VAR(/obj/machinery/light, current_mode)

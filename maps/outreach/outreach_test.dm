@@ -20,6 +20,7 @@
 /datum/level_data/planetoid/exoplanet/outreach
 	name                = "outreach surface"
 	level_id            = "outreach_surface"
+	parent_planetoid    = "outreach"
 	level_flags         = ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_SEALED | ZLEVEL_SAVED
 	ambient_light_level = 0.8
 	base_area           = /area/exoplanet/outreach

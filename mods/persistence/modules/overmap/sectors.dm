@@ -113,16 +113,14 @@ SAVED_VAR(/datum/generated_fauna_template, body_temp_init)
 SAVED_VAR(/datum/generated_fauna_template, heat_damage_per_tick)
 
 //Flora Generator State
-SAVED_VAR(/datum/flora_generator, flora_diversity)
-SAVED_VAR(/datum/flora_generator, has_trees)
-SAVED_VAR(/datum/flora_generator, small_flora_types)
-SAVED_VAR(/datum/flora_generator, big_flora_types)
-SAVED_VAR(/datum/flora_generator, plant_colors)
-SAVED_VAR(/datum/flora_generator, grass_color)
-SAVED_VAR(/datum/flora_generator, exuded_gases_exclusions)
-SAVED_VAR(/datum/flora_generator, expected_temperature)
-SAVED_VAR(/datum/flora_generator, expected_pressure)
-SAVED_VAR(/datum/flora_generator, expected_atmosphere_composition)
+SAVED_VAR(/datum/planet_flora, small_flora_types)
+SAVED_VAR(/datum/planet_flora, big_flora_types)
+SAVED_VAR(/datum/planet_flora, grass_color)
+SAVED_VAR(/datum/planet_flora, plant_colors)
+SAVED_VAR(/datum/planet_flora, exuded_gases_exclusions)
+
+SAVED_VAR(/datum/planet_flora/random, flora_diversity)
+SAVED_VAR(/datum/planet_flora/random, has_trees)
 
 //Planetoid Overmap Markers
 SAVED_VAR(/obj/effect/overmap/visitable/sector/planetoid, planetoid_id)

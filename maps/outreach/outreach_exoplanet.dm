@@ -15,7 +15,7 @@
 	day_duration        = 25 MINUTES
 	surface_light_level = 0.8
 	surface_light_color = COLOR_GREEN_GRAY
-	flora               = /datum/flora_generator/outreach
+	flora               = /datum/planet_flora/outreach
 	fauna               = /datum/fauna_generator/outreach
 
 ///////////////////////////////////////
@@ -36,9 +36,7 @@
 // Outreach Flora Data
 ///////////////////////////////////////
 
-/datum/flora_generator/outreach
-	flora_diversity = 5
-	has_trees       = FALSE
+/datum/planet_flora/outreach
 	grass_color     = "#407c40"
 	plant_colors    = list(COLOR_PALE_PINK, COLOR_PALE_GREEN_GRAY, COLOR_CIVIE_GREEN)
 

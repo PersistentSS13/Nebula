@@ -229,6 +229,7 @@
 /obj/structure/sign/warning/hot_exhaust/indestructible/attackby(var/obj/item/C, var/mob/user)
 	return
 /obj/structure/sign/warning/hot_exhaust/indestructible/attack_hand(mob/user)
+	SHOULD_CALL_PARENT(FALSE)
 	return
 
 

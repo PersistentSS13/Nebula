@@ -15,7 +15,7 @@
 	day_duration        = 25 MINUTES
 	surface_light_level = 0.8
 	surface_light_color = COLOR_WHITE
-	flora               = /datum/flora_generator/kleibkhar
+	flora               = /datum/planet_flora/kleibkhar
 	fauna               = /datum/fauna_generator/kleibkhar
 
 ///////////////////////////////////////
@@ -35,11 +35,9 @@
 // Kelibkhar Flora Data
 ///////////////////////////////////////
 
-/datum/flora_generator/kleibkhar
-	flora_diversity = 6
-	has_trees = FALSE
-	grass_color = "#407c40"
-	plant_colors = list("#215a00","#195a47","#5a7467","#9eab88","#6e7248", "RANDOM")
+/datum/planet_flora/kleibkhar
+	grass_color       = "#407c40"
+	plant_colors      = list("#215a00","#195a47","#5a7467","#9eab88","#6e7248", "RANDOM")
 
 ///////////////////////////////////////
 // Kleibkhar Fauna
