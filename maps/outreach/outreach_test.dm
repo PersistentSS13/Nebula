@@ -8,7 +8,7 @@
 	template_flags       = TEMPLATE_FLAG_SPAWN_GUARANTEED | TEMPLATE_FLAG_NO_RUINS
 	modify_tag_vars      = FALSE
 	template_categories  = list(MAP_TEMPLATE_CATEGORY_MAIN_SITE) //Templates must have a category, or they won't spawn
-	planetoid_type       = /datum/planetoid_data/outreach
+	planetoid_data_type  = /datum/planetoid_data/outreach
 	tallness             = 4
 	mappaths             = list(
 		"maps/outreach/outreach-1.dmm",
