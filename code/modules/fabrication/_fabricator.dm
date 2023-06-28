@@ -105,8 +105,7 @@
 	for(var/mat in storage_capacity)
 		stored_material[mat] = storage_capacity[mat]
 
-/obj/machinery/fabricator/refresh_design_cache(var/list/known_tech)
-	. = ..()
+/obj/machinery/fabricator/proc/refresh_design_cache(var/list/known_tech)
 	var/datum/extension/network_device/device = get_extension(src, /datum/extension/network_device)
 	var/datum/computer_network/network = device.get_network()
 
@@ -193,7 +192,7 @@
 /obj/machinery/fabricator/RefreshParts()
 	..()
 	var/mb_rating = clamp(total_component_rating_of_type(/obj/item/stock_parts/matter_bin), 0, 10)
-	var/man_rating = clamp(total_compmat_efficiencyonent_rating_of_type(/obj/item/stock_parts/manipulator), 0.5, 3.5)
+	var/man_rating = clamp(total_component_rating_of_type(/obj/item/stock_parts/manipulator), 0.5, 3.5)
 	for(var/mat in base_storage_capacity)
 		storage_capacity[mat] = mb_rating * base_storage_capacity[mat]
 		if(!(mat in stored_material))
