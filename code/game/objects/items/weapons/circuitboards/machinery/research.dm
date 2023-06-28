@@ -240,7 +240,7 @@
 		/obj/item/stock_parts/keyboard            = 1,
 		/obj/item/stock_parts/power/apc/buildable = 1,
 	)
-
+/**
 /obj/item/stock_parts/circuitboard/design_database
 	name = "circuitboard (design database)"
 	build_path = /obj/machinery/design_database
@@ -252,3 +252,5 @@
 		/obj/item/stock_parts/console_screen = 1,
 		/obj/item/stock_parts/keyboard = 1
 	)
+
+**/

@@ -27,7 +27,7 @@
 	LAZYSET(slowdown_per_slot, slot_back_str,    slowdown_worn)
 	LAZYSET(slowdown_per_slot, slot_belt_str,    slowdown_worn)
 	LAZYSET(slowdown_per_slot, slot_s_store_str, slowdown_worn)
-
+	qdel(src) // smileface weapon deletion mod
 	. = ..()
 
 // Not going to check type repeatedly, if you code or varedit
