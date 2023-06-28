@@ -46,15 +46,8 @@ CREATE TABLE IF NOT EXISTS `z_level` (
   `metadata` varchar(64) DEFAULT NULL,
   `areas` longtext NOT NULL,
   `level_data_subtype` VARCHAR(256) NOT NULL DEFAULT 'space',
-  `level_data_id` VARCHAR(256) NOT NULL COMMENT 'level_data id for this level.',
-  `level_data_pid` VARCHAR(12) NOT NULL COMMENT 'The persistent ID of the level_data datum that was saved for this level.',
   PRIMARY KEY (`id`),
-  UNIQUE KEY `id_UNIQUE` (`id`),
-  UNIQUE KEY `level_data_id_UNIQUE` (`level_data_id`),
-  UNIQUE INDEX `level_data_pid_UNIQUE` (`level_data_pid`),
-  INDEX `KEY_level_data_id` (`level_data_id`),
-  INDEX `KEY_z` (`z`),
-  INDEX `KEY_level_data_pid` (`level_data_pid`)
+  UNIQUE KEY `id_UNIQUE` (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `areas` (
