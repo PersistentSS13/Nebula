@@ -117,7 +117,7 @@
 		known_tech = get_default_initial_tech_levels()
 		var/datum/extension/network_device/device = get_extension(src, /datum/extension/network_device)
 		var/datum/computer_network/network = device.get_network()
-		if(network)
+	//	if(network)
 		//	for(var/obj/machinery/design_database/db in network.get_devices_by_type(/obj/machinery/design_database))
 		//		for(var/tech in db.tech_levels)
 		//			if(db.tech_levels[tech] > known_tech[tech])
