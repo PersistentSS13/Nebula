@@ -43,6 +43,7 @@
 		if(need_storage_recalc)
 			RefreshParts()
 
+
 /obj/machinery/fabricator/proc/add_designs(list/files)
 	. = list()
 	for(var/datum/computer_file/data/design/D in files)

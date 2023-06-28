@@ -88,9 +88,11 @@
 		/decl/material/solid/fiberglass = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_TRACE
 	)
+
 /obj/item/gun/energy/lasercannon/Initialize(mapload, owner)
 	qdel(src) // smileface weapon deletion mod
 	..()
+
 /obj/item/gun/energy/lasercannon/mounted
 	name = "mounted laser cannon"
 	self_recharge = 1
