@@ -86,9 +86,9 @@
 		sleep(5)
 
 		var/time_start_limbo_removal = REALTIMEOFDAY
-		for(var/list/queued in limbo_removals)
-			one_off.RemoveFromLimbo(queued[1], queued[2])
-			limbo_removals -= list(queued)
+	//	for(var/list/queued in limbo_removals)
+	//		one_off.RemoveFromLimbo(queued[1], queued[2])
+	//		limbo_removals -= list(queued)
 
 		limbo_refs.Cut()
 		report_progress_serializer("Done removing queued limbo objects in [(REALTIMEOFDAY - time_start_limbo_removal) / (1 SECOND)]s.")

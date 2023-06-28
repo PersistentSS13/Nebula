@@ -133,7 +133,7 @@
 		. += "<b>Passport:</b> <a href='?src=\ref[src];toggle_passport=1'><b>[pref.give_passport ? "Yes" : "No"]</b></a><br>"
 
 	var/decl/starting_cash_choice/cash_choice = GET_DECL(pref.starting_cash_choice)
-	. += "<br><b>Personal finances:</b><br><a href='?src=\ref[src];change_cash_choice=1'>[capitalize(cash_choice.name)]</a><br>"
+
 	return jointext(.,null)
 
 /datum/category_item/player_setup_item/physical/equipment/proc/get_underwear_metadata(var/underwear_category, var/datum/gear_tweak/gt)

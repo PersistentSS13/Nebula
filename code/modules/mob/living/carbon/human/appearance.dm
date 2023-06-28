@@ -17,8 +17,8 @@
 	dna.ready_dna(src)
 
 	//Handle spawning stuff
+	if(!persistent_id) 	species.create_missing_organs(src, TRUE) //Not fully replacing would cause problem with organs not being updated
 	species.handle_pre_spawn(src)
-	species.create_missing_organs(src, TRUE) //Not fully replacing would cause problem with organs not being updated
 	UpdateAppearance()
 	apply_species_appearance()
 	apply_species_cultural_info()

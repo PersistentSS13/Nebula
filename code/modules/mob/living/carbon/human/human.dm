@@ -793,7 +793,7 @@
 		// This language is Not Fine, remove it.
 		if(lang.type == default_language)
 			default_language = null
-		remove_language(lang.type)
+//		remove_language(lang.type)
 
 	for(var/thing in free_languages)
 		add_language(thing)
