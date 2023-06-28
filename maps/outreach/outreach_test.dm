@@ -3,7 +3,7 @@
 		/decl/music_track/dirtyoldfrogg
 	)
 
-/datum/map_template/persistent/planet/outreach
+/datum/map_template/planetoid/persistent/outreach
 	name                 = "planet outreach"
 	template_flags       = TEMPLATE_FLAG_SPAWN_GUARANTEED | TEMPLATE_FLAG_NO_RUINS
 	modify_tag_vars      = FALSE
