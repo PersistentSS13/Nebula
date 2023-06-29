@@ -254,6 +254,9 @@
 /turf/simulated/floor/indestructible/attackby(var/obj/item/C, var/mob/user)
 	return
 
+/turf/simulated/floor/indestructible/airless
+	initial_gas = null
+
 ///Unbreakable wall for cargo shuttle
 /turf/simulated/wall/r_titanium/indestructible
 	name = "hull plating"

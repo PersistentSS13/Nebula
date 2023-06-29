@@ -23,7 +23,7 @@
 	pixel_x = 0;
 	pixel_y = -24
 	},
-/turf/simulated/floor/indestructible,
+/turf/simulated/floor/indestructible/airless,
 /area/shuttle/supply_shuttle)
 "e" = (
 /obj/machinery/conveyor/indestructible{
@@ -57,14 +57,14 @@
 /area/shuttle/supply_shuttle)
 "j" = (
 /obj/structure/shuttle/engine/heater{
-	dir = 4
+	dir = 4;
 	pixel_x = -8;
 	pixel_y = 0
 	},
 /obj/structure/sign/warning/hot_exhaust/indestructible{
 	dir = 1
 	},
-/turf/simulated/floor/indestructible,
+/turf/simulated/floor/indestructible/airless,
 /area/shuttle/supply_shuttle)
 "k" = (
 /obj/machinery/embedded_controller/radio/simple_docking_controller/indestructible/supply_offsite,
@@ -101,7 +101,7 @@
 /obj/structure/shuttle/engine/propulsion/burst{
 	dir = 8
 	},
-/turf/simulated/floor/indestructible,
+/turf/simulated/floor/indestructible/airless,
 /area/shuttle/supply_shuttle)
 "p" = (
 /obj/machinery/conveyor_switch/indestructible,
@@ -225,7 +225,7 @@
 	pixel_y = 0
 	},
 /obj/structure/sign/warning/hot_exhaust/indestructible,
-/turf/simulated/floor/indestructible,
+/turf/simulated/floor/indestructible/airless,
 /area/shuttle/supply_shuttle)
 
 (1,1,1) = {"
