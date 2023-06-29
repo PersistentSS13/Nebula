@@ -144,20 +144,20 @@
 
 /datum/unit_test/zas_supply_shuttle_moved/check_result()
 	if(shuttle.moving_status == SHUTTLE_INTRANSIT || shuttle.moving_status == SHUTTLE_WARMUP)
-		return //Return null to keep checking async
+		return 0 //Return 0 to keep checking async
 
-	testing("Supply shuttle is now idle.")
+	testing("[shuttle.display_name] is now idle.")
 
 	//Check if we moved
 	if(shuttle.current_location == shuttle_start)
-		fail("Shuttle Did not Move")
+		fail("[shuttle.display_name] did not move.")
 		return 1
 
 	//Do the air zone test
 	for(var/area/A in shuttle.shuttle_area)
 		var/list/test = test_air_in_area(A.type, global.using_map.shuttle_atmos_expectation)
 		if(isnull(test))
-			fail("Check Runtimed")
+			fail("Check runtimed.")
 			return 1
 
 		switch(test["result"])
