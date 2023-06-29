@@ -178,6 +178,7 @@
 		thing_p_ids |= thing.persistent_id
 	if(extension_wrapper_holder.persistent_id)
 		thing_p_ids |= extension_wrapper_holder.persistent_id
+	else
 	var/encoded_p_ids = json_encode(thing_p_ids)
 	// Insert into the limbo table, a metadata holder that allows for access to the limbo_assoc key by 'type' and 'key'.
 	var/DBQuery/insert_query
@@ -205,7 +206,7 @@
 			. = TRUE // Success!
 			message_admins("WE WIN")
 		else
-			message_admins("FAILED AND REMOVING ANY ROWS IN THE DB")
+			message_admins("FAILED AND REMOVING ANY ROWS IN THE DB [text2num(check_query.item[1])] / [length(thing_p_ids)]")
 			RemoveFromLimbo(key, limbo_type) // If we failed, remove any rows still in the database.
 	Clear()
 
