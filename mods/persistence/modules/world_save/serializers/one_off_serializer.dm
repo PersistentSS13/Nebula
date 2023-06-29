@@ -191,7 +191,7 @@
 	message_admins("wrote the char, at least we tried")
 	// Final check, ensure each passed thing has been added to the limbo table
 	var/DBQuery/check_query
-	check_query = dbcon_save.NewQuery("SELECT COUNT(*) FROM `[SQLS_TABLE_LIMBO_DATUM]` WHERE `limbo_assoc` = '[limbo_assoc]' AND `p_id` IN ('[jointext(thing_p_ids, "', '")]');")
+	check_query = dbcon_save.NewQuery("SELECT COUNT(*) FROM `[SQLS_TABLE_LIMBO_DATUM]` WHERE `limbo_assoc` = '[limbo_assoc]' AND `p_id` IN ('[encoded_p_ids]');")
 
 	try
 		SQLS_EXECUTE_AND_REPORT_ERROR(check_query, "LIMBO CHECK FAILED:")
