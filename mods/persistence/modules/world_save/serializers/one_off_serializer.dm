@@ -190,9 +190,9 @@
 		throw insert_e
 	message_admins("wrote the char, at least we tried")
 	// Final check, ensure each passed thing has been added to the limbo table
-//	var/DBQuery/check_query
-//	check_query = dbcon_save.NewQuery("SELECT COUNT(*) FROM `[SQLS_TABLE_LIMBO_DATUM]` WHERE `limbo_assoc` = '[limbo_assoc]' AND `p_id` IN ('[jointext(thing_p_ids, "', '")]');")
-	/**
+	var/DBQuery/check_query
+	check_query = dbcon_save.NewQuery("SELECT COUNT(*) FROM `[SQLS_TABLE_LIMBO_DATUM]` WHERE `limbo_assoc` = '[limbo_assoc]' AND `p_id` IN ('[encoded_p_ids]');")
+
 	try
 		SQLS_EXECUTE_AND_REPORT_ERROR(check_query, "LIMBO CHECK FAILED:")
 	catch (var/exception/check_e)
@@ -207,8 +207,6 @@
 		else
 			message_admins("FAILED AND REMOVING ANY ROWS IN THE DB")
 			RemoveFromLimbo(key, limbo_type) // If we failed, remove any rows still in the database.
-	**/
-	. = TRUE
 	Clear()
 
 // Removes an object from the limbo table. This should always be called after an object is deserialized from limbo into the world.
