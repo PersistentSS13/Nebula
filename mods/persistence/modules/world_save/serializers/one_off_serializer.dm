@@ -179,6 +179,7 @@
 	if(extension_wrapper_holder.persistent_id)
 		thing_p_ids |= extension_wrapper_holder.persistent_id
 	else
+		message_admins("ext wrapper no pid")
 	var/encoded_p_ids = json_encode(thing_p_ids)
 	// Insert into the limbo table, a metadata holder that allows for access to the limbo_assoc key by 'type' and 'key'.
 	var/DBQuery/insert_query
