@@ -98,6 +98,7 @@
 // ==================================================================================================
 
 
+
 /// Here we move a shuttle then test it's area once the shuttle has arrived.
 /datum/unit_test/zas_supply_shuttle_moved
 	name  = "ZAS: Supply Shuttle (When Moved)"
@@ -128,10 +129,12 @@
 		return 1
 	shuttle = SSsupply.shuttle
 
+	//This test is only valid if the shuttle still works this way
+	ASSERT(shuttle.location == 0 || shuttle.location == 1)
+
 	//Setup our variables
 	initial_movetime    = SSsupply.movetime
 	SSsupply.movetime   = 5 // Speed up the shuttle movement.
-	ASSERT(shuttle.location == 0 || shuttle.location == 1) //This test is only valid if the shuttle still works this way
 	shuttle_start       = shuttle.get_location_waypoint(shuttle.location)
 	shuttle_destination = shuttle.get_location_waypoint(!shuttle.location)
 
@@ -143,8 +146,7 @@
 	if(shuttle.moving_status == SHUTTLE_INTRANSIT || shuttle.moving_status == SHUTTLE_WARMUP)
 		return //Return null to keep checking async
 
-	//Restore shuttle movetime for any following tests
-	SSsupply.movetime = initial_movetime
+	testing("Supply shuttle is now idle.")
 
 	//Check if we moved
 	if(shuttle.current_location == shuttle_start)
@@ -163,3 +165,8 @@
 			if(SKIP)    skip(test["msg"])
 			else        fail(test["msg"])
 	return 1
+
+/datum/unit_test/zas_supply_shuttle_moved/teardown_test()
+	//Restore shuttle movetime for any following tests
+	SSsupply.movetime = initial_movetime
+	return ..()
