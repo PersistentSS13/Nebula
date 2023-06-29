@@ -145,7 +145,9 @@
 	var/DBQuery/existing_query = dbcon_save.NewQuery("SELECT 1 FROM `[SQLS_TABLE_LIMBO]` WHERE `key` = '[key]' AND `type` = '[limbo_type]'")
 	SQLS_EXECUTE_AND_REPORT_ERROR(existing_query, "LIMBO SELECT KEY FAILED:")
 	if(existing_query.NextRow()) // There was already something in limbo with this type.
+		message_admins("trying to gelete existing char.")
 		if(!modify)
+			message_admins("well shucks that sucks.")
 			return
 		RemoveFromLimbo(key, limbo_type)
 
@@ -186,7 +188,7 @@
 	catch (var/exception/insert_e)
 		Clear()
 		throw insert_e
-
+	message_admins("wrote the char, at least we tried")
 	// Final check, ensure each passed thing has been added to the limbo table
 	var/DBQuery/check_query
 	check_query = dbcon_save.NewQuery("SELECT COUNT(*) FROM `[SQLS_TABLE_LIMBO_DATUM]` WHERE `limbo_assoc` = '[limbo_assoc]' AND `p_id` IN ('[jointext(thing_p_ids, "', '")]');")
@@ -201,7 +203,9 @@
 	if(check_query.NextRow())
 		if(text2num(check_query.item[1]) == length(thing_p_ids))
 			. = TRUE // Success!
+			message_admins("WE WIN")
 		else
+			message_admins("FAILED AND REMOVING ANY ROWS IN THE DB")
 			RemoveFromLimbo(key, limbo_type) // If we failed, remove any rows still in the database.
 	Clear()
 
