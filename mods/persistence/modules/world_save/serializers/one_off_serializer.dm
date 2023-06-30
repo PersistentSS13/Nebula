@@ -145,9 +145,7 @@
 	var/DBQuery/existing_query = dbcon_save.NewQuery("SELECT 1 FROM `[SQLS_TABLE_LIMBO]` WHERE `key` = '[key]' AND `type` = '[limbo_type]'")
 	SQLS_EXECUTE_AND_REPORT_ERROR(existing_query, "LIMBO SELECT KEY FAILED:")
 	if(existing_query.NextRow()) // There was already something in limbo with this type.
-		message_admins("trying to gelete existing char.")
 		if(!modify)
-			message_admins("well shucks that sucks.")
 			return
 		RemoveFromLimbo(key, limbo_type)
 
@@ -178,8 +176,6 @@
 		thing_p_ids |= thing.persistent_id
 	if(extension_wrapper_holder.persistent_id)
 		thing_p_ids |= extension_wrapper_holder.persistent_id
-	else
-		message_admins("ext wrapper no pid")
 	var/encoded_p_ids = json_encode(thing_p_ids)
 	// Insert into the limbo table, a metadata holder that allows for access to the limbo_assoc key by 'type' and 'key'.
 	var/DBQuery/insert_query
@@ -190,10 +186,10 @@
 	catch (var/exception/insert_e)
 		Clear()
 		throw insert_e
-	message_admins("wrote the char, at least we tried")
+
 	// Final check, ensure each passed thing has been added to the limbo table
 	var/DBQuery/check_query
-	check_query = dbcon_save.NewQuery("SELECT COUNT(*) FROM `[SQLS_TABLE_LIMBO_DATUM]` WHERE `limbo_assoc` = '[limbo_assoc]' AND `p_id` IN ('[encoded_p_ids]');")
+	check_query = dbcon_save.NewQuery("SELECT COUNT(*) FROM `[SQLS_TABLE_LIMBO_DATUM]` WHERE `limbo_assoc` = '[limbo_assoc]' AND `p_id` IN ('[jointext(thing_p_ids, "', '")]');")
 
 	try
 		SQLS_EXECUTE_AND_REPORT_ERROR(check_query, "LIMBO CHECK FAILED:")
@@ -205,9 +201,8 @@
 	if(check_query.NextRow())
 		if(text2num(check_query.item[1]) == length(thing_p_ids))
 			. = TRUE // Success!
-			message_admins("WE WIN")
 		else
-			message_admins("FAILED AND REMOVING ANY ROWS IN THE DB [text2num(check_query.item[1])] / [length(thing_p_ids)]")
+			message_admins("failed to find all pids [check_query.item[1]] -- [length(thing_p_ids)]")
 			RemoveFromLimbo(key, limbo_type) // If we failed, remove any rows still in the database.
 	Clear()
 
