@@ -183,7 +183,7 @@
 	var/encoded_p_ids = json_encode(thing_p_ids)
 	// Insert into the limbo table, a metadata holder that allows for access to the limbo_assoc key by 'type' and 'key'.
 	var/DBQuery/insert_query
-	insert_query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIMBO]` (`key`,`type`,`p_ids`,`metadata`,`limbo_assoc`, `metadata2`) VALUES('[key]', '[limbo_type]', '[encoded_p_ids]', '[metadata]', '[limbo_assoc]', '[metadata2]')")
+	insert_query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIMBO]` (`key`,`type`,`p_ids`,`metadata`,`limbo_assoc`,`metadata2`) VALUES('[key]', '[limbo_type]', '[encoded_p_ids]', '[metadata]', '[limbo_assoc]', '[metadata2]')")
 
 	try
 		SQLS_EXECUTE_AND_REPORT_ERROR(insert_query, "LIMBO ADDITION FAILED:")
@@ -213,6 +213,9 @@
 
 // Removes an object from the limbo table. This should always be called after an object is deserialized from limbo into the world.
 /serializer/sql/one_off/proc/RemoveFromLimbo(var/limbo_key, var/limbo_type)
+
+	limbo_key = sanitize_sql(limbo_key)
+
 	var/DBQuery/limbo_query = dbcon_save.NewQuery("SELECT `limbo_assoc` FROM `[SQLS_TABLE_LIMBO]` WHERE `key` = '[limbo_key]' AND `type` = '[limbo_type]';")
 	var/limbo_assoc
 	SQLS_EXECUTE_AND_REPORT_ERROR(limbo_query, "LIMBO QUERY FAILED DURING LIMBO REMOVAL:")
