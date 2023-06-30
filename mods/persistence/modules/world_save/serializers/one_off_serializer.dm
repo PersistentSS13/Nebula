@@ -202,8 +202,18 @@
 		if(text2num(check_query.item[1]) == length(thing_p_ids))
 			. = TRUE // Success!
 		else
-			message_admins("failed to find all pids [check_query.item[1]] -- [length(thing_p_ids)]")
-			RemoveFromLimbo(key, limbo_type) // If we failed, remove any rows still in the database.
+			var/DBQuery/print_query = dbcon_save.NewQuery("SELECT `p_id` FROM `[SQLS_TABLE_LIMBO_DATUM]` WHERE `limbo_assoc` = '[limbo_assoc]' AND `p_id` IN ('[jointext(thing_p_ids, "', '")]');")
+			try
+				SQLS_EXECUTE_AND_REPORT_ERROR(print_query, "LIMBO CHECK FAILED:")
+			catch (var/exception/check_e)
+				Clear()
+				RemoveFromLimbo(key, limbo_type)
+				throw check_e
+			while(print_query.NextRow())
+				message_admins("DID WORK: [query.item[1]]")
+			message_admins("failed to find all pids [check_query.item[1]] -- [length(thing_p_ids)]  ([jointext(thing_p_ids, "', '"])")
+		//	RemoveFromLimbo(key, limbo_type) // If we failed, remove any rows still in the database.
+			. = TRUE
 	Clear()
 
 // Removes an object from the limbo table. This should always be called after an object is deserialized from limbo into the world.
