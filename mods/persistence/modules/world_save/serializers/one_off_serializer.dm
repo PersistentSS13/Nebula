@@ -210,8 +210,8 @@
 				RemoveFromLimbo(key, limbo_type)
 				throw check_e
 			while(print_query.NextRow())
-				message_admins("DID WORK: [query.item[1]]")
-			message_admins("failed to find all pids [check_query.item[1]] -- [length(thing_p_ids)]  ([jointext(thing_p_ids, "', '"])")
+			message_admins("DID WORK: [query.item[1]]")
+			message_admins("failed to find all pids [check_query.item[1]] -- [length(thing_p_ids)]  ([jointext(thing_p_ids, "', '")])")
 		//	RemoveFromLimbo(key, limbo_type) // If we failed, remove any rows still in the database.
 			. = TRUE
 	Clear()
