@@ -210,7 +210,10 @@
 				RemoveFromLimbo(key, limbo_type)
 				throw check_a
 			while(print_query.NextRow())
-				message_admins("DID WORK: [print_query.item[1]]")
+				if(!print_query.item.len)
+					message_admins("query failed?")
+				else
+					message_admins("DID WORK: [print_query.item[1]]")
 			message_admins("failed to find all pids [check_query.item[1]] -- [length(thing_p_ids)]  ([jointext(thing_p_ids, "', '")])")
 		//	RemoveFromLimbo(key, limbo_type) // If we failed, remove any rows still in the database.
 			. = TRUE
