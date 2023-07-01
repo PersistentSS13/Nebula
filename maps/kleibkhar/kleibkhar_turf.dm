@@ -42,7 +42,6 @@ var/global/list/grass_seed_drop_types_uncommon = list(
 	"cotton",
 	"plastic",
 	"shand",
-	"bruisegrass",
 	"lavender",
 	"algae",
 )
