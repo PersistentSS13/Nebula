@@ -597,7 +597,7 @@
 	. = one_off.AddToLimbo(things, key, limbo_type, metadata, metadata2, modify)
 	if(.) // Clear it from the queued removals.
 		for(var/list/queued in limbo_removals)
-			if(queued[1] == key && queued[2] == limbo_type)
+			if(queued[1] == sanitize_sql(key) && queued[2] == limbo_type)
 				limbo_removals -= list(queued)
 	if(new_db_connection)
 		close_save_db_connection()
@@ -619,7 +619,7 @@
 		new_db_connection = TRUE
 	. = one_off.DeserializeOneOff(limbo_key, limbo_type, remove_after)
 	if(remove_after)
-		limbo_removals += list(list(limbo_key, limbo_type))
+		limbo_removals += list(list(sanitize_sql(limbo_key), limbo_type))
 	if(new_db_connection)
 		close_save_db_connection()
 
