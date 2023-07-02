@@ -560,9 +560,11 @@
 		return TOPIC_HANDLED
 
 	if(href_list["flavor_more"])
-		var/text = "<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY><TT>[replacetext(flavor_text, "\n", "<BR>")]</TT></BODY></HTML>"
-		show_browser(user, text, "window=[name];size=500x200")
-		onclose(user, "[name]")
+		var/datum/browser/popup = new(user, ckey(name), name, 500, 200)
+		var/list/html = list("<h3>Appearance</h3>")
+		html += replacetext(flavor_text, "\n", "<BR>")
+		popup.set_content(jointext(html, null))
+		popup.open()
 		return TOPIC_HANDLED
 
 // You probably do not need to override this proc. Use one of the two above.
@@ -1320,3 +1322,20 @@
 
 /mob/proc/get_target_zone()
 	return zone_sel?.selecting
+
+/mob/proc/get_temperature_threshold(var/threshold)
+	switch(threshold)
+		if(COLD_LEVEL_1)
+			return 243
+		if(COLD_LEVEL_2)
+			return 200
+		if(COLD_LEVEL_3)
+			return 120
+		if(HEAT_LEVEL_1)
+			return 360
+		if(HEAT_LEVEL_2)
+			return 400
+		if(HEAT_LEVEL_3)
+			return 1000
+		else
+			CRASH("base get_temperature_threshold() called with invalid threshold value.")

@@ -98,7 +98,6 @@
 // ==================================================================================================
 
 
-
 /// Here we move a shuttle then test it's area once the shuttle has arrived.
 /datum/unit_test/zas_supply_shuttle_moved
 	name  = "ZAS: Supply Shuttle (When Moved)"
@@ -146,11 +145,11 @@
 	if(shuttle.moving_status == SHUTTLE_INTRANSIT || shuttle.moving_status == SHUTTLE_WARMUP)
 		return 0 //Return 0 to keep checking async
 
-	testing("[shuttle.display_name] is now idle.")
+	testing("Supply shuttle is now idle.")
 
 	//Check if we moved
 	if(shuttle.current_location == shuttle_start)
-		fail("[shuttle.display_name] did not move.")
+		fail("Shuttle Did not Move")
 		return 1
 
 	//Do the air zone test
