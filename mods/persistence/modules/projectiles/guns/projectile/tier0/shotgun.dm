@@ -14,6 +14,10 @@
 	screen_shake = 2
 	accuracy = -1
 	one_hand_penalty = 10
+	material = /decl/material/solid/wood
+	matter = list(
+		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT
+	)
 
 /obj/item/gun/projectile/shotgun/handmade/empty
 	starts_loaded = FALSE
