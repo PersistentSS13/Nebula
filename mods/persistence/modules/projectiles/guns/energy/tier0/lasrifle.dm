@@ -10,3 +10,8 @@
 	fire_delay = 15
 	origin_tech = "{'combat':2,'magnets':1,'engineering':1,'materials':2}"
 	projectile_type = /obj/item/projectile/beam/smalllaser
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/silver = MATTER_AMOUNT_TRACE
+	)
