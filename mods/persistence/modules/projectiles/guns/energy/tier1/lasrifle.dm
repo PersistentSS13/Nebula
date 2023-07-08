@@ -10,3 +10,9 @@
 	force = 10
 	origin_tech = "{'combat':3,'magnets':2,'engineering':2,'materials':3}"
 	projectile_type = /obj/item/projectile/beam/midlaser
+	material = /decl/material/solid/metal/aluminium
+	matter = list(
+		/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/silver = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT
+	)
