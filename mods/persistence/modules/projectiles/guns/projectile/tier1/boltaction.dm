@@ -9,10 +9,16 @@
 	handle_casings = HOLD_CASINGS
 	load_method = SINGLE_CASING
 	max_shells = 5
+	w_class = ITEM_SIZE_HUGE
 	ammo_type = /obj/item/ammo_casing/rifle
 	one_hand_penalty = 10
 	fire_delay = 12
 	accuracy = 0
+	material = /decl/material/solid/wood
+	matter = list(
+		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
+	)
 
 /obj/item/gun/projectile/bolt_action/simple/empty
 	starts_loaded = FALSE
