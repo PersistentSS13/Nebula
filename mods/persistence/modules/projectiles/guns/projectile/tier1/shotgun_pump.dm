@@ -13,6 +13,11 @@
 	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
 	handle_casings = HOLD_CASINGS
 	one_hand_penalty = 10
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/wood = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/metal/titanium = MATTER_AMOUNT_TRACE
+	)
 
 /obj/item/gun/projectile/shotgun/pump/simple/empty
 	starts_loaded = FALSE
