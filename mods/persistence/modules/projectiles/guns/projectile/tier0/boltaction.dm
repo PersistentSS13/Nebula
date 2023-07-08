@@ -13,6 +13,10 @@
 	one_hand_penalty = 20
 	fire_delay = 20
 	accuracy = -1
+	material = /decl/material/solid/wood
+	matter = list(
+		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT
+	)
 
 /obj/item/gun/projectile/bolt_action/handmade/empty
 	starts_loaded = FALSE
