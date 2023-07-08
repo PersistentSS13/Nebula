@@ -22,7 +22,7 @@
 	burst_delay = 0
 	firemodes = list(
 		list(mode_name="fire one barrel at a time", burst=1),
-		list(mode_name="fire both barrels at once", burst=2),
+		list(mode_name="fire both barrels at once", burst=2)
 	)
 
 /obj/item/gun/projectile/shotgun/simple/empty
