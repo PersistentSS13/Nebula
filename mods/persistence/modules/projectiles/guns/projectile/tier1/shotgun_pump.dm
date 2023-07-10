@@ -1,6 +1,6 @@
 /obj/item/gun/projectile/shotgun/pump/simple
-	name = "ZSS SG 'Teufort'"
-	desc = "A straightforward pump-action shotgun intended for hunting medium-sized game. The Teufort isn't one of the first or best pump shotguns to exist, but its fairly cheap for how effective it is. Chambered in 12g shells."
+	name = "12g 'Teufort' SG"
+	desc = "Pump-action shotgun of ancient design. Powerful, but fires slowly due to pump-action mechanism and high recoil. Chambered in 12 gauge."
 	icon = 'mods/persistence/icons/obj/guns/tier1/shotgun_pump.dmi'
 	max_shells = 5
 	fire_delay = 12
