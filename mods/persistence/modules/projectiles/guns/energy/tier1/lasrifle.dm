@@ -1,6 +1,6 @@
 /obj/item/gun/energy/laser/rifle/simple
-	name = "ZSS LR 'Marine'"
-	desc = "The Marine model is one of the more ubiquitous energy weapon designs. While its capacity leaves something to be desired, it is incredibly easy to mass-produce and has great beam strength for its low manufacturing cost. It is often seen in the hands of corporate space marines, hence the name."
+	name = "Laser 'Marine' EG"
+	desc = "Laser rifle used by modern spacers. Powerful, but bulky and suffers from low charge capacity. Fires Beta-type laser beams."
 	icon = 'mods/persistence/icons/obj/guns/tier1/lasrifle.dmi'
 	slot_flags = SLOT_BACK
 	w_class = ITEM_SIZE_HUGE
