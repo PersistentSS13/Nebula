@@ -1,6 +1,6 @@
 /obj/item/gun/energy/laser/rifle/handmade
 	name = "Laser 'Tagger' EG"
-	desc = "Energy rifle of dubious origin. Shoddy craftsmanship results in low charge capacity and weak output. Fires Alpha-type laser beams."
+	desc = "Laser rifle of dubious origin. Shoddy craftsmanship results in low charge capacity and weak output. Fires Alpha-type laser beams."
 	icon = 'mods/persistence/icons/obj/guns/tier0/lasrifle.dmi'
 	slot_flags = SLOT_LOWER_BODY|SLOT_BACK
 	w_class = ITEM_SIZE_LARGE
