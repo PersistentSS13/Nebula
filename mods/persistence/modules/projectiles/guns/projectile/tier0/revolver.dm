@@ -1,6 +1,6 @@
 /obj/item/gun/projectile/revolver/handmade
-	name = "HM R 'Underdog'"
-	desc = "A jury-rigged weapon fashioned not too dissimilarly to a revolver. While usable one-handed, it doesn't lend itself to it. Chambered in 10mm rounds."
+	name = "10mm 'Underdog' RV"
+	desc = "Revolver of dubious origin. Shoddy craftsmanship results in low ammo capacity and high recoil. Chambered in 10mm."
 	icon = 'mods/persistence/icons/obj/guns/tier0/revolver.dmi'
 	origin_tech = "{'combat':2,'engineering':1,'materials':1}"
 	caliber = CALIBER_PISTOL
