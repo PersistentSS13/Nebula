@@ -1,6 +1,6 @@
 /obj/item/gun/projectile/shotgun/handmade
-	name = "HM SG 'Slider'"
-	desc = "A simple single-barrel shotgun made from a pipe and some spare parts. Inaccurate and sports nigh-unmanageable recoil. Chambered in 12g shells."
+	name = "12g 'Slider' SG"
+	desc = "Break-action shotgun of dubious origin. Shoddy craftsmanship results in extremely low ammo capacity and high recoil. Chambered in 12 gauge."
 	icon = 'mods/persistence/icons/obj/guns/tier0/shotgun.dmi'
 	load_method = SINGLE_CASING
 	handle_casings = HOLD_CASINGS
