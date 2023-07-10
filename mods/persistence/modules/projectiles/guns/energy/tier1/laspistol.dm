@@ -1,6 +1,6 @@
 /obj/item/gun/energy/laser/pistol/simple
-	name = "ZSS LP 'Settler'"
-	desc = "The Settler model is one of the first ever mass-produced laser weapons intended for civilian use. It has an impressive capacity for its low cost and is small enough to be slung around the belt. Its low stopping power didn't deter most civilians from purchasing the pistol en masse."
+	name = "Laser 'Settler' EG"
+	desc = "Energy gun used by modern spacers. Compact, but suffers from low charge capacity because of this. Fires Alpha-type laser beams."
 	icon = 'mods/persistence/icons/obj/guns/tier1/laspistol.dmi'
 	slot_flags = SLOT_LOWER_BODY
 	w_class = ITEM_SIZE_NORMAL
