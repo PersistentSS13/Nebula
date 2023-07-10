@@ -1,6 +1,6 @@
 /obj/item/gun/projectile/shotgun/simple
-	name = "ZSS SG 'Bouncer'"
-	desc = "The Bouncer, also known simply as 'the Double-Barrel', is essentially a rifle butt with two pipes attached to it. This proves to be immensely effective as a shotgun. This model can be configured to fire one or both barrels at a time, and cannot be sawn off due to sporting reinforced barrels. It's often used by angry barkeeps and deranged space marines. Chambered in 12g shells."
+	name = "12g 'Bouncer' SG"
+	desc = "Break-action shotgun of ancient design. Powerful, but struggles in prolonged engagements due to low ammo capacity. Can fire one or both chambers at a time. Chambered in 12 gauge."
 	icon = 'mods/persistence/icons/obj/guns/tier1/shotgun_db.dmi'
 	load_method = SINGLE_CASING
 	handle_casings = HOLD_CASINGS
