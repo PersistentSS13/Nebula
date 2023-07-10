@@ -1,6 +1,6 @@
 /obj/item/gun/energy/laser/pistol/simple
 	name = "Laser 'Settler' EG"
-	desc = "Energy gun used by modern spacers. Compact, but suffers from low charge capacity because of this. Fires Alpha-type laser beams."
+	desc = "Laser pistol used by modern spacers. Compact, but suffers from low charge capacity because of this. Fires Alpha-type laser beams."
 	icon = 'mods/persistence/icons/obj/guns/tier1/laspistol.dmi'
 	slot_flags = SLOT_LOWER_BODY
 	w_class = ITEM_SIZE_NORMAL
