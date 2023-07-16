@@ -134,7 +134,6 @@ SAVED_VAR(/datum/mind, role_alt_title)
 SAVED_VAR(/datum/mind, assigned_job)
 SAVED_VAR(/datum/mind, objectives)
 SAVED_VAR(/datum/mind, has_been_rev)
-SAVED_VAR(/datum/mind, changeling)
 SAVED_VAR(/datum/mind, brigged_since)
 SAVED_VAR(/datum/mind, initial_account)
 SAVED_VAR(/datum/mind, initial_account_login)
@@ -1000,7 +999,7 @@ SAVED_VAR(/obj/structure/lift/button, floor)
 
 SAVED_VAR(/obj/structure/ore_box, stored_ore)
 
-SAVED_VAR(/obj/structure/sign/poster, poster_type)
+SAVED_VAR(/obj/structure/sign/poster, poster_design)
 SAVED_VAR(/obj/structure/sign/poster, ruined)
 
 SAVED_VAR(/obj/structure/table, is_flipped)
