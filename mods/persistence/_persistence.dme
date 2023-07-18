@@ -132,7 +132,6 @@
 #include "modules\fabrication\_fabricator.dm"
 #include "modules\fabrication\fabricator_build.dm"
 #include "modules\fabrication\fabricator_intake.dm"
-#include "modules\fabrication\fabricator_protolathe.dm"
 #include "modules\fabrication\designs\textile\space.dm"
 #include "modules\fabrication\designs\protolathe\designs_weapons.dm"
 #include "modules\hydroponics\grown.dm"
