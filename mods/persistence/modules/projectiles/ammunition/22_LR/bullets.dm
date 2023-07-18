@@ -14,7 +14,7 @@
 
 /obj/item/ammo_casing/twentytwolr/handmade
 	name = "makeshift .22LR round"
-	desc = ".22 Long Rifle round of dubious origin. Struggles at medium-long range and against armor due to shoddy construction."
+	desc = ".22 Long Rifle round of dubious origin. Sports poor range and very poor armor penetration due to shoddy construction."
 	icon = 'mods/persistence/icons/obj/ammunition/22lr/tier0.dmi'
 	projectile_type = /obj/item/projectile/bullet/twentytwolr/handmade
 
@@ -25,7 +25,7 @@
 
 /obj/item/ammo_casing/twentytwolr/simple
 	name = "standard .22LR round"
-	desc = ".22 Long Rifle round of ancient design. Servicable, but struggles against armored targets due to unimpressive stopping power."
+	desc = ".22 Long Rifle round of ancient design. Sports unimpressive range and poor armor penetration due to low velocity."
 	icon = 'mods/persistence/icons/obj/ammunition/22lr/tier1.dmi'
 	projectile_type = /obj/item/projectile/bullet/twentytwolr/simple
 
