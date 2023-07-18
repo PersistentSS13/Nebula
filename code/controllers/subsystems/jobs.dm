@@ -33,7 +33,10 @@ SUBSYSTEM_DEF(jobs)
 
 	// Create main map jobs.
 	primary_job_datums.Cut()
-	for(var/jobtype in (list(global.using_map.default_job_type) | global.using_map.allowed_jobs))
+	var/list/available_jobs = global.using_map.allowed_jobs.Copy()
+	if(global.using_map.default_job_type)
+		LAZYDISTINCTADD(available_jobs, global.using_map.default_job_type)
+	for(var/jobtype in available_jobs)
 		var/datum/job/job = get_by_path(jobtype)
 		if(!job)
 			job = new jobtype
@@ -54,6 +57,7 @@ SUBSYSTEM_DEF(jobs)
 				job = get_by_path(jobtype)
 			if(job)
 				archetype_job_datums |= job
+	submap_archetypes = sortTim(submap_archetypes, /proc/cmp_submap_archetype_asc, TRUE)
 
 	// Load job configuration (is this even used anymore?)
 	if(job_config_file && config.load_jobs_from_txt)
@@ -85,8 +89,9 @@ SUBSYSTEM_DEF(jobs)
 
 	// Update title and path tracking, submap list, etc.
 	// Populate/set up map job lists.
-	primary_job_datums = sortTim(primary_job_datums, /proc/cmp_job_desc)
-	job_lists_by_map_name = list("[global.using_map.full_name]" = list("jobs" = primary_job_datums, "default_to_hidden" = FALSE))
+	if(length(primary_job_datums))
+		primary_job_datums = sortTim(primary_job_datums, /proc/cmp_job_desc)
+		job_lists_by_map_name = list("[global.using_map.full_name]" = list("jobs" = primary_job_datums, "default_to_hidden" = FALSE))
 
 	for(var/atype in submap_archetypes)
 		var/list/submap_job_datums
@@ -97,7 +102,7 @@ SUBSYSTEM_DEF(jobs)
 				LAZYADD(submap_job_datums, job)
 		if(LAZYLEN(submap_job_datums))
 			submap_job_datums = sortTim(submap_job_datums, /proc/cmp_job_desc)
-			job_lists_by_map_name[arch.descriptor] = list("jobs" = submap_job_datums, "default_to_hidden" = TRUE)
+			job_lists_by_map_name[arch.descriptor] = list("jobs" = submap_job_datums, "default_to_hidden" = arch.default_to_hidden)
 
 	// Update global map blacklists and whitelists.
 	for(var/mappath in global.all_maps)
@@ -545,7 +550,7 @@ SUBSYSTEM_DEF(jobs)
 		to_chat(H, "<b>As the [alt_title ? alt_title : rank] you answer directly to [job.supervisors]. Special circumstances may change this.</b>")
 
 	if(H.has_headset_in_ears())
-		to_chat(H, "<b>To speak on your department's radio channel use :h. For the use of other channels, examine your headset.</b>")
+		to_chat(H, "<b>To speak on your department's radio channel use [H.get_department_radio_prefix()]h. For the use of other channels, examine your headset.</b>")
 
 	if(job.req_admin_notify)
 		to_chat(H, "<b>You are playing a job that is important for Game Progression. If you have to disconnect, please notify the admins via adminhelp.</b>")

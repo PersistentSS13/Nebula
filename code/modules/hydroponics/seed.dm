@@ -389,7 +389,7 @@
 	display_name = "[name] plant"
 
 //Creates a random seed. MAKE SURE THE LINE HAS DIVERGED BEFORE THIS IS CALLED.
-/datum/seed/proc/randomize(var/temperature = T20C)
+/datum/seed/proc/randomize(var/temperature = T20C, var/pressure = 1 ATM)
 
 	roundstart = 0
 	mysterious = 1
@@ -428,14 +428,21 @@
 	var/list/all_materials = decls_repository.get_decls_of_subtype(/decl/material)
 	for(var/mat_type in all_materials)
 		var/decl/material/mat = all_materials[mat_type]
-		if(mat.exoplanet_rarity == MAT_RARITY_NOWHERE)
+		if(mat.exoplanet_rarity_plant == MAT_RARITY_NOWHERE)
 			continue
 		if(skip_toxins && mat.toxicity)
 			continue
-		if(!isnull(mat.boiling_point) && mat.boiling_point <= temperature && (isnull(mat.gas_condensation_point) || mat.gas_condensation_point > temperature))
-			gasses[mat.type] = mat.exoplanet_rarity
-		else if(!isnull(mat.melting_point) && mat.melting_point <= temperature)
-			liquids[mat.type] = mat.exoplanet_rarity
+		if(!isnull(mat.heating_point) && length(mat.heating_products) && temperature >= mat.heating_point)
+			// TODO: Maybe add products, but that could lead to having a lot of water or something.
+			continue
+		if(!isnull(mat.chilling_point) && length(mat.chilling_products) && temperature <= mat.chilling_point)
+			continue
+		switch(mat.phase_at_temperature(temperature, pressure))
+			if(MAT_PHASE_GAS)
+				if(isnull(mat.gas_condensation_point) || mat.gas_condensation_point > temperature)
+					gasses[mat.type] = mat.exoplanet_rarity_plant
+			if(MAT_PHASE_LIQUID)
+				liquids[mat.type] = mat.exoplanet_rarity_plant
 	liquids -= /decl/material/liquid/nutriment
 
 	if(length(gasses))
@@ -821,3 +828,40 @@
 		res.overlays += I
 
 	return res
+
+/datum/seed/PopulateClone(datum/seed/clone)
+	clone = ..()
+	//!! - Cloning means having an independent working copy, so leave its unique uid - !!
+	clone.roundstart       = FALSE
+	clone.name             = "[seed_name][(roundstart ? " strain #[clone.uid]" : "")]"
+	clone.seed_name        = clone.name
+	clone.display_name     = "[display_name][(roundstart ? " strain #[clone.uid]" : "")]"
+	clone.seed_noun        = seed_noun
+
+	//Seed traits
+	clone.traits           = traits.Copy()
+	clone.mutants          = mutants?.Copy()
+	clone.chems            = chems?.Copy()
+	clone.consume_gasses   = consume_gasses?.Copy()
+	clone.exude_gasses     = exude_gasses?.Copy()
+
+	//Appearence
+	clone.growth_stages    = growth_stages
+	clone.force_layer      = force_layer
+	clone.splat_type       = splat_type
+
+	//things that probably should be traits
+	clone.mysterious       = mysterious
+	clone.req_CO2_moles    = req_CO2_moles
+	clone.hydrotray_only   = hydrotray_only
+	clone.can_self_harvest = can_self_harvest
+
+	//misc data
+	clone.kitchen_tag      = kitchen_tag
+	clone.trash_type       = trash_type
+	clone.product_type     = product_type
+	clone.base_seed_value  = base_seed_value
+	clone.scannable_result = scannable_result
+
+	clone.update_growth_stages()
+	return clone

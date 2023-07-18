@@ -83,13 +83,14 @@
 		chambered.expend()
 		process_chambered()
 
-/obj/item/gun/projectile/process_point_blank(obj/projectile, mob/user, atom/target)
+/obj/item/gun/projectile/process_point_blank(obj/projectile, atom/movable/firer, atom/target)
 	..()
 	if(chambered && ishuman(target))
 		var/mob/living/carbon/human/H = target
 		var/zone = BP_CHEST
-		if(user && user.zone_sel)
-			zone = user.zone_sel.selecting
+		if(isliving(firer))
+			var/mob/living/user = firer
+			zone = user.get_target_zone() || zone
 		var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(H, zone)
 		if(E)
 			chambered.put_residue_on(E)
@@ -136,7 +137,7 @@
 					to_chat(user, "<span class='warning'>[src] already has a magazine loaded.</span>")//already a magazine here
 
 					return
-				if(!user.unEquip(AM, src))
+				if(!user.try_unequip(AM, src))
 					return
 				ammo_magazine = AM
 				user.visible_message("[user] inserts [AM] into [src].", "<span class='notice'>You insert [AM] into [src].</span>")
@@ -166,7 +167,7 @@
 		if(loaded.len >= max_shells)
 			to_chat(user, "<span class='warning'>[src] is full.</span>")
 			return
-		if(!user.unEquip(C, src))
+		if(!user.try_unequip(C, src))
 			return
 		loaded.Insert(1, C) //add to the head of the list
 		user.visible_message("[user] inserts \a [C] into [src].", "<span class='notice'>You insert \a [C] into [src].</span>")
@@ -224,10 +225,10 @@
 		to_chat(user, SPAN_WARNING("You can't unload \the [src] manually. Maybe try a crowbar?"))
 
 /obj/item/gun/projectile/attack_hand(mob/user)
-	if(user.is_holding_offhand(src) && manual_unload)
-		unload_ammo(user, allow_dump=0)
-	else
+	if(!user.is_holding_offhand(src) || !manual_unload || !user.check_dexterity(DEXTERITY_GRIP, TRUE))
 		return ..()
+	unload_ammo(user, allow_dump=0)
+	return TRUE
 
 /obj/item/gun/projectile/afterattack(atom/A, mob/living/user)
 	..()

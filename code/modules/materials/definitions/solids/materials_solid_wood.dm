@@ -61,6 +61,7 @@
 	. += new/datum/stack_recipe/beehive_assembly(src)
 	. += new/datum/stack_recipe/beehive_frame(src)
 	. += new/datum/stack_recipe/furniture/bookcase(src)
+	. += new/datum/stack_recipe/furniture/book_cart(src)
 	. += new/datum/stack_recipe/zipgunframe(src)
 	. += new/datum/stack_recipe/coilgun(src)
 	. += new/datum/stack_recipe/stick(src)
@@ -105,7 +106,8 @@
 	shard_type = SHARD_NONE
 	value = 0
 	hidden_from_codex = TRUE
-	exoplanet_rarity = MAT_RARITY_NOWHERE
+	exoplanet_rarity_plant = MAT_RARITY_NOWHERE
+	exoplanet_rarity_gas = MAT_RARITY_NOWHERE
 
 /decl/material/solid/wood/holographic/get_recipes(reinf_mat)
 	return list()

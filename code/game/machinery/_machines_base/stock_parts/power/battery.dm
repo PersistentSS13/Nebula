@@ -163,7 +163,7 @@
 			to_chat(user, "\The [I] is too [I.w_class < ITEM_SIZE_NORMAL? "small" : "large"] to fit here.")
 			return TRUE
 
-		if(!user.unEquip(I, src))
+		if(!user.try_unequip(I, src))
 			return
 		add_cell(machine, I)
 		user.visible_message(\
@@ -183,7 +183,7 @@
 	return ..()
 
 /obj/item/stock_parts/power/battery/attack_hand(mob/user)
-	if(cell && istype(loc, /obj/machinery))
+	if(cell && istype(loc, /obj/machinery) && user.check_dexterity(DEXTERITY_GRIP))
 		user.put_in_hands(cell)
 		extract_cell(user)
 		return TRUE

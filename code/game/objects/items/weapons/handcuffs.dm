@@ -92,7 +92,7 @@
 	var/obj/item/handcuffs/cuffs = src
 	if(dispenser)
 		cuffs = new(get_turf(user))
-	else if(!user.unEquip(cuffs))
+	else if(!user.try_unequip(cuffs))
 		return 0
 
 	admin_attack_log(user, H, "Attempted to handcuff the victim", "Was target of an attempted handcuff", "attempted to handcuff")
@@ -115,7 +115,7 @@ var/global/last_chew = 0 //#FIXME: Its funny how only one person in the world ca
 	var/mob/living/carbon/human/H = A
 	if (!H.get_equipped_item(slot_handcuffed_str)) return
 	if (H.a_intent != I_HURT) return
-	if (H.zone_sel.selecting != BP_MOUTH) return
+	if (H.get_target_zone() != BP_MOUTH) return
 	if (H.get_equipped_item(slot_wear_mask_str)) return
 	if (istype(H.get_equipped_item(slot_wear_suit_str), /obj/item/clothing/suit/straight_jacket)) return
 

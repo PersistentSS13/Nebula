@@ -30,11 +30,6 @@
 	set_hydration(400)
 	..()
 
-/mob/living/carbon/get_ai_type()
-	if(ispath(species?.ai))
-		return species.ai
-	return ..()
-
 /mob/living/carbon/Move(NewLoc, direct)
 	. = ..()
 	if(!.)
@@ -54,26 +49,24 @@
 		germ_level++
 
 /mob/living/carbon/relaymove(var/mob/living/user, direction)
-	if((user in contents) && istype(user))
-		if(user.last_special <= world.time)
-			user.last_special = world.time + 50
-			src.visible_message("<span class='danger'>You hear something rumbling inside [src]'s stomach...</span>")
-			var/obj/item/I = user.get_active_hand()
-			if(I && I.force)
-				var/d = rand(round(I.force / 4), I.force)
-				if(istype(src, /mob/living/carbon/human))
-					var/mob/living/carbon/human/H = src
-					var/obj/item/organ/external/organ = GET_EXTERNAL_ORGAN(H, BP_CHEST)
-					if (istype(organ))
-						organ.take_external_damage(d, 0)
-					H.updatehealth()
-				else
-					src.take_organ_damage(d)
-				user.visible_message("<span class='danger'>[user] attacks [src]'s stomach wall with the [I.name]!</span>")
-				playsound(user.loc, 'sound/effects/attackblob.ogg', 50, 1)
-
-				if(prob(src.getBruteLoss() - 50))
-					gib()
+	if(!istype(user) || !(user in contents) || user.is_on_special_ability_cooldown())
+		return
+	user.set_special_ability_cooldown(5 SECONDS)
+	visible_message(SPAN_DANGER("You hear something rumbling inside [src]'s stomach..."))
+	var/obj/item/I = user.get_active_hand()
+	if(!I?.force)
+		return
+	var/d = rand(round(I.force / 4), I.force)
+	visible_message(SPAN_DANGER("\The [user] attacks [src]'s stomach wall with \the [I]!"))
+	playsound(user.loc, 'sound/effects/attackblob.ogg', 50, 1)
+	var/obj/item/organ/external/organ = GET_EXTERNAL_ORGAN(src, BP_CHEST)
+	if(istype(organ))
+		organ.take_external_damage(d, 0)
+		updatehealth()
+	else
+		take_organ_damage(d)
+	if(prob(getBruteLoss() - 50))
+		gib()
 
 /mob/living/carbon/gib(anim="gibbed-m",do_gibs)
 	for(var/mob/M in contents)
@@ -235,7 +228,7 @@
 		var/obj/item/I = item
 		itemsize = I.w_class
 
-	if(!unEquip(item, play_dropsound = FALSE))
+	if(!try_unequip(item, play_dropsound = FALSE))
 		return
 	if(!item || !isturf(item.loc))
 		return
@@ -283,15 +276,6 @@
 /mob/living/carbon/restrained()
 	return get_equipped_item(slot_handcuffed_str)
 
-/mob/living/carbon/u_equip(obj/item/W)
-	. = ..()
-	if(!. && W == get_equipped_item(slot_handcuffed_str))
-		_handcuffed = null
-		update_inv_handcuffed()
-		if(buckled && buckled.buckle_require_restraints)
-			buckled.unbuckle_mob()
-		return TRUE
-
 /mob/living/carbon/verb/mob_sleep()
 	set name = "Sleep"
 	set category = "IC"
@@ -310,31 +294,6 @@
 		playsound(loc, 'sound/misc/slip.ogg', 50, 1, -3)
 		SET_STATUS_MAX(src, STAT_WEAK, stun_duration)
 		. = TRUE
-
-/mob/living/carbon/show_inv(mob/user)
-	user.set_machine(src)
-	var/obj/item/mask = get_equipped_item(slot_wear_mask_str)
-	var/dat = {"
-	<B><HR><FONT size=3>[name]</FONT></B>
-	<BR><HR>
-	<BR><B>Head(Mask):</B> <A href='?src=\ref[src];item=mask'>[(mask ? mask : "Nothing")]</A>"}
-
-	for(var/hand_slot in held_item_slots)
-		var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, hand_slot)
-		if(E)
-			var/datum/inventory_slot/inv_slot = held_item_slots[hand_slot]
-			dat += "<BR><b>[capitalize(E.name)]:</b> <A href='?src=\ref[src];item=[hand_slot]'>[inv_slot.holding?.name || "nothing"]</A>"
-
-	var/obj/item/back = get_equipped_item(slot_back_str)
-	dat += {"<BR><B>Back:</B> <A href='?src=\ref[src];item=back'>[(back || "Nothing")]</A> [((istype(mask, /obj/item/clothing/mask) && istype(back, /obj/item/tank) && !( internal )) ? text(" <A href='?src=\ref[];item=internal'>Set Internal</A>", src) : "")]
-	<BR>[(internal ? text("<A href='?src=\ref[src];item=internal'>Remove Internal</A>") : "")]
-	<BR><A href='?src=\ref[src];item=pockets'>Empty Pockets</A>
-	<BR><A href='?src=\ref[user];refresh=1'>Refresh</A>
-	<BR><A href='?src=\ref[user];mach_close=mob[name]'>Close</A>
-	<BR>"}
-	show_browser(user, dat, text("window=mob[];size=325x500", name))
-	onclose(user, "mob[name]")
-	return
 
 /**
  *  Return FALSE if victim can't be devoured, DEVOUR_FAST if they can be devoured quickly, DEVOUR_SLOW for slow devour
@@ -360,33 +319,26 @@
 	// overridden in human_defense.dm
 	return null
 
-/mob/living/carbon/proc/SetStasis(var/factor, var/source = "misc")
-	if((species && (species.species_flags & SPECIES_FLAG_NO_SCAN)) || isSynthetic())
-		return
-	stasis_sources[source] = factor
+/mob/living/carbon/get_max_nutrition()
+	return 400
 
-/mob/living/carbon/proc/InStasis()
-	if(!stasis_value)
-		return FALSE
-	return life_tick % stasis_value
-
-// call only once per run of life
-/mob/living/carbon/proc/UpdateStasis()
-	stasis_value = 0
-	if((species && (species.species_flags & SPECIES_FLAG_NO_SCAN)) || isSynthetic())
-		return
-	for(var/source in stasis_sources)
-		stasis_value += stasis_sources[source]
-	stasis_sources.Cut()
+/mob/living/carbon/get_max_hydration()
+	return 400
 
 /mob/living/carbon/proc/set_nutrition(var/amt)
-	nutrition = clamp(amt, 0, initial(nutrition))
+	nutrition = clamp(amt, 0, get_max_nutrition())
+
+/mob/living/carbon/get_nutrition(var/amt)
+	return nutrition
 
 /mob/living/carbon/adjust_nutrition(var/amt)
 	set_nutrition(nutrition + amt)
 
+/mob/living/carbon/get_hydration(var/amt)
+	return hydration
+
 /mob/living/carbon/proc/set_hydration(var/amt)
-	hydration = clamp(amt, 0, initial(hydration))
+	hydration = clamp(amt, 0, get_max_hydration())
 
 /mob/living/carbon/adjust_hydration(var/amt)
 	set_hydration(hydration + amt)

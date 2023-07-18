@@ -6,7 +6,7 @@
 /turf/exterior/open,
 /area/exoplanet/kleibkhar/sky)
 "ac" = (
-/obj/effect/overmap/visitable/sector/exoplanet/kleibkhar,
+/obj/effect/overmap/visitable/sector/planetoid/exoplanet/kleibkhar,
 /turf/exterior/open,
 /area/exoplanet/kleibkhar/sky)
 "ad" = (

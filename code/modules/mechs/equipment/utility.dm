@@ -14,18 +14,15 @@
 	return ..()
 
 /obj/item/mech_equipment/clamp/attack_hand(mob/user)
-	if(owner && LAZYISIN(owner.pilots, user))
-		if(!owner.hatch_closed && length(carrying))
-			var/obj/chosen_obj = input(user, "Choose an object to grab.", "Clamp Claw") as null|anything in carrying
-			if(!chosen_obj)
-				return
-			if(!do_after(user, 20, owner)) return
-			if(owner.hatch_closed || !chosen_obj) return
-			if(user.put_in_active_hand(chosen_obj))
-				owner.visible_message(SPAN_NOTICE("\The [user] carefully grabs \the [chosen_obj] from \the [src]."))
-				playsound(src, 'sound/mecha/hydraulic.ogg', 50, 1)
-				carrying -= chosen_obj
-	. = ..()
+	if(!owner || !LAZYISIN(owner.pilots, user) || owner.hatch_closed || !length(carrying) || !user.check_dexterity(DEXTERITY_GRIP, TRUE))
+		return ..()
+	var/obj/chosen_obj = input(user, "Choose an object to grab.", "Clamp Claw") as null|anything in carrying
+	if(chosen_obj && do_after(user, 20, owner) && !owner.hatch_closed && !QDELETED(chosen_obj) && (chosen_obj in carrying))
+		owner.visible_message(SPAN_NOTICE("\The [user] carefully grabs \the [chosen_obj] from \the [src]."))
+		playsound(src, 'sound/mecha/hydraulic.ogg', 50, 1)
+		carrying -= chosen_obj
+		user.put_in_active_hand(chosen_obj)
+	return TRUE
 
 /obj/item/mech_equipment/clamp/afterattack(var/atom/target, var/mob/living/user, var/inrange, var/params)
 	. = ..()
@@ -404,7 +401,7 @@
 		to_chat(user, "It does not have a drill head installed.")
 
 /obj/item/mech_equipment/drill/proc/attach_head(obj/item/drill_head/DH, mob/user)
-	if (user && !user.unEquip(DH))
+	if (user && !user.try_unequip(DH))
 		return
 	if (drill_head)
 		visible_message(SPAN_NOTICE("\The [user] detaches \the [drill_head] mounted on \the [src]."))
@@ -429,11 +426,10 @@
 		var/obj/structure/ore_box/ore_box = locate(/obj/structure/ore_box) in item
 		if (!ore_box)
 			continue
-		var/list/atoms_in_range = range(1, at_turf)
-		for(var/obj/item/stack/material/ore/ore in atoms_in_range)
+		for(var/obj/item/stack/material/ore/ore in range(1, at_turf))
 			if (!(get_dir(owner, ore) & owner.dir))
 				continue
-			ore.Move(ore_box)
+			ore_box.insert_ore(ore)
 
 /obj/item/mech_equipment/drill/afterattack(atom/target, mob/living/user, inrange, params)
 	if (!..()) // /obj/item/mech_equipment/afterattack implements a usage guard

@@ -58,7 +58,7 @@
 	if(. || length(contents) || !ispath(foldable) || !istype(material))
 		return
 	var/sheet_amount = FLOOR(LAZYACCESS(matter, material.type) / SHEET_MATERIAL_AMOUNT)
-	if(sheet_amount <= 0 || !user.unEquip(src))
+	if(sheet_amount <= 0 || !user.try_unequip(src))
 		return
 
 	to_chat(user, SPAN_NOTICE("You fold \the [src] flat."))
@@ -265,6 +265,13 @@
 	icon_state = "flashbang"
 /obj/item/storage/box/smokes/WillContain()
 	return list(/obj/item/grenade/smokebomb = 5)
+
+/obj/item/storage/box/metalfoam
+	name = "box of metal foam grenades"
+	desc = "A box containing 5 metal foam grenades."
+	icon_state = "flashbang"
+/obj/item/storage/box/metalfoam/WillContain()
+	return list(/obj/item/grenade/chem_grenade/metalfoam = 5)
 
 /obj/item/storage/box/anti_photons
 	name = "box of anti-photon grenades"

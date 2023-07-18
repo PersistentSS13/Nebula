@@ -28,8 +28,6 @@
 #define COLD_GAS_DAMAGE_LEVEL_2 1.5 //Amount of damage applied when the current breath's temperature passes the 200K point
 #define COLD_GAS_DAMAGE_LEVEL_3 3 //Amount of damage applied when the current breath's temperature passes the 120K point
 
-#define RADIATION_SPEED_COEFFICIENT 0.025
-
 /mob/living/carbon/human
 	var/oxygen_alert = 0
 	var/toxins_alert = 0
@@ -47,14 +45,6 @@
 
 	fire_alert = 0 //Reset this here, because both breathe() and handle_environment() have a chance to set it.
 
-	//TODO: seperate this out
-	// update the current life tick, can be used to e.g. only do something every 4 ticks
-	life_tick++
-
-	// This is not an ideal place for this but it will do for now.
-	if(wearing_rig && wearing_rig.offline)
-		wearing_rig = null
-
 	..()
 
 	if(life_tick%30==15)
@@ -63,10 +53,7 @@
 	voice = GetVoice()
 
 	//No need to update all of these procs if the guy is dead.
-	if(stat != DEAD && !InStasis())
-		//Updates the number of stored chemicals for powers
-		handle_changeling()
-
+	if(stat != DEAD && !is_in_stasis())
 		last_pain = null // Clear the last cached pain value so further getHalloss() calls won't use an old value.
 
 		//Organs and blood
@@ -103,7 +90,7 @@
 
 /mob/living/carbon/human/proc/handle_stamina()
 	if((world.time - last_quick_move_time) > 5 SECONDS)
-		var/mod = (lying + (nutrition / initial(nutrition))) / 2
+		var/mod = (lying + (nutrition / get_max_nutrition())) / 2
 		adjust_stamina(max(config.minimum_stamina_recovery, config.maximum_stamina_recovery * mod) * (1 + GET_CHEMICAL_EFFECT(src, CE_ENERGETIC)))
 
 /mob/living/carbon/human/set_stat(var/new_stat)
@@ -114,11 +101,6 @@
 	if(client && client.is_afk())
 		if(old_stat == UNCONSCIOUS && stat == CONSCIOUS)
 			playsound_local(null, 'sound/effects/bells.ogg', 100, is_global=TRUE)
-
-/mob/living/carbon/human/proc/handle_some_updates()
-	if(life_tick > 5 && timeofdeath && (timeofdeath < 5 || world.time - timeofdeath > 6000))	//We are long dead, or we're junk mobs spawned like the clowns on the clown shuttle
-		return 0
-	return 1
 
 /mob/living/carbon/human/breathe()
 	var/species_organ = species.breathing_organ
@@ -210,66 +192,17 @@
 			heal_organ_damage(0,1)
 
 	// DNA2 - Gene processing.
-	for(var/datum/dna/gene/gene in dna_genes)
+	var/list/all_genes = decls_repository.get_decls_of_subtype(/decl/gene)
+	for(var/gene_type in all_genes)
+		var/decl/gene/gene = all_genes[gene_type]
 		if(!gene.block)
 			continue
 		if(gene.is_active(src))
 			gene.OnMobLife(src)
 
-	radiation = clamp(radiation,0,500)
+	..()
 
-	if(!radiation)
-		if(species.appearance_flags & RADIATION_GLOWS)
-			set_light(0)
-	else
-		if(species.appearance_flags & RADIATION_GLOWS)
-			set_light(max(1,min(10,radiation/10)), max(1,min(20,radiation/20)), species.get_flesh_colour(src))
-		// END DOGSHIT SNOWFLAKE
-		var/damage = 0
-		radiation -= 1 * RADIATION_SPEED_COEFFICIENT
-		if(prob(25))
-			damage = 2
-
-		if (radiation > 50)
-			damage = 2
-			radiation -= 2 * RADIATION_SPEED_COEFFICIENT
-			if(!isSynthetic())
-				if(prob(5) && prob(100 * RADIATION_SPEED_COEFFICIENT))
-					radiation -= 5 * RADIATION_SPEED_COEFFICIENT
-					to_chat(src, "<span class='warning'>You feel weak.</span>")
-					SET_STATUS_MAX(src, STAT_WEAK, 3)
-					if(!lying)
-						emote("collapse")
-				if(prob(5) && prob(100 * RADIATION_SPEED_COEFFICIENT))
-					lose_hair()
-
-		if (radiation > 75)
-			damage = 3
-			radiation -= 3 * RADIATION_SPEED_COEFFICIENT
-			if(!isSynthetic())
-				if(prob(5))
-					take_overall_damage(0, 5 * RADIATION_SPEED_COEFFICIENT, used_weapon = "Radiation Burns")
-				if(prob(1))
-					to_chat(src, "<span class='warning'>You feel strange!</span>")
-					adjustCloneLoss(5 * RADIATION_SPEED_COEFFICIENT)
-					emote("gasp")
-		if(radiation > 150)
-			damage = 8
-			radiation -= 4 * RADIATION_SPEED_COEFFICIENT
-
-		damage = FLOOR(damage * species.get_radiation_mod(src))
-		if(damage)
-			adjustToxLoss(damage * RADIATION_SPEED_COEFFICIENT)
-			immunity = max(0, immunity - damage * 15 * RADIATION_SPEED_COEFFICIENT)
-			updatehealth()
-			var/list/limbs = get_external_organs()
-			if(!isSynthetic() && LAZYLEN(limbs))
-				var/obj/item/organ/external/O = pick(limbs)
-				if(istype(O))
-					O.add_autopsy_data("Radiation Poisoning", damage)
-
-	/** breathing **/
-
+/** breathing **/
 /mob/living/carbon/human/handle_chemical_smoke(var/datum/gas_mixture/environment)
 	for(var/slot in global.standard_headgear_slots)
 		var/obj/item/gear = get_equipped_item(slot)
@@ -281,8 +214,8 @@
 	if(internal)
 
 		var/obj/item/tank/rig_supply
-		var/obj/item/rig/rig = get_equipped_item(slot_back_str)
-		if(istype(rig) && !rig.offline && (rig.air_supply && internal == rig.air_supply))
+		var/obj/item/rig/rig = get_rig()
+		if(rig && !rig.offline && (rig.air_supply && internal == rig.air_supply))
 			rig_supply = rig.air_supply
 
 		if(!rig_supply)
@@ -351,7 +284,7 @@
 	if(relative_density > 0.02) //don't bother if we are in vacuum or near-vacuum
 		var/loc_temp = environment.temperature
 
-		if(adjusted_pressure < species.warning_high_pressure && adjusted_pressure > species.warning_low_pressure && abs(loc_temp - bodytemperature) < 20 && bodytemperature < species.heat_level_1 && bodytemperature > species.cold_level_1 && species.body_temperature)
+		if(adjusted_pressure < species.warning_high_pressure && adjusted_pressure > species.warning_low_pressure && abs(loc_temp - bodytemperature) < 20 && bodytemperature < get_temperature_threshold(HEAT_LEVEL_1) && bodytemperature > get_temperature_threshold(COLD_LEVEL_1) && species.body_temperature)
 			pressure_alert = 0
 			return // Temperatures are within normal ranges, fuck all this processing. ~Ccomp
 
@@ -370,33 +303,33 @@
 		bodytemperature += clamp(BODYTEMP_COOLING_MAX, temp_adj*relative_density, BODYTEMP_HEATING_MAX)
 
 	// +/- 50 degrees from 310.15K is the 'safe' zone, where no damage is dealt.
-	if(bodytemperature >= getSpeciesOrSynthTemp(HEAT_LEVEL_1))
+	if(bodytemperature >= get_temperature_threshold(HEAT_LEVEL_1))
 		//Body temperature is too hot.
 		fire_alert = max(fire_alert, 1)
 		if(status_flags & GODMODE)	return 1	//godmode
 		var/burn_dam = 0
-		if(bodytemperature < getSpeciesOrSynthTemp(HEAT_LEVEL_2))
+		if(bodytemperature < get_temperature_threshold(HEAT_LEVEL_2))
 			burn_dam = HEAT_DAMAGE_LEVEL_1
-		else if(bodytemperature < getSpeciesOrSynthTemp(HEAT_LEVEL_3))
+		else if(bodytemperature < get_temperature_threshold(HEAT_LEVEL_3))
 			burn_dam = HEAT_DAMAGE_LEVEL_2
 		else
 			burn_dam = HEAT_DAMAGE_LEVEL_3
 		take_overall_damage(burn=burn_dam, used_weapon = "High Body Temperature")
 		fire_alert = max(fire_alert, 2)
 
-	else if(bodytemperature <= getSpeciesOrSynthTemp(COLD_LEVEL_1))
+	else if(bodytemperature <= get_temperature_threshold(COLD_LEVEL_1))
 		fire_alert = max(fire_alert, 1)
 		if(status_flags & GODMODE)	return 1	//godmode
 
 		var/burn_dam = 0
 
-		if(bodytemperature > getSpeciesOrSynthTemp(COLD_LEVEL_2))
+		if(bodytemperature > get_temperature_threshold(COLD_LEVEL_2))
 			burn_dam = COLD_DAMAGE_LEVEL_1
-		else if(bodytemperature > getSpeciesOrSynthTemp(COLD_LEVEL_3))
+		else if(bodytemperature > get_temperature_threshold(COLD_LEVEL_3))
 			burn_dam = COLD_DAMAGE_LEVEL_2
 		else
 			burn_dam = COLD_DAMAGE_LEVEL_3
-		SetStasis(getCryogenicFactor(bodytemperature), STASIS_COLD)
+		set_stasis(get_cryogenic_factor(bodytemperature), STASIS_COLD)
 		if(!has_chemical_effect(CE_CRYO, 1))
 			take_overall_damage(burn=burn_dam, used_weapon = "Low Body Temperature")
 			fire_alert = max(fire_alert, 1)
@@ -448,14 +381,16 @@
 	if (on_fire)
 		return //too busy for pesky metabolic regulation
 
-	if(bodytemperature < species.cold_level_1) //260.15 is 310.15 - 50, the temperature where you start to feel effects.
+	var/cold_1 = get_temperature_threshold(COLD_LEVEL_1)
+	var/heat_1 = get_temperature_threshold(HEAT_LEVEL_1)
+	if(bodytemperature < cold_1) //260.15 is 310.15 - 50, the temperature where you start to feel effects.
 		var/nut_remove = 10 * DEFAULT_HUNGER_FACTOR
 		if(nutrition >= nut_remove) //If we are very, very cold we'll use up quite a bit of nutriment to heat us up.
 			adjust_nutrition(-nut_remove)
 			bodytemperature += max((body_temperature_difference / BODYTEMP_AUTORECOVERY_DIVISOR), BODYTEMP_AUTORECOVERY_MINIMUM)
-	else if(species.cold_level_1 <= bodytemperature && bodytemperature <= species.heat_level_1)
+	else if(cold_1 <= bodytemperature && bodytemperature <= heat_1)
 		bodytemperature += body_temperature_difference / BODYTEMP_AUTORECOVERY_DIVISOR
-	else if(bodytemperature > species.heat_level_1) //360.15 is 310.15 + 50, the temperature where you start to feel effects.
+	else if(bodytemperature > heat_1) //360.15 is 310.15 + 50, the temperature where you start to feel effects.
 		var/hyd_remove = 10 * DEFAULT_THIRST_FACTOR
 		if(hydration >= hyd_remove)
 			adjust_hydration(-hyd_remove)
@@ -612,18 +547,19 @@
 					total_contamination += vsc.contaminant_control.CONTAMINATION_LOSS
 			adjustToxLoss(total_contamination)
 
-		// nutrition decrease
-		if(nutrition > 0)
-			adjust_nutrition(-species.hunger_factor)
-		if(hydration > 0)
-			adjust_hydration(-species.thirst_factor)
-
 		if(stasis_value > 1 && GET_STATUS(src, STAT_DROWSY) < stasis_value * 4)
 			ADJ_STATUS(src, STAT_DROWSY, min(stasis_value, 3))
 			if(!stat && prob(1))
 				to_chat(src, "<span class='notice'>You feel slow and sluggish...</span>")
 
 	return 1
+
+/mob/living/carbon/human/handle_nutrition_and_hydration()
+	if(nutrition > 0)
+		adjust_nutrition(-species.hunger_factor)
+	if(hydration > 0)
+		adjust_hydration(-species.thirst_factor)
+	..()
 
 /mob/living/carbon/human/handle_regular_hud_updates()
 	if(hud_updateflag) // update our mob's hud overlays, AKA what others see flaoting above our head
@@ -768,16 +704,18 @@
 					if(260 to 280)			bodytemp.icon_state = "temp-3"
 					else					bodytemp.icon_state = "temp-4"
 			else
+				var/heat_1 = get_temperature_threshold(HEAT_LEVEL_1)
+				var/cold_1 = get_temperature_threshold(COLD_LEVEL_1)
 				//TODO: precalculate all of this stuff when the species datum is created
 				var/base_temperature = species.body_temperature
 				if(base_temperature == null) //some species don't have a set metabolic temperature
-					base_temperature = (getSpeciesOrSynthTemp(HEAT_LEVEL_1) + getSpeciesOrSynthTemp(COLD_LEVEL_1))/2
+					base_temperature = (heat_1 + cold_1)/2
 
 				var/temp_step
 				if (bodytemperature >= base_temperature)
-					temp_step = (getSpeciesOrSynthTemp(HEAT_LEVEL_1) - base_temperature)/4
+					temp_step = (heat_1 - base_temperature)/4
 
-					if (bodytemperature >= getSpeciesOrSynthTemp(HEAT_LEVEL_1))
+					if (bodytemperature >= heat_1)
 						bodytemp.icon_state = "temp4"
 					else if (bodytemperature >= base_temperature + temp_step*3)
 						bodytemp.icon_state = "temp3"
@@ -789,9 +727,9 @@
 						bodytemp.icon_state = "temp0"
 
 				else if (bodytemperature < base_temperature)
-					temp_step = (base_temperature - getSpeciesOrSynthTemp(COLD_LEVEL_1))/4
+					temp_step = (base_temperature - cold_1)/4
 
-					if (bodytemperature <= getSpeciesOrSynthTemp(COLD_LEVEL_1))
+					if (bodytemperature <= cold_1)
 						bodytemp.icon_state = "temp-4"
 					else if (bodytemperature <= base_temperature - temp_step*3)
 						bodytemp.icon_state = "temp-3"
@@ -825,7 +763,7 @@
 	if(isturf(loc) && rand(1,1000) == 1)
 		var/turf/T = loc
 		if(T.get_lumcount() <= LIGHTING_SOFT_THRESHOLD)
-			playsound_local(src,pick(global.scarySounds),50, 1, -1)
+			playsound_local(T,pick(global.scarySounds),50, 1, -1)
 
 	var/area/A = get_area(src)
 	if(client && world.time >= client.played + 60 SECONDS)
@@ -833,20 +771,22 @@
 	if(stat == UNCONSCIOUS && world.time - l_move_time < 5 && prob(10))
 		to_chat(src,"<span class='notice'>You feel like you're [pick("moving","flying","floating","falling","hovering")].</span>")
 
-/mob/living/carbon/human/proc/handle_changeling()
-	if(mind && mind.changeling)
-		mind.changeling.regenerate()
-
+#define BASE_SHOCK_RECOVERY 1
 /mob/living/carbon/human/proc/handle_shock()
 	if(!can_feel_pain() || (status_flags & GODMODE))
 		shock_stage = 0
 		return
 
+	var/stress_modifier = get_stress_modifier()
+	if(stress_modifier)
+		stress_modifier *= config.stress_shock_recovery_constant
+
 	if(is_asystole())
-		shock_stage = max(shock_stage + 1, 61)
+		shock_stage = max(shock_stage + (BASE_SHOCK_RECOVERY + stress_modifier), 61)
+
 	var/traumatic_shock = get_shock()
 	if(traumatic_shock >= max(30, 0.8*shock_stage))
-		shock_stage += 1
+		shock_stage += (1 + stress_modifier)
 	else if (!is_asystole())
 		shock_stage = min(shock_stage, 160)
 		var/recovery = 1
@@ -854,53 +794,64 @@
 			recovery++
 		if(traumatic_shock < 0.25 * shock_stage)
 			recovery++
-		shock_stage = max(shock_stage - recovery, 0)
+		shock_stage = max(shock_stage - (recovery * (1-stress_modifier)), 0)
 		return
-	if(stat) return 0
 
-	if(shock_stage == 10)
+	if(stat != CONSCIOUS)
+		return
+
+	// If we haven't adjusted by at least one full unit, don't run the message logic below.
+	var/next_rounded_shock_stage = round(shock_stage)
+	if(next_rounded_shock_stage == rounded_shock_stage)
+		return
+
+	rounded_shock_stage = next_rounded_shock_stage
+	if(rounded_shock_stage <= 0)
+		return
+
+	if(rounded_shock_stage == 10)
 		// Please be very careful when calling custom_pain() from within code that relies on pain/trauma values. There's the
 		// possibility of a feedback loop from custom_pain() being called with a positive power, incrementing pain on a limb,
 		// which triggers this proc, which calls custom_pain(), etc. Make sure you call it with nohalloss = TRUE in these cases!
 		custom_pain("[pick("It hurts so much", "You really need some painkillers", "Dear god, the pain")]!", 10, nohalloss = TRUE)
 
-	if(shock_stage >= 30)
-		if(shock_stage == 30)
+	if(rounded_shock_stage >= 30)
+		if(rounded_shock_stage == 30)
 			var/decl/pronouns/G = get_pronouns()
 			visible_message("<b>\The [src]</b> is having trouble keeping [G.his] eyes open.")
 		if(prob(30))
 			SET_STATUS_MAX(src, STAT_BLURRY, 2)
 			SET_STATUS_MAX(src, STAT_STUTTER, 5)
 
-	if (shock_stage >= 60)
-		if(shock_stage == 60) visible_message("<b>[src]</b>'s body becomes limp.")
+	if (rounded_shock_stage >= 60)
+		if(rounded_shock_stage == 60) visible_message("<b>[src]</b>'s body becomes limp.")
 		if (prob(2))
-			custom_pain("[pick("The pain is excruciating", "Please, just end the pain", "Your whole body is going numb")]!", shock_stage, nohalloss = TRUE)
+			custom_pain("[pick("The pain is excruciating", "Please, just end the pain", "Your whole body is going numb")]!", rounded_shock_stage, nohalloss = TRUE)
 			SET_STATUS_MAX(src, STAT_WEAK, 3)
 
-	if(shock_stage >= 80)
+	if(rounded_shock_stage >= 80)
 		if (prob(5))
-			custom_pain("[pick("The pain is excruciating", "Please, just end the pain", "Your whole body is going numb")]!", shock_stage, nohalloss = TRUE)
+			custom_pain("[pick("The pain is excruciating", "Please, just end the pain", "Your whole body is going numb")]!", rounded_shock_stage, nohalloss = TRUE)
 			SET_STATUS_MAX(src, STAT_WEAK, 5)
 
-	if(shock_stage >= 120)
+	if(rounded_shock_stage >= 120)
 		if(!HAS_STATUS(src, STAT_PARA) && prob(2))
-			custom_pain("[pick("You black out", "You feel like you could die any moment now", "You're about to lose consciousness")]!", shock_stage, nohalloss = TRUE)
+			custom_pain("[pick("You black out", "You feel like you could die any moment now", "You're about to lose consciousness")]!", rounded_shock_stage, nohalloss = TRUE)
 			SET_STATUS_MAX(src, STAT_PARA, 5)
 
-	if(shock_stage == 150)
+	if(rounded_shock_stage == 150)
 		visible_message("<b>[src]</b> can no longer stand, collapsing!")
 
-	if(shock_stage >= 150)
+	if(rounded_shock_stage >= 150)
 		SET_STATUS_MAX(src, STAT_WEAK, 5)
+
+#undef BASE_SHOCK_RECOVERY
 
 /*
 	Called by life(), instead of having the individual hud items update icons each tick and check for status changes
 	we only set those statuses and icons upon changes.  Then those HUD items will simply add those pre-made images.
 	This proc below is only called when those HUD elements need to change as determined by the mobs hud_updateflag.
 */
-
-
 /mob/living/carbon/human/proc/handle_hud_list()
 	if (BITTEST(hud_updateflag, HEALTH_HUD) && hud_list[HEALTH_HUD])
 		var/image/holder = hud_list[HEALTH_HUD]
@@ -1026,12 +977,12 @@
 
 
 	if(species)
-		if(burn_temperature < species.heat_level_2)
+		if(burn_temperature < get_temperature_threshold(HEAT_LEVEL_2))
 			species_heat_mod = 0.5
-		else if(burn_temperature < species.heat_level_3)
+		else if(burn_temperature < get_temperature_threshold(HEAT_LEVEL_3))
 			species_heat_mod = 0.75
 
-	burn_temperature -= species.heat_level_1
+	burn_temperature -= get_temperature_threshold(HEAT_LEVEL_1)
 
 	if(burn_temperature < 1)
 		return

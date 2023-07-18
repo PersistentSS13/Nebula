@@ -45,10 +45,8 @@
 	target_mob = null
 	return ..()
 
-/mob/living/simple_animal/hostile/proc/can_act()
-	if(QDELETED(src) || stat || stop_automation || incapacitated())
-		return FALSE
-	return TRUE
+/mob/living/simple_animal/hostile/can_act()
+	return !stop_automation && ..()
 
 /mob/living/simple_animal/hostile/proc/kick_stance()
 	if(target_mob)
@@ -159,7 +157,9 @@
 			visible_message("<span class='notice'>\The [src] misses its attack on \the [target_mob]!</span>")
 			return
 		var/mob/living/L = target_mob
-		L.attackby(get_natural_weapon(), src)
+		var/attacking_with = get_natural_weapon()
+		if(attacking_with)
+			L.attackby(attacking_with, src)
 		return L
 
 /mob/living/simple_animal/hostile/proc/LoseTarget()
@@ -233,7 +233,7 @@
 /mob/living/simple_animal/hostile/bullet_act(var/obj/item/projectile/Proj)
 	var/oldhealth = health
 	. = ..()
-	if(!target_mob && health < oldhealth && !incapacitated(INCAPACITATION_KNOCKOUT))
+	if(isliving(Proj.firer) && !target_mob && health < oldhealth && !incapacitated(INCAPACITATION_KNOCKOUT))
 		target_mob = Proj.firer
 		MoveToTarget()
 
@@ -281,14 +281,18 @@
 
 		var/obj/effect/shield/S = locate(/obj/effect/shield) in targ
 		if(S && S.gen && S.gen.check_flag(MODEFLAG_NONHUMANS))
-			S.attackby(get_natural_weapon(), src)
+			var/attacking_with = get_natural_weapon()
+			if(attacking_with)
+				S.attackby(attacking_with, src)
 			return
 
 		for(var/type in valid_obstacles_by_priority)
 			var/obj/obstacle = locate(type) in targ
 			if(obstacle)
 				face_atom(obstacle)
-				obstacle.attackby(get_natural_weapon(), src)
+				var/attacking_with = get_natural_weapon()
+				if(attacking_with)
+					obstacle.attackby(attacking_with, src)
 				return
 
 		if(can_pry)
@@ -310,13 +314,3 @@
 	else
 		visible_message("<span class='notice'>\The [user] is interrupted.</span>")
 		stop_automation = FALSE
-
-/mob/living/simple_animal/hostile/proc/can_perform_ability()
-	if(!can_act() || time_last_used_ability > world.time)
-		return FALSE
-	return TRUE
-
-/mob/living/simple_animal/hostile/proc/cooldown_ability(var/time)
-	if(!time)
-		time = ability_cooldown
-	time_last_used_ability = world.time + ability_cooldown

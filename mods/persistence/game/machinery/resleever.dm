@@ -68,7 +68,7 @@
 		return
 
 	if(istype(O, /obj/item/organ/internal/stack))
-		if(isnull(lace) && user.unEquip(O, src))
+		if(isnull(lace) && user.unequip(O, src))
 			to_chat(user, SPAN_NOTICE("You insert \the [O] into \the [src]."))
 			lace = O
 		else

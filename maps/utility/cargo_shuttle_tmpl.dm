@@ -65,7 +65,8 @@
 	display_name         = "supply shuttle"
 	defer_initialisation = TRUE
 	warmup_time          = 10 //in seconds
-	location             = 0 //Start at station or unit test will cry
+	location             = 1 //#FIXME: Shuttle code is very dumb
+	direction            = 0 //#FIXME: Shuttle code is very dumb
 	shuttle_area         = /area/shuttle/supply_shuttle
 	dock_target          = CARGO_SHUTTLE_TEMPLATE_CTRL_ID_SHUTTLE
 	current_location     = CARGO_SHUTTLE_TEMPLATE_WAYPOINT_OFFSITE
@@ -81,10 +82,13 @@
 	name               = "supply shuttle offsite"
 	landmark_tag       = CARGO_SHUTTLE_TEMPLATE_WAYPOINT_OFFSITE
 	docking_controller = CARGO_SHUTTLE_TEMPLATE_CTRL_ID_OFFSITE
+	base_area          = /area/space
+	base_turf          = /turf/space
 
 ///Point on the station where the supply shuttle will dock.
 /obj/effect/shuttle_landmark/supply/dock
 	name               = "supply shuttle station dock"
+	flags              = SLANDMARK_FLAG_AUTOSET
 	landmark_tag       = CARGO_SHUTTLE_TEMPLATE_WAYPOINT_STATION
 	docking_controller = CARGO_SHUTTLE_TEMPLATE_CTRL_ID_STATION
 
@@ -229,6 +233,7 @@
 /obj/structure/sign/warning/hot_exhaust/indestructible/attackby(var/obj/item/C, var/mob/user)
 	return
 /obj/structure/sign/warning/hot_exhaust/indestructible/attack_hand(mob/user)
+	SHOULD_CALL_PARENT(FALSE)
 	return
 
 
@@ -252,6 +257,11 @@
 	return
 /turf/simulated/floor/indestructible/attackby(var/obj/item/C, var/mob/user)
 	return
+
+/turf/simulated/floor/indestructible/airless
+	initial_gas = null
+	icon        = 'icons/turf/flooring/plating.dmi'
+	icon_state  = "plating"
 
 ///Unbreakable wall for cargo shuttle
 /turf/simulated/wall/r_titanium/indestructible

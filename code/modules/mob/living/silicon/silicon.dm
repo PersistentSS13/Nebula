@@ -118,7 +118,7 @@
 
 /mob/living/silicon/electrocute_act(var/shock_damage, var/obj/source, var/siemens_coeff = 1.0, def_zone = null)
 
-	if (istype(source, /obj/machinery/containment_field))
+	if (istype(source, /obj/effect/containment_field))
 		spark_at(loc, amount=5, cardinal_only = TRUE)
 
 		shock_damage *= 0.75	//take reduced damage
@@ -270,9 +270,6 @@
 
 	flavor_text =  sanitize(input(usr, "Please enter your new flavour text.", "Flavour text", null)  as text)
 
-/mob/living/silicon/binarycheck()
-	return TRUE
-
 /mob/living/silicon/explosion_act(severity)
 	..()
 	var/brute
@@ -394,7 +391,7 @@
 
 
 /mob/living/silicon/proc/try_stock_parts_install(obj/item/stock_parts/W, mob/user)
-	if(istype(W) && user.unEquip(W))
+	if(istype(W) && user.try_unequip(W))
 		W.forceMove(src)
 		stock_parts += W
 		to_chat(usr, "<span class='notice'>You install the [W.name].</span>")

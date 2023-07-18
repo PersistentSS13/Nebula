@@ -17,7 +17,8 @@
 	//var/fireloss = 0  //Burn damage caused by being way too hot, too cold or burnt.
 	//var/halloss = 0   //Hallucination damage. 'Fake' damage obtained through hallucinating or the holodeck. Sleeping should cause it to wear off.
 
-	var/last_special = 0 //Used by the resist verb, likely used to prevent players from bypassing next_move by logging in/out.
+	/// Used by the resist verb and some mob abilities.
+	var/next_special_ability = 0
 
 	var/now_pushing = null
 	var/mob_bump_flag = 0
@@ -47,3 +48,11 @@
 	var/list/chem_doses
 	var/last_pain_message
 	var/next_pain_time = 0
+
+	var/stress = 0
+	var/currently_updating_stress = FALSE
+	var/list/stressors
+
+	var/life_tick
+	var/list/stasis_sources
+	var/stasis_value

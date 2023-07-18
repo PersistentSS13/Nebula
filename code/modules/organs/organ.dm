@@ -252,7 +252,7 @@
 				germ_level += 10
 
 	if(germ_level >= INFECTION_LEVEL_ONE)
-		var/fever_temperature = (owner.species.heat_level_1 - owner.species.body_temperature - 5)* min(germ_level/INFECTION_LEVEL_TWO, 1) + owner.species.body_temperature
+		var/fever_temperature = (owner.get_temperature_threshold(HEAT_LEVEL_1) - owner.species.body_temperature - 5)* min(germ_level/INFECTION_LEVEL_TWO, 1) + owner.species.body_temperature
 		owner.bodytemperature += clamp(0, (fever_temperature - T20C)/BODYTEMP_COLD_DIVISOR + 1, fever_temperature - owner.bodytemperature)
 
 	if (germ_level >= INFECTION_LEVEL_TWO)
@@ -356,7 +356,7 @@
 	if(QDELETED(src))
 		return
 
-	if(!user.unEquip(src))
+	if(!user.try_unequip(src))
 		return
 
 	var/obj/item/chems/food/organ/O = new(get_turf(src))

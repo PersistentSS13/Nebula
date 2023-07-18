@@ -79,7 +79,7 @@
 			to_chat(user, SPAN_WARNING("You must hold the welder in your hands to attach a tank."))
 		return
 
-	if(user && !user.unEquip(T, src))
+	if(user && !user.try_unequip(T, src))
 		return
 
 	tank    = T
@@ -162,7 +162,7 @@
 	return ..()
 
 /obj/item/weldingtool/attack_hand(mob/user)
-	if (tank && user.is_holding_offhand(src))
+	if (tank && user.is_holding_offhand(src) && user.check_dexterity(DEXTERITY_GRIP, TRUE))
 		return remove_tank(user)
 	return ..()
 

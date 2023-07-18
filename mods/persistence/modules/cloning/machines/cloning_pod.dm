@@ -150,7 +150,7 @@
 
 	if(istype(target, /obj/item/organ/internal/stack))
 		var/obj/item/organ/internal/stack/S = target
-		if(user && !user.unEquip(S, src))
+		if(user && !user.unequip(S, src))
 			return FALSE
 		if(S.stackmob && S.stackmob.client)
 			S.stackmob.client.perspective = EYE_PERSPECTIVE

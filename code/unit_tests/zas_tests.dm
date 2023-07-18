@@ -46,16 +46,17 @@
 
 	var/list/GM_checked = list()
 
-	for(var/turf/simulated/T in A)
+	for(var/turf/T in A)
 
-		if(!istype(T) || isnull(T.zone) || istype(T, /turf/simulated/floor/airless))
+		if(T.initial_gas == null)
 			continue
-		if(T.zone.air in GM_checked)
-			continue
-
-		var/t_msg = "Turf: [T] |  Location: [T.x] // [T.y] // [T.z]"
 
 		var/datum/gas_mixture/GM = T.return_air()
+		if(!GM || (GM in GM_checked))
+			continue
+		GM_checked += GM
+
+		var/t_msg = "Turf: [T] |  Location: [T.x] // [T.y] // [T.z]"
 		var/pressure = GM.return_pressure()
 		var/temp = GM.temperature
 
@@ -65,7 +66,6 @@
 				if(pressure > 10)
 					test_result["msg"] = "Pressure out of bounds: [pressure] | [t_msg]"
 					return test_result
-
 
 			if(UT_NORMAL, UT_NORMAL_COLD)
 				if(abs(pressure - ONE_ATMOSPHERE) > 10)
@@ -84,13 +84,11 @@
 						test_result["msg"] = "Temperature out of bounds: [temp] | [t_msg]"
 						return test_result
 
-		GM_checked.Add(GM)
-
 	if(GM_checked.len)
 		test_result["result"] = SUCCESS
-		test_result["msg"] = "Checked [GM_checked.len] zones"
+		test_result["msg"] = "Checked [GM_checked.len] gasmixes."
 	else
-		test_result["msg"] = "No zones checked."
+		test_result["msg"] = "No gasmixes checked."
 
 	return test_result
 
@@ -98,56 +96,65 @@
 // ==================================================================================================
 
 
-// Here we move a shuttle then test it's area once the shuttle has arrived.
-
+/// Here we move a shuttle then test it's area once the shuttle has arrived.
 /datum/unit_test/zas_supply_shuttle_moved
-	name = "ZAS: Supply Shuttle (When Moved)"
-	async=1				// We're moving the shuttle using built in procs.
+	name  = "ZAS: Supply Shuttle (When Moved)"
+	async = TRUE // We're moving the shuttle using built in procs.
 
+	///The shuttle datum of the supply shuttle
 	var/datum/shuttle/autodock/ferry/supply/shuttle = null
+	///The shuttle movetime initially set for the cargo shuttle, so we can restore it
+	var/initial_movetime
+	///The starting waypoint of the shuttle
+	var/obj/effect/shuttle_landmark/shuttle_start
+	///The destination waypoint of the shuttle
+	var/obj/effect/shuttle_landmark/shuttle_destination
 
-	var/testtime = 0	//Used as a timer.
+/datum/unit_test/zas_supply_shuttle_moved/subsystems_to_await()
+	return list(SSair, SStimer, SSmachines, SSsupply, SSshuttle)
 
 /datum/unit_test/zas_supply_shuttle_moved/start_test()
 
 	if(!SSshuttle)
 		fail("Shuttle Controller not setup at time of test.")
 		return 1
-	if(!SSshuttle.shuttles.len)
+	if(length(SSshuttle.shuttles) <= 0)
 		skip("No shuttles have been setup for this map.")
 		return 1
-
-	shuttle = SSsupply.shuttle
-	if(isnull(shuttle))
+	if(!SSsupply.shuttle)
+		skip("This map has no supply shuttle.")
 		return 1
+	shuttle = SSsupply.shuttle
+
+	//This test is only valid if the shuttle still works this way
+	ASSERT(shuttle.location == 0 || shuttle.location == 1)
+
+	//Setup our variables
+	initial_movetime    = SSsupply.movetime
+	SSsupply.movetime   = 5 // Speed up the shuttle movement.
+	shuttle_start       = shuttle.get_location_waypoint(shuttle.location)
+	shuttle_destination = shuttle.get_location_waypoint(!shuttle.location)
 
 	// Initiate the Move.
-	SSsupply.movetime = 5 // Speed up the shuttle movement.
-	shuttle.short_jump(shuttle.get_location_waypoint(!shuttle.location)) //TODO
-
+	shuttle.short_jump(shuttle_destination)
 	return 1
 
 /datum/unit_test/zas_supply_shuttle_moved/check_result()
-	if(!shuttle)
-		skip("This map has no supply shuttle.")
-		return 1
+	if(shuttle.moving_status == SHUTTLE_INTRANSIT || shuttle.moving_status == SHUTTLE_WARMUP)
+		return 0 //Return 0 to keep checking async
 
-	if(shuttle.moving_status == SHUTTLE_IDLE && !shuttle.at_station())
+	testing("Supply shuttle is now idle.")
+
+	//Check if we moved
+	if(shuttle.current_location == shuttle_start)
 		fail("Shuttle Did not Move")
 		return 1
 
-	if(!shuttle.at_station())
-		return 0
-
-	if(!testtime)
-		testtime = world.time+40                // Wait another 2 ticks then proceed.
-
-	if(world.time < testtime)
-		return 0
+	//Do the air zone test
 	for(var/area/A in shuttle.shuttle_area)
 		var/list/test = test_air_in_area(A.type, global.using_map.shuttle_atmos_expectation)
 		if(isnull(test))
-			fail("Check Runtimed")
+			fail("Check runtimed.")
 			return 1
 
 		switch(test["result"])
@@ -155,3 +162,8 @@
 			if(SKIP)    skip(test["msg"])
 			else        fail(test["msg"])
 	return 1
+
+/datum/unit_test/zas_supply_shuttle_moved/teardown_test()
+	//Restore shuttle movetime for any following tests
+	SSsupply.movetime = initial_movetime
+	return ..()

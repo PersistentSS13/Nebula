@@ -6,7 +6,13 @@
 
 	if (HasMovementHandler(/datum/movement_handler/mob/transformation/))
 		return
-	if (!loc)
+
+	// update the current life tick, can be used to e.g. only do something every 4 ticks
+	// This is handled before the loc check as unit tests use this to delay until the mob
+	// has processed a few times. Not really sure why but heigh ho.
+	life_tick++
+
+	if(!loc)
 		return
 
 	if(machine && (machine.CanUseTopic(src, machine.DefaultTopicState()) == STATUS_CLOSE)) // unsure if this is a good idea, but using canmousedrop was ???
@@ -15,9 +21,14 @@
 	//Handle temperature/pressure differences between body and environment
 	handle_environment(loc.return_air())
 
+	if(stat != DEAD && !is_in_stasis())
+		handle_nutrition_and_hydration()
+		handle_immunity()
+
 	blinded = 0 // Placing this here just show how out of place it is.
 	// human/handle_regular_status_updates() needs a cleanup, as blindness should be handled in handle_disabilities()
 	handle_regular_status_updates() // Status & health update, are we dead or alive etc.
+	handle_stasis()
 
 	if(stat != DEAD)
 		aura_check(AURA_TYPE_LIFE)
@@ -38,11 +49,90 @@
 
 	return 1
 
+/mob/living/proc/handle_nutrition_and_hydration()
+	SHOULD_CALL_PARENT(TRUE)
+	var/nut =    get_nutrition()
+	var/maxnut = get_max_nutrition()
+	if(nut < (maxnut * 0.3))
+		add_stressor(/datum/stressor/hungry_very, STRESSOR_DURATION_INDEFINITE)
+	else
+		remove_stressor(/datum/stressor/hungry_very)
+		if(nut < (maxnut * 0.5))
+			add_stressor(/datum/stressor/hungry, STRESSOR_DURATION_INDEFINITE)
+		else
+			remove_stressor(/datum/stressor/hungry)
+	var/hyd =    get_hydration()
+	var/maxhyd = get_max_hydration()
+	if(hyd < (maxhyd * 0.3))
+		add_stressor(/datum/stressor/thirsty_very, STRESSOR_DURATION_INDEFINITE)
+	else
+		remove_stressor(/datum/stressor/thirsty_very)
+		if(hyd < (maxhyd * 0.5))
+			add_stressor(/datum/stressor/thirsty, STRESSOR_DURATION_INDEFINITE)
+		else
+			remove_stressor(/datum/stressor/thirsty)
+
 /mob/living/proc/handle_breathing()
 	return
 
+#define RADIATION_SPEED_COEFFICIENT 0.025
 /mob/living/proc/handle_mutations_and_radiation()
-	return
+	SHOULD_CALL_PARENT(TRUE)
+
+	radiation = clamp(radiation,0,500)
+	var/decl/species/my_species = get_species()
+	if(my_species && (my_species.appearance_flags & RADIATION_GLOWS))
+		if(radiation)
+			set_light(max(1,min(10,radiation/10)), max(1,min(20,radiation/20)), my_species.get_flesh_colour(src))
+		else
+			set_light(0)
+
+	if(radiation <= 0)
+		return
+
+	var/damage = 0
+	radiation -= 1 * RADIATION_SPEED_COEFFICIENT
+	if(prob(25))
+		damage = 2
+
+	if (radiation > 50)
+		damage = 2
+		radiation -= 2 * RADIATION_SPEED_COEFFICIENT
+		if(!isSynthetic())
+			if(prob(5) && prob(100 * RADIATION_SPEED_COEFFICIENT))
+				radiation -= 5 * RADIATION_SPEED_COEFFICIENT
+				to_chat(src, "<span class='warning'>You feel weak.</span>")
+				SET_STATUS_MAX(src, STAT_WEAK, 3)
+				if(!lying)
+					emote("collapse")
+			if(prob(5) && prob(100 * RADIATION_SPEED_COEFFICIENT))
+				lose_hair()
+
+	if (radiation > 75)
+		damage = 3
+		radiation -= 3 * RADIATION_SPEED_COEFFICIENT
+		if(!isSynthetic())
+			if(prob(5))
+				take_overall_damage(0, 5 * RADIATION_SPEED_COEFFICIENT, used_weapon = "Radiation Burns")
+			if(prob(1))
+				to_chat(src, "<span class='warning'>You feel strange!</span>")
+				adjustCloneLoss(5 * RADIATION_SPEED_COEFFICIENT)
+				emote("gasp")
+	if(radiation > 150)
+		damage = 8
+		radiation -= 4 * RADIATION_SPEED_COEFFICIENT
+
+	damage = FLOOR(damage * (my_species ? my_species.get_radiation_mod(src) : 1))
+	if(damage)
+		adjustToxLoss(damage * RADIATION_SPEED_COEFFICIENT)
+		immunity = max(0, immunity - damage * 15 * RADIATION_SPEED_COEFFICIENT)
+		updatehealth()
+		var/list/limbs = get_external_organs()
+		if(!isSynthetic() && LAZYLEN(limbs))
+			var/obj/item/organ/external/O = pick(limbs)
+			if(istype(O))
+				O.add_autopsy_data("Radiation Poisoning", damage)
+#undef RADIATION_SPEED_COEFFICIENT
 
 // Get valid, unique reagent holders for metabolizing. Avoids metabolizing the same holder twice in a tick.
 /mob/living/proc/get_unique_metabolizing_reagent_holders()
@@ -118,7 +208,7 @@
 	// If we're standing in the rain, use the turf weather.
 	. = istype(actual_loc) && actual_loc.weather
 	if(!.) // If we're under or inside shelter, use the z-level rain (for ambience)
-		. = global.weather_by_z["[my_turf.z]"]
+		. = SSweather.get_weather_for_level(my_turf.z)
 
 /mob/living/proc/handle_environment(var/datum/gas_mixture/environment)
 
@@ -281,3 +371,26 @@
 
 /mob/living/proc/handle_hud_icons_health()
 	return
+
+/mob/living/singularity_act()
+	if(!simulated)
+		return 0
+	investigate_log("has been consumed by a singularity", "singulo")
+	gib()
+	return 20
+
+/mob/living/singularity_pull(S, current_size)
+	if(simulated)
+		if(current_size >= STAGE_THREE)
+			for(var/obj/item/hand in get_held_items())
+				if(prob(current_size*5) && hand.w_class >= (11-current_size)/2 && try_unequip(hand))
+					to_chat(src, SPAN_WARNING("\The [S] pulls \the [hand] from your grip!"))
+					hand.singularity_pull(S, current_size)
+			var/obj/item/shoes = get_equipped_item(slot_shoes_str)
+			if(!lying && !(shoes?.item_flags & ITEM_FLAG_NOSLIP))
+				var/decl/species/my_species = get_species()
+				if(!my_species?.check_no_slip(src) && prob(current_size*5))
+					to_chat(src, SPAN_DANGER("A strong gravitational force slams you to the ground!"))
+					SET_STATUS_MAX(src, STAT_WEAK, current_size)
+		apply_damage(current_size * 3, IRRADIATE, damage_flags = DAM_DISPERSED)
+	return ..()

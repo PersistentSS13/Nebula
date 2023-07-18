@@ -24,10 +24,10 @@
 	pickup_sound           = 'sound/foley/paperpickup2.ogg'
 	item_flags             = ITEM_FLAG_CAN_TAPE
 	//#TODO: Fonts probably should be stored in the pens or something?
-	var/tmp/deffont        = "Verdana"
-	var/tmp/signfont       = "Times New Roman"
-	var/tmp/crayonfont     = "Comic Sans MS"
-	var/tmp/fancyfont      = "Segoe Script"
+	var/tmp/deffont        = PEN_FONT_DEFAULT
+	var/tmp/signfont       = PEN_FONT_SIGNATURE
+	var/tmp/crayonfont     = PEN_FONT_CRAYON
+	var/tmp/fancyfont      = PEN_FONT_FANCY_PEN
 	var/scan_file_type     = /datum/computer_file/data/text
 	var/persist_on_init    = TRUE
 	var/age                = 0
@@ -52,7 +52,7 @@
 		SSpersistence.track_value(src, /decl/persistence_handler/paper)
 
 /obj/item/paper/GetCloneArgs()
-	return list(null, material, info, name)
+	return list(null, material?.type, info, name)
 
 /obj/item/paper/PopulateClone(obj/item/paper/clone)
 	clone = ..()
@@ -149,12 +149,12 @@
 	return TRUE
 
 /obj/item/paper/attack(mob/living/carbon/M, mob/living/carbon/user)
-	if(user.zone_sel.selecting == BP_EYES)
+	if(user.get_target_zone() == BP_EYES)
 		user.visible_message(SPAN_NOTICE("You show the paper to [M]."), \
 			SPAN_NOTICE("[user] holds up a paper and shows it to [M]."))
 		M.examinate(src)
 
-	else if(user.zone_sel.selecting == BP_MOUTH) // lipstick wiping
+	else if(user.get_target_zone() == BP_MOUTH) // lipstick wiping
 		if(ishuman(M))
 			var/mob/living/carbon/human/H = M
 			if(H == user)
@@ -412,8 +412,8 @@
 		if(!user.canUnEquip(other))
 			to_chat(user, SPAN_WARNING("You can't unequip \the [other]!"))
 			return
-		user.unEquip(src, B)
-		user.unEquip(other, B)
+		user.try_unequip(src, B)
+		user.try_unequip(other, B)
 
 	if (name != initial(name))
 		B.SetName(name)

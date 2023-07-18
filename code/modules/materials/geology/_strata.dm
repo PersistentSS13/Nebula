@@ -6,11 +6,14 @@
 	var/default_strata_candidate = FALSE
 	var/maximum_temperature = INFINITY
 
-/decl/strata/proc/is_valid_exoplanet_strata(var/obj/effect/overmap/visitable/sector/exoplanet/planet)
-	var/datum/level_data/level_data = planet? SSmapping.levels_by_z[planet.map_z[1]] : null
-	var/datum/gas_mixture/atmos = level_data?.get_exterior_atmosphere()
-	var/check_temp = atmos?.temperature || 0
-	. = check_temp <= maximum_temperature
+/decl/strata/proc/is_valid_exoplanet_strata(var/datum/planetoid_data/planet)
+	if(istype(planet.atmosphere))
+		return planet.atmosphere.temperature <= maximum_temperature
+	return TCMB <= maximum_temperature
+
+/decl/strata/proc/is_valid_level_stratum(datum/level_data/level_data)
+	var/temperature_to_check = istype(level_data.exterior_atmosphere) ? level_data.exterior_atmosphere.temperature : level_data.exterior_atmos_temp
+	return (temperature_to_check || TCMB) <= maximum_temperature
 
 /decl/strata/Initialize()
 	. = ..()

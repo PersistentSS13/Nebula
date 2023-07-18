@@ -26,10 +26,10 @@
 			var/virgin = 1	//has the text been modified yet?
 			var/temp = winget(client, "input", "text")
 			if(findtextEx(temp, "Say \"", 1, 7) && length(temp) > 5)	//case sensitive means
-				var/main_key = get_prefix_key(/decl/prefix/radio_main_channel)
+				var/main_key = get_common_radio_prefix()
 				temp = replacetext(temp, main_key, "")	//general radio
 
-				var/channel_key = get_prefix_key(/decl/prefix/radio_channel_selection)
+				var/channel_key = get_department_radio_prefix()
 				if(findtext(trim_left(temp), channel_key, 6, 7))	//dept radio
 					temp = copytext(trim_left(temp), 8)
 					virgin = 0
@@ -60,17 +60,17 @@
 /mob/living/carbon/human/GetVoice()
 
 	var/voice_sub
-	var/obj/item/rig/rig = get_equipped_item(slot_back_str)
-	if(istype(rig) && rig.speech?.voice_holder?.active && rig.speech.voice_holder.voice)
+	var/obj/item/rig/rig = get_rig()
+	if(rig?.speech?.voice_holder?.active && rig.speech.voice_holder.voice)
 		voice_sub = rig.speech.voice_holder.voice
 
 	if(!voice_sub)
 
 		var/list/check_gear = list(get_equipped_item(slot_wear_mask_str), get_equipped_item(slot_head_str))
-		if(wearing_rig)
-			var/datum/extension/armor/rig/armor_datum = get_extension(wearing_rig, /datum/extension/armor)
-			if(istype(armor_datum) && armor_datum.sealed && wearing_rig.helmet == get_equipped_item(slot_head_str))
-				check_gear |= wearing_rig
+		if(rig)
+			var/datum/extension/armor/rig/armor_datum = get_extension(rig, /datum/extension/armor)
+			if(istype(armor_datum) && armor_datum.sealed && rig.helmet == get_equipped_item(slot_head_str))
+				check_gear |= rig
 
 		for(var/obj/item/gear in check_gear)
 			if(!gear)
@@ -81,8 +81,6 @@
 
 	if(voice_sub)
 		return voice_sub
-	if(mind && mind.changeling && mind.changeling.mimicking)
-		return mind.changeling.mimicking
 	return real_name
 
 /mob/living/carbon/human/say_quote(var/message, var/decl/language/speaking = null)

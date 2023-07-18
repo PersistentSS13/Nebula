@@ -50,8 +50,11 @@ SAVED_VAR(/turf/simulated/floor/asteroid, dug)
 SAVED_VAR(/turf/exterior, owner)
 SAVED_VAR(/turf/exterior, diggable)
 
+SAVED_VAR(/turf/exterior/wall, strata_override)
+SAVED_VAR(/turf/exterior/wall, paint_color)
+SAVED_VAR(/turf/exterior/wall, material)
 SAVED_VAR(/turf/exterior/wall, reinf_material)
-SAVED_VAR(/turf/exterior/wall, strata)
+SAVED_VAR(/turf/exterior/wall, floor_type)
 
 SAVED_VAR(/turf/simulated/wall, floor_type)
 SAVED_VAR(/turf/simulated/wall, paint_color)
@@ -131,7 +134,6 @@ SAVED_VAR(/datum/mind, role_alt_title)
 SAVED_VAR(/datum/mind, assigned_job)
 SAVED_VAR(/datum/mind, objectives)
 SAVED_VAR(/datum/mind, has_been_rev)
-SAVED_VAR(/datum/mind, changeling)
 SAVED_VAR(/datum/mind, brigged_since)
 SAVED_VAR(/datum/mind, initial_account)
 SAVED_VAR(/datum/mind, initial_account_login)
@@ -235,9 +237,6 @@ SAVED_VAR(/datum/wound, embedded_objects)
 SAVED_VAR(/datum/wound, desc_list)
 SAVED_VAR(/datum/wound, damage_list)
 
-SAVED_VAR(/datum/inventory_slot, slot_id)
-SAVED_VAR(/datum/inventory_slot, holding)
-
 SAVED_VAR(/datum/robot_component, installed)
 SAVED_VAR(/datum/robot_component, powered)
 SAVED_VAR(/datum/robot_component, toggled)
@@ -259,8 +258,6 @@ SAVED_VAR(/datum/skillset, last_read_time)
 SAVED_VAR(/datum/skill_buff, buffs)
 SAVED_VAR(/datum/skill_buff, limit)
 SAVED_VAR(/datum/skill_buff, skillset)
-
-SAVED_VAR(/datum/random_map/automata/cave_system/mountains, rock_color)
 
 SAVED_VAR(/datum/lock, status)
 SAVED_VAR(/datum/lock, lock_data)
@@ -348,6 +345,9 @@ SAVED_VAR(/mob/living, meat_amount)
 SAVED_VAR(/mob/living, skin_amount)
 SAVED_VAR(/mob/living, bone_amount)
 SAVED_VAR(/mob/living, reagents)
+SAVED_VAR(/mob/living, _held_item_slot_selected)
+SAVED_VAR(/mob/living, _held_item_slots)
+SAVED_VAR(/mob/living, _inventory_slots)
 
 SAVED_VAR(/mob/living/bot, on)
 SAVED_VAR(/mob/living/bot, open)
@@ -714,13 +714,31 @@ SAVED_VAR(/obj/item/assembly_holder, master)
 ///////////////////////////////////////////////////////////////////////////////
 // item/radio
 ///////////////////////////////////////////////////////////////////////////////
-SAVED_VAR(/obj/item/radio/headset, ks1type)
-SAVED_VAR(/obj/item/radio/headset, ks2type)
 
+SAVED_VAR(/obj/item/radio, cell)
 SAVED_VAR(/obj/item/radio, wires)
-SAVED_VAR(/obj/item/radio, b_stat)
+SAVED_VAR(/obj/item/radio, panel_open)
+SAVED_VAR(/obj/item/radio, encryption_keys)
+SAVED_VAR(/obj/item/radio, on)
+SAVED_VAR(/obj/item/radio, frequency)
+SAVED_VAR(/obj/item/radio, traitor_frequency)
 SAVED_VAR(/obj/item/radio, broadcasting)
 SAVED_VAR(/obj/item/radio, listening)
+SAVED_VAR(/obj/item/radio, analog)
+SAVED_VAR(/obj/item/radio, analog_secured)
+
+/obj/item/radio/after_deserialize()
+	encryption_key_capacity = max(encryption_key_capacity, length(encryption_keys))
+	. = ..()
+
+SAVED_VAR(/obj/item/radio/beacon, code)
+SAVED_VAR(/obj/item/radio/beacon, functioning)
+
+SAVED_VAR(/obj/item/radio/intercom/locked, locked_frequency)
+
+
+SAVED_VAR(/obj/item/encryptionkey, can_decrypt) //Can vary at runtime
+
 
 ///////////////////////////////////////////////////////////////////////////////
 // item/card
@@ -733,7 +751,7 @@ SAVED_VAR(/obj/item/card/id, age)
 SAVED_VAR(/obj/item/card/id, blood_type)
 SAVED_VAR(/obj/item/card/id, dna_hash)
 SAVED_VAR(/obj/item/card/id, fingerprint_hash)
-SAVED_VAR(/obj/item/card/id, sex)
+SAVED_VAR(/obj/item/card/id, card_gender)
 SAVED_VAR(/obj/item/card/id, front)
 SAVED_VAR(/obj/item/card/id, side)
 SAVED_VAR(/obj/item/card/id, assignment)
@@ -981,7 +999,7 @@ SAVED_VAR(/obj/structure/lift/button, floor)
 
 SAVED_VAR(/obj/structure/ore_box, stored_ore)
 
-SAVED_VAR(/obj/structure/sign/poster, poster_type)
+SAVED_VAR(/obj/structure/sign/poster, poster_design)
 SAVED_VAR(/obj/structure/sign/poster, ruined)
 
 SAVED_VAR(/obj/structure/table, is_flipped)
@@ -1266,11 +1284,6 @@ SAVED_VAR(/obj/machinery/smartfridge, item_records)
 SAVED_VAR(/obj/machinery/smartfridge, locked)
 SAVED_VAR(/obj/machinery/smartfridge, scan_id)
 
-SAVED_VAR(/obj/machinery/telecomms/receiver, links)
-SAVED_VAR(/obj/machinery/telecomms/receiver, listening_levels)
-
-SAVED_VAR(/obj/machinery/telecomms, on)
-
 SAVED_VAR(/obj/machinery/button, active)
 SAVED_VAR(/obj/machinery/button, operating)
 SAVED_VAR(/obj/machinery/button, state)
@@ -1280,14 +1293,6 @@ SAVED_VAR(/obj/machinery/button/access, command)
 SAVED_VAR(/obj/machinery/atmospherics/pipe, leaking)
 
 SAVED_VAR(/obj/machinery/disposal_switch, on)
-
-SAVED_VAR(/obj/machinery/telecomms/bus, change_frequency)
-
-SAVED_VAR(/obj/machinery/telecomms/processor, process_mode)
-
-SAVED_VAR(/obj/machinery/telecomms/server, log_entries)
-SAVED_VAR(/obj/machinery/telecomms/server, stored_names)
-SAVED_VAR(/obj/machinery/telecomms/server, logs)
 
 SAVED_VAR(/obj/machinery/light, on)
 SAVED_VAR(/obj/machinery/light, current_mode)

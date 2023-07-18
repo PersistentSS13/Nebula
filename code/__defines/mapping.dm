@@ -33,8 +33,11 @@ if(other_init) { \
 #define ADJUST_TAG_VAR(variable, map_hash) (istext(variable) && (variable += map_hash))
 
 /// Map template categories for mass retrieval.
-#define MAP_TEMPLATE_CATEGORY_EXOPLANET "exoplanet_template"
-#define MAP_TEMPLATE_CATEGORY_SPACE     "space_template"
-#define MAP_TEMPLATE_CATEGORY_AWAYSITE  "awaysite_template"
+#define MAP_TEMPLATE_CATEGORY_EXOPLANET      "exoplanet_template"
+#define MAP_TEMPLATE_CATEGORY_EXOPLANET_SITE "exoplanet_site_template"
+#define MAP_TEMPLATE_CATEGORY_PLANET         "planet_template"
+#define MAP_TEMPLATE_CATEGORY_PLANET_SITE    "planet_site_template"
+#define MAP_TEMPLATE_CATEGORY_SPACE          "space_template"
+#define MAP_TEMPLATE_CATEGORY_AWAYSITE       "awaysite_template"
 ///PS13 Template that is spawned as part of the main map, and shouldn't be considered an away site during unit tests.
 #define MAP_TEMPLATE_CATEGORY_MAIN_SITE "main_site_template"

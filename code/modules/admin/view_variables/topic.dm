@@ -459,7 +459,7 @@
 			to_chat(usr, "This can only be done to instances of type /mob/living/carbon")
 			return
 
-		var/new_organ = input("Please choose an organ to add.","Organ",null) as null|anything in subtypesof(/obj/item/organ)
+		var/obj/item/organ/new_organ = input("Please choose an organ to add.","Organ",null) as null|anything in subtypesof(/obj/item/organ)
 		if(!new_organ) return
 
 		if(!M)
@@ -470,7 +470,12 @@
 			to_chat(usr, "Mob already has that organ.")
 			return
 
-		new new_organ(M)
+		var/obj/item/organ/target_organ = M.get_organ(initial(new_organ.parent_organ))
+		if(!target_organ)
+			to_chat(usr, "Mob doesn't have \a [target_organ] to install that in.")
+			return
+		var/obj/item/organ/organ_instance = new new_organ(M)
+		M.add_organ(organ_instance, target_organ)
 
 
 	else if(href_list["remorgan"])
@@ -593,6 +598,35 @@
 			return
 		log_and_message_admins("removed \the [choice] to \the [L]")
 		qdel(choice)
+
+	else if(href_list["addstressor"])
+		if(!check_rights(R_DEBUG))
+			return
+		var/mob/living/L = locate(href_list["addstressor"])
+		if(!istype(L))
+			return
+		var/static/list/_all_stressors
+		if(!_all_stressors)
+			_all_stressors = SSmanaged_instances.get_category(/datum/stressor)
+		var/datum/stressor/stressor = input("Select a stressor to add or refresh.", "Add Stressor") as null|anything in _all_stressors
+		if(!stressor)
+			return
+		var/duration = clamp(input("Enter a duration ([STRESSOR_DURATION_INDEFINITE] for permanent).", "Add Stressor") as num|null, STRESSOR_DURATION_INDEFINITE, INFINITY)
+		if(duration && L.add_stressor(stressor, duration))
+			log_and_message_admins("added [stressor] to \the [src] for duration [duration].")
+
+	else if(href_list["removestressor"])
+		if(!check_rights(R_DEBUG))
+			return
+		var/mob/living/L = locate(href_list["removestressor"])
+		if(!istype(L))
+			return
+		if(!length(L.stressors))
+			to_chat(usr, "Nothing to remove.")
+			return
+		var/datum/stressor/stressor = input("Select a stressor to remove.", "Remove Stressor") as null|anything in L.stressors
+		if(L.remove_stressor(stressor))
+			log_and_message_admins("removed [stressor] from \the [src].")
 
 	else if(href_list["setmaterial"])
 		if(!check_rights(R_DEBUG))	return

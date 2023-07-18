@@ -136,7 +136,7 @@
 	//And then put it in the user's hands if it makes sense
 	if(ismob(AM.loc))
 		var/mob/M = AM.loc
-		if(!M.unEquip(AM, src))
+		if(!M.try_unequip(AM, src))
 			CRASH("Tried to make a parcel from an item in a mob's inventory that cannot be unequipped. Should have been filtered out before. [log_info_line(src)]")
 		if(M == user)
 			user.put_in_hands(src)
@@ -173,9 +173,9 @@
 	unwrap(user)
 
 /obj/item/parcel/attack_hand(mob/user)
-	//Prevent picking up furnitures and human mobs
-	if(w_class < ITEM_SIZE_NO_CONTAINER)
-		. = ..()
+	if(w_class >= ITEM_SIZE_NO_CONTAINER)
+		return TRUE
+	return ..()
 
 /obj/item/parcel/attackby(obj/item/W, mob/user)
 	if(istype(W, /obj/item/destTagger))

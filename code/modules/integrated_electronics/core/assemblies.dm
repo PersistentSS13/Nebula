@@ -347,7 +347,7 @@
 		to_chat(user, "<span class='warning'>You can't seem to add the '[IC]', since the case doesn't support the circuit type.</span>")
 		return FALSE
 
-	if(!user.unEquip(IC,src))
+	if(!user.try_unequip(IC,src))
 		return FALSE
 
 	to_chat(user, "<span class='notice'>You slide [IC] inside [src].</span>")
@@ -437,7 +437,7 @@
 				S.attackby_react(I,user,user.a_intent)
 			return ..()
 		var/obj/item/cell/cell = I
-		if(user.unEquip(I,loc))
+		if(user.try_unequip(I,loc))
 			user.drop_from_inventory(I, loc)
 			cell.forceMove(src)
 			battery = cell
@@ -512,10 +512,10 @@
 	return src
 
 /obj/item/electronic_assembly/attack_hand(mob/user)
-	if(anchored)
-		attack_self(user)
-		return
-	..()
+	if(!anchored)
+		return ..()
+	attack_self(user)
+	return TRUE
 
 /obj/item/electronic_assembly/default //The /default electronic_assemblys are to allow the introduction of the new naming scheme without breaking old saves.
   name = "type-a electronic assembly"
@@ -702,8 +702,8 @@
 	max_components = IC_MAX_SIZE_BASE
 	max_complexity = IC_COMPLEXITY_BASE
 
-/obj/item/electronic_assembly/pickup()
-	transform = matrix() //Reset the matrix.
+/obj/item/electronic_assembly/on_picked_up()
+	transform = null //Reset the matrix.
 
 /obj/item/electronic_assembly/wallmount/proc/mount_assembly(turf/on_wall, mob/user) //Yeah, this is admittedly just an abridged and kitbashed version of the wallframe attach procs.
 	var/ndir = get_dir(on_wall, user)
@@ -720,7 +720,7 @@
 	user.visible_message("[user.name] attaches [src] to the wall.",
 		"<span class='notice'>You attach [src] to the wall.</span>",
 		"<span class='italics'>You hear clicking.</span>")
-	if(user.unEquip(src,T))
+	if(user.try_unequip(src,T))
 		var/matrix/M = matrix()
 		switch(ndir)
 			if(NORTH)

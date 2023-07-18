@@ -58,7 +58,7 @@
 				set_sample(B.stored_item)
 				B.empty()
 				return
-		if(!user.unEquip(W, src))
+		if(!user.try_unequip(W, src))
 			return
 		to_chat(user, SPAN_NOTICE("You insert \the [W] into  \the [src]."))
 		set_sample(W)
@@ -89,11 +89,11 @@
 			. += F.get_formatted_data()
 		else
 			. += "No [F.name] detected."
-	
+
 	. = jointext(., "<br>")
 
 /obj/machinery/forensic/proc/print_report()
-	var/obj/item/paper/report = new(get_turf(src), get_report(), "[src] report #[++report_num]: [sample.name]")
+	var/obj/item/paper/report = new(get_turf(src), null, get_report(), "[src] report #[++report_num]: [sample.name]")
 	playsound(loc, "sound/machines/dotprinter.ogg", 30, 1)
 	report.apply_custom_stamp(overlay_image('icons/obj/bureaucracy.dmi', icon_state = "paper_stamp-brig", flags = RESET_COLOR), "by \the [src]")
 

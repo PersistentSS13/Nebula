@@ -229,7 +229,6 @@
 /obj/machinery/light/small{
 	dir = 1
 	},
-/obj/machinery/telecomms/broadcaster/preset_right,
 /turf/simulated/floor/bluegrid{
 	name = "Mainframe Base";
 	temperature = 263
@@ -730,7 +729,7 @@
 	dir = 5
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/obj/structure/sign/bridge{
+/obj/structure/sign/department/bridge{
 	dir = 4;
 	pixel_x = -32
 	},
@@ -2680,7 +2679,7 @@
 "hd" = (
 /obj/structure/bed,
 /obj/item/bedsheet/mime,
-/obj/item/radio/intercom/department/security{
+/obj/item/radio/intercom{
 	dir = 1;
 	pixel_y = -27
 	},
@@ -2925,7 +2924,7 @@
 /obj/effect/floor_decal/corner/purple{
 	dir = 4
 	},
-/obj/structure/sign/xenobio_3{
+/obj/structure/sign/department/xenobio_3{
 	pixel_y = 32
 	},
 /turf/simulated/floor/tiled/white,
@@ -4546,7 +4545,7 @@
 /obj/effect/floor_decal/corner/purple{
 	dir = 8
 	},
-/obj/structure/sign/xenoflora{
+/obj/structure/sign/department/xenoflora{
 	pixel_y = -32
 	},
 /turf/simulated/floor/tiled/white,
@@ -5211,7 +5210,6 @@
 /obj/machinery/light/small{
 	dir = 1
 	},
-/obj/machinery/telecomms/receiver/preset_right,
 /turf/simulated/floor/bluegrid{
 	name = "Mainframe Base";
 	temperature = 263
@@ -5621,13 +5619,7 @@
 	pixel_x = 24
 	},
 /obj/structure/closet/crate,
-/obj/item/stock_parts/circuitboard/telecomms/broadcaster,
-/obj/item/stock_parts/circuitboard/telecomms/bus,
-/obj/item/stock_parts/circuitboard/telecomms/hub,
-/obj/item/stock_parts/circuitboard/telecomms/message_server,
-/obj/item/stock_parts/circuitboard/telecomms/processor,
-/obj/item/stock_parts/circuitboard/telecomms/receiver,
-/obj/item/stock_parts/circuitboard/telecomms/server,
+/obj/item/stock_parts/circuitboard/telecomms_hub,
 /obj/item/cell,
 /turf/simulated/floor/holofloor/lino,
 /area/ministation/telecomms)
@@ -6040,7 +6032,7 @@
 /turf/simulated/floor/carpet/blue2,
 /area/ministation/medical)
 "pG" = (
-/obj/item/sign/medipolma{
+/obj/item/sign/diploma/fake/medical{
 	pixel_y = 31
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
@@ -7226,7 +7218,7 @@
 /obj/structure/cable{
 	icon_state = "2-8"
 	},
-/obj/structure/sign/eva{
+/obj/structure/sign/department/eva{
 	pixel_y = 32
 	},
 /turf/simulated/floor/tiled,
@@ -7304,7 +7296,7 @@
 /obj/effect/floor_decal/corner/lightgrey{
 	dir = 1
 	},
-/obj/structure/sign/watercloset{
+/obj/structure/sign/department/watercloset{
 	pixel_y = 32
 	},
 /turf/simulated/floor/tiled,
@@ -7338,7 +7330,7 @@
 	dir = 8
 	},
 /obj/effect/decal/cleanable/blood,
-/obj/structure/sign/redcross{
+/obj/structure/sign/department/redcross{
 	pixel_y = 32
 	},
 /turf/simulated/floor/tiled/white,
@@ -8600,7 +8592,7 @@
 /area/ministation/cafe)
 "wn" = (
 /obj/structure/table/marble,
-/obj/structure/sign/monkey_painting{
+/obj/structure/sign/painting/monkey_painting{
 	pixel_y = 24
 	},
 /obj/machinery/door/firedoor{
@@ -8952,7 +8944,6 @@
 /turf/simulated/floor/tiled,
 /area/ministation/hall/w)
 "xg" = (
-/obj/machinery/computer/telecomms/monitor,
 /obj/machinery/light{
 	dir = 1
 	},
@@ -9414,7 +9405,6 @@
 /turf/simulated/floor/tiled,
 /area/ministation/cafe)
 "ys" = (
-/obj/machinery/telecomms/server/presets/ministation,
 /turf/simulated/floor/bluegrid{
 	name = "Mainframe Base";
 	temperature = 263
@@ -9981,7 +9971,6 @@
 /turf/simulated/floor/plating,
 /area/ministation/ai_sat)
 "Aa" = (
-/obj/machinery/telecomms/bus/preset_one/ministation,
 /turf/simulated/floor/bluegrid{
 	name = "Mainframe Base";
 	temperature = 263
@@ -10163,7 +10152,6 @@
 /turf/simulated/floor/wood,
 /area/ministation/cafe)
 "Ax" = (
-/obj/machinery/telecomms/processor/preset_one/ministation,
 /turf/simulated/floor/bluegrid{
 	name = "Mainframe Base";
 	temperature = 263
@@ -10231,7 +10219,7 @@
 /turf/simulated/floor/plating,
 /area/ministation/maint/sw)
 "AL" = (
-/obj/machinery/telecomms/hub/preset/ministation,
+/obj/machinery/network/telecomms_hub,
 /turf/simulated/floor/bluegrid{
 	name = "Mainframe Base";
 	temperature = 263
@@ -10515,7 +10503,6 @@
 /turf/simulated/floor/holofloor/lino,
 /area/ministation/telecomms)
 "Bu" = (
-/obj/machinery/computer/telecomms/server,
 /turf/simulated/floor/holofloor/lino,
 /area/ministation/telecomms)
 "Bv" = (
@@ -11227,7 +11214,7 @@
 /obj/effect/floor_decal/corner/black{
 	dir = 1
 	},
-/obj/structure/sign/telecomms{
+/obj/structure/sign/department/telecomms{
 	dir = 4;
 	pixel_x = -32
 	},
@@ -11975,7 +11962,7 @@
 /obj/effect/floor_decal/corner/yellow/three_quarters{
 	dir = 4
 	},
-/obj/structure/sign/engineering{
+/obj/structure/sign/department/engineering{
 	dir = 1;
 	pixel_y = -32
 	},
@@ -14388,7 +14375,7 @@
 /turf/simulated/floor/tiled,
 /area/ministation/ai_sat)
 "Lq" = (
-/obj/structure/sign/cargo{
+/obj/structure/sign/department/cargo{
 	dir = 1;
 	pixel_y = -32
 	},
@@ -14567,7 +14554,7 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	dir = 4
 	},
-/obj/structure/sign/forensics{
+/obj/structure/sign/department/forensics{
 	pixel_y = 32
 	},
 /turf/simulated/floor/tiled,
@@ -14629,7 +14616,7 @@
 /obj/effect/floor_decal/corner/purple{
 	dir = 6
 	},
-/obj/structure/sign/science_2{
+/obj/structure/sign/department/science_2{
 	pixel_x = 31
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
@@ -15270,7 +15257,7 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	dir = 4
 	},
-/obj/structure/sign/security/alt{
+/obj/structure/sign/department/security/alt{
 	pixel_y = 32
 	},
 /turf/simulated/floor/tiled,
@@ -15820,7 +15807,7 @@
 /area/ministation/maint/se)
 "Qz" = (
 /obj/effect/wallframe_spawn/no_grille,
-/obj/structure/sign/botany,
+/obj/structure/sign/department/botany,
 /turf/simulated/floor/tiled,
 /area/ministation/hydro)
 "QA" = (
@@ -15880,7 +15867,7 @@
 /turf/simulated/floor/plating,
 /area/ministation/security)
 "QN" = (
-/obj/structure/sign/id_office{
+/obj/structure/sign/department/id_office{
 	dir = 1;
 	pixel_y = -32
 	},
@@ -16199,7 +16186,7 @@
 /obj/effect/floor_decal/corner/paleblue{
 	dir = 10
 	},
-/obj/structure/sign/chemistry{
+/obj/structure/sign/department/chemistry{
 	pixel_x = 32;
 	pixel_y = -5
 	},
@@ -16259,7 +16246,7 @@
 /turf/simulated/wall,
 /area/ministation/detective)
 "RZ" = (
-/obj/structure/sign/janitor{
+/obj/structure/sign/department/janitor{
 	pixel_y = 32
 	},
 /turf/simulated/floor/tiled,
@@ -16853,7 +16840,7 @@
 /turf/simulated/floor/wood/mahogany,
 /area/ministation/library)
 "Ut" = (
-/obj/structure/sign/goldenplaque/security{
+/obj/structure/sign/plaque/golden/security{
 	pixel_y = 32
 	},
 /obj/machinery/vending/security,
@@ -17287,7 +17274,7 @@
 /turf/simulated/floor,
 /area/ministation/atmospherics)
 "Wn" = (
-/obj/structure/sign/atmosplaque{
+/obj/structure/sign/plaque/atmos{
 	pixel_y = 32
 	},
 /turf/simulated/floor/tiled,
@@ -17531,7 +17518,7 @@
 /obj/machinery/atmospherics/pipe/manifold/hidden/supply{
 	dir = 8
 	},
-/obj/structure/sign/warning/secure_area/armory{
+/obj/structure/sign/warning/armory{
 	pixel_x = -32
 	},
 /turf/simulated/floor/tiled,
