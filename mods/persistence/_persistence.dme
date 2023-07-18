@@ -223,6 +223,8 @@
 #include "modules\power\fusion\fuel_injector.dm"
 #include "modules\projectiles\ammunition.dm"
 #include "modules\projectiles\overrides.dm"
+#include "modules\projectiles\ammunition\5.56\bullets.dm"
+#include "modules\projectiles\ammunition\5.56\magazines.dm"
 #include "modules\projectiles\ammunition\22_LR\bullets.dm"
 #include "modules\projectiles\ammunition\22_LR\magazines.dm"
 #include "modules\projectiles\ammunition\45\bullets.dm"
