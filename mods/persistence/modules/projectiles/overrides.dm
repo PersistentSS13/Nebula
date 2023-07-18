@@ -1,35 +1,35 @@
-/obj/item/gun/launcher/syringe/rapid
+/datum/fabricator_recipe/protolathe/weapon/rapidsyringe
 	research_excluded = TRUE
 
-/obj/item/gun/energy/temperature
+/datum/fabricator_recipe/protolathe/weapon/temp_gun
 	research_excluded = TRUE
 
-/obj/item/gun/energy/confuseray
+/datum/fabricator_recipe/protolathe/weapon/confuseray
 	research_excluded = TRUE
 
-/obj/item/gun/energy/gun/nuclear
+/datum/fabricator_recipe/protolathe/weapon/nuclear_gun
 	research_excluded = TRUE
 
-/obj/item/gun/energy/lasercannon
+/datum/fabricator_recipe/protolathe/weapon/lasercannon
 	research_excluded = TRUE
 
-/obj/item/gun/energy/xray
+/datum/fabricator_recipe/protolathe/weapon/xrayrifle
 	research_excluded = TRUE
 
-/obj/item/gun/launcher/grenade
+/datum/fabricator_recipe/protolathe/weapon/grenadelauncher
 	research_excluded = TRUE
 
-/obj/item/gun/magnetic/railgun/flechette
+/datum/fabricator_recipe/protolathe/weapon/flechette
 	research_excluded = TRUE
 
-/obj/item/gun/energy/toxgun
+/datum/fabricator_recipe/protolathe/weapon/radpistol
 	research_excluded = TRUE
 
-/obj/item/gun/energy/decloner
+/datum/fabricator_recipe/protolathe/weapon/decloner
 	research_excluded = TRUE
 
-/obj/item/gun/projectile/automatic/smg
+/datum/fabricator_recipe/protolathe/weapon/wt550
 	research_excluded = TRUE
 
-/obj/item/gun/projectile/automatic/assault_rifle
+/datum/fabricator_recipe/protolathe/weapon/bullpup
 	research_excluded = TRUE
