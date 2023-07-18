@@ -27,7 +27,7 @@
 	name = "standard .45 round"
 	desc = ".45 round of ancient design. Sports mediocre range due to unimpressive velocity."
 	icon = 'mods/persistence/icons/obj/ammunition/45/tier1.dmi'
-	projectile_type = /obj/item/projectile/bullet/twentytwolr/simple
+	projectile_type = /obj/item/projectile/bullet/fortyfive/simple
 
 /obj/item/projectile/bullet/fortyfive/simple
 	damage = 40
