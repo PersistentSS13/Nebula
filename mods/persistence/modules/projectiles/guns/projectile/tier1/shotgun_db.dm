@@ -1,6 +1,6 @@
 /obj/item/gun/projectile/shotgun/simple
-	name = "ZSS SG 'Bouncer'"
-	desc = "The Bouncer, also known simply as 'the Double-Barrel', is essentially a rifle butt with two pipes attached to it. Somehow, this proved to be an immensely effective, powerful, and decidedly badass weapon. This model can be configured to fire one or both barrels at a time, and cannot be sawn off due to sporting reinforced barrels. It's often used by angry barkeeps and deranged space marines. Chambered in 12g shells."
+	name = "12g 'Bouncer' SG"
+	desc = "Break-action shotgun of ancient design. Powerful, but struggles in prolonged engagements due to low ammo capacity. Can fire one or both chambers at a time. Chambered in 12 gauge."
 	icon = 'mods/persistence/icons/obj/guns/tier1/shotgun_db.dmi'
 	load_method = SINGLE_CASING
 	handle_casings = HOLD_CASINGS
@@ -13,13 +13,17 @@
 	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
 	screen_shake = 1
 	accuracy = 0
-	one_hand_penalty = 10 // doesnt improve over handmade shotgun penalty because you really should not be one-handing a shotgun
-
+	one_hand_penalty = 10
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/wood = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
+	)
 	burst_delay = 0
 	firemodes = list(
 		list(mode_name="fire one barrel at a time", burst=1),
-		list(mode_name="fire both barrels at once", burst=2),
-		)
+		list(mode_name="fire both barrels at once", burst=2)
+	)
 
 /obj/item/gun/projectile/shotgun/simple/empty
 	starts_loaded = FALSE

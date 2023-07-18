@@ -1,6 +1,6 @@
 /obj/item/gun/projectile/bolt_action/handmade
-	name = "HM BA 'Minuteman'"
-	desc = "A homemade bolt-action rifle of dubious quality. While it can chamber high-damage ammunition, it's difficult to load and rather inaccurate for a rifle. It's still favored by colonists for being effective for its low cost. Chambered in 5.56mm rounds."
+	name = "5.56 'Minuteman' BA"
+	desc = "Bolt-action rifle of dubious origin. Shoddy craftsmanship results in extremely low ammo capacity. Chambered in 5.56."
 	icon = 'mods/persistence/icons/obj/guns/tier0/boltaction.dmi'
 	force = 10
 	slot_flags = SLOT_BACK
@@ -13,6 +13,10 @@
 	one_hand_penalty = 20
 	fire_delay = 20
 	accuracy = -1
+	material = /decl/material/solid/wood
+	matter = list(
+		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT
+	)
 
 /obj/item/gun/projectile/bolt_action/handmade/empty
 	starts_loaded = FALSE
