@@ -225,6 +225,8 @@
 #include "modules\projectiles\overrides.dm"
 #include "modules\projectiles\ammunition\22_LR\bullets.dm"
 #include "modules\projectiles\ammunition\22_LR\magazines.dm"
+#include "modules\projectiles\ammunition\45\bullets.dm"
+#include "modules\projectiles\ammunition\45\magazines.dm"
 #include "modules\projectiles\guns\projectile.dm"
 #include "modules\projectiles\guns\energy\tier0\lasrifle.dm"
 #include "modules\projectiles\guns\energy\tier1\laspistol.dm"

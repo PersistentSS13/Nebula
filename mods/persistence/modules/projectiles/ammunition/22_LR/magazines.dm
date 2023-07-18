@@ -19,7 +19,7 @@
 	material = /decl/material/solid/metal/steel
 	caliber = CALIBER_22LR
 	ammo_type = /obj/item/ammo_casing/twentytwolr
-	max_ammo = 20
+	max_ammo = 30
 
 /obj/item/ammo_magazine/twentytwolr/handmade
 	name = "makeshift .22LR magazine"
@@ -51,7 +51,7 @@
 		/decl/material/solid/plastic = MATTER_AMOUNT_REINFORCEMENT
 	)
 	ammo_type = /obj/item/ammo_casing/twentytwolr/simple
-	max_ammo = 8
+	max_ammo = 12
 
 /obj/item/ammo_magazine/box/twentytwolr/simple
 	name = "packet of standard .22LR rounds"
