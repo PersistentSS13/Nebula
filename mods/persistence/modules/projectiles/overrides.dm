@@ -4,9 +4,6 @@
 /obj/item/gun/energy/temperature
 	research_excluded = TRUE
 
-/obj/item/grenade/anti_photon
-	research_excluded = TRUE
-
 /obj/item/gun/energy/confuseray
 	research_excluded = TRUE
 
