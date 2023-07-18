@@ -183,9 +183,13 @@
 	spawn(1 SECOND)
 		dock()
 
-//returns 1 if the shuttle is getting ready to move, but is not in transit yet
+///returns 1 if the shuttle is getting ready to move, but is not in transit yet
 /datum/shuttle/autodock/proc/is_launching()
 	return (moving_status == SHUTTLE_WARMUP || process_state == WAIT_LAUNCH || process_state == FORCE_LAUNCH)
+
+///Return TRUE if the shuttle is currently in it's landing phase
+/datum/shuttle/autodock/proc/is_landing()
+	return (moving_status == SHUTTLE_INTRANSIT || process_state == WAIT_ARRIVE || process_state == WAIT_FINISH)
 
 //This gets called when the shuttle finishes arriving at it's destination
 //This can be used by subtypes to do things when the shuttle arrives.

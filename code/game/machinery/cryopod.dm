@@ -16,7 +16,7 @@
 	density = 0
 	interact_offline = 1
 	obj_flags = OBJ_FLAG_MOVES_UNSUPPORTED
-	directional_offset = "{'NORTH':{'y':-24}, 'SOUTH':{'y':32}, 'EAST':{'x':24}, 'WEST':{'x':-24}}"
+	directional_offset = "{'NORTH':{'y':-24}, 'SOUTH':{'y':32}, 'EAST':{'x':-24}, 'WEST':{'x':24}}"
 
 	//Used for logging people entering cryosleep and important items they are carrying.
 	var/list/frozen_crew = list()
@@ -154,7 +154,7 @@
 	var/allow_occupant_types = list(/mob/living/carbon/human)
 	var/disallow_occupant_types = list()
 
-	var/mob/occupant = null       // Person waiting to be despawned.
+	var/mob/living/occupant       // Person waiting to be despawned.
 	var/time_till_despawn = 9000  // Down to 15 minutes //30 minutes-ish is too long
 	var/time_entered = 0          // Used to keep track of the safe period.
 
@@ -217,7 +217,7 @@
 		var/obj/effect/overmap/visitable/O = global.overmap_sectors[num2text(z)]
 		if(istype(O))
 			for(var/obj/effect/overmap/visitable/OO in range(O,2))
-				if((OO.sector_flags & OVERMAP_SECTOR_IN_SPACE) || istype(OO,/obj/effect/overmap/visitable/sector/exoplanet))
+				if((OO.sector_flags & OVERMAP_SECTOR_IN_SPACE) || istype(OO,/obj/effect/overmap/visitable/sector/planetoid))
 					LAZYDISTINCTADD(possible_locations, text2num(level))
 		if(length(possible_locations))
 			newz = pick(possible_locations)
@@ -291,9 +291,8 @@
 //Lifted from Unity stasis.dm and refactored.
 /obj/machinery/cryopod/Process()
 	if(occupant)
-		if(applies_stasis && iscarbon(occupant) && (world.time > time_entered + 20 SECONDS))
-			var/mob/living/carbon/C = occupant
-			C.SetStasis(2)
+		if(applies_stasis && (world.time > time_entered + 20 SECONDS))
+			occupant.set_stasis(2)
 
 		//Allow a ten minute gap between entering the pod and actually despawning.
 		// Only provide the gap if the occupant hasn't ghosted
@@ -393,8 +392,7 @@
 		control_computer._admin_logs += "[key_name(occupant)] ([role_alt_title]) at [stationtime2text()]"
 	log_and_message_admins("[key_name(occupant)] ([role_alt_title]) entered cryostorage.")
 
-	var/obj/item/radio/announcer = get_global_announcer()
-	announcer.autosay("[occupant.real_name], [role_alt_title], [on_store_message]", "[on_store_name]")
+	do_telecomms_announcement(src, "[occupant.real_name], [role_alt_title], [on_store_message]", "[on_store_name]")
 
 	//This should guarantee that ghosts don't spawn.
 	occupant.ckey = null
@@ -462,7 +460,7 @@
 	icon_state = base_icon_state
 
 	//Eject any items that aren't meant to be in the pod.
-	var/list/items = contents - component_parts
+	var/list/items = get_contained_external_atoms()
 	if(occupant) items -= occupant
 
 	for(var/obj/item/W in items)
@@ -559,11 +557,14 @@
 	var/remains_type = /obj/item/remains/human
 
 /obj/structure/broken_cryo/attack_hand(mob/user)
-	..()
-	if (closed)
-		to_chat(user, SPAN_NOTICE("You tug at the glass but can't open it with your hands alone."))
+	. = ..()
+	if(.)
+		return
+	if(closed)
+		to_chat(user, SPAN_NOTICE("You tug at the glass, but can't open it further without a crowbar."))
 	else
 		to_chat(user, SPAN_NOTICE("The glass is already open."))
+	return TRUE
 
 /obj/structure/broken_cryo/attackby(obj/item/W, mob/user)
 	if (busy)

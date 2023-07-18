@@ -44,7 +44,7 @@
 		else if(!B.brainmob || !B.can_use_mmi)
 			to_chat(user, "<span class='notice'>This brain is completely useless to you.</span>")
 			return
-		if(!user.unEquip(O, src))
+		if(!user.try_unequip(O, src))
 			return
 		user.visible_message("<span class='notice'>\The [user] sticks \a [O] into \the [src].</span>")
 
@@ -121,7 +121,7 @@
 /obj/item/mmi/relaymove(var/mob/user, var/direction)
 	if(user.incapacitated(INCAPACITATION_KNOCKOUT))
 		return
-	var/obj/item/rig/rig = src.get_rig()
+	var/obj/item/rig/rig = get_rig()
 	if(rig)
 		rig.forced_move(direction, user)
 

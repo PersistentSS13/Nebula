@@ -278,8 +278,6 @@ Turf and target are seperate in case you want to teleport some distance from a t
 	f = round(f)
 	f = max(low, f)
 	f = min(high, f)
-	if ((f % 2) == 0) //Ensure the last digit is an odd number
-		f += 1
 	return f
 
 //Turns 1479 into 147.9
@@ -649,11 +647,8 @@ Turf and target are seperate in case you want to teleport some distance from a t
 					refined_trg -= B
 					continue moving
 
-
-
-
 	if(toupdate.len)
-		for(var/turf/simulated/T1 in toupdate)
+		for(var/turf/T1 in toupdate)
 			SSair.mark_for_update(T1)
 
 	return copiedobjs

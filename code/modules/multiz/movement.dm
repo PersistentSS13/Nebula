@@ -186,11 +186,23 @@
 	if(..())
 		return species.can_fall(src)
 
+/atom/movable/proc/protected_from_fall_damage(var/turf/landing)
+	return !!(locate(/obj/structure/stairs) in landing)
+
+/mob/protected_from_fall_damage(var/turf/landing)
+	. = ..()
+	if(!.)
+		// This is very silly, but it can be refined and made more appropriate as our multiz turf system is expanded.
+		var/obj/item/storage/backpack/parachute/parachute = get_equipped_item(slot_back_str)
+		if(istype(parachute) && parachute.packed)
+			parachute.packed = FALSE
+			return TRUE
+
 /atom/movable/proc/handle_fall(var/turf/landing)
 	var/turf/previous = get_turf(loc)
 	Move(landing, get_dir(previous, landing))
-	if(locate(/obj/structure/stairs) in landing)
-		return 1
+	if(protected_from_fall_damage(landing))
+		return TRUE
 	if(landing.get_fluid_depth() >= FLUID_DEEP)
 		var/primary_fluid = landing.get_fluid_name()
 		if(previous.get_fluid_depth() >= FLUID_DEEP) //We're sinking further
@@ -199,7 +211,7 @@
 		else
 			visible_message(SPAN_NOTICE("\The [src] falls into the [primary_fluid]!"), SPAN_NOTICE("What a splash!"))
 			playsound(src,  'sound/effects/watersplash.ogg', 30, TRUE)
-		return 1
+		return TRUE
 	else
 		handle_fall_effect(landing)
 
@@ -322,14 +334,8 @@
 /mob/living/can_float()
 	return !is_physically_disabled()
 
-/mob/living/simple_animal/aquatic/can_float()
-	return TRUE
-
-/mob/living/simple_animal/hostile/aquatic/can_float()
-	return TRUE
-
-/mob/living/simple_animal/hostile/retaliate/aquatic/can_float()
-	return TRUE
+/mob/living/simple_animal/can_float()
+	return is_aquatic
 
 /mob/living/carbon/human/can_float()
 	return species.can_float(src)
@@ -384,13 +390,4 @@
 
 /atom/movable/z_observer/explosion_act()
 	SHOULD_CALL_PARENT(FALSE)
-	return
-
-/atom/movable/z_observer/singularity_act()
-	return
-
-/atom/movable/z_observer/singularity_pull()
-	return
-
-/atom/movable/z_observer/singuloCanEat()
 	return

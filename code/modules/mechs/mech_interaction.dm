@@ -135,7 +135,7 @@
 	if(user != src)
 		a_intent = user.a_intent
 		if(user.zone_sel)
-			zone_sel.set_selected_zone(user.zone_sel.selecting)
+			zone_sel.set_selected_zone(user.get_target_zone())
 		else
 			zone_sel.set_selected_zone(BP_CHEST)
 	// You may attack the target with your exosuit FIST if you're malfunctioning.
@@ -465,7 +465,7 @@
 					to_chat(user, SPAN_WARNING("There is already a cell in there!"))
 					return
 
-				if(user.unEquip(thing))
+				if(user.try_unequip(thing))
 					thing.forceMove(body)
 					body.cell = thing
 					to_chat(user, SPAN_NOTICE("You install \the [body.cell] into \the [src]."))

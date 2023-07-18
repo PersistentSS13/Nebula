@@ -23,6 +23,7 @@
 	tool_interaction_flags = TOOL_INTERACTION_DECONSTRUCT
 	parts_amount = 2
 	parts_type = /obj/item/stack/material/strut
+	var/base_icon = "bed"
 
 /obj/structure/bed/user_can_mousedrop_onto(var/mob/user, var/atom/being_dropped, var/incapacitation_flags)
 	if(user == being_dropped)
@@ -173,7 +174,7 @@
 	if(IS_WRENCH(I) || istype(I, /obj/item/stack) || IS_WIRECUTTER(I))
 		return 1
 	if(iv_stand && !beaker && istype(I, /obj/item/chems))
-		if(!user.unEquip(I, src))
+		if(!user.try_unequip(I, src))
 			return
 		to_chat(user, "You attach \the [I] to \the [src].")
 		beaker = I
@@ -182,10 +183,10 @@
 	..()
 
 /obj/structure/bed/roller/attack_hand(mob/user)
-	if(beaker && !buckled_mob)
-		remove_beaker(user)
-	else
-		..()
+	if(!beaker || buckled_mob || !user.check_dexterity(DEXTERITY_GRIP, TRUE))
+		return ..()
+	remove_beaker(user)
+	return TRUE
 
 /obj/structure/bed/roller/proc/collapse()
 	visible_message("[usr] collapses [src].")
@@ -267,7 +268,7 @@
 	pickup_sound = 'sound/foley/pickup2.ogg'
 	material = /decl/material/solid/metal/steel
 	matter = list(
-		/decl/material/solid/plastic = MATTER_AMOUNT_SECONDARY, 
+		/decl/material/solid/plastic = MATTER_AMOUNT_SECONDARY,
 		/decl/material/solid/cloth = MATTER_AMOUNT_REINFORCEMENT,
 	)
 	var/structure_form_type = /obj/structure/bed/roller	//The deployed form path.

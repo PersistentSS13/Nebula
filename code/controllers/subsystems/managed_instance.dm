@@ -3,6 +3,11 @@ SUBSYSTEM_DEF(managed_instances)
 	flags = SS_NO_FIRE | SS_NO_INIT
 	var/list/_managed_instance_cache = list()
 
+/datum/controller/subsystem/managed_instances/proc/get_category(var/cache_category)
+	var/list/category = _managed_instance_cache[cache_category]
+	if(category)
+		return category.Copy() // avoid mutating the cache.
+
 /datum/controller/subsystem/managed_instances/proc/get(var/instance_type, var/cache_id, var/cache_category = "default", var/list/instance_args)
 	if(!cache_id)
 		cache_id = instance_type
@@ -19,10 +24,10 @@ SUBSYSTEM_DEF(managed_instances)
 		_managed_instance_cache[cache_category] = category_list
 
 	if(!.)
-		var/datum/managed_instance
-		LAZYINITLIST(instance_args)
-		managed_instance = new instance_type(arglist(instance_args))
+		// arglist() passed to New() will runtime without at least one list entry.
+		var/datum/managed_instance = length(instance_args) ? (new instance_type(arglist(instance_args))) : (new instance_type)
 		category_list[cache_id] = managed_instance
+		LAZYINITLIST(instance_args)
 		instance_args.Insert(1, cache_id)
 		managed_instance.ManagedInstanceInitialize(arglist(instance_args)) // We do this after storing to avoid circular creation loops.
 		if(QDELETED(managed_instance))

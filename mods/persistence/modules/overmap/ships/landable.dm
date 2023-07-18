@@ -32,9 +32,8 @@
 	// In case the ship is landed in a sector, save where the sector is located.
 	start_x = loc.x
 	start_y = loc.y
+	CUSTOM_SV("old_loc", loc)
 
-	old_loc = loc
-	
 	// Find where the ship currently is. If the ship is landed, its home z-level won't be saved unless something else is saving it.
 	var/datum/shuttle/ship_shuttle = SSshuttle.shuttles[shuttle]
 	if(!ship_shuttle || !ship_shuttle.current_location)
@@ -71,7 +70,8 @@
 		else
 			for(var/area/A in ship_shuttle.shuttle_area)
 				SSpersistence.RemoveSavedArea(A)
-	forceMove(old_loc)
+	forceMove(LOAD_CUSTOM_SV("old_loc"))
+	CLEAR_SV("old_loc")
 
 // The landable ship contains a reference to its landmark, so only save if the ship is in its z-level.
 /obj/effect/shuttle_landmark/ship/should_save()

@@ -5,6 +5,12 @@
 	else
 		add_to_living_mob_list()
 
+/mob/living/get_ai_type()
+	var/decl/species/my_species = get_species()
+	if(ispath(my_species?.ai))
+		return my_species.ai
+	return ..()
+
 /mob/living/show_other_examine_strings(mob/user, distance, infix, suffix, hideflags, decl/pronouns/pronouns)
 	if(admin_paralyzed)
 		to_chat(user, SPAN_OCCULT("OOC: They have been paralyzed by staff. Please avoid interacting with them unless cleared to do so by staff."))
@@ -324,7 +330,7 @@ default behaviour is:
 
 /mob/living/proc/get_organ_target()
 	var/mob/shooter = src
-	var/t = shooter.zone_sel?.selecting
+	var/t = shooter.get_target_zone()
 	if ((t in list( BP_EYES, BP_MOUTH )))
 		t = BP_HEAD
 	var/obj/item/organ/external/def_zone = ran_zone(t, target = src)
@@ -364,7 +370,7 @@ default behaviour is:
 /mob/living/carbon/revive()
 	var/obj/item/cuffs = get_equipped_item(slot_handcuffed_str)
 	if (cuffs)
-		unEquip(cuffs, get_turf(src))
+		try_unequip(cuffs, get_turf(src))
 	. = ..()
 
 /mob/living/proc/revive()
@@ -691,7 +697,7 @@ default behaviour is:
 		to_chat(src, "<span class='notice'>Due to the spookiness of the round, you have taken control of the poor animal as an invading, possessing spirit - roleplay accordingly.</span>")
 		src.universal_speak = TRUE
 		src.universal_understand = TRUE
-		//src.cultify() // Maybe another time.
+		//src.on_defilement() // Maybe another time.
 		return
 
 	to_chat(src, "<b>You are now \the [src]!</b>")
@@ -723,6 +729,8 @@ default behaviour is:
 			add_overlay(A)
 
 /mob/living/Destroy()
+	if(stressors) // Do not QDEL_NULL, keys are managed instances.
+		stressors = null
 	if(auras)
 		for(var/a in auras)
 			remove_aura(a)
@@ -812,11 +820,26 @@ default behaviour is:
 /mob/living/proc/get_digestion_product()
 	return null
 
+/mob/living/proc/handle_additional_vomit_reagents(var/obj/effect/decal/cleanable/vomit/vomit)
+	vomit.reagents.add_reagent(/decl/material/liquid/acid/stomach, 5)
+
 /mob/living/proc/eyecheck()
 	return FLASH_PROTECTION_NONE
 
+/mob/living/proc/get_max_nutrition()
+	return 500
+
+/mob/living/proc/get_nutrition()
+	return get_max_nutrition()
+
 /mob/living/proc/adjust_nutrition(var/amt)
 	return
+
+/mob/living/proc/get_max_hydration()
+	return 500
+
+/mob/living/proc/get_hydration()
+	return get_max_hydration()
 
 /mob/living/proc/adjust_hydration(var/amt)
 	return
@@ -838,9 +861,6 @@ default behaviour is:
 	if(!isnull(old_magnitude))
 		magnitude = min(old_magnitude, magnitude)
 	LAZYSET(chem_effects, effect, magnitude)
-
-/mob/living/proc/adjust_immunity(var/amt)
-	return
 
 /mob/living/handle_reading_literacy(var/mob/user, var/text_content, var/skip_delays, var/digital = FALSE)
 	if(skill_check(SKILL_LITERACY, SKILL_ADEPT))
@@ -1082,3 +1102,39 @@ default behaviour is:
 /mob/living/get_speech_bubble_state_modifier()
 	return isSynthetic() ? "synth" : ..()
 
+/mob/living/proc/is_on_special_ability_cooldown()
+	return world.time < next_special_ability
+
+/mob/living/proc/set_special_ability_cooldown(var/amt)
+	next_special_ability = max(next_special_ability, world.time+amt)
+
+/mob/living/proc/get_seconds_until_next_special_ability_string()
+	return ticks2readable(next_special_ability - world.time)
+
+//Get species or synthetic temp if the mob is a FBP/robot. Used when a synthetic mob is exposed to a temp check.
+//Essentially, used when a synthetic mob should act diffferently than a normal type mob.
+/mob/living/get_temperature_threshold(var/threshold)
+	if(isSynthetic())
+		switch(threshold)
+			if(COLD_LEVEL_1)
+				return SYNTH_COLD_LEVEL_1
+			if(COLD_LEVEL_2)
+				return SYNTH_COLD_LEVEL_2
+			if(COLD_LEVEL_3)
+				return SYNTH_COLD_LEVEL_3
+			if(HEAT_LEVEL_1)
+				return SYNTH_HEAT_LEVEL_1
+			if(HEAT_LEVEL_2)
+				return SYNTH_HEAT_LEVEL_2
+			if(HEAT_LEVEL_3)
+				return SYNTH_HEAT_LEVEL_3
+			else
+				CRASH("synthetic get_temperature_threshold() called with invalid threshold value.")
+	var/decl/species/my_species = get_species()
+	if(my_species)
+		return my_species.get_species_temperature_threshold(threshold)
+	return ..()
+
+/mob/living/proc/handle_some_updates()
+	//We are long dead, or we're junk mobs spawned like the clowns on the clown shuttle
+	return life_tick <= 5 || !timeofdeath || (timeofdeath >= 5 && (world.time-timeofdeath) <= 10 MINUTES)

@@ -228,7 +228,6 @@
 
 			var/datum/signal/status_signal = new
 			status_signal.source = src
-			status_signal.transmission_method = 1
 			status_signal.data["command"] = "supply"
 			frequency.post_signal(src, status_signal)
 		return 1
@@ -366,14 +365,23 @@
 /datum/nano_module/supply/proc/get_shuttle_status()
 	var/datum/shuttle/autodock/ferry/supply/shuttle = SSsupply.shuttle
 	if(!istype(shuttle))
-		return "No Connection"
+		return SPAN_CLASS("bad", "No Connection")
 
 	if(shuttle.has_arrive_time())
-		return "In transit ([shuttle.eta_seconds()] s)"
+		return SPAN_CLASS("average", "In transit ([shuttle.eta_seconds()] s)")
 
 	if (shuttle.can_launch())
 		return "Docked"
-	return "Docking/Undocking"
+	else if(!shuttle.next_location)
+		return SPAN_CLASS("bad", "No Destination")
+	else if(!shuttle.next_location.is_valid(shuttle))
+		return SPAN_CLASS("bad", "Docking Area Obstructed")
+
+	if(shuttle.is_launching())
+		return SPAN_CLASS("mild", "Launch In Progress")
+	if(shuttle.is_landing())
+		return SPAN_CLASS("mild", "Landing In Progress")
+	return "N/A"
 
 /datum/nano_module/supply/proc/order_to_nanoui(var/datum/supply_order/SO, var/list_id)
 	return list(list(

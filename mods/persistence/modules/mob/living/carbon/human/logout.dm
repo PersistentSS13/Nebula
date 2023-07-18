@@ -17,7 +17,7 @@
 	// Check if humans are asleep on startup.
 	if(!istype(client))
 		goto_sleep()
-		
+
 /mob/living/carbon/human/proc/get_spawn_turf()
 	var/spawn_turf
 	for(var/obj/machinery/cryopod/C in SSmachines.machinery)
@@ -53,8 +53,8 @@
 		return
 
 	if(locate(/obj/structure/bed) in get_turf(src))
-		SetStasis(20, STASIS_SLEEP) // beds are better.
+		set_stasis(20, STASIS_SLEEP) // beds are better.
 		return
 
 	//Apply sleeping stasis.
-	SetStasis(10, STASIS_SLEEP)
+	set_stasis(10, STASIS_SLEEP)

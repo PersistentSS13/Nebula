@@ -1120,7 +1120,7 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/kleibkhar/outpost/sleeproom)
 "cU" = (
-/obj/structure/sign/bluecross_2,
+/obj/structure/sign/department/bluecross_2,
 /turf/simulated/wall/concrete,
 /area/kleibkhar/outpost/infirmary)
 "cV" = (
@@ -1356,7 +1356,7 @@
 /turf/simulated/floor/tiled,
 /area/kleibkhar/outpost/mess_hall)
 "du" = (
-/obj/structure/sign/telecomms,
+/obj/structure/sign/department/telecomms,
 /turf/simulated/wall/concrete,
 /area/kleibkhar/outpost/computer)
 "dv" = (
@@ -2077,7 +2077,7 @@
 /turf/simulated/floor/tiled,
 /area/kleibkhar/outpost/mess_hall)
 "fb" = (
-/obj/structure/sign/hydro{
+/obj/structure/sign/department/hydro{
 	icon_state = "hydro";
 	dir = 1
 	},
@@ -2200,7 +2200,7 @@
 /turf/simulated/floor/tiled/white,
 /area/kleibkhar/outpost/sleeproom)
 "fr" = (
-/obj/structure/sign/watercloset{
+/obj/structure/sign/department/watercloset{
 	icon_state = "watercloset";
 	dir = 1
 	},
@@ -3061,7 +3061,7 @@
 /area/kleibkhar/outpost/infirmary/surgery)
 "hw" = (
 /obj/machinery/computer/operating,
-/obj/item/radio/intercom/department/medbay{
+/obj/item/radio/intercom{
 	dir = 8;
 	icon_state = "intercom";
 	pixel_x = 24
@@ -3119,7 +3119,7 @@
 /turf/simulated/floor/tiled/white,
 /area/kleibkhar/outpost/infirmary/surgery)
 "hC" = (
-/obj/item/radio/intercom/department/medbay{
+/obj/item/radio/intercom{
 	dir = 4;
 	icon_state = "intercom";
 	pixel_x = -24
@@ -3203,7 +3203,7 @@
 /area/kleibkhar/outpost/it)
 "hK" = (
 /obj/machinery/atmospherics/unary/vent_scrubber/on,
-/obj/item/radio/intercom/department/medbay{
+/obj/item/radio/intercom{
 	pixel_y = 24
 	},
 /turf/simulated/floor/tiled/white,
@@ -3283,7 +3283,7 @@
 	icon_state = "officechair";
 	dir = 4
 	},
-/obj/item/radio/intercom/department/medbay{
+/obj/item/radio/intercom{
 	pixel_y = 24
 	},
 /turf/simulated/floor/tiled/white,

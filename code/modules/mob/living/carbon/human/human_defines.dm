@@ -26,23 +26,6 @@
 
 	var/obj/screen/default_attack_selector/attack_selector
 
-	//Equipment slots
-	// TODO REMOVE DIRECT REFERENCES
-	var/obj/item/_w_uniform
-	var/obj/item/_wear_suit
-	var/obj/item/_shoes
-	var/obj/item/_l_ear
-	var/obj/item/_r_ear
-	var/obj/item/_r_store
-	var/obj/item/_l_store
-	var/obj/item/_s_store
-	var/obj/item/_head
-	var/obj/item/_belt
-	var/obj/item/_gloves
-	var/obj/item/_glasses
-	var/obj/item/_wear_id
-	// END TODO
-
 	var/icon/stand_icon = null
 
 	var/voice = ""	//Instead of new say code calling GetVoice() over and over and over, we're just going to ask this variable, which gets updated in Life()
@@ -81,7 +64,9 @@
 	var/decl/natural_attack/default_attack	//default unarmed attack
 
 	var/obj/machinery/machine_visual //machine that is currently applying visual effects to this mob. Only used for camera monitors currently.
+
 	var/shock_stage
+	var/rounded_shock_stage
 
 	//vars for fountain of youth examine lines
 	var/became_older
@@ -95,6 +80,9 @@
 	var/last_pain
 
 	var/vital_organ_missing_time
+
+	/// Used to look up records when the client is logged out.
+	var/comments_record_id
 
 	ai = /datum/ai/human
 

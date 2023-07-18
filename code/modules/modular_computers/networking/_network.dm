@@ -12,6 +12,10 @@
 	var/list/mainframes = list()
 	var/list/mainframes_by_role = list()
 
+	// Telecomms device caches
+	var/list/connected_radios
+	var/list/connected_hubs
+
 	var/list/relays = list()
 
 	var/list/cameras_by_channel = list()
@@ -54,12 +58,16 @@
 	for(var/datum/extension/network_device/D in devices)
 		D.disconnect(TRUE)
 	QDEL_NULL_LIST(chat_channels)
+	connected_radios = null
+	connected_hubs = null
 	devices = null
 	mainframes = null
 	SSnetworking.networks -= network_id
 	. = ..()
 
 /datum/computer_network/proc/add_device(datum/extension/network_device/D)
+	if(QDELETED(D))
+		return FALSE
 	if(D.network_id != network_id)
 		return FALSE
 	if(D.key != network_key)

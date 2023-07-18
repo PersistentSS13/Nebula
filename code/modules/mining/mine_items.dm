@@ -212,16 +212,15 @@
 
 /obj/item/stack/flag/attackby(var/obj/item/W, var/mob/user)
 	if(upright)
-		attack_hand(user)
-		return
+		return attack_hand_with_interaction_checks(user)
 	return ..()
 
 /obj/item/stack/flag/attack_hand(var/mob/user)
-	if(upright)
-		knock_down()
-		user.visible_message("\The [user] knocks down \the [singular_name].")
-		return
-	return ..()
+	if(!upright)
+		return ..()
+	knock_down()
+	user.visible_message("\The [user] knocks down \the [singular_name].")
+	return TRUE
 
 /obj/item/stack/flag/attack_self(var/mob/user)
 	var/turf/T = get_turf(src)

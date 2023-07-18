@@ -113,8 +113,10 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 	var/list/stack_origin_tech = "{'materials':1}" // Research level for stacks.
 
 	// Attributes
-	/// How rare is this material generally?
-	var/exoplanet_rarity = MAT_RARITY_MUNDANE
+	/// How rare is this material in exoplanet xenoflora?
+	var/exoplanet_rarity_plant = MAT_RARITY_MUNDANE
+	/// How rare is this material in exoplanet atmospheres?
+	var/exoplanet_rarity_gas = MAT_RARITY_MUNDANE
 	/// Delay in ticks when cutting through this wall.
 	var/cut_delay = 0
 	/// Radiation var. Used in wall and object processing to irradiate surroundings.
@@ -428,7 +430,8 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 
 //Clausius–Clapeyron relation
 /decl/material/proc/get_boiling_temp(var/pressure = ONE_ATMOSPHERE)
-	return (1 / (1/max(boiling_point, TCMB)) - ((R_IDEAL_GAS_EQUATION * log(pressure / ONE_ATMOSPHERE)) / (latent_heat * molar_mass)))
+	var/pressure_ratio = (pressure > 0)? log(pressure / ONE_ATMOSPHERE) : 0
+	return (1 / (1/max(boiling_point, TCMB)) - ((R_IDEAL_GAS_EQUATION * pressure_ratio) / (latent_heat * molar_mass)))
 
 /// Returns the phase of the matterial at the given temperature and pressure
 /// Defaults to standard temperature and pressure (20c at one atmosphere)
@@ -436,7 +439,8 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 	//#TODO: implement plasma temperature and do pressure checks
 	if(!isnull(boiling_point) && temperature >= get_boiling_temp(pressure))
 		return MAT_PHASE_GAS
-	else if(!isnull(heating_point) && temperature >= heating_point)
+	else if(!isnull(heating_point) && temperature >= heating_point || \
+			!isnull(melting_point) && temperature >= melting_point)
 		return MAT_PHASE_LIQUID
 	return MAT_PHASE_SOLID
 
@@ -445,7 +449,8 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 	name = "placeholder"
 	uid = "mat_placeholder"
 	hidden_from_codex = TRUE
-	exoplanet_rarity = MAT_RARITY_NOWHERE
+	exoplanet_rarity_plant = MAT_RARITY_NOWHERE
+	exoplanet_rarity_gas = MAT_RARITY_NOWHERE
 
 /// Generic material product (sheets, bricks, etc). Used ALL THE TIME.
 /// May return an instance list, a single instance, or nothing if there is no instance produced.
@@ -734,7 +739,7 @@ INITIALIZE_IMMEDIATE(/obj/effect/gas_overlay)
 				var/obj/item/thing = H.get_equipped_item(slot)
 				if(!istype(thing))
 					continue
-				if(thing.unacidable || !H.unEquip(thing))
+				if(thing.unacidable || !H.try_unequip(thing))
 					to_chat(H, SPAN_NOTICE("Your [thing] protects you from the acid."))
 					holder.remove_reagent(type, REAGENT_VOLUME(holder, type))
 					return

@@ -38,22 +38,13 @@
 	. = CEILING(w_class * BASE_OBJECT_MATTER_MULTPLIER)
 
 /obj/assume_air(datum/gas_mixture/giver)
-	if(loc)
-		return loc.assume_air(giver)
-	else
-		return null
+	return loc?.assume_air(giver)
 
 /obj/remove_air(amount)
-	if(loc)
-		return loc.remove_air(amount)
-	else
-		return null
+	return loc?.remove_air(amount)
 
 /obj/return_air()
-	if(loc)
-		return loc.return_air()
-	else
-		return null
+	return loc?.return_air()
 
 /obj/proc/updateUsrDialog()
 	if(in_use)
@@ -147,7 +138,7 @@
 /obj/attack_hand(mob/user)
 	if(Adjacent(user))
 		add_fingerprint(user)
-	..()
+	return ..()
 
 /obj/is_fluid_pushable(var/amt)
 	return ..() && w_class <= round(amt/20)
@@ -280,6 +271,16 @@
  */
 /obj/proc/WillContain()
 	return
+
+/**
+ * Returns the sum of this obj's matter plus the matter of all its contents.
+ * Overrides may add extra handling for things like material storage.
+ * Most useful for calculating worth or deconstructing something along with its contents.
+ */
+/obj/proc/get_contained_matter()
+	. = matter?.Copy()
+	for(var/obj/contained_obj in get_contained_external_atoms()) // machines handle component parts separately
+		. = MERGE_ASSOCS_WITH_NUM_VALUES(., contained_obj.get_contained_matter())
 
 ////////////////////////////////////////////////////////////////
 // Interactions

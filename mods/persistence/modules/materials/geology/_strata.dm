@@ -154,7 +154,7 @@
 		/decl/material/solid/gemstone/diamond = 3
 	)
 
-/decl/strata/comet/is_valid_exoplanet_strata(obj/effect/overmap/visitable/sector/exoplanet/planet)
+/decl/strata/comet/is_valid_exoplanet_strata(datum/planetoid_data/planet)
 	return FALSE
 
 /decl/strata/comet/liquid

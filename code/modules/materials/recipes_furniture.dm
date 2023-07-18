@@ -68,6 +68,11 @@
 	result_type = /obj/structure/barricade
 	time = 50
 
+/datum/stack_recipe/furniture/banner_frame
+	title = "banner frame"
+	result_type = /obj/structure/banner_frame
+	time = 25
+
 /datum/stack_recipe/furniture/stool
 	title = "stool"
 	result_type = /obj/item/stool
@@ -153,14 +158,6 @@
 /datum/stack_recipe/furniture/machine/spawn_result(mob/user, location, amount)
 	return new result_type(location)
 
-/datum/stack_recipe/furniture/turret
-	title = "turret frame"
-	result_type = /obj/machinery/porta_turret_construct
-	req_amount = 5
-	time = 25
-
-/datum/stack_recipe/furniture/turret/spawn_result(mob/user, location, amount)
-	return new result_type(location)
 
 /datum/stack_recipe/furniture/door_assembly
 	time = 50
@@ -233,6 +230,11 @@
 /datum/stack_recipe/furniture/bookcase
 	title = "book shelf"
 	result_type = /obj/structure/bookcase
+	time = 15
+
+/datum/stack_recipe/furniture/book_cart
+	title = "book cart"
+	result_type = /obj/structure/bookcase/cart
 	time = 15
 
 /datum/stack_recipe/furniture/planting_bed

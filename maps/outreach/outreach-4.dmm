@@ -1268,7 +1268,7 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/upper)
 "cX" = (
-/obj/effect/overmap/visitable/sector/exoplanet/outreach,
+/obj/effect/overmap/visitable/sector/planetoid/exoplanet/outreach,
 /turf/exterior/open,
 /area/exoplanet/outreach)
 "cY" = (

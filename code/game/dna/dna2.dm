@@ -49,8 +49,6 @@ var/global/list/dna_activity_bounds[DNA_SE_LENGTH]
 // Used to determine what each block means (admin hax and species stuff on /vg/, mostly)
 var/global/list/assigned_blocks[DNA_SE_LENGTH]
 
-var/global/list/datum/dna/gene/dna_genes[0]
-
 /////////////////
 // GENE DEFINES
 /////////////////
@@ -75,8 +73,8 @@ var/global/list/datum/dna/gene/dna_genes[0]
 	var/list/UI[DNA_UI_LENGTH]
 
 	// From old dna.
-	var/b_type = "A+"  // Should probably change to an integer => string map but I'm lazy.
-	var/real_name          // Stores the real name of the person who originally got this dna datum. Used primarily for changelings,
+	var/b_type = "A+" // Should probably change to an integer => string map but I'm lazy.
+	var/real_name     // Stores the real name of the person who originally got this dna datum.
 
 	// New stuff
 	var/species

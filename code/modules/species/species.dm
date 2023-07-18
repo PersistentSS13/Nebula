@@ -111,6 +111,9 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 	var/gibbed_anim =   "gibbed-h"
 	var/dusted_anim =   "dust-h"
 
+	/// A modifier applied to move delay when walking on snow.
+	var/snow_slowdown_mod = 0
+
 	var/death_sound
 	var/death_message = "seizes up and falls limp, their eyes dead and lifeless..."
 	var/knockout_message = "collapses, having been knocked unconscious."
@@ -123,9 +126,9 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 
 	// Environment tolerance/life processes vars.
 	var/breath_pressure = 16                                    // Minimum partial pressure safe for breathing, kPa
-	var/breath_type = /decl/material/gas/oxygen                                  // Non-oxygen gas breathed, if any.
+	var/breath_type = /decl/material/gas/oxygen                 // Non-oxygen gas breathed, if any.
 	var/poison_types = list(/decl/material/gas/chlorine = TRUE) // Noticeably poisonous air - ie. updates the toxins indicator on the HUD.
-	var/exhale_type = /decl/material/gas/carbon_dioxide                          // Exhaled gas type.
+	var/exhale_type = /decl/material/gas/carbon_dioxide         // Exhaled gas type.
 	var/blood_reagent = /decl/material/liquid/blood
 
 	var/max_pressure_diff = 60                                  // Maximum pressure difference that is safe for lungs
@@ -229,6 +232,7 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 	var/decl/pronouns/default_pronouns
 	var/list/available_pronouns = list(
 		/decl/pronouns,
+		/decl/pronouns/neuter/person,
 		/decl/pronouns/female,
 		/decl/pronouns/male
 	)
@@ -833,7 +837,7 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 	var/obj/item/uniform = target.get_equipped_item(slot_w_uniform_str)
 	if(uniform)
 		uniform.add_fingerprint(attacker)
-	var/obj/item/organ/external/affecting = GET_EXTERNAL_ORGAN(target, ran_zone(attacker.zone_sel.selecting, target = target))
+	var/obj/item/organ/external/affecting = GET_EXTERNAL_ORGAN(target, ran_zone(attacker.get_target_zone(), target = target))
 
 	var/list/holding = list(target.get_active_hand() = 60)
 	for(var/thing in target.get_inactive_held_items())
@@ -869,7 +873,7 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 
 		//Actually disarm them
 		for(var/obj/item/I in holding)
-			if(I && target.unEquip(I))
+			if(I && target.try_unequip(I))
 				target.visible_message("<span class='danger'>[attacker] has disarmed [target]!</span>")
 				playsound(target.loc, 'sound/weapons/thudswoosh.ogg', 50, 1, -1)
 				return
@@ -1063,3 +1067,20 @@ var/global/const/DEFAULT_SPECIES_HEALTH = 200
 			if(!O || (O.status & ORGAN_DEAD))
 				return TRUE
 	return FALSE
+
+/decl/species/proc/get_species_temperature_threshold(var/threshold)
+	switch(threshold)
+		if(COLD_LEVEL_1)
+			return cold_level_1
+		if(COLD_LEVEL_2)
+			return cold_level_2
+		if(COLD_LEVEL_3)
+			return cold_level_3
+		if(HEAT_LEVEL_1)
+			return heat_level_1
+		if(HEAT_LEVEL_2)
+			return heat_level_2
+		if(HEAT_LEVEL_3)
+			return heat_level_3
+		else
+			CRASH("get_species_temperature_threshold() called with invalid threshold value.")

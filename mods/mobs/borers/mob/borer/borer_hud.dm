@@ -1,14 +1,51 @@
-/mob/living/simple_animal/borer
-	var/list/hud_elements = list()
+/datum/hud/borer
+	var/list/borer_hud_elements = list()
 	var/obj/screen/intent/hud_intent_selector
 	var/obj/screen/borer/toggle_host_control/hud_toggle_control
 	var/obj/screen/borer/inject_chemicals/hud_inject_chemicals
 	var/obj/screen/borer/leave_host/hud_leave_host
 
+/datum/hud/borer/Destroy()
+	QDEL_NULL_LIST(borer_hud_elements)
+	hud_toggle_control =   null
+	hud_inject_chemicals = null
+	hud_leave_host =       null
+	QDEL_NULL(hud_intent_selector)
+	. = ..()
+
+/datum/hud/borer/FinalizeInstantiation()
+	hud_intent_selector =  new
+	adding = list(hud_intent_selector)
+	hud_inject_chemicals = new
+	hud_leave_host =       new
+	borer_hud_elements = list(
+		hud_inject_chemicals,
+		hud_leave_host
+	)
+	if(istype(mymob, /mob/living/simple_animal/borer))
+		var/mob/living/simple_animal/borer/borer = mymob
+		if(!borer.neutered)
+			hud_toggle_control = new
+			borer_hud_elements += hud_toggle_control
+	adding += borer_hud_elements
+	if(mymob)
+		var/mob/living/simple_animal/borer/borer = mymob
+		if(istype(borer) && borer.host)
+			for(var/obj/thing in borer_hud_elements)
+				thing.alpha =        255
+				thing.invisibility = 0
+		if(mymob.client)
+			mymob.client.screen |= adding
+
+/mob/living/simple_animal/borer
+	hud_type = /datum/hud/borer
+
 /mob/living/simple_animal/borer/proc/reset_ui_callback()
-	if(world.time >= last_special)
-		for(var/obj/thing in hud_elements)
-			thing.color = null
+	if(!is_on_special_ability_cooldown())
+		var/datum/hud/borer/borer_hud = hud_used
+		if(istype(borer_hud))
+			for(var/obj/thing in borer_hud.borer_hud_elements)
+				thing.color = null
 
 /obj/screen/borer
 	icon = 'mods/mobs/borers/icons/borer_ui.dmi'
@@ -28,7 +65,7 @@
 /obj/screen/borer/toggle_host_control
 	name = "Seize Control"
 	icon_state = "seize_control"
-	screen_loc = "LEFT-3,TOP-1"
+	screen_loc = "LEFT+3,TOP-1"
 
 /obj/screen/borer/toggle_host_control/Click(location, control, params)
 	. = ..()
@@ -81,11 +118,11 @@
 	worm.host.verbs += /mob/living/carbon/proc/spawn_larvae
 
 	return TRUE
-	
+
 /obj/screen/borer/inject_chemicals
 	name = "Inject Chemicals"
 	icon_state = "inject_chemicals"
-	screen_loc = "LEFT-2,TOP-1"
+	screen_loc = "LEFT+2,TOP-1"
 
 /obj/screen/borer/inject_chemicals/Click(location, control, params)
 	. = ..()
@@ -112,7 +149,7 @@
 /obj/screen/borer/leave_host
 	name = "Leave Host"
 	icon_state = "leave_host"
-	screen_loc = "LEFT-1,TOP-1"
+	screen_loc = "LEFT+1,TOP-1"
 
 /obj/screen/borer/leave_host/Click(location, control, params)
 	. = ..()
@@ -136,7 +173,7 @@
 			to_chat(worm.host, SPAN_DANGER("Something slimy wiggles out of your ear and plops to the ground!"))
 			if(!worm.neutered)
 				to_chat(worm.host, SPAN_DANGER("As though waking from a dream, you shake off the insidious mind control of the brain worm. Your thoughts are your own again."))
-		worm.detatch()
+		worm.detach_from_host()
 		worm.leave_host()
 
 	return TRUE

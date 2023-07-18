@@ -494,19 +494,19 @@ var/global/list/intents = list(I_HELP,I_DISARM,I_GRAB,I_HURT)
 	return 1
 
 #define SAFE_PERP -50
-/mob/living/proc/assess_perp(var/obj/access_obj, var/check_access, var/auth_weapons, var/check_records, var/check_arrest)
+/mob/living/proc/assess_perp(var/obj/access_obj, var/check_access, var/auth_weapons, var/check_records, var/check_arrest, var/check_network)
 	if(stat == DEAD)
 		return SAFE_PERP
 
 	return 0
 
-/mob/living/carbon/assess_perp(var/obj/access_obj, var/check_access, var/auth_weapons, var/check_records, var/check_arrest)
+/mob/living/carbon/assess_perp(var/obj/access_obj, var/check_access, var/auth_weapons, var/check_records, var/check_arrest, var/check_network)
 	if(get_equipped_item(slot_handcuffed_str))
 		return SAFE_PERP
 
 	return ..()
 
-/mob/living/carbon/human/assess_perp(var/obj/access_obj, var/check_access, var/auth_weapons, var/check_records, var/check_arrest)
+/mob/living/carbon/human/assess_perp(var/obj/access_obj, var/check_access, var/auth_weapons, var/check_records, var/check_arrest, var/check_network)
 	var/threatcount = ..()
 	if(. == SAFE_PERP)
 		return SAFE_PERP
@@ -539,7 +539,14 @@ var/global/list/intents = list(I_HELP,I_DISARM,I_GRAB,I_HURT)
 		if(id)
 			perpname = id.registered_name
 
-		var/datum/computer_file/report/crew_record/CR = get_crewmember_record(perpname)
+		var/datum/computer_file/report/crew_record/CR
+		if(check_network)
+			var/datum/extension/network_device/obj_device = get_extension(access_obj, /datum/extension/network_device)
+			var/datum/computer_network/obj_network = obj_device?.get_network(NET_FEATURE_SECURITY)
+			CR = obj_network?.get_crew_record_by_name(perpname)
+		else
+			CR = get_crewmember_record(perpname)
+
 		if(check_records && !CR && !isMonkey())
 			threatcount += 4
 
@@ -548,7 +555,7 @@ var/global/list/intents = list(I_HELP,I_DISARM,I_GRAB,I_HURT)
 
 	return threatcount
 
-/mob/living/simple_animal/hostile/assess_perp(var/obj/access_obj, var/check_access, var/auth_weapons, var/check_records, var/check_arrest)
+/mob/living/simple_animal/hostile/assess_perp(var/obj/access_obj, var/check_access, var/auth_weapons, var/check_records, var/check_arrest, var/check_network)
 	var/threatcount = ..()
 	if(. == SAFE_PERP)
 		return SAFE_PERP
@@ -714,17 +721,19 @@ var/global/list/intents = list(I_HELP,I_DISARM,I_GRAB,I_HURT)
 	var/obj/item/I = get_active_hand()
 	if(IS_PEN(I))
 		return I
-
 	//Look if we're holding a pen elsewhere
-	for(I in get_held_items()) 
+	for(I in get_held_items())
 		if(IS_PEN(I))
 			return I
-
 	//Try looking if we got a rig module with integrated pen
-	var/obj/item/rig/R = get_equipped_item(slot_back_str)
-	if(istype(R))
-		var/obj/item/rig_module/device/pen/P = locate(/obj/item/rig_module/device/pen) in R.installed_modules
-		if(!R.offline && P)
-			return P.device
-
-	//Base mob only has slot_back and slot_wear_mask, so not much else to check
+	var/obj/item/rig/rig = get_rig()
+	if(rig && !rig.offline)
+		var/pen = locate(/obj/item/rig_module/device/pen) in rig.installed_modules
+		if(pen)
+			return pen
+	//Look for other slots
+	var/static/list/PEN_CHECK_SLOTS = list(slot_l_ear_str, slot_r_ear_str, slot_l_store_str, slot_r_store_str, slot_s_store_str)
+	for(var/slot in PEN_CHECK_SLOTS)
+		I = get_equipped_item(slot)
+		if(IS_PEN(I))
+			return I

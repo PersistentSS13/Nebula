@@ -67,6 +67,7 @@
 	var/armor_type = /datum/extension/armor
 	var/list/natural_armor //what armor animal has
 	var/flash_vulnerability = 1 // whether or not the mob can be flashed; 0 = no, 1 = yes, 2 = very yes
+	var/is_aquatic = FALSE
 
 	//Null rod stuff
 	var/supernatural = 0
@@ -81,7 +82,6 @@
 
 	//for simple animals with abilities, mostly megafauna
 	var/ability_cooldown
-	var/time_last_used_ability
 
 	//for simple animals that reflect damage when attacked in melee
 	var/return_damage_min
@@ -96,7 +96,14 @@
 
 /mob/living/simple_animal/Initialize()
 	. = ..()
-	check_mob_icon_states()
+
+	// Aquatic creatures only care about water, not atmos.
+	if(is_aquatic)
+		max_gas = list()
+		min_gas = list()
+		minbodytemp = 0
+
+	check_mob_icon_states(TRUE)
 	if(isnull(base_animal_type))
 		base_animal_type = type
 	if(LAZYLEN(natural_armor))
@@ -110,25 +117,36 @@
 /mob/living/simple_animal/proc/setup_languages()
 	add_language(/decl/language/animal)
 
-/mob/living/simple_animal/proc/check_mob_icon_states()
-	mob_icon_state_flags = 0
-	if(check_state_in_icon("world", icon))
-		mob_icon_state_flags |= MOB_ICON_HAS_LIVING_STATE
-	if(check_state_in_icon("world-dead", icon))
-		mob_icon_state_flags |= MOB_ICON_HAS_DEAD_STATE
-	if(check_state_in_icon("world-sleeping", icon))
-		mob_icon_state_flags |= MOB_ICON_HAS_SLEEP_STATE
-	if(check_state_in_icon("world-resting", icon))
-		mob_icon_state_flags |= MOB_ICON_HAS_REST_STATE
-	if(check_state_in_icon("world-gib", icon))
-		mob_icon_state_flags |= MOB_ICON_HAS_GIB_STATE
+var/global/list/simplemob_icon_bitflag_cache = list()
+/mob/living/simple_animal/proc/check_mob_icon_states(var/sa_initializing = FALSE)
+	if(sa_initializing) // Let people force-rebuild the mob cache with proccall if needed.
+		mob_icon_state_flags = global.simplemob_icon_bitflag_cache[type]
+	else
+		mob_icon_state_flags = null
+	if(isnull(mob_icon_state_flags))
+		mob_icon_state_flags = 0
+		if(check_state_in_icon("world", icon))
+			mob_icon_state_flags |= MOB_ICON_HAS_LIVING_STATE
+		if(check_state_in_icon("world-dead", icon))
+			mob_icon_state_flags |= MOB_ICON_HAS_DEAD_STATE
+		if(check_state_in_icon("world-sleeping", icon))
+			mob_icon_state_flags |= MOB_ICON_HAS_SLEEP_STATE
+		if(check_state_in_icon("world-resting", icon))
+			mob_icon_state_flags |= MOB_ICON_HAS_REST_STATE
+		if(check_state_in_icon("world-gib", icon))
+			mob_icon_state_flags |= MOB_ICON_HAS_GIB_STATE
+		if(check_state_in_icon("world-paralyzed", icon))
+			mob_icon_state_flags |= MOB_ICON_HAS_PARALYZED_STATE
+		global.simplemob_icon_bitflag_cache[type] = mob_icon_state_flags
 
 /mob/living/simple_animal/on_update_icon()
 
 	..()
 
 	icon_state = ICON_STATE_WORLD
-	if(stat == DEAD && (mob_icon_state_flags & MOB_ICON_HAS_DEAD_STATE))
+	if(stat != DEAD && HAS_STATUS(src, STAT_PARA) && (mob_icon_state_flags & MOB_ICON_HAS_PARALYZED_STATE))
+		icon_state += "-paralyzed"
+	else if(stat == DEAD && (mob_icon_state_flags & MOB_ICON_HAS_DEAD_STATE))
 		icon_state += "-dead"
 	else if(stat == UNCONSCIOUS && (mob_icon_state_flags & MOB_ICON_HAS_SLEEP_STATE))
 		icon_state += "-sleeping"
@@ -161,6 +179,11 @@
 	. = ..()
 
 /mob/living/simple_animal/Life()
+	if(is_aquatic && !submerged() && stat != DEAD)
+		walk(src, 0)
+		if(!HAS_STATUS(src, STAT_PARA)) // gated to avoid redundant update_icon() calls.
+			SET_STATUS_MAX(src, STAT_PARA, 3)
+			update_icon()
 	. = ..()
 	if(!.)
 		return FALSE
@@ -246,30 +269,29 @@
 
 /mob/living/simple_animal/proc/handle_atmos(var/atmos_suitable = 1)
 	//Atmos
-
 	if(!loc)
 		return
 
 	var/datum/gas_mixture/environment = loc.return_air()
-	if(!(MUTATION_SPACERES in mutations) && environment)
-
-		if(abs(environment.temperature - bodytemperature) > 40 )
-			bodytemperature += ((environment.temperature - bodytemperature) / 5)
-
-		 // don't bother checking it twice if we got a supplied 0 val.
+	if(environment)
+		// don't bother checking it twice if we got a supplied FALSE val.
 		if(atmos_suitable)
-			if(LAZYLEN(min_gas))
+			if(is_aquatic)
+				atmos_suitable = submerged()
+			else if(LAZYLEN(min_gas))
 				for(var/gas in min_gas)
 					if(environment.gas[gas] < min_gas[gas])
 						atmos_suitable = FALSE
 						break
-			if(atmos_suitable && LAZYLEN(max_gas))
-				for(var/gas in max_gas)
-					if(environment.gas[gas] > max_gas[gas])
-						atmos_suitable = FALSE
-						break
+				if(atmos_suitable && LAZYLEN(max_gas))
+					for(var/gas in max_gas)
+						if(environment.gas[gas] > max_gas[gas])
+							atmos_suitable = FALSE
+							break
+		//Atmos effect
+		if(!(MUTATION_SPACERES in mutations) && abs(environment.temperature - bodytemperature) > 40)
+			bodytemperature += ((environment.temperature - bodytemperature) / 5)
 
-	//Atmos effect
 	if(bodytemperature < minbodytemp)
 		fire_alert = 2
 		adjustBruteLoss(cold_damage_per_tick)
@@ -361,48 +383,44 @@
 			var/obj/item/stack/medical/MED = O
 			if(!MED.animal_heal)
 				to_chat(user, SPAN_WARNING("\The [MED] won't help \the [src] at all!"))
-				return
-			if(health < maxHealth)
-				if(MED.can_use(1))
-					adjustBruteLoss(-MED.animal_heal)
-					visible_message(SPAN_NOTICE("\The [user] applies \the [MED] to \the [src]."))
-					MED.use(1)
+			else if(health < maxHealth && MED.can_use(1))
+				adjustBruteLoss(-MED.animal_heal)
+				visible_message(SPAN_NOTICE("\The [user] applies \the [MED] to \the [src]."))
+				MED.use(1)
 		else
 			var/decl/pronouns/G = get_pronouns()
 			to_chat(user, SPAN_WARNING("\The [src] is dead, medical items won't bring [G.him] back to life."))
-		return
+		return TRUE
 
-	if(istype(O, /obj/item/flash))
-		if(stat != DEAD)
-			O.attack(src, user, user.zone_sel.selecting)
-			return
+	if(istype(O, /obj/item/flash) && stat != DEAD)
+		return O.attack(src, user, user.get_target_zone())
 
 	if(meat_type && (stat == DEAD) && meat_amount)
 		if(istype(O, /obj/item/knife/kitchen/cleaver))
 			var/victim_turf = get_turf(src)
 			if(!locate(/obj/structure/table, victim_turf))
 				to_chat(user, SPAN_WARNING("You need to place \the [src] on a table to butcher it."))
-				return
+				return TRUE
 			var/time_to_butcher = (mob_size)
 			to_chat(user, SPAN_WARNING("You begin harvesting \the [src]."))
 			if(do_after(user, time_to_butcher, src, same_direction = TRUE))
 				if(prob(user.skill_fail_chance(SKILL_COOKING, 60, SKILL_ADEPT)))
 					to_chat(user, SPAN_DANGER("You botch harvesting \the [src], and ruin some of the meat in the process."))
 					subtract_meat(user)
-					return
 				else
 					harvest(user, user.get_skill_value(SKILL_COOKING))
-					return
 			else
 				to_chat(user, SPAN_DANGER("Your hand slips with your movement, and some of the meat is ruined."))
 				subtract_meat(user)
-				return
+			return TRUE
 
 	else
 		if(!O.force || (O.item_flags & ITEM_FLAG_NO_BLUDGEON))
 			visible_message(SPAN_NOTICE("\The [user] gently taps [src] with \the [O]."))
-		else
-			O.attack(src, user, user.zone_sel?.selecting || ran_zone())
+			return TRUE
+		return O.attack(src, user, user.get_target_zone() || ran_zone())
+
+	return ..()
 
 /mob/living/simple_animal/hit_with_weapon(obj/item/O, mob/living/user, var/effective_force, var/hit_zone)
 
@@ -621,3 +639,6 @@
 
 /mob/living/simple_animal/get_speech_bubble_state_modifier()
 	return ..() || "rough"
+
+/mob/living/simple_animal/proc/can_act()
+	return !(QDELETED(src) || incapacitated() || (is_aquatic && !submerged()))

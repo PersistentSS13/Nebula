@@ -12,6 +12,7 @@
 	power_channel = LIGHT
 	required_interaction_dexterity = DEXTERITY_SIMPLE_MACHINES
 	z_flags = ZMM_MANGLE_PLANES
+	layer = ABOVE_WINDOW_LAYER
 
 	var/on = 0
 	var/area/connected_area = null
@@ -85,3 +86,14 @@
 		to_chat(user, SPAN_NOTICE("You flick \the [src] with \the [I]."))
 		interface_interact(user)
 		return TRUE
+
+/obj/machinery/light_switch/area_changed(area/old_area, area/new_area)
+	. = ..()
+	if(QDELETED(src))
+		return
+	if(other_area)
+		return
+	if(!new_area || old_area == new_area)
+		return
+	connected_area = new_area
+	sync_state()

@@ -10,7 +10,7 @@
 #define CANPUSH      BITFLAG(3)
 #define PASSEMOTES   BITFLAG(4) // Mob has a holder inside of it that need to see emotes.
 #define GODMODE      BITFLAG(5)
-#define FAKEDEATH    BITFLAG(6) // Replaces stuff like changeling.changeling_fakedeath.
+#define FAKEDEATH    BITFLAG(6)
 #define NO_ANTAG     BITFLAG(7) // Players are restricted from gaining antag roles when occupying this mob
 #define ENABLE_AI    BITFLAG(8) // Regardless of player control, the mob is using AI.
 
@@ -329,8 +329,10 @@
 #define PREF_GEN_RECORD "gen_record"
 
 // Simple animal icon state flags.
-#define MOB_ICON_HAS_LIVING_STATE BITFLAG(0)
-#define MOB_ICON_HAS_DEAD_STATE   BITFLAG(1)
-#define MOB_ICON_HAS_REST_STATE   BITFLAG(2)
-#define MOB_ICON_HAS_SLEEP_STATE  BITFLAG(3)
-#define MOB_ICON_HAS_GIB_STATE    BITFLAG(4)
+#define MOB_ICON_HAS_LIVING_STATE    BITFLAG(0)
+#define MOB_ICON_HAS_DEAD_STATE      BITFLAG(1)
+#define MOB_ICON_HAS_REST_STATE      BITFLAG(2)
+#define MOB_ICON_HAS_SLEEP_STATE     BITFLAG(3)
+#define MOB_ICON_HAS_GIB_STATE       BITFLAG(4)
+#define MOB_ICON_HAS_PARALYZED_STATE BITFLAG(5)
+#define NEUTER_ANIMATE "animate singular neutral"

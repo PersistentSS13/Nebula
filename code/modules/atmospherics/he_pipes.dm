@@ -16,8 +16,8 @@
 	var/thermal_conductivity = OPEN_HEAT_TRANSFER_COEFFICIENT
 	var/minimum_temperature_difference = 20
 
-	maximum_pressure = 360*ONE_ATMOSPHERE
-	fatigue_pressure = 300*ONE_ATMOSPHERE
+	maximum_pressure = 360 ATM
+	fatigue_pressure = 300 ATM
 
 	can_buckle = 1
 	buckle_lying = 1
@@ -79,7 +79,7 @@
 
 			var/mob/living/carbon/human/H = buckled_mob
 			if(istype(H) && H.species)
-				heat_limit = H.species.heat_level_3
+				heat_limit = H.get_temperature_threshold(HEAT_LEVEL_3)
 
 			if(pipe_air.temperature > heat_limit + 1)
 				buckled_mob.apply_damage(4 * log(pipe_air.temperature - heat_limit), BURN, BP_CHEST, used_weapon = "Excessive Heat")

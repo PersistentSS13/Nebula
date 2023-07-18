@@ -22,9 +22,10 @@
 
 // Clumsy folks can't take the mask off themselves.
 /obj/item/clothing/mask/muzzle/attack_hand(mob/user)
-	if(user.get_equipped_item(slot_wear_mask_str) == src && !user.check_dexterity(DEXTERITY_GRIP))
-		return 0
-	..()
+	if(user.get_equipped_item(slot_wear_mask_str) != src || user.check_dexterity(DEXTERITY_GRIP))
+		return ..()
+	to_chat(user, SPAN_WARNING("You cannot remove \the [src] without help."))
+	return TRUE
 
 /obj/item/clothing/mask/surgical
 	name = "sterile mask"
@@ -61,6 +62,16 @@
 	flags_inv = HIDEFACE
 	body_parts_covered = 0
 	material = /decl/material/solid/plastic
+
+// This doesn't 'filter' water so much as allow us to breathe from the air above it.
+/obj/item/clothing/mask/snorkel/filters_water()
+	var/turf/source_turf = get_turf(src)
+	// Is our turf completely full of water?
+	// If the turf is raised, it needs less water to be full; if the turf is lowered it needs more.
+	if (source_turf.check_fluid_depth(min(FLUID_DEEP - source_turf.get_physical_height(), FLUID_MAX_DEPTH)))
+		// Can't breathe if there's nothing but water!
+		return FALSE
+	return TRUE
 
 /obj/item/clothing/mask/pig
 	name = "pig mask"

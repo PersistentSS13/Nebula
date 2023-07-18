@@ -63,7 +63,7 @@
 					to_chat(user, SPAN_WARNING("Automatic safety checking indicates the present of a prohibited substance in this canister."))
 					return FALSE
 	var/mob/M = canister.loc
-	if(istype(M) && !M.unEquip(canister, src))
+	if(istype(M) && !M.try_unequip(canister, src))
 		return FALSE
 	if(canister.loc != src)
 		canister.forceMove(src)
@@ -78,6 +78,17 @@
 	canister.dropInto(loc)
 	to_chat(user, SPAN_NOTICE("You remove \the [canister] from \the [src]."))
 	return TRUE
+
+/obj/machinery/sleeper/get_contained_external_atoms()
+	. = ..()
+	LAZYREMOVE(., loaded_canisters)
+	LAZYREMOVE(., beaker)
+
+/obj/machinery/sleeper/get_contained_matter()
+	. = ..()
+	. = MERGE_ASSOCS_WITH_NUM_VALUES(., beaker.get_contained_matter())
+	for(var/obj/canister in loaded_canisters)
+		. = MERGE_ASSOCS_WITH_NUM_VALUES(., canister.get_contained_matter())
 
 /obj/machinery/sleeper/Initialize(mapload, d = 0, populate_parts = TRUE)
 	. = ..()
@@ -134,9 +145,8 @@
 		else
 			toggle_lavage()
 
-
-	if(iscarbon(occupant) && stasis > 1)
-		occupant.SetStasis(stasis)
+	if(isliving(occupant) && stasis > 1)
+		occupant.set_stasis(stasis)
 
 /obj/machinery/sleeper/on_update_icon()
 	cut_overlays()
@@ -275,7 +285,7 @@
 	if(istype(I, /obj/item/chems/glass))
 		add_fingerprint(user)
 		if(!beaker)
-			if(!user.unEquip(I, src))
+			if(!user.try_unequip(I, src))
 				return
 			beaker = I
 			user.visible_message(SPAN_NOTICE("\The [user] adds \a [I] to \the [src]."), SPAN_NOTICE("You add \a [I] to \the [src]."))
@@ -371,9 +381,7 @@
 	if(open_sound)
 		playsound(src, open_sound, 40)
 
-	for(var/obj/O in (contents - (component_parts + loaded_canisters))) // In case an object was dropped inside or something. Excludes the beaker and component parts.
-		if(O != beaker)
-			O.dropInto(loc)
+	dump_contents() // In case an object was dropped inside or something. Excludes the beaker and component parts.
 	toggle_filter()
 
 /obj/machinery/sleeper/proc/set_occupant(var/mob/living/carbon/occupant)

@@ -42,6 +42,7 @@
 	boiling_point = -78 CELSIUS
 	gas_symbol_html = "CO<sub>2</sub>"
 	gas_symbol = "CO2"
+	gas_metabolically_inert = TRUE
 
 /decl/material/gas/carbon_monoxide
 	name = "carbon monoxide"
@@ -328,7 +329,8 @@
 	value = 0.45
 	gas_symbol_html = "T"
 	gas_symbol = "T"
-	exoplanet_rarity = MAT_RARITY_UNCOMMON
+	exoplanet_rarity_plant = MAT_RARITY_UNCOMMON
+	exoplanet_rarity_gas = MAT_RARITY_UNCOMMON
 
 /decl/material/gas/hydrogen/deuterium
 	name = "deuterium"
@@ -342,7 +344,8 @@
 	gas_symbol_html = "D"
 	gas_symbol = "D"
 	value = 0.5
-	exoplanet_rarity = MAT_RARITY_UNCOMMON
+	exoplanet_rarity_plant = MAT_RARITY_UNCOMMON
+	exoplanet_rarity_gas = MAT_RARITY_UNCOMMON
 
 	neutron_interactions = list(
 		INTERACTION_ABSORPTION = 1250

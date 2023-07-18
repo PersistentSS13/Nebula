@@ -95,7 +95,7 @@
 	if(occupant)
 		if(applies_stasis && iscarbon(occupant) && (world.time > time_entered + 20 SECONDS))
 			var/mob/living/carbon/C = occupant
-			C.SetStasis(2)
+			C.set_stasis(2)
 
 		if(despawning)
 			return
@@ -124,8 +124,7 @@
 
 	var/role_alt_title = occupant.mind ? occupant.mind.role_alt_title : "Unknown"
 	log_and_message_admins("[key_name(occupant)] ([role_alt_title]) entered cryostorage.")
-	var/obj/item/radio/announcer = get_global_announcer()
-	announcer.autosay("[occupant.real_name], [role_alt_title], [on_store_message]", "[on_store_name]")
+	do_telecomms_announcement(src, "[occupant.real_name], [role_alt_title], [on_store_message]", "[on_store_name]")
 
 	var/mob/living/carbon/human/H = occupant
 	if(istype(H))

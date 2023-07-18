@@ -420,7 +420,7 @@
 				H.show_message(SPAN_DANGER("The light around \the [src] warps before it emits a flash of incredibly bright, searing light!"), VISIBLE_MESSAGE)
 				H.flash_eyes(FLASH_PROTECTION_NONE)
 
-			new /obj/singularity/(get_turf(src))
+			new /obj/effect/singularity/(get_turf(src))
 
 
 	ftl_announcement.Announce(announcetxt, "FTL Shunt Management System", new_sound = sound('sound/misc/ftlsiren.ogg'))
@@ -589,7 +589,7 @@
 		if(!fuel)
 			if(!do_after(user, 2 SECONDS, src) || fuel)
 				return
-			if(!user || !user.unEquip(O, src))
+			if(!user || !user.try_unequip(O, src))
 				return
 			fuel = O
 			max_fuel = get_fuel_joules(TRUE)

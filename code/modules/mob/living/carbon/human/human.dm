@@ -9,7 +9,6 @@
 
 	var/list/hud_list[10]
 	var/embedded_flag	  //To check if we've need to roll for damage on movement while an item is imbedded in us.
-	var/obj/item/rig/wearing_rig // This is very not good, but it's much much better than calling get_rig() every update_canmove() call.
 	var/step_count
 
 /mob/living/carbon/human/Initialize(mapload, var/species_name = null, var/datum/dna/new_dna = null)
@@ -90,17 +89,12 @@
 		if(potato?.cell)
 			stat("Battery charge:", "[potato.get_charge()]/[potato.cell.maxcharge]")
 
-		var/obj/item/rig/suit = get_equipped_item(slot_back_str)
-		if(istype(suit))
+		var/obj/item/rig/rig = get_rig()
+		if(rig)
 			var/cell_status = "ERROR"
-			if(suit.cell)
-				cell_status = "[suit.cell.charge]/[suit.cell.maxcharge]"
-			stat(null, "Suit charge: [cell_status]")
-
-		if(mind)
-			if(mind.changeling)
-				stat("Chemical Storage", mind.changeling.chem_charges)
-				stat("Genetic Damage Time", mind.changeling.geneticdamage)
+			if(rig.cell)
+				cell_status = "[rig.cell.charge]/[rig.cell.maxcharge]"
+			stat(null, "Hardsuit charge: [cell_status]")
 
 /mob/living/carbon/human/proc/implant_loyalty(mob/living/carbon/human/M, override = FALSE) // Won't override by default.
 	if(!config.use_loyalty_implants && !override) return // Nuh-uh.
@@ -135,61 +129,11 @@
 		if(G.restrains())
 			return TRUE
 
-/mob/living/carbon/human/show_inv(mob/user)
-	if(user.incapacitated()  || !user.Adjacent(src) || !user.check_dexterity(DEXTERITY_SIMPLE_MACHINES))
-		return
-
-	user.set_machine(src)
-	var/dat = "<B><HR><FONT size=3>[name]</FONT></B><BR><HR>"
-
-	for(var/entry in species.hud.gear)
-		var/list/slot_ref = species.hud.gear[entry]
-		if((slot_ref["slot"] in list(slot_l_store_str, slot_r_store_str)))
-			continue
-		var/obj/item/thing_in_slot = get_equipped_item(slot_ref["slot"])
-		dat += "<BR><B>[slot_ref["name"]]:</b> <a href='?src=\ref[src];item=[slot_ref["slot"]]'>[istype(thing_in_slot) ? thing_in_slot : "nothing"]</a>"
-		if(istype(thing_in_slot, /obj/item/clothing))
-			var/obj/item/clothing/C = thing_in_slot
-			if(C.accessories.len)
-				dat += "<BR><A href='?src=\ref[src];item=tie;holder=\ref[C]'>Remove accessory</A>"
-	dat += "<BR><HR>"
-
-	for(var/hand_slot in held_item_slots)
-		var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, hand_slot)
-		if(E)
-			var/datum/inventory_slot/inv_slot = held_item_slots[hand_slot]
-			dat += "<BR><b>[capitalize(E.name)]:</b> <A href='?src=\ref[src];item=[hand_slot]'>[inv_slot.holding?.name || "nothing"]</A>"
-
-	// Do they get an option to set internals?
-	if(istype(get_equipped_item(slot_wear_mask_str), /obj/item/clothing/mask) || istype(get_equipped_item(slot_head_str), /obj/item/clothing/head/helmet/space))
-		for(var/slot in list(slot_back_str, slot_belt_str, slot_s_store_str))
-			var/obj/item/tank/tank = get_equipped_item(slot)
-			if(istype(tank))
-				dat += "<BR><A href='?src=\ref[src];item=internals'>Toggle internals.</A>"
-				break
-
-	var/obj/item/clothing/under/suit = get_equipped_item(slot_w_uniform_str)
-	// Other incidentals.
-	if(istype(suit))
-		dat += "<BR><b>Pockets:</b> <A href='?src=\ref[src];item=pockets'>Empty or Place Item</A>"
-		if(suit.has_sensor == 1)
-			dat += "<BR><A href='?src=\ref[src];item=sensors'>Set sensors</A>"
-		if (suit.has_sensor && user.get_multitool())
-			dat += "<BR><A href='?src=\ref[src];item=lock_sensors'>[suit.has_sensor == SUIT_LOCKED_SENSORS ? "Unl" : "L"]ock sensors</A>"
-	if(get_equipped_item(slot_handcuffed_str))
-		dat += "<BR><A href='?src=\ref[src];item=[slot_handcuffed_str]'>Handcuffed</A>"
-
+/mob/living/carbon/human/get_additional_stripping_options()
+	. = ..()
 	for(var/entry in worn_underwear)
 		var/obj/item/underwear/UW = entry
-		dat += "<BR><a href='?src=\ref[src];item=\ref[UW]'>Remove \the [UW]</a>"
-
-	dat += "<BR><A href='?src=\ref[src];refresh=1'>Refresh</A>"
-	dat += "<BR><A href='?src=\ref[user];mach_close=mob[name]'>Close</A>"
-
-	var/datum/browser/popup = new(user, "mob[name]", null, 340, 540)
-	popup.set_content(dat)
-	popup.open()
-	onclose(user, "mob[name]")
+		LAZYADD(., "<BR><a href='?src=\ref[src];item=\ref[UW]'>Remove \the [UW]</a>")
 
 // called when something steps onto a human
 // this handles mulebots and vehicles
@@ -245,10 +189,7 @@
 	if(!H || (H.status & ORGAN_DISFIGURED) || !real_name || is_husked() || (mask && (mask.flags_inv&HIDEFACE)) || (head && (head.flags_inv&HIDEFACE)))	//Face is unrecognizeable, use ID if able
 		if(istype(mask) && mask.visible_name)
 			return mask.visible_name
-		else if(istype(wearing_rig) && wearing_rig.visible_name)
-			return wearing_rig.visible_name
-		else
-			return "Unknown"
+		return get_rig()?.visible_name || "Unknown"
 	return real_name
 
 //gets name from ID or PDA itself, ID inside PDA doesn't matter
@@ -280,15 +221,6 @@
 		return min(., ..(user, global.physical_topic_state, href_list))
 
 /mob/living/carbon/human/OnTopic(mob/user, href_list)
-	if (href_list["refresh"])
-		show_inv(user)
-		return TOPIC_HANDLED
-
-	if(href_list["item"])
-		if(!handle_strip(href_list["item"],user,locate(href_list["holder"])))
-			show_inv(user)
-		return TOPIC_HANDLED
-
 	if (href_list["criminal"])
 		if(hasHUD(user, HUD_SECURITY))
 
@@ -403,7 +335,7 @@
 			if(E)
 				if(hasHUD(user, HUD_MEDICAL))
 					to_chat(usr, "<b>Name:</b> [E.get_name()]")
-					to_chat(usr, "<b>Gender:</b> [E.get_sex()]")
+					to_chat(usr, "<b>Gender:</b> [E.get_gender()]")
 					to_chat(usr, "<b>Species:</b> [E.get_species_name()]")
 					to_chat(usr, "<b>Blood Type:</b> [E.get_bloodtype()]")
 					to_chat(usr, "<b>Details:</b> [E.get_medical_record()]")
@@ -638,8 +570,7 @@
 	if(istype(new_bodytype) && bodytype != new_bodytype)
 		bodytype = new_bodytype
 		if(bodytype && rebuild_body)
-			force_update_limbs()
-			update_body()
+			UpdateAppearance() // force_update_limbs is insufficient because of internal organs
 
 //set_species should not handle the entirety of initing the mob, and should not trigger deep updates
 //It focuses on setting up species-related data, without force applying them uppon organs and the mob's appearance.
@@ -671,7 +602,7 @@
 	if(species.natural_armour_values)
 		set_extension(src, /datum/extension/armor, species.natural_armour_values)
 
-	var/decl/pronouns/new_pronouns = get_pronouns_by_gender(get_sex())
+	var/decl/pronouns/new_pronouns = get_pronouns_by_gender(get_gender())
 	if(!istype(new_pronouns) || !(new_pronouns in species.available_pronouns))
 		new_pronouns = species.default_pronouns
 		set_gender(new_pronouns.name)
@@ -699,6 +630,8 @@
 	if(!istype(move_intent))
 		set_next_usable_move_intent()
 	update_emotes()
+	apply_species_inventory_restrictions()
+	refresh_ai_handler()
 
 	// Update codex scannables.
 	if(species.secret_codex_info)
@@ -726,15 +659,28 @@
 
 //Drop anything that cannot be worn by the current species of the mob
 /mob/living/carbon/human/proc/apply_species_inventory_restrictions()
-	if(species)
-		if(!(species.appearance_flags & HAS_UNDERWEAR))
-			QDEL_NULL_LIST(worn_underwear)
+
+	if(!(species.appearance_flags & HAS_UNDERWEAR))
+		QDEL_NULL_LIST(worn_underwear)
+
+	var/list/new_slots
+	var/list/held_slots = get_held_item_slots()
+	for(var/slot_id in species.hud.inventory_slots)
+		var/datum/inventory_slot/old_slot = get_inventory_slot_datum(slot_id)
+		if(slot_id in held_slots)
+			LAZYSET(new_slots, slot_id, old_slot)
+			continue
+		var/datum/inventory_slot/new_slot = species.hud.inventory_slots[slot_id]
+		if(!old_slot || !old_slot.equivalent_to(new_slot))
+			LAZYSET(new_slots, slot_id, new_slot.Clone())
+		else
+			LAZYSET(new_slots, slot_id, old_slot)
+	set_inventory_slots(new_slots)
 
 	//recheck species-restricted clothing
-	for(var/slot in global.all_inventory_slots)
-		var/obj/item/C = get_equipped_item(slot)
-		if(istype(C) && !C.mob_can_equip(src, slot, TRUE, TRUE))
-			drop_from_inventory(C)
+	for(var/obj/item/carrying in get_equipped_items(include_carried = TRUE))
+		if(!carrying.mob_can_equip(src, get_equipped_slot_for_item(carrying), TRUE, TRUE, TRUE))
+			drop_from_inventory(carrying)
 
 //This handles actually updating our visual appearance
 // Triggers deep update of limbs and hud
@@ -834,7 +780,7 @@
 	var/hands_exposed = 1
 	var/feet_exposed = 1
 
-	var/list/equipment = list(
+	var/static/list/equipment = list(
 		slot_head_str,
 		slot_wear_mask_str,
 		slot_glasses_str,
@@ -898,14 +844,14 @@
 
 
 /mob/living/carbon/human/can_stand_overridden()
-	if(wearing_rig && wearing_rig.ai_can_move_suit(check_for_ai = 1))
+	if(get_rig()?.ai_can_move_suit(check_for_ai = 1))
 		// Actually missing a leg will screw you up. Everything else can be compensated for.
 		for(var/limbcheck in list(BP_L_LEG,BP_R_LEG))
 			var/obj/item/organ/affecting = GET_EXTERNAL_ORGAN(src, limbcheck)
 			if(!affecting)
-				return 0
-		return 1
-	return 0
+				return FALSE
+		return TRUE
+	return FALSE
 
 
 // Similar to get_pulse, but returns only integer numbers instead of text.
@@ -1307,15 +1253,6 @@
 
 /mob/living/carbon/human/set_internals_to_best_available_tank(var/breathes_gas = /decl/material/gas/oxygen, var/list/poison_gas = list(/decl/material/gas/chlorine))
 	. = ..(species.breath_type, species.poison_types)
-
-/mob/living/carbon/human/get_equipped_internals_sources()
-	. = ..() | list(
-		"suit" =         list(get_equipped_item(slot_s_store_str), "on"),
-		"belt" =         list(get_equipped_item(slot_belt_str),    "on"),
-		"left pocket" =  list(get_equipped_item(slot_l_store_str), "in"),
-		"right pocket" = list(get_equipped_item(slot_r_store_str), "in"),
-		"rig" =          list(wearing_rig?.air_supply, "in")
-	)
 
 //Set and force the mob to update according to the given DNA
 // Will reset the entire mob's state, regrow limbs/organ etc

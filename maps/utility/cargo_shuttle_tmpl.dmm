@@ -4,8 +4,7 @@
 /area/cargo_shuttle_dock)
 "b" = (
 /obj/machinery/door/blast/shutters/indestructible{
-	dir = 4;
-	icon_state = "shutter1"
+	dir = 4
 	},
 /obj/machinery/conveyor/indestructible{
 	dir = 8
@@ -21,11 +20,10 @@
 	},
 /obj/machinery/button/blast_door/indestructible{
 	dir = 8;
-	icon_state = "blastctrl";
 	pixel_x = 0;
 	pixel_y = -24
 	},
-/turf/simulated/floor/indestructible,
+/turf/simulated/floor/indestructible/airless,
 /area/shuttle/supply_shuttle)
 "e" = (
 /obj/machinery/conveyor/indestructible{
@@ -46,8 +44,7 @@
 /area/shuttle/supply_shuttle)
 "h" = (
 /obj/machinery/door/airlock/hatch/indestructible{
-	dir = 2;
-	icon_state = "closed"
+	dir = 2
 	},
 /turf/simulated/floor/indestructible,
 /area/shuttle/supply_shuttle)
@@ -61,15 +58,13 @@
 "j" = (
 /obj/structure/shuttle/engine/heater{
 	dir = 4;
-	icon_state = "heater";
 	pixel_x = -8;
 	pixel_y = 0
 	},
 /obj/structure/sign/warning/hot_exhaust/indestructible{
-	icon_state = "fire";
 	dir = 1
 	},
-/turf/simulated/floor/indestructible,
+/turf/simulated/floor/indestructible/airless,
 /area/shuttle/supply_shuttle)
 "k" = (
 /obj/machinery/embedded_controller/radio/simple_docking_controller/indestructible/supply_offsite,
@@ -85,8 +80,7 @@
 /area/shuttle/supply_shuttle)
 "m" = (
 /obj/machinery/door/blast/shutters/indestructible{
-	dir = 4;
-	icon_state = "shutter1"
+	dir = 4
 	},
 /obj/machinery/conveyor/indestructible{
 	dir = 8
@@ -107,7 +101,7 @@
 /obj/structure/shuttle/engine/propulsion/burst{
 	dir = 8
 	},
-/turf/simulated/floor/indestructible,
+/turf/simulated/floor/indestructible/airless,
 /area/shuttle/supply_shuttle)
 "p" = (
 /obj/machinery/conveyor_switch/indestructible,
@@ -124,7 +118,6 @@
 "r" = (
 /obj/effect/floor_decal/industrial/hatch/yellow,
 /obj/chargen/light{
-	icon_state = "tube_map";
 	dir = 1
 	},
 /turf/simulated/floor/indestructible,
@@ -142,7 +135,6 @@
 	},
 /obj/effect/floor_decal/industrial/outline/orange,
 /obj/structure/railing/mapped{
-	icon_state = "railing_preview";
 	dir = 1
 	},
 /turf/simulated/floor/indestructible,
@@ -150,7 +142,6 @@
 "v" = (
 /obj/structure/plasticflaps/airtight/indestructible,
 /obj/machinery/door/blast/shutters/indestructible/supply_dock{
-	icon_state = "shutter1";
 	dir = 4
 	},
 /turf/unsimulated/floor/tiled/steel_ridged,
@@ -161,7 +152,6 @@
 	dir = 8
 	},
 /obj/structure/railing/mapped{
-	icon_state = "railing_preview";
 	dir = 1
 	},
 /turf/simulated/floor/indestructible,
@@ -192,11 +182,9 @@
 	},
 /obj/effect/floor_decal/industrial/outline/orange,
 /obj/structure/railing/mapped{
-	icon_state = "railing_preview";
 	dir = 1
 	},
 /obj/chargen/light{
-	icon_state = "tube_map";
 	dir = 1
 	},
 /turf/simulated/floor/indestructible,
@@ -212,7 +200,6 @@
 /area/shuttle/supply_shuttle)
 "D" = (
 /obj/chargen/light{
-	icon_state = "tube_map";
 	dir = 4
 	},
 /turf/simulated/floor/indestructible,
@@ -234,12 +221,11 @@
 "G" = (
 /obj/structure/shuttle/engine/heater{
 	dir = 4;
-	icon_state = "heater";
 	pixel_x = -8;
 	pixel_y = 0
 	},
 /obj/structure/sign/warning/hot_exhaust/indestructible,
-/turf/simulated/floor/indestructible,
+/turf/simulated/floor/indestructible/airless,
 /area/shuttle/supply_shuttle)
 
 (1,1,1) = {"

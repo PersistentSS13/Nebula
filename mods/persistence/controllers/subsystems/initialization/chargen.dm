@@ -94,7 +94,9 @@ SUBSYSTEM_DEF(chargen)
 	return ..()
 
 /datum/level_data/chargen
-	level_flags = ZLEVEL_SEALED
+	name        = "chargen"
+	level_id    = "chargen_pods"
+	level_flags = ZLEVEL_SEALED | ZLEVEL_ADMIN
 
 //Chargen spawnpoint
 /decl/spawnpoint/chargen/Initialize()

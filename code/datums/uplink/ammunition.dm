@@ -34,12 +34,6 @@
 	item_cost = 8
 	path = /obj/item/ammo_magazine/rifle
 
-/datum/uplink_item/item/ammo/bullpup //for zipguns
-	name = "Bullpup Rifle Magazine"
-	desc = "A magazine for bullpup assault rifles. Contains 15 rounds."
-	item_cost = 8
-	path = /obj/item/ammo_magazine/rifle
-
 /datum/uplink_item/item/ammo/sniperammo
 	name = "Ammobox of Sniper Rounds"
 	desc = "A container of rounds for the anti-materiel rifle. Contains 7 rounds."
@@ -81,7 +75,7 @@
 
 /datum/uplink_item/item/ammo/flechette
 	name = "Flechette Rifle Magazine"
-	desc = "A  rifle magazine loaded with flechette rounds. Contains 9 rounds."
+	desc = "A rifle magazine loaded with flechette rounds. Contains 9 rounds."
 	item_cost = 8
 	path = /obj/item/magnetic_ammo
 	antag_roles = list(/decl/special_role/mercenary)

@@ -219,7 +219,7 @@
 
 			var/mob/M = loc
 			if(istype(M))
-				M.unEquip(src, E)
+				M.try_unequip(src, E)
 			else
 				dropInto(loc)
 				forceMove(E)
@@ -240,7 +240,7 @@
 				to_chat(usr, SPAN_WARNING("You cannot connect additional limbs to \the [src]."))
 				return
 
-			if(!user.unEquip(E, src))
+			if(!user.try_unequip(E, src))
 				return
 
 			if(istype(E.owner))
@@ -666,7 +666,7 @@ This function completely restores a damaged organ to perfect condition.
 			W.autoheal_cutoff = 0
 		else
 			for(var/datum/wound/other in wounds)
-				if(other.can_merge(W))
+				if(other.can_merge_wounds(W))
 					other.merge_wound(W)
 					return
 		LAZYADD(wounds, W)
@@ -847,10 +847,15 @@ Note that amputating the affected organ does in fact remove the infection from t
 		if (owner && !GET_CHEMICAL_EFFECT(owner, CE_TOXIN) && W.can_autoheal() && W.wound_damage() && brute_ratio < 0.5 && burn_ratio < 0.5)
 			heal_amt += 0.5
 
-		//we only update wounds once in [wound_update_accuracy] ticks so have to emulate realtime
+		// we only update wounds once in [wound_update_accuracy] ticks so have to emulate realtime
 		heal_amt = heal_amt * wound_update_accuracy
-		//configurable regen speed woo, no-regen hardcore or instaheal hugbox, choose your destiny
+		// configurable regen speed woo, no-regen hardcore or instaheal hugbox, choose your destiny
 		heal_amt = heal_amt * config.organ_regeneration_multiplier
+		// Apply a modifier based on how stressed we currently are.
+		if(owner)
+			var/stress_modifier = owner.get_stress_modifier()
+			if(stress_modifier)
+				heal_amt *= 1-(config.stress_healing_recovery_constant * stress_modifier)
 		// amount of healing is spread over all the wounds
 		heal_amt = heal_amt / (LAZYLEN(wounds) + 1)
 		// making it look prettier on scanners
@@ -1109,7 +1114,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 		holder.visible_message(\
 			"\The [cuffs] falls off of [holder.name].",\
 			"\The [cuffs] falls off you.")
-		holder.unEquip(cuffs)
+		holder.try_unequip(cuffs)
 
 // checks if all wounds on the organ are bandaged
 /obj/item/organ/external/proc/is_bandaged()
