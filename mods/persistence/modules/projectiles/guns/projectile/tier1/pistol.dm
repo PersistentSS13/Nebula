@@ -1,6 +1,6 @@
 /obj/item/gun/projectile/pistol/simple
-	name = "10mm 'Colt' HG"
-	desc = "Pistol of ancient design. Reliable, but struggles against armored targets. Chambered in 10mm."
+	name = ".45 'Colt' HG"
+	desc = "Pistol of ancient design. Reliable, but struggles against armored targets. Chambered in .45."
 	icon = 'mods/persistence/icons/obj/guns/tier1/pistol.dmi'
 	fire_delay = 5
 	force = 5
