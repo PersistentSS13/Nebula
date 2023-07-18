@@ -1,6 +1,6 @@
 /obj/item/gun/energy/laser/rifle/handmade
-	name = "HM LR 'Tagger'"
-	desc = "A cobbled-together mass of electronic components, duct tape, and hope. However, unlike most laser rifles, this model is small enough to wear around the waist. Sports dreadful ammo capacity compared to ballistic weapons but its ease of recharging makes it favored among the poor."
+	name = "Laser 'Tagger' EG"
+	desc = "Laser rifle of dubious origin. Shoddy craftsmanship results in low charge capacity and weak output. Fires Alpha-type laser beams."
 	icon = 'mods/persistence/icons/obj/guns/tier0/lasrifle.dmi'
 	slot_flags = SLOT_LOWER_BODY|SLOT_BACK
 	w_class = ITEM_SIZE_LARGE
@@ -10,3 +10,8 @@
 	fire_delay = 15
 	origin_tech = "{'combat':2,'magnets':1,'engineering':1,'materials':2}"
 	projectile_type = /obj/item/projectile/beam/smalllaser
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/silver = MATTER_AMOUNT_TRACE
+	)

@@ -1,6 +1,6 @@
 /obj/item/gun/projectile/bolt_action/simple
-	name = "ZSS BA 'Mosin'"
-	desc = "The Mosin model is a particularly ancient design. Very little is known about its origins, but in the modern day Mosin models are mostly produced for hunting purposes. However, due to its ease of production and decent loading capacity, many colonist and rebel groups use Mosin rifles in their armies. Chambered in 5.56mm rounds."
+	name = "5.56 'Mosin' BA"
+	desc = "Bolt-action rifle of ancient design. Reliable, but slow-firing. Chambered in 5.56."
 	icon = 'mods/persistence/icons/obj/guns/tier1/boltaction.dmi'
 	force = 10
 	slot_flags = SLOT_BACK
@@ -9,10 +9,16 @@
 	handle_casings = HOLD_CASINGS
 	load_method = SINGLE_CASING
 	max_shells = 5
+	w_class = ITEM_SIZE_HUGE
 	ammo_type = /obj/item/ammo_casing/rifle
 	one_hand_penalty = 10
 	fire_delay = 12
 	accuracy = 0
+	material = /decl/material/solid/wood
+	matter = list(
+		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
+	)
 
 /obj/item/gun/projectile/bolt_action/simple/empty
 	starts_loaded = FALSE
