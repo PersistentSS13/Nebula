@@ -8,7 +8,7 @@
 	projectile_type = /obj/item/projectile/bullet/fivefiftysix
 
 /obj/item/projectile/bullet/fivefiftysix
-	fire_sound = 'sound/weapons/gunshot/gunshot_strong.ogg'
+	fire_sound = 'sound/weapons/gunshot/gunshot3.ogg'
 	damage = 25
 	distance_falloff = 1
 
