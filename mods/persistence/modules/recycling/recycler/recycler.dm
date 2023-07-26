@@ -440,7 +440,7 @@
 	for(var/obj/item/I in L.get_equipped_items())
 		if(prob(90))
 			continue //90% chances to keep your items if alive
-		if(L.unEquip(I))
+		if(L.unequip(I))
 			crush(I, FALSE, recursive_depth + 1)
 
 ////////////////////////////////////////////////////
