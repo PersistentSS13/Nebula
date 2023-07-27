@@ -1,5 +1,5 @@
 /datum/planetoid_data/outreach
-	id                  = "outreach"
+	id                  = OUTREACH_PLANETOID_ID
 	name                = "\improper Outreach"
 	topmost_level_id    = "outreach_sky"
 	surface_level_id    = "outreach_surface"
@@ -60,13 +60,13 @@
 // Outreach Overmap Marker
 ///////////////////////////////////////
 
-/obj/effect/overmap/visitable/sector/planetoid/exoplanet/outreach
+/obj/effect/overmap/visitable/sector/planetoid/outreach
 	name         = "\proper Outreach"
 	desc         = "A rare barren chlorine planet rich in minerals. Now a decrepit mining world."
 	start_x      = 27
 	start_y      = 23
 	color        = "#407c40"
-	planetoid_id = "outreach"
+	planetoid_id = OUTREACH_PLANETOID_ID
 	sector_flags = OVERMAP_SECTOR_BASE
 
 

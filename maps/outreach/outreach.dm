@@ -1,5 +1,19 @@
 #if !defined(USING_MAP_DATUM)
-#define OUTREACH_SURFACE_TURF /turf/exterior/barren/outreach
+	#define OUTREACH_SURFACE_TURF         /turf/exterior/barren/outreach
+	#define OUTREACH_PLANETOID_ID         "outreach"
+	#define OUTREACH_LEVEL_ID_SKY         "outreach_sky"
+	#define OUTREACH_LEVEL_ID_SURFACE     "outreach_surface"
+	#define OUTREACH_LEVEL_ID_UNDERGROUND "outreach_underground"
+	#define OUTREACH_LEVEL_ID_ABYSS       "outreach_abyss"
+
+	#define OUTREACH_LEVEL_ID_SOUTH_ABYSS       "outreach_south_abyss"
+	#define OUTREACH_LEVEL_ID_SOUTH_UNDERGROUND "outreach_south_underground"
+	#define OUTREACH_LEVEL_ID_SOUTH_MOUNTAIN    "outreach_south_mountain"
+
+	#define OUTREACH_NETWORK_NAME   "outreach_net"
+	//#define OUTREACH_TCOMM_NET_NAME "outreach_com"
+
+	var/global/list/outreach_initial_protected_areas = list()
 
 	// Mods section
 	#include "../../mods/persistence/_persistence.dme"

@@ -1,5 +1,5 @@
-/obj/effect/overmap/visitable/sector/exoplanet/outreach
-	weather_system = /decl/state/weather/calm/outreach
+/datum/planetoid_data/outreach
+	initial_weather_state = /decl/state/weather/calm/outreach
 
 /decl/state/weather/calm/outreach
 	transitions = list(

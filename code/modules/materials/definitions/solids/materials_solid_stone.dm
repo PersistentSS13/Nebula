@@ -52,13 +52,14 @@
 	)
 
 /decl/material/solid/stone/ceramic
-	name             = "ceramic"
-	uid              = "solid_ceramic"
-	lore_text        = "A hard substance produced by firing clay in a kiln."
-	color            = COLOR_OFF_WHITE
-	hardness         = MAT_VALUE_NORMAL
-	flags            = MAT_FLAG_BRITTLE
-	exoplanet_rarity = MAT_RARITY_NOWHERE
+	name                   = "ceramic"
+	uid                    = "solid_ceramic"
+	lore_text              = "A hard substance produced by firing clay in a kiln."
+	color                  = COLOR_OFF_WHITE
+	hardness               = MAT_VALUE_NORMAL
+	flags                  = MAT_FLAG_BRITTLE
+	exoplanet_rarity_plant = MAT_RARITY_NOWHERE
+	exoplanet_rarity_gas   = MAT_RARITY_NOWHERE
 
 /decl/material/solid/stone/marble
 	name                    = "marble"
@@ -134,7 +135,6 @@
 	reflectiveness          = MAT_VALUE_SHINY
 	construction_difficulty = MAT_VALUE_HARD_DIY
 	brute_armor             = 6
-	exoplanet_rarity        = MAT_RARITY_MUNDANE
 	integrity               = 275
 
 /decl/material/solid/stone/slate
@@ -147,4 +147,3 @@
 	hardness                = MAT_VALUE_RIGID
 	reflectiveness          = MAT_VALUE_DULL
 	construction_difficulty = MAT_VALUE_NORMAL_DIY
-	exoplanet_rarity        = MAT_RARITY_UNCOMMON

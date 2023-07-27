@@ -3546,7 +3546,7 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/control/storage)
 "hH" = (
-/obj/structure/sign/department/chemistry{
+/obj/structure/sign/chemistry{
 	dir = 4;
 	icon_state = "chemistry";
 	pixel_x = -32
@@ -5584,7 +5584,7 @@
 	icon_state = "pipe-c";
 	dir = 1
 	},
-/obj/structure/sign/department/telecomms{
+/obj/structure/sign/telecomms{
 	dir = 1;
 	pixel_y = -32
 	},
@@ -6985,7 +6985,7 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/west/basement1)
 "nX" = (
-/obj/structure/sign/department/hydro{
+/obj/structure/sign/hydro{
 	pixel_y = 32
 	},
 /obj/effect/floor_decal/spline/plain/green{
@@ -7771,7 +7771,7 @@
 /turf/simulated/wall/concrete,
 /area/outreach/outpost/janitorial/hall)
 "pm" = (
-/obj/structure/sign/department/janitor{
+/obj/structure/sign/janitor{
 	pixel_y = 32
 	},
 /obj/structure/table,
@@ -8771,7 +8771,7 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/maint/passage/b1/north)
 "rd" = (
-/obj/structure/sign/department/janitor{
+/obj/structure/sign/janitor{
 	dir = 4;
 	icon_state = "janitor";
 	pixel_x = -32
@@ -9919,7 +9919,7 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/south/basement1)
 "sX" = (
-/obj/structure/sign/department/security/alt{
+/obj/structure/sign/security/alt{
 	dir = 4;
 	icon_state = "sec_cuff";
 	pixel_x = -32
@@ -12653,6 +12653,15 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/white,
 /area/outreach/outpost/medbay/lobby)
+"yg" = (
+/obj/effect/floor_decal/spline/plain/paleblue{
+	icon_state = "spline_plain";
+	dir = 1
+	},
+/obj/structure/table/steel,
+/obj/item/radio/phone/medbay,
+/turf/simulated/floor/tiled/white,
+/area/outreach/outpost/medbay/main_hall)
 "yh" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -13639,7 +13648,7 @@
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/control/storage)
 "zV" = (
-/obj/structure/sign/department/telecomms{
+/obj/structure/sign/telecomms{
 	dir = 4;
 	icon_state = "tcomm";
 	pixel_x = -32
@@ -15765,6 +15774,10 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/control/servers)
 "DL" = (
+/obj/machinery/computer/telecomms/monitor{
+	icon_state = "computer";
+	dir = 4
+	},
 /obj/effect/floor_decal/spline/plain/blue{
 	icon_state = "spline_plain";
 	dir = 8
@@ -21056,7 +21069,7 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/hallway/east/basement1)
 "Nx" = (
-/obj/structure/sign/department/greencross{
+/obj/structure/sign/greencross{
 	pixel_y = 32
 	},
 /obj/effect/decal/cleanable/dirt,
@@ -44853,7 +44866,7 @@ jK
 lS
 Lq
 GD
-yl
+yg
 ho
 GS
 Ky

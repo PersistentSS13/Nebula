@@ -42,14 +42,14 @@
 	name                = "outreach mines"
 	level_id            = "outreach_mines"
 	level_flags         = ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_SEALED | ZLEVEL_SAVED | ZLEVEL_MINING
-	base_area           = /area/exoplanet/outreach/mines/depth_1
+	base_area           = /area/exoplanet/outreach/underground/mines/b1
 	base_turf           = /turf/exterior/barren
 	border_filler       = /turf/unsimulated/mineral
 
 /datum/level_data/planetoid/exoplanet/outreach/mining/bottom
 	name                = "outreach mines bottom"
 	level_id            = "outreach_mines_bottom"
-	base_area           = /area/exoplanet/outreach/mines/depth_2
+	base_area           = /area/exoplanet/outreach/underground/mines/b2
 
 /obj/abstract/level_data_spawner/exoplanet/outreach
 	name            = "outreach surface (level data spawner)"

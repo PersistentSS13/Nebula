@@ -114,24 +114,21 @@
 
 //Outpost Rock Walls
 /turf/exterior/wall/outreach/mountain
-	name = "weathered sandstone wall"
-	strata   = /decl/strata/outreach/mountain
-	material = /decl/material/solid/stone/sandstone
-	floor_type = OUTREACH_SURFACE_TURF
+	name           = "weathered sandstone wall"
+	material       = /decl/material/solid/stone/sandstone
+	floor_type     = OUTREACH_SURFACE_TURF
 	open_turf_type = /turf/simulated/open
 
 /turf/exterior/wall/outreach/subterrane
-	name = "erroded sandstone wall"
-	strata = /decl/strata/outreach/subterrane
-	material = /decl/material/solid/stone/sandstone
-	floor_type = OUTREACH_SURFACE_TURF
+	name           = "erroded sandstone wall"
+	material       = /decl/material/solid/stone/sandstone
+	floor_type     = OUTREACH_SURFACE_TURF
 	open_turf_type = /turf/simulated/open
 
 /turf/exterior/wall/outreach/abyss
-	name = "compacted slate wall"
-	strata   = /decl/strata/outreach/abyssal
-	material = /decl/material/solid/stone/slate
-	floor_type = /turf/exterior/lava
+	name           = "compacted slate wall"
+	material       = /decl/material/solid/stone/slate
+	floor_type     = /turf/exterior/lava
 	open_turf_type = /turf/exterior/lava
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -139,11 +136,11 @@
 ///////////////////////////////////////////////////////////////////////////////////
 //Mining Floors
 /turf/exterior/barren/mining/outreach/mountain
-	color = "#d9c179"
+	color          = "#d9c179"
 	open_turf_type = /turf/exterior/open
 
 /turf/exterior/barren/mining/outreach/subterrane
-	color = "#d9c179"
+	color          = "#d9c179"
 	open_turf_type = /turf/exterior/open
 
 /turf/exterior/volcanic/mining/outreach/abyss
@@ -151,18 +148,15 @@
 
 //Mining Walls
 /turf/exterior/wall/random/outreach/mountain
-	strata = /decl/strata/outreach/mountain
-	material = /decl/material/solid/stone/sandstone
+	material   = /decl/material/solid/stone/sandstone
 	floor_type = /turf/exterior/barren/mining/outreach/mountain
 
 /turf/exterior/wall/random/outreach/subterrane
-	strata = /decl/strata/outreach/subterrane
-	material = /decl/material/solid/stone/sandstone
+	material   = /decl/material/solid/stone/sandstone
 	floor_type = /turf/exterior/barren/mining/outreach/subterrane
 
 /turf/exterior/wall/random/outreach/abyss
-	strata   = /decl/strata/outreach/abyssal
-	material = /decl/material/solid/stone/slate
+	material   = /decl/material/solid/stone/slate
 	floor_type = /turf/exterior/volcanic/mining/outreach/abyss
 
 ///////////////////////////////////////////////////////////////////////////////////

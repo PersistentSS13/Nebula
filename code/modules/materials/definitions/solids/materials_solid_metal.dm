@@ -370,7 +370,7 @@
 	color = "#9999ff"
 	stack_origin_tech = "{'materials':5}"
 	construction_difficulty = MAT_VALUE_VERY_HARD_DIY
-	exoplanet_rarity = MAT_RARITY_UNCOMMON
+	exoplanet_rarity_plant = MAT_RARITY_UNCOMMON
 	value = 1.3
 
 /decl/material/solid/metal/platinum

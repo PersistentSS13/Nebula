@@ -1,7 +1,4 @@
-
 #define ADMIN_PROTECTED_NET_GROUP "custodians"
-#define OUTREACH_NETWORK_NAME     "outnet"
-#define OUTREACH_TCOMM_NET_NAME   "outcom"
 
 ////////////////////////////////////////////////////////////////////////
 // Wired airlock sensor
@@ -155,6 +152,7 @@
 /obj/machinery/computer/internet_uplink/outreach
 	initial_id_tag = "ob_uplink"
 
+var/global/list/outreach_initial_protected_areas = list()
 /obj/machinery/network/area_controller/outreach
 	initial_network_id = OUTREACH_NETWORK_NAME
 	tag_network_tag = "oh_actrl"
@@ -179,7 +177,7 @@
 	. = ..()
 	//Thanks nata :c
 	for(var/area/A in world)
-		if(A.name in area_names)
+		if(A.name in global.outreach_initial_protected_areas)
 			add_protected_area(A)
 	update_use_power(POWER_USE_ACTIVE)
 
@@ -231,51 +229,20 @@
 ////////////////////////////////////////////////////////////////////////
 // Telecomms
 ////////////////////////////////////////////////////////////////////////
-/obj/machinery/telecomms/bus/preset_one/outreach
-	id = "ob_bus"
-	network = OUTREACH_TCOMM_NET_NAME
-	freq_listening = list()
-	autolinkers = list(
-		"ob_processor",
-		"ob_tcomm_server",
-		"ob_hub"
-	)
-
-/obj/machinery/telecomms/processor/preset_one/outreach
-	id = "ob_processor"
-	network = OUTREACH_TCOMM_NET_NAME
-	autolinkers = list(
-		"ob_processor",
-		"ob_hub"
-	)
-
-/obj/machinery/telecomms/server/presets/outreach
-	id = "ob_tcomm_server"
-	freq_listening = list()
-	channel_tags = list(
-		list(SCI_FREQ,  "Science",       COMMS_COLOR_SCIENCE),
-		list(MED_FREQ,  "Medical",       COMMS_COLOR_MEDICAL),
-		list(SUP_FREQ,  "Supply",        COMMS_COLOR_SUPPLY),
-		list(SRV_FREQ,  "Service",       COMMS_COLOR_SERVICE),
-		list(PUB_FREQ,  "Common",        COMMS_COLOR_COMMON),
-		list(AI_FREQ,   "AI Private",    COMMS_COLOR_AI),
-		list(ENT_FREQ,  "Entertainment", COMMS_COLOR_ENTERTAIN),
-		list(COMM_FREQ, "Command",       COMMS_COLOR_COMMAND),
-		list(ENG_FREQ,  "Engineering",   COMMS_COLOR_ENGINEER),
-		list(SEC_FREQ,  "Security",      COMMS_COLOR_SECURITY)
-		)
-	autolinkers = list(
-		"ob_tcomm_server",
-		"ob_bus"
-	)
-
-/obj/machinery/telecomms/hub/preset/outreach
-	id = "ob_hub"
-	network = OUTREACH_TCOMM_NET_NAME
-	autolinkers = list(
-		"ob_hub",
-		"ob_receiver",
-		"ob_broadcaster"
+/obj/machinery/network/telecomms_hub/outreach
+	initial_network_id = OUTREACH_NETWORK_NAME
+	req_access         = list(list(access_ce), list(access_tcomsat))
+	channels           = list(
+		COMMON_FREQUENCY_DATA,
+		list("name" = "Science",       "key" = "n", "frequency" = 1351, "color" = COMMS_COLOR_SCIENCE,   "span_class" = "sciradio", "secured" = list(access_research)),
+		list("name" = "Medical",       "key" = "m", "frequency" = 1355, "color" = COMMS_COLOR_MEDICAL,   "span_class" = "medradio", "secured" = list(access_medical)),
+		list("name" = "Supply",        "key" = "u", "frequency" = 1347, "color" = COMMS_COLOR_SUPPLY,    "span_class" = "supradio", "secured" = list(access_cargo)),
+		list("name" = "Service",       "key" = "v", "frequency" = 1349, "color" = COMMS_COLOR_SERVICE,   "span_class" = "srvradio", "secured" = list(access_bar)),
+		list("name" = "AI Private",    "key" = "p", "frequency" = 1343, "color" = COMMS_COLOR_AI,        "span_class" = "airadio",  "secured" = list(access_ai_upload)),
+		list("name" = "Entertainment", "key" = "z", "frequency" = 1461, "color" = COMMS_COLOR_ENTERTAIN, "span_class" = CSS_CLASS_RADIO, "receive_only" = TRUE),
+		list("name" = "Command",       "key" = "c", "frequency" = 1353, "color" = COMMS_COLOR_COMMAND,   "span_class" = "comradio", "secured" = list(access_bridge)),
+		list("name" = "Engineering",   "key" = "e", "frequency" = 1357, "color" = COMMS_COLOR_ENGINEER,  "span_class" = "engradio", "secured" = list(access_engine)),
+		list("name" = "Security",      "key" = "s", "frequency" = 1359, "color" = COMMS_COLOR_SECURITY,  "span_class" = "secradio", "secured" = list(access_security))
 	)
 
 ////////////////////////////////////////////////////////////////////////

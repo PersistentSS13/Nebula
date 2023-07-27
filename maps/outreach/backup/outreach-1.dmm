@@ -2265,7 +2265,7 @@
 /area/outreach/outpost/maint/passage/b2/northwest)
 "eU" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
-/obj/structure/sign/department/engineering{
+/obj/structure/sign/engineering{
 	dir = 4;
 	icon_state = "engineering";
 	pixel_x = -32
