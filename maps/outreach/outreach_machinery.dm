@@ -155,8 +155,8 @@
 var/global/list/outreach_initial_protected_areas = list()
 /obj/machinery/network/area_controller/outreach
 	initial_network_id = OUTREACH_NETWORK_NAME
-	tag_network_tag = "oh_actrl"
-	use_power = POWER_USE_ACTIVE
+	tag_network_tag    = "oh_actrl"
+	use_power          = POWER_USE_ACTIVE
 	maximum_component_parts = list(
 		/obj/item/stock_parts = 200,
 	)
@@ -173,9 +173,8 @@ var/global/list/outreach_initial_protected_areas = list()
 		"OB 1B Atmospherics Hall",
 	)
 
-/obj/machinery/network/area_controller/outreach/Initialize()
+/obj/machinery/network/area_controller/outreach/Initialize(mapload, d, populate_parts)
 	. = ..()
-	//Thanks nata :c
 	for(var/area/A in world)
 		if(A.name in global.outreach_initial_protected_areas)
 			add_protected_area(A)
@@ -322,5 +321,3 @@ var/global/list/outreach_initial_protected_areas = list()
 	locked = TRUE
 
 #undef ADMIN_PROTECTED_NET_GROUP
-#undef OUTREACH_NETWORK_NAME
-#undef OUTREACH_TCOMM_NET_NAME

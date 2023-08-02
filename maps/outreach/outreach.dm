@@ -10,10 +10,8 @@
 	#define OUTREACH_LEVEL_ID_SOUTH_UNDERGROUND "outreach_south_underground"
 	#define OUTREACH_LEVEL_ID_SOUTH_MOUNTAIN    "outreach_south_mountain"
 
-	#define OUTREACH_NETWORK_NAME   "outreach_net"
-	//#define OUTREACH_TCOMM_NET_NAME "outreach_com"
-
 	var/global/list/outreach_initial_protected_areas = list()
+	#define OUTREACH_NETWORK_NAME "outreach_net"
 
 	// Mods section
 	#include "../../mods/persistence/_persistence.dme"
