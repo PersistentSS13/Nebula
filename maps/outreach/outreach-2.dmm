@@ -2246,17 +2246,15 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/engineering/b1/storage)
 "eU" = (
-/obj/machinery/light/small{
-	dir = 8;
-	icon_state = "bulb_map"
-	},
-/obj/machinery/button/crematorium{
-	id_tag = "ob_med_crema"
-	},
-/obj/effect/floor_decal/industrial/fire,
+/obj/structure/morgue,
 /obj/effect/floor_decal/spline/plain/paleblue{
 	icon_state = "spline_plain";
-	dir = 8
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 1
 	},
 /turf/simulated/floor/tiled/white,
 /area/outreach/outpost/medbay/morgue)
@@ -12349,12 +12347,11 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/north/basement1)
 "xE" = (
-/obj/structure/morgue,
+/obj/effect/floor_decal/industrial/fire,
 /obj/effect/floor_decal/spline/plain/paleblue{
 	icon_state = "spline_plain";
-	dir = 1
+	dir = 8
 	},
-/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/white,
 /area/outreach/outpost/medbay/morgue)
 "xF" = (
@@ -12653,6 +12650,23 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/white,
 /area/outreach/outpost/medbay/lobby)
+"yg" = (
+/obj/structure/crematorium{
+	dir = 4;
+	icon_state = "crematorium_closed";
+	id_tag = "ob_med_crema"
+	},
+/obj/effect/floor_decal/spline/plain/paleblue{
+	icon_state = "spline_plain";
+	dir = 10
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/button/crematorium{
+	dir = 4;
+	id_tag = "ob_med_crema"
+	},
+/turf/simulated/floor/tiled/white,
+/area/outreach/outpost/medbay/morgue)
 "yh" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -17407,19 +17421,6 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /turf/simulated/floor/tiled/white,
 /area/outreach/outpost/medbay/storage/medical)
-"GL" = (
-/obj/structure/crematorium{
-	dir = 4;
-	icon_state = "crematorium_closed";
-	id_tag = "ob_med_crema"
-	},
-/obj/effect/floor_decal/spline/plain/paleblue{
-	icon_state = "spline_plain";
-	dir = 10
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/tiled/white,
-/area/outreach/outpost/medbay/morgue)
 "GM" = (
 /obj/effect/floor_decal/spline/fancy/black{
 	icon_state = "spline_fancy";
@@ -42830,8 +42831,8 @@ fb
 jo
 bh
 xd
-eU
-GL
+xE
+yg
 gc
 bL
 cB
@@ -43031,7 +43032,7 @@ gy
 nf
 jp
 bh
-xE
+eU
 ew
 kF
 gc
