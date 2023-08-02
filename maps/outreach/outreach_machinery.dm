@@ -54,9 +54,12 @@
 	name = "Pressure Tank (Air)"
 	icon_state = "air_mapped"
 	start_pressure = ONE_ATMOSPHERE / 4
-	filling = list(/decl/material/gas/oxygen = O2STANDARD, /decl/material/gas/nitrogen = N2STANDARD)
+	filling = list(
+		/decl/material/gas/oxygen   = O2STANDARD,
+		/decl/material/gas/nitrogen = N2STANDARD,
+	)
 
-/obj/machinery/atmospherics/unary/tank/air/airlock/Initialize()
+/obj/machinery/atmospherics/unary/tank/air/airlock/Initialize(mapload, d, populate_parts)
 	. = ..()
 	icon_state = "air"
 
@@ -152,7 +155,6 @@
 /obj/machinery/computer/internet_uplink/outreach
 	initial_id_tag = "ob_uplink"
 
-var/global/list/outreach_initial_protected_areas = list()
 /obj/machinery/network/area_controller/outreach
 	initial_network_id = OUTREACH_NETWORK_NAME
 	tag_network_tag    = "oh_actrl"
@@ -162,15 +164,6 @@ var/global/list/outreach_initial_protected_areas = list()
 	)
 	uncreated_component_parts = list(
 		/obj/item/stock_parts/smes_coil = 7,
-	)
-	var/list/area_names = list(
-		"OB 1B Servers Room",
-		"OB 1B Cyrogenic Storage",
-		"OB 1B Control Room",
-		"OB 2B Power Storage",
-		"OB 2B Geothermals",
-		"OB 2B Atmos Tanks Perimeter",
-		"OB 1B Atmospherics Hall",
 	)
 
 /obj/machinery/network/area_controller/outreach/Initialize(mapload, d, populate_parts)

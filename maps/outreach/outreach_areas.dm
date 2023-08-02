@@ -1,3 +1,22 @@
+#define OUTREACH_AREA_NAME_SERVER_ROOM  "OB 1B Servers Room"
+#define OUTREACH_AREA_NAME_CRYO         "OB 1B Cyrogenic Storage"
+#define OUTREACH_AREA_NAME_CONTROL_ROOM "OB 1B Control Room"
+#define OUTREACH_AREA_NAME_POWER_ROOM   "OB 2B Power Storage"
+#define OUTREACH_AREA_NAME_GEOTHERMALS  "OB 2B Geothermals"
+#define OUTREACH_AREA_NAME_GAS_TANKS    "OB 2B Atmos Tanks Perimeter"
+#define OUTREACH_AREA_NAME_ATMOS        "OB 1B Atmospherics Hall"
+
+///This list is used to initialize the area protection for the outpost
+var/global/list/outreach_initial_protected_areas = list(
+	OUTREACH_AREA_NAME_SERVER_ROOM,
+	OUTREACH_AREA_NAME_CRYO,
+	OUTREACH_AREA_NAME_CONTROL_ROOM,
+	OUTREACH_AREA_NAME_POWER_ROOM,
+	OUTREACH_AREA_NAME_GEOTHERMALS,
+	OUTREACH_AREA_NAME_GAS_TANKS,
+	OUTREACH_AREA_NAME_ATMOS,
+)
+
 ///////////////////////////////////////////////////
 //Planet
 ///////////////////////////////////////////////////
@@ -113,6 +132,8 @@
 ///////////////////////////////////////////////////
 //Outpost
 ///////////////////////////////////////////////////
+
+///Base area for anything man-made that's open to the surface.
 /area/outreach
 	name          = "DONT USE ME"
 	icon_state    = "toilet"
@@ -121,6 +142,7 @@
 	open_turf     = /turf/exterior/open
 	abstract_type = /area/outreach
 
+///Base area for anything that's not exposed to the outside and part of the outreach outpost.
 /area/outreach/outpost
 	name      = "Outpost"
 	open_turf = /turf/simulated/open
@@ -131,7 +153,7 @@
 //Cryo
 ///////////////////////////////////////////////////
 /area/outreach/outpost/sleeproom
-	name            = "OB 1B Cyrogenic Storage"
+	name            = OUTREACH_AREA_NAME_CRYO
 	icon_state      = "cryo"
 	secure          = FALSE
 	sound_env       = ROOM
@@ -140,7 +162,7 @@
 //Controls
 ///////////////////////////////////////////////////
 /area/outreach/outpost/control
-	name       = "OB 1B Control Room"
+	name       = OUTREACH_AREA_NAME_CONTROL_ROOM
 	icon_state = "server"
 	sound_env  = ROOM
 	secure     = TRUE
@@ -155,7 +177,7 @@
 	name       = "OB 1B Servers Entrance"
 	icon_state = "server"
 /area/outreach/outpost/control/servers
-	name       = "OB 1B Servers Room"
+	name       = OUTREACH_AREA_NAME_SERVER_ROOM
 	icon_state = "server"
 /area/outreach/outpost/control/storage
 	name            = "OB 1B Servers Storage Room"
@@ -526,11 +548,11 @@
 	icon_state = "engineering_storage"
 
 /area/outreach/outpost/engineering/b2/smes
-	name       = "OB 2B Power Storage"
+	name       = OUTREACH_AREA_NAME_POWER_ROOM
 	icon_state = "engine_smes"
 
 /area/outreach/outpost/engineering/b2/geothermals
-	name            = "OB 2B Geothermals"
+	name            = OUTREACH_AREA_NAME_GEOTHERMALS
 	icon_state      = "engine"
 	secure          = TRUE
 	req_access      = list(access_engine)
@@ -565,13 +587,13 @@
 	icon_state = "atmos"
 	sound_env  = SMALL_ENCLOSED
 /area/outreach/outpost/atmospherics/b1/hall
-	name       = "OB 1B Atmospherics Hall"
+	name       = OUTREACH_AREA_NAME_ATMOS
 	icon_state = "atmos"
 	sound_env  = HALLWAY
 	ambience   = null
 	forced_ambience = list('sound/ambience/ambiatm1.ogg')
 /area/outreach/outpost/atmospherics/b2/tank_outer
-	name       = "OB 2B Atmos Tanks Perimeter"
+	name       = OUTREACH_AREA_NAME_GAS_TANKS
 	icon_state = "atmos"
 	sound_env  = CAVE
 
@@ -791,7 +813,7 @@
 //Elevators
 ///////////////////////////////////////////////////
 /area/turbolift/outreach
-	arrival_sound   = 'sound/machines/elevator_door_bell.ogg'
+	//arrival_sound   = 'sound/machines/elevator_door_bell.ogg'
 	//forced_ambience = list('sound/music/elevatormusic.ogg')
 	ambience        = null
 
@@ -822,3 +844,11 @@
 	base_turf  = /turf/simulated/floor/plating //Needed for shuttles
 	open_turf  = OUTREACH_SURFACE_TURF
 	area_flags = AREA_FLAG_IS_NOT_PERSISTENT | AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED | AREA_FLAG_EXTERNAL
+
+#undef OUTREACH_AREA_NAME_SERVER_ROOM
+#undef OUTREACH_AREA_NAME_CRYO
+#undef OUTREACH_AREA_NAME_CONTROL_ROO
+#undef OUTREACH_AREA_NAME_POWER_ROOM
+#undef OUTREACH_AREA_NAME_GEOTHERMALS
+#undef OUTREACH_AREA_NAME_GAS_TANKS
+#undef OUTREACH_AREA_NAME_ATMOS
