@@ -73,7 +73,7 @@
 
 /obj/item/photo/Initialize(ml, material_key, var/icon/_img, var/_scribble)
 	. = ..()
-	id = sequential_id("obj/item/photo")
+	id = make_sequential_guid("obj/item/photo")
 	if(_img)
 		img = _img
 	if(length(_scribble))

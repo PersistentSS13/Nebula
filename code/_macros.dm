@@ -90,6 +90,8 @@
 
 #define random_id(key,min_id,max_id) uniqueness_repository.Generate(/datum/uniqueness_generator/id_random, key, min_id, max_id)
 
+#define make_sequential_guid(key) uniqueness_repository.Generate(/datum/uniqueness_generator/guid_generator, key)
+
 /proc/place_meta_charset(content)
 	if(istext(content))
 		content = "<meta charset=\"utf-8\">" + content

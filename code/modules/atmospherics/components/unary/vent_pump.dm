@@ -78,7 +78,7 @@
 
 /obj/machinery/atmospherics/unary/vent_pump/Initialize()
 	if (!id_tag)
-		id_tag = "[sequential_id("obj/machinery")]"
+		id_tag = "[make_sequential_guid("obj/machinery")]"
 	if(controlled)
 		var/area/A = get_area(src)
 		if(A && !A.air_vent_names[id_tag])

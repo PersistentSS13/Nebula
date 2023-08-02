@@ -160,7 +160,7 @@
 	var/list/bounds = list(1.#INF, 1.#INF, 1.#INF, -1.#INF, -1.#INF, -1.#INF)
 	var/list/atoms_to_initialise = list()
 	var/shuttle_state = pre_init_shuttles()
-	var/map_hash = modify_tag_vars && "[sequential_id("map_id")]"
+	var/map_hash = modify_tag_vars && "[make_sequential_guid("map_id")]"
 	ASSERT(isnull(global._preloader.current_map_hash)) // Recursive maploading is possible, but not from this block: recursive loads should be triggered in Initialize, from init_atoms below.
 	global._preloader.current_map_hash = map_hash
 
@@ -201,7 +201,7 @@
 	var/list/atoms_to_initialise = list()
 	var/shuttle_state = pre_init_shuttles()
 
-	var/map_hash = modify_tag_vars && "[sequential_id("map_id")]"
+	var/map_hash = modify_tag_vars && "[make_sequential_guid("map_id")]"
 	ASSERT(isnull(global._preloader.current_map_hash))
 	global._preloader.current_map_hash = map_hash
 
