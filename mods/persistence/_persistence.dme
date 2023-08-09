@@ -4,7 +4,6 @@
 #include "_maps.dm"
 #include "_persistence.dm"
 #include "random_phrase.dm"
-#include "sequential_guid.dm"
 #include "__defines\area_saving.dm"
 #include "__defines\logging.dm"
 #include "__defines\saved_var.dm"
