@@ -106,14 +106,12 @@
 		/mob/living/simple_animal/chick,
 		/mob/living/simple_animal/chicken,
 		/mob/living/simple_animal/cow,
-
 		/obj/structure/closet,
 		/obj/structure/safe,
 		/obj/structure/aicore,
 		/obj/structure/ship_munition,
 		/obj/structure/stasis_cage,
 		/obj/structure/artifact,
-
 		/obj/item/anobattery,
 		/obj/item/anodevice,
 		/obj/item/grenade,
