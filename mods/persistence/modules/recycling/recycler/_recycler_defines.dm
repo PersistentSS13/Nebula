@@ -31,3 +31,31 @@
 #define RECYCLER_FLAG_OVERHEATING BITFLAG(3)
 ///Bitflag indicating that the power wires were cut
 #define RECYCLER_FLAG_POWER_CUT   BITFLAG(4)
+
+///Returns whether the living mob was ever/is under player control. Also checks for any brainmobs.
+/proc/is_mob_player_owned(var/mob/living/L)
+	if(!istype(L))
+		return FALSE
+	if(!isnull(L.client) || !isnull(L.ckey))
+		return TRUE
+	var/mob/brainmob = get_mob_brainmob(L)
+	return (!isnull(brainmob) && (!isnull(brainmob.client) || !isnull(brainmob.ckey)))
+
+///For a given mob return its contained brainmob if it has one
+/proc/get_mob_brainmob(var/mob/living/L)
+	if(!istype(L))
+		return
+	if(isbrain(L))
+		return L
+
+	var/obj/item/organ/internal/brain/brain = GET_INTERNAL_ORGAN(L, BP_BRAIN)
+	if(istype(brain) && !isnull(brain.brainmob))
+		return brain.brainmob
+
+	var/obj/item/organ/internal/posibrain/posibrain = GET_INTERNAL_ORGAN(L, BP_POSIBRAIN)
+	if(istype(posibrain) && !isnull(posibrain.brainmob))
+		return posibrain.brainmob
+
+	var/obj/item/organ/internal/stack/neuralstack = GET_INTERNAL_ORGAN(L, BP_STACK)
+	if(istype(neuralstack) && !isnull(neuralstack.stackmob))
+		return neuralstack.stackmob
