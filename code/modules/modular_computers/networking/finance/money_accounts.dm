@@ -94,6 +94,8 @@
 
 /datum/money_account/child/network/withdraw(amount, purpose, machine_id)
 	var/datum/money_account/parent/network/net_parent = parent_account
+	if(!net_parent.allow_cash_withdrawal)
+		return "Cash withdrawal is not permitted by your financial provider"
 	var/err = net_parent.get_network_error()
 	if(err)
 		return err
