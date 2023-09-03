@@ -15,4 +15,5 @@
 	for(var/datum/money_account/parent/network/net_account in SSmoney_accounts.all_accounts)
 		if(net_account.owner_name == network_id)
 			parent_account = net_account
+			parent_account.network_ref = weakref(src)
 			return

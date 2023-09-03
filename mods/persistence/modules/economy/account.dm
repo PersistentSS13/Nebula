@@ -14,7 +14,14 @@ SAVED_VAR(/datum/money_account, currency)
 // Related accounts
 SAVED_VAR(/datum/money_account/parent, fractional_reserve)
 SAVED_VAR(/datum/money_account/parent, open_escrow_on_destroy)
+SAVED_VAR(/datum/money_account/parent, allow_cash_withdrawal)
 SAVED_VAR(/datum/money_account/parent, children)
+
+/datum/money_account/parent/after_deserialize()
+	. = ..()
+	for(var/datum/money_account/child/child in children)
+		if(child.money > 0)
+			child_totals += child.money
 
 SAVED_VAR(/datum/money_account/child, withdrawal_limit)
 SAVED_VAR(/datum/money_account/child, current_withdrawal)
@@ -48,6 +55,8 @@ SAVED_VAR(/datum/account_modification, allow_cancel)
 		if(!istype(attached_account))
 			net_child.on_escrow(ignore_email = TRUE)
 			qdel(net_child)
+
+SAVED_VAR(/datum/money_account/parent/network, bank_ref)
 
 SAVED_VAR(/datum/money_account/child/network, network_account)
 // Transactions
