@@ -40,12 +40,17 @@
 	SSnetworking.networks[network_id] = src
 
 /datum/computer_network/Destroy()
-	// Backup the parent account on the bank mainframe, if it exists
 	if(parent_account)
 		money_to_storage()
 
-		if(banking_mainframe)
-			banking_mainframe.backup = parent_account
+		if(parent_account.network_ref)
+			if(parent_account.network_ref.resolve() == src)
+				parent_account.network_ref = null
+			else
+				log_warning("A computer network had a parent account with an invalid reference!")
+
+		// A bank mainframe exists that can still hold the parent account.
+		if(parent_account.check_owners())
 			parent_account = null
 		else // Too bad! Trigger an escrow panic and delete the parent account.
 			trigger_escrow_panic()
@@ -102,12 +107,12 @@
 			if(!parent_account)
 				parent_account = B.backup
 				parent_account.owner_name = network_id
+				parent_account.network_ref = weakref(src)
 				add_log("Recovered financial account from backup", newtag)
 			else if(parent_account != B.backup)
 				return FALSE
-
-			B.backup = null
-
+		else if(parent_account)
+			B.backup = parent_account
 		banking_mainframe = D
 		add_log("New banking mainframe set", newtag)
 
@@ -267,6 +272,7 @@
 
 	if(parent_account)
 		parent_account.owner_name = network_id
+		parent_account.generate_emails()
 
 	SSnetworking.networks[network_id] = src
 

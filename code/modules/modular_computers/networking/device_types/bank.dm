@@ -1,6 +1,6 @@
 // Interaction with the network's parent account should go through this device. Wraps many normal functions of accounts.
 /datum/extension/network_device/bank
-	var/datum/money_account/parent/backup // If the network goes down, the bank device can hold onto it until it's recovered.
+	var/datum/money_account/parent/network/backup // The bank and network both hold references to the account, so it only goes escrows if both go down completely.
 
 	var/list/admin_accounts = list() // Currently these accounts don't have any additional access, but are alerted when something goes wrong.
 
@@ -12,8 +12,16 @@
 	var/auto_transaction_fee
 
 /datum/extension/network_device/bank/Destroy()
-	backup?.escrow_panic()
-	qdel(backup)
+	if(backup)
+		if(backup.bank_ref?.resolve() == holder)
+			backup.bank_ref = null
+
+			if(!backup.check_owners())
+				backup.escrow_panic()
+				qdel(backup)
+		else
+			log_warning("A banking network device had a backup account with an invalid reference!")
+			backup = null
 	. = ..()
 
 /datum/extension/network_device/bank/connect()
@@ -100,10 +108,13 @@
 	if(!network || network.parent_account)
 		return FALSE
 
-	network.parent_account = new(null, network.network_id)
+	network.parent_account = new(null, network.network_id, network, holder)
 	network.parent_account.account_name = account_name
 	network.parent_account.account_id = account_name // Not used for actual access, but useful for display.
 	network.parent_account.fractional_reserve = fractional_reserve
+
+	backup = network.parent_account
+
 	return TRUE
 
 // For internal use only, does not check fractional reserve limits. Otherwise, use transactions.
