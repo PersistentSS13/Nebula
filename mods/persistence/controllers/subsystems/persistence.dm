@@ -376,42 +376,55 @@
 		loading_world = TRUE
 
 		// Start with rebuilding the z-levels.
-		//var/last_index = world.maxz
+
 		var/list/unmapped_z     = list()
 		var/list/mapped_z       = list()
 		var/list/mapped_indices = list() //Indices reserved by mapped zlevels
 
+		var/min_mapped_index
+		var/mapped_offset = 0
 		///Sort z-levels on whether they got a mapped z indice, or not
 		for(var/datum/persistence/load_cache/z_level/z_level in serializer.resolver.z_levels)
 			if(z_level.dynamic)
 				unmapped_z |= z_level
 			else
 				mapped_z |= z_level
-				mapped_indices |= z_level.index
+				mapped_indices[num2text(z_level.index)] = z_level.level_data_subtype
+
+				if(!min_mapped_index || z_level.index < min_mapped_index)
+					min_mapped_index = z_level.index
+
+		// If mapping changes have resulted in more levels existing then during save, offset the mapped levels.
+		mapped_offset = max(0, world.maxz + 1 - min_mapped_index)
 
 		//Then handle assigning z levels
 		for(var/datum/persistence/load_cache/z_level/z_level in mapped_z)
 			//If the world z isn't at the index we're loading this level at, increment
-			for(var/z_incr = 1 to  max(z_level.index - world.maxz, 0))
-				// Always init to space new levels. It really doesn't matter
-				SSmapping.increment_world_z_size(text2path("[z_level.level_data_subtype]") || /datum/level_data/space, TRUE)
-				//If we have any unmapped z levels to place, use the empty space between
-				if(length(unmapped_z) && !(world.maxz in mapped_indices))
-					var/datum/persistence/load_cache/z_level/unmapped = unmapped_z[unmapped_z.len]
-					unmapped_z.len--
-					unmapped.new_index = world.maxz
-					serializer.z_map["[unmapped.index]"] = unmapped.new_index
-					report_progress_serializer("Mapping Save Z ([unmapped.index]) to World Z ([unmapped.new_index]) with default turf ([unmapped.default_turf]).")
+			z_level.new_index = z_level.index + mapped_offset
+			for(var/z_incr = 1 to max(z_level.new_index - world.maxz, 0))
 
-			report_progress_serializer("Mapping Save Z ([z_level.index]) to World Z ([z_level.new_index]) with default turf ([z_level.default_turf]).")
-			z_level.new_index = z_level.index
+				// map_indices is indexed by the database value, so we need to re-adjust.
+				var/index_key = num2text(world.maxz - mapped_offset)
+				if(index_key in mapped_indices)
+					SSmapping.increment_world_z_size(text2path(mapped_indices[index_key]) || /datum/level_data/space, TRUE)
+				else
+					SSmapping.increment_world_z_size(/datum/level_data/space, TRUE)
+					//If we have any unmapped z levels to place, use the empty space between
+					if(length(unmapped_z))
+						var/datum/persistence/load_cache/z_level/unmapped = unmapped_z[unmapped_z.len]
+						unmapped_z.len--
+						unmapped.new_index = world.maxz
+						serializer.z_map["[unmapped.index]"] = unmapped.new_index
+						report_progress_serializer("Mapping Save Z ([unmapped.index]) to World Z ([unmapped.new_index]) with default turf ([unmapped.default_turf]).")
+
+			report_progress_serializer("Mapping Save Z ([z_level.index]) to World Z ([z_level.new_index]) with default turf ([z_level.default_turf]) and level data [z_level.level_data_subtype].")
 			serializer.z_map[num2text(z_level.index)] = z_level.new_index
 
 		//If any unmapped left, add them
 		for(var/datum/persistence/load_cache/z_level/z_level in unmapped_z)
 			SSmapping.increment_world_z_size(/datum/level_data/space)
 			z_level.new_index = world.maxz
-			serializer.z_map["[z_level.index]"] = z_level.new_index
+			serializer.z_map[num2text(z_level.index)] = z_level.new_index
 			report_progress_serializer("Mapping Save Z ([z_level.index]) to World Z ([z_level.new_index]) with default turf ([z_level.default_turf]).")
 		report_progress_serializer("Z-Levels loaded!")
 
