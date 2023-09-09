@@ -1,8 +1,9 @@
-/mob/living/carbon/human/proc/update_eyes()
+/mob/living/carbon/human/proc/update_eyes(update_icon = TRUE)
 	var/obj/item/organ/internal/eyes/eyes = get_organ((species?.vision_organ || BP_EYES), /obj/item/organ/internal/eyes)
 	if(eyes)
 		eyes.update_colour()
-		refresh_visible_overlays()
+		if(update_icon)
+			refresh_visible_overlays()
 
 /mob/living/carbon/human/proc/get_bodypart_name(var/zone)
 	var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, zone)
