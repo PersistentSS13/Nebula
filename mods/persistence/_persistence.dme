@@ -226,6 +226,8 @@
 #include "modules\projectiles\overrides.dm"
 #include "modules\projectiles\ammunition\5.56\bullets.dm"
 #include "modules\projectiles\ammunition\5.56\magazines.dm"
+#include "modules\projectiles\ammunition\12g\bullets.dm"
+#include "modules\projectiles\ammunition\12g\magazines.dm"
 #include "modules\projectiles\ammunition\22_LR\bullets.dm"
 #include "modules\projectiles\ammunition\22_LR\magazines.dm"
 #include "modules\projectiles\ammunition\45\bullets.dm"
