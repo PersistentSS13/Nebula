@@ -7,7 +7,7 @@
 	w_class = ITEM_SIZE_HUGE
 	force = 10
 	slot_flags = SLOT_BACK
-	caliber = CALIBER_SHOTGUN
+	caliber = CALIBER_12g
 	origin_tech = "{'combat':3,'engineering':2,'materials':2}"
 	load_method = SINGLE_CASING
 	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
