@@ -4,7 +4,7 @@
 	icon_state = "box_12g1_slug"
 	icon = 'mods/persistence/icons/obj/ammunition/magazines.dmi'
 	material = /decl/material/solid/metal/steel
-	caliber = CALIBER_12g
+	caliber = CALIBER_12G
 	ammo_type = /obj/item/ammo_casing/twelvegauge
 	max_ammo = 16
 
