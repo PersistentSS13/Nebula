@@ -11,7 +11,7 @@
 	name = "generic 12g slug shell"
 	desc = "An unsettlingly generic 12g slug shell."
 	icon = 'mods/persistence/icons/obj/ammunition/12g/tier1_slug.dmi'
-	caliber = CALIBER_12g
+	caliber = CALIBER_12G
 	projectile_type = /obj/item/projectile/bullet/twelvegauge
 
 /obj/item/projectile/bullet/twelvegauge
@@ -23,7 +23,7 @@
 	name = "generic 12g buckshot shell"
 	desc = "An unsettlingly generic 12g buckshot shell."
 	icon = 'mods/persistence/icons/obj/ammunition/12g/tier1_buckshot.dmi'
-	caliber = CALIBER_12g
+	caliber = CALIBER_12G
 	projectile_type = /obj/item/projectile/bullet/pellet/twelvegauge
 
 /obj/item/projectile/bullet/pellet/twelvegauge
