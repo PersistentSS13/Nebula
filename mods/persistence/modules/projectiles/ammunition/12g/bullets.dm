@@ -1,10 +1,10 @@
-#define CALIBER_12g "12g"
+#define CALIBER_12G "12g"
 
 /obj/item/ammo_casing/twelvegauge
 	name = "generic 12g shell"
 	desc = "An unsettlingly generic 12g shell."
 	icon = 'mods/persistence/icons/obj/ammunition/12g/tier1_slug.dmi'
-	caliber = CALIBER_12g
+	caliber = CALIBER_12G
 	projectile_type = /obj/item/projectile/bullet/twelvegauge
 
 /obj/item/ammo_casing/twelvegauge/slug
