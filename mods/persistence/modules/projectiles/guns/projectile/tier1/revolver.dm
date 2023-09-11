@@ -4,7 +4,7 @@
 	icon = 'mods/persistence/icons/obj/guns/tier1/revolver.dmi'
 	origin_tech = "{'combat':3,'engineering':2,'materials':2}"
 	caliber = CALIBER_45
-	ammo_type = /obj/item/ammo_casing/pistol
+	ammo_type = /obj/item/ammo_casing/fortyfive/simple
 	max_shells = 5
 	w_class = ITEM_SIZE_NORMAL
 	fire_delay = 10

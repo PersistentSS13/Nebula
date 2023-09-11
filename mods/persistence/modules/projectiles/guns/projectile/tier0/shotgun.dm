@@ -10,7 +10,7 @@
 	slot_flags = SLOT_BACK
 	caliber = CALIBER_12G
 	origin_tech = "{'combat':2,'engineering':1,'materials':1}"
-	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
+	ammo_type = /obj/item/ammo_casing/twelvegauge/slug/handmade
 	screen_shake = 2
 	accuracy = -1
 	one_hand_penalty = 10

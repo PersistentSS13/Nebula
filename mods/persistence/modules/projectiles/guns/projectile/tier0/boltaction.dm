@@ -9,7 +9,7 @@
 	handle_casings = HOLD_CASINGS
 	load_method = SINGLE_CASING
 	max_shells = 1
-	ammo_type = /obj/item/ammo_casing/fivefiftysix
+	ammo_type = /obj/item/ammo_casing/fivefiftysix/handmade
 	one_hand_penalty = 20
 	fire_delay = 20
 	accuracy = -1
