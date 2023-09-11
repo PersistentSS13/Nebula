@@ -1,6 +1,6 @@
 /obj/item/gun/projectile/pistol/simple/golden
-	name = "10mm 'Colt-M' HG"
-	desc = "Luxurious pistol of ancient design. Reliable and fabulous, but struggles against armored targets. Chambered in 10mm."
+	name = ".45 'Colt-M' HG"
+	desc = "Luxurious pistol of ancient design. Reliable and fabulous, but struggles against armored targets. Chambered in .45."
 	icon = 'mods/persistence/icons/obj/guns/tier1/pistol_gold.dmi'
 	origin_tech = "{'combat':3,'engineering':2,'materials':5}"
 	material = /decl/material/solid/metal/steel

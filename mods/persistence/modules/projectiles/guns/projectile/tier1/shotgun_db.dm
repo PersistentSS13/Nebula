@@ -8,9 +8,9 @@
 	w_class = ITEM_SIZE_HUGE
 	force = 10
 	slot_flags = SLOT_BACK
-	caliber = CALIBER_SHOTGUN
+	caliber = CALIBER_12G
 	origin_tech = "{'combat':3,'engineering':2,'materials':2}"
-	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
+	ammo_type = /obj/item/ammo_casing/twelvegauge/slug/simple
 	screen_shake = 1
 	accuracy = 0
 	one_hand_penalty = 10
@@ -22,7 +22,7 @@
 	burst_delay = 0
 	firemodes = list(
 		list(mode_name="fire one barrel at a time", burst=1),
-		list(mode_name="fire both barrels at once", burst=2)
+		list(mode_name="fire two barrels at a time", burst=2)
 	)
 
 /obj/item/gun/projectile/shotgun/simple/empty

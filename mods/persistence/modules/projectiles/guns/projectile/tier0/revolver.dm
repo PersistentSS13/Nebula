@@ -1,10 +1,10 @@
 /obj/item/gun/projectile/revolver/handmade
-	name = "10mm 'Underdog' RV"
-	desc = "Revolver of dubious origin. Shoddy craftsmanship results in low ammo capacity and high recoil. Chambered in 10mm."
+	name = ".45 'Underdog' RV"
+	desc = "Revolver of dubious origin. Shoddy craftsmanship results in low ammo capacity and high recoil. Chambered in .45."
 	icon = 'mods/persistence/icons/obj/guns/tier0/revolver.dmi'
 	origin_tech = "{'combat':2,'engineering':1,'materials':1}"
-	caliber = CALIBER_PISTOL
-	ammo_type = /obj/item/ammo_casing/pistol
+	caliber = CALIBER_45
+	ammo_type = /obj/item/ammo_casing/fortyfive/handmade
 	max_shells = 3
 	w_class = ITEM_SIZE_NORMAL
 	fire_delay = 12

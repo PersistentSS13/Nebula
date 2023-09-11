@@ -33,3 +33,18 @@
 
 /datum/fabricator_recipe/protolathe/weapon/bullpup
 	research_excluded = TRUE
+
+/datum/fabricator_recipe/protolathe/ammo
+	research_excluded = TRUE
+
+/datum/fabricator_recipe/protolathe/ammo/stunshell
+	research_excluded = TRUE
+
+/datum/fabricator_recipe/protolathe/ammo/ammo_emp_small
+	research_excluded = TRUE
+
+/datum/fabricator_recipe/protolathe/ammo/ammo_emp_pistol
+	research_excluded = TRUE
+
+/datum/fabricator_recipe/protolathe/ammo/ammo_emp_slug
+	research_excluded = TRUE
