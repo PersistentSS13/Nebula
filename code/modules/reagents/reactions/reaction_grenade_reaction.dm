@@ -50,7 +50,8 @@
 	lore_text = "This reaction causes an electromagnetic pulse that knocks out machinery in a sizable radius."
 	required_reagents = list(
 		/decl/material/solid/metal/uranium = 1,
-		/decl/material/solid/metal/iron = 1
+		/decl/material/solid/metal/iron = 1,
+		/decl/material/liquid/acid/polyacid = 1 //Prevents EMP pulse from occuring inside of mining machinery on accident
 	) // Yes, laugh, it's the best recipe I could think of that makes a little bit of sense
 	result_amount = 2
 	mix_message = "The solution bubbles vigorously!"
