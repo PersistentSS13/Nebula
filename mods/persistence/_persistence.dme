@@ -246,6 +246,7 @@
 #include "modules\projectiles\guns\projectile\tier1\pistol_pocket.dm"
 #include "modules\projectiles\guns\projectile\tier1\revolver.dm"
 #include "modules\projectiles\guns\projectile\tier1\shotgun_db.dm"
+#include "modules\projectiles\guns\projectile\tier1\shotgun_db_sawn.dm"
 #include "modules\projectiles\guns\projectile\tier1\shotgun_pump.dm"
 #include "modules\reagents\Chemistry-Holder.dm"
 #include "modules\reagents\chems\chems.dm"
