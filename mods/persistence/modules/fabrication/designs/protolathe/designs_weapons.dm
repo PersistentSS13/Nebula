@@ -31,6 +31,9 @@
 /datum/fabricator_recipe/protolathe/weapon/tier1/shotgun_double
 	path = /obj/item/gun/projectile/shotgun/simple/empty
 
+/datum/fabricator_recipe/protolathe/weapon/tier1/shotgun_double_sawn
+	path = /obj/item/gun/projectile/shotgun/simple/sawnoff/empty
+
 /datum/fabricator_recipe/protolathe/weapon/tier1/shotgun_pump
 	path = /obj/item/gun/projectile/shotgun/pump/simple/empty
 

@@ -33,3 +33,15 @@
 
 /datum/fabricator_recipe/protolathe/ammunition/fortyfive/box/tier1
 	path = /obj/item/ammo_magazine/box/fortyfive/simple
+
+/datum/fabricator_recipe/protolathe/ammunition/twelvegauge/box/slug/tier0
+	path = /obj/item/ammo_magazine/box/twelvegauge/slug/handmade
+
+/datum/fabricator_recipe/protolathe/ammunition/twelvegauge/box/buckshot/tier0
+	path = /obj/item/ammo_magazine/box/twelvegauge/buckshot/handmade
+
+/datum/fabricator_recipe/protolathe/ammunition/twelvegauge/box/slug/tier1
+	path = /obj/item/ammo_magazine/box/twelvegauge/slug/simple
+
+/datum/fabricator_recipe/protolathe/ammunition/twelvegauge/box/buckshot/tier1
+	path = /obj/item/ammo_magazine/box/twelvegauge/buckshot/simple
