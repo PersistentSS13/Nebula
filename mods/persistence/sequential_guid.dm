@@ -15,4 +15,4 @@
 	. = "[epoc]-[timeofday]-[num2hex(rand(1, 255))][num2hex(rand(1, 255))]-[variant][sequence][num2hex(rand(1, 255))]"
 	sequence_id_by_key[key] = sequence_id + 1
 	guids_by_key[key] = .
-	log_debug("GUID_GEN - Order: [sequence_id], Key: '[key]', GUID: '[.]'")
+	//log_debug("GUID_GEN - Order: [sequence_id], Key: '[key]', GUID: '[.]'")
