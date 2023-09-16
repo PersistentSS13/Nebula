@@ -1,5 +1,5 @@
 // Cotton Im going to achieve singularity
-
+// tier 1 seed = maturation and production 1, should take average 45 minutes to be able to produce, and 30 more to be able to produce another yield
 /datum/seed/cotton
 	name = "cotton"
 	seed_name = "cotton"
@@ -8,9 +8,9 @@
 /datum/seed/cotton/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,7)
-	set_trait(TRAIT_PRODUCTION,7)
-	set_trait(TRAIT_YIELD,6)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
+	set_trait(TRAIT_YIELD,4)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"wheat")
 	set_trait(TRAIT_PRODUCT_COLOUR, "#ffffff")
@@ -19,6 +19,7 @@
 
 
 // Chili plants/variants.
+// tier 2, capsaicin can be incredibly useful.
 /datum/seed/chili
 	name = "chili"
 	seed_name = "chili"
@@ -30,9 +31,9 @@
 /datum/seed/chili/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,6)
-	set_trait(TRAIT_PRODUCTION,6)
-	set_trait(TRAIT_YIELD,4)
+	set_trait(TRAIT_MATURATION,2)
+	set_trait(TRAIT_PRODUCTION,3)
+	set_trait(TRAIT_YIELD,5)
 	set_trait(TRAIT_POTENCY,20)
 	set_trait(TRAIT_PRODUCT_ICON,"chili")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#ed3300")
@@ -50,11 +51,12 @@
 
 /datum/seed/chili/ice/New()
 	..()
-	set_trait(TRAIT_MATURATION,5)
-	set_trait(TRAIT_PRODUCTION,5)
+	set_trait(TRAIT_MATURATION,2)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_PRODUCT_COLOUR,"#00edc6")
 
 // Berry plants/variants.
+// tier 1
 /datum/seed/berry
 	name = "berries"
 	seed_name = "berry"
@@ -67,9 +69,9 @@
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
 	set_trait(TRAIT_JUICY,1)
-	set_trait(TRAIT_MATURATION,6)
-	set_trait(TRAIT_PRODUCTION,6)
-	set_trait(TRAIT_YIELD,2)
+	set_trait(TRAIT_MATURATION,2)
+	set_trait(TRAIT_PRODUCTION,2)
+	set_trait(TRAIT_YIELD,4)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"berry")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#fa1616")
@@ -87,9 +89,9 @@
 
 /datum/seed/berry/blue/New()
 	..()
-	set_trait(TRAIT_MATURATION,6)
-	set_trait(TRAIT_PRODUCTION,6)
-	set_trait(TRAIT_YIELD,2)
+	set_trait(TRAIT_MATURATION,2)
+	set_trait(TRAIT_PRODUCTION,1)
+	set_trait(TRAIT_YIELD,4)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_COLOUR,"#1c225c")
 	set_trait(TRAIT_WATER_CONSUMPTION, 5)
@@ -107,8 +109,8 @@
 	set_trait(TRAIT_SPREAD,1)
 	set_trait(TRAIT_BIOLUM,1)
 	set_trait(TRAIT_BIOLUM_COLOUR,"#006622")
-	set_trait(TRAIT_MATURATION,6)
-	set_trait(TRAIT_PRODUCTION,6)
+	set_trait(TRAIT_MATURATION,2)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,2)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_COLOUR,"#c9fa16")
@@ -151,6 +153,7 @@
 	set_trait(TRAIT_NUTRIENT_CONSUMPTION, 0.35)
 
 // Nettles/variants.
+//tier 3
 /datum/seed/nettle
 	name = "nettle"
 	seed_name = "nettle"
@@ -162,10 +165,8 @@
 
 /datum/seed/nettle/New()
 	..()
-	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,7)
-	set_trait(TRAIT_PRODUCTION,7)
-	set_trait(TRAIT_YIELD,4)
+	set_trait(TRAIT_MATURATION,4)
+	set_trait(TRAIT_YIELD,2)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_STINGS,1)
 	set_trait(TRAIT_PLANT_ICON,"bush5")
@@ -182,12 +183,13 @@
 
 /datum/seed/nettle/death/New()
 	..()
-	set_trait(TRAIT_MATURATION,9)
+	set_trait(TRAIT_MATURATION,4)
 	set_trait(TRAIT_YIELD,2)
 	set_trait(TRAIT_PRODUCT_COLOUR,"#8c5030")
 	set_trait(TRAIT_PLANT_COLOUR,"#634941")
 
 //Tomatoes/variants.
+//tier 1 + 2
 /datum/seed/tomato
 	name = "tomato"
 	seed_name = "tomato"
@@ -200,8 +202,8 @@
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
 	set_trait(TRAIT_JUICY,1)
-	set_trait(TRAIT_MATURATION,9)
-	set_trait(TRAIT_PRODUCTION,7)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,2)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"tomato")
@@ -267,6 +269,7 @@
 	set_trait(TRAIT_BIOLUM_COLOUR,"#4da4a8")
 
 //Eggplants/varieties.
+// tier 0
 /datum/seed/eggplant
 	name = "eggplant"
 	seed_name = "eggplant"
@@ -278,8 +281,8 @@
 /datum/seed/eggplant/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,7)
-	set_trait(TRAIT_PRODUCTION,7)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,1)
 	set_trait(TRAIT_YIELD,2)
 	set_trait(TRAIT_POTENCY,20)
 	set_trait(TRAIT_PRODUCT_ICON,"eggplant")
@@ -289,6 +292,7 @@
 	set_trait(TRAIT_IDEAL_LIGHT, 7)
 
 //Apples/varieties.
+//tier 1
 /datum/seed/apple
 	name = "apple"
 	seed_name = "apple"
@@ -300,8 +304,8 @@
 /datum/seed/apple/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,7)
-	set_trait(TRAIT_PRODUCTION,7)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,5)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"apple")
@@ -326,13 +330,14 @@
 
 /datum/seed/apple/gold/New()
 	..()
-	set_trait(TRAIT_MATURATION,10)
-	set_trait(TRAIT_PRODUCTION,10)
+	set_trait(TRAIT_MATURATION,2)
+	set_trait(TRAIT_PRODUCTION,3)
 	set_trait(TRAIT_YIELD,3)
 	set_trait(TRAIT_PRODUCT_COLOUR,"#ffdd00")
 	set_trait(TRAIT_PLANT_COLOUR,"#d6b44d")
 
 //Ambrosia/varieties.
+// tier 3
 /datum/seed/ambrosia
 	name = "biteleaf"
 	seed_name = "biteleaf"
@@ -350,9 +355,9 @@
 /datum/seed/ambrosia/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,7)
-	set_trait(TRAIT_PRODUCTION,7)
-	set_trait(TRAIT_YIELD,6)
+	set_trait(TRAIT_MATURATION,2)
+	set_trait(TRAIT_PRODUCTION,2)
+	set_trait(TRAIT_YIELD,4)
 	set_trait(TRAIT_POTENCY,5)
 	set_trait(TRAIT_PRODUCT_ICON,"ambrosia")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#9fad55")
@@ -380,6 +385,7 @@
 	set_trait(TRAIT_PLANT_COLOUR,"#2a9c61")
 
 //Mushrooms/varieties.
+//tier 1
 /datum/seed/mushroom
 	name = "mushrooms"
 	seed_name = "chanterelle"
@@ -398,8 +404,8 @@
 
 /datum/seed/mushroom/New()
 	..()
-	set_trait(TRAIT_MATURATION,8)
-	set_trait(TRAIT_PRODUCTION,3)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,5)
 	set_trait(TRAIT_POTENCY,1)
 	set_trait(TRAIT_PRODUCT_ICON,"mushroom4")
@@ -419,7 +425,7 @@
 /datum/seed/mushroom/mold/New()
 	..()
 	set_trait(TRAIT_SPREAD,1)
-	set_trait(TRAIT_MATURATION,10)
+	set_trait(TRAIT_MATURATION,2)
 	set_trait(TRAIT_YIELD,-1)
 	set_trait(TRAIT_PRODUCT_ICON,"mushroom5")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#7a5f20")
@@ -437,7 +443,7 @@
 /datum/seed/mushroom/plump/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,9)
+	set_trait(TRAIT_MATURATION,2)
 	set_trait(TRAIT_YIELD,2)
 	set_trait(TRAIT_POTENCY,2)
 	set_trait(TRAIT_PRODUCT_ICON,"mushroom10")
@@ -456,7 +462,7 @@
 
 /datum/seed/mushroom/plump/walking/New()
 	..()
-	set_trait(TRAIT_MATURATION,6)
+	set_trait(TRAIT_MATURATION,3)
 	set_trait(TRAIT_YIELD,1)
 	set_trait(TRAIT_PRODUCT_COLOUR,"#fac0f2")
 	set_trait(TRAIT_PLANT_COLOUR,"#c4b1c2")
@@ -470,8 +476,8 @@
 
 /datum/seed/mushroom/hallucinogenic/New()
 	..()
-	set_trait(TRAIT_MATURATION,11)
-	set_trait(TRAIT_PRODUCTION,8)
+	set_trait(TRAIT_MATURATION,2)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,4)
 	set_trait(TRAIT_POTENCY,15)
 	set_trait(TRAIT_PRODUCT_ICON,"mushroom11")
@@ -488,7 +494,7 @@
 
 /datum/seed/mushroom/hallucinogenic/strong/New()
 	..()
-	set_trait(TRAIT_PRODUCTION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_POTENCY,15)
 	set_trait(TRAIT_PRODUCT_ICON,"mushroom8")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#f2e550")
@@ -504,8 +510,8 @@
 
 /datum/seed/mushroom/poison/New()
 	..()
-	set_trait(TRAIT_MATURATION,12)
-	set_trait(TRAIT_PRODUCTION,5)
+	set_trait(TRAIT_MATURATION,2)
+	set_trait(TRAIT_PRODUCTION,3)
 	set_trait(TRAIT_YIELD,4)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"mushroom")
@@ -522,7 +528,7 @@
 
 /datum/seed/mushroom/poison/death/New()
 	..()
-	set_trait(TRAIT_MATURATION,14)
+	set_trait(TRAIT_MATURATION,3)
 	set_trait(TRAIT_YIELD,2)
 	set_trait(TRAIT_POTENCY,35)
 	set_trait(TRAIT_PRODUCT_ICON,"mushroom3")
@@ -539,7 +545,7 @@
 
 /datum/seed/mushroom/towercap/New()
 	..()
-	set_trait(TRAIT_MATURATION,15)
+	set_trait(TRAIT_MATURATION,2)
 	set_trait(TRAIT_PRODUCT_ICON,"mushroom7")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#d3aca3")
 	set_trait(TRAIT_PLANT_COLOUR,"#dcd9d9")
@@ -554,7 +560,7 @@
 /datum/seed/mushroom/glowbell/New()
 	..()
 	set_trait(TRAIT_SPREAD,1)
-	set_trait(TRAIT_MATURATION,15)
+	set_trait(TRAIT_MATURATION,2)
 	set_trait(TRAIT_YIELD,3)
 	set_trait(TRAIT_POTENCY,30)
 	set_trait(TRAIT_BIOLUM,1)
@@ -574,7 +580,7 @@
 /datum/seed/mushroom/weepingmoon/New()
 	..()
 	set_trait(TRAIT_SPREAD,1)
-	set_trait(TRAIT_MATURATION,15)
+	set_trait(TRAIT_MATURATION,2)
 	set_trait(TRAIT_YIELD,3)
 	set_trait(TRAIT_POTENCY,30)
 	set_trait(TRAIT_BIOLUM,1)
@@ -594,7 +600,7 @@
 /datum/seed/mushroom/caverncandle/New()
 	..()
 	set_trait(TRAIT_SPREAD,1)
-	set_trait(TRAIT_MATURATION,15)
+	set_trait(TRAIT_MATURATION,2)
 	set_trait(TRAIT_YIELD,3)
 	set_trait(TRAIT_POTENCY,30)
 	set_trait(TRAIT_BIOLUM,1)
@@ -613,8 +619,8 @@
 
 /datum/seed/mushroom/plastic/New()
 	..()
-	set_trait(TRAIT_MATURATION,7)
-	set_trait(TRAIT_PRODUCTION,7)
+	set_trait(TRAIT_MATURATION,2)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,6)
 	set_trait(TRAIT_POTENCY,20)
 	set_trait(TRAIT_PRODUCT_ICON,"mushroom6")
@@ -631,7 +637,7 @@
 
 /datum/seed/flower/New()
 	..()
-	set_trait(TRAIT_MATURATION,7)
+	set_trait(TRAIT_MATURATION,1)
 	set_trait(TRAIT_PRODUCTION,1)
 	set_trait(TRAIT_YIELD,2)
 	set_trait(TRAIT_PRODUCT_ICON,"flower5")
@@ -653,8 +659,8 @@
 /datum/seed/flower/poppy/New()
 	..()
 	set_trait(TRAIT_POTENCY,20)
-	set_trait(TRAIT_MATURATION,8)
-	set_trait(TRAIT_PRODUCTION,6)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,6)
 	set_trait(TRAIT_PRODUCT_ICON,"flower3")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#b33715")
@@ -670,7 +676,7 @@
 
 /datum/seed/flower/sunflower/New()
 	..()
-	set_trait(TRAIT_MATURATION,6)
+	set_trait(TRAIT_MATURATION,1)
 	set_trait(TRAIT_PRODUCT_ICON,"flower2")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#fff700")
 	set_trait(TRAIT_PLANT_ICON,"flower2")
@@ -686,8 +692,8 @@
 
 /datum/seed/flower/lavender/New()
 	..()
-	set_trait(TRAIT_MATURATION,7)
-	set_trait(TRAIT_PRODUCTION,5)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,1)
 	set_trait(TRAIT_YIELD,5)
 	set_trait(TRAIT_PRODUCT_ICON,"flower6")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#b57edc")
@@ -708,9 +714,9 @@
 /datum/seed/grapes/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,5)
-	set_trait(TRAIT_PRODUCTION,5)
-	set_trait(TRAIT_YIELD,4)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
+	set_trait(TRAIT_YIELD,6)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"grapes")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#bb6ac4")
@@ -731,6 +737,7 @@
 	set_trait(TRAIT_PRODUCT_COLOUR,"42ed2f")
 
 //Everything else
+// tier 0 + 1
 /datum/seed/peanuts
 	name = "peanut"
 	seed_name = "peanut"
@@ -740,8 +747,8 @@
 /datum/seed/peanuts/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,7)
-	set_trait(TRAIT_PRODUCTION,7)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,1)
 	set_trait(TRAIT_YIELD,6)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"nuts")
@@ -758,8 +765,8 @@
 /datum/seed/peppercorn/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,6)
-	set_trait(TRAIT_PRODUCTION,6)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,1)
 	set_trait(TRAIT_YIELD,3)
 	set_trait(TRAIT_POTENCY,5)
 	set_trait(TRAIT_PRODUCT_ICON,"nuts")
@@ -777,8 +784,8 @@
 /datum/seed/cabbage/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,5)
-	set_trait(TRAIT_PRODUCTION,5)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,4)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"cabbage")
@@ -800,8 +807,8 @@
 /datum/seed/banana/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,6)
-	set_trait(TRAIT_PRODUCTION,6)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,3)
 	set_trait(TRAIT_PRODUCT_ICON,"bananas")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#ffec1f")
@@ -822,8 +829,8 @@
 
 /datum/seed/corn/New()
 	..()
-	set_trait(TRAIT_MATURATION,8)
-	set_trait(TRAIT_PRODUCTION,6)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,3)
 	set_trait(TRAIT_POTENCY,20)
 	set_trait(TRAIT_PRODUCT_ICON,"corn")
@@ -844,9 +851,9 @@
 /datum/seed/potato/New()
 	..()
 	set_trait(TRAIT_PRODUCES_POWER,1)
-	set_trait(TRAIT_MATURATION,10)
-	set_trait(TRAIT_PRODUCTION,4)
-	set_trait(TRAIT_YIELD,4)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
+	set_trait(TRAIT_YIELD,6)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"potato")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#d4cab4")
@@ -862,8 +869,8 @@
 
 /datum/seed/garlic/New()
 	..()
-	set_trait(TRAIT_MATURATION,10)
-	set_trait(TRAIT_PRODUCTION,4)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,1)
 	set_trait(TRAIT_YIELD,5)
 	set_trait(TRAIT_POTENCY,12)
 	set_trait(TRAIT_PRODUCT_ICON,"bulb")
@@ -880,8 +887,8 @@
 
 /datum/seed/onion/New()
 	..()
-	set_trait(TRAIT_MATURATION,10)
-	set_trait(TRAIT_PRODUCTION,4)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,1)
 	set_trait(TRAIT_YIELD,4)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"bulb")
@@ -899,8 +906,8 @@
 /datum/seed/soybean/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,8)
-	set_trait(TRAIT_PRODUCTION,4)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,3)
 	set_trait(TRAIT_POTENCY,5)
 	set_trait(TRAIT_PRODUCT_ICON,"bean")
@@ -916,9 +923,9 @@
 
 /datum/seed/wheat/New()
 	..()
-	set_trait(TRAIT_MATURATION,8)
+	set_trait(TRAIT_MATURATION,1)
 	set_trait(TRAIT_PRODUCTION,2)
-	set_trait(TRAIT_YIELD,4)
+	set_trait(TRAIT_YIELD,5)
 	set_trait(TRAIT_POTENCY,5)
 	set_trait(TRAIT_PRODUCT_ICON,"wheat")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#dbd37d")
@@ -936,8 +943,8 @@
 
 /datum/seed/rice/New()
 	..()
-	set_trait(TRAIT_MATURATION,6)
-	set_trait(TRAIT_PRODUCTION,3)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,1)
 	set_trait(TRAIT_YIELD,4)
 	set_trait(TRAIT_POTENCY,5)
 	set_trait(TRAIT_PRODUCT_ICON,"rice")
@@ -956,8 +963,8 @@
 
 /datum/seed/carrots/New()
 	..()
-	set_trait(TRAIT_MATURATION,10)
-	set_trait(TRAIT_PRODUCTION,1)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,5)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"carrot")
@@ -972,7 +979,7 @@
 
 /datum/seed/weeds/New()
 	..()
-	set_trait(TRAIT_MATURATION,5)
+	set_trait(TRAIT_MATURATION,1)
 	set_trait(TRAIT_PRODUCTION,1)
 	set_trait(TRAIT_YIELD,-1)
 	set_trait(TRAIT_POTENCY,-1)
@@ -991,8 +998,8 @@
 
 /datum/seed/whitebeets/New()
 	..()
-	set_trait(TRAIT_MATURATION,6)
-	set_trait(TRAIT_PRODUCTION,6)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,6)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"carrot2")
@@ -1010,9 +1017,9 @@
 /datum/seed/sugarcane/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,3)
-	set_trait(TRAIT_PRODUCTION,6)
-	set_trait(TRAIT_YIELD,4)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,3)
+	set_trait(TRAIT_YIELD,5)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"stalk")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#b4d6bd")
@@ -1030,9 +1037,9 @@
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
 	set_trait(TRAIT_JUICY,1)
-	set_trait(TRAIT_MATURATION,7)
-	set_trait(TRAIT_PRODUCTION,7)
-	set_trait(TRAIT_YIELD,3)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,3)
+	set_trait(TRAIT_YIELD,6)
 	set_trait(TRAIT_POTENCY,1)
 	set_trait(TRAIT_PRODUCT_ICON,"vine")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#326b30")
@@ -1053,8 +1060,8 @@
 /datum/seed/pumpkin/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,6)
-	set_trait(TRAIT_PRODUCTION,6)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,1)
 	set_trait(TRAIT_YIELD,3)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"vine2")
@@ -1074,8 +1081,8 @@
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
 	set_trait(TRAIT_JUICY,1)
-	set_trait(TRAIT_MATURATION,6)
-	set_trait(TRAIT_PRODUCTION,6)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,1)
 	set_trait(TRAIT_YIELD,4)
 	set_trait(TRAIT_POTENCY,15)
 	set_trait(TRAIT_PRODUCT_ICON,"treefruit")
@@ -1122,8 +1129,8 @@
 /datum/seed/grass/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,2)
-	set_trait(TRAIT_PRODUCTION,5)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,1)
 	set_trait(TRAIT_YIELD,5)
 	set_trait(TRAIT_PRODUCT_ICON,"grass")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#09ff00")
@@ -1142,8 +1149,8 @@
 /datum/seed/cocoa/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,5)
-	set_trait(TRAIT_PRODUCTION,5)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,2)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"treefruit")
@@ -1165,8 +1172,8 @@
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
 	set_trait(TRAIT_JUICY,1)
-	set_trait(TRAIT_MATURATION,5)
-	set_trait(TRAIT_PRODUCTION,5)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,3)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"cherry")
@@ -1183,8 +1190,8 @@
 
 /datum/seed/kudzu/New()
 	..()
-	set_trait(TRAIT_MATURATION,6)
-	set_trait(TRAIT_PRODUCTION,6)
+	set_trait(TRAIT_MATURATION,2)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,4)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_SPREAD,2)
@@ -1203,8 +1210,8 @@
 
 /datum/seed/shand/New()
 	..()
-	set_trait(TRAIT_MATURATION,3)
-	set_trait(TRAIT_PRODUCTION,5)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,4)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"alien3")
@@ -1223,8 +1230,8 @@
 
 /datum/seed/mtear/New()
 	..()
-	set_trait(TRAIT_MATURATION,3)
-	set_trait(TRAIT_PRODUCTION,5)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,4)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"alien4")
@@ -1243,8 +1250,8 @@
 
 /datum/seed/tobacco/New()
 	..()
-	set_trait(TRAIT_MATURATION,8)
-	set_trait(TRAIT_PRODUCTION,6)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,5)
 	set_trait(TRAIT_PRODUCT_ICON,"tobacco")
 	set_trait(TRAIT_PRODUCT_COLOUR,"#749733")
@@ -1303,8 +1310,8 @@
 /datum/seed/algae/New()
 	..()
 	set_trait(TRAIT_HARVEST_REPEAT,1)
-	set_trait(TRAIT_MATURATION,3)
-	set_trait(TRAIT_PRODUCTION,5)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,4)
 	set_trait(TRAIT_POTENCY,10)
 	set_trait(TRAIT_PRODUCT_ICON,"algae")
@@ -1324,8 +1331,8 @@
 
 /datum/seed/bamboo/New()
 	..()
-	set_trait(TRAIT_MATURATION,6)
-	set_trait(TRAIT_PRODUCTION,1)
+	set_trait(TRAIT_MATURATION,1)
+	set_trait(TRAIT_PRODUCTION,2)
 	set_trait(TRAIT_YIELD,5)
 	set_trait(TRAIT_POTENCY,1)
 	set_trait(TRAIT_PRODUCT_ICON,"stalk")

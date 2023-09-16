@@ -60,7 +60,7 @@
 	// Maintain tray nutrient and water levels.
 	if(seed.get_trait(TRAIT_REQUIRES_NUTRIENTS) && seed.get_trait(TRAIT_NUTRIENT_CONSUMPTION) > 0 && nutrilevel > 0 && prob(15))
 		nutrilevel -= max(0,seed.get_trait(TRAIT_NUTRIENT_CONSUMPTION) * HYDRO_SPEED_MULTIPLIER)
-	if(seed.get_trait(TRAIT_REQUIRES_WATER) && seed.get_trait(TRAIT_WATER_CONSUMPTION) > 0 && waterlevel > 0 && prob(15))
+	if(seed.get_trait(TRAIT_REQUIRES_WATER) && seed.get_trait(TRAIT_WATER_CONSUMPTION) > 0 && waterlevel > 0 && prob(20))
 		waterlevel -= max(0,seed.get_trait(TRAIT_WATER_CONSUMPTION) * HYDRO_SPEED_MULTIPLIER)
 
 	// Make sure the plant is not starving or thirsty. Adequate
