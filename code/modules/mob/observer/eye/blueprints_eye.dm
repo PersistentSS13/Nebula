@@ -94,6 +94,8 @@
 	if(!(locate(/turf) in A))
 		qdel(A) // uh oh, is this safe?
 
+	return TRUE
+
 /mob/observer/eye/blueprints/proc/edit_area()
 	var/area/A = get_area(src)
 	if(!check_modification_validity())
