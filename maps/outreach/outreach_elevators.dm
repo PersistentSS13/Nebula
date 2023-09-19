@@ -1,4 +1,4 @@
-// Essentially a bare platform that moves up and down.
+
 /obj/abstract/turbolift_spawner/outreach
 	name = "outreach base elevator placeholder"
 	depth = 4
