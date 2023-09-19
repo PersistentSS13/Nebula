@@ -55,10 +55,11 @@
 	if(add_account(EA, accesses))
 		if(user)
 			user.store_account_credentials(EA.login, EA.password, network_id)
-		. = TRUE
 
 		if(banking_mainframe && parent_account && banking_mainframe.auto_money_accounts)
 			EA.money_account = new(null, parent_account, banking_mainframe.auto_interest_rate, banking_mainframe.auto_withdrawal_limit, banking_mainframe.auto_transaction_fee, EA)
+
+		return TRUE
 
 	return FALSE
 

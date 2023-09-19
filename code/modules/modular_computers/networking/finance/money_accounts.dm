@@ -3,7 +3,17 @@
 	var/datum/computer_file/data/email_message/bankrupt_email
 	var/datum/computer_file/data/email_message/escrow_email
 
-/datum/money_account/parent/network/New(account_type, network_id)
+	// If both of these no longer exist, the accounts are auto-escrowed.
+	var/weakref/network_ref
+	var/weakref/bank_ref
+
+/datum/money_account/parent/network/New(account_type, network_id, datum/computer_network/net, atom/bank_holder)
+	if(istype(net))
+		network_ref = weakref(net)
+
+	if(istype(bank_holder))
+		bank_ref = weakref(bank_holder)
+
 	owner_name = network_id
 	if(owner_name)
 		generate_emails()
@@ -27,9 +37,18 @@
 		return err
 	. = ..()
 
+/datum/money_account/parent/network/proc/check_owners()
+	var/datum/computer_network/net = network_ref?.resolve()
+	if(istype(net) && net.parent_account == src)
+		return TRUE
+
+	var/datum/bank_holder = bank_ref?.resolve()
+	if(istype(bank_holder))
+		return TRUE
+
  // Network accounts need at least one money storage device and a banking mainframe to function.
 /datum/money_account/parent/network/proc/get_network_error()
-	var/datum/computer_network/net = SSnetworking.networks[owner_name]
+	var/datum/computer_network/net = network_ref?.resolve()
 	if(!net || !net.banking_mainframe)
 		return "The financial system is currently in recovery mode. Please contact your financial provider for further information"
 	if(!length(net.money_cubes))
@@ -37,6 +56,9 @@
 
 // Generates e-mails to send in the case escrow accounts are generated.
 /datum/money_account/parent/network/proc/generate_emails()
+	qdel(bankrupt_email)
+	qdel(escrow_email)
+
 	bankrupt_email = new()
 	bankrupt_email.title = "URGENT: Notification of financial insolvency"
 	bankrupt_email.source = "financial_services@[owner_name]"
@@ -94,6 +116,8 @@
 
 /datum/money_account/child/network/withdraw(amount, purpose, machine_id)
 	var/datum/money_account/parent/network/net_parent = parent_account
+	if(!net_parent.allow_cash_withdrawal)
+		return "Cash withdrawal is not permitted by your financial provider"
 	var/err = net_parent.get_network_error()
 	if(err)
 		return err

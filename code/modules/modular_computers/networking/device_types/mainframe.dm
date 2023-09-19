@@ -90,7 +90,7 @@ var/global/list/all_mainframe_roles = list(
 		F = new()
 		F.filename = filename
 		F.stored_data = data
-	return store_file(F, directory)
+	return store_file(F, directory, TRUE)
 
 /datum/extension/network_device/mainframe/proc/get_capacity()
 	var/obj/item/stock_parts/computer/hard_drive/HDD = get_storage()

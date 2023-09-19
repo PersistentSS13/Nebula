@@ -6,6 +6,7 @@
 	var/child_totals
 
 	var/open_escrow_on_destroy = TRUE // Whether or not escrow accounts will be opened for child accounts in Destroy().
+	var/allow_cash_withdrawal = TRUE // Whether or not child accounts can withdrawal cash.
 
 	var/list/datum/money_account/child/children = list()
 
@@ -84,12 +85,13 @@
 		if(current_withdrawal + amount > withdrawal_limit)
 			return "Transaction goes over withdrawal limit"
 
-	if(amount + transaction_fee > money)
-		return "Transaction fee cannot be afforded"
-
-	// Accounts with the same parent can continue passing around monopoly money even if the parent is insolvent.
+	// Accounts with the same parent can continue passing around Monopoly money even if the parent is insolvent.
 	if(receiver in parent_account.children)
 		return
+
+	// Similarly, transaction fees do not occur between accounts with the same parent.
+	if(amount + transaction_fee > money)
+		return "Transaction fee cannot be afforded"
 
 	// Likely due to theft of some sort.
 	if(parent_account.money < amount)
@@ -106,13 +108,13 @@
 			// Remove the transaction fee, if it exists.
 			adjust_money(-adj_transaction_fee)
 
-			current_withdrawal += abs(T.amount)
+			current_withdrawal += abs(amount_adjusted)
 
-			parent_account.adjust_money(T.amount)
-			parent_account.child_totals += (T.amount - adj_transaction_fee)
+			parent_account.adjust_money(amount_adjusted)
+			parent_account.child_totals += (amount_adjusted - adj_transaction_fee)
 		else
-			parent_account.adjust_money(T.amount)
-			parent_account.child_totals += T.amount
+			parent_account.adjust_money(amount_adjusted)
+			parent_account.child_totals += amount_adjusted
 
 /datum/money_account/child/proc/accrue_interest()
 	if(!interest_rate || !parent_account)
