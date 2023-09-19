@@ -101,7 +101,7 @@
 	// Apply our eye colour to the target.
 	if(istype(target) && eye_colour)
 		target.eye_colour = eye_colour
-		target.update_eyes()
+		target.update_eyes(update_icon)
 	if(owner && BP_IS_PROSTHETIC(src))
 		verbs |= /obj/item/organ/internal/eyes/proc/change_eye_color
 		verbs |= /obj/item/organ/internal/eyes/proc/toggle_eye_glow
