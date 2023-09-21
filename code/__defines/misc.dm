@@ -304,4 +304,4 @@
 #define ITEM_HEALTH_NO_DAMAGE -1
 
 ///Formats into a readable string neatly an exception's details.
-#define EXCEPTION_TEXT(E) "Caught '[E.name]' ('[E.type]'): '[E.file]':[E.line]:\n'[E.desc]'"
+#define EXCEPTION_TEXT(E) "'[E.name]' ('[E.type]'): '[E.file]':[E.line][length(E.desc)? ":\n'[E.desc]'" : ""]"
