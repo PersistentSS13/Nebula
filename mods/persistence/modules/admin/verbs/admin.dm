@@ -7,6 +7,7 @@ var/global/list/persistence_admin_verbs = list(
 	/client/proc/remove_character,
 	/client/proc/lock_server_and_kick_players,
 	/client/proc/clear_named_character_from_limbo,
+	/client/proc/change_serialization_error_tolerance,
 )
 
 /client/proc/save_server()
@@ -91,6 +92,8 @@ var/global/list/persistence_admin_verbs = list(
  //////////////////////////////////////////////////////////////////////
 // Limbo Character Verbs
 //////////////////////////////////////////////////////////////////////
+
+//#FIXME: Try to get all that SQL out of here and call a proc on the serializer directly instead.
 /client/proc/clear_named_character_from_limbo()
 	set category = "Server"
 	set desc = "Force delete from the database the limbo mob for a given character real_name. Meant to be used to clear character names being in-use even if there isn't an active character tied to it."
@@ -154,3 +157,68 @@ var/global/list/persistence_admin_verbs = list(
 	if(should_close_connection)
 		close_save_db_connection()
 	to_chat(usr, SPAN_INFO("Successfully deleted all entries for [char_name]!"))
+
+//////////////////////////////////////////////////////////////////////
+// Save Error Handling
+//////////////////////////////////////////////////////////////////////
+#define TOLERANCE_ALL_ERRORS         "Any Errors"
+#define TOLERANCE_RECOVERABLE_ERRORS "Recoverable Errors"
+#define TOLERANCE_NONE               "None"
+
+///Allow changing error tolerance by admins in order to salvage a save that wouldn't go through because of some localised error.
+/client/proc/change_serialization_error_tolerance()
+	set category = "Server"
+	set desc     = "Allow more or less error tolerance for serializtion errors. Meant to be used as last resort to force the server to save despite runtimes."
+	set name     = "Change Save Error Tolerance"
+	if(!check_rights(R_ADMIN) || !check_rights(R_SERVER))
+		return
+
+	var/previous_tolerance
+	//Get current setting, and turn it to a string
+	switch(global.SSpersistence.error_tolerance)
+		if(PERSISTENCE_ERROR_TOLERANCE_NONE)
+			previous_tolerance = TOLERANCE_NONE
+		if(PERSISTENCE_ERROR_TOLERANCE_RECOVERABLE)
+			previous_tolerance = TOLERANCE_RECOVERABLE_ERRORS
+		if(PERSISTENCE_ERROR_TOLERANCE_ANY)
+			previous_tolerance = TOLERANCE_ALL_ERRORS
+		else
+			CRASH("Had bad current save error tolerance value!")
+
+	///Options for the possible error tolerance
+	var/static/tolerance_options = list(
+		TOLERANCE_ALL_ERRORS,
+		TOLERANCE_RECOVERABLE_ERRORS,
+		TOLERANCE_NONE,
+		"Cancel"
+	)
+	///Message displayed to users
+	var/static/user_message = {"
+!! USE WITH CAUTION !! - Ensure there is a BACKUP of the last save first as this could likely cause DATA LOSS, or SAVE CORRUPTION!!
+Select what kind of errors will be TOLERATED (A \"Non-recoverable\" error is usually DB queries failing for instance):
+"}
+	///Show the dialog
+	var/choice = input(
+		usr,
+		user_message,
+		"Change Save Error Tolerance",
+		previous_tolerance) as anything in tolerance_options
+
+	var/new_tolerance
+	switch(choice)
+		if(TOLERANCE_ALL_ERRORS)
+			new_tolerance = PERSISTENCE_ERROR_TOLERANCE_ANY
+		if(TOLERANCE_RECOVERABLE_ERRORS)
+			new_tolerance = PERSISTENCE_ERROR_TOLERANCE_RECOVERABLE
+		if(TOLERANCE_NONE)
+			new_tolerance = PERSISTENCE_ERROR_TOLERANCE_NONE
+		else
+			to_chat(usr, SPAN_INFO("Save error tolerance unchanged."))
+			return
+
+	SSpersistence.SetSaveErrorTolerance(new_tolerance)
+	to_chat(usr, SPAN_INFO("Save error tolerance changed to: '[choice]'!"))
+
+#undef TOLERANCE_ALL_ERRORS
+#undef TOLERANCE_RECOVERABLE_ERRORS
+#undef TOLERANCE_NONE

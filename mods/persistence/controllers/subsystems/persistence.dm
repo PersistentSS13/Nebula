@@ -12,13 +12,6 @@
 
 ///Init priority for the persistence subsystem
 #define SS_INIT_PERSISTENCE 18.5
-///Do not tolerate any errors during save/load.
-#define PERSISTENCE_ERROR_TOLERANCE_NONE 0
-///Tolerate only critical errors during save/load.
-#define PERSISTENCE_ERROR_TOLERANCE_CRITICAL 1
-///Tolerate ANY errors during save/load. This is likely to cause a corrupted save.
-#define PERSISTENCE_ERROR_TOLERANCE_ANY 2
-
 ///If this returns true, we should always skip saving this turf!
 ///Ignore non-saved areas and turfs with no contents.
 #define __SHOULD_SKIP_TURF(T) ((!istype(T) || !length(T.contents)) || (istype(T.loc, /area) && (T.loc:area_flags & AREA_FLAG_IS_NOT_PERSISTENT)))
@@ -550,7 +543,7 @@
 
 	catch(var/exception/e)
 		//If exceptions end up in here, then we must interrupt saving completely.
-		//Exceptions should be filtered in the sub-procs.
+		//Exceptions should be filtered in the sub-procs depending on severity and the error tolerance threshold set.
 		save_complete_span_class = "danger"
 		save_complete_text       = "SAVE FAILED: [EXCEPTION_TEXT(e)]"
 		. = FALSE
@@ -793,6 +786,11 @@
 	for(var/area/A)
 		A.retally_power()
 	return TRUE
+///Sets the level of error tolerance to use during saves. Default is PERSISTENCE_ERROR_TOLERANCE_NONE.
+/datum/controller/subsystem/persistence/proc/SetSaveErrorTolerance(var/tolerance_level = PERSISTENCE_ERROR_TOLERANCE_NONE)
+	if(tolerance_level < PERSISTENCE_ERROR_TOLERANCE_NONE || tolerance_level > PERSISTENCE_ERROR_TOLERANCE_ANY)
+		CRASH("Invalid error tolerance value.")
+	return (error_tolerance = tolerance_level)
 
 /datum/controller/subsystem/persistence/Shutdown()
 	return

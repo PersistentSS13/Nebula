@@ -284,6 +284,7 @@
 #include "modules\world_save\serializers\one_off_serializer.dm"
 #include "modules\world_save\serializers\sql_serializer.dm"
 #include "modules\world_save\serializers\sql_serializer_db.dm"
+#include "modules\world_save\save_testing.dm"
 #include "modules\world_save\wrappers\_late_wrapper.dm"
 #include "modules\world_save\wrappers\_wrapper.dm"
 #include "modules\world_save\wrappers\_wrapper_holder.dm"
