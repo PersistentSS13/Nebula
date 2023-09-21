@@ -17,6 +17,12 @@
 /proc/cmp_serialization_stats_dsc(var/datum/serialization_stat/S1, var/datum/serialization_stat/S2)
 	return S2.time_spent - S1.time_spent
 
+///Retally all area power on round start
+/hook/roundstart/proc/retally_all_power()
+	for(var/area/A)
+		A.retally_power()
+	return TRUE
+
 /**
  * Override of the persistence subsystem.
  */
@@ -79,6 +85,9 @@
 
 	/// Some wrapped objects need special behavior post-load. This list is cleared post-atom Init.
 	var/list/late_wrappers = list()
+
+/datum/controller/subsystem/persistence/proc/print_db_status()
+	return SQLS_Print_DB_STATUS()
 
 /datum/controller/subsystem/persistence/proc/SaveExists()
 	if(!save_exists)
@@ -192,7 +201,7 @@
 
 	//Set our success text if we didn't hit any exceptions
 	if(!length(save_complete_text))
-		save_complete_span_class = "autosave"
+		save_complete_span_class = "serializer"
 		save_complete_text       = "Save complete! Took [REALTIMEOFDAY2SEC(start)]s to save world."
 		. = TRUE
 
@@ -205,6 +214,7 @@
 	// Reallow people in
 	_restore_entering()
 
+///Load the last saved world.
 /datum/controller/subsystem/persistence/proc/LoadWorld()
 	serializer._before_deserialize()
 	try
@@ -397,6 +407,7 @@
 	serializer._after_deserialize()
 	loading_world = FALSE
 
+//#TODO: Don't cache those on the persistence ss. It's an extra place to look for what levels have that flag.
 /datum/controller/subsystem/persistence/proc/AddSavedLevel(var/z)
 	saved_levels |= z
 
@@ -409,10 +420,6 @@
 /datum/controller/subsystem/persistence/proc/RemoveSavedArea(var/area/A)
 	saved_areas -= A
 
-/hook/roundstart/proc/retally_all_power()
-	for(var/area/A)
-		A.retally_power()
-	return TRUE
 ///Sets the level of error tolerance to use during saves. Default is PERSISTENCE_ERROR_TOLERANCE_NONE.
 /datum/controller/subsystem/persistence/proc/SetSaveErrorTolerance(var/tolerance_level = PERSISTENCE_ERROR_TOLERANCE_NONE)
 	if(tolerance_level < PERSISTENCE_ERROR_TOLERANCE_NONE || tolerance_level > PERSISTENCE_ERROR_TOLERANCE_ANY)
@@ -425,18 +432,12 @@
 //
 /datum/controller/subsystem/persistence/Shutdown()
 	return
-
 /datum/controller/subsystem/persistence/track_value()
 	return
-
 /datum/controller/subsystem/persistence/is_tracking()
 	return
-
 /datum/controller/subsystem/persistence/forget_value()
 	return
-
 /datum/controller/subsystem/persistence/show_info(mob/user)
 	to_chat(user, SPAN_INFO("Disabled with persistence modpack (how ironic)..."))
 	return
-/datum/controller/subsystem/persistence/proc/print_db_status()
-	return SQLS_Print_DB_STATUS()
