@@ -26,6 +26,7 @@
 #include "controllers\subsystems\mapping.dm"
 #include "controllers\subsystems\mining.dm"
 #include "controllers\subsystems\persistence.dm"
+#include "controllers\subsystems\persistence\persistence_saving.dm"
 #include "controllers\subsystems\skills.dm"
 #include "controllers\subsystems\initialization\chargen.dm"
 #include "controllers\subsystems\initialization\fabrication.dm"
