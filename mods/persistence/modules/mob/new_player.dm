@@ -234,7 +234,7 @@
 		to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
 	if(char_query.NextRow())
 		var/list/char_items = char_query.GetRowData()
-		var/list/deserialized = SSpersistence.DeserializeOneOff(char_items["key"], LIMBO_MIND)
+		var/list/deserialized = SSpersistence.LoadFromLimbo(char_items["key"], LIMBO_MIND)
 		var/datum/mind/target_mind
 		for(var/thing in deserialized)
 			if(istype(thing, /datum/mind))

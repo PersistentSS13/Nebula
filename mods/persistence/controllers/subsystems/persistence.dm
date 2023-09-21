@@ -453,55 +453,6 @@
 /datum/controller/subsystem/persistence/show_info(mob/user)
 	to_chat(user, SPAN_INFO("Disabled with persistence modpack (how ironic)..."))
 	return
-
-/datum/controller/subsystem/persistence/proc/AddToLimbo(var/list/things, var/key, var/limbo_type, var/metadata, var/metadata2, var/modify = TRUE, var/initiator)
-	//Make sure we log who started the save.
-	if(!initiator && ismob(usr))
-		initiator = usr.ckey
-
-	var/new_db_connection = FALSE
-	if(!check_save_db_connection())
-		if(!establish_save_db_connection())
-			CRASH("SSPersistence: Couldn't establish DB connection during Limbo Addition!")
-		new_db_connection = TRUE
-
-	//Log transaction
-	var/limbo_log_id = one_off.PreStorageSave(initiator)
-	. = one_off.AddToLimbo(things, key, limbo_type, metadata, metadata2, modify)
-	if(.) // Clear it from the queued removals.
-		for(var/list/queued in limbo_removals)
-			if(queued[1] == sanitize_sql(key) && queued[2] == limbo_type)
-				limbo_removals -= list(queued)
-
-	one_off.PostStorageSave(limbo_log_id, 0, length(things), "Addition [limbo_type] [key]")
-	if(new_db_connection)
-		close_save_db_connection()
-
-/datum/controller/subsystem/persistence/proc/RemoveFromLimbo(var/limbo_key, var/limbo_type, var/initiator)
-	var/new_db_connection = FALSE
-	if(!check_save_db_connection())
-		if(!establish_save_db_connection())
-			CRASH("SSPersistence: Couldn't establish DB connection during Limbo Removal!")
-	//Log transaction
-	var/limbo_log_id = one_off.PreStorageSave(initiator)
-	. = one_off.RemoveFromLimbo(limbo_key, limbo_type)
-	one_off.PostStorageSave(limbo_log_id, 0, ., "Removal [limbo_type]")
-
-	if(new_db_connection)
-		close_save_db_connection()
-
-/datum/controller/subsystem/persistence/proc/DeserializeOneOff(var/limbo_key, var/limbo_type, var/remove_after = TRUE)
-	var/new_db_connection = FALSE
-	if(!check_save_db_connection())
-		if(!establish_save_db_connection())
-			CRASH("SSPersistence: Couldn't establish DB connection during Limbo Deserialization!")
-		new_db_connection = TRUE
-	. = one_off.DeserializeOneOff(limbo_key, limbo_type, remove_after)
-	if(remove_after)
-		limbo_removals += list(list(sanitize_sql(limbo_key), limbo_type))
-	if(new_db_connection)
-		close_save_db_connection()
-
 // Get an object from its p_id via ref tracking. This will not always work if an object is asynchronously deserialized from others.
 // This is also quite slow - if you're trying to locate many objects at once, it's best to use a single query for multiple objects.
 /datum/controller/subsystem/persistence/proc/get_object_from_p_id(var/target_p_id)

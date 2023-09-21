@@ -250,7 +250,7 @@
 	SQLS_EXECUTE_AND_REPORT_ERROR(delete_query, "LIMBO DELETION FROM LIMBO TABLE FAILED:")
 
 
-/serializer/sql/one_off/proc/DeserializeOneOff(var/limbo_key, var/limbo_type)
+/serializer/sql/one_off/proc/LoadFromLimbo(var/limbo_key, var/limbo_type)
 	var/DBQuery/limbo_query = dbcon_save.NewQuery("SELECT `p_ids` FROM `[SQLS_TABLE_LIMBO]` WHERE `key` = '[limbo_key]' AND `type` = '[limbo_type]';")
 	SQLS_EXECUTE_AND_REPORT_ERROR(limbo_query, "DESERIALIZE ONE-OFF FAILED:")
 	var/list/limbo_p_ids = list()
