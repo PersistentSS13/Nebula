@@ -124,7 +124,7 @@
 			if(char_query.NextRow())
 				var/list/char_items = char_query.GetRowData()
 				var/char_key = char_items["key"]
-				SSpersistence.RemoveFromLimbo(char_key, LIMBO_MIND)
+				SSpersistence.RemoveFromLimbo(char_key, LIMBO_MIND, ckey)
 				to_chat(src, SPAN_NOTICE("Character Delete Completed."))
 			else
 				to_chat(src, SPAN_NOTICE("Delete Failed! Contact a developer."))

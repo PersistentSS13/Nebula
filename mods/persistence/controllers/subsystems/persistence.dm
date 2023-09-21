@@ -1,32 +1,94 @@
-#define SS_INIT_PERSISTENCE 18.5
+/*
+	#TODO: Save system overhaul:
+	* Have sspersistence disable all but the critical subsystems.
+	* Have saving sleeps/stoplag() every few turfs, so connection to clients doesn't cut.
+	* Cut up the save and load procs since they're massive and clunky.
+	* Unify the sql serializer stuff, so it's less redundant. (We don't need 2 different serializer objects.)
+	* Don't iterate the world 3 times over for no reasons.
+	* Don't access area's contents, behind the scene it just accesses world contents and is massively slow.
+	* Don't concatenate strings more than once!! Use a list if you must, but just adding to a string is a hundred time slower
+	  than just putting strings in a list and running jointext() on them.
+*/
 
+///Init priority for the persistence subsystem
+#define SS_INIT_PERSISTENCE 18.5
+///Do not tolerate any errors during save/load.
+#define PERSISTENCE_ERROR_TOLERANCE_NONE 0
+///Tolerate only critical errors during save/load.
+#define PERSISTENCE_ERROR_TOLERANCE_CRITICAL 1
+///Tolerate ANY errors during save/load. This is likely to cause a corrupted save.
+#define PERSISTENCE_ERROR_TOLERANCE_ANY 2
+
+///If this returns true, we should always skip saving this turf!
+///Ignore non-saved areas and turfs with no contents.
+#define __SHOULD_SKIP_TURF(T) ((!istype(T) || !length(T.contents)) || (istype(T.loc, /area) && (T.loc:area_flags & AREA_FLAG_IS_NOT_PERSISTENT)))
+
+///Comparison function for sorting the list of atoms that took the longest to save.
 /proc/cmp_serialization_stats_dsc(var/datum/serialization_stat/S1, var/datum/serialization_stat/S2)
 	return S2.time_spent - S1.time_spent
 
+/**
+ * Override of the persistence subsystem.
+ */
 /datum/controller/subsystem/persistence
-	name = "Persistence"
+	name       = "Persistence"
 	init_order = SS_INIT_PERSISTENCE
-	flags = SS_NO_FIRE
+	flags      = SS_NO_FIRE
 
-	var/save_exists			=	FALSE	// Whether or not a save exists in the DB
-	var/in_loaded_world 	= 	FALSE	// Whether or not we're in a world that was loaded.
+	// *** Config ***
+	///Whether or not rent will be required for created sectors.
+	var/rent_enabled = FALSE
+	///If set, we'll do everything we can to generate a valid save even if some things do runtime.
+	var/error_tolerance = PERSISTENCE_ERROR_TOLERANCE_NONE
 
-	var/list/saved_areas	= 	list()
-	var/list/saved_levels 	= 	list()	// Saved levels are saved entirely and optimized with get_base_turf()
-	var/list/saved_extensions = list()  // Extensions mark themselves to be saved on world save.
+	// *** State ***
 
-	var/rent_enabled = FALSE			// Whether or not rent will be required for created sectors.
-
-	var/serializer/sql/serializer = new() // The serializer impl for actually saving.
-	var/serializer/sql/one_off/one_off	= new() // The serializer impl for one off serialization/deserialization.
-
-	var/list/limbo_removals = list() // Objects which will be removed from limbo on the next save. Format is list(limbo_key, limbo_type)
-	var/list/limbo_refs = list()	 // Objects which are deserialized out of limbo don't have their refs in the database immediately, so we add them here until the next save
-									 // Format is p_id -> ref
-
+	///Whether or not a save exists in the DB. Value is cached when a save did exist at runtime for performance reasons.
+	var/save_exists     = FALSE
+	///Whether or not we're currently running a loaded save.
+	var/in_loaded_world = FALSE
+	///Whether we're currently loading a world save.
 	var/loading_world = FALSE
+	///The time when the currently loaded world save was made if any. NULL means we never loaded a save.
+	var/loaded_save_time
+	///Save log entry index from the database for the currently running save. Used to fill in the saving result into the db.
+	var/save_log_id
+	///Holds the previous entering allowed state while we're running a save.
+	var/was_entering_allowed
 
-	var/list/late_wrappers = list() // Some wrapped objects need special behavior post-load. This list is cleared post-atom Init.
+	///Text to log into the database log for the completion/failure of the save
+	var/save_complete_text = ""
+	///Span class to use for displaying the completion/failure message into chat.
+	var/save_complete_span_class = "danger"
+	///Amount of z-levels saved
+	var/nb_saved_z_levels = 0
+	///Amount of atoms saved
+	var/nb_saved_atoms    = 0
+
+	//#FIXME: Not sure if keeping a separate list of those here is a very good idea?
+	var/list/saved_areas      = list()
+	/// Saved levels are saved entirely and optimized with get_base_turf()
+	var/list/saved_levels     = list()
+	/// Extensions mark themselves to be saved on world save.
+	var/list/saved_extensions = list()
+
+	//#FIXME: The idea for having a generic serializer class was that we wouldn't initiate the exact subtype in the var definition.
+	//        So that you could just interchangeably use another kind of serializer that saves to json or xml or whatever instead of sql seamlessly.
+	//        This implementation completely nullifies the whole point of having a serializer class currently?
+	/// The serializer impl for actually saving.
+	var/serializer/sql/serializer       = new()
+	/// The serializer impl for one off serialization/deserialization.
+	var/serializer/sql/one_off/one_off	= new()
+
+	//#FIXME: Ideally, this shouldn't be handled by the server. The database could cross-reference atoms that were in limbo with those already in the world,
+	//        and just clear their limbo entry. It would thousands of time faster.
+	/// Objects which will be removed from limbo on the next save. Format is list(limbo_key, limbo_type)
+	var/list/limbo_removals = list()
+	/// Objects which are deserialized out of limbo don't have their refs in the database immediately, so we add them here until the next save. Format is p_id -> ref
+	var/list/limbo_refs     = list()
+
+	/// Some wrapped objects need special behavior post-load. This list is cleared post-atom Init.
+	var/list/late_wrappers = list()
 
 /datum/controller/subsystem/persistence/proc/SaveExists()
 	if(!save_exists)
@@ -34,101 +96,180 @@
 		in_loaded_world = save_exists
 	return save_exists
 
-/datum/controller/subsystem/persistence/proc/SaveWorld()
+///Timestamp of when the currently loaded save was made.
+/datum/controller/subsystem/persistence/proc/LoadedSaveTimestamp()
+	if(!in_loaded_world)
+		return
+	if(!length(loaded_save_time))
+		loaded_save_time = serializer.last_loaded_save_time()
+	return loaded_save_time
+
+///Keeps the previous state of 'enter_allowed' and set it to false. Returns TRUE if entering was currently allowed.
+/datum/controller/subsystem/persistence/proc/BlockEntering()
+	was_entering_allowed = config.enter_allowed
+	config.enter_allowed = FALSE
+	return was_entering_allowed
+
+///Restore the previous state of 'enter_allowed'. Returns the restored value of 'enter_allowed'.
+/datum/controller/subsystem/persistence/proc/RestoreEntering()
+	. = (config.enter_allowed = was_entering_allowed)
+	was_entering_allowed = FALSE
+
+///Handle pausing all subsystems before save
+/datum/controller/subsystem/persistence/proc/PauseSubsystems()
+	//Turn off all the subsystems we don't need messing things up during saving.
+	for(var/datum/controller/subsystem/S in Master.subsystems)
+		S.disable()
+
+	//Wait on SSair to complete it's tick.
+	if (SSair.state != SS_IDLE)
+		report_progress_serializer("ZAS Rebuild initiated. Waiting for current air tick to complete before continuing.")
+	while (SSair.state != SS_IDLE)
+		stoplag()
+
+///Handles resuming all subsystems post-save
+/datum/controller/subsystem/persistence/proc/ResumeSubsystems()
+	// Reboot air subsystem before mass enabling all of them.
+	SSair.reboot()
+	//Resune subsystems
+	for(var/datum/controller/subsystem/S in Master.subsystems)
+		S.enable()
+
+///Call in a catch block for critical/typically unrecoverable errors during save. Filters out the kind of exceptions we let through or not.
+/datum/controller/subsystem/persistence/proc/HandleCriticalException(var/exception/E, var/code_location)
+	if(error_tolerance < PERSISTENCE_ERROR_TOLERANCE_ANY)
+		// Clear the custom saved list used to keep list refs intact
+		global.custom_saved_lists.Cut()
+		ResumeSubsystems()
+		RestoreEntering()
+		throw E
+	else
+		log_warning(EXCEPTION_TEXT(E))
+		log_warning("Error tolerance set to 'any', proceeding with save despite critical error in '[code_location]'!")
+
+///Call in a catch block for recoverable or non-critical errors during save. Filters out the kind of exceptions we let through or not.
+/datum/controller/subsystem/persistence/proc/HandleRecoverableException(var/exception/E, var/code_location)
+	if(error_tolerance < PERSISTENCE_ERROR_TOLERANCE_CRITICAL)
+		// Clear the custom saved list used to keep list refs intact
+		global.custom_saved_lists.Cut()
+		ResumeSubsystems()
+		RestoreEntering()
+		throw E
+	else
+		log_warning(EXCEPTION_TEXT(E))
+		log_warning("Error tolerance set to 'critical-only', proceeding with save despite error in '[code_location]'!")
+
+/datum/controller/subsystem/persistence/proc/prepare_atmos_for_save()
+	var/time_start = REALTIMEOFDAY
+	SSmachines.temporarily_store_pipenets()
+	report_progress_serializer("Pipenet air stored in [REALTIMEOFDAY2SEC(time_start)]s")
+
+	time_start = REALTIMEOFDAY
+	SSair.invalidate_all_zones()
+	report_progress_serializer("Invalidated in [REALTIMEOFDAY2SEC(time_start)]s")
+
+/datum/controller/subsystem/persistence/proc/prepare_limbo_for_save()
+	var/time_start = REALTIMEOFDAY
+	for(var/list/queued in limbo_removals)
+		one_off.RemoveFromLimbo(queued[1], queued[2])
+		limbo_removals -= list(queued)
+	limbo_refs.Cut()
+	report_progress_serializer("Removed queued limbo objects in [REALTIMEOFDAY2SEC(time_start)]s.")
+
+	// Find all the minds gameworld and add any player characters to the limbo list.
+	time_start = REALTIMEOFDAY
+	for(var/datum/mind/char_mind in global.player_minds)
+		var/mob/current_mob = char_mind.current
+		if(!current_mob || !char_mind.key || istype(char_mind.current, /mob/new_player) || !char_mind.finished_chargen)
+			// Just in case, delete this character from limbo.
+			one_off.RemoveFromLimbo(char_mind.unique_id, LIMBO_MIND)
+			continue
+		if(QDELETED(current_mob))
+			continue
+		// Check to see if the mobs are already being saved.
+		if(current_mob.in_saved_location())
+			continue
+		one_off.AddToLimbo(list(current_mob, char_mind), char_mind.unique_id, LIMBO_MIND, char_mind.key, current_mob.real_name, TRUE)
+	report_progress_serializer("Added player minds to limbo in [REALTIMEOFDAY2SEC(time_start)]s.")
+
+///Run the pre-save stuff
+/datum/controller/subsystem/persistence/proc/_before_save(var/save_initiator)
+	//Clear any previous log entry ids we got from the db before
+	save_log_id = null
+
 	// Collect the z-levels we're saving and get the turfs!
 	to_world_log("Saving [LAZYLEN(SSpersistence.saved_levels)] z-levels. World size max ([world.maxx],[world.maxy])")
 	sleep(5)
-	serializer._before_serialize()
 
-	var/start = world.timeofday
-
-	// Launch events
-
-	RAISE_EVENT(/decl/observ/world_saving_start_event, src)
+	//Disable all subsystems
 	try
-		//
-		// 	PREPARATION SECTIONS
-		//
-		var/reallow = 0
-		if(config.enter_allowed) reallow = 1
-		config.enter_allowed = 0
-		// Prepare atmosphere for saving.
-		SSair.can_fire = FALSE
-		if (SSair.state != SS_IDLE)
-			report_progress_serializer("ZAS Rebuild initiated. Waiting for current air tick to complete before continuing.")
-			sleep(5)
-		while (SSair.state != SS_IDLE)
-			stoplag()
+		PauseSubsystems()
+	catch(var/exception/e_ss)
+		HandleRecoverableException(e_ss, "PauseSubsystems()")
+	sleep(5)
 
-		// Prepare all atmospheres to save.
-		report_progress_serializer("Storing pipenet air..")
-		sleep(5)
-		var/time_start_pipenet = REALTIMEOFDAY
-		for(var/datum/pipe_network/net in SSmachines.pipenets)
-			for(var/datum/pipeline/line in net.line_members)
-				line.temporarily_store_fluids()
-		report_progress_serializer("Pipenet air stored in [(REALTIMEOFDAY - time_start_pipenet) / (1 SECOND)]s")
-		sleep(5)
+	// Prepare all atmospheres to save.
+	try
+		prepare_atmos_for_save()
+	catch(var/exception/e_atmos)
+		HandleRecoverableException(e_atmos, "prepare_atmos_for_save()")
+	sleep(5)
 
-		report_progress_serializer("Invalidating all airzones..")
-		sleep(5)
-		var/time_start_airzones = REALTIMEOFDAY
-		while (SSair.zones.len)
-			var/zone/zone = SSair.zones[SSair.zones.len]
-			SSair.zones.len--
-			zone.c_invalidate()
-		report_progress_serializer("Invalidated in [(REALTIMEOFDAY - time_start_airzones) / (1 SECOND)]s")
-		sleep(5)
-
-		report_progress_serializer("Removing queued limbo objects..")
-		sleep(5)
-
-		var/time_start_limbo_removal = REALTIMEOFDAY
-		for(var/list/queued in limbo_removals)
-			one_off.RemoveFromLimbo(queued[1], queued[2])
-			limbo_removals -= list(queued)
-
-		limbo_refs.Cut()
-		report_progress_serializer("Done removing queued limbo objects in [(REALTIMEOFDAY - time_start_limbo_removal) / (1 SECOND)]s.")
-		sleep(5)
-
-		report_progress_serializer("Adding limbo players minds to limbo..")
-		sleep(5)
-		var/time_start_limbo_minds = REALTIMEOFDAY
-		// Find all the minds gameworld and add any player characters to the limbo list.
-		for(var/datum/mind/char_mind in global.player_minds)
-			var/mob/current_mob = char_mind.current
-			if(!current_mob || !char_mind.key || istype(char_mind.current, /mob/new_player) || !char_mind.finished_chargen)
-				// Just in case, delete this character from limbo.
-				one_off.RemoveFromLimbo(char_mind.unique_id, LIMBO_MIND)
-				continue
-			if(QDELETED(current_mob))
-				continue
-			// Check to see if the mobs are already being saved.
-			if(current_mob.in_saved_location())
-				continue
-			one_off.AddToLimbo(list(current_mob, char_mind), char_mind.unique_id, LIMBO_MIND, char_mind.key, current_mob.real_name, TRUE)
-		report_progress_serializer("Done adding player minds to limbo in [(REALTIMEOFDAY - time_start_limbo_minds) / (1 SECOND)]s.")
-		sleep(5)
-
-		report_progress_serializer("Wiping previous save..")
-		sleep(5)
+	//Let the serializer know we're preparing a save
+	// Wipe the previous save + add log entry
+	try
 		var/time_start_wipe = REALTIMEOFDAY
-		// Wipe the previous save.
-		serializer.WipeSave()
-		report_progress_serializer("Done wiping previous save in [(REALTIMEOFDAY - time_start_wipe) / (1 SECOND)]s.")
-		sleep(5)
+		save_log_id = serializer.PreWorldSave(save_initiator)
+		report_progress_serializer("Wiped previous save in [REALTIMEOFDAY2SEC(time_start_wipe)]s.")
+	catch(var/exception/e_presave)
+		if(istype(e_presave, /exception/sql_connection))
+			HandleCriticalException(e_presave, "serializer.PreWorldSave()") //db queries errors during wipe are unrecoverable and WILL break further duplicate INSERTS..
+		else
+			HandleRecoverableException(e_presave, "serializer.PreWorldSave()")
+	sleep(5)
 
-		//
-		// 	ACTUAL SAVING SECTION
-		//
+	//Clear limbo stuff after we've connected to the db!
+	try
+		prepare_limbo_for_save()
+	catch(var/exception/e_limbo)
+		HandleRecoverableException(e_limbo, "prepare_limbo_for_save()")
+	sleep(5)
 
-		report_progress_serializer("Preparing z-levels for save..")
-		sleep(5)
-		var/time_start_zprepare = REALTIMEOFDAY
-		// This will prepare z_level translations.
-		var/list/z_transform = list()
-		var/new_z_index = 1
+///Runs the post-saving stuff
+/datum/controller/subsystem/persistence/proc/_after_save()
+	try
+		//Do post-save cleanup and logging
+		serializer.PostWorldSave(save_log_id, nb_saved_z_levels, nb_saved_atoms, save_complete_text)
+		saved_extensions.Cut() // Make extensions re-report if they want to be saved again.
+		// Clear the custom saved list used to keep list refs intact
+		global.custom_saved_lists.Cut()
+
+		//Print out detailed statistics on what time was spent on what types
+		var/list/saved_types_stats = list()
+		global.serialization_time_spent_type = sortTim(global.serialization_time_spent_type, /proc/cmp_serialization_stats_dsc, 1)
+		for(var/key in global.serialization_time_spent_type)
+			var/datum/serialization_stat/statistics = global.serialization_time_spent_type[key]
+			saved_types_stats += "\t[statistics.time_spent / (1 SECOND)] second(s)\t[statistics.nb_instances]\tinstance(s)\t\t'[key]'"
+
+		to_world(SPAN_CLASS(save_complete_span_class, save_complete_text))
+		to_world_log("Time spent per type:\n[jointext(saved_types_stats, "\n")]")
+		to_world_log("Total time spent doing saved variables lookups: [global.get_saved_variables_lookup_time_total / (1 SECOND)] second(s).")
+
+		//Resume all subsystems
+		ResumeSubsystems()
+
+	catch(var/exception/e)
+		HandleRecoverableException(e, "_after_save()") //Anything post-save is recoverable
+
+/datum/controller/subsystem/persistence/proc/_prepare_zlevels_indexing()
+	var/time_start_zprepare = REALTIMEOFDAY
+	// This will prepare z_level translations.
+	var/list/z_transform = list()
+	var/new_z_index      = 1
+
+	report_progress_serializer("Preparing z-levels for save..")
+	sleep(5)
+	try
 		// First we find the highest non-dynamic z_level.
 		for(var/z in SSmapping.player_levels) //#FIXME: That logic is flawed. We got levels that aren't dynamic and aren't station levels!!!!
 			if(z in saved_levels)
@@ -170,7 +311,6 @@
 				z_level.new_index = new_z_index
 				z_transform["[T.z]"] = z_level
 
-
 		// Now we rebuild our z_level metadata list into the serializer for it to remap everything for us.
 		for(var/z in z_transform)
 			var/datum/persistence/load_cache/z_level/z_level = z_transform[z]
@@ -178,193 +318,262 @@
 		new_z_index++
 		serializer.z_index = new_z_index
 
-		report_progress_serializer("Z-levels prepared for save in [(REALTIMEOFDAY - time_start_zprepare) / (1 SECOND)]s.")
+		report_progress_serializer("Z-levels prepared for save in [REALTIMEOFDAY2SEC(time_start_zprepare)]s.")
 		sleep(5)
 
-		report_progress_serializer("Saving z-level turfs..")
-		sleep(5)
-		var/time_start_zsave = REALTIMEOFDAY
-		// This will save all the turfs/world.
-		var/index = 1
-		var/progress = 0
-		var/max_progress = length(saved_levels)
+	catch(var/exception/e)
+		//Critical because If z-indexes are messed up, it can corrupt the whole save.
+		HandleCriticalException(e, "_prepare_zlevels_indexing()")
 
-		for(var/z in saved_levels)
-			var/default_turf = get_base_turf(z)
-			var/datum/persistence/load_cache/z_level/z_level = z_transform["[z]"]
+	return z_transform
 
-			var/last_area_type
-			var/last_area_name
-			var/area_turf_count = 0
+///Saves all the turfs marked for saving in the world.
+/datum/controller/subsystem/persistence/proc/_save_turfs(var/list/z_transform)
+	report_progress_serializer("Saving z-level turfs..")
+	sleep(5)
 
+	var/time_start_zsave = REALTIMEOFDAY
+	///Amount of turfs waiting for a commit
+	var/nb_turfs_queued  = 1
+	///The total count of zlevels we're saving
+	var/total_zlevels    = length(saved_levels)
+
+	//!!!!!!!!!!!!!!!!!!!!!!!!
+	//!! - HOT CODE BELOW - !!
+	//!!!!!!!!!!!!!!!!!!!!!!!!
+	for(var/z in saved_levels)
+		var/datum/persistence/load_cache/z_level/z_level = z_transform["[z]"] //#FIXME: String concatenation are extremely slow!!!
+		var/last_area_type
+		var/last_area_name
+		var/default_turf    = get_base_turf(z)
+		var/area_turf_count = 0
+
+		try
 			// We iterate horizontally, since saved turfs 'in' area contents are iterated over in the same way.
 			for(var/y in 1 to world.maxy)
 				for(var/x in 1 to world.maxx)
-					// Get the thing to serialize and serialize it.
-					var/turf/T = locate(x,y,z)
-					var/area/TA = T.loc
+					try
+						// Get the thing to serialize and serialize it.
+						var/turf/T  = locate(x,y,z)
+						var/area/TA = T.loc
 
-					if(last_area_type != TA.type || last_area_name != TA.name)
-						if(area_turf_count > 0)
-							z_level.areas += list(list("[last_area_type]", sanitize_sql(last_area_name), area_turf_count))
-						last_area_type = TA.type
-						last_area_name = TA.name
-						area_turf_count = 1
-					else
-						area_turf_count++
+						if(last_area_type != TA.type || last_area_name != TA.name)
+							if(area_turf_count > 0)
+								z_level.areas += list(list("[last_area_type]", sanitize_sql(last_area_name), area_turf_count))
+							last_area_type = TA.type //#FIXME: If last_area_type is only ever used as a string, might as well concat it here, instead of doing it thousands of time above?
+							last_area_name = TA.name
+							area_turf_count = 1
+						else
+							area_turf_count++
 
-					// These if statements checks to see if we should save this turf.
-
-					//Ignore non-saved areas
-					if(istype(TA) && (TA.area_flags & AREA_FLAG_IS_NOT_PERSISTENT))
-						continue
-
-					// Turfs not saved become their default_turf after deserialization.
-					if(!istype(T) || !LAZYLEN(T.contents))
-						continue
-
-					//Save anything else
-					if(istype(T, default_turf) || !T.should_save)
-						var/should_skip = TRUE
-						for(var/atom/A as anything in T.contents)
-							if(A.should_save())
-								should_skip = FALSE
-								break // We found a thing that's worth saving.
+						var/should_skip = __SHOULD_SKIP_TURF(T)
+						// These if statements checks to see if we should save this turf.
+						if(!should_skip && istype(T, default_turf) || !T.should_save)
+							for(var/atom/A as anything in T.contents)
+								if(A.should_save())
+									should_skip = FALSE
+									break // We found a thing that's worth saving.
 						if(should_skip)
-							continue // Skip this tile. Not worth saving.
-					serializer.Serialize(T, null, z)
+							continue //Turfs not saved become their default_turf after deserialization.
 
-					// Don't save every single tile.
+						//If we got through the filter save
+						serializer.Serialize(T, null, z)
+
+					catch(var/exception/e_turf)
+						HandleRecoverableException(e_turf, "saving a turf") //Allow a turf to fail to save when allowed, that's minimal damage.
+
+					// Don't commit every single tile.
 					// Batch them up to save time.
-					if(index % 128 == 0)
-						serializer.Commit()
-						index = 1
+					if(nb_turfs_queued % 128 == 0)
+						try
+							serializer.Commit()
+							nb_turfs_queued = 1
+						catch(var/exception/e_turf_commit)
+							nb_turfs_queued = 1
+							HandleCriticalException(e_turf_commit, "pushing turf commit") //Failing a commit is pretty bad since they're all batched together.
 					else
-						index++
+						nb_turfs_queued++
+
 			if(last_area_type)
 				z_level.areas += list(list("[last_area_type]", sanitize_sql(last_area_name), area_turf_count))
+		catch(var/exception/e_zlvl)
+			HandleRecoverableException(e_zlvl, "saving a z level") //A z-level failing is manageable.
 
+		//Ref update commit + flush commit
+		try
 			serializer.Commit() // cleanup leftovers.
 			serializer.CommitRefUpdates()
-			++progress
-			report_progress_serializer("Working.. [(progress * 100) / max_progress]%")
-			sleep(3)
+		catch(var/exception/e_ref_commit)
+			HandleCriticalException(e_ref_commit, "pushing a ref update commit") //Failing ref updates is really bad.
 
-		index = 1
-		report_progress_serializer("Z-levels turfs saved in [(REALTIMEOFDAY - time_start_zsave) / (1 SECOND)]s.")
-		sleep(5)
+		++nb_saved_z_levels
+		report_progress_serializer("Working.. [CEILING((nb_saved_z_levels * 100) / total_zlevels)]%")
+		sleep(3)
 
-		report_progress_serializer("Saving z-level areas..")
-		sleep(5)
-		var/time_start_zarea = REALTIMEOFDAY
-		// Repeat much of the above code in order to save areas marked to be saved that are not in a saved z-level.
-		var/list/area_chunks = list()
-		for(var/area/A in saved_areas)
-			var/datum/persistence/load_cache/area_chunk/area_chunk = new()
-			area_chunk.area_type = A.type
-			area_chunk.name = A.name
-			for(var/turf/T in A)
-				if(T.z in saved_levels)
+	nb_turfs_queued = 1
+	report_progress_serializer("Z-levels turfs saved in [REALTIMEOFDAY2SEC(time_start_zsave)]s.")
+	sleep(5)
+
+///Saves area stuff
+/datum/controller/subsystem/persistence/proc/_save_areas(var/list/z_transform)
+	var/time_start_zarea = REALTIMEOFDAY
+	var/list/area_chunks = list()
+	var/nb_turfs_queued  = 1
+
+	//#FIXME: This block of code is deranged. It's making us iterate over all turfs in the world again just to save area stuff?
+	//        We should do all turf-related ops in a single spot, not copy paste code like this.
+
+	// Repeat much of the above code in order to save areas marked to be saved that are not in a saved z-level.
+	for(var/area/A in saved_areas)
+		var/datum/persistence/load_cache/area_chunk/area_chunk = new()
+		area_chunk.area_type = A.type
+		area_chunk.name      = A.name
+
+		for(var/turf/T in A) //#FIXME: This actually iterates through ALL TURFS IN THE WORLD. Area contents is broken and slow.
+			if(T.z in saved_levels) //#FIXME: We're already going through saved zlevels above..
+				continue
+			//#FIXME: This is a copy paste of the code prior and it has some differences with it too, which will cause mismatches between areas and turfs saving.
+			var/turf/default_turf = get_base_turf(T.z)
+			if(!istype(T) || istype(T, default_turf))
+				if(!istype(T) || !T.contents || !length(T.contents) || !T.should_save)
 					continue
-				var/turf/default_turf = get_base_turf(T.z)
-				if(!istype(T) || istype(T, default_turf))
-					if(!istype(T) || !T.contents || !length(T.contents) || !T.should_save)
-						continue
-					var/should_skip = TRUE
-					for(var/atom/AM as anything in T.contents)
-						if(AM.should_save())
-							should_skip = FALSE
-							break // We found a thing that's worth saving.
-					if(should_skip)
-						continue // Skip this tile. Not worth saving.
+				var/should_skip = TRUE
+				for(var/atom/AM as anything in T.contents)
+					if(AM.should_save())
+						should_skip = FALSE
+						break // We found a thing that's worth saving.
+				if(should_skip)
+					continue // Skip this tile. Not worth saving.
 
-				var/new_z = serializer.z_map["[T.z]"]
-				if(new_z)
-					area_chunk.turfs += "[T.x],[T.y],[new_z]"
-				serializer.Serialize(T, null, T.z)
+			var/new_z = serializer.z_map["[T.z]"] //#FIXME: String concat is extremely slow.
+			if(new_z)
+				area_chunk.turfs += "[T.x],[T.y],[new_z]" //#FIXME: String concat is extremely slow.
+			serializer.Serialize(T, null, T.z)
 
-				// Don't save every single tile.
-				// Batch them up to save time.
-				if(index % 128 == 0)
-					serializer.Commit()
-					index = 1
-				else
-					index++
+			// Don't save every single tile.
+			// Batch them up to save time.
+			if(nb_turfs_queued % 128 == 0)
+				serializer.Commit()
+				nb_turfs_queued = 1
+			else
+				nb_turfs_queued++
 
-			if(length(area_chunk.turfs))
-				area_chunks += area_chunk
+		if(length(area_chunk.turfs))
+			area_chunks += area_chunk
 
-			serializer.Commit() // cleanup leftovers.
+		serializer.Commit() // cleanup leftovers.
 
+	try
 		// Insert our z-level remaps.
 		serializer.save_z_level_remaps(z_transform)
 		if(length(area_chunks))
 			serializer.save_area_chunks(area_chunks)
 		serializer.Commit()
 		serializer.CommitRefUpdates()
+	catch(var/exception/e_commit)
+		HandleCriticalException(e_commit, "area saving turf ref commit")
 
-		report_progress_serializer("Z-levels areas saved in [(REALTIMEOFDAY - time_start_zarea) / (1 SECOND)]s.")
-		sleep(5)
+	report_progress_serializer("Z-levels areas saved in [REALTIMEOFDAY2SEC(time_start_zarea)]s.")
+	sleep(5)
 
-		report_progress_serializer("Saving extensions...")
+///Saves extension wrapper stuff
+/datum/controller/subsystem/persistence/proc/_save_extensions()
+	var/datum/wrapper_holder/extension_wrapper_holder = new(saved_extensions)
+	var/time_start_extensions = REALTIMEOFDAY
+
+	try
+		serializer.Serialize(extension_wrapper_holder)
+	catch(var/exception/e_serial)
+		HandleRecoverableException(e_serial, "extension serialization")
+
+	try
+		serializer.Commit()
+	catch(var/exception/e_commit)
+		HandleCriticalException(e_commit, "extension commit") //If commit fails, we corrupted our commit cache so not good
+
+	report_progress_serializer("Saved extensions in [REALTIMEOFDAY2SEC(time_start_extensions)]s.")
+	sleep(5)
+
+///Save bank account stuff
+/datum/controller/subsystem/persistence/proc/_save_bank_accounts()
+	if(!length(SSmoney_accounts.all_escrow_accounts))
+		return
+	var/datum/wrapper_holder/escrow_holder/e_holder = new(SSmoney_accounts.all_escrow_accounts.Copy())
+	var/time_start_escrow = REALTIMEOFDAY
+
+	try
+		serializer.Serialize(e_holder)
+	catch(var/exception/e_serial)
+		HandleRecoverableException(e_serial, "bank account serialization")
+
+	try
+		serializer.Commit()
+	catch(var/exception/e_commit)
+		HandleCriticalException(e_commit, "bank account  commit") //If commit fails, we corrupted our commit cache so not good
+
+	report_progress_serializer("Escrow accounts saved in [REALTIMEOFDAY2SEC(time_start_escrow)]s.")
+	sleep(5)
+
+///Causes a world save to be started.
+/datum/controller/subsystem/persistence/proc/SaveWorld(var/save_initiator)
+	//Make sure we log who started the save.
+	if(!save_initiator && ismob(usr))
+		save_initiator = usr.ckey
+
+	var/start = REALTIMEOFDAY
+
+	//Prevent entering
+	BlockEntering()
+
+	//Saving start event
+	RAISE_EVENT(/decl/observ/world_saving_start_event, src)
+
+	// Do preparation first
+	_before_save(save_initiator)
+
+	try
+		//Prepare z levels structure for saving
+		var/list/z_transform = _prepare_zlevels_indexing()
+
+		//Save all individual turfs marked for saving
+		_save_turfs(z_transform)
+
+		//Save area related stuff
+		_save_areas(z_transform)
+
 		// Now save all the extensions which have marked themselves to be saved.
 		// As with areas, we create a dummy wrapper holder to hold these during load etc.
-		var/datum/wrapper_holder/extension_wrapper_holder = new(saved_extensions)
-		var/time_start_extensions = REALTIMEOFDAY
-		serializer.Serialize(extension_wrapper_holder)
-		serializer.Commit()
-
-		report_progress_serializer("Extensions saved in [(REALTIMEOFDAY - time_start_extensions) / (1 SECOND)]s.")
-		sleep(5)
+		_save_extensions()
 
 		// Save escrow accounts which are normally held on the SSmoney_accounts subsystem
-		if(length(SSmoney_accounts.all_escrow_accounts))
-			report_progress_serializer("Saving escrow accounts...")
-			var/datum/wrapper_holder/escrow_holder/e_holder = new(SSmoney_accounts.all_escrow_accounts.Copy())
-			var/time_start_escrow = REALTIMEOFDAY
+		_save_bank_accounts()
 
-			serializer.Serialize(e_holder)
-			serializer.Commit()
+	catch(var/exception/e)
+		//If exceptions end up in here, then we must interrupt saving completely.
+		//Exceptions should be filtered in the sub-procs.
+		save_complete_span_class = "danger"
+		save_complete_text       = "SAVE FAILED: [EXCEPTION_TEXT(e)]"
+		. = FALSE
 
-			report_progress_serializer("Escrow accounts saved in [(REALTIMEOFDAY - time_start_escrow) / (1 SECOND)]s.")
+	//Set our success text if we didn't hit any exceptions
+	if(!length(save_complete_text))
+		save_complete_span_class = "autosave"
+		save_complete_text       = "Save complete! Took [REALTIMEOFDAY2SEC(start)]s to save world."
+		. = TRUE
 
-		//
-		//	CLEANUP SECTION
-		//
-		// Clear the refmaps/do other cleanup to end the save.
-		serializer.Clear()
-		// Clear the custom saved list used to keep list refs intact
-		global.custom_saved_lists.Cut()
-		// Let people back in
-		if(reallow) config.enter_allowed = 1
-	catch (var/exception/e)
-		to_world_log("Save failed on line [e.line], file [e.file] with message: '[e]'.")
-
-	to_world("Save complete! Took [(world.timeofday-start)/ (1 SECOND)]s to save world.")
-	saved_extensions.Cut() // Make extensions re-report if they want to be saved again.
-	serializer._after_serialize()
+	//Handle post-save cleanup and such
+	_after_save()
 
 	// Launch event for anything that needs to do cleanup post save.
 	RAISE_EVENT_REPEAT(/decl/observ/world_saving_finish_event, src)
 
-	//Print out detailed statistics on what time was spent on what types
-	var/list/saved_types_stats = list()
-	global.serialization_time_spent_type = sortTim(global.serialization_time_spent_type, /proc/cmp_serialization_stats_dsc, 1)
-	for(var/key in global.serialization_time_spent_type)
-		var/datum/serialization_stat/statistics = global.serialization_time_spent_type[key]
-		saved_types_stats += "\t[statistics.time_spent / (1 SECOND)] second(s)\t[statistics.nb_instances]\tinstance(s)\t\t'[key]'"
-	to_world_log("Time spent per type:\n[jointext(saved_types_stats, "\n")]")
-	to_world_log("Total time spent doing saved variables lookups: [global.get_saved_variables_lookup_time_total / (1 SECOND)] second(s).")
-
-	// Reboot air subsystem.
-	SSair.reboot()
+	// Reallow people in
+	RestoreEntering()
 
 /datum/controller/subsystem/persistence/proc/LoadWorld()
 	serializer._before_deserialize()
 	try
 		// Loads all data in as part of a version.
-		if(!establish_save_db_connection())
-			CRASH("SSPersistence: Couldn't establish DB connection!")
 		to_world_log("Loading [serializer.count_saved_datums()] things from world save.")
 
 		// We start by loading the cache. This will load everything from SQL into an object structure
@@ -601,26 +810,39 @@
 	to_chat(user, SPAN_INFO("Disabled with persistence modpack (how ironic)..."))
 	return
 
-/datum/controller/subsystem/persistence/proc/AddToLimbo(var/list/things, var/key, var/limbo_type, var/metadata, var/metadata2, var/modify = TRUE)
+/datum/controller/subsystem/persistence/proc/AddToLimbo(var/list/things, var/key, var/limbo_type, var/metadata, var/metadata2, var/modify = TRUE, var/initiator)
+	//Make sure we log who started the save.
+	if(!initiator && ismob(usr))
+		initiator = usr.ckey
+
 	var/new_db_connection = FALSE
 	if(!check_save_db_connection())
 		if(!establish_save_db_connection())
 			CRASH("SSPersistence: Couldn't establish DB connection during Limbo Addition!")
 		new_db_connection = TRUE
+
+	//Log transaction
+	var/limbo_log_id = one_off.PreStorageSave(initiator)
 	. = one_off.AddToLimbo(things, key, limbo_type, metadata, metadata2, modify)
 	if(.) // Clear it from the queued removals.
 		for(var/list/queued in limbo_removals)
 			if(queued[1] == sanitize_sql(key) && queued[2] == limbo_type)
 				limbo_removals -= list(queued)
+
+	one_off.PostStorageSave(limbo_log_id, 0, length(things), "Addition [limbo_type] [key]")
 	if(new_db_connection)
 		close_save_db_connection()
 
-/datum/controller/subsystem/persistence/proc/RemoveFromLimbo(var/limbo_key, var/limbo_type)
+/datum/controller/subsystem/persistence/proc/RemoveFromLimbo(var/limbo_key, var/limbo_type, var/initiator)
 	var/new_db_connection = FALSE
 	if(!check_save_db_connection())
 		if(!establish_save_db_connection())
 			CRASH("SSPersistence: Couldn't establish DB connection during Limbo Removal!")
+	//Log transaction
+	var/limbo_log_id = one_off.PreStorageSave(initiator)
 	. = one_off.RemoveFromLimbo(limbo_key, limbo_type)
+	one_off.PostStorageSave(limbo_log_id, 0, ., "Removal [limbo_type]")
+
 	if(new_db_connection)
 		close_save_db_connection()
 
@@ -677,3 +899,5 @@
 	. = ..()
 	time_spent   = _time_spent
 	nb_instances = _nb_instances
+
+#undef __SHOULD_SKIP_TURF

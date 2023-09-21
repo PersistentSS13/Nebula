@@ -643,6 +643,8 @@
 		return
 
 	if(statpanel("Status"))
+		if((check_rights(R_DEBUG, FALSE, client) || check_rights(R_SERVER, FALSE, client) || check_rights(R_ADMIN, FALSE, client)))
+			stat("Loaded Save", (SSpersistence.in_loaded_world? "[SSpersistence.LoadedSaveTimestamp()]": "NONE"))
 		if(GAME_STATE >= RUNLEVEL_LOBBY)
 			stat("Local Time", stationtime2text())
 			stat("Local Date", stationdate2text())

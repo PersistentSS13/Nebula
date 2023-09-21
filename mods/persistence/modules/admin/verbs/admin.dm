@@ -40,7 +40,7 @@ var/global/list/persistence_admin_verbs = list(
 		return
 	for(var/datum/mind/M in global.player_minds)
 		if(M.key == target_ckey)
-			SSpersistence.RemoveFromLimbo(M.unique_id, LIMBO_MIND)
+			SSpersistence.RemoveFromLimbo(M.unique_id, LIMBO_MIND, ckey)
 			qdel(M)
 
 /client/proc/database_status()
@@ -60,7 +60,7 @@ var/global/list/persistence_admin_verbs = list(
 	if(!check_rights(R_ADMIN))
 		return
 	SQLS_Force_Reconnect()
-	
+
 /client/proc/lock_server_and_kick_players()
 	set category = "Server"
 	set desc = "Lock entering the server, kick all non-admin players, and prevent them from re-joining"
@@ -97,11 +97,11 @@ var/global/list/persistence_admin_verbs = list(
 	set name = "Delete Limbo Character"
 	if(!check_rights(R_ADMIN))
 		return
-	
-	var/choice = alert(usr, 
-		"USE WITH CAUTION! Will delete the limbo character entry in the database, so the associated name can be used by a new character. THIS WILL PERMENANTLY DELETE ANY CRYOED CHARACTER WITH THE GIVEN NAME IF THERE WAS ANY. Use only in last resort.", 
-		"Delete named character", 
-		"Proceed", 
+
+	var/choice = alert(usr,
+		"USE WITH CAUTION! Will delete the limbo character entry in the database, so the associated name can be used by a new character. THIS WILL PERMENANTLY DELETE ANY CRYOED CHARACTER WITH THE GIVEN NAME IF THERE WAS ANY. Use only in last resort.",
+		"Delete named character",
+		"Proceed",
 		"Cancel")
 	if(choice == "Cancel")
 		to_chat(usr, SPAN_INFO("Action Aborted"))
@@ -127,25 +127,25 @@ var/global/list/persistence_admin_verbs = list(
 		if(length(row))
 			LAZYADD(entries, "name:'[row["metadata2"]]' ckey:'[row["metadata"]]' pid:'[row["p_ids"]]'")
 			LAZYADD(mind_ids, row["key"])
-	
+
 	if(!length(entries))
 		to_chat(usr, SPAN_WARNING("No matching characters found in the database. Aborting."))
 		if(should_close_connection)
 			close_save_db_connection()
-		return 
+		return
 	to_chat(usr, SPAN_INFO("The command will delete the following:\n[jointext(entries,"\n")]"))
 
 	//Ask again
-	choice = alert(usr, 
-		"Really delete [length(entries)] character\s from the database?", 
-		"Delete named character", 
-		"Cancel", 
+	choice = alert(usr,
+		"Really delete [length(entries)] character\s from the database?",
+		"Delete named character",
+		"Cancel",
 		"Ok")
 	if(choice == "Cancel")
 		to_chat(usr, SPAN_INFO("Action Aborted"))
 		if(should_close_connection)
 			close_save_db_connection()
-		return 
+		return
 
 	//Do the deleting
 	for(var/mindid in mind_ids)

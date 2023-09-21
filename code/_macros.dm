@@ -168,6 +168,12 @@
 #define SPAN_PINK(X)     SPAN_CLASS("font_pink",     X)
 #define SPAN_PALEPINK(X) SPAN_CLASS("font_palepink", X)
 #define SPAN_SINISTER(X) SPAN_CLASS("sinister", X)
+
+//Persistence
+#define SPAN_SERIALIZER(X)    SPAN_CLASS("serializer",    X)
+#define SPAN_AUTOSAVE(X)      SPAN_CLASS("autosave",      X)
+#define SPAN_AUTOSAVE_WARN(X) SPAN_CLASS("autosave_warn", X)
+
 // placeholders
 #define SPAN_GOOD(X)     SPAN_GREEN(X)
 #define SPAN_NEUTRAL(X)  SPAN_BLUE(X)
