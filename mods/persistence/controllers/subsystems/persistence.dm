@@ -544,4 +544,3 @@
 	time_spent   = _time_spent
 	nb_instances = _nb_instances
 
-#undef __SHOULD_SKIP_TURF
