@@ -2,6 +2,73 @@
 ///Ignore non-saved areas and turfs with no contents.
 #define __SHOULD_SKIP_TURF(T) ((!istype(T) || !length(T.contents)) || (istype(T.loc, /area) && (T.loc:area_flags & AREA_FLAG_IS_NOT_PERSISTENT)))
 
+/////////////////////////////////////////////////////////////////
+// Utility
+/////////////////////////////////////////////////////////////////
+
+///Keeps the previous state of 'enter_allowed' and set it to false. Returns TRUE if entering was currently allowed.
+/datum/controller/subsystem/persistence/proc/_block_entering()
+	was_entering_allowed = config.enter_allowed
+	config.enter_allowed = FALSE
+	return was_entering_allowed
+
+///Restore the previous state of 'enter_allowed'. Returns the restored value of 'enter_allowed'.
+/datum/controller/subsystem/persistence/proc/_restore_entering()
+	. = (config.enter_allowed = was_entering_allowed)
+	was_entering_allowed = FALSE
+
+///Handle pausing all subsystems before save
+/datum/controller/subsystem/persistence/proc/_pause_subsystems()
+	//Turn off all the subsystems we don't need messing things up during saving.
+	for(var/datum/controller/subsystem/S in Master.subsystems)
+		S.disable()
+
+	//Wait on SSair to complete it's tick.
+	if (SSair.state != SS_IDLE)
+		report_progress_serializer("ZAS Rebuild initiated. Waiting for current air tick to complete before continuing.")
+	while (SSair.state != SS_IDLE)
+		stoplag()
+
+///Handles resuming all subsystems post-save
+/datum/controller/subsystem/persistence/proc/_resume_subsystems()
+	// Reboot air subsystem before mass enabling all of them.
+	SSair.reboot()
+	//Resune subsystems
+	for(var/datum/controller/subsystem/S in Master.subsystems)
+		S.enable()
+
+/////////////////////////////////////////////////////////////////
+// Exception Filtering
+/////////////////////////////////////////////////////////////////
+
+///Call in a catch block for critical/typically unrecoverable errors during save. Filters out the kind of exceptions we let through or not.
+/datum/controller/subsystem/persistence/proc/_handle_critical_save_exception(var/exception/E, var/code_location)
+	if(error_tolerance < PERSISTENCE_ERROR_TOLERANCE_ANY)
+		// Clear the custom saved list used to keep list refs intact
+		global.custom_saved_lists.Cut()
+		_resume_subsystems()
+		_restore_entering()
+		throw E
+	else
+		log_warning(EXCEPTION_TEXT(E))
+		log_warning("Error tolerance set to 'any', proceeding with save despite critical error in '[code_location]'!")
+
+///Call in a catch block for recoverable or non-critical errors during save. Filters out the kind of exceptions we let through or not.
+/datum/controller/subsystem/persistence/proc/_handle_recoverable_save_exception(var/exception/E, var/code_location)
+	if(error_tolerance < PERSISTENCE_ERROR_TOLERANCE_RECOVERABLE)
+		// Clear the custom saved list used to keep list refs intact
+		global.custom_saved_lists.Cut()
+		_resume_subsystems()
+		_restore_entering()
+		throw E
+	else
+		log_warning(EXCEPTION_TEXT(E))
+		log_warning("Error tolerance set to 'critical-only', proceeding with save despite error in '[code_location]'!")
+
+/////////////////////////////////////////////////////////////////
+// Saving Steps
+/////////////////////////////////////////////////////////////////
+
 ///Make atmos store it's air values so we can properly save them per atmos atom.
 /datum/controller/subsystem/persistence/proc/prepare_atmos_for_save()
 	var/time_start = REALTIMEOFDAY
@@ -99,7 +166,7 @@
 
 	catch(var/exception/e)
 		//Critical because If z-indexes are messed up, it can corrupt the whole save.
-		_handle_critical_exception(e, "_prepare_zlevels_indexing()")
+		_handle_critical_save_exception(e, "_prepare_zlevels_indexing()")
 
 	return z_transform
 
@@ -160,7 +227,7 @@
 						serializer.Serialize(T, null, z)
 
 					catch(var/exception/e_turf)
-						_handle_recoverable_exception(e_turf, "saving a turf") //Allow a turf to fail to save when allowed, that's minimal damage.
+						_handle_recoverable_save_exception(e_turf, "saving a turf") //Allow a turf to fail to save when allowed, that's minimal damage.
 
 					// Don't commit every single tile.
 					// Batch them up to save time.
@@ -170,21 +237,21 @@
 							nb_turfs_queued = 1
 						catch(var/exception/e_turf_commit)
 							nb_turfs_queued = 1
-							_handle_critical_exception(e_turf_commit, "pushing turf commit") //Failing a commit is pretty bad since they're all batched together.
+							_handle_critical_save_exception(e_turf_commit, "pushing turf commit") //Failing a commit is pretty bad since they're all batched together.
 					else
 						nb_turfs_queued++
 
 			if(last_area_type)
 				z_level.areas += list(list("[last_area_type]", sanitize_sql(last_area_name), area_turf_count))
 		catch(var/exception/e_zlvl)
-			_handle_recoverable_exception(e_zlvl, "saving a z level") //A z-level failing is manageable.
+			_handle_recoverable_save_exception(e_zlvl, "saving a z level") //A z-level failing is manageable.
 
 		//Ref update commit + flush commit
 		try
 			serializer.Commit() // cleanup leftovers.
 			serializer.CommitRefUpdates()
 		catch(var/exception/e_ref_commit)
-			_handle_critical_exception(e_ref_commit, "pushing a ref update commit") //Failing ref updates is really bad.
+			_handle_critical_save_exception(e_ref_commit, "pushing a ref update commit") //Failing ref updates is really bad.
 
 		++nb_saved_z_levels
 		report_progress_serializer("Working.. [CEILING((nb_saved_z_levels * 100) / total_zlevels)]%")
@@ -251,7 +318,7 @@
 		serializer.Commit()
 		serializer.CommitRefUpdates()
 	catch(var/exception/e_commit)
-		_handle_critical_exception(e_commit, "area saving turf ref commit")
+		_handle_critical_save_exception(e_commit, "area saving turf ref commit")
 
 	report_progress_serializer("Z-levels areas saved in [REALTIMEOFDAY2SEC(time_start_zarea)]s.")
 	sleep(5)
@@ -264,12 +331,12 @@
 	try
 		serializer.Serialize(extension_wrapper_holder)
 	catch(var/exception/e_serial)
-		_handle_recoverable_exception(e_serial, "extension serialization")
+		_handle_recoverable_save_exception(e_serial, "extension serialization")
 
 	try
 		serializer.Commit()
 	catch(var/exception/e_commit)
-		_handle_critical_exception(e_commit, "extension commit") //If commit fails, we corrupted our commit cache so not good
+		_handle_critical_save_exception(e_commit, "extension commit") //If commit fails, we corrupted our commit cache so not good
 
 	report_progress_serializer("Saved extensions in [REALTIMEOFDAY2SEC(time_start_extensions)]s.")
 	sleep(5)
@@ -284,15 +351,19 @@
 	try
 		serializer.Serialize(e_holder)
 	catch(var/exception/e_serial)
-		_handle_recoverable_exception(e_serial, "bank account serialization")
+		_handle_recoverable_save_exception(e_serial, "bank account serialization")
 
 	try
 		serializer.Commit()
 	catch(var/exception/e_commit)
-		_handle_critical_exception(e_commit, "bank account  commit") //If commit fails, we corrupted our commit cache so not good
+		_handle_critical_save_exception(e_commit, "bank account  commit") //If commit fails, we corrupted our commit cache so not good
 
 	report_progress_serializer("Escrow accounts saved in [REALTIMEOFDAY2SEC(time_start_escrow)]s.")
 	sleep(5)
+
+/////////////////////////////////////////////////////////////////
+// Pre/Post Save
+/////////////////////////////////////////////////////////////////
 
 ///Run the pre-save stuff
 /datum/controller/subsystem/persistence/proc/_before_save(var/save_initiator)
@@ -307,14 +378,14 @@
 	try
 		_pause_subsystems()
 	catch(var/exception/e_ss)
-		_handle_recoverable_exception(e_ss, "_pause_subsystems()")
+		_handle_recoverable_save_exception(e_ss, "_pause_subsystems()")
 	sleep(5)
 
 	// Prepare all atmospheres to save.
 	try
 		prepare_atmos_for_save()
 	catch(var/exception/e_atmos)
-		_handle_recoverable_exception(e_atmos, "prepare_atmos_for_save()")
+		_handle_recoverable_save_exception(e_atmos, "prepare_atmos_for_save()")
 	sleep(5)
 
 	//Let the serializer know we're preparing a save
@@ -325,16 +396,16 @@
 		report_progress_serializer("Wiped previous save in [REALTIMEOFDAY2SEC(time_start_wipe)]s.")
 	catch(var/exception/e_presave)
 		if(istype(e_presave, /exception/sql_connection))
-			_handle_critical_exception(e_presave, "serializer.PreWorldSave()") //db queries errors during wipe are unrecoverable and WILL break further duplicate INSERTS..
+			_handle_critical_save_exception(e_presave, "serializer.PreWorldSave()") //db queries errors during wipe are unrecoverable and WILL break further duplicate INSERTS..
 		else
-			_handle_recoverable_exception(e_presave, "serializer.PreWorldSave()")
+			_handle_recoverable_save_exception(e_presave, "serializer.PreWorldSave()")
 	sleep(5)
 
 	//Clear limbo stuff after we've connected to the db!
 	try
 		prepare_limbo_for_save()
 	catch(var/exception/e_limbo)
-		_handle_recoverable_exception(e_limbo, "prepare_limbo_for_save()")
+		_handle_recoverable_save_exception(e_limbo, "prepare_limbo_for_save()")
 	sleep(5)
 
 ///Runs the post-saving stuff
@@ -361,6 +432,6 @@
 		_resume_subsystems()
 
 	catch(var/exception/e)
-		_handle_recoverable_exception(e, "_after_save()") //Anything post-save is recoverable
+		_handle_recoverable_save_exception(e, "_after_save()") //Anything post-save is recoverable
 
 #undef __SHOULD_SKIP_TURF

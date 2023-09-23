@@ -51,7 +51,7 @@ var/global/list/persistence_admin_verbs = list(
 
 	if(!check_rights(R_ADMIN))
 		return
-	SSpersistence.print_db_status()
+	SSpersistence.PrintDBStatus()
 
 /client/proc/database_reconect()
 	set category = "Server"
@@ -216,7 +216,7 @@ Select what kind of errors will be TOLERATED (A \"Non-recoverable\" error is usu
 			to_chat(usr, SPAN_INFO("Save error tolerance unchanged."))
 			return
 
-	SSpersistence.SetSaveErrorTolerance(new_tolerance)
+	SSpersistence.SetErrorTolerance(new_tolerance)
 	to_chat(usr, SPAN_INFO("Save error tolerance changed to: '[choice]'!"))
 
 #undef TOLERANCE_ALL_ERRORS
