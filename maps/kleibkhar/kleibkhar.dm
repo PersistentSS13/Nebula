@@ -1,6 +1,6 @@
 #if !defined(USING_MAP_DATUM)
 	// Mods section
-	#include "../../mods/persistence/_persistence.dme"
+	//#include "../../mods/persistence/_persistence.dme"
 	#include "../../mods/species/bayliens/_bayliens.dme"
 	#include "../../mods/species/vox/_vox.dme"
 	#include "../../mods/content/xenobiology/_xenobiology.dme"

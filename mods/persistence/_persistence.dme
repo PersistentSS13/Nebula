@@ -1,5 +1,5 @@
-#ifndef MODPACK_PERSISTENCE
-#define MODPACK_PERSISTENCE
+// #ifndef MODPACK_PERSISTENCE
+// #define MODPACK_PERSISTENCE
 // BEGIN_INCLUDE
 #include "_maps.dm"
 #include "_persistence.dm"
@@ -301,7 +301,7 @@
 #include "modules\world_save\wrappers\extensions\_extension_wrapper.dm"
 #include "modules\world_save\wrappers\extensions\labels_wrapper.dm"
 // END_INCLUDE
-#endif
+//connection_edge#endif
 // BEGIN_INTERNALS
 // END_INTERNALS
 // BEGIN_FILE_DIR
