@@ -108,8 +108,8 @@
 		z_level.new_index = z_level.index + mapped_offset
 		for(var/z_incr = 1 to max(z_level.new_index - world.maxz, 0))
 
-			// map_indices is indexed by the database value, so we need to re-adjust.
-			var/index_key = num2text(world.maxz - mapped_offset)
+			// mapped_indices is indexed by the database value, so we need to re-adjust.
+			var/index_key = num2text(z_level.index)
 			if(index_key in mapped_indices)
 				var/lvldat_path = mapped_indices[index_key]
 				if(length(mapped_indices[index_key]) && !ispath(lvldat_path))
