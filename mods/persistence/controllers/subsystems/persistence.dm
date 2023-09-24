@@ -266,3 +266,13 @@
 /datum/controller/subsystem/persistence/show_info(mob/user)
 	to_chat(user, SPAN_INFO("Disabled with persistence modpack (how ironic)..."))
 	return
+
+/mob/Stat()
+	..()
+	. = (is_client_active(10 MINUTES))
+	if(!.)
+		return
+
+	if(statpanel("Status"))
+		if((check_rights(R_DEBUG, FALSE, client) || check_rights(R_SERVER, FALSE, client) || check_rights(R_ADMIN, FALSE, client)))
+			stat("Loaded Save", (SSpersistence.in_loaded_world? "[SSpersistence.LoadedSaveTimestamp()]": "NONE"))
