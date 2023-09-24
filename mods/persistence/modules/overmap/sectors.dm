@@ -87,6 +87,11 @@ SAVED_VAR(/datum/planetoid_data, flora)
 SAVED_VAR(/datum/planetoid_data, fauna)
 SAVED_VAR_AS_TYPE(/datum/planetoid_data, strata)
 
+/datum/planetoid_data/after_deserialize()
+	. = ..()
+	if(!LAZYACCESS(SSmapping.planetoid_data_by_id, id))
+		setup_planetoid()
+
 //Save picked engravings
 SAVED_VAR(/datum/xenoarch_engraving_flavor, picked_actors)
 
