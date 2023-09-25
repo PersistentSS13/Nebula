@@ -44,10 +44,6 @@
 ///Call in a catch block for critical/typically unrecoverable errors during save. Filters out the kind of exceptions we let through or not.
 /datum/controller/subsystem/persistence/proc/_handle_critical_save_exception(var/exception/E, var/code_location)
 	if(error_tolerance < PERSISTENCE_ERROR_TOLERANCE_ANY)
-		// Clear the custom saved list used to keep list refs intact
-		global.custom_saved_lists.Cut()
-		_resume_subsystems()
-		_restore_entering()
 		throw E
 	else
 		log_warning(EXCEPTION_TEXT(E))
@@ -56,10 +52,6 @@
 ///Call in a catch block for recoverable or non-critical errors during save. Filters out the kind of exceptions we let through or not.
 /datum/controller/subsystem/persistence/proc/_handle_recoverable_save_exception(var/exception/E, var/code_location)
 	if(error_tolerance < PERSISTENCE_ERROR_TOLERANCE_RECOVERABLE)
-		// Clear the custom saved list used to keep list refs intact
-		global.custom_saved_lists.Cut()
-		_resume_subsystems()
-		_restore_entering()
 		throw E
 	else
 		log_warning(EXCEPTION_TEXT(E))
@@ -425,11 +417,9 @@
 			saved_types_stats += "\t[statistics.time_spent / (1 SECOND)] second(s)\t[statistics.nb_instances]\tinstance(s)\t\t'[key]'"
 
 		to_world(SPAN_CLASS(save_complete_span_class, save_complete_text))
+		to_world_log(save_complete_text)
 		to_world_log("Time spent per type:\n[jointext(saved_types_stats, "\n")]")
 		to_world_log("Total time spent doing saved variables lookups: [global.get_saved_variables_lookup_time_total / (1 SECOND)] second(s).")
-
-		//Resume all subsystems
-		_resume_subsystems()
 
 	catch(var/exception/e)
 		_handle_recoverable_save_exception(e, "_after_save()") //Anything post-save is recoverable
