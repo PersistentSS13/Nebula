@@ -142,6 +142,7 @@
 		save_initiator = usr.ckey
 
 	var/start = REALTIMEOFDAY
+	var/exception/last_except
 
 	//Prevent entering
 	_block_entering()
@@ -175,6 +176,7 @@
 		save_complete_span_class = "danger"
 		save_complete_text       = "SAVE FAILED: [EXCEPTION_TEXT(e)]"
 		. = FALSE
+		last_except = e
 
 	//Set our success text if we didn't hit any exceptions
 	if(!length(save_complete_text))
@@ -188,13 +190,19 @@
 	// Launch event for anything that needs to do cleanup post save.
 	RAISE_EVENT_REPEAT(/decl/observ/world_saving_finish_event, src)
 
+	//Resume all subsystems
+	_resume_subsystems()
 	// Reallow people in
 	_restore_entering()
+
+	//Throw any exception, so it's a bit more obvious to people looking at the runtime log that it actually runtimed and failed
+	if(last_except)
+		throw last_except
 
 ///Load the last saved world.
 /datum/controller/subsystem/persistence/proc/LoadWorld()
 	var/time_total       = REALTIMEOFDAY
-	var/caught_exception = FALSE
+	var/exception/first_except
 	loading_world  = TRUE
 
 	try
@@ -235,7 +243,7 @@
 	catch(var/exception/e_load)
 		//Don't return in here, we need to let the code try to run cleanup below!
 		to_world_log("Load failed: [EXCEPTION_TEXT(e_load)].")
-		caught_exception = TRUE
+		first_except = e_load
 
 	//Now attempt cleanup. This should be attempted even after an exception!!
 	var/time_cleanup = REALTIMEOFDAY
@@ -245,12 +253,17 @@
 		serializer._after_deserialize()
 	catch(var/exception/e_cleanup)
 		to_world_log("Load cleanup failed: [EXCEPTION_TEXT(e_cleanup)]")
-		caught_exception = TRUE
+		if(!first_except)
+			first_except = e_cleanup
 	report_progress_serializer("Cache cleanup done in [REALTIMEOFDAY2SEC(time_cleanup)]s!")
 
 	//Be sure to set this to false even on exceptions
 	loading_world = FALSE
-	report_progress_serializer("Saved world load completed in [REALTIMEOFDAY2SEC(time_total)] seconds.[caught_exception? SPAN_RED("Some errors were encountered!!") : ""]")
+	report_progress_serializer("Saved world load completed in [REALTIMEOFDAY2SEC(time_total)] seconds.[first_except? SPAN_RED("Some errors were encountered!!") : ""]")
+
+	//Throw any exception, so it's a bit more obvious to people looking at the runtime log that it actually runtimed and failed
+	if(first_except)
+		throw first_except
 
 /////////////////////////////////////////////////////////////////
 // Base Persistence Subsystem Overrides
