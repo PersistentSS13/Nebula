@@ -494,7 +494,7 @@ By design, d1 is the smallest direction and d2 is the highest
 	item_state = "coil"
 	attack_verb = list("whipped", "lashed", "disciplined", "flogged")
 	stack_merge_type = /obj/item/stack/cable_coil
-	matter_multiplier = 0.15
+	matter_multiplier = 0.1
 
 /obj/item/stack/cable_coil/single
 	amount = 1
