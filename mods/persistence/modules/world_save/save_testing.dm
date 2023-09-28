@@ -2,26 +2,28 @@
 /obj/debug
 	is_spawnable_type = FALSE //Prevent unrelated unit tests from creating those.
 
-///Object that when saved will create an error
-/obj/debug/error_on_save
-/obj/debug/error_on_save/Initialize(mapload)
+///Object meant to be saved and cause an error
+/obj/debug/serialization
+	should_save = TRUE
+/obj/debug/serialization/Initialize(mapload)
 	. = ..()
-	message_staff("Error on save debug object was spawned!")
-/obj/debug/error_on_save/before_save()
-	. = ..()
-	CRASH("obj/debug/error_on_save: Crashing save!")
+	message_staff("Debug object `[type]` was spawned! This will cause a crash in any saves it's part of!! Make sure to delete before making any live server save!")
 
-//
-/obj/debug/error_on_load
-/obj/debug/error_on_load/Initialize(mapload)
+///Object that when saved will cause an error in it's before_save() proc.
+/obj/debug/serialization/error_on_save
+/obj/debug/serialization/error_on_save/before_save()
 	. = ..()
-	message_staff("Error on load debug object was spawned!")
-/obj/debug/error_on_save/after_deserialize()
-	. = ..()
-	CRASH("obj/debug/error_on_save: Crashing load!")
+	CRASH("[type]: Crashing before_save()!")
 
-///Test object that always crash during after_deserialize()
-/obj/debug/error_on_after_load
-/obj/debug/error_on_after_load/Initialize(mapload)
+///Object that when loaded will cause an error in it's Initialize() proc.
+/obj/debug/serialization/error_on_load_init
+/obj/debug/serialization/error_on_load_init/Initialize(mapload)
 	. = ..()
-	message_staff("Error on after_deserialize() debug object was spawned!")
+	if(persistent_id)
+		CRASH("[type]: Crashing Initialize()!")
+
+///Test object that always crash during after_deserialize().
+/obj/debug/serialization/error_on_after_load
+/obj/debug/serialization/error_on_after_load/after_deserialize()
+	. = ..()
+	CRASH("[type]: Crashing after_deserialize()!")

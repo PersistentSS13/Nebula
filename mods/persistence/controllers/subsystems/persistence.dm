@@ -261,7 +261,7 @@
 	loading_world = FALSE
 	report_progress_serializer("Saved world load completed in [REALTIMEOFDAY2SEC(time_total)] seconds.[first_except? SPAN_RED("Some errors were encountered!!") : ""]")
 
-	//Throw any exception, so it's a bit more obvious to people looking at the runtime log that it actually runtimed and failed
+	//Throw any exception that were allowed, so it's a bit more obvious to people looking at the runtime log that it actually runtimed and failed
 	if(first_except)
 		throw first_except
 
@@ -280,6 +280,7 @@
 	to_chat(user, SPAN_INFO("Disabled with persistence modpack (how ironic)..."))
 	return
 
+//Display to any server staff the timestamp of the currently loaded save in the status panel.
 /mob/Stat()
 	..()
 	. = (is_client_active(10 MINUTES))
