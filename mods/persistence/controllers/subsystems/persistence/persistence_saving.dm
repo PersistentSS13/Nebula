@@ -181,7 +181,7 @@
 	//!! - HOT CODE BELOW - !!
 	//!!!!!!!!!!!!!!!!!!!!!!!!
 	for(var/z in saved_levels)
-		var/datum/persistence/load_cache/z_level/z_level = z_transform["[z]"] //#FIXME: String concatenation are extremely slow!!!
+		var/datum/persistence/load_cache/z_level/z_level = z_transform["[z]"]
 		var/last_area_type
 		var/last_area_name
 		var/default_turf    = get_base_turf(z)
@@ -199,7 +199,7 @@
 						if(last_area_type != TA.type || last_area_name != TA.name)
 							if(area_turf_count > 0)
 								z_level.areas += list(list("[last_area_type]", sanitize_sql(last_area_name), area_turf_count))
-							last_area_type = TA.type //#FIXME: If last_area_type is only ever used as a string, might as well concat it here, instead of doing it thousands of time above?
+							last_area_type = TA.type
 							last_area_name = TA.name
 							area_turf_count = 1
 						else

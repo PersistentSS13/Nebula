@@ -195,7 +195,7 @@
 		catch(var/exception/e)
 			_handle_recoverable_load_exception(e, "while updating off-world storage state for player '[char_mind.key]'")
 
-///Deserialize cached turfs exclusively from the db cache.
+///Deserialize cached top level wrapper datum/turf exclusively from the db cache.
 /datum/controller/subsystem/persistence/proc/_deserialize_turfs()
 	var/list/turfs_loaded = list()
 	var/time_start        = REALTIMEOFDAY
