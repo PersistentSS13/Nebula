@@ -35,14 +35,14 @@ SUBSYSTEM_DEF(autosave)
 		message_admins(SPAN_DANGER("Attempted autosave while already making an autosave!"))
 		return
 	var/exception/last_except = null
-	var/reset_after_save      = (config.autosave_auto_reset > 0) && (world.time >= config.autosave_auto_reset)
+	var/restart_after_save      = (config.autosave_auto_restart > 0) && (world.time >= config.autosave_auto_restart)
 	saves  += 1
 	saving = TRUE
 
 	try
 		//Announce saving start!
 		to_world(SPAN_AUTOSAVE("Beginning autosave! Server will pause until complete."))
-		if(check_for_restart && reset_after_save)
+		if(check_for_restart && restart_after_save)
 			to_world(SPAN_AUTOSAVE_WARN("Server is restarting after this autosave!"))
 		sleep(5)
 
@@ -65,7 +65,7 @@ SUBSYSTEM_DEF(autosave)
 	//Otherwise, everything is going fine
 	to_world(SPAN_AUTOSAVE("Autosave complete!"))
 
-	if(check_for_restart && reset_after_save)
+	if(check_for_restart && restart_after_save)
 		to_world(SPAN_AUTOSAVE_WARN("Server is going down NOW!"))
 		sleep(1 SECOND)
 		world.Reboot()
@@ -75,12 +75,12 @@ SUBSYSTEM_DEF(autosave)
 
 	if(!announced && minutes_left <= 5)
 		to_world(SPAN_AUTOSAVE("Autosave in 5 minutes!"))
-		if((world.time + minutes_left MINUTES) >= config.autosave_auto_reset)
+		if((world.time + minutes_left MINUTES) >= config.autosave_auto_restart)
 			to_world(SPAN_AUTOSAVE("The server will reboot after this save!"))
 		announced = 1
 	if(announced == 1 && minutes_left <= 1)
 		to_world(SPAN_AUTOSAVE("Autosave in 1 minute!"))
-		if((world.time + minutes_left MINUTES) >= config.autosave_auto_reset)
+		if((world.time + minutes_left MINUTES) >= config.autosave_auto_restart)
 			to_world(SPAN_AUTOSAVE("The server will reboot after this save!"))
 		announced = 2
 	if(announced == 2 && minutes_left >= 6)
