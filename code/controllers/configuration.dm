@@ -848,7 +848,9 @@ var/global/list/gamemode_cache = list()
 					config.show_typing_indicator_for_whispers = TRUE
 
 				else
-					log_misc("Unknown setting in configuration: '[name]'")
+					//Shitty hook to get our extra settings to load until config options code is less dumb
+					if(!load_mod_config(name, value))
+						log_misc("Unknown setting in configuration: '[name]'")
 
 		else if(type == "game_options")
 			if(!value)
@@ -976,7 +978,9 @@ var/global/list/gamemode_cache = list()
 					config.disable_daycycle = TRUE
 
 				else
-					log_misc("Unknown setting in configuration: '[name]'")
+					//Shitty hook to get our extra settings to load until config options code is less dumb
+					if(!load_mod_game_options(name, value))
+						log_misc("Unknown setting in configuration: '[name]'")
 
 	fps = round(fps)
 	if(fps <= 0)
@@ -1020,7 +1024,8 @@ var/global/list/gamemode_cache = list()
 			if ("password")
 				sqlpass = value
 			else
-				log_misc("Unknown setting in configuration: '[name]'")
+				if(!load_mod_dbconfig(name, value))
+					log_misc("Unknown setting in configuration: '[name]'")
 
 /datum/configuration/proc/pick_mode(mode_name)
 	// I wish I didn't have to instance the game modes in order to look up
@@ -1042,3 +1047,15 @@ var/global/list/gamemode_cache = list()
 	var/event_info = safe_file2text(filename, FALSE)
 	if(event_info)
 		custom_event_msg = event_info
+
+///Hook stub for loading modpack specific configs. Just override in modpack.
+/datum/configuration/proc/load_mod_config(var/name, var/value)
+	return
+
+///Hook stub for loading modpack specific game_options. Just override in modpack.
+/datum/configuration/proc/load_mod_game_options(var/name, var/value)
+	return
+
+///Hook stub for loading modpack specific dbconfig. Just override in modpack.
+/datum/configuration/proc/load_mod_dbconfig(var/name, var/value)
+	return

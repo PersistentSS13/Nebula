@@ -564,7 +564,7 @@ var/global/list/serialization_time_spent_type
 			last_except = e //Throw it after we clean up
 		else
 			to_world_log("World Serializer Failed")
-			to_world_log(e)
+			to_world_log(e) //#FIXME: This doesn't print the exception's contents
 
 	thing_inserts.Cut(1)
 	var_inserts.Cut(1)
@@ -604,22 +604,41 @@ var/global/list/serialization_time_spent_type
 	list_index = 1
 	flattener.Clear()
 
-// Deletes all saves from the database.
-/serializer/sql/proc/WipeSave()
-	var/DBQuery/query = dbcon_save.NewQuery("TRUNCATE TABLE `[SQLS_TABLE_DATUM]`;")
+///Do pre world saving stuff. Returns the current save log entry id.
+/serializer/sql/proc/PreWorldSave(var/save_initiator)
+	_before_serialize()
+	//Ask the db to clear the old world save
+	var/DBQuery/query = dbcon_save.NewQuery("CALL `[SQLS_PROC_CLEAR_WORLD_SAVE]`();")
 	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO WIPE PREVIOUS SAVE:")
-	query = dbcon_save.NewQuery("TRUNCATE TABLE `[SQLS_TABLE_DATUM_VARS]`;")
-	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO WIPE PREVIOUS SAVE:")
-	query = dbcon_save.NewQuery("TRUNCATE TABLE `[SQLS_TABLE_LIST_ELEM]`;")
-	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO WIPE PREVIOUS SAVE:")
-	query = dbcon_save.NewQuery("TRUNCATE TABLE `[SQLS_TABLE_Z_LEVELS]`;")
-	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO WIPE PREVIOUS SAVE:")
-	query = dbcon_save.NewQuery("TRUNCATE TABLE `[SQLS_TABLE_AREAS]`;")
-	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO WIPE PREVIOUS SAVE:")
+
+	//Logs the world save into the table
+	query = dbcon_save.NewQuery("SELECT `[SQLS_FUNC_LOG_SAVE_WORLD_START]`('[sanitize_sql(sanitize(save_initiator, MAX_LNAME_LEN))]');")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO LOG WORLD SAVE START:")
+	if(query.NextRow())
+		. = query.item[1]
+	Clear()
+
+/serializer/sql/proc/PostWorldSave(var/save_entry_id, var/nb_saved_lvl, var/nb_saved_atoms, var/result_text)
+	var/actual_query = "SELECT `[SQLS_FUNC_LOG_SAVE_END]`('[save_entry_id]','[nb_saved_lvl]','[nb_saved_atoms]','[sanitize_sql(sanitize(result_text, MAX_MEDIUM_TEXT_LEN))]');"
+	var/DBQuery/query = dbcon_save.NewQuery(actual_query)
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO LOG WORLD SAVE END ('[actual_query]'):")
+	if(query.NextRow())
+		. = query.item[1]
+	_after_serialize()
 	Clear()
 
 /serializer/sql/save_exists()
 	return count_saved_datums() > 0
+
+///Returns the timestamp of when the currently loaded save was completed.
+/serializer/sql/last_loaded_save_time()
+	if(!establish_save_db_connection())
+		CRASH("Couldn't get last world save timestamp, connection failed!")
+	//Get the last logged world save from the db
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT `[SQLS_FUNC_GET_LAST_SAVE_TIME]`();")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO GET THE TIMESTAMP FOR THE LAST WORLD SAVE:")
+	if(query.NextRow())
+		return query.item[1]
 
 /serializer/sql/save_z_level_remaps(var/list/z_transform)
 	var/list/z_inserts = list()

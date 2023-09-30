@@ -3,6 +3,8 @@
 /obj/machinery/cryopod
 	var/obj/item/radio/intercom/old_intercom
 	var/despawning = FALSE
+	///The ckey of who put the occupant in the machine if not the occupant themselves
+	var/tmp/who_put_me_in
 
 /obj/machinery/cryopod/Initialize()
 	old_intercom = locate() in src
@@ -30,6 +32,7 @@
 	src.occupant = occupant
 	if(!occupant)
 		SetName(initial(name))
+		who_put_me_in = null
 		return
 
 	if(occupant.client)
@@ -42,6 +45,9 @@
 
 	SetName("[name] ([occupant])")
 	icon_state = occupied_icon_state
+	if(ismob(usr))
+		var/mob/M = usr
+		who_put_me_in = M.ckey
 
 /obj/machinery/cryopod/verb/self_eject()
 	set name = "Self-eject Pod"
@@ -66,6 +72,7 @@
 	add_fingerprint(usr)
 
 	SetName(initial(name))
+	who_put_me_in = null
 	return
 
 // Players shoved into this will be removed from the game and added to limbo to be deserialized later.
@@ -131,7 +138,7 @@
 		H.home_spawn = src
 		var/datum/mind/occupant_mind = occupant.mind
 		if(occupant_mind)
-			var/success = SSpersistence.AddToLimbo(list(occupant, occupant_mind), occupant_mind.unique_id, LIMBO_MIND, occupant_mind.key, occupant_mind.current.real_name, TRUE)
+			var/success = SSpersistence.AddToLimbo(list(occupant, occupant_mind), occupant_mind.unique_id, LIMBO_MIND, occupant_mind.key, occupant_mind.current.real_name, TRUE, (who_put_me_in || occupant.ckey))
 			if(!success)
 				log_and_message_admins("\The cryopod at ([x], [y], [z]) failed to despawn the occupant [occupant]!")
 				to_chat(occupant, SPAN_WARNING("Something has gone wrong while saving your character. Contact an admin!"))
@@ -141,9 +148,11 @@
 		else
 			despawning = FALSE
 			return
-	if(occupant.ckey)
+	if(occupant.ckey && occupant.client)
 		var/mob/new_player/new_player = new()
-		new_player.ckey = occupant.ckey
+		new_player.ckey               = occupant.ckey
+		new_player.client.eye         = new_player.client.mob //Do this so we don't hear what's going on around the pod after cryo.
+		new_player.client.perspective = MOB_PERSPECTIVE
 
 	despawning = FALSE
 	// Delete the mob.

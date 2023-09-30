@@ -76,7 +76,7 @@
 	SSchargen.release_spawn_pod(get_area(src))
 
 	// Add the mob to limbo for safety. Mark for removal on the next save.
-	SSpersistence.AddToLimbo(list(user, user.mind), user.mind.unique_id, LIMBO_MIND, user.mind.key, user.mind.current.real_name, TRUE)
+	SSpersistence.AddToLimbo(list(user, user.mind), user.mind.unique_id, LIMBO_MIND, user.mind.key, user.mind.current.real_name, TRUE, user.mind.key)
 	SSpersistence.limbo_removals += list(list(sanitize_sql(user.mind.unique_id), LIMBO_MIND))
 
 	for(var/turf/T in global.latejoin_cryo_locations)

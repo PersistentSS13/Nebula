@@ -10,9 +10,9 @@ SUBSYSTEM_DEF(autosave)
 	var/last_save			// world.time of the last save
 	var/autosave_interval	// Time between autosaves.
 
-/datum/controller/subsystem/autosave/Initialize()
+/datum/controller/subsystem/autosave/Initialize(start_timeofday)
 	. = ..()
-	last_save = world.time
+	last_save         = world.time
 	autosave_interval = config.autosave_interval	// To prevent saving upon start.
 
 /datum/controller/subsystem/autosave/stat_entry()
@@ -22,53 +22,73 @@ SUBSYSTEM_DEF(autosave)
 	else if(saving)
 		msg = "Currently Saving..."
 	else
-		msg = "Next Autosave in [ round(((last_save + autosave_interval) - world.time) / (1 MINUTE), 0.1)] Minutes."
+		msg = "Next Autosave in [round(((last_save + autosave_interval) - world.time) / (1 MINUTE), 0.1)] Minutes."
 	..(msg)
 
 /datum/controller/subsystem/autosave/fire()
 	AnnounceSave()
-	if(last_save + autosave_interval <= world.time)
+	if((last_save + autosave_interval) <= world.time)
 		Save()
 
 /datum/controller/subsystem/autosave/proc/Save(var/check_for_restart = TRUE)
 	if(saving)
-		message_admins(SPAN_DANGER("Attempted to save while already saving!"))
-	else
-		saves += 1
-		to_world("<font size=4 color='green'>Beginning save! Server will unpause when save is complete.</font>")
+		message_admins(SPAN_DANGER("Attempted autosave while already making an autosave!"))
+		return
+	var/exception/last_except = null
+	var/restart_after_save      = (config.autosave_auto_restart > 0) && (world.time >= config.autosave_auto_restart)
+	saves  += 1
+	saving = TRUE
 
-		var/reset_after_save = config.autosave_auto_reset > 0 && world.time >= config.autosave_auto_reset
+	try
+		//Announce saving start!
+		to_world(SPAN_AUTOSAVE("Beginning autosave! Server will pause until complete."))
+		if(check_for_restart && restart_after_save)
+			to_world(SPAN_AUTOSAVE_WARN("Server is restarting after this autosave!"))
+		sleep(5)
 
-		if(check_for_restart && reset_after_save)
-			to_world("<font size=4 color='red'>Server is resetting after this save!</font>")
+		//Begin actual save
+		SSpersistence.SaveWorld(name)
 
-		saving = 1
-		for(var/datum/controller/subsystem/S in Master.subsystems)
-			S.disable()
-		SSpersistence.SaveWorld()
-		for(var/datum/controller/subsystem/S in Master.subsystems)
-			S.enable()
-		saving = 0
-		to_world("<font size=4 color='green'>World save complete!</font>")
+	catch(var/exception/e)
+		//Prevent exception going upwards the stack if we fail, so we don't keep saving over and over, and don't break saving afterwards
+		log_warning("datum/controller/subsystem/autosave/proc/Save() was interrupted by an exception!")
+		last_except = e
 
-		if(check_for_restart && reset_after_save)
-			to_world("<font size=4 color='red'>Server is going down NOW!</font>")
-			world.Reboot()
+	//Set the next save timer + indicate we're done saving
+	saving    = FALSE
+	last_save = world.time
 
-		last_save = world.time
+	//Before telling the user we've had success throw any exceptions we've hit
+	if(!isnull(last_except))
+		throw last_except //Kick us out after we've cleaned up our state and report the exception.
+
+	//Otherwise, everything is going fine
+	to_world(SPAN_AUTOSAVE("Autosave complete!"))
+
+	if(check_for_restart && restart_after_save)
+		to_world(SPAN_AUTOSAVE_WARN("Server is going down NOW!"))
+		sleep(1 SECOND)
+		world.Reboot()
 
 /datum/controller/subsystem/autosave/proc/AnnounceSave()
-	var/minutes = (last_save + autosave_interval - world.time) / (1 MINUTE)
+	var/minutes_left = (last_save + autosave_interval - world.time) / (1 MINUTE)
 
-	if(!announced && minutes <= 5)
-		to_world("<font size=4 color='green'>Autosave in 5 minutes!</font>")
-		if((world.time + minutes MINUTES) >= config.autosave_auto_reset)
-			to_world("<font size=4 color='green'>The server will reboot after this save!</font>")
+	if(!announced && minutes_left <= 5)
+		to_world(SPAN_AUTOSAVE("Autosave in 5 minutes!"))
+		if((world.time + minutes_left MINUTES) >= config.autosave_auto_restart)
+			to_world(SPAN_AUTOSAVE("The server will reboot after this save!"))
 		announced = 1
-	if(announced == 1 && minutes <= 1)
-		to_world("<font size=4 color='green'>Autosave in 1 minute!</font>")
-		if((world.time + minutes MINUTES) >= config.autosave_auto_reset)
-			to_world("<font size=4 color='green'>The server will reboot after this save!</font>")
+	if(announced == 1 && minutes_left <= 1)
+		to_world(SPAN_AUTOSAVE("Autosave in 1 minute!"))
+		if((world.time + minutes_left MINUTES) >= config.autosave_auto_restart)
+			to_world(SPAN_AUTOSAVE("The server will reboot after this save!"))
 		announced = 2
-	if(announced == 2 && minutes >= 6)
+	if(announced == 2 && minutes_left >= 6)
 		announced = 0
+
+///Adds the given amount of time to the next autosave timer.
+/datum/controller/subsystem/autosave/proc/DelayNextSave(var/delay)
+	//Prevent bad things from happening if we somehow trigger another save at the same time
+	if(saving)
+		CRASH("Cannot change the time to next save while we're currently saving!")
+	last_save += delay

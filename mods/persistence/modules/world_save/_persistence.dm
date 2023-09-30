@@ -22,7 +22,7 @@ SAVED_VAR(/datum, custom_saved)
  * Called right after the entity has been saved.
 */
 /datum/proc/after_save()
-	custom_saved_lists |= list(custom_saved)
+	custom_saved_lists |= list(custom_saved) //This make sure the ref to the list is kept alive long enough for the save to be able to write it.
 #ifndef SAVE_DEBUG
 	custom_saved = null //Clear it since its no longer needed
 #endif

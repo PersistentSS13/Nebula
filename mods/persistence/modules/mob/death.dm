@@ -39,6 +39,6 @@
 			player.ckey = ckey
 
 			// Permanently remove the player from the limbo list so that the mind datum is removed from the database at next save.
-			SSpersistence.RemoveFromLimbo(mind.unique_id, LIMBO_MIND)
+			SSpersistence.RemoveFromLimbo(mind.unique_id, LIMBO_MIND, player.ckey)
 			QDEL_NULL(mind)
 			qdel_self()

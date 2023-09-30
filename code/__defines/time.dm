@@ -22,3 +22,6 @@
 #define worldtime2stationtime(time) time2text(roundstart_hour HOURS + time, "hh:mm")
 #define round_duration_in_ticks (round_start_time ? world.time - round_start_time : 0)
 #define station_time_in_ticks (roundstart_hour HOURS + round_duration_in_ticks)
+
+///Convert a time value from REALTIMEOFDAY into an amount of seconds
+#define REALTIMEOFDAY2SEC(T) ((REALTIMEOFDAY - T) / (1 SECOND))

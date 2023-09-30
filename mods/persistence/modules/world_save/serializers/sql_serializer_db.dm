@@ -13,15 +13,6 @@ var/global/DBConnection/dbcon_save
 
 /proc/check_save_db_connection()
 	return global.dbcon_save && global.dbcon_save.IsConnected()
-	// if(!global.dbcon_save || !global.dbcon_save.IsConnected())
-	// 	return FALSE
-	// var/DBQuery/dbq = global.dbcon_save.NewQuery("SELECT DATABASE();")
-	// . = dbq.Execute()
-	// if(!.)
-	// 	to_world_log("check_save_db_connection: failed after execution : '[dbq.ErrorMsg()]'")
-	// 	return FALSE
-	// if(dbq.NextRow())
-	// 	to_world_log("check_save_db_connection: Test query returned '[dbq.item[1]]'")
 
 /proc/close_save_db_connection()
 	if(global.dbcon_save && global.dbcon_save.IsConnected())

@@ -94,3 +94,15 @@
 //This object is doing a bunch of nasty things, like initializing during new, and moving to nullspace, don't try saving it.
 /obj/abstract/weather_system
 	should_save = FALSE
+
+///////////////////////////////////////////////////
+// Turfs
+///////////////////////////////////////////////////
+
+//Mimic edges try to access adjacent levels's level data, and their own level's level_data when being created. But we can't guarantee they exist yet.
+/turf/exterior/mimic_edge
+	should_save = FALSE
+/turf/unsimulated/mimic_edge
+	should_save = FALSE
+/turf/simulated/mimic_edge
+	should_save = FALSE

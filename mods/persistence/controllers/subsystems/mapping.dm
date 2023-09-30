@@ -17,3 +17,19 @@
 
 /datum/controller/subsystem/mapping/proc/Save()
 	SSpersistence.SaveWorld()
+
+///Work around for saved level and stuff not restoring properly after save load. Would be simpler if we'd just modify the base class.
+/datum/controller/subsystem/mapping/register_level_data(var/datum/level_data/LD)
+	if(!(. = ..()))
+		return .
+	if(LD.level_flags & ZLEVEL_SAVED)
+		SSpersistence.saved_levels  |= LD.level_z
+	if(LD.level_flags & ZLEVEL_MINING)
+		SSmapping.mining_levels  |= LD.level_z
+	return .
+/datum/controller/subsystem/mapping/unregister_level_data(var/datum/level_data/LD)
+	if(!(. = ..()))
+		return .
+	SSpersistence.saved_levels -= LD.level_z
+	SSmapping.mining_levels    -= LD.level_z
+	return .

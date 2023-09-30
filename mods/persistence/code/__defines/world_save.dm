@@ -24,3 +24,13 @@ else{src.custom_saved |= list(VARNAMES);}
 //Helper to place at the end of Initialize of saved objects to make sure they lateinit only if they don't get deleted during init and if they were saved!
 #define LATE_INIT_IF_SAVED \
 if(. != INITIALIZE_HINT_QDEL && src.persistent_id){return INITIALIZE_HINT_LATELOAD;}
+
+////////////////////////////////////////////
+// Persistence Error Tolerance
+////////////////////////////////////////////
+///Do not tolerate any errors during save/load.
+#define PERSISTENCE_ERROR_TOLERANCE_NONE 0
+///Tolerate only recoverable errors during save/load.
+#define PERSISTENCE_ERROR_TOLERANCE_RECOVERABLE 1
+///Tolerate ANY errors during save/load. This is likely to cause a corrupted save.
+#define PERSISTENCE_ERROR_TOLERANCE_ANY 2

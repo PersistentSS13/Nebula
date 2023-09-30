@@ -462,3 +462,19 @@ RADIATION_LOWER_LIMIT 0.15
 
 ## Uncomment this to show a typing indicator for people writing whispers.
 #SHOW_TYPING_INDICATOR_FOR_WHISPERS
+
+################################
+## Persistence Stuff
+################################
+
+## Time in minutes between automated world saves. Default is every 120 minutes.
+#AUTOSAVE_INTERVAL 120
+
+## Uptime in hours after which the next autosave will force a server reboot. Default is 12 Hours. Setting to 0 disables it.
+#AUTOSAVE_AUTO_RESTART 12
+
+## !! - Use With Caution - !!
+## Set what kind of errors will be skipped over during saving/loading if encountered. Default is "NONE".
+## This value is meant to be used for rescuing a broken save, or forcing a broken save to work. As it will most likely cause problems if used constantly.
+## The possible values are: "NONE"->No errors allowed at all, "RECOVERABLE"->Only recoverable errors allowed, "ANY"->Any error, even connection error will be ignored.
+#SAVE_ERROR_TOLERANCE NONE
