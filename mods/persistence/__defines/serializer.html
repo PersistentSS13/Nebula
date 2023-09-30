@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <base href="../../../../../../../" />
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;__defines&#x2F;serializer.dm - Space Station 13 - Nebula13</title>
+</head>
+<body>
+<header>
+    <a href="index.html">Space Station 13 - Nebula13</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+ &mdash; <a href="maps/kleibkhar/../../mods/persistence/__defines/serializer.html#define">Define Details</a></header>
+<main>
+<h1>maps/kleibkhar/../../mods/persistence/__defines/serializer.dm 
+            <a href="https://github.com/PersistentSS13/Nebula/blob/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c/maps/kleibkhar/../../mods/persistence/__defines/serializer.dm">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;__defines&#x2F;serializer.dm"/></a></h1>
+
+<table class="summary" cellspacing="0">
+        <tr><th><a href="maps/kleibkhar/../../mods/persistence/__defines/serializer.html#define/SQLS_SAVE_DATABASE">SQLS_SAVE_DATABASE</a></th><td>A macro for getting the current save DB name</td></tr>
+        <tr><th><a href="maps/kleibkhar/../../mods/persistence/__defines/serializer.html#define/SQLS_FUNC_GET_LAST_SAVE_TIME">SQLS_FUNC_GET_LAST_SAVE_TIME</a></th><td>Name of the stored function that returns the time we last made a world save from the db.</td></tr>
+        <tr><th><a href="maps/kleibkhar/../../mods/persistence/__defines/serializer.html#define/SQLS_FUNC_LOG_SAVE_WORLD_START">SQLS_FUNC_LOG_SAVE_WORLD_START</a></th><td>Log to the table when a world save begins, returns the current save log id.</td></tr>
+        <tr><th><a href="maps/kleibkhar/../../mods/persistence/__defines/serializer.html#define/SQLS_FUNC_LOG_SAVE_STORAGE_START">SQLS_FUNC_LOG_SAVE_STORAGE_START</a></th><td>Log to the table when a limbo/storage save begins, returns the current save log id.</td></tr>
+        <tr><th><a href="maps/kleibkhar/../../mods/persistence/__defines/serializer.html#define/SQLS_FUNC_LOG_SAVE_END">SQLS_FUNC_LOG_SAVE_END</a></th><td>Log to the table when any save ends, returns the current save log id.</td></tr>
+        <tr><th><a href="maps/kleibkhar/../../mods/persistence/__defines/serializer.html#define/SQLS_PROC_CLEAR_WORLD_SAVE">SQLS_PROC_CLEAR_WORLD_SAVE</a></th><td>Delete the current world save from the db, so we can write a newer one. Procedures are executed with CALL, and don't return anything.</td></tr>
+        <tr><th><a href="maps/kleibkhar/../../mods/persistence/__defines/serializer.html#define/SQLS_EXECUTE_AND_REPORT_ERROR">SQLS_EXECUTE_AND_REPORT_ERROR</a></th><td>A helper for executing a sql query and throwing the proper exception with a standardized error message. QUERY must be a variable.</td></tr></table><h2 id="define">Define Details</h2>
+<h3 id="define/SQLS_EXECUTE_AND_REPORT_ERROR"><aside class="declaration">#define </aside>SQLS_EXECUTE_AND_REPORT_ERROR
+            <aside>(QUERY, ERRORMSG)</aside>
+            <a href="https://github.com/PersistentSS13/Nebula/blob/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c/maps/kleibkhar/../../mods/persistence/__defines/serializer.dm#L60">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;__defines&#x2F;serializer.dm 60"/></a>
+    </h3>
+    <p>A helper for executing a sql query and throwing the proper exception with a standardized error message. QUERY must be a variable.</p><h3 id="define/SQLS_FUNC_GET_LAST_SAVE_TIME"><aside class="declaration">#define </aside>SQLS_FUNC_GET_LAST_SAVE_TIME
+            <a href="https://github.com/PersistentSS13/Nebula/blob/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c/maps/kleibkhar/../../mods/persistence/__defines/serializer.dm#L40">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;__defines&#x2F;serializer.dm 40"/></a>
+    </h3>
+    <p>Name of the stored function that returns the time we last made a world save from the db.</p><h3 id="define/SQLS_FUNC_LOG_SAVE_END"><aside class="declaration">#define </aside>SQLS_FUNC_LOG_SAVE_END
+            <a href="https://github.com/PersistentSS13/Nebula/blob/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c/maps/kleibkhar/../../mods/persistence/__defines/serializer.dm#L46">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;__defines&#x2F;serializer.dm 46"/></a>
+    </h3>
+    <p>Log to the table when any save ends, returns the current save log id.</p><h3 id="define/SQLS_FUNC_LOG_SAVE_STORAGE_START"><aside class="declaration">#define </aside>SQLS_FUNC_LOG_SAVE_STORAGE_START
+            <a href="https://github.com/PersistentSS13/Nebula/blob/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c/maps/kleibkhar/../../mods/persistence/__defines/serializer.dm#L44">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;__defines&#x2F;serializer.dm 44"/></a>
+    </h3>
+    <p>Log to the table when a limbo/storage save begins, returns the current save log id.</p><h3 id="define/SQLS_FUNC_LOG_SAVE_WORLD_START"><aside class="declaration">#define </aside>SQLS_FUNC_LOG_SAVE_WORLD_START
+            <a href="https://github.com/PersistentSS13/Nebula/blob/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c/maps/kleibkhar/../../mods/persistence/__defines/serializer.dm#L42">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;__defines&#x2F;serializer.dm 42"/></a>
+    </h3>
+    <p>Log to the table when a world save begins, returns the current save log id.</p><h3 id="define/SQLS_PROC_CLEAR_WORLD_SAVE"><aside class="declaration">#define </aside>SQLS_PROC_CLEAR_WORLD_SAVE
+            <a href="https://github.com/PersistentSS13/Nebula/blob/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c/maps/kleibkhar/../../mods/persistence/__defines/serializer.dm#L53">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;__defines&#x2F;serializer.dm 53"/></a>
+    </h3>
+    <p>Delete the current world save from the db, so we can write a newer one. Procedures are executed with CALL, and don't return anything.</p><h3 id="define/SQLS_SAVE_DATABASE"><aside class="declaration">#define </aside>SQLS_SAVE_DATABASE
+            <a href="https://github.com/PersistentSS13/Nebula/blob/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c/maps/kleibkhar/../../mods/persistence/__defines/serializer.dm#L2">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;__defines&#x2F;serializer.dm 2"/></a>
+    </h3>
+    <p>A macro for getting the current save DB name</p></main>
+<footer>
+    nebula.dme
+    <a href="https://github.com/PersistentSS13/Nebula/tree/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c">6b9dfbd</a>
+        (dev) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.4.1</a></footer>
+</body>
+</html>

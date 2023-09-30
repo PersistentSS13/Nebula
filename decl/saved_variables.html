@@ -16,7 +16,7 @@
 <h1>saved_variables <aside>/<a href="decl/saved_variables.html">decl/saved_variables</a></aside>
         
     
-            <a href="https://github.com/PersistentSS13/Nebula/blob/30a0294cca7aa4cb5aeb184701fd70c5476dc0e6/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L66">
+            <a href="https://github.com/PersistentSS13/Nebula/blob/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L66">
         <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;world_save&#x2F;saved_vars.dm 66"/></a></h1>
 
 <p>Singleton datum for holding saved variables info for a given type.
@@ -35,50 +35,50 @@ This shouldn't be called before all decl of this type are instantiated!!!</td></
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/PersistentSS13/Nebula/blob/30a0294cca7aa4cb5aeb184701fd70c5476dc0e6/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L71">
+            <a href="https://github.com/PersistentSS13/Nebula/blob/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L71">
         <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;world_save&#x2F;saved_vars.dm 71"/></a></h3>
         <p>Used for types that inherit from another, even though the path doesn't represents that
 (AKA /obj inheriting from /atom/movable, and /atom/movable inheriting from /datum)</p><h3 id="var/cached"><aside class="declaration">var </aside>cached
             <aside>&ndash; /list</aside>
         
     
-            <a href="https://github.com/PersistentSS13/Nebula/blob/30a0294cca7aa4cb5aeb184701fd70c5476dc0e6/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L77">
+            <a href="https://github.com/PersistentSS13/Nebula/blob/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L77">
         <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;world_save&#x2F;saved_vars.dm 77"/></a></h3>
         <p>Saved vars cached after being generated from the macros, since that involves a lot of proc calls</p><h3 id="var/should_flatten"><aside class="declaration">var </aside>should_flatten
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/PersistentSS13/Nebula/blob/30a0294cca7aa4cb5aeb184701fd70c5476dc0e6/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L73">
+            <a href="https://github.com/PersistentSS13/Nebula/blob/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L73">
         <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;world_save&#x2F;saved_vars.dm 73"/></a></h3>
         <p>Whether the type should be saved entirely as a json array.</p><h3 id="var/type_path"><aside class="declaration">var </aside>type_path
             <aside>&ndash; </aside>
         
     
-            <a href="https://github.com/PersistentSS13/Nebula/blob/30a0294cca7aa4cb5aeb184701fd70c5476dc0e6/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L68">
+            <a href="https://github.com/PersistentSS13/Nebula/blob/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L68">
         <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;world_save&#x2F;saved_vars.dm 68"/></a></h3>
         <p>The type path of the object this saved_vars decl is for</p><h2 id="proc">Proc Details</h2><h3 id="proc/get_saved_variables"><aside class="declaration">proc </aside>get_saved_variables<aside>() 
         
     
-            <a href="https://github.com/PersistentSS13/Nebula/blob/30a0294cca7aa4cb5aeb184701fd70c5476dc0e6/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L98">
+            <a href="https://github.com/PersistentSS13/Nebula/blob/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L98">
         <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;world_save&#x2F;saved_vars.dm 98"/></a></aside>
         </h3>
         <p>This is what should be used to retrieve the saved var list. It lazy init the cached list and returns it.</p><h3 id="proc/make_saved_variables"><aside class="declaration">proc </aside>make_saved_variables<aside>(/list/saved) 
         
     
-            <a href="https://github.com/PersistentSS13/Nebula/blob/30a0294cca7aa4cb5aeb184701fd70c5476dc0e6/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L87">
+            <a href="https://github.com/PersistentSS13/Nebula/blob/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L87">
         <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;world_save&#x2F;saved_vars.dm 87"/></a></aside>
         </h3>
         <p>This is called by the macro to override the proc and set the name of the newly added saved var.
 This shouldn't be called before all decl of this type are instantiated!!!</p><h3 id="proc/test_variables"><aside class="declaration">proc </aside>test_variables<aside>(/<a href="datum.html">datum</a>/instance) 
         
     
-            <a href="https://github.com/PersistentSS13/Nebula/blob/30a0294cca7aa4cb5aeb184701fd70c5476dc0e6/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L104">
+            <a href="https://github.com/PersistentSS13/Nebula/blob/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c/maps/kleibkhar/../../mods/persistence/modules/world_save/saved_vars.dm#L104">
         <img src="git.png" width="16" height="16" title="maps&#x2F;kleibkhar&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;world_save&#x2F;saved_vars.dm 104"/></a></aside>
         </h3>
         <p>Will test the instance of the given object if its the object we're holding the saved vars for. Will returns FALSE if something is wrong with the variables.</p></main>
 <footer>
     nebula.dme
-    <a href="https://github.com/PersistentSS13/Nebula/tree/30a0294cca7aa4cb5aeb184701fd70c5476dc0e6">30a0294</a>
+    <a href="https://github.com/PersistentSS13/Nebula/tree/6b9dfbd91daa75fc715d373a5567ff082f0b7b9c">6b9dfbd</a>
         (dev) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.4.1</a></footer>
 </body>
 </html>
