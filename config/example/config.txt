@@ -474,7 +474,7 @@ RADIATION_LOWER_LIMIT 0.15
 #AUTOSAVE_AUTO_RESTART 12
 
 ## !! - Use With Caution - !!
-## Set what kind of errors will be skipped over during saving/loading if encountered. Default is "none".
+## Set what kind of errors will be skipped over during saving/loading if encountered. Default is "NONE".
 ## This value is meant to be used for rescuing a broken save, or forcing a broken save to work. As it will most likely cause problems if used constantly.
-## The possible values are: "none"->No errors allowed at all, "recoverable"->Only recoverable errors allowed, "any"->Any error, even connection error will be ignored.
+## The possible values are: "NONE"->No errors allowed at all, "RECOVERABLE"->Only recoverable errors allowed, "ANY"->Any error, even connection error will be ignored.
 #SAVE_ERROR_TOLERANCE NONE
