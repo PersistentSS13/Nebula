@@ -849,7 +849,7 @@ var/global/list/gamemode_cache = list()
 
 				else
 					//Shitty hook to get our extra settings to load until config options code is less dumb
-					if(!load_persistence_config(name, value))
+					if(!load_mod_config(name, value))
 						log_misc("Unknown setting in configuration: '[name]'")
 
 		else if(type == "game_options")
@@ -979,7 +979,7 @@ var/global/list/gamemode_cache = list()
 
 				else
 					//Shitty hook to get our extra settings to load until config options code is less dumb
-					if(!load_persistence_game_options(name, value))
+					if(!load_mod_game_options(name, value))
 						log_misc("Unknown setting in configuration: '[name]'")
 
 	fps = round(fps)
@@ -1024,7 +1024,7 @@ var/global/list/gamemode_cache = list()
 			if ("password")
 				sqlpass = value
 			else
-				if(!load_persistence_dbconfig(name, value))
+				if(!load_mod_dbconfig(name, value))
 					log_misc("Unknown setting in configuration: '[name]'")
 
 /datum/configuration/proc/pick_mode(mode_name)
@@ -1047,3 +1047,15 @@ var/global/list/gamemode_cache = list()
 	var/event_info = safe_file2text(filename, FALSE)
 	if(event_info)
 		custom_event_msg = event_info
+
+///Hook stub for loading modpack specific configs. Just override in modpack.
+/datum/configuration/proc/load_mod_config(var/name, var/value)
+	return
+
+///Hook stub for loading modpack specific game_options. Just override in modpack.
+/datum/configuration/proc/load_mod_game_options(var/name, var/value)
+	return
+
+///Hook stub for loading modpack specific dbconfig. Just override in modpack.
+/datum/configuration/proc/load_mod_dbconfig(var/name, var/value)
+	return

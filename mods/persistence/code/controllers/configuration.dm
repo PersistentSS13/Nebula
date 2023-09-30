@@ -3,7 +3,8 @@
 	var/autosave_auto_restart = 12 HOURS
 	var/save_error_tolerance  = PERSISTENCE_ERROR_TOLERANCE_NONE
 
-/datum/configuration/proc/load_persistence_config(var/name, var/value)
+/datum/configuration/load_mod_config(name, value)
+	. = ..()
 	switch(name)
 		if("autosave_interval")
 			autosave_interval = text2num(value) MINUTES
@@ -25,9 +26,9 @@
 			. =  TRUE
 
 ///Hook to add persistence settings meant to be in the game_options file if any.
-/datum/configuration/proc/load_persistence_game_options(var/name, var/value)
-	return
+/datum/configuration/load_mod_game_options(name, value)
+	. = ..()
 
 ///Hook to add persistence settings meant to be in the dbconfig file if any.
-/datum/configuration/proc/load_persistence_dbconfig(var/name, var/value)
-	return
+/datum/configuration/load_mod_dbconfig(name, value)
+	. = ..()
