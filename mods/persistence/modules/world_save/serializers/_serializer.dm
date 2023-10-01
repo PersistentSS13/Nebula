@@ -26,7 +26,7 @@
 		wrappers[initial(Wd.wrapper_for)] = W
 
 /serializer/proc/get_wrapper(var/D)
-	for(var/wrapper_type in wrappers)	
+	for(var/wrapper_type in wrappers)
 		if(istype(D, wrapper_type))
 			return wrappers[wrapper_type]
 
@@ -50,7 +50,7 @@
 /serializer/proc/DeserializeList(var/raw_list)
 
 /serializer/proc/QueryAndDeserializeDatum(var/object_id, var/reference_only = FALSE)
-	var/datum/existing = reverse_map["[object_id]"] 
+	var/datum/existing = reverse_map["[object_id]"]
 	if(!isnull(existing))
 		return existing
 	// We check to see if this is a reference only var so that if things are missing from the resolver, this doesn't fail silently.
@@ -85,6 +85,10 @@
 /serializer/proc/save_exists()
 	return FALSE
 
+///Stub for obtaining the last save timestamp
+/serializer/proc/last_loaded_save_time()
+	return
+
 /serializer/proc/save_z_level_remaps()
 	return FALSE
 
@@ -102,4 +106,4 @@
 	return
 
 /serializer/proc/count_saved_datums()
-	return 
+	return

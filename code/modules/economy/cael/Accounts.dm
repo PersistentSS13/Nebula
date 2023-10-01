@@ -53,10 +53,16 @@
 	return T.perform()
 
 /datum/money_account/proc/deposit(amount, purpose, machine_id)
+	if(amount < 0)
+		return "Invalid deposit amount"
+
 	var/datum/transaction/singular/T = new(src, machine_id, amount, purpose)
 	return T.perform()
 
 /datum/money_account/proc/withdraw(amount, purpose, machine_id)
+	if(amount < 0)
+		return "Invalid withdrawal amount"
+
 	var/datum/transaction/singular/T = new(src, machine_id, -amount, purpose)
 	return T.perform()
 

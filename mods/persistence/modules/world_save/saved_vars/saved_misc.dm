@@ -1396,8 +1396,6 @@ SAVED_VAR(/obj/machinery/network, saved_address)
 
 SAVED_VAR(/obj/machinery/network/mainframe,  initial_roles)
 
-SAVED_VAR(/obj/machinery/network/router,  saved_network)
-
 SAVED_VAR(/obj/machinery/tracking_beacon,  beacon)
 
 SAVED_VAR(/obj/machinery/mining/drill, generated_ore)

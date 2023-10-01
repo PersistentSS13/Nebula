@@ -16,6 +16,20 @@
 			if(istype(E) && E.should_save(one_off = TRUE))
 				extension_wrapper_holder.wrapped |= E
 
+///Do pre world saving stuff. Returns the current save log entry id.
+/serializer/sql/one_off/proc/PreStorageSave(var/save_initiator)
+	//Logs the save into the table
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT `[SQLS_FUNC_LOG_SAVE_STORAGE_START]`('[sanitize_sql(sanitize(save_initiator, MAX_LNAME_LEN))]');")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO LOG STORAGE SAVE START:")
+	if(query.NextRow())
+		. = query.item[1]
+
+/serializer/sql/one_off/proc/PostStorageSave(var/log_id, var/nb_saved_lvl, var/nb_saved_atoms, var/result_text)
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT `[SQLS_FUNC_LOG_SAVE_END]`('[log_id]','[nb_saved_lvl]','[nb_saved_atoms]','[sanitize_sql(sanitize(result_text, MAX_MEDIUM_TEXT_LEN))]');")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO LOG STORAGE SAVE END ('[query.sql]'):")
+	if(query.NextRow())
+		. = query.item[1]
+
 /serializer/sql/one_off/Commit(limbo_assoc)
 	if(!establish_save_db_connection())
 		CRASH("One-Off Serializer: Couldn't establish DB connection!")
@@ -38,7 +52,7 @@
 			try
 				SQLS_EXECUTE_AND_REPORT_ERROR(query, "LIMBO ELEMENT SERIALIZATION FAILED:")
 			catch(var/exception/E)
-				log_warning("Caught exception when issuing query :\n[raw_statement]")
+				log_warning("Caught exception when issuing query :\n[raw_statement]") //#FIXME: query.sql does the same thing
 				throw E
 
 	catch (var/exception/e)
@@ -46,7 +60,7 @@
 			last_except = e //Throw it after we clean up
 		else
 			to_world_log("Limbo Serializer Failed")
-			to_world_log(e)
+			to_world_log(e) //#FIXME: This isn't going to print the exception's text...
 
 	thing_inserts.Cut(1)
 	var_inserts.Cut(1)
@@ -220,9 +234,11 @@
 		limbo_assoc = limbo_items["limbo_assoc"]
 	else
 		return // The object wasn't in limbo to begin with.
+
 	var/DBQuery/delete_query
 	delete_query = dbcon_save.NewQuery("DELETE FROM `[SQLS_TABLE_LIMBO_DATUM]` WHERE `limbo_assoc` = '[limbo_assoc]';")
 	SQLS_EXECUTE_AND_REPORT_ERROR(delete_query, "LIMBO DELETION OF THING(S) FAILED:")
+	. = delete_query.RowsAffected() //Return the amount of datums removed
 
 	delete_query = dbcon_save.NewQuery("DELETE FROM `[SQLS_TABLE_LIMBO_DATUM_VARS]` WHERE `limbo_assoc` = '[limbo_assoc]';")
 	SQLS_EXECUTE_AND_REPORT_ERROR(delete_query, "LIMBO DELETION OF VAR(S) FAILED:")
@@ -234,7 +250,7 @@
 	SQLS_EXECUTE_AND_REPORT_ERROR(delete_query, "LIMBO DELETION FROM LIMBO TABLE FAILED:")
 
 
-/serializer/sql/one_off/proc/DeserializeOneOff(var/limbo_key, var/limbo_type)
+/serializer/sql/one_off/proc/LoadFromLimbo(var/limbo_key, var/limbo_type)
 	var/DBQuery/limbo_query = dbcon_save.NewQuery("SELECT `p_ids` FROM `[SQLS_TABLE_LIMBO]` WHERE `key` = '[limbo_key]' AND `type` = '[limbo_type]';")
 	SQLS_EXECUTE_AND_REPORT_ERROR(limbo_query, "DESERIALIZE ONE-OFF FAILED:")
 	var/list/limbo_p_ids = list()

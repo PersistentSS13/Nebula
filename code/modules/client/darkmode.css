@@ -96,6 +96,11 @@ h1.alert, h2.alert		{color: #a4bad6;}
 .antagdesc				{color: #ff0033; font-size: 125%}
 .reflex_shoot			{color: #000099; font-style: italic;}
 
+/*Persistence*/
+.autosave				{color: #00ff00; font-weight: bold; font-size: 125%;}
+.autosave_warn			{color: #a13434; font-weight: bold; font-size: 125%;}
+.serializer				{color: #a523a5; font-weight: bold;}
+
 /* General purpose colour classes */
 .font_red               {color: #ff0000;}
 .font_orange            {color: #ff7f00;}

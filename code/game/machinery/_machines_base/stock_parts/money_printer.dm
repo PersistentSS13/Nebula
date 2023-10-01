@@ -58,6 +58,8 @@
 			return
 
 /obj/item/stock_parts/computer/money_printer/proc/can_print(amount, currency_type)
+	if(amount < 0)
+		return FALSE
 	// TODO: Support for non-plastic currencies
 	var/decl/currency/printed_currency = GET_DECL(currency_type)
 	if(printed_currency.material != /decl/material/solid/plastic)

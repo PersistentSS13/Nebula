@@ -215,6 +215,16 @@ if(current_step == this_step || (check_resumed && !resumed)) {\
 	if (istype(SSmachines.power_objects))
 		power_objects = SSmachines.power_objects
 
+///Divides the contents of all pipenets into their individual members.
+/datum/controller/subsystem/machines/proc/temporarily_store_pipenets()
+	if(can_fire)
+		log_warning(("Tried to store pipenets air while the subsystem is running!"))
+		CRASH("Tried to store pipenets air while the subsystem is running!")
+
+	for(var/datum/pipe_network/net in SSmachines.pipenets)
+		for(var/datum/pipeline/line in net.line_members)
+			line.temporarily_store_fluids()
+
 #undef SSMACHINES_PIPENETS
 #undef SSMACHINES_MACHINERY
 #undef SSMACHINES_POWERNETS

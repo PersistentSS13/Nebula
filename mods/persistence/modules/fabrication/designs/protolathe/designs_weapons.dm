@@ -4,6 +4,9 @@
 /datum/fabricator_recipe/protolathe/weapon/tier0/revolver
 	path = /obj/item/gun/projectile/revolver/handmade/empty
 
+/datum/fabricator_recipe/protolathe/weapon/tier0/pistol
+	path = /obj/item/gun/projectile/pistol/handmade/empty
+
 /datum/fabricator_recipe/protolathe/weapon/tier0/shotgun
 	path = /obj/item/gun/projectile/shotgun/handmade/empty
 
@@ -12,6 +15,9 @@
 
 /datum/fabricator_recipe/protolathe/weapon/tier1/bolt_action
 	path = /obj/item/gun/projectile/bolt_action/simple/empty
+
+/datum/fabricator_recipe/protolathe/weapon/tier1/pistol_pocket
+	path = /obj/item/gun/projectile/pistol_pocket/simple/empty
 
 /datum/fabricator_recipe/protolathe/weapon/tier1/pistol
 	path = /obj/item/gun/projectile/pistol/simple/empty
@@ -24,6 +30,9 @@
 
 /datum/fabricator_recipe/protolathe/weapon/tier1/shotgun_double
 	path = /obj/item/gun/projectile/shotgun/simple/empty
+
+/datum/fabricator_recipe/protolathe/weapon/tier1/shotgun_double_sawn
+	path = /obj/item/gun/projectile/shotgun/simple/sawnoff/empty
 
 /datum/fabricator_recipe/protolathe/weapon/tier1/shotgun_pump
 	path = /obj/item/gun/projectile/shotgun/pump/simple/empty

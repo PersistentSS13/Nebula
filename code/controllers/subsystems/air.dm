@@ -441,3 +441,9 @@ Total Unsimulated Turfs: [world.maxx*world.maxy*world.maxz - simulated_turf_coun
 		active_edges -= E
 	if(processing_edges)
 		processing_edges -= E
+
+/datum/controller/subsystem/air/proc/invalidate_all_zones()
+	while(SSair.zones.len)
+		var/zone/zone = SSair.zones[SSair.zones.len]
+		SSair.zones.len--
+		zone.c_invalidate()

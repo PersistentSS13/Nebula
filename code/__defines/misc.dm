@@ -79,6 +79,8 @@
 #define MAX_NAME_LEN          26
 #define MAX_DESC_LEN          128
 #define MAX_TEXTFILE_LENGTH 128000		// 512GQ file
+//Maximum length of a MEDIUM_TEXT column type in a mariadb database.
+#define MAX_MEDIUM_TEXT_LEN 65535
 
 // Event defines.
 #define EVENT_LEVEL_MUNDANE  1
@@ -300,3 +302,6 @@
 
 //Damage stuff
 #define ITEM_HEALTH_NO_DAMAGE -1
+
+///Formats into a readable string neatly an exception's details.
+#define EXCEPTION_TEXT(E) "'[E.name]' ('[E.type]'): '[E.file]':[E.line][length(E.desc)? ":\n'[E.desc]'" : ""]"

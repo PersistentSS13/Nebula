@@ -242,6 +242,10 @@
 				if(!amount || !CanInteract(user,state))
 					return TOPIC_HANDLED
 
+				if(amount < 0)
+					to_chat(user, SPAN_WARNING("Invalid withdrawal amount."))
+					return TOPIC_HANDLED
+
 				if(printer.can_print(amount, banking_mainframe.get_currency()))
 					var/err = banking_mainframe.withdraw(amount, "Cash withdrawal", computer.get_nid())
 					if(err)

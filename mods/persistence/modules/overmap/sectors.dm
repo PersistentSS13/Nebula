@@ -3,7 +3,7 @@
 					  		 // If the area or z-level is saved, the overmap effect will be saved.
 	var/atom/old_loc	 	 // Where the ship was prior to saving. Used to relocate the ship following saving, not on load.
 
-	//#FIXME: Don't store this here.
+	//#FIXME: Don't store this here. Those are meant to be strictly just temporary objects just to show a position on the overmap!
 	var/rent_amount = 15000	  // The amount of rent per period.
 	var/paid_rent = 0		  // The rent paid so far.
 	var/rent_period = 14 DAYS // Time between rent payments.
@@ -14,7 +14,7 @@
 	events_repository.register(/decl/observ/world_saving_start_event, SSpersistence, src, .proc/on_saving_start)
 	events_repository.register(/decl/observ/world_saving_finish_event, SSpersistence, src, .proc/on_saving_end)
 	if(!last_due)
-		last_due = world.realtime
+		last_due = world.realtime //#FIXME: Use REALTIMEOFDAY since world.realtime doesn't handle midnight rollover
 
 /obj/effect/overmap/visitable/Destroy()
 	. = ..()
@@ -86,6 +86,11 @@ SAVED_VAR(/datum/planetoid_data, surface_light_color)
 SAVED_VAR(/datum/planetoid_data, flora)
 SAVED_VAR(/datum/planetoid_data, fauna)
 SAVED_VAR_AS_TYPE(/datum/planetoid_data, strata)
+
+/datum/planetoid_data/after_deserialize()
+	. = ..()
+	if(!LAZYACCESS(SSmapping.planetoid_data_by_id, id))
+		setup_planetoid()
 
 //Save picked engravings
 SAVED_VAR(/datum/xenoarch_engraving_flavor, picked_actors)
