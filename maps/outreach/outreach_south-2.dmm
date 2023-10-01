@@ -607,6 +607,13 @@
 	},
 /turf/simulated/floor/tiled/techfloor/grid/outreach,
 /area/exoplanet/outreach/underground/mines/stairwell/b1)
+"bD" = (
+/obj/effect/catwalk_plated/dark,
+/obj/structure/cable/orange{
+	icon_state = "0-2"
+	},
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/mines/access/b1)
 
 (1,1,1) = {"
 ag
@@ -20614,7 +20621,7 @@ ag
 ag
 ag
 ag
-ai
+bD
 aU
 ai
 aM
