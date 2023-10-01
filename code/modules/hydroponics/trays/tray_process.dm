@@ -26,7 +26,7 @@
 
 	// There's a chance for a weed explosion to happen if the weeds take over.
 	// Plants that are themselves weeds (weed_tolerance > 10) are unaffected.
-	if (weedlevel >= 10 && prob(10))
+	if (weedlevel >= 10 && prob(5))
 		if(!seed || weedlevel >= seed.get_trait(TRAIT_WEED_TOLERANCE))
 			weed_invasion()
 			if(mechanical)
@@ -41,7 +41,7 @@
 
 	// Advance plant age.
 	var/cur_stage = seed.get_overlay_stage(age)
-	if(prob(30))
+	if(prob(20))
 		age += 1 * HYDRO_SPEED_MULTIPLIER
 		if(seed.get_overlay_stage(age) != cur_stage)
 			needs_icon_update |= 1
@@ -58,17 +58,17 @@
 			mutation_level = 0
 
 	// Maintain tray nutrient and water levels.
-	if(seed.get_trait(TRAIT_REQUIRES_NUTRIENTS) && seed.get_trait(TRAIT_NUTRIENT_CONSUMPTION) > 0 && nutrilevel > 0 && prob(25))
+	if(seed.get_trait(TRAIT_REQUIRES_NUTRIENTS) && seed.get_trait(TRAIT_NUTRIENT_CONSUMPTION) > 0 && nutrilevel > 0 && prob(15))
 		nutrilevel -= max(0,seed.get_trait(TRAIT_NUTRIENT_CONSUMPTION) * HYDRO_SPEED_MULTIPLIER)
-	if(seed.get_trait(TRAIT_REQUIRES_WATER) && seed.get_trait(TRAIT_WATER_CONSUMPTION) > 0 && waterlevel > 0 && prob(25))
+	if(seed.get_trait(TRAIT_REQUIRES_WATER) && seed.get_trait(TRAIT_WATER_CONSUMPTION) > 0 && waterlevel > 0 && prob(20))
 		waterlevel -= max(0,seed.get_trait(TRAIT_WATER_CONSUMPTION) * HYDRO_SPEED_MULTIPLIER)
 
 	// Make sure the plant is not starving or thirsty. Adequate
 	// water and nutrients will cause a plant to become healthier.
 	var/healthmod = rand(1,3) * HYDRO_SPEED_MULTIPLIER
-	if(seed.get_trait(TRAIT_REQUIRES_NUTRIENTS) && prob(35))
+	if(seed.get_trait(TRAIT_REQUIRES_NUTRIENTS) && prob(15))
 		plant_health += (nutrilevel < 2 ? -healthmod : healthmod)
-	if(seed.get_trait(TRAIT_REQUIRES_WATER) && prob(35))
+	if(seed.get_trait(TRAIT_REQUIRES_WATER) && prob(15))
 		plant_health += (waterlevel < 10 ? -healthmod : healthmod)
 
 	// Check that pressure, heat and light are all within bounds.
