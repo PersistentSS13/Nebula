@@ -27,6 +27,29 @@
 	},
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/exoplanet/outreach/sky)
+"ad" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/floor_decal/industrial/warning,
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
+	},
+/turf/simulated/floor/plating,
+/area/outreach/outpost/hallway/south/floor1)
+"ae" = (
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/effect/floor_decal/industrial/warning,
+/obj/effect/floor_decal/industrial/warning{
+	icon_state = "stripe";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/hallway/south/floor1)
 "af" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -34,6 +57,9 @@
 /obj/effect/catwalk_plated,
 /turf/simulated/floor/airless,
 /area/exoplanet/outreach/sky)
+"ag" = (
+/turf/simulated/wall/ocp_wall/prepainted,
+/area/outreach/outpost/hallway/south/floor1)
 "ai" = (
 /obj/effect/floor_decal/industrial/traffic,
 /turf/simulated/floor/tiled/techfloor/airless,
@@ -1442,17 +1468,6 @@
 	},
 /turf/simulated/floor/airless,
 /area/exoplanet/outreach/sky)
-"sw" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/effect/floor_decal/industrial/warning,
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 1
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/outer_wall/f1)
 "sM" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -3149,18 +3164,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor/grid/airless,
 /area/exoplanet/outreach/sky)
-"UH" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/effect/floor_decal/industrial/warning,
-/obj/effect/floor_decal/industrial/warning{
-	icon_state = "stripe";
-	dir = 1
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/plating,
-/area/outreach/outpost/maint/outer_wall/f1)
 "UJ" = (
 /obj/structure/railing/mapped,
 /obj/effect/decal/cleanable/dirt,
@@ -23480,8 +23483,8 @@ gX
 GI
 fI
 Jr
-sw
-DI
+ad
+ag
 XN
 WV
 Fq
@@ -23682,8 +23685,8 @@ CI
 Ty
 Gl
 Jr
-UH
-DI
+ae
+ag
 ss
 WV
 Fq
@@ -23884,8 +23887,8 @@ zu
 LY
 Bm
 Jr
-sw
-DI
+ad
+ag
 ss
 pF
 Fq

@@ -825,6 +825,7 @@ var/global/list/outreach_initial_protected_areas = list(
 /area/turbolift/outreach/b2
 	name            = "OB Elevator 2nd Basement"
 	lift_floor_name = "2nd Basement"
+	base_turf       = /turf/simulated/floor/reinforced/elevator_shaft
 /area/turbolift/outreach/b1
 	name            = "OB Elevator 1st Basement"
 	lift_floor_name = "1st Basement"
@@ -838,12 +839,12 @@ var/global/list/outreach_initial_protected_areas = list(
 ///////////////////////////////////////////////////
 //Misc
 ///////////////////////////////////////////////////
-/area/supply_shuttle_dock
-	name       = "Supply Shuttle Dock"
-	icon_state = "yellow"
-	base_turf  = /turf/simulated/floor/plating //Needed for shuttles
-	open_turf  = OUTREACH_SURFACE_TURF
-	area_flags = AREA_FLAG_IS_NOT_PERSISTENT | AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED | AREA_FLAG_EXTERNAL
+// /area/supply_shuttle_dock
+// 	name       = "Supply Shuttle Dock"
+// 	icon_state = "yellow"
+// 	base_turf  = /turf/simulated/floor/plating //Needed for shuttles
+// 	open_turf  = OUTREACH_SURFACE_TURF
+// 	area_flags = AREA_FLAG_IS_NOT_PERSISTENT | AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED | AREA_FLAG_EXTERNAL
 
 #undef OUTREACH_AREA_NAME_SERVER_ROOM
 #undef OUTREACH_AREA_NAME_CRYO
