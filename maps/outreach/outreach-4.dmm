@@ -1377,7 +1377,7 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/waste/f1)
 "rx" = (
-/obj/effect/overmap/visitable/sector/planetoid/exoplanet/outreach,
+/obj/effect/overmap/visitable/sector/planetoid/outreach,
 /turf/exterior/planet_edge,
 /area/exoplanet/outreach/sky)
 "rI" = (
