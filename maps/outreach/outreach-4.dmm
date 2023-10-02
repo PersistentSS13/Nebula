@@ -60,10 +60,16 @@
 "ag" = (
 /turf/simulated/wall/ocp_wall/prepainted,
 /area/outreach/outpost/hallway/south/floor1)
+"ah" = (
+/turf/simulated/wall/concrete,
+/area/outreach/outpost/vacant/f1/swroom)
 "ai" = (
 /obj/effect/floor_decal/industrial/traffic,
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/exoplanet/outreach/sky)
+"aj" = (
+/turf/simulated/open,
+/area/outreach/outpost/vacant/f1/swroom)
 "ak" = (
 /obj/effect/floor_decal/industrial/traffic/corner{
 	icon_state = "stripecorner";
@@ -71,6 +77,9 @@
 	},
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/exoplanet/outreach/sky)
+"al" = (
+/turf/simulated/wall/r_wall,
+/area/outreach/outpost/vacant/f1/swroom)
 "am" = (
 /obj/structure/cable/yellow{
 	icon_state = "2-8"
@@ -1751,9 +1760,6 @@
 	},
 /turf/simulated/floor/airless,
 /area/exoplanet/outreach/sky)
-"xt" = (
-/turf/simulated/wall/concrete,
-/area/outreach/outpost/janitorial)
 "xx" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -2619,9 +2625,6 @@
 	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/south/floor1)
-"LZ" = (
-/turf/simulated/wall/r_wall,
-/area/outreach/outpost/janitorial)
 "Mz" = (
 /obj/structure/cable/yellow{
 	icon_state = "0-8"
@@ -3573,9 +3576,6 @@
 	},
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/maint/atmos/f1)
-"ZZ" = (
-/turf/simulated/open,
-/area/outreach/outpost/janitorial)
 
 (1,1,1) = {"
 cj
@@ -22264,13 +22264,13 @@ sp
 eC
 Oz
 dv
-xt
-ZZ
-ZZ
-ZZ
-ZZ
-ZZ
-LZ
+ah
+aj
+aj
+aj
+aj
+aj
+al
 kT
 Aa
 lP
@@ -22466,13 +22466,13 @@ sp
 Yx
 Oz
 Ju
-xt
-ZZ
-ZZ
-ZZ
-ZZ
-ZZ
-LZ
+ah
+aj
+aj
+aj
+aj
+aj
+al
 sj
 Aa
 tk
@@ -22668,13 +22668,13 @@ sp
 kY
 QJ
 rI
-xt
-ZZ
-ZZ
-ZZ
-ZZ
-ZZ
-LZ
+ah
+aj
+aj
+aj
+aj
+aj
+al
 yc
 Aa
 lP
@@ -22870,13 +22870,13 @@ sp
 Lm
 qh
 Lm
-xt
-ZZ
-ZZ
-ZZ
-ZZ
-ZZ
-LZ
+ah
+aj
+aj
+aj
+aj
+aj
+al
 kT
 Aa
 lP
@@ -23073,12 +23073,12 @@ jp
 uk
 nT
 it
-xt
-ZZ
-ZZ
-ZZ
-ZZ
-LZ
+ah
+aj
+aj
+aj
+aj
+al
 Kw
 Aa
 lP
@@ -23276,11 +23276,11 @@ Ws
 OB
 KC
 it
-xt
-xt
-xt
-xt
-LZ
+ah
+ah
+ah
+ah
+al
 HV
 Aa
 lP

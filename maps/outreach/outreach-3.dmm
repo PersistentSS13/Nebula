@@ -56,6 +56,12 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/north)
+"ai" = (
+/turf/simulated/wall/concrete,
+/area/outreach/outpost/vacant/ground/swroom)
+"aj" = (
+/turf/simulated/open,
+/area/outreach/outpost/vacant/ground/swroom)
 "ak" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -74,6 +80,9 @@
 	},
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/north)
+"am" = (
+/turf/simulated/wall,
+/area/outreach/outpost/vacant/ground/swroom)
 "ap" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -1096,9 +1105,6 @@
 	},
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/maint/passage/ground/south/offices)
-"dK" = (
-/turf/simulated/wall,
-/area/outreach/outpost/janitorial)
 "dQ" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -4214,9 +4220,6 @@
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
-"xC" = (
-/turf/simulated/open,
-/area/outreach/outpost/janitorial)
 "xJ" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -4938,9 +4941,6 @@
 	},
 /turf/exterior/concrete/reinforced,
 /area/exoplanet/outreach)
-"Cz" = (
-/turf/simulated/wall/concrete,
-/area/outreach/outpost/janitorial)
 "CA" = (
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/vacant/ground/depot)
@@ -26979,13 +26979,13 @@ CO
 TC
 QU
 Jo
-Cz
-xC
-xC
-xC
-xC
-xC
-dK
+ai
+aj
+aj
+aj
+aj
+aj
+am
 rL
 kI
 Dn
@@ -27181,13 +27181,13 @@ CO
 Oe
 Nt
 tK
-Cz
-xC
-xC
-xC
-xC
-xC
-dK
+ai
+aj
+aj
+aj
+aj
+aj
+am
 Dn
 Kq
 Dn
@@ -27383,13 +27383,13 @@ CO
 bt
 bw
 ci
-Cz
-xC
-xC
-xC
-xC
-xC
-dK
+ai
+aj
+aj
+aj
+aj
+aj
+am
 Gt
 Kq
 rL
@@ -27585,13 +27585,13 @@ CO
 bu
 bN
 bu
-Cz
-xC
-xC
-xC
-xC
-xC
-dK
+ai
+aj
+aj
+aj
+aj
+aj
+am
 ec
 ep
 er
@@ -27788,12 +27788,12 @@ bk
 bO
 cj
 oi
-Cz
-xC
-xC
-xC
-xC
-dK
+ai
+aj
+aj
+aj
+aj
+am
 ed
 eq
 ez
@@ -27991,11 +27991,11 @@ Ff
 ck
 bM
 oi
-Cz
-Cz
-Cz
-Cz
-Cz
+ai
+ai
+ai
+ai
+ai
 ee
 Aj
 ee

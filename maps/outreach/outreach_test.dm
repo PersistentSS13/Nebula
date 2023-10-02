@@ -17,7 +17,6 @@
 	apc_test_excluded_areas |= list(
 		/area/exoplanet,
 		/area/turbolift,
-		/area/outreach/outpost/janitorial, 	//That's an intended multi-z area, stop whining
 		/area/outreach/outpost/atmospherics/b2/tank_outer, //Exterior
 		/area/outreach/outpost/engineering/b2/geothermals, //Exterior
 	)

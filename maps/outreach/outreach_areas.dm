@@ -753,10 +753,12 @@ var/global/list/outreach_initial_protected_areas = list(
 	icon_state = "red2"
 
 /area/outreach/outpost/vacant/b1/south/east
-	name = "OB Vacant Room"
+	name = "OB 1B Vacant Room"
 
-/area/outreach/outpost/vacant/b1/south/east
-	name = "OB Vacant Room"
+/area/outreach/outpost/vacant/ground/swroom
+	name = "OB GF Vacant Maint"
+/area/outreach/outpost/vacant/f1/swroom
+	name = "OB 1F Vacant Maint"
 
 /area/outreach/outpost/vacant/ground/depot
 	name = "OB GF Vacant Depot"
