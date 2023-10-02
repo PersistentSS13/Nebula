@@ -6492,28 +6492,10 @@
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/airlock/basement1/west)
 "nk" = (
-/obj/structure/cable/yellow{
-	icon_state = "1-4"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "1-8"
-	},
-/obj/effect/catwalk_plated,
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
-	dir = 9
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
-	icon_state = "11-scrubbers";
-	dir = 5
-	},
-/obj/machinery/dummy_airlock_controller{
-	dir = 1;
-	icon_state = "airlock_control_off";
-	id_tag = "OH_l2_s_alck"
-	},
-/turf/simulated/floor/plating,
-/area/outreach/outpost/hallway/south/basement1)
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/atmospherics/unary/vent_scrubber/on,
+/turf/simulated/floor/tiled/techfloor/grid,
+/area/outreach/outpost/maint/passage/b1/southwest/airlock)
 "nl" = (
 /obj/machinery/airlock_sensor{
 	dir = 1;
@@ -8107,6 +8089,10 @@
 	},
 /obj/effect/floor_decal/industrial/warning,
 /obj/effect/catwalk_plated,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 5
+	},
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b1/southwest/airlock)
 "pR" = (
@@ -8158,6 +8144,10 @@
 	dir = 8
 	},
 /obj/effect/catwalk_plated,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 10
+	},
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b1/southwest/airlock)
 "pU" = (
@@ -9460,6 +9450,10 @@
 	dir = 8
 	},
 /obj/effect/catwalk_plated,
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 5
+	},
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b1/southwest/airlock)
 "sl" = (
@@ -10114,22 +10108,26 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/mining/b1/eva)
 "tz" = (
-/obj/structure/cable/yellow{
-	icon_state = "4-8"
-	},
-/obj/structure/cable/yellow{
-	icon_state = "2-4"
-	},
-/obj/effect/floor_decal/industrial/hatch/orange,
-/obj/machinery/atmospherics/pipe/simple/hidden/supply{
-	icon_state = "11-supply";
+/obj/machinery/door/airlock/hatch/maintenance{
+	icon_state = "closed";
 	dir = 4
 	},
 /obj/machinery/atmospherics/pipe/simple/hidden{
 	icon_state = "11";
-	dir = 10
+	dir = 4
 	},
-/turf/simulated/floor/tiled/steel_grid,
+/obj/structure/cable/yellow{
+	icon_state = "4-8"
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 4
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/hallway/south/basement1)
 "tA" = (
 /turf/simulated/wall/concrete/prepainted/medbay,
@@ -13031,22 +13029,26 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/central/basement1)
 "yT" = (
-/obj/machinery/door/airlock/hatch/maintenance{
-	icon_state = "closed";
-	dir = 4
-	},
-/obj/machinery/atmospherics/pipe/simple/hidden{
-	icon_state = "11";
-	dir = 4
-	},
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
+/obj/structure/cable/yellow{
+	icon_state = "2-4"
+	},
+/obj/effect/floor_decal/industrial/hatch/orange,
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
 	icon_state = "11-supply";
 	dir = 4
 	},
-/turf/simulated/floor/tiled/steel_ridged,
+/obj/machinery/atmospherics/pipe/simple/hidden{
+	icon_state = "11";
+	dir = 10
+	},
+/obj/machinery/atmospherics/pipe/simple/hidden/scrubbers{
+	icon_state = "11-scrubbers";
+	dir = 4
+	},
+/turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/south/basement1)
 "yU" = (
 /obj/machinery/door/airlock/hatch/maintenance{
@@ -17420,6 +17422,26 @@
 /obj/machinery/atmospherics/pipe/simple/hidden/scrubbers,
 /turf/simulated/floor/tiled/white,
 /area/outreach/outpost/medbay/storage/medical)
+"GL" = (
+/obj/structure/cable/yellow{
+	icon_state = "1-4"
+	},
+/obj/structure/cable/yellow{
+	icon_state = "1-8"
+	},
+/obj/effect/catwalk_plated,
+/obj/machinery/atmospherics/pipe/simple/hidden/supply{
+	icon_state = "11-supply";
+	dir = 9
+	},
+/obj/machinery/dummy_airlock_controller{
+	dir = 1;
+	icon_state = "airlock_control_off";
+	id_tag = "OH_l2_s_alck"
+	},
+/obj/machinery/atmospherics/pipe/manifold/hidden/scrubbers,
+/turf/simulated/floor/plating,
+/area/outreach/outpost/hallway/south/basement1)
 "GM" = (
 /obj/effect/floor_decal/spline/fancy/black{
 	icon_state = "spline_fancy";
@@ -41473,7 +41495,7 @@ px
 KW
 px
 Gr
-KV
+nk
 pQ
 sj
 sj
@@ -41879,7 +41901,7 @@ Gr
 Gr
 Gr
 Gr
-yT
+tz
 jw
 jw
 jw
@@ -42081,7 +42103,7 @@ Dk
 wz
 wK
 Je
-tz
+yT
 jF
 kl
 nx
@@ -42283,7 +42305,7 @@ qW
 pZ
 wL
 qW
-nk
+GL
 jw
 nV
 ll
