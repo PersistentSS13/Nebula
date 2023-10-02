@@ -4358,7 +4358,6 @@
 	icon_state = "2-4"
 	},
 /obj/effect/catwalk_plated,
-/obj/effect/catwalk_plated,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/b1/northwest/airlock)
 "jv" = (
