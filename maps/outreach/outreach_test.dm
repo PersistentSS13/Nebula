@@ -1,6 +1,7 @@
 //Add to the default areas
-/datum/map/outreach
-	apc_test_exempt_areas = list(
+/datum/map/outreach/New()
+	. = ..()
+	apc_test_exempt_areas |= list(
 		/area/turbolift/outreach/f1                       = NO_SCRUBBER|NO_VENT|NO_APC,
 		/area/outreach/outpost/airlock                    = NO_SCRUBBER|NO_VENT,
 		/area/outreach/outpost/maint/passage/f1/southwest = NO_SCRUBBER|NO_VENT,
@@ -8,10 +9,13 @@
 		/area/outreach/outpost/storage_shed               = NO_SCRUBBER|NO_VENT,
 		/area/outreach/outpost/maint/outer_wall           = NO_SCRUBBER|NO_VENT|NO_APC,
 		/area/outreach/outpost/vacant                     = NO_SCRUBBER|NO_VENT,
+		/area/outreach/outpost/vacant/ground/depot        = 0,
+		/area/outreach/outpost/vacant/b1/south/east       = 0,
 		/area/outreach/outpost/hangar/north/shuttle_area  = NO_SCRUBBER|NO_VENT|NO_APC,
 		/area/outreach/outpost/control/servers            = NO_SCRUBBER|NO_VENT,
 	)
-	apc_test_excluded_areas = list(
+	apc_test_excluded_areas |= list(
+		/area/exoplanet,
 		/area/turbolift,
 		/area/outreach/outpost/janitorial, 	//That's an intended multi-z area, stop whining
 		/area/outreach/outpost/atmospherics/b2/tank_outer, //Exterior
