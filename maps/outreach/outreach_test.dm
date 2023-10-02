@@ -1,15 +1,15 @@
 //Add to the default areas
 /datum/map/outreach
 	apc_test_exempt_areas = list(
-		/area/turbolift/outreach/f1 = NO_APC|NO_SCRUBBER|NO_VENT,
-		/area/outreach/outpost/airlock = NO_SCRUBBER|NO_VENT,
+		/area/turbolift/outreach/f1                       = NO_SCRUBBER|NO_VENT|NO_APC,
+		/area/outreach/outpost/airlock                    = NO_SCRUBBER|NO_VENT,
 		/area/outreach/outpost/maint/passage/f1/southwest = NO_SCRUBBER|NO_VENT,
 		/area/outreach/outpost/maint/passage/f1/northwest = NO_SCRUBBER|NO_VENT,
-		/area/outreach/outpost/storage_shed = NO_SCRUBBER|NO_VENT,
-		/area/outreach/outpost/maint/outer_wall = NO_APC|NO_SCRUBBER|NO_VENT,
-		/area/outreach/outpost/vacant = NO_SCRUBBER|NO_VENT,
-		/area/outreach/outpost/hangar/north/shuttle_area = NO_APC|NO_SCRUBBER|NO_VENT,
-		/area/outreach/outpost/control/servers = NO_SCRUBBER|NO_VENT,
+		/area/outreach/outpost/storage_shed               = NO_SCRUBBER|NO_VENT,
+		/area/outreach/outpost/maint/outer_wall           = NO_SCRUBBER|NO_VENT|NO_APC,
+		/area/outreach/outpost/vacant                     = NO_SCRUBBER|NO_VENT,
+		/area/outreach/outpost/hangar/north/shuttle_area  = NO_SCRUBBER|NO_VENT|NO_APC,
+		/area/outreach/outpost/control/servers            = NO_SCRUBBER|NO_VENT,
 	)
 	apc_test_excluded_areas = list(
 		/area/turbolift,
