@@ -9,6 +9,7 @@ var/global/list/internet_uplinks = list()
 	density = 1
 	anchored = 1
 	construct_state = /decl/machine_construction/default/panel_closed
+	base_type = /obj/machinery/internet_uplink
 	uncreated_component_parts = list(
 		/obj/item/stock_parts/power/terminal,
 	)
