@@ -10,6 +10,8 @@
 	apc_test_exempt_areas[/area/outreach/outpost/vacant]                     = NO_SCRUBBER|NO_VENT
 	apc_test_exempt_areas[/area/outreach/outpost/vacant/ground/depot]        = 0
 	apc_test_exempt_areas[/area/outreach/outpost/vacant/b1/south/east]       = 0
+	apc_test_exempt_areas[/area/outreach/outpost/vacant/f1/swroom]           = NO_SCRUBBER|NO_VENT|NO_APC
+	apc_test_exempt_areas[/area/outreach/outpost/vacant/ground/swroom]       = NO_SCRUBBER|NO_VENT|NO_APC
 	apc_test_exempt_areas[/area/outreach/outpost/hangar/north/shuttle_area]  = NO_SCRUBBER|NO_VENT|NO_APC
 	apc_test_exempt_areas[/area/outreach/outpost/control/servers]            = NO_SCRUBBER|NO_VENT
 
