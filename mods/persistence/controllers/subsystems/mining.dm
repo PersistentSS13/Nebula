@@ -168,7 +168,7 @@ SUBSYSTEM_DEF(mining_update)
 	name = "Mining (Turf Updates)"
 	init_order = SS_INIT_DEFAULT
 	priority = 20
-	runlevels = RUNLEVELS_DEFAULT
+	runlevels = RUNLEVEL_GAME
 	wait = 2
 
 	var/list/current_run
