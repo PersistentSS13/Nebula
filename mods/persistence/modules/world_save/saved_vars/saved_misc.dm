@@ -712,35 +712,6 @@ SAVED_VAR(/obj/item/assembly_holder, special_assembly)
 SAVED_VAR(/obj/item/assembly_holder, master)
 
 ///////////////////////////////////////////////////////////////////////////////
-// item/radio
-///////////////////////////////////////////////////////////////////////////////
-
-SAVED_VAR(/obj/item/radio, cell)
-SAVED_VAR(/obj/item/radio, wires)
-SAVED_VAR(/obj/item/radio, panel_open)
-SAVED_VAR(/obj/item/radio, encryption_keys)
-SAVED_VAR(/obj/item/radio, on)
-SAVED_VAR(/obj/item/radio, frequency)
-SAVED_VAR(/obj/item/radio, traitor_frequency)
-SAVED_VAR(/obj/item/radio, broadcasting)
-SAVED_VAR(/obj/item/radio, listening)
-SAVED_VAR(/obj/item/radio, analog)
-SAVED_VAR(/obj/item/radio, analog_secured)
-
-/obj/item/radio/after_deserialize()
-	encryption_key_capacity = max(encryption_key_capacity, length(encryption_keys))
-	. = ..()
-
-SAVED_VAR(/obj/item/radio/beacon, code)
-SAVED_VAR(/obj/item/radio/beacon, functioning)
-
-SAVED_VAR(/obj/item/radio/intercom/locked, locked_frequency)
-
-
-SAVED_VAR(/obj/item/encryptionkey, can_decrypt) //Can vary at runtime
-
-
-///////////////////////////////////////////////////////////////////////////////
 // item/card
 ///////////////////////////////////////////////////////////////////////////////
 SAVED_VAR(/obj/item/card/id, access)
