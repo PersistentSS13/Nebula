@@ -48,6 +48,9 @@
 	else
 		return check_account
 
+/obj/item/card/id/network/attack_self(mob/user)
+	ui_interact(user)
+
 /obj/item/card/id/network/ui_interact(mob/user, ui_key = "main",var/datum/nanoui/ui = null)
 	var/data[0]
 	var/login  = associated_network_account["login"]
@@ -116,9 +119,12 @@
 	var/datum/computer_network/network = D?.get_network()
 	return network?.network_id
 
-/obj/item/card/id/network/verb/adjust_settings()
-	set name = "Adjust Settings"
+/obj/item/card/id/network/verb/flash_id()
+	set name = "Flash ID"
 	set category = "Object"
 	set src in usr
 
-	ui_interact(usr)
+	usr.visible_message("\The [usr] shows you: [html_icon(src)] [src.name]. The assignment on the card: '[src.assignment]'.",\
+		"You flash your ID card: [html_icon(src)] [src.name]. The assignment on the card: '[src.assignment]'.")
+
+	src.add_fingerprint(usr)

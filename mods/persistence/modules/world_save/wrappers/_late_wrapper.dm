@@ -4,7 +4,7 @@
 
 /datum/wrapper/late
 
-/datum/wrapper/late/on_deserialize(var/datum/object, var/serializer/curr_serializer)
+/datum/wrapper/late/on_deserialize(var/serializer/curr_serializer)
 	SSpersistence.late_wrappers |= src
 	return null
 
