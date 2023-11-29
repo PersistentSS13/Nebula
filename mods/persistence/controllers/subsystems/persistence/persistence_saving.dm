@@ -205,17 +205,21 @@
 						else
 							area_turf_count++
 
-						var/should_skip = __SHOULD_SKIP_TURF(T)
-						// These if statements checks to see if we should save this turf.
-						if(!should_skip && istype(T, default_turf) || !T.should_save)
+						if(__SHOULD_SKIP_TURF(T)) // This turf should not be saved, regardless of its contents.
+							continue
+
+						// This is a default turf, or otherwise is marked not to save. Only save if its contents should save.
+						if(istype(T, default_turf) || !T.should_save)
+							var/let_me_save = FALSE
 							for(var/atom/A as anything in T.contents)
 								if(A.should_save())
-									should_skip = FALSE
+									let_me_save = TRUE
 									break // We found a thing that's worth saving.
-						if(should_skip)
-							continue //Turfs not saved become their default_turf after deserialization.
 
-						//If we got through the filter save
+							if(!let_me_save)
+								continue // Failed to find anything worth saving, skip to the next turf.
+
+						//If we got through the filter, save
 						serializer.Serialize(T, null, z)
 
 					catch(var/exception/e_turf)
