@@ -40,6 +40,9 @@
 			results[V] = "[SERIALIZER_TYPE_PATH]#[VV]"
 		else if(istext(VV) || isnum(VV) || isnull(VV))
 			results[V] = VV
+		else if(istype(VV, /decl))
+			var/decl/VD = VV
+			results[V] = "[SERIALIZER_TYPE_DECL]#[VD.type]"
 		else if(istype(VV, /datum))
 			if(should_flatten(VV))
 				if(VV in object_parent)
@@ -85,6 +88,9 @@
 			F_K = SerializeList(K, list_parent)
 		else if(istext(K) || isnum(K) || isnull(K))
 			F_K = K
+		else if(istype(K, /decl))
+			var/decl/KD = K
+			F_K = "[SERIALIZER_TYPE_DECL]#[KD.type]"
 		else if(ispath(K))
 			F_K = "[SERIALIZER_TYPE_PATH]#[K]"
 		else if(istype(K, /datum))
@@ -117,6 +123,9 @@
 				F_V = "[SERIALIZER_TYPE_PATH]#[V]"
 			else if(istext(V) || isnum(V) || isnull(V))
 				F_V = V
+			else if(istype(V, /decl))
+				var/decl/VD = V
+				F_V = "[SERIALIZER_TYPE_DECL]#[VD.type]"
 			else if(istype(V, /datum))
 				if(should_flatten(V))
 					if(V in list_parent)
@@ -158,6 +167,9 @@
 			if(findtext(encoded_value, "[SERIALIZER_TYPE_PATH]#", 1, 6))
 				thing.vars[V] = text2path(copytext(encoded_value, 6))
 				continue
+			if(findtext(encoded_value, "[SERIALIZER_TYPE_DECL]#", 1, 6))
+				thing.vars[V] = GET_DECL(text2path(copytext(encoded_value, 6)))
+				continue
 			if(findtext(encoded_value, "[SERIALIZER_TYPE_DATUM_FLAT]#", 1, 10))
 				// This is a flattened object.
 				thing.vars[V] = QueryAndDeserializeDatum(copytext(encoded_value, 10))
@@ -190,6 +202,8 @@
 				key = sql.QueryAndDeserializeDatum(copytext(K, 5))
 			else if(findtext(K, "[SERIALIZER_TYPE_PATH]#", 1, 6))
 				key = text2path(copytext(K, 6))
+			else if(findtext(K, "[SERIALIZER_TYPE_DECL]#", 1, 6))
+				key = GET_DECL(text2path(copytext(K, 6)))
 			else if(findtext(K, "[SERIALIZER_TYPE_DATUM_FLAT]#", 1, 10))
 				key = QueryAndDeserializeDatum(copytext(K, 10))
 			else if(findtext(K, "[SERIALIZER_TYPE_FLAT_REF]#", 1, 10))
@@ -211,6 +225,8 @@
 					V = sql.QueryAndDeserializeDatum(copytext(V, 5))
 				else if(findtext(V, "[SERIALIZER_TYPE_PATH]#", 1, 6))
 					V = text2path(copytext(V, 6))
+				else if(findtext(V, "[SERIALIZER_TYPE_DECL]#", 1, 6))
+					V = GET_DECL(text2path(copytext(V, 6)))
 				else if(findtext(V, "[SERIALIZER_TYPE_DATUM_FLAT]#", 1, 10))
 					V = QueryAndDeserializeDatum(copytext(V, 10))
 				else if(findtext(V, "[SERIALIZER_TYPE_FLAT_REF]#", 1, 10))

@@ -295,7 +295,6 @@
 #include "modules\world_save\wrappers\_wrapper_holder.dm"
 #include "modules\world_save\wrappers\area_wrapper.dm"
 #include "modules\world_save\wrappers\channel_wrapper.dm"
-#include "modules\world_save\wrappers\decl_wrapper.dm"
 #include "modules\world_save\wrappers\escrow_holder.dm"
 #include "modules\world_save\wrappers\image_wrapper.dm"
 #include "modules\world_save\wrappers\map_data_wrapper.dm"
