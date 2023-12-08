@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `list_element` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `thing` (
-  `p_id` varchar(12) NOT NULL,
+  `p_id` varchar(18) NOT NULL,
   `type` varchar(256) NOT NULL,
   `x` int DEFAULT NULL,
   `y` int DEFAULT NULL,
@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `thing` (
 
 CREATE TABLE IF NOT EXISTS `thing_var` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `thing_id` varchar(12) NOT NULL,
+  `thing_id` varchar(18) NOT NULL,
   `key` varchar(256) NOT NULL,
   `type` varchar(256) NOT NULL,
   `value` longtext NOT NULL,
@@ -63,7 +63,7 @@ CREATE TABLE IF NOT EXISTS `limbo` (
   `type` varchar(64) NOT NULL,
   `p_ids` longtext NOT NULL,
   `metadata` varchar(64) DEFAULT NULL,
-  `limbo_assoc` varchar(12) NOT NULL,
+  `limbo_assoc` varchar(18) NOT NULL,
   `metadata2` varchar(64) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=UTF8MB4;
 
@@ -74,26 +74,26 @@ CREATE TABLE IF NOT EXISTS `limbo_list_element` (
   `key_type` varchar(256) NOT NULL,
   `value` longtext NOT NULL,
   `value_type` varchar(256) NOT NULL,
-  `limbo_assoc` varchar(12) NOT NULL,
+  `limbo_assoc` varchar(18) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `limbo_thing` (
-  `p_id` varchar(12) NOT NULL,
+  `p_id` varchar(18) NOT NULL,
   `type` varchar(256) NOT NULL,
   `x` int DEFAULT NULL,
   `y` int DEFAULT NULL,
   `z` int DEFAULT NULL,
-  `limbo_assoc` varchar(12) NOT NULL,
+  `limbo_assoc` varchar(18) NOT NULL,
   PRIMARY KEY (`p_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 CREATE TABLE IF NOT EXISTS `limbo_thing_var` (
   `id` int NOT NULL AUTO_INCREMENT,
-  `thing_id` varchar(12) NOT NULL,
+  `thing_id` varchar(18) NOT NULL,
   `key` varchar(256) NOT NULL,
   `type` varchar(256) NOT NULL,
   `value` longtext NOT NULL,
-  `limbo_assoc` varchar(12) NOT NULL,
+  `limbo_assoc` varchar(18) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;

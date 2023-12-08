@@ -201,6 +201,10 @@ var/global/list/serialization_time_spent_type
 			VT = SERIALIZER_TYPE_FILE
 		else if (isnull(VV))
 			VT = SERIALIZER_TYPE_NULL
+		else if(istype(VV, /decl))
+			var/decl/VD = VV
+			VT = SERIALIZER_TYPE_DECL
+			VV = "[VD.type]"
 		else if(get_wrapper(VV))
 			VT = SERIALIZER_TYPE_WRAPPER
 			var/wrapper_path = get_wrapper(VV)
@@ -305,6 +309,10 @@ var/global/list/serialization_time_spent_type
 				KV = SERIALIZER_TYPE_LIST_EMPTY
 			else
 				KV = SerializeList(key)
+		else if(istype(key, /decl))
+			var/decl/key_d = key
+			KT = SERIALIZER_TYPE_DECL
+			KV = "[key_d.type]"
 		else if(get_wrapper(key))
 			KT = SERIALIZER_TYPE_WRAPPER
 			var/wrapper_path = get_wrapper(key)
@@ -351,6 +359,10 @@ var/global/list/serialization_time_spent_type
 					EV = SERIALIZER_TYPE_LIST_EMPTY
 				else
 					EV = SerializeList(EV)
+			else if(istype(EV, /decl))
+				var/decl/ED = EV
+				ET = SERIALIZER_TYPE_DECL
+				EV = "[ED.type]"
 			else if(get_wrapper(EV))
 				ET = SERIALIZER_TYPE_WRAPPER
 				var/wrapper_path = get_wrapper(EV)
@@ -442,6 +454,8 @@ var/global/list/serialization_time_spent_type
 					existing.vars[TV.key] = text2path(TV.value)
 				if(SERIALIZER_TYPE_NULL)
 					existing.vars[TV.key] = null
+				if(SERIALIZER_TYPE_DECL)
+					existing.vars[TV.key] = GET_DECL(text2path(TV.value))
 				if(SERIALIZER_TYPE_WRAPPER)
 					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(TV.value)
 					existing.vars[TV.key] = GD.on_deserialize(src)
@@ -487,6 +501,8 @@ var/global/list/serialization_time_spent_type
 					key_value = text2num(LE.key)
 				if(SERIALIZER_TYPE_PATH)
 					key_value = text2path(LE.key)
+				if(SERIALIZER_TYPE_DECL)
+					key_value = GET_DECL(text2path(LE.key))
 				if(SERIALIZER_TYPE_WRAPPER)
 					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(LE.key)
 					key_value = GD.on_deserialize(src)
@@ -513,6 +529,8 @@ var/global/list/serialization_time_spent_type
 					existing[key_value] = text2num(LE.value)
 				if(SERIALIZER_TYPE_PATH)
 					existing[key_value] = text2path(LE.value)
+				if(SERIALIZER_TYPE_DECL)
+					existing[key_value] = GET_DECL(text2path(LE.value))
 				if(SERIALIZER_TYPE_WRAPPER)
 					var/datum/wrapper/GD = flattener.QueryAndDeserializeDatum(LE.value)
 					existing[key_value] = GD.on_deserialize(src)
