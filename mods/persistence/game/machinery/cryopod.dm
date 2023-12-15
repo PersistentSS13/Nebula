@@ -79,12 +79,31 @@
 /obj/machinery/cryopod/despawner
 	name = "cryo storage pod"
 	time_till_despawn = 60 SECONDS
+	var/datum/sound_token/sound_looping
 
 //#FIXME: This messing with spawnlists could definitely be improved on.
 /obj/machinery/cryopod/despawner/Initialize()
 	. = ..()
 	global.latejoin_locations |= get_turf(src)
 	global.latejoin_cryo_locations |= get_turf(src)
+	update_sound()
+
+/obj/machinery/cryopod/despawner/Destroy()
+	QDEL_NULL(sound_looping)
+	return ..()
+
+/obj/machinery/cryopod/despawner/power_change()
+	. = ..()
+	update_sound()
+
+/obj/machinery/cryopod/despawner/proc/update_sound()
+	if(operable() && use_power)
+		if(!sound_looping)
+			sound_looping = play_looping_sound(src, "[type]", 'sound/machines/refrigerator_hum_loop.ogg', 30, 5, 2, prefer_mute = TRUE)
+		else
+			sound_looping.Unpause()
+	else if(sound_looping)
+		sound_looping.Pause()
 
 /obj/machinery/cryopod/despawner/forceMove(atom/dest)
 	global.latejoin_locations -= get_turf(src)

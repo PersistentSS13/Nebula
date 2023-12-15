@@ -186,7 +186,7 @@
 
 /obj/item/charge_stick/Initialize(ml, material_key)
 	. = ..()
-	id = "[grade]-card-[sequential_id("charge_stick")]"
+	id = "[grade]-card-[make_sequential_guid("charge_stick")]"
 	if(!ispath(currency, /decl/currency))
 		currency = global.using_map.default_currency
 		update_name_desc()

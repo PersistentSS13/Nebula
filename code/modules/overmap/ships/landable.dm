@@ -114,12 +114,14 @@
 		landmark.shuttle_name = shuttle
 		LAZYDISTINCTADD(initial_generic_waypoints, landmark.landmark_tag) // this is us being user-friendly: it means we register it properly regardless of whether the mapper put the tag in initial_restricted_waypoints
 
+	/* //#OUTREACH: Since we delete those right when creating them, might as well just comment this out
 	var/visitor_dir = fore_dir
 	for(var/landmark_name in list("FORE", "PORT", "AFT", "STARBOARD"))
 		var/turf/visitor_turf = get_ranged_target_turf(get_turf(landmark), visitor_dir, round(min(world.maxx/4, world.maxy/4)))
 		var/obj/effect/shuttle_landmark/visiting_shuttle/visitor_landmark = new (visitor_turf, landmark, landmark_name)
 		add_landmark(visitor_landmark)
 		visitor_dir = turn(visitor_dir, 90)
+		*/
 
 	// Configure shuttle datum
 	events_repository.register(/decl/observ/shuttle_moved, shuttle_datum, src, .proc/on_shuttle_jump)

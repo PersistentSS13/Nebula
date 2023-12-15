@@ -222,13 +222,14 @@
 	return ..()
 
 /obj/structure/reagent_dispensers/peppertank
-	name             = "pepper spray refiller"
-	desc             = "Refills pepper spray canisters."
-	icon             = 'icons/obj/objects.dmi'
-	icon_state       = "peppertank"
-	anchored         = TRUE
-	density          = FALSE
-	amount_dispensed = 45
+	name               = "pepper spray refiller"
+	desc               = "Refills pepper spray canisters."
+	icon               = 'icons/obj/objects.dmi'
+	icon_state         = "peppertank"
+	anchored           = TRUE
+	density            = FALSE
+	amount_dispensed   = 45
+	directional_offset = "{'NORTH':{'y':-32}, 'SOUTH':{'y':32}, 'EAST':{'x':-32}, 'WEST':{'x':32}}"
 
 /obj/structure/reagent_dispensers/peppertank/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/capsaicin/condensed, reagents.maximum_volume)
@@ -297,11 +298,12 @@
 	reagents.add_reagent(/decl/material/liquid/ethanol/beer, reagents.maximum_volume)
 
 /obj/structure/reagent_dispensers/acid
-	name             = "sulphuric acid dispenser"
-	desc             = "A dispenser of acid for industrial processes."
-	icon_state       = "acidtank"
-	amount_dispensed = 10
-	anchored         = TRUE
+	name               = "sulphuric acid dispenser"
+	desc               = "A dispenser of acid for industrial processes."
+	icon_state         = "acidtank"
+	amount_dispensed   = 10
+	anchored           = TRUE
+	directional_offset = "{'NORTH':{'y':-32}, 'SOUTH':{'y':32}, 'EAST':{'x':-32}, 'WEST':{'x':32}}"
 
 /obj/structure/reagent_dispensers/acid/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/acid, reagents.maximum_volume)

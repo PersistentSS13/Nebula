@@ -78,7 +78,7 @@
 
 	update_growth_stages()
 
-	uid = "[sequential_id(/datum/seed/)]"
+	uid = "[make_sequential_guid(/datum/seed/)]"
 
 // TODO integrate other traits.
 /datum/seed/proc/get_monetary_value()
@@ -703,7 +703,7 @@
 		if(istype(user)) to_chat(user, "You [harvest_sample ? "take a sample" : "harvest"] from the [display_name].")
 		//This may be a new line. Update the global if it is.
 		if(name == "new line" || !(name in SSplants.seeds))
-			uid = sequential_id(/datum/seed/)
+			uid = make_sequential_guid(/datum/seed/)
 			name = "[uid]"
 			SSplants.seeds[name] = src
 

@@ -18,6 +18,8 @@
 			continue
 		if(!isPlayerLevel(A.z))
 			continue
+		if(is_type_in_list(A, global.using_map.apc_test_excluded_areas))
+			continue
 		area_test_count++
 		var/area_good = 1
 		var/bad_msg = "--------------- [A.proper_name]([A.type])"
@@ -587,7 +589,6 @@
 	return 1
 
 //=======================================================================================
-
 /datum/unit_test/station_wires_shall_be_connected
 	name = "MAP: Station wires shall be connected"
 	var/list/exceptions
@@ -596,7 +597,7 @@
 	var/failures = 0
 
 	var/exceptions_by_turf = list()
-	for(var/exception in exceptions)
+	for(var/list/exception in exceptions)
 		var/turf/T = locate(exception[1], exception[2], exception[3])
 		if(!T)
 			CRASH("Invalid exception: [exception[1]] - [exception[2]] - [exception[3]]")
@@ -631,6 +632,9 @@
 
 	// We don't care about non-station wires
 	if(!isStationLevel(source_turf.z))
+		return TRUE
+
+	if(locate(/obj/abstract/landmark/skip_test) in source_turf)
 		return TRUE
 
 	for(var/dir in list(C.d1, C.d2))

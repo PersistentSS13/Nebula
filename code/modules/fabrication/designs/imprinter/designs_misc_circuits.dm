@@ -485,6 +485,11 @@
 /datum/fabricator_recipe/imprinter/circuit/photocopier
 	path = /obj/item/stock_parts/circuitboard/photocopier
 
+/datum/fabricator_recipe/imprinter/circuit/geothermal_generator
+	path = /obj/item/stock_parts/circuitboard/geothermal
+
+/datum/fabricator_recipe/imprinter/circuit/radiocarbon_spectrometer
+	path = /obj/item/stock_parts/circuitboard/radiocarbon_spectrometer
 /datum/fabricator_recipe/imprinter/circuit/holomap
 	path = /obj/item/stock_parts/circuitboard/holomap
 

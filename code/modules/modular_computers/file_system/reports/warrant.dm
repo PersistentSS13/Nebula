@@ -7,7 +7,7 @@
 	var/archived = FALSE
 
 /datum/computer_file/report/warrant/New()
-	filename = "warrant[sequential_id(type)]"
+	filename = "warrant[make_sequential_guid(type)]"
 	..()
 
 /datum/computer_file/report/warrant/proc/get_nano_summary(uncut)

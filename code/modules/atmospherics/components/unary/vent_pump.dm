@@ -78,7 +78,7 @@
 
 /obj/machinery/atmospherics/unary/vent_pump/Initialize()
 	if (!id_tag)
-		id_tag = "[sequential_id("obj/machinery")]"
+		id_tag = "[make_sequential_guid("obj/machinery")]"
 	if(controlled)
 		var/area/A = get_area(src)
 		if(A && !A.air_vent_names[id_tag])
@@ -135,8 +135,17 @@
 	external_pressure_bound_default = 0
 	internal_pressure_bound = MAX_PUMP_PRESSURE
 	internal_pressure_bound_default = MAX_PUMP_PRESSURE
-	pressure_checks = 2
-	pressure_checks_default = 2
+	pressure_checks = PRESSURE_CHECK_INTERNAL
+	pressure_checks_default = PRESSURE_CHECK_INTERNAL
+
+/obj/machinery/atmospherics/unary/vent_pump/siphon/atmos
+	use_power = POWER_USE_OFF
+	external_pressure_bound = 0
+	external_pressure_bound_default = 0
+	internal_pressure_bound = MAX_PUMP_PRESSURE
+	internal_pressure_bound_default = MAX_PUMP_PRESSURE
+	pressure_checks = PRESSURE_CHECK_INTERNAL
+	pressure_checks_default = PRESSURE_CHECK_INTERNAL
 
 /obj/machinery/atmospherics/unary/vent_pump/Destroy()
 	QDEL_NULL(sound_token)
@@ -498,6 +507,13 @@
 	)
 
 /obj/machinery/atmospherics/unary/vent_pump/siphon/on/atmos/tank
+	controlled = FALSE
+	stock_part_presets = list(
+		/decl/stock_part_preset/radio/receiver/vent_pump/tank = 1,
+		/decl/stock_part_preset/radio/event_transmitter/vent_pump/tank = 1
+	)
+
+/obj/machinery/atmospherics/unary/vent_pump/siphon/atmos/tank
 	controlled = FALSE
 	stock_part_presets = list(
 		/decl/stock_part_preset/radio/receiver/vent_pump/tank = 1,

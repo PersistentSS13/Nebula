@@ -12,10 +12,10 @@
 
 	allowed_spawns = list(/decl/spawnpoint/cryo)
 	default_spawn = /decl/spawnpoint/cryo
-	shuttle_docked_message = "The shuttle has docked."
-	shuttle_leaving_dock = "The shuttle has departed from home dock."
-	shuttle_called_message = "A scheduled transfer shuttle has been sent."
-	shuttle_recall_message = "The shuttle has been recalled"
+	// shuttle_docked_message = "The shuttle has docked."
+	// shuttle_leaving_dock = "The shuttle has departed from home dock."
+	// shuttle_called_message = "A scheduled transfer shuttle has been sent."
+	// shuttle_recall_message = "The shuttle has been recalled"
 	emergency_shuttle_docked_message = "The emergency escape shuttle has docked."
 	emergency_shuttle_leaving_dock = "The emergency escape shuttle has departed from %dock_name%."
 	emergency_shuttle_called_message = "An emergency escape shuttle has been sent."

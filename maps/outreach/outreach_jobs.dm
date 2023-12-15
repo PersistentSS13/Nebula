@@ -1,12 +1,15 @@
 /datum/map/outreach
-	allowed_jobs = list(/datum/job/colonist)
+	default_job_type = /datum/job/colonist
+	allowed_jobs     = list(/datum/job/colonist)
 
 /datum/job/colonist
-	title = "Outreach Colonist"
-	supervisors = "Your own will and conscience."
+	title = "Colonist"
 	department_types = list(/decl/department/civilian)
 	outfit_type = /decl/hierarchy/outfit/job/outreach
 	hud_icon = "hudblank"
+	total_positions = -1 //Infinite slots
+	announced = FALSE
+	forced_spawnpoint = /decl/spawnpoint/chargen
 
 /decl/hierarchy/outfit/job/outreach
 	name = "Job - Outreach Colonist"

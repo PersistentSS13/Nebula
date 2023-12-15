@@ -1,20 +1,20 @@
 /decl/material/solid/stone
-	name = null
-	abstract_type = /decl/material/solid/stone
-	color = "#d9c179"
-	shard_type = SHARD_STONE_PIECE
-	weight = MAT_VALUE_HEAVY
-	hardness = MAT_VALUE_HARD - 5
-	reflectiveness = MAT_VALUE_MATTE
-	brute_armor = 3
-	conductive = 0
+	name                    = null
+	abstract_type           = /decl/material/solid/stone
+	color                   = "#d9c179"
+	shard_type              = SHARD_STONE_PIECE
+	weight                  = MAT_VALUE_HEAVY
+	hardness                = MAT_VALUE_HARD - 5
+	reflectiveness          = MAT_VALUE_MATTE
+	brute_armor             = 3
+	conductive              = 0
 	construction_difficulty = MAT_VALUE_NORMAL_DIY
-	wall_blend_icons = list(
+	wall_blend_icons        = list(
 		'icons/turf/walls/solid.dmi' = TRUE,
 		'icons/turf/walls/wood.dmi' = TRUE,
 		'icons/turf/walls/metal.dmi' = TRUE
 	)
-	dissolves_into = list(
+	dissolves_into          = list(
 		/decl/material/solid/silicon = 1
 	)
 
@@ -28,10 +28,10 @@
 	. += new/datum/stack_recipe/fountain(src)
 
 /decl/material/solid/stone/sandstone
-	name = "sandstone"
-	uid = "solid_sandstone"
+	name      = "sandstone"
+	uid       = "solid_sandstone"
 	lore_text = "A clastic sedimentary rock. The cost of boosting it to orbit is almost universally much higher than the actual value of the material."
-	value = 1.5
+	value     = 1.5
 
 /decl/material/solid/stone/granite
 	name                   = "granite"
@@ -52,41 +52,45 @@
 	)
 
 /decl/material/solid/stone/ceramic
-	name = "ceramic"
-	uid = "solid_ceramic"
-	lore_text = "A hard substance produced by firing clay in a kiln."
-	color = COLOR_OFF_WHITE
+	name                   = "ceramic"
+	uid                    = "solid_ceramic"
+	lore_text              = "A hard substance produced by firing clay in a kiln."
+	color                  = COLOR_OFF_WHITE
+	hardness               = MAT_VALUE_NORMAL
+	flags                  = MAT_FLAG_BRITTLE
+	exoplanet_rarity_plant = MAT_RARITY_NOWHERE
+	exoplanet_rarity_gas   = MAT_RARITY_NOWHERE
 
 /decl/material/solid/stone/marble
-	name = "marble"
-	uid = "solid_marble"
-	lore_text = "A metamorphic rock largely sourced from Earth. Prized for use in extremely expensive decorative surfaces."
-	color = "#aaaaaa"
-	weight = MAT_VALUE_VERY_HEAVY
-	wall_support_value = MAT_VALUE_VERY_HEAVY
-	hardness = MAT_VALUE_HARD
-	reflectiveness = MAT_VALUE_SHINY
-	brute_armor = 3
-	integrity = 201 //hack to stop kitchen benches being flippable, todo: refactor into weight system
+	name                    = "marble"
+	uid                     = "solid_marble"
+	lore_text               = "A metamorphic rock largely sourced from Earth. Prized for use in extremely expensive decorative surfaces."
+	color                   = "#aaaaaa"
+	weight                  = MAT_VALUE_VERY_HEAVY
+	wall_support_value      = MAT_VALUE_VERY_HEAVY
+	hardness                = MAT_VALUE_HARD
+	reflectiveness          = MAT_VALUE_SHINY
+	brute_armor             = 3
+	integrity               = 201 //hack to stop kitchen benches being flippable, todo: refactor into weight system
 	construction_difficulty = MAT_VALUE_HARD_DIY
 
 /decl/material/solid/stone/basalt
-	name = "basalt"
-	uid = "solid_basalt"
-	lore_text = "A ubiquitous volcanic stone."
-	color = COLOR_DARK_GRAY
-	weight = MAT_VALUE_VERY_HEAVY
-	wall_support_value = MAT_VALUE_VERY_HEAVY
-	hardness = MAT_VALUE_HARD
-	reflectiveness = MAT_VALUE_SHINY
+	name                    = "basalt"
+	uid                     = "solid_basalt"
+	lore_text               = "A ubiquitous volcanic stone."
+	color                   = COLOR_DARK_GRAY
+	weight                  = MAT_VALUE_VERY_HEAVY
+	wall_support_value      = MAT_VALUE_VERY_HEAVY
+	hardness                = MAT_VALUE_HARD
+	reflectiveness          = MAT_VALUE_SHINY
 	construction_difficulty = MAT_VALUE_HARD_DIY
 
 /decl/material/solid/stone/concrete
-	name = "concrete"
-	uid = "solid_concrete"
-	lore_text = "The most ubiquitous building material of old Earth, now in space. Consists of mineral aggregate bound with some sort of cementing solution."
-	color = COLOR_GRAY
-	value = 0.9
+	name             = "concrete"
+	uid              = "solid_concrete"
+	lore_text        = "The most ubiquitous building material of old Earth, now in space. Consists of mineral aggregate bound with some sort of cementing solution."
+	color            = COLOR_GRAY
+	value            = 0.9
 	exoplanet_rarity_plant = MAT_RARITY_NOWHERE
 	exoplanet_rarity_gas = MAT_RARITY_NOWHERE
 	var/image/texture
@@ -119,3 +123,27 @@
 /decl/material/solid/stone/cult/reinforced
 	name = "runic inscriptions"
 	uid = "solid_runes_cult"
+
+/decl/material/solid/stone/granite
+	name                    = "granite"
+	uid                     = "solid_granite"
+	lore_text               = "A common and very hard igneous rock."
+	color                   = "#615f5f"
+	weight                  = MAT_VALUE_VERY_HEAVY
+	wall_support_value      = MAT_VALUE_VERY_HEAVY
+	hardness                = MAT_VALUE_VERY_HARD
+	reflectiveness          = MAT_VALUE_SHINY
+	construction_difficulty = MAT_VALUE_HARD_DIY
+	brute_armor             = 6
+	integrity               = 275
+
+/decl/material/solid/stone/slate
+	name                    = "slate"
+	uid                     = "solid_slate"
+	lore_text               = "A metamorphic rock."
+	color                   = "#2b2b2b"
+	weight                  = MAT_VALUE_VERY_HEAVY
+	wall_support_value      = MAT_VALUE_NORMAL
+	hardness                = MAT_VALUE_RIGID
+	reflectiveness          = MAT_VALUE_DULL
+	construction_difficulty = MAT_VALUE_NORMAL_DIY

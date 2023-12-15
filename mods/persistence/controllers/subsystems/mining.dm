@@ -1,4 +1,5 @@
 /turf/exterior/barren/mining
+/turf/exterior/volcanic/mining
 
 /datum/random_map/automata/cave_system/outreach
 	floor_type = /turf/exterior/barren/mining
@@ -62,26 +63,30 @@ SUBSYSTEM_DEF(mining)
 /area
 	var/ignore_mining_regen = TRUE
 
+/datum/level_data
+	var/datum/random_map/automata/cave_system/level_gen_type //Map generator for mining regen subsystem
+
 /datum/controller/subsystem/mining/Initialize()
 	if(!length(global.using_map.mining_levels))
 		suspend()
 		return
 	Regenerate()
-	last_collapse = world.timeofday
+	last_collapse = REALTIMEOFDAY
 
 /datum/controller/subsystem/mining/fire()
+	//#TODO: have level_data handle regeneration, and make sure to avoid regenerating areas that are immune to regen!
 	if(collapse_imminent)
-		if(world.timeofday - last_collapse >= ((regen_interval + warning_wait) * 600))
+		if((REALTIMEOFDAY - last_collapse) >= ((regen_interval + warning_wait) * 600))
 			var/list/z_levels = SSmapping.get_connected_levels(global.using_map.mining_levels[1])
 			for(var/mob/M in global.player_list)
 				if(M.z in z_levels)
 					to_chat(M, SPAN_DANGER(collapse_message))
 					playsound(M, 'mods/persistence/sound/ambience/mineswarning.ogg', 100, 0)
 			collapse_imminent = FALSE
-			last_collapse = world.timeofday
+			last_collapse = REALTIMEOFDAY
 			Regenerate()
 	else
-		if(world.timeofday - last_collapse >= regen_interval * 600)
+		if(REALTIMEOFDAY - last_collapse >= regen_interval * 600)
 			var/list/z_levels = SSmapping.get_connected_levels(global.using_map.mining_levels[1])
 			for(var/mob/M in global.player_list)
 				if(M.z in z_levels)
@@ -103,7 +108,12 @@ SUBSYSTEM_DEF(mining)
 	SpitOutMobs(eject_mobs, 3)
 
 	for(var/z_level in global.using_map.mining_levels)
-		var/datum/random_map/automata/cave_system/outreach/generator = new(TRANSITIONEDGE, TRANSITIONEDGE, z_level, world.maxx - TRANSITIONEDGE, world.maxy - TRANSITIONEDGE, FALSE, FALSE, FALSE)
+		var/datum/level_data/ld = LAZYACCESS(SSmapping.levels_by_z, z_level)
+		var/datum/random_map/automata/cave_system/generator
+		if(ld?.level_gen_type)
+			generator = new ld.level_gen_type(TRANSITIONEDGE, TRANSITIONEDGE, z_level, world.maxx - TRANSITIONEDGE, world.maxy - TRANSITIONEDGE, FALSE, FALSE, FALSE)
+		else
+			generator = new /datum/random_map/automata/cave_system/outreach(TRANSITIONEDGE, TRANSITIONEDGE, z_level, world.maxx - TRANSITIONEDGE, world.maxy - TRANSITIONEDGE, FALSE, FALSE, FALSE)
 		generators.Add(generator)
 
 	generating_mines = FALSE
@@ -158,7 +168,7 @@ SUBSYSTEM_DEF(mining_update)
 	name = "Mining (Turf Updates)"
 	init_order = SS_INIT_DEFAULT
 	priority = 20
-	runlevels = RUNLEVELS_DEFAULT
+	runlevels = RUNLEVEL_GAME
 	wait = 2
 
 	var/list/current_run

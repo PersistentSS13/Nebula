@@ -1,9 +1,14 @@
 //Vent working directly with cable power instead of apcs
 /obj/machinery/atmospherics/unary/vent_pump/cabled
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/terminal/buildable,
+		/obj/item/stock_parts/power/terminal,
 		/obj/item/stock_parts/radio/receiver/buildable,
 		/obj/item/stock_parts/radio/transmitter/on_event/buildable,
+	)
+	stock_part_presets = list(
+		/decl/stock_part_preset/radio/receiver/vent_pump = 1,
+		/decl/stock_part_preset/radio/event_transmitter/vent_pump = 1,
+		/decl/stock_part_preset/terminal_connect/offset_dir = 1,
 	)
 
 /obj/machinery/atmospherics/unary/vent_pump/cabled/populate_parts(full_populate)
@@ -31,3 +36,10 @@
 /obj/machinery/atmospherics/unary/vent_pump/cabled/siphon/on
 	use_power = POWER_USE_IDLE
 	icon_state = "map_vent_in"
+
+/obj/machinery/atmospherics/unary/vent_pump/cabled/airlock
+	stock_part_presets = list(
+		/decl/stock_part_preset/radio/receiver/vent_pump/airlock = 1,
+		/decl/stock_part_preset/radio/event_transmitter/vent_pump/airlock = 1,
+		/decl/stock_part_preset/terminal_connect/offset_dir = 1,
+	)

@@ -19,7 +19,7 @@
 
 	var/started_on 			= 0 	// When the program started some science.
 	var/current_interval 	= 0		// How long the current interval will be.
-	var/next_event 			= 0 	// in world timeofday, when the next event is scheduled to pop.
+	var/next_event 			= 0 	// Based on realtimeofday, when the next event is scheduled to pop.
 	var/crashed				= FALSE	// Program periodically needs a restart.
 	var/crashed_at			= 0		// When the program crashed.
 

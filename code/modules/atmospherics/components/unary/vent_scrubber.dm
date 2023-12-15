@@ -62,7 +62,7 @@
 
 /obj/machinery/atmospherics/unary/vent_scrubber/Initialize()
 	if (!id_tag)
-		id_tag = "[sequential_id("obj/machinery")]"
+		id_tag = "[make_sequential_guid("obj/machinery")]"
 	if(!scrubbing_gas)
 		scrubbing_gas = list()
 		for(var/g in decls_repository.get_decl_paths_of_subtype(/decl/material/gas))

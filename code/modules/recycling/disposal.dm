@@ -29,7 +29,7 @@ var/global/list/diversion_junctions = list()
 	var/list/allowed_objects = list(/obj/structure/closet)
 	active_power_usage = 2200	//the pneumatic pump power. 3 HP ~ 2200W
 	idle_power_usage = 100
-	atom_flags = ATOM_FLAG_CLIMBABLE
+	atom_flags = 0
 	var/turn = DISPOSAL_FLIP_NONE
 	throwpass = TRUE
 

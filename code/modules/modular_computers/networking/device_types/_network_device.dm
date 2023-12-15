@@ -33,7 +33,7 @@
 		receiver_type = r_type
 	address = uppertext(NETWORK_MAC)
 	var/obj/O = holder
-	network_tag = "[uppertext(replacetext(O.name, " ", "_"))]-[sequential_id(type)]"
+	network_tag = "[uppertext(replacetext(O.name, " ", "_"))]-[make_sequential_guid(type)]"
 	_autojoin = autojoin
 
 	if(length(device_variables))

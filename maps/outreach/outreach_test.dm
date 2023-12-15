@@ -1,6 +1,25 @@
-/datum/map/outreach
-	lobby_tracks = list(
-		/decl/music_track/dirtyoldfrogg
+//Add to the default areas
+/datum/map/outreach/New()
+	. = ..()
+	apc_test_exempt_areas[/area/turbolift/outreach/f1]                       = NO_SCRUBBER|NO_VENT|NO_APC
+	apc_test_exempt_areas[/area/outreach/outpost/airlock]                    = NO_SCRUBBER|NO_VENT
+	apc_test_exempt_areas[/area/outreach/outpost/maint/passage/f1/southwest] = NO_SCRUBBER|NO_VENT
+	apc_test_exempt_areas[/area/outreach/outpost/maint/passage/f1/northwest] = NO_SCRUBBER|NO_VENT
+	apc_test_exempt_areas[/area/outreach/outpost/storage_shed]               = NO_SCRUBBER|NO_VENT
+	apc_test_exempt_areas[/area/outreach/outpost/maint/outer_wall]           = NO_SCRUBBER|NO_VENT|NO_APC
+	apc_test_exempt_areas[/area/outreach/outpost/vacant]                     = NO_SCRUBBER|NO_VENT
+	apc_test_exempt_areas[/area/outreach/outpost/vacant/ground/depot]        = 0
+	apc_test_exempt_areas[/area/outreach/outpost/vacant/b1/south/east]       = 0
+	apc_test_exempt_areas[/area/outreach/outpost/vacant/f1/swroom]           = NO_SCRUBBER|NO_VENT|NO_APC
+	apc_test_exempt_areas[/area/outreach/outpost/vacant/ground/swroom]       = NO_SCRUBBER|NO_VENT|NO_APC
+	apc_test_exempt_areas[/area/outreach/outpost/hangar/north/shuttle_area]  = NO_SCRUBBER|NO_VENT|NO_APC
+	apc_test_exempt_areas[/area/outreach/outpost/control/servers]            = NO_SCRUBBER|NO_VENT
+
+	apc_test_excluded_areas = list(
+		/area/exoplanet,
+		/area/turbolift,
+		/area/outreach/outpost/atmospherics/b2/tank_outer, //Exterior
+		/area/outreach/outpost/engineering/b2/geothermals, //Exterior
 	)
 
 /datum/map_template/planetoid/persistent/outreach
@@ -14,7 +33,10 @@
 		"maps/outreach/outreach-1.dmm",
 		"maps/outreach/outreach-2.dmm",
 		"maps/outreach/outreach-3.dmm",
-		"maps/outreach/outreach-4.dmm"
+		"maps/outreach/outreach-4.dmm",
+		"maps/outreach/outreach_south-1.dmm",
+		"maps/outreach/outreach_south-2.dmm",
+		"maps/outreach/outreach_south-3.dmm",
 	)
 
 /datum/level_data/planetoid/exoplanet/outreach
@@ -38,14 +60,14 @@
 	name                = "outreach mines"
 	level_id            = "outreach_mines"
 	level_flags         = ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_SEALED | ZLEVEL_SAVED | ZLEVEL_MINING
-	base_area           = /area/exoplanet/outreach/mines/depth_1
+	base_area           = /area/exoplanet/outreach/underground/mines/b1
 	base_turf           = /turf/exterior/barren
 	border_filler       = /turf/unsimulated/mineral
 
 /datum/level_data/planetoid/exoplanet/outreach/mining/bottom
 	name                = "outreach mines bottom"
 	level_id            = "outreach_mines_bottom"
-	base_area           = /area/exoplanet/outreach/mines/depth_2
+	base_area           = /area/exoplanet/outreach/underground/mines/b2
 
 /obj/abstract/level_data_spawner/exoplanet/outreach
 	name            = "outreach surface (level data spawner)"

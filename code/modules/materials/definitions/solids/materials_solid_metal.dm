@@ -366,10 +366,11 @@
 /decl/material/solid/metal/osmium
 	name = "osmium"
 	uid = "solid_osmium"
-	lore_text = "An extremely hard form of platinum."
+	lore_text = "A very rare, extremely durable and hard metal which is also the densest naturally occuring element."
 	color = "#9999ff"
 	stack_origin_tech = "{'materials':5}"
 	construction_difficulty = MAT_VALUE_VERY_HARD_DIY
+	exoplanet_rarity_plant = MAT_RARITY_UNCOMMON
 	value = 1.3
 
 /decl/material/solid/metal/platinum

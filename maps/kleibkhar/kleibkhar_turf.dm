@@ -69,6 +69,9 @@ var/global/list/kleibkhar_possible_tree_seeds = list(
 	"bamboo",
 )
 
+///////////////////////////////////////////////////////////////////////////
+// Planet Grass Turfs
+///////////////////////////////////////////////////////////////////////////
 /turf/exterior/kleibkhar_grass
 	name = "wild grass"
 	icon = 'icons/turf/exterior/wildgrass.dmi'
@@ -163,9 +166,21 @@ var/global/list/kleibkhar_possible_tree_seeds = list(
 		footstep_type = /decl/footsteps/asteroid
 		color = null
 
-//
-//Terraforming
-//
+///////////////////////////////////////////////////////////////////////////
+// Mining Turfs
+///////////////////////////////////////////////////////////////////////////
+
+/turf/exterior/wall/random/kleibkhar
+	material = /decl/material/solid/stone/sandstone
+
+/turf/exterior/wall/kleibkhar
+	material = /decl/material/solid/stone/sandstone
+	floor_type = /turf/exterior/barren/mining
+	open_turf_type = /turf/exterior/open
+
+///////////////////////////////////////////////////////////////////////////
+// Terraforming
+///////////////////////////////////////////////////////////////////////////
 
 //Mud working
 var/global/list/exterior_mud_dark_radial_choices

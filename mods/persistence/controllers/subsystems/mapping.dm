@@ -1,7 +1,3 @@
-/datum/controller/subsystem/mapping
-	/// List of z-levels that regenerates mining turfs periodically
-	var/list/mining_levels =  list()
-
 /datum/controller/subsystem/mapping/Initialize(timeofday)
 	. = ..()
 #ifndef UNIT_TEST
