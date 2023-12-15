@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <base href="../../" />
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>&#x2F;obj&#x2F;machinery&#x2F;recycler - Space Station 13 - Nebula13</title>
+</head>
+<body>
+<header>
+    <a href="index.html">Space Station 13 - Nebula13</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+ &mdash; <a href="obj/machinery/recycler.html#var">Var Details</a> - <a href="obj/machinery/recycler.html#proc">Proc Details</a></header>
+<main>
+<h1>recycler <aside>/<a href="obj.html">obj</a>/<a href="obj/machinery.html">machinery</a>/<a href="obj/machinery/recycler.html">recycler</a></aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L6">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 6"/></a></h1>
+
+<p>Recycling machine for crushing trash and sometimes mobs into raw materials.</p><table class="summary" cellspacing="0"><tr><td colspan="2"><h2>Vars</h2></td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/crush_listener">crush_listener</a></th><td>Listener for things coming into the machine</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/efficiency">efficiency</a></th><td>Percentage of materials recovered from the recycled item. Starting value is the maximum it'll go</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/emergency_stop_time">emergency_stop_time</a></th><td>Amount of time the recycler will pause when it encounters an object triggering its emergency stop mode.</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/emergency_stopping_objects">emergency_stopping_objects</a></th><td>Things that caused the machine to emergency stop. When it's empty, we're clear to restart, if it has anything in it, we still have something blocking us</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/icon_prefix">icon_prefix</a></th><td>Prefix of the icon state for the grinder</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/max_efficiency">max_efficiency</a></th><td>The maximum possible efficiency value for this machine.</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/recently_dispensed_mats">recently_dispensed_mats</a></th><td>List of the mats we've just dispensed, to avoid processing them as trash.</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/recycler_blacklist">recycler_blacklist</a></th><td>Types that should never be allowed in the recycler</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/recycler_safety_blacklist">recycler_safety_blacklist</a></th><td>Types of objects which are ignored only when the safeties are on</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/recycler_state">recycler_state</a></th><td>Bitflag for keeping track of internal status</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/sound_all_clear">sound_all_clear</a></th><td>Sound played when an obstruction is cleared and the machine is restarting</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/sound_emergency">sound_emergency</a></th><td>Sound played when something forbidden cause an emergency stop</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/sound_idle">sound_idle</a></th><td>Looped sound of the machine idling</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/sound_looping">sound_looping</a></th><td>Sound token to the looping grinder sound</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/sound_obstructed">sound_obstructed</a></th><td>Sound played when something is still blocking the machine into emergency stop mode</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/sound_outputs">sound_outputs</a></th><td>Sound played when materials are released from the machine</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/sound_processing">sound_processing</a></th><td>Sound played when something is being grinded by the machine</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/stored_materials">stored_materials</a></th><td>The solid materials that were reclaimed from the recycled atoms. Kept separately from reagents, since phase shift isn't really working well rn.</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/time_last_cleared_msg">time_last_cleared_msg</a></th><td>Time we last told users an item clogging us was cleared</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/time_last_crush">time_last_crush</a></th><td>Time we last crushed something</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/time_last_crush_sound">time_last_crush_sound</a></th><td>Time we last emitted a crush sound</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/time_last_output">time_last_output</a></th><td>Time we last outputed material dust</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/time_last_warning_msg">time_last_warning_msg</a></th><td>Time we last told users something bad is happening</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/time_last_warning_sound">time_last_warning_sound</a></th><td>Time we last issued a warning tone to users.</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#var/timer_id_jam_warning">timer_id_jam_warning</a></th><td>Timer id for the looping jam warning timer</td></tr><tr><td colspan="2"><h2>Procs</h2></td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/can_crush">can_crush</a></th><td>Whether the given atom can even be crushed by the machine.</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/crush">crush</a></th><td>Handles crushing a given atom.</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/crush_mob">crush_mob</a></th><td>Crushes a mob and it's contents</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/crush_thing">crush_thing</a></th><td>Crushes an object and its contents</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/is_allowed_to_crush">is_allowed_to_crush</a></th><td>Returns false if something is on one of the forbidden list, depending on whether safe mode is on or not.</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/is_running">is_running</a></th><td>Returns whether the recycler is powered, operational and not in emergency mode.</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/on_atom_entered">on_atom_entered</a></th><td>Called by the turf listener when something enters our turf.</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/on_dispensed_exited">on_dispensed_exited</a></th><td>Called when one of the stacks we've dispensed leaves the turf.</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/on_forbidden_atom_exited">on_forbidden_atom_exited</a></th><td>Called by forbidden object leaving our turf.</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/setup_turf_listener">setup_turf_listener</a></th><td>Install listener on the turf for anything that may come into it. Doesn't do anything in nullspace</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/track_dispensed_materials">track_dispensed_materials</a></th><td>Track outgoing material stacks so we don't consume them again, and still let them glide gracefully out the back.</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/track_forbidden_object">track_forbidden_object</a></th><td>Adds some listener onto a given object to tell when it leaves our turf, and we should be safe to restart</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/try_clear_emergency_stop">try_clear_emergency_stop</a></th><td>Restart the machine after an emergency stop</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/try_emergency_stop">try_emergency_stop</a></th><td>Stop grinding things for a few seconds</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/try_output">try_output</a></th><td>Attempts expelling the results of the grinding. Returns the amount of matter sheets created.</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/try_standby">try_standby</a></th><td>Attempt setting the machine into standby mode</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/untrack_forbidden_object">untrack_forbidden_object</a></th><td>Stop tracking an object that's been blocking us in emergency stop mode.</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/update_sound">update_sound</a></th><td>Update looping sounds depending on the state of the machine</td></tr>
+            <tr><th><a href="obj/machinery/recycler.html#proc/warn_about_jam">warn_about_jam</a></th><td>Output a sound warning about the thing being jammed.</td></tr></table>
+    <h2 id="var">Var Details</h2><h3 id="var/crush_listener"><aside class="declaration">var </aside>crush_listener
+            <aside>&ndash; /<a href="datum.html">datum</a>/proximity_trigger/square</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L78">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 78"/></a></h3>
+        <p>Listener for things coming into the machine</p><h3 id="var/efficiency"><aside class="declaration">var </aside>efficiency
+            <aside>&ndash; /tmp</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L34">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 34"/></a></h3>
+        <p>Percentage of materials recovered from the recycled item. Starting value is the maximum it'll go</p><h3 id="var/emergency_stop_time"><aside class="declaration">var </aside>emergency_stop_time
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L56">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 56"/></a></h3>
+        <p>Amount of time the recycler will pause when it encounters an object triggering its emergency stop mode.</p><h3 id="var/emergency_stopping_objects"><aside class="declaration">var </aside>emergency_stopping_objects
+            <aside>&ndash; /tmp/list</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L60">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 60"/></a></h3>
+        <p>Things that caused the machine to emergency stop. When it's empty, we're clear to restart, if it has anything in it, we still have something blocking us</p><h3 id="var/icon_prefix"><aside class="declaration">var </aside>icon_prefix
+            <aside>&ndash; /tmp</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L39">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 39"/></a></h3>
+        <p>Prefix of the icon state for the grinder</p><h3 id="var/max_efficiency"><aside class="declaration">var </aside>max_efficiency
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L36">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 36"/></a></h3>
+        <p>The maximum possible efficiency value for this machine.</p><h3 id="var/recently_dispensed_mats"><aside class="declaration">var </aside>recently_dispensed_mats
+            <aside>&ndash; /tmp/list</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L62">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 62"/></a></h3>
+        <p>List of the mats we've just dispensed, to avoid processing them as trash.</p><h3 id="var/recycler_blacklist"><aside class="declaration">var </aside>recycler_blacklist
+            <aside>&ndash; /static/list</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L82">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 82"/></a></h3>
+        <p>Types that should never be allowed in the recycler</p><h3 id="var/recycler_safety_blacklist"><aside class="declaration">var </aside>recycler_safety_blacklist
+            <aside>&ndash; /static/list</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L99">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 99"/></a></h3>
+        <p>Types of objects which are ignored only when the safeties are on</p><h3 id="var/recycler_state"><aside class="declaration">var </aside>recycler_state
+            <aside>&ndash; </aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L32">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 32"/></a></h3>
+        <p>Bitflag for keeping track of internal status</p><h3 id="var/sound_all_clear"><aside class="declaration">var </aside>sound_all_clear
+            <aside>&ndash; /tmp</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L49">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 49"/></a></h3>
+        <p>Sound played when an obstruction is cleared and the machine is restarting</p><h3 id="var/sound_emergency"><aside class="declaration">var </aside>sound_emergency
+            <aside>&ndash; /tmp</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L47">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 47"/></a></h3>
+        <p>Sound played when something forbidden cause an emergency stop</p><h3 id="var/sound_idle"><aside class="declaration">var </aside>sound_idle
+            <aside>&ndash; /tmp</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L41">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 41"/></a></h3>
+        <p>Looped sound of the machine idling</p><h3 id="var/sound_looping"><aside class="declaration">var </aside>sound_looping
+            <aside>&ndash; /tmp/<a href="datum.html">datum</a>/sound_token</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L54">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 54"/></a></h3>
+        <p>Sound token to the looping grinder sound</p><h3 id="var/sound_obstructed"><aside class="declaration">var </aside>sound_obstructed
+            <aside>&ndash; /tmp</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L51">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 51"/></a></h3>
+        <p>Sound played when something is still blocking the machine into emergency stop mode</p><h3 id="var/sound_outputs"><aside class="declaration">var </aside>sound_outputs
+            <aside>&ndash; /tmp</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L45">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 45"/></a></h3>
+        <p>Sound played when materials are released from the machine</p><h3 id="var/sound_processing"><aside class="declaration">var </aside>sound_processing
+            <aside>&ndash; /tmp</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L43">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 43"/></a></h3>
+        <p>Sound played when something is being grinded by the machine</p><h3 id="var/stored_materials"><aside class="declaration">var </aside>stored_materials
+            <aside>&ndash; /list</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L80">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 80"/></a></h3>
+        <p>The solid materials that were reclaimed from the recycled atoms. Kept separately from reagents, since phase shift isn't really working well rn.</p><h3 id="var/time_last_cleared_msg"><aside class="declaration">var </aside>time_last_cleared_msg
+            <aside>&ndash; /tmp</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L75">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 75"/></a></h3>
+        <p>Time we last told users an item clogging us was cleared</p><h3 id="var/time_last_crush"><aside class="declaration">var </aside>time_last_crush
+            <aside>&ndash; /tmp</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L67">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 67"/></a></h3>
+        <p>Time we last crushed something</p><h3 id="var/time_last_crush_sound"><aside class="declaration">var </aside>time_last_crush_sound
+            <aside>&ndash; /tmp</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L69">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 69"/></a></h3>
+        <p>Time we last emitted a crush sound</p><h3 id="var/time_last_output"><aside class="declaration">var </aside>time_last_output
+            <aside>&ndash; /tmp</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L65">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 65"/></a></h3>
+        <p>Time we last outputed material dust</p><h3 id="var/time_last_warning_msg"><aside class="declaration">var </aside>time_last_warning_msg
+            <aside>&ndash; /tmp</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L73">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 73"/></a></h3>
+        <p>Time we last told users something bad is happening</p><h3 id="var/time_last_warning_sound"><aside class="declaration">var </aside>time_last_warning_sound
+            <aside>&ndash; /tmp</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L71">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 71"/></a></h3>
+        <p>Time we last issued a warning tone to users.</p><h3 id="var/timer_id_jam_warning"><aside class="declaration">var </aside>timer_id_jam_warning
+            <aside>&ndash; /tmp</aside>
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L58">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 58"/></a></h3>
+        <p>Timer id for the looping jam warning timer</p><h2 id="proc">Proc Details</h2><h3 id="proc/can_crush"><aside class="declaration">proc </aside>can_crush<aside>(/<a href="atom.html">atom</a>/<a href="atom/movable.html">movable</a>/AM) 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L253">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 253"/></a></aside>
+        </h3>
+        <p>Whether the given atom can even be crushed by the machine.</p><h3 id="proc/crush"><aside class="declaration">proc </aside>crush<aside>(/<a href="atom.html">atom</a>/<a href="atom/movable.html">movable</a>/AM, crushsound, recursive_depth) 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L350">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 350"/></a></aside>
+        </h3>
+        <p>Handles crushing a given atom.</p><h3 id="proc/crush_mob"><aside class="declaration">proc </aside>crush_mob<aside>(/<a href="mob.html">mob</a>/<a href="mob/living.html">living</a>/L, crushsound, recursive_depth) 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L406">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 406"/></a></aside>
+        </h3>
+        <p>Crushes a mob and it's contents</p><h3 id="proc/crush_thing"><aside class="declaration">proc </aside>crush_thing<aside>(/<a href="obj.html">obj</a>/O, crushsound, recursive_depth) 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L377">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 377"/></a></aside>
+        </h3>
+        <p>Crushes an object and its contents</p><h3 id="proc/is_allowed_to_crush"><aside class="declaration">proc </aside>is_allowed_to_crush<aside>(/<a href="atom.html">atom</a>/<a href="atom/movable.html">movable</a>/AM) 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L241">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 241"/></a></aside>
+        </h3>
+        <p>Returns false if something is on one of the forbidden list, depending on whether safe mode is on or not.</p><h3 id="proc/is_running"><aside class="declaration">proc </aside>is_running<aside>() 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L237">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 237"/></a></aside>
+        </h3>
+        <p>Returns whether the recycler is powered, operational and not in emergency mode.</p><h3 id="proc/on_atom_entered"><aside class="declaration">proc </aside>on_atom_entered<aside>(/<a href="atom.html">atom</a>/<a href="atom/movable.html">movable</a>/AM) 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L326">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 326"/></a></aside>
+        </h3>
+        <p>Called by the turf listener when something enters our turf.</p><h3 id="proc/on_dispensed_exited"><aside class="declaration">proc </aside>on_dispensed_exited<aside>(/<a href="atom.html">atom</a>/<a href="atom/movable.html">movable</a>/AM) 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L338">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 338"/></a></aside>
+        </h3>
+        <p>Called when one of the stacks we've dispensed leaves the turf.</p><h3 id="proc/on_forbidden_atom_exited"><aside class="declaration">proc </aside>on_forbidden_atom_exited<aside>(/<a href="atom.html">atom</a>/<a href="atom/movable.html">movable</a>/AM) 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L332">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 332"/></a></aside>
+        </h3>
+        <p>Called by forbidden object leaving our turf.</p><h3 id="proc/setup_turf_listener"><aside class="declaration">proc </aside>setup_turf_listener<aside>() 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L152">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 152"/></a></aside>
+        </h3>
+        <p>Install listener on the turf for anything that may come into it. Doesn't do anything in nullspace</p><h3 id="proc/track_dispensed_materials"><aside class="declaration">proc </aside>track_dispensed_materials<aside>(/list/dispensed) 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L319">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 319"/></a></aside>
+        </h3>
+        <p>Track outgoing material stacks so we don't consume them again, and still let them glide gracefully out the back.</p><h3 id="proc/track_forbidden_object"><aside class="declaration">proc </aside>track_forbidden_object<aside>(/<a href="atom.html">atom</a>/<a href="atom/movable.html">movable</a>/stopper) 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L307">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 307"/></a></aside>
+        </h3>
+        <p>Adds some listener onto a given object to tell when it leaves our turf, and we should be safe to restart</p><h3 id="proc/try_clear_emergency_stop"><aside class="declaration">proc </aside>try_clear_emergency_stop<aside>(/<a href="atom.html">atom</a>/<a href="atom/movable.html">movable</a>/stopper) 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L288">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 288"/></a></aside>
+        </h3>
+        <p>Restart the machine after an emergency stop</p><h3 id="proc/try_emergency_stop"><aside class="declaration">proc </aside>try_emergency_stop<aside>(/<a href="atom.html">atom</a>/<a href="atom/movable.html">movable</a>/stopper) 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L265">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 265"/></a></aside>
+        </h3>
+        <p>Stop grinding things for a few seconds</p><h3 id="proc/try_output"><aside class="declaration">proc </aside>try_output<aside>(play_sound) 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L468">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 468"/></a></aside>
+        </h3>
+        <p>Attempts expelling the results of the grinding. Returns the amount of matter sheets created.</p><h3 id="proc/try_standby"><aside class="declaration">proc </aside>try_standby<aside>() 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L231">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 231"/></a></aside>
+        </h3>
+        <p>Attempt setting the machine into standby mode</p><h3 id="proc/untrack_forbidden_object"><aside class="declaration">proc </aside>untrack_forbidden_object<aside>(/<a href="atom.html">atom</a>/<a href="atom/movable.html">movable</a>/stopper) 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L313">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 313"/></a></aside>
+        </h3>
+        <p>Stop tracking an object that's been blocking us in emergency stop mode.</p><h3 id="proc/update_sound"><aside class="declaration">proc </aside>update_sound<aside>() 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L198">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 198"/></a></aside>
+        </h3>
+        <p>Update looping sounds depending on the state of the machine</p><h3 id="proc/warn_about_jam"><aside class="declaration">proc </aside>warn_about_jam<aside>() 
+        
+    
+            <a href="https://github.com/PersistentSS13/Nebula/blob/3a79f079436abd9547c6b29b6ad5db475d29de2f/maps/outreach/../../mods/persistence/modules/recycling/recycler/recycler.dm#L217">
+        <img src="git.png" width="16" height="16" title="maps&#x2F;outreach&#x2F;..&#x2F;..&#x2F;mods&#x2F;persistence&#x2F;modules&#x2F;recycling&#x2F;recycler&#x2F;recycler.dm 217"/></a></aside>
+        </h3>
+        <p>Output a sound warning about the thing being jammed.</p></main>
+<footer>
+    nebula.dme
+    <a href="https://github.com/PersistentSS13/Nebula/tree/3a79f079436abd9547c6b29b6ad5db475d29de2f">3a79f07</a>
+        (dev) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/src/dmdoc/README.md">dmdoc 1.4.1</a></footer>
+</body>
+</html>
