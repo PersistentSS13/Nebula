@@ -16,12 +16,32 @@
 	name_column = "Fault"
 	treatment_column = "Recommended repair"
 
+/proc/get_chem_effect_display_name(effect)
+	switch(effect)
+		if(CE_PAINKILLER)
+			return "painkillers"
+		if(CE_ANTIBIOTIC)
+			return "antibiotics"
+		if(CE_ALCOHOL)
+			return "alcohol"
+		if(CE_ALCOHOL_TOXIC)
+			return "alcohol overdose"
+		if(CE_ANTITOX)
+			return "antitoxins"
+		if(CE_TOXIN)
+			return "toxins"
+		if(CE_SEDATE)
+			return "sedative drugs"
+		if(CE_ENERGETIC)
+			return "stimulant drugs"
+	return null
+
 /datum/codex_entry/ailments/New()
 	var/list/ailment_table = list("<table border = 1px>")
 	ailment_table += "<tr><td><b>[name_column]</b></td><td><b>[treatment_column]</b></td></tr>"
 	for(var/atype in subtypesof(/datum/ailment))
 		var/datum/ailment/ailment = get_ailment_reference(atype)
-		if(!ailment.name || show_robotics_recipes != ailment.affects_robotics)
+		if(!ailment.name || show_robotics_recipes != ailment.affects_robotics || ailment.hidden_from_codex)
 			continue
 		ailment_table += "<tr><td>[ailment.name]</td><td>"
 		var/list/ailment_cures = list()
@@ -31,6 +51,8 @@
 		if(ailment.treated_by_reagent_type)
 			var/decl/material/mat = GET_DECL(ailment.treated_by_reagent_type)
 			ailment_cures += "[ailment.treated_by_reagent_dosage]u [mat.name]"
+		if(ailment.treated_by_chem_effect)
+			ailment_cures += get_chem_effect_display_name(ailment.treated_by_chem_effect)
 		if(!length(ailment_cures))
 			ailment_cures += "Unknown."
 		ailment_table += "[jointext(ailment_cures,"<br>")]</td></tr>"

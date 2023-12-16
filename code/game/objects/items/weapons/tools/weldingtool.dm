@@ -162,13 +162,16 @@
 	return ..()
 
 /obj/item/weldingtool/attack_hand(mob/user)
-	if (tank && user.is_holding_offhand(src) && user.check_dexterity(DEXTERITY_GRIP, TRUE))
+	if (tank && user.is_holding_offhand(src) && user.check_dexterity(DEXTERITY_HOLD_ITEM, TRUE))
 		return remove_tank(user)
 	return ..()
 
 /obj/item/weldingtool/fluid_act(var/datum/reagents/fluids)
 	..()
-	if(welding && !waterproof)
+	if(!QDELETED(src) && fluids?.total_volume && welding && !waterproof)
+		var/turf/location = get_turf(src)
+		if(location)
+			location.hotspot_expose(WELDING_TOOL_HOTSPOT_TEMP_ACTIVE, 50, 1)
 		turn_off()
 
 /obj/item/weldingtool/Process()
@@ -395,6 +398,7 @@
 	icon              = 'icons/obj/items/tool/welders/welder_tanks.dmi'
 	icon_state        = "tank_normal"
 	w_class           = ITEM_SIZE_SMALL
+	atom_flags        = ATOM_FLAG_OPEN_CONTAINER
 	obj_flags         = OBJ_FLAG_HOLLOW
 	force             = 5
 	throwforce        = 5

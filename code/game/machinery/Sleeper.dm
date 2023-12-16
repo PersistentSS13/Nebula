@@ -60,7 +60,7 @@
 			var/decl/material/reagent = GET_DECL(rid)
 			for(var/banned_type in banned_chem_types)
 				if(istype(reagent, banned_type))
-					to_chat(user, SPAN_WARNING("Automatic safety checking indicates the present of a prohibited substance in this canister."))
+					to_chat(user, SPAN_WARNING("Automatic safety checking indicates the presence of a prohibited substance in this canister."))
 					return FALSE
 	var/mob/M = canister.loc
 	if(istype(M) && !M.try_unequip(canister, src))
@@ -78,6 +78,16 @@
 	canister.dropInto(loc)
 	to_chat(user, SPAN_NOTICE("You remove \the [canister] from \the [src]."))
 	return TRUE
+
+/obj/machinery/sleeper/proc/eject_all_reagent_canisters()
+	for(var/obj/item/canister in loaded_canisters)
+		canister.dropInto(loc)
+	LAZYCLEARLIST(loaded_canisters)
+
+/obj/machinery/sleeper/dismantle()
+	eject_all_reagent_canisters()
+	remove_beaker()
+	return ..()
 
 /obj/machinery/sleeper/get_contained_external_atoms()
 	. = ..()
@@ -112,35 +122,47 @@
 		else
 			to_chat(user, SPAN_NOTICE("There are no chemical canisters loaded."))
 
+/obj/machinery/sleeper/proc/has_room_in_beaker()
+	return beaker && beaker.reagents.total_volume < beaker.reagents.maximum_volume
+
 /obj/machinery/sleeper/Process()
 	if(stat & (NOPOWER|BROKEN))
 		return
 
-	if(filtering > 0)
-		if(beaker)
-			if(beaker.reagents.total_volume < beaker.reagents.maximum_volume)
-				var/pumped = LAZYLEN(occupant.reagents?.reagent_volumes)
-				if(pumped)
-					occupant.reagents.trans_to_obj(beaker, pump_speed * pumped)
-					occupant.vessel.trans_to_obj(beaker, pumped + 1)
+	if(!istype(occupant))
+		if(filtering)
+			toggle_filter()
+		if(pump)
+			toggle_pump()
+		if(lavage)
+			toggle_lavage()
+		return
+
+	if(filtering)
+		if(has_room_in_beaker())
+			var/trans_volume = LAZYLEN(occupant.reagents?.reagent_volumes)
+			if(trans_volume)
+				occupant.reagents.trans_to_obj(beaker, pump_speed * trans_volume)
+				occupant.vessel.trans_to_obj(beaker, trans_volume + 1)
 		else
 			toggle_filter()
-	if(pump > 0)
-		if(beaker && istype(occupant))
-			if(beaker.reagents.total_volume < beaker.reagents.maximum_volume)
-				var/datum/reagents/ingested = occupant.get_ingested_reagents()
-				if(ingested)
-					var/trans_amt = LAZYLEN(ingested.reagent_volumes)
-					if(trans_amt)
-						ingested.trans_to_obj(beaker, pump_speed * trans_amt)
+
+	if(pump)
+		if(has_room_in_beaker())
+			var/datum/reagents/ingested = occupant.get_ingested_reagents()
+			if(ingested)
+				var/trans_volume = LAZYLEN(ingested.reagent_volumes)
+				if(trans_volume)
+					ingested.trans_to_obj(beaker, pump_speed * trans_volume)
 		else
 			toggle_pump()
+
 	if(lavage)
-		if(beaker?.reagents)
-			if (beaker.reagents.total_volume < beaker.reagents.maximum_volume)
-				var/datum/reagents/inhaled = occupant.get_inhaled_reagents()
+		if(has_room_in_beaker())
+			var/datum/reagents/inhaled = occupant.get_inhaled_reagents()
+			if(inhaled)
 				var/trans_volume = LAZYLEN(inhaled?.reagent_volumes)
-				if(inhaled && trans_volume)
+				if(trans_volume)
 					inhaled.trans_to_obj(beaker, pump_speed * trans_volume)
 		else
 			toggle_lavage()

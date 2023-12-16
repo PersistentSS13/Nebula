@@ -19,9 +19,9 @@ Contains helper procs for airflow, called by /connection_group.
 				airflow_dest = pick(close_turfs) //Pick a random midpoint to fly towards.
 
 				if(repelled)
-					addtimer(CALLBACK(src, .proc/RepelAirflowDest, differential / 5), 0)
+					RepelAirflowDest(differential / 5)
 				else
-					addtimer(CALLBACK(src, .proc/GotoAirflowDest, differential / 10), 0)
+					GotoAirflowDest(differential / 10)
 
 /atom/movable/proc/handle_airflow_stun(var/differential)
 	return
@@ -104,7 +104,7 @@ Contains helper procs for airflow, called by /connection_group.
 	if(airflow_speed > 0 && airflow_dest)
 		if(airborne_acceleration > 1)
 			airflow_hit(A)
-		else if(istype(src, /mob/living/carbon/human))
+		else if(ishuman(src))
 			to_chat(src, "<span class='notice'>You are pinned against [A] by airflow!</span>")
 			airborne_acceleration = 0
 	else

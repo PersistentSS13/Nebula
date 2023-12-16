@@ -6,8 +6,8 @@ var/global/list/internet_uplinks = list()
 	desc = "A machine designed to route massive amounts of data to and from PLEXUS receivers in a local area using a miniaturized wormhole."
 	icon = 'icons/obj/machines/internet_uplink.dmi'
 	icon_state = "unpowered"
-	density = 1
-	anchored = 1
+	density = TRUE
+	anchored = TRUE
 	construct_state = /decl/machine_construction/default/panel_closed
 	base_type = /obj/machinery/internet_uplink
 	uncreated_component_parts = list(
@@ -116,7 +116,7 @@ var/global/list/internet_uplinks = list()
 				permitted_networks += network_id
 				return TOPIC_REFRESH
 			else
-				to_chat(user, SPAN_WARNING("\The network '[network_id]' could not be found!"))
+				to_chat(user, SPAN_WARNING("The network '[network_id]' could not be found!"))
 				return TOPIC_HANDLED
 
 /obj/machinery/internet_uplink/proc/update_range(new_range)

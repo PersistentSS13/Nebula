@@ -22,13 +22,13 @@
 	bone_amount = 0
 	ai = /datum/ai/slime
 	hud_type = /datum/hud/slime
+	nutrition = 800
 
 	var/is_adult = FALSE
 	var/mutation_chance = 30 // Chance of mutating, should be between 25 and 35
 	var/powerlevel = 0 // 0-10 controls how much electricity they are generating
 	var/amount_grown = 0 // controls how long the slime has been overfed, if 10, grows or reproduces
 	var/weakref/feeding_on
-	var/nutrition = 800
 	var/toxloss = 0
 	var/hurt_temperature = T0C-50 // slime keeps taking damage when its bodytemperature is below this
 	var/die_temperature = 50 // slime dies instantly when its bodytemperature is below this
@@ -129,12 +129,12 @@
 		var/mob/tmob = AM
 
 		if(is_adult)
-			if(istype(tmob, /mob/living/carbon/human))
+			if(ishuman(tmob))
 				if(prob(90))
 					now_pushing = 0
 					return
 		else
-			if(istype(tmob, /mob/living/carbon/human))
+			if(ishuman(tmob))
 				now_pushing = 0
 				return
 
@@ -213,9 +213,9 @@
 			adjust_friendship(user, rand(2,3))
 		return TRUE
 
-	if(feeding_on)
-		var/prey = feeding_on
-		if(feeding_on == user)
+	var/prey = feeding_on?.resolve()
+	if(prey)
+		if(prey == user)
 			if(prob(60))
 				visible_message(SPAN_DANGER("\The [user] fails to escape \the [src]!"))
 			else
@@ -223,12 +223,12 @@
 				set_feeding_on()
 		else
 			if(prob(30))
-				visible_message(SPAN_DANGER("\The [user] attempts to wrestle \the [src] off \the [feeding_on]!"))
+				visible_message(SPAN_DANGER("\The [user] attempts to wrestle \the [src] off \the [prey]!"))
 			else
-				visible_message(SPAN_DANGER("\The [user] manages to wrestle \the [src] off \the [feeding_on]!"))
+				visible_message(SPAN_DANGER("\The [user] manages to wrestle \the [src] off \the [prey]!"))
 				set_feeding_on()
 
-		if(prey != feeding_on)
+		if(prey != feeding_on?.resolve())
 			playsound(loc, 'sound/weapons/punchmiss.ogg', 25, 1, -1)
 			SET_STATUS_MAX(src, STAT_CONFUSE, 2)
 			step_away(src, user)
@@ -292,6 +292,12 @@
 /mob/living/slime/check_has_mouth()
 	return 0
 
+/mob/living/slime/set_nutrition(amt)
+	..()
+
+/mob/living/slime/get_hydration()
+	return get_nutrition()
+
 /mob/living/slime/proc/gain_nutrition(var/amount)
 	adjust_nutrition(amount)
 	if(prob(amount * 2)) // Gain around one level per 50 nutrition
@@ -299,12 +305,6 @@
 		if(powerlevel > 10)
 			powerlevel = 10
 			adjustToxLoss(-10)
-
-/mob/living/slime/get_nutrition()
-	return nutrition
-
-/mob/living/slime/adjust_nutrition(var/amt)
-	nutrition = clamp(nutrition + amt, 0, get_max_nutrition())
 
 /mob/living/slime/proc/get_hunger_state()
 	. = 0
@@ -335,6 +335,7 @@
 
 /mob/living/slime/xenobio_scan_results()
 	var/decl/slime_colour/slime_data = GET_DECL(slime_type)
+	. = list()
 	. += "Slime scan result for \the [src]:"
 	. += "[slime_data.name] [is_adult ? "adult" : "baby"] slime"
 	. += "Nutrition:\t[nutrition]/[get_max_nutrition()]"
@@ -360,7 +361,7 @@
 
 		var/list/mutationTexts = list("[slime_data.name] ([100 - mutation_chance]%)")
 		for(var/i in mutationChances)
-			mutationTexts += "[i] ([mutationChances[i]]%)"
+			mutationTexts += "[GET_DECL(i)] ([mutationChances[i]]%)"
 
 		. += "Possible colours on splitting:\t[english_list(mutationTexts)]"
 

@@ -27,7 +27,7 @@
 		if(do_after(user, 60, src))
 			user.visible_message("<span class='notice'>\The [buckled_mob] has been freed from \the [src] by \the [user].</span>")
 			unbuckle_mob()
-			anchored = 0
+			anchored = FALSE
 
 /obj/item/beartrap/attack_self(mob/user)
 	..()
@@ -47,10 +47,10 @@
 
 			deployed = 1
 			update_icon()
-			anchored = 1
+			anchored = TRUE
 
 /obj/item/beartrap/attack_hand(mob/user)
-	if(!user.check_dexterity(DEXTERITY_GRIP, TRUE))
+	if(!user.check_dexterity(DEXTERITY_HOLD_ITEM, TRUE))
 		return ..()
 	if(buckled_mob)
 		user_unbuckle_mob(user)
@@ -68,7 +68,7 @@
 			SPAN_NOTICE("You have disarmed \the [src]!")
 		)
 		deployed = 0
-		anchored = 0
+		anchored = FALSE
 		update_icon()
 	return TRUE
 
@@ -90,20 +90,21 @@
 	deployed = 0
 
 /obj/item/beartrap/Crossed(atom/movable/AM)
-	if(deployed && isliving(AM))
-		var/mob/living/L = AM
-		if(!MOVING_DELIBERATELY(L))
-			L.visible_message(
-				"<span class='danger'>[L] steps on \the [src].</span>",
-				"<span class='danger'>You step on \the [src]!</span>",
-				"<b>You hear a loud metallic snap!</b>"
-				)
-			attack_mob(L)
-			if(!buckled_mob)
-				anchored = 0
-			deployed = 0
-			update_icon()
 	..()
+	if(!deployed || !isliving(AM))
+		return
+	var/mob/living/L = AM
+	if(MOVING_DELIBERATELY(L))
+		return
+	L.visible_message(
+		SPAN_DANGER("\The [L] steps on \the [src]."),
+		SPAN_DANGER("You step on \the [src]!"),
+		"<b>You hear a loud metallic snap!</b>")
+	attack_mob(L)
+	if(!buckled_mob)
+		anchored = FALSE
+	deployed = 0
+	update_icon()
 
 /obj/item/beartrap/on_update_icon()
 	. = ..()

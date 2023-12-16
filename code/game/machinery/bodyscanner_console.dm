@@ -4,12 +4,11 @@
 	name = "Body Scanner Console"
 	icon = 'icons/obj/Cryogenic2.dmi'
 	icon_state = "body_scannerconsole"
-	density = 0
-	anchored = 1
+	density = FALSE
+	anchored = TRUE
 	construct_state = /decl/machine_construction/default/panel_closed
 	uncreated_component_parts = null
 	stat_immune = 0
-	var/list/display_tags = list()
 	var/list/connected_displays = list()
 	var/list/data = list()
 
@@ -36,7 +35,7 @@
 
 /obj/machinery/body_scanconsole/proc/FindDisplays()
 	for(var/obj/machinery/body_scan_display/D in SSmachines.machinery)
-		if(D.tag in display_tags)
+		if(D.id_tag == connected.id_tag)
 			connected_displays += D
 			events_repository.register(/decl/observ/destroyed, D, src, .proc/remove_display)
 	return !!connected_displays.len
@@ -107,7 +106,7 @@
 			to_chat(user, "[html_icon(src)]<span class='warning'>Error: No scan stored.</span>")
 			return TOPIC_REFRESH
 		var/list/scan = data["scan"]
-		new /obj/item/paper/bodyscan(loc, "Printout error.", "Body scan report - [stored_scan_subject]", scan.Copy())
+		new /obj/item/paper/bodyscan(loc, null, "Printout error.", "Body scan report - [stored_scan_subject]", scan.Copy())
 		return TOPIC_REFRESH
 
 	if(href_list["push"])

@@ -19,7 +19,6 @@
 	appearance_flags = 0
 	opacity = TRUE
 	width = 2
-	set_dir_on_update = FALSE
 
 /obj/machinery/door/airlock/double/update_connections(var/propagate = 0)
 	var/dirs = 0
@@ -42,8 +41,8 @@
 			success = 1
 		else
 			for(var/obj/O in T)
-				for(var/b_type in blend_objects)
-					if( istype(O, b_type))
+				for(var/blend_type in blend_objects)
+					if( istype(O, blend_type))
 						success = 1
 
 					if(success)

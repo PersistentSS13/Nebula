@@ -5,11 +5,11 @@
 /obj/effect/effect/foam
 	name = "foam"
 	icon_state = "foam"
-	opacity = 0
-	anchored = 1
-	density = 0
+	opacity = FALSE
+	anchored = TRUE
+	density = FALSE
 	layer = ABOVE_OBJ_LAYER
-	mouse_opacity = 0
+	mouse_opacity = MOUSE_OPACITY_UNCLICKABLE
 	animate_movement = 0
 	var/amount = 3
 	var/metal = 0
@@ -71,12 +71,11 @@
 		spawn(5)
 			qdel(src)
 
-/obj/effect/effect/foam/Crossed(var/atom/movable/AM)
-	if(metal)
+/obj/effect/effect/foam/Crossed(atom/movable/AM)
+	if(metal || !isliving(AM))
 		return
-	if(istype(AM, /mob/living))
-		var/mob/living/M = AM
-		M.slip("the foam", 6)
+	var/mob/living/M = AM
+	M.slip("the foam", 6)
 
 /datum/effect/effect/system/foam_spread
 	var/amount = 5				// the size of the foam spread.

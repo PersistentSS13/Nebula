@@ -8,20 +8,21 @@
 	icon_keyboard = "generic_key"
 	icon_screen = "comm_logs"
 	light_color = "#00b000"
-	density = 1
-	anchored = 1.0
+	density = TRUE
+	anchored = TRUE
 	initial_access = list(list(access_engine_equip, access_atmospherics))
 	var/list/monitored_alarm_ids = null
 	var/datum/nano_module/atmos_control/atmos_control
 	base_type = /obj/machinery/computer/atmoscontrol
 
+// TODO: replace this with a modular computer at some point
 /obj/machinery/computer/atmoscontrol/laptop
-	name = "Atmospherics Laptop"
+	name = "atmospherics laptop"
 	desc = "A cheap laptop."
 	icon_state = "laptop"
 	icon_keyboard = "laptop_key"
 	icon_screen = "atmoslaptop"
-	density = 0
+	density = FALSE
 
 /obj/machinery/computer/atmoscontrol/interface_interact(user)
 	ui_interact(user)

@@ -11,9 +11,9 @@
 
 	meat_type = /obj/item/chems/food/meat
 	meat_amount = 3
-	bone_material = /decl/material/solid/bone
+	bone_material = /decl/material/solid/organic/bone
 	bone_amount = 5
-	skin_material = /decl/material/solid/skin
+	skin_material = /decl/material/solid/organic/skin
 	skin_amount = 5
 
 	icon_state = ICON_STATE_WORLD
@@ -46,8 +46,6 @@
 	var/heat_damage_per_tick = 3	//amount of damage applied if animal's body temperature is higher than maxbodytemp
 	var/cold_damage_per_tick = 2	//same as heat_damage_per_tick, only if the bodytemperature it's lower than minbodytemp
 	var/fire_alert = 0
-
-	var/list/hat_offsets
 
 	//Atmos effect - Yes, you can make creatures that require arbitrary gasses to survive. N2O is a trace gas and handled separately, hence why it isn't here. It'd be hard to add it. Hard and me don't mix (Yes, yes make all the dick jokes you want with that.) - Errorage
 	var/list/min_gas = list(/decl/material/gas/oxygen = 5)
@@ -98,6 +96,8 @@
 	. = ..()
 
 	// Aquatic creatures only care about water, not atmos.
+	add_inventory_slot(new /datum/inventory_slot/head/simple)
+
 	if(is_aquatic)
 		max_gas = list()
 		min_gas = list()
@@ -108,8 +108,6 @@
 		base_animal_type = type
 	if(LAZYLEN(natural_armor))
 		set_extension(src, armor_type, natural_armor)
-	if(islist(hat_offsets))
-		set_extension(src, /datum/extension/hattable/directional, hat_offsets)
 	if(scannable_result)
 		set_extension(src, /datum/extension/scannable, scannable_result)
 	setup_languages()
@@ -160,11 +158,6 @@ var/global/list/simplemob_icon_bitflag_cache = list()
 			if(glowing_eyes)
 				z_flags |= ZMM_MANGLE_PLANES
 			add_overlay(I)
-
-	var/datum/extension/hattable/hattable = get_extension(src, /datum/extension/hattable)
-	var/image/I = hattable?.get_hat_overlay(src)
-	if(I)
-		add_overlay(I)
 
 /mob/living/simple_animal/get_eye_overlay()
 	var/eye_icon_state = "[icon_state]-eyes"
@@ -462,7 +455,7 @@ var/global/list/simplemob_icon_bitflag_cache = list()
 		stat(null, "Health: [round((health / maxHealth) * 100)]%")
 
 /mob/living/simple_animal/death(gibbed, deathmessage = "dies!", show_dead_message)
-	density = 0
+	density = FALSE
 	adjustBruteLoss(maxHealth) //Make sure dey dead.
 	walk_to(src,0)
 	. = ..(gibbed,deathmessage,show_dead_message)
@@ -544,11 +537,12 @@ var/global/list/simplemob_icon_bitflag_cache = list()
 			if(P.damtype == BRUTE)
 				var/hit_dir = get_dir(P.starting, src)
 				var/obj/effect/decal/cleanable/blood/B = blood_splatter(get_step(src, hit_dir), src, 1, hit_dir)
-				B.icon_state = pick("dir_splatter_1","dir_splatter_2")
-				B.basecolor = bleed_colour
-				var/scale = min(1, round(mob_size / MOB_SIZE_MEDIUM, 0.1))
-				B.set_scale(scale)
-				B.update_icon()
+				if(!QDELETED(B))
+					B.icon_state = pick("dir_splatter_1","dir_splatter_2")
+					B.basecolor = bleed_colour
+					var/scale = min(1, round(mob_size / MOB_SIZE_MEDIUM, 0.1))
+					B.set_scale(scale)
+					B.update_icon()
 
 /mob/living/simple_animal/handle_fire()
 	return
@@ -642,3 +636,53 @@ var/global/list/simplemob_icon_bitflag_cache = list()
 
 /mob/living/simple_animal/proc/can_act()
 	return !(QDELETED(src) || incapacitated() || (is_aquatic && !submerged()))
+
+/mob/living/simple_animal/experiences_hunger_and_thirst()
+	// return !supernatural && !isSynthetic()
+	return FALSE // They need a reliable way to recover nutrition/hydration before this is made general.
+
+/mob/living/simple_animal/get_nutrition()
+	return get_max_nutrition()
+
+/mob/living/simple_animal/get_hydration()
+	return get_max_hydration()
+
+
+/// Adapts our temperature and atmos thresholds to our current z-level.
+/mob/living/simple_animal/proc/adapt_to_current_level()
+	var/turf/T = get_turf(src)
+	if(!T)
+		return
+
+	var/datum/level_data/level_data = SSmapping.levels_by_z[T.z]
+	if(!level_data)
+		return
+
+	bodytemperature = level_data.exterior_atmos_temp
+	minbodytemp     = bodytemperature - 20
+	maxbodytemp     = bodytemperature + 20
+
+	// Adapt atmosphere if necessary.
+	if(!min_gas && !max_gas)
+		return
+
+	if(min_gas)
+		min_gas.Cut()
+	if(max_gas)
+		max_gas.Cut()
+	if(!level_data.exterior_atmosphere)
+		return
+
+	for(var/gas in level_data.exterior_atmosphere.gas)
+		var/gas_amt = level_data.exterior_atmosphere[gas]
+		if(min_gas)
+			min_gas[gas] = round(gas_amt * 0.5)
+		if(max_gas)
+			min_gas[gas] = round(gas_amt * 1.5)
+
+// Simple filler bodytype so animals get offsets for their inventory slots.
+/decl/bodytype/animal
+	abstract_type = /decl/bodytype/animal
+	name = "animal"
+	bodytype_flag = 0
+	bodytype_category = "animal body"

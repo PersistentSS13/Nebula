@@ -66,8 +66,9 @@
 /obj/item/chems/glass/bottle/populate_reagents()
 	. = ..()
 	SHOULD_CALL_PARENT(TRUE)
-	if((reagents.total_volume > 0) && autolabel && !label_text) // don't override preset labels
+	if(reagents.total_volume > 0 && autolabel && !label_text) // don't override preset labels
 		label_text = reagents.get_primary_reagent_name()
+		update_container_name()
 
 /obj/item/chems/glass/bottle/stabilizer
 	desc = "A small bottle. Contains stabilizer - used to stabilize patients."
@@ -120,7 +121,7 @@
 	autolabel = FALSE
 	label_color = COLOR_PALE_BTL_GREEN
 	lid_color = COLOR_PALE_BTL_GREEN
-	material = /decl/material/solid/plastic
+	material = /decl/material/solid/organic/plastic
 
 /obj/item/chems/glass/bottle/eznutrient/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/fertilizer, reagents.maximum_volume)
@@ -131,7 +132,7 @@
 	autolabel = FALSE
 	label_color = COMMS_COLOR_SCIENCE
 	lid_color = COMMS_COLOR_SCIENCE
-	material = /decl/material/solid/plastic
+	material = /decl/material/solid/organic/plastic
 
 /obj/item/chems/glass/bottle/left4zed/populate_reagents()
 	var/mutagen_amount = round(reagents.maximum_volume / 6)
@@ -144,7 +145,7 @@
 	autolabel = FALSE
 	label_color = COLOR_ASSEMBLY_GREEN
 	lid_color = COLOR_ASSEMBLY_GREEN
-	material = /decl/material/solid/plastic
+	material = /decl/material/solid/organic/plastic
 
 /obj/item/chems/glass/bottle/robustharvest/populate_reagents()
 	var/amonia_amount = round(reagents.maximum_volume / 6)

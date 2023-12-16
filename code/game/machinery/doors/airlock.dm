@@ -91,9 +91,6 @@ var/global/list/airlock_overlays = list()
 /obj/machinery/door/airlock/proc/get_window_material()
 	return GET_DECL(window_material)
 
-/obj/machinery/door/airlock/get_codex_value()
-	return "airlock"
-
 /obj/machinery/door/airlock/Process()
 	if(main_power_lost_until > 0 && world.time >= main_power_lost_until)
 		regainMainPower()
@@ -295,9 +292,9 @@ About the new airlock wires panel:
 /obj/machinery/door/airlock/on_update_icon(state=0, override=0)
 
 	if(set_dir_on_update)
-		if(connections & (NORTH|SOUTH))
-			set_dir(WEST)
-		else
+		if(connections & (NORTH|SOUTH) == (NORTH|SOUTH))
+			set_dir(EAST)
+		else if (connections & (EAST|WEST) == (EAST|WEST))
 			set_dir(SOUTH)
 
 	switch(state)
@@ -546,7 +543,7 @@ About the new airlock wires panel:
 	return ..()
 
 /obj/machinery/door/airlock/physical_attack_hand(mob/user)
-	if(!istype(usr, /mob/living/silicon))
+	if(!issilicon(usr))
 		if(src.isElectrified())
 			if(src.shock(user, 100))
 				return TRUE
@@ -727,7 +724,7 @@ About the new airlock wires panel:
 			update_icon()
 		return TRUE
 
-	if(!istype(user, /mob/living/silicon))
+	if(!issilicon(user))
 		if(src.isElectrified())
 			if(src.shock(user, 75))
 				return TRUE
@@ -801,7 +798,7 @@ About the new airlock wires panel:
 		return TRUE
 
 
-	else if((stat & (BROKEN|NOPOWER)) && istype(user, /mob/living/simple_animal))
+	else if((stat & (BROKEN|NOPOWER)) && isanimal(user))
 		var/mob/living/simple_animal/A = user
 		var/obj/item/I = A.get_natural_weapon()
 		if(I?.force >= 10)
@@ -869,7 +866,7 @@ About the new airlock wires panel:
 	if(moved)
 		spark_at(da, amount=5, cardinal_only = TRUE)
 	else
-		da.anchored = 1
+		da.anchored = TRUE
 	da.state = 1
 	da.created_name = name
 	da.update_icon()

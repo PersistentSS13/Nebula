@@ -1,5 +1,5 @@
 /mob/living/Life()
-	set invisibility = 0
+	set invisibility = FALSE
 	set background = BACKGROUND_ENABLED
 
 	..()
@@ -22,10 +22,13 @@
 	handle_environment(loc.return_air())
 
 	if(stat != DEAD && !is_in_stasis())
+		//Breathing, if applicable
+		handle_breathing()
 		handle_nutrition_and_hydration()
 		handle_immunity()
+		//Body temperature adjusts itself (self-regulation)
+		stabilize_body_temperature()
 
-	blinded = 0 // Placing this here just show how out of place it is.
 	// human/handle_regular_status_updates() needs a cleanup, as blindness should be handled in handle_disabilities()
 	handle_regular_status_updates() // Status & health update, are we dead or alive etc.
 	handle_stasis()
@@ -49,31 +52,33 @@
 
 	return 1
 
+/mob/living/proc/experiences_hunger_and_thirst()
+	return TRUE
+
+/mob/living/proc/get_hunger_factor()
+	var/decl/species/my_species = get_species()
+	if(my_species)
+		return my_species.hunger_factor
+	return 0
+
+/mob/living/proc/get_thirst_factor()
+	var/decl/species/my_species = get_species()
+	if(my_species)
+		return my_species.hunger_factor
+	return 0
+
 /mob/living/proc/handle_nutrition_and_hydration()
 	SHOULD_CALL_PARENT(TRUE)
-	var/nut =    get_nutrition()
-	var/maxnut = get_max_nutrition()
-	if(nut < (maxnut * 0.3))
-		add_stressor(/datum/stressor/hungry_very, STRESSOR_DURATION_INDEFINITE)
-	else
-		remove_stressor(/datum/stressor/hungry_very)
-		if(nut < (maxnut * 0.5))
-			add_stressor(/datum/stressor/hungry, STRESSOR_DURATION_INDEFINITE)
-		else
-			remove_stressor(/datum/stressor/hungry)
-	var/hyd =    get_hydration()
-	var/maxhyd = get_max_hydration()
-	if(hyd < (maxhyd * 0.3))
-		add_stressor(/datum/stressor/thirsty_very, STRESSOR_DURATION_INDEFINITE)
-	else
-		remove_stressor(/datum/stressor/thirsty_very)
-		if(hyd < (maxhyd * 0.5))
-			add_stressor(/datum/stressor/thirsty, STRESSOR_DURATION_INDEFINITE)
-		else
-			remove_stressor(/datum/stressor/thirsty)
-
-/mob/living/proc/handle_breathing()
-	return
+	if(!experiences_hunger_and_thirst())
+		return
+	if(get_nutrition() > 0)
+		var/hunger_factor = get_hunger_factor()
+		if(hunger_factor)
+			adjust_nutrition(-(hunger_factor))
+	if(get_hydration() > 0)
+		var/thirst_factor = get_thirst_factor()
+		if(thirst_factor)
+			adjust_hydration(-(thirst_factor))
 
 #define RADIATION_SPEED_COEFFICIENT 0.025
 /mob/living/proc/handle_mutations_and_radiation()
@@ -81,7 +86,8 @@
 
 	radiation = clamp(radiation,0,500)
 	var/decl/species/my_species = get_species()
-	if(my_species && (my_species.appearance_flags & RADIATION_GLOWS))
+	var/decl/bodytype/my_bodytype = get_bodytype()
+	if(my_species && my_bodytype && (my_bodytype.appearance_flags & RADIATION_GLOWS))
 		if(radiation)
 			set_light(max(1,min(10,radiation/10)), max(1,min(20,radiation/20)), my_species.get_flesh_colour(src))
 		else
@@ -208,7 +214,7 @@
 	// If we're standing in the rain, use the turf weather.
 	. = istype(actual_loc) && actual_loc.weather
 	if(!.) // If we're under or inside shelter, use the z-level rain (for ambience)
-		. = SSweather.get_weather_for_level(my_turf.z)
+		. = SSweather.weather_by_z[my_turf.z]
 
 /mob/living/proc/handle_environment(var/datum/gas_mixture/environment)
 
@@ -256,7 +262,7 @@
 			set_stat(UNCONSCIOUS)
 		else
 			set_stat(CONSCIOUS)
-		return 1
+		return TRUE
 
 /mob/living/proc/handle_disabilities()
 	handle_impaired_vision()
@@ -268,7 +274,7 @@
 
 /mob/living/proc/handle_impaired_hearing()
 	if((sdisabilities & DEAFENED) || stat) //disabled-deaf, doesn't get better on its own
-		SET_STATUS_MAX(src, STAT_TINNITUS, 1)
+		SET_STATUS_MAX(src, STAT_TINNITUS, 2)
 
 //this handles hud updates. Calls update_vision() and handle_hud_icons()
 /mob/living/proc/handle_regular_hud_updates()
@@ -287,22 +293,22 @@
 		return
 
 	// No loc or species means we should just assume no adjustment.
-	var/decl/species/species = get_species()
+	var/decl/bodytype/my_bodytype = get_bodytype()
 	var/turf/my_turf = get_turf(src)
-	if(!isturf(my_turf) || !species)
+	if(!isturf(my_turf) || !my_bodytype)
 		lighting_master.set_alpha(255)
 		return
 
 	// TODO: handling for being inside atoms.
-	var/target_value = 255 * (1-species.base_low_light_vision)
+	var/target_value = 255 * (1-my_bodytype.eye_base_low_light_vision)
 	var/loc_lumcount = my_turf.get_lumcount()
-	if(loc_lumcount < species.low_light_vision_threshold)
-		target_value = round(target_value * (1-species.low_light_vision_effectiveness))
+	if(loc_lumcount < my_bodytype.eye_low_light_vision_threshold)
+		target_value = round(target_value * (1-my_bodytype.eye_low_light_vision_effectiveness))
 
 	if(lighting_master.alpha == target_value)
 		return
 
-	var/difference = round((target_value-lighting_master.alpha) * species.low_light_vision_adjustment_speed)
+	var/difference = round((target_value-lighting_master.alpha) * my_bodytype.eye_low_light_vision_adjustment_speed)
 	if(abs(difference) > 1)
 		target_value = lighting_master.alpha + difference
 	lighting_master.set_alpha(target_value)
@@ -313,7 +319,7 @@
 	if(stat == DEAD)
 		return
 
-	if(GET_STATUS(src, STAT_BLIND))
+	if(is_blind())
 		overlay_fullscreen("blind", /obj/screen/fullscreen/blind)
 	else
 		clear_fullscreen("blind")
