@@ -45,8 +45,8 @@ COPY .git/logs/HEAD /persistent/.git/logs/HEAD
 COPY --from=test_setup /wait.sh /wait.sh
 COPY --from=compile /persistent/nano/ /persistent/nano/
 
-RUN mkdir -p /persistent/maps/chargen /persistent/maps/kleibkhar
-COPY --from=compile /persistent/maps/kleibkhar/*.dmm /persistent/maps/kleibkhar/
+RUN mkdir -p /persistent/maps/chargen /persistent/maps/outreach
+COPY --from=compile /persistent/maps/outreach/*.dmm /persistent/maps/outreach/
 COPY --from=compile /persistent/maps/chargen/*.dmm /persistent/maps/chargen/
 COPY --from=compile /persistent/maps/utility/*.dmm /persistent/maps/utility/
 
