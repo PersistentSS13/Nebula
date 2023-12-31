@@ -64,3 +64,29 @@
 		/decl/material/solid/cardboard = MATTER_AMOUNT_TRACE
 	)
 	ammo_type = /obj/item/ammo_casing/twentytwolr/simple
+
+/obj/item/ammo_magazine/twentytwolr/advanced
+	name = "advanced .22LR magazine"
+	desc = ".22LR magazine of modern design. Good capacity, and can be used well with both handguns and submachine guns alike."
+	icon_state = "22lr2"
+	origin_tech = "{'combat':3}"
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/plastic = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/aluminum = MATTER_AMOUNT_REINFORCEMENT
+	)
+	ammo_type = /obj/item/ammo_casing/twentytwolr/advanced
+	max_ammo = 20
+
+/obj/item/ammo_magazine/box/twentytwolr/advanced
+	name = "packet of advanced .22LR rounds"
+	desc = "Container of modern design intended for holding loose .22LR rounds."
+	icon_state = "box_22lr2"
+	origin_tech = "{'combat':3,'materials':3}"
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/plastic   = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/aluminum = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/cardboard = MATTER_AMOUNT_TRACE
+	)
+	ammo_type = /obj/item/ammo_casing/twentytwolr/advanced
