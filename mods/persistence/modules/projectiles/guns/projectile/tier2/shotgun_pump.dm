@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/shotgun/pump/simple
+/obj/item/gun/projectile/shotgun/pump/advanced
 	name = "12g 'Gladdy' SG"
 	desc = "Pump-action shotgun of modern design. Possesses an increased ammunition capacity and shorter fire delay compared to earlier models . Chambered in 12 gauge."
 	icon = 'mods/persistence/icons/obj/guns/tier2/shotgun_pump.dmi'
@@ -20,5 +20,5 @@
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
 	)
 
-/obj/item/gun/projectile/shotgun/pump/simple/empty
+/obj/item/gun/projectile/shotgun/pump/advanced/empty
 	starts_loaded = FALSE
