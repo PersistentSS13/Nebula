@@ -39,7 +39,7 @@
 	icon = 'mods/persistence/icons/obj/ammunition/357/tier2.dmi'
 	projectile_type = /obj/item/projectile/bullet/threefiftyseven/advanced
 
-/obj/item/projectile/bullet/threefiftyseven/simple
+/obj/item/projectile/bullet/threefiftyseven/advanced
 	damage = 60
 	distance_falloff = 3
 	penetration_modifier = 0.8

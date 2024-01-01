@@ -73,7 +73,7 @@
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/plastic = MATTER_AMOUNT_REINFORCEMENT,
-		/decl/material/solid/metal/aluminum = MATTER_AMOUNT_REINFORCEMENT
+		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_REINFORCEMENT
 	)
 	ammo_type = /obj/item/ammo_casing/fortyfive/advanced
 	max_ammo = 12
@@ -86,7 +86,7 @@
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/plastic   = MATTER_AMOUNT_REINFORCEMENT,
-		/decl/material/solid/metal/aluminum = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE,
 		/decl/material/solid/cardboard = MATTER_AMOUNT_TRACE
 	)
 	ammo_type = /obj/item/ammo_casing/fortyfive/advanced
