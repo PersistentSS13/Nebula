@@ -64,3 +64,29 @@
 		/decl/material/solid/cardboard = MATTER_AMOUNT_TRACE
 	)
 	ammo_type = /obj/item/ammo_casing/fortyfive/simple
+
+/obj/item/ammo_magazine/fortyfive/advanced
+	name = "standard .45 magazine"
+	desc = ".45 magazine of modern design. Improved capacity compared over older versions."
+	icon_state = "452"
+	origin_tech = "{'combat':3}"
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/plastic = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/aluminum = MATTER_AMOUNT_REINFORCEMENT
+	)
+	ammo_type = /obj/item/ammo_casing/fortyfive/advanced
+	max_ammo = 12
+
+/obj/item/ammo_magazine/box/fortyfive/advanced
+	name = "packet of advanced .45 rounds"
+	desc = "Container of modern design intended for holding loose .45 rounds."
+	icon_state = "box_452"
+	origin_tech = "{'combat':3,'materials':3}"
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/plastic   = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/aluminum = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/cardboard = MATTER_AMOUNT_TRACE
+	)
+	ammo_type = /obj/item/ammo_casing/fortyfive/advanced
