@@ -44,7 +44,7 @@
 /obj/item/ammo_magazine/threefiftyseven/simple
 	name = "standard .357 speedloader"
 	desc = ".357 speedloader of ancient design. Servicable capacity, but outpaced by more modern designs."
-	icon_state = "22lr1"
+	icon_state = "3571"
 	origin_tech = "{'combat':2}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
