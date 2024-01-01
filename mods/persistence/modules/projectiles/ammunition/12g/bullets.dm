@@ -80,3 +80,27 @@
 	range_step = 1
 	spread_step = 10
 	penetration_modifier = 1.3
+
+/obj/item/ammo_casing/twelvegauge/slug/advanced
+	name = "standard 12g slug shell"
+	desc = "12g slug shell of modern design. Sports good armor penetration capabilities and very high damage, but suffers from unimpressive range."
+	icon = 'mods/persistence/icons/obj/ammunition/12g/tier2_slug.dmi'
+	projectile_type = /obj/item/projectile/bullet/twelvegauge/advanced
+
+/obj/item/projectile/bullet/twelvegauge/advanced
+	damage = 70
+	distance_falloff = 4
+	penetration_modifier = 0.85
+
+/obj/item/ammo_casing/twelvegauge/buckshot/advanced
+	name = "standard 12g buckshot shell"
+	desc = "12g buckshot shell of modern design. Sports incredibly high damage, but suffers from poor armor penetration and poor range."
+	icon = 'mods/persistence/icons/obj/ammunition/12g/tier2_buckshot.dmi'
+	projectile_type = /obj/item/projectile/bullet/pellet/twelvegauge/advanced
+
+/obj/item/projectile/bullet/pellet/twelvegauge/advanced
+	damage = 20
+	pellets = 6
+	range_step = 1
+	spread_step = 8
+	penetration_modifier = 1.25

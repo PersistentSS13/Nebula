@@ -65,3 +65,29 @@
 		/decl/material/solid/cardboard = MATTER_AMOUNT_TRACE
 	)
 	ammo_type = /obj/item/ammo_casing/twelvegauge/buckshot/simple
+
+/obj/item/ammo_magazine/box/twelvegauge/slug/advanced
+	name = "packet of advanced 12g slug shells"
+	desc = "Container of modern design intended for holding loose 12g slug shells."
+	icon_state = "box_12g2_slug"
+	origin_tech = "{'combat':3,'materials':3}"
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/plastic   = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/aluminum = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/cardboard = MATTER_AMOUNT_TRACE
+	)
+	ammo_type = /obj/item/ammo_casing/twelvegauge/slug/advanced
+
+/obj/item/ammo_magazine/box/twelvegauge/buckshot/advanced
+	name = "packet of advanced 12g buckshot shells"
+	desc = "Container of modern design intended for holding loose 12g buckshot shells."
+	icon_state = "box_12g2_buckshot"
+	origin_tech = "{'combat':3,'materials':3}"
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/plastic   = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/aluminum = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/cardboard = MATTER_AMOUNT_TRACE
+	)
+	ammo_type = /obj/item/ammo_casing/twelvegauge/buckshot/advanced
