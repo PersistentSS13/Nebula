@@ -33,3 +33,14 @@
 	damage = 45
 	distance_falloff = 2
 	penetration_modifier = 0.8
+
+/obj/item/ammo_casing/fivefiftysix/advanced
+	name = "advanced 5.56x45mm round"
+	desc = "5.56x45mm round of modern design. Sports great armor penetration capabilities, but most firearms which use it are bulky."
+	icon = 'mods/persistence/icons/obj/ammunition/5.56/tier2.dmi'
+	projectile_type = /obj/item/projectile/bullet/fivefiftysix/advanced
+
+/obj/item/projectile/bullet/fivefiftysix/advanced
+	damage = 55
+	distance_falloff = 1
+	penetration_modifier = 0.7

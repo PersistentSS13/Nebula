@@ -64,3 +64,29 @@
 		/decl/material/solid/cardboard = MATTER_AMOUNT_TRACE
 	)
 	ammo_type = /obj/item/ammo_casing/fivefiftysix/simple
+
+/obj/item/ammo_magazine/fivefiftysix/advanced
+	name = "advanced 5.56x45mm magazine"
+	desc = "5.56x45mm magazine of modern design. Good capacity compared to earlier models."
+	icon_state = "5562"
+	origin_tech = "{'combat':3}"
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/plastic = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/aluminum = MATTER_AMOUNT_REINFORCEMENT
+	)
+	ammo_type = /obj/item/ammo_casing/fivefiftysix/simple
+	max_ammo = 30
+
+/obj/item/ammo_magazine/box/fivefiftysix/advanced
+	name = "packet of advanced 5.56x45mm rounds"
+	desc = "Container of modern design intended for holding loose 5.56x45mm rounds."
+	icon_state = "box_5562"
+	origin_tech = "{'combat':3,'materials':3}"
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/plastic   = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/aluminum = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/cardboard = MATTER_AMOUNT_TRACE
+	)
+	ammo_type = /obj/item/ammo_casing/fivefiftysix/simple
