@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/pistol_pocket/advanced
+/obj/item/gun/projectile/pistol/pistol_pocket/advanced
 	name = ".22LR 'Triple-Threat' HG"
 	desc = "Pistol of modern design. Small enough to store in pockets, and possesses both semi-automatic and three-round burst fire modes. Chambered in .22LR."
 	icon = 'mods/persistence/icons/obj/guns/tier2/pistol_pocket.dmi'
