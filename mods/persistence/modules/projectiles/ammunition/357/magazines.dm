@@ -64,3 +64,29 @@
 		/decl/material/solid/cardboard = MATTER_AMOUNT_TRACE
 	)
 	ammo_type = /obj/item/ammo_casing/threefiftyseven/simple
+
+/obj/item/ammo_magazine/threefiftyseven/advanced
+	name = "advanced .357 speedloader"
+	desc = ".357 speedloader of modern design. Improved capacity over earlier designs."
+	icon_state = "3572"
+	origin_tech = "{'combat':3}"
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/plastic   = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/cardboard = MATTER_AMOUNT_TRACE
+	)
+	ammo_type = /obj/item/ammo_casing/threefiftyseven/advanced
+	max_ammo = 5
+
+/obj/item/ammo_magazine/box/threefiftyseven/advanced
+	name = "packet of advanced .357 rounds"
+	desc = "Container of modern design intended for holding loose .357 rounds."
+	icon_state = "box_3572"
+	origin_tech = "{'combat':3,'materials':3}"
+	material = /decl/material/solid/metal/steel
+	matter = list(
+		/decl/material/solid/plastic   = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/metal/aluminum = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/cardboard = MATTER_AMOUNT_TRACE
+	)
+	ammo_type = /obj/item/ammo_casing/threefiftyseven/advanced

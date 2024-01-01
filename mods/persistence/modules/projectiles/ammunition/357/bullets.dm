@@ -32,3 +32,14 @@
 	damage = 50
 	distance_falloff = 4
 	penetration_modifier = 0.9
+
+/obj/item/ammo_casing/threefiftyseven/advanced
+	name = "advanced .357 round"
+	desc = ".357 round of modern design. Sports middling range and acceptable armor penetration due to modern construction techniques."
+	icon = 'mods/persistence/icons/obj/ammunition/357/tier2.dmi'
+	projectile_type = /obj/item/projectile/bullet/threefiftyseven/advanced
+
+/obj/item/projectile/bullet/threefiftyseven/simple
+	damage = 60
+	distance_falloff = 3
+	penetration_modifier = 0.8
