@@ -62,7 +62,7 @@
 	path = /obj/item/gun/projectile/revolver/advanced/empty
 
 /datum/fabricator_recipe/protolathe/weapon/tier2/smg
-	path = /obj/item/gun/projectile/smg/advanced/empty
+	path = /obj/item/gun/projectile/automatic/smg/advanced/empty
 
 /datum/fabricator_recipe/protolathe/weapon/tier2/shotgun_pump
 	path = /obj/item/gun/projectile/shotgun/pump/advanced/empty
