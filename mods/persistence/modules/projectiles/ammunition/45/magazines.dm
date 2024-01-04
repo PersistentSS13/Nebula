@@ -11,7 +11,7 @@
 	max_ammo = 0
 	multiple_sprites = 1
 
-/obj/item/ammo_magazine/box/fortyfive
+/obj/item/ammo_magazine/box_fortyfive
 	name = "packet of generic .45 rounds"
 	desc = "A packet of unsettlingly generic .45 rounds."
 	icon_state = "box_451"
@@ -30,7 +30,7 @@
 	ammo_type = /obj/item/ammo_casing/fortyfive/handmade
 	max_ammo = 3
 
-/obj/item/ammo_magazine/box/fortyfive/handmade
+/obj/item/ammo_magazine/box_fortyfive/handmade
 	name = "packet of makeshift .45 rounds"
 	desc = "Container of dubious origin intended for holding loose .45 rounds."
 	icon_state = "box_450"
@@ -53,7 +53,7 @@
 	ammo_type = /obj/item/ammo_casing/fortyfive/simple
 	max_ammo = 7
 
-/obj/item/ammo_magazine/box/fortyfive/simple
+/obj/item/ammo_magazine/box_fortyfive/simple
 	name = "packet of standard .45 rounds"
 	desc = "Container of ancient design intended for holding loose .45 rounds."
 	icon_state = "box_451"
@@ -78,7 +78,7 @@
 	ammo_type = /obj/item/ammo_casing/fortyfive/advanced
 	max_ammo = 12
 
-/obj/item/ammo_magazine/box/fortyfive/advanced
+/obj/item/ammo_magazine/box_fortyfive/advanced
 	name = "packet of advanced .45 rounds"
 	desc = "Container of modern design intended for holding loose .45 rounds."
 	icon_state = "box_452"

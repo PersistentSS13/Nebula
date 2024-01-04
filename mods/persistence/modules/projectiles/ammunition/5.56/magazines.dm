@@ -11,7 +11,7 @@
 	max_ammo = 0
 	multiple_sprites = 1
 
-/obj/item/ammo_magazine/box/fivefiftysix
+/obj/item/ammo_magazine/box_fivefiftysix
 	name = "packet of generic 5.56x45mm rounds"
 	desc = "A packet of unsettlingly generic 5.56x45mm rounds."
 	icon_state = "box_5561"
@@ -30,7 +30,7 @@
 	ammo_type = /obj/item/ammo_casing/fivefiftysix/handmade
 	max_ammo = 12
 
-/obj/item/ammo_magazine/box/fivefiftysix/handmade
+/obj/item/ammo_magazine/box_fivefiftysix/handmade
 	name = "packet of makeshift 5.56x45mm rounds"
 	desc = "Container of dubious origin intended for holding loose 5.56x45mm rounds."
 	icon_state = "box_5560"
@@ -53,7 +53,7 @@
 	ammo_type = /obj/item/ammo_casing/fivefiftysix/simple
 	max_ammo = 20
 
-/obj/item/ammo_magazine/box/fivefiftysix/simple
+/obj/item/ammo_magazine/box_fivefiftysix/simple
 	name = "packet of standard 5.56x45mm rounds"
 	desc = "Container of ancient design intended for holding loose 5.56x45mm rounds."
 	icon_state = "box_5561"
@@ -78,7 +78,7 @@
 	ammo_type = /obj/item/ammo_casing/fivefiftysix/simple
 	max_ammo = 30
 
-/obj/item/ammo_magazine/box/fivefiftysix/advanced
+/obj/item/ammo_magazine/box_fivefiftysix/advanced
 	name = "packet of advanced 5.56x45mm rounds"
 	desc = "Container of modern design intended for holding loose 5.56x45mm rounds."
 	icon_state = "box_5562"

@@ -11,7 +11,7 @@
 	max_ammo = 0
 	multiple_sprites = 1
 
-/obj/item/ammo_magazine/box/threefiftyseven
+/obj/item/ammo_magazine/box_threefiftyseven
 	name = "packet of generic .357 rounds"
 	desc = "A packet of unsettlingly generic .357 rounds."
 	icon_state = "box_3571"
@@ -30,7 +30,7 @@
 	ammo_type = /obj/item/ammo_casing/threefiftyseven/handmade
 	max_ammo = 3
 
-/obj/item/ammo_magazine/box/threefiftyseven/handmade
+/obj/item/ammo_magazine/box_threefiftyseven/handmade
 	name = "packet of makeshift .357 rounds"
 	desc = "Container of dubious origin intended for holding loose .357 rounds."
 	icon_state = "box_3570"
@@ -53,7 +53,7 @@
 	ammo_type = /obj/item/ammo_casing/threefiftyseven/simple
 	max_ammo = 4
 
-/obj/item/ammo_magazine/box/threefiftyseven/simple
+/obj/item/ammo_magazine/box_threefiftyseven/simple
 	name = "packet of standard .357 rounds"
 	desc = "Container of ancient design intended for holding loose .357 rounds."
 	icon_state = "box_3571"
@@ -78,7 +78,7 @@
 	ammo_type = /obj/item/ammo_casing/threefiftyseven/advanced
 	max_ammo = 5
 
-/obj/item/ammo_magazine/box/threefiftyseven/advanced
+/obj/item/ammo_magazine/box_threefiftyseven/advanced
 	name = "packet of advanced .357 rounds"
 	desc = "Container of modern design intended for holding loose .357 rounds."
 	icon_state = "box_3572"
