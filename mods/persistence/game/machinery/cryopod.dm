@@ -81,20 +81,35 @@
 	time_till_despawn = 60 SECONDS
 	var/datum/sound_token/sound_looping
 
-//#FIXME: This messing with spawnlists could definitely be improved on.
+	var/spawn_decl = /decl/spawnpoint/cryo // TODO: Make this Outreach specific
+
 /obj/machinery/cryopod/despawner/Initialize()
 	. = ..()
-	global.latejoin_locations |= get_turf(src)
-	global.latejoin_cryo_locations |= get_turf(src)
+	if(spawn_decl && get_turf(src))
+		var/decl/spawnpoint/spawn_instance = GET_DECL(spawn_decl)
+		spawn_instance.add_spawn_turf(get_turf(src))
 	update_sound()
 
 /obj/machinery/cryopod/despawner/Destroy()
+	if(spawn_decl && get_turf(src))
+		var/decl/spawnpoint/spawn_instance = GET_DECL(spawn_decl)
+		spawn_instance.remove_spawn_turf(get_turf(src))
+
 	QDEL_NULL(sound_looping)
 	return ..()
 
 /obj/machinery/cryopod/despawner/power_change()
 	. = ..()
 	update_sound()
+
+/obj/machinery/cryopod/despawner/forceMove(atom/dest)
+	if(spawn_decl && get_turf(src))
+		var/decl/spawnpoint/spawn_instance = GET_DECL(spawn_decl)
+		spawn_instance.remove_spawn_turf(get_turf(src))
+		. = ..()
+		spawn_instance.add_spawn_turf(get_turf(src))
+	else
+		return ..()
 
 /obj/machinery/cryopod/despawner/proc/update_sound()
 	if(operable() && use_power)
@@ -104,18 +119,6 @@
 			sound_looping.Unpause()
 	else if(sound_looping)
 		sound_looping.Pause()
-
-/obj/machinery/cryopod/despawner/forceMove(atom/dest)
-	global.latejoin_locations -= get_turf(src)
-	global.latejoin_cryo_locations -= get_turf(src)
-	. = ..()
-	global.latejoin_locations |= get_turf(src)
-	global.latejoin_cryo_locations |= get_turf(src)
-
-/obj/machinery/cryopod/despawner/Destroy()
-	global.latejoin_locations -= get_turf(src)
-	global.latejoin_cryo_locations -= get_turf(src)
-	. = ..()
 
 /obj/machinery/cryopod/despawner/Process()
 	if(occupant)

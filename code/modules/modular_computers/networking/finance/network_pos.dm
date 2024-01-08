@@ -5,7 +5,7 @@
 	desc = "A network enabled point of sale system, used to perform quick transactions."
 	icon = 'icons/obj/items/device/eftpos.dmi'
 	icon_state = "eftpos"
-	material = /decl/material/solid/plastic
+	material = /decl/material/solid/organic/plastic
 	matter = list(/decl/material/solid/silicon = MATTER_AMOUNT_REINFORCEMENT, /decl/material/solid/metal/copper = MATTER_AMOUNT_REINFORCEMENT)
 
 	var/account_id

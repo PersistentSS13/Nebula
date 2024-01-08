@@ -10,7 +10,7 @@
 
 	radiation_detected_message = "High levels of radiation have been detected near the surface of %STATION_NAME%. Please move to a shielded area."
 
-	allowed_spawns = list(/decl/spawnpoint/cryo)
+	allowed_latejoin_spawns = list(/decl/spawnpoint/cryo)
 	default_spawn = /decl/spawnpoint/cryo
 	// shuttle_docked_message = "The shuttle has docked."
 	// shuttle_leaving_dock = "The shuttle has departed from home dock."

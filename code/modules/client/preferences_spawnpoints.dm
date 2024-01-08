@@ -44,6 +44,10 @@
 /decl/spawnpoint/proc/add_spawn_turf(var/turf/adding)
 	LAZYDISTINCTADD(_spawn_turfs, adding)
 
+// Removes from the spawn list.
+/decl/spawnpoint/proc/remove_spawn_turf(var/turf/removing)
+	LAZYREMOVE(_spawn_turfs, removing)
+
 // Validates that a job is allowed to use this spawn point.
 /decl/spawnpoint/proc/check_job_spawning(var/datum/job/job)
 

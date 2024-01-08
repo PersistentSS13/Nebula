@@ -14,7 +14,7 @@
 	one_hand_penalty = 10
 	fire_delay = 12
 	accuracy = 0
-	material = /decl/material/solid/wood
+	material = /decl/material/solid/organic/wood
 	matter = list(
 		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE

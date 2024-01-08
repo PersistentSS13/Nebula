@@ -46,7 +46,7 @@ SUBSYSTEM_DEF(chargen)
 	//Because spawnpoints don't have a proc to return turfs and instead just share their turf var to grab the available turfs, we gotta change the spawnpoint :D
 	var/decl/spawnpoint/chargen/C = GET_DECL(/decl/spawnpoint/chargen)
 	if(C)
-		LAZYREMOVE(C.turfs, get_turf(pod.chargen_landmark))
+		C.remove_spawn_turf(get_turf(pod.chargen_landmark))
 	log_debug("SSChargen: Assigned area '[pod]' with '[chargen_areas[pod]]' assigned users currently!")
 
 /datum/controller/subsystem/chargen/proc/release_spawn_pod(var/area/chargen/pod)
@@ -60,7 +60,7 @@ SUBSYSTEM_DEF(chargen)
 	//Because spawnpoints don't have a proc to return turfs and instead just share their turf var to grab the available turfs, we gotta change the spawnpoint :D
 	var/decl/spawnpoint/chargen/C = GET_DECL(/decl/spawnpoint/chargen)
 	if(C)
-		LAZYDISTINCTADD(C.turfs, get_turf(pod.chargen_landmark))
+		C.add_spawn_turf(get_turf(pod.chargen_landmark))
 
 	//Remove trash from the room
 	pod.run_chargen_cleanup()
@@ -101,9 +101,9 @@ SUBSYSTEM_DEF(chargen)
 //Chargen spawnpoint
 /decl/spawnpoint/chargen/Initialize()
 	. = ..()
-	LAZYINITLIST(turfs)
+	LAZYINITLIST(_spawn_turfs)
 	for(var/obj/abstract/landmark/chargen_spawn/C in global.chargen_landmarks)
-		turfs |= get_turf(C)
+		_spawn_turfs |= get_turf(C)
 
 /decl/spawnpoint/chargen/after_join(mob/victim)
 	var/turf/myturf = get_turf(victim.loc)

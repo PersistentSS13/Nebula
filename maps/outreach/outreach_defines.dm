@@ -11,8 +11,8 @@
 	system_name     = "Outreach System"
 	dock_name       = "Outreach Docks"
 
-	default_spawn    = /decl/spawnpoint/cryo
-	allowed_spawns   = list(/decl/spawnpoint/cryo)
+	allowed_latejoin_spawns = list(/decl/spawnpoint/cryo)
+	default_spawn = /decl/spawnpoint/cryo
 	starting_money   = 5000
 	department_money = 0
 	salary_modifier  = 0.2

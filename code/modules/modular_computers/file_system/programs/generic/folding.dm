@@ -49,7 +49,7 @@
 		if(!I)
 			to_chat(usr, SPAN_WARNING("Unable to locate ID card for transaction."))
 			return TOPIC_HANDLED
-		var/datum/money_account/account = get_glob_account(I.associated_account_number)
+		var/datum/money_account/account = get_glob_account(I.associated_account_id)
 		var/earned = (current_interval / 10) * (SCIENCE_MONEY_PER_SECOND * computer.get_processing_power()) //Divide by 10 to convert from ticks to seconds
 		account.deposit(earned, "Completed FOLDING@SPACE project.")
 		var/decl/currency/currency = GET_DECL(global.using_map.default_currency)
