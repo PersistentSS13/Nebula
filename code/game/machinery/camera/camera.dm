@@ -219,11 +219,11 @@
 
 /obj/machinery/camera/proc/add_channels(var/list/channels)
 	var/datum/extension/network_device/camera/D = get_extension(src, /datum/extension/network_device)
-	D.add_channels(channels)
+	D?.add_channels(channels)
 
 /obj/machinery/camera/proc/remove_channels(var/list/channels)
 	var/datum/extension/network_device/camera/D = get_extension(src, /datum/extension/network_device)
-	D.remove_channels(channels)
+	D?.remove_channels(channels)
 
 /obj/machinery/camera/set_broken(new_state, cause)
 	. = ..()

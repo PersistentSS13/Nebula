@@ -40,7 +40,7 @@ var/global/const/CAMERA_WIRE_NOTHING2 = 32
 		if(CAMERA_WIRE_FOCUS)
 			var/datum/extension/network_device/camera/D = get_extension(holder, /datum/extension/network_device)
 			var/new_range = (mended ? C.long_range : C.short_range)
-			D.set_view_range(new_range)
+			D?.set_view_range(new_range)
 
 		if(CAMERA_WIRE_POWER)
 			C.cut_power = !mended
@@ -64,7 +64,7 @@ var/global/const/CAMERA_WIRE_NOTHING2 = 32
 		if(CAMERA_WIRE_FOCUS)
 			var/datum/extension/network_device/camera/D = get_extension(holder, /datum/extension/network_device)
 			var/new_range = (D.view_range == C.long_range ? C.short_range : C.long_range)
-			D.set_view_range(new_range)
+			D?.set_view_range(new_range)
 
 		if(CAMERA_WIRE_LIGHT)
 			C.light_disabled = !C.light_disabled
