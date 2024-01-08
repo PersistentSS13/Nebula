@@ -73,9 +73,9 @@
 	origin_tech = "{'combat':3,'materials':3}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
-		/decl/material/solid/plastic   = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/organic/plastic   = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE,
-		/decl/material/solid/cardboard = MATTER_AMOUNT_TRACE
+		/decl/material/solid/organic/cardboard = MATTER_AMOUNT_TRACE
 	)
 	ammo_type = /obj/item/ammo_casing/twelvegauge/slug/advanced
 
@@ -86,8 +86,8 @@
 	origin_tech = "{'combat':3,'materials':3}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
-		/decl/material/solid/plastic   = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/organic/plastic   = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE,
-		/decl/material/solid/cardboard = MATTER_AMOUNT_TRACE
+		/decl/material/solid/organic/cardboard = MATTER_AMOUNT_TRACE
 	)
 	ammo_type = /obj/item/ammo_casing/twelvegauge/buckshot/advanced
