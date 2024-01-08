@@ -288,6 +288,8 @@
 	var/disable_daycycle = FALSE
 	/// Whether or not you will show a message when examining something.
 	var/visible_examine = TRUE
+	/// Whether or not loadout options will get free name and desc entry by default.
+	var/allow_loadout_customization = FALSE
 
 /datum/configuration/VV_hidden()
 	. = ..() | protected_vars
@@ -846,6 +848,9 @@
 
 				if("visible_examine")
 					config.visible_examine = text2num(value)
+
+				if("allow_loadout_customization")
+					config.allow_loadout_customization = TRUE
 
 				else
 					//crappy hook to get modpacks to load any extra config

@@ -564,9 +564,18 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 
 	appearance = target
 	appearance_flags |= initial(appearance_flags)
+
+	// Keep mob offsets when you move over tables and such!
+	default_pixel_x = target.default_pixel_x
+	default_pixel_w = target.default_pixel_w
+	default_pixel_y = target.default_pixel_y
+	default_pixel_z = target.default_pixel_z
+
+	// Apply ghostly alpha and layering.
 	alpha = pre_alpha
 	plane = pre_plane
 	layer = pre_layer
+
 	set_invisibility(pre_invis)
 	transform = null	//make goast stand up
 
@@ -594,12 +603,10 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 	M.key = key
 	log_and_message_admins("has respawned.", M)
 
-/mob/observer/ghost/GetIdCards(exceptions = null)
+/mob/observer/ghost/GetIdCards(list/exceptions)
 	. = ..()
-	if (!is_admin(src))
-		return .
-
-	if (!ghost_all_access)
-		ghost_all_access = new()
-	LAZYDISTINCTADD(., ghost_all_access)
-
+	if(is_admin(src))
+		if (!ghost_all_access)
+			ghost_all_access = new
+		if(!is_type_in_list(ghost_all_access, exceptions))
+			LAZYDISTINCTADD(., ghost_all_access)
