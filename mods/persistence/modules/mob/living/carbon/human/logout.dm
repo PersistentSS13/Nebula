@@ -11,7 +11,7 @@
 /mob/living/carbon/human/quantum/ignore_persistent_spawn()
 	return TRUE
 
-/mob/living/carbon/human/Initialize()
+/mob/living/carbon/human/Initialize(mapload, species_name, datum/dna/new_dna, decl/bodytype/new_bodytype)
 	. = ..()
 
 	// Check if humans are asleep on startup.

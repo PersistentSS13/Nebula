@@ -26,7 +26,7 @@
 	else
 		. = ..()
 
-/mob/living/carbon/human/Initialize()
+/mob/living/carbon/human/Initialize(mapload, species_name, datum/dna/new_dna, decl/bodytype/new_bodytype)
 	. = ..()
 	LATE_INIT_IF_SAVED
 
