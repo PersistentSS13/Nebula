@@ -14819,7 +14819,8 @@
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/hydroponics)
 "Cc" = (
-/obj/machinery/atmospherics/unary/material/extractor,
+/obj/machinery/material_processing/extractor,
+/obj/machinery/atmospherics/portables_connector,
 /obj/effect/floor_decal/industrial/warning,
 /obj/effect/floor_decal/industrial/warning{
 	icon_state = "stripe";

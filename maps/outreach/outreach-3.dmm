@@ -4773,9 +4773,8 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/hangar/north)
 "AW" = (
-/obj/effect/shuttle_landmark/automatic/clearing{
-	dir = 2;
-	radius = 9
+/obj/effect/shuttle_landmark/automatic{
+	dir = 2
 	},
 /turf/simulated/floor/airless,
 /area/exoplanet/outreach)
@@ -6307,9 +6306,8 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/west/ground)
 "Lp" = (
-/obj/effect/shuttle_landmark/automatic/clearing{
-	dir = 1;
-	radius = 9
+/obj/effect/shuttle_landmark/automatic{
+	dir = 1
 	},
 /turf/simulated/floor/airless,
 /area/exoplanet/outreach)
