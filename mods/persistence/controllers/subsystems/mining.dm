@@ -56,10 +56,6 @@ SUBSYSTEM_DEF(mining)
 	var/list/generators = list()
 	var/generating_mines = FALSE
 
-
-/datum/map
-	var/list/mining_levels = list()
-
 /area
 	var/ignore_mining_regen = TRUE
 
@@ -67,7 +63,7 @@ SUBSYSTEM_DEF(mining)
 	var/datum/random_map/automata/cave_system/level_gen_type //Map generator for mining regen subsystem
 
 /datum/controller/subsystem/mining/Initialize()
-	if(!length(global.using_map.mining_levels))
+	if(!length(SSmapping.mining_levels))
 		suspend()
 		return
 	Regenerate()
@@ -77,7 +73,7 @@ SUBSYSTEM_DEF(mining)
 	//#TODO: have level_data handle regeneration, and make sure to avoid regenerating areas that are immune to regen!
 	if(collapse_imminent)
 		if((REALTIMEOFDAY - last_collapse) >= ((regen_interval + warning_wait) * 600))
-			var/list/z_levels = SSmapping.get_connected_levels(global.using_map.mining_levels[1])
+			var/list/z_levels = SSmapping.get_connected_levels(SSmapping.mining_levels[1])
 			for(var/mob/M in global.player_list)
 				if(M.z in z_levels)
 					to_chat(M, SPAN_DANGER(collapse_message))
@@ -87,7 +83,7 @@ SUBSYSTEM_DEF(mining)
 			Regenerate()
 	else
 		if(REALTIMEOFDAY - last_collapse >= regen_interval * 600)
-			var/list/z_levels = SSmapping.get_connected_levels(global.using_map.mining_levels[1])
+			var/list/z_levels = SSmapping.get_connected_levels(SSmapping.mining_levels[1])
 			for(var/mob/M in global.player_list)
 				if(M.z in z_levels)
 					to_chat(M, SPAN_DANGER(warning_message))
@@ -103,11 +99,11 @@ SUBSYSTEM_DEF(mining)
 	generators.Cut(1)
 	var/list/eject_mobs = list()
 	for(var/mob/M in SSmobs.mob_list)
-		if(M.z in global.using_map.mining_levels)
+		if(M.z in SSmapping.mining_levels)
 			eject_mobs += M
 	SpitOutMobs(eject_mobs, 3)
 
-	for(var/z_level in global.using_map.mining_levels)
+	for(var/z_level in SSmapping.mining_levels)
 		var/datum/level_data/ld = LAZYACCESS(SSmapping.levels_by_z, z_level)
 		var/datum/random_map/automata/cave_system/generator
 		if(ld?.level_gen_type)

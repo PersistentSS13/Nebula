@@ -1,6 +1,8 @@
 /datum/shuttle/autodock/overmap/created
 	defer_initialisation = TRUE
 
+	force_ceiling_on_init = FALSE
+
 /datum/shuttle/autodock/overmap/created/New(map_hash, obj/effect/shuttle_landmark/initial_location, list/initial_areas, tag)
 	if(!tag)
 		CRASH("Shuttle was created without a shuttle tag!")
