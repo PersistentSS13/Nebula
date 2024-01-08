@@ -32,3 +32,14 @@
 /obj/item/projectile/bullet/fortyfive/simple
 	damage = 40
 	distance_falloff = 3
+
+/obj/item/ammo_casing/fortyfive/advanced
+	name = "advanced .45 round"
+	desc = ".45 round of modern design. Sports acceptable range and mediocre armor penetration due to modern construction techniques."
+	icon = 'mods/persistence/icons/obj/ammunition/45/tier2.dmi'
+	projectile_type = /obj/item/projectile/bullet/fortyfive/advanced
+
+/obj/item/projectile/bullet/fortyfive/advanced
+	damage = 50
+	distance_falloff = 2
+	penetration_modifier = 0.9

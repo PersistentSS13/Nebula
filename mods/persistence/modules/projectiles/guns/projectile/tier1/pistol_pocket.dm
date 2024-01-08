@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/pistol_pocket/simple
+/obj/item/gun/projectile/pistol/pistol_pocket/simple
 	name = ".22LR 'Rimfire' HG"
 	desc = "Pistol of ancient design. Small enough to store in pockets, but struggles in combat due to weak caliber. Chambered in .22LR."
 	icon = 'mods/persistence/icons/obj/guns/tier1/pistol_pocket.dmi'
