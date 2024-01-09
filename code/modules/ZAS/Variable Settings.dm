@@ -195,7 +195,7 @@ var/global/vs_control/vsc = new
 		return
 	switch(def)
 		if("Contaminants - Standard")
-			contaminant_control.CLOTH_CONTAMINATION = 1 //If this is on, contaminants do damage by getting into cloth.
+			contaminant_control.CLOTH_CONTAMINATION = 0 //If this is on, contaminants do damage by getting into cloth.
 			contaminant_control.STRICT_PROTECTION_ONLY = 0
 			contaminant_control.GENETIC_CORRUPTION = 0 //Chance of genetic corruption as well as toxic damage, X in 1000.
 			contaminant_control.SKIN_BURNS = 0       //Contaminants have an effect similar to mustard gas on the un-suited.
