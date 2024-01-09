@@ -5,7 +5,7 @@ var/global/image/contamination_overlay = image('icons/effects/contamination.dmi'
 	var/CONTAMINANT_DMG_NAME = "Contaminant Damage Amount"
 	var/CONTAMINANT_DMG_DESC = "Self Descriptive"
 
-	var/CLOTH_CONTAMINATION = 1
+	var/CLOTH_CONTAMINATION = 0
 	var/CLOTH_CONTAMINATION_NAME = "Cloth Contamination"
 	var/CLOTH_CONTAMINATION_DESC = "If this is on, contaminants do damage by getting into cloth."
 
