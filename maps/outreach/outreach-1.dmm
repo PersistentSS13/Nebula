@@ -2112,17 +2112,13 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/obj/structure/sign/warning/airlock{
-	pixel_y = 32
-	},
-/obj/machinery/light/small{
-	icon_state = "bulb_map";
-	dir = 1
-	},
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/airlock{
 	dir = 8;
 	id_tag = "OH_l1_e_alck_pump"
 	},
+/obj/structure/sign/eshowers,
+/obj/structure/hygiene/shower/emergency,
+/obj/effect/floor_decal/industrial/hatch/blue,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement2)
 "eG" = (
@@ -2350,6 +2346,10 @@
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/airlock{
 	dir = 1;
 	id_tag = "OH_l1_e_alck_pump"
+	},
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 8
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement2)
@@ -2586,6 +2586,10 @@
 "fB" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/airlock{
 	id_tag = "OH_l1_e_alck_pump_out_internal"
+	},
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 4
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement2)
@@ -2925,6 +2929,7 @@
 /area/outreach/outpost/hallway/south/basement2)
 "gg" = (
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/hygiene/drain,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement2)
 "gh" = (

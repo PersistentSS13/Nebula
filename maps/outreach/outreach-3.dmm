@@ -84,24 +84,22 @@
 /turf/simulated/wall,
 /area/outreach/outpost/vacant/ground/swroom)
 "an" = (
-/obj/machinery/alarm,
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/hygiene/shower{
-	icon_state = "shower";
-	dir = 4
-	},
 /obj/structure/hygiene/drain,
 /obj/effect/floor_decal/industrial/hatch/blue,
+/obj/structure/hygiene/shower/emergency{
+	icon_state = "eshower";
+	dir = 4
+	},
+/obj/structure/sign/eshowers,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/north)
 "ao" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/hygiene/shower{
-	icon_state = "shower";
-	dir = 4
+/obj/machinery/suit_cycler/emergency/prepared{
+	locked = 0
 	},
-/obj/structure/hygiene/drain,
-/obj/effect/floor_decal/industrial/hatch/blue,
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/north)
 "ap" = (
@@ -135,29 +133,27 @@
 /area/outreach/outpost/maint/passage/ground/east/eva)
 "as" = (
 /obj/effect/decal/cleanable/dirt,
-/obj/structure/hygiene/drain,
-/obj/structure/hygiene/shower{
-	icon_state = "shower";
-	dir = 4
+/obj/machinery/suit_cycler/emergency/prepared{
+	locked = 0
 	},
-/obj/effect/floor_decal/industrial/hatch/blue,
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/south)
 "at" = (
 /turf/simulated/wall,
 /area/outreach/outpost/maint/passage/ground/east/eva)
 "av" = (
-/obj/machinery/alarm{
-	icon_state = "alarm0";
-	dir = 1
-	},
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/hygiene/drain,
-/obj/structure/hygiene/shower{
-	icon_state = "shower";
+/obj/effect/floor_decal/industrial/hatch/blue,
+/obj/structure/hygiene/shower/emergency{
+	icon_state = "eshower";
 	dir = 4
 	},
-/obj/effect/floor_decal/industrial/hatch/blue,
+/obj/structure/sign/eshowers{
+	icon_state = "eshowers";
+	dir = 1
+	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/south)
 "aw" = (
@@ -262,6 +258,10 @@
 /obj/structure/rack/dark,
 /obj/item/storage/firstaid/toxin,
 /obj/item/storage/firstaid/o2,
+/obj/machinery/alarm{
+	icon_state = "alarm0";
+	dir = 4
+	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/north)
 "aI" = (
@@ -280,6 +280,7 @@
 /area/outreach/outpost/eva/gf/north)
 "aK" = (
 /obj/machinery/atmospherics/unary/vent_pump/on,
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/north)
 "aL" = (
@@ -315,6 +316,10 @@
 /obj/item/storage/firstaid/o2,
 /obj/item/storage/firstaid/toxin,
 /obj/structure/rack/dark,
+/obj/machinery/alarm{
+	icon_state = "alarm0";
+	dir = 4
+	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/south)
 "aN" = (
@@ -351,6 +356,7 @@
 	icon_state = "map-supply";
 	dir = 8
 	},
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/north)
 "aR" = (
@@ -956,6 +962,10 @@
 	icon_state = "11-supply";
 	dir = 9
 	},
+/obj/machinery/alarm{
+	icon_state = "alarm0";
+	dir = 1
+	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/east/ground)
 "cq" = (
@@ -990,6 +1000,11 @@
 "cB" = (
 /turf/simulated/wall/concrete,
 /area/outreach/outpost/maint/power/ground)
+"cC" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/north)
 "cE" = (
 /obj/machinery/light_switch{
 	icon_state = "light0";
@@ -2347,6 +2362,10 @@
 	id_tag = "OH_l3_e_alck_pump"
 	},
 /obj/effect/decal/cleanable/dirt,
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 8
+	},
 /turf/simulated/floor/reinforced,
 /area/outreach/outpost/airlock/ground)
 "je" = (
@@ -2493,6 +2512,7 @@
 	icon_state = "map-supply";
 	dir = 8
 	},
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/south)
 "kh" = (
@@ -2786,6 +2806,10 @@
 "mb" = (
 /turf/exterior/water/outreach,
 /area/exoplanet/outreach)
+"me" = (
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
 "mh" = (
 /obj/effect/floor_decal/industrial/warning{
 	icon_state = "stripe";
@@ -3965,6 +3989,10 @@
 	icon_state = "map_vent_out";
 	dir = 1
 	},
+/obj/structure/sign/eshowers{
+	icon_state = "eshowers";
+	dir = 1
+	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/east/ground)
 "vi" = (
@@ -4646,7 +4674,7 @@
 /area/outreach/outpost/airlock/ground)
 "zR" = (
 /obj/machinery/atmospherics/unary/vent_scrubber/on,
-/obj/machinery/alarm,
+/obj/structure/sign/eshowers,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/east/ground)
 "zT" = (
@@ -5222,6 +5250,7 @@
 /area/exoplanet/outreach)
 "DS" = (
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/hygiene/drain,
 /turf/simulated/floor/reinforced,
 /area/outreach/outpost/airlock/ground)
 "DV" = (
@@ -5850,6 +5879,10 @@
 	dir = 1;
 	id_tag = "OH_l3_e_alck_pump_out_internal"
 	},
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 4
+	},
 /turf/simulated/floor/reinforced,
 /area/outreach/outpost/airlock/ground)
 "Ii" = (
@@ -6316,6 +6349,7 @@
 	locked = 0
 	},
 /obj/effect/decal/cleanable/dirt,
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/south)
 "Lj" = (
@@ -6604,6 +6638,7 @@
 	locked = 0
 	},
 /obj/effect/decal/cleanable/dirt,
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/north)
 "MU" = (
@@ -6664,6 +6699,7 @@
 	icon_state = "map_vent_out";
 	dir = 1
 	},
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/south)
 "Ny" = (
@@ -7913,11 +7949,19 @@
 /turf/simulated/floor/reinforced/airless,
 /area/exoplanet/outreach)
 "Ws" = (
-/obj/machinery/light/small,
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/airlock{
 	dir = 8;
 	id_tag = "OH_l3_e_alck_pump"
 	},
+/obj/structure/hygiene/shower/emergency{
+	icon_state = "eshower";
+	dir = 1
+	},
+/obj/structure/sign/eshowers{
+	icon_state = "eshowers";
+	dir = 1
+	},
+/obj/effect/floor_decal/industrial/hatch/blue,
 /turf/simulated/floor/reinforced,
 /area/outreach/outpost/airlock/ground)
 "Wv" = (
@@ -30417,7 +30461,7 @@ Cc
 mZ
 ul
 Eg
-Yu
+cC
 aK
 aQ
 hs
@@ -30429,7 +30473,7 @@ PQ
 SG
 ka
 Nv
-qk
+me
 IC
 yQ
 vP
