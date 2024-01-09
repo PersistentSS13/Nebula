@@ -3,7 +3,7 @@
 	desc = "A small personal airlock ubiquitous throughout colonized space. The space inside is extremely claustrophobic."
 	icon = 'mods/persistence/icons/obj/machines/mantrap.dmi'
 	icon_state = "mantrap_inactive"
-	anchored = 1
+	anchored = TRUE
 	idle_power_usage = 80
 	active_power_usage = 1000
 	power_channel = ENVIRON
@@ -24,14 +24,14 @@
 /obj/machinery/mantrap/Destroy()
 	cancel_transport()
 	. = ..()
-	
+
 /obj/machinery/mantrap/proc/attempt_enter(var/mob/target, var/mob/user)
 	if(!istype(target))
 		return
 	if(occupant)
 		to_chat(user, SPAN_NOTICE("Someone is already using \the [src]!"))
 		return
-	if(!allowed(user)) // No access modification be default, but can use network locks.
+	if(!allowed(user)) // No access modification by default, but can use network locks.
 		to_chat(user, SPAN_WARNING("Access denied!"))
 		return
 	if(stat & (NOPOWER|BROKEN))
@@ -73,7 +73,7 @@
 		return
 	visible_message(SPAN_NOTICE("\The [src] pings loudly as completes the transfer process!"))
 	var/turf/exit_turf = get_step(src, turn(entrance_dir, 180))
-	
+
 	if(occupant.client)
 		occupant.client.eye = src.occupant.client.mob
 		occupant.client.perspective = MOB_PERSPECTIVE
@@ -107,7 +107,7 @@
 		return FALSE
 	if(TurfBlockedNonWindow(exit_turf) || DirBlocked(exit_turf, entrance_dir))
 		return FALSE
-	
+
 	return TRUE
 
 /obj/machinery/mantrap/receive_mouse_drop(mob/living/dropping, mob/living/user)

@@ -101,7 +101,8 @@
 /turf/simulated/floor/plating,
 /area/kleibkhar/outpost/mining)
 "ap" = (
-/obj/machinery/atmospherics/unary/material/extractor,
+/obj/machinery/material_processing/extractor,
+/obj/machinery/atmospherics/portables_connector,
 /obj/effect/floor_decal/industrial/warning{
 	dir = 1
 	},
@@ -874,6 +875,7 @@
 	icon_state = "stripe";
 	dir = 6
 	},
+/obj/abstract/landmark/latejoin/observer,
 /turf/simulated/floor/tiled/techmaint,
 /area/kleibkhar/outpost/sleeproom)
 "cr" = (

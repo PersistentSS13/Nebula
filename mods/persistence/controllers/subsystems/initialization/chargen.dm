@@ -105,6 +105,9 @@ SUBSYSTEM_DEF(chargen)
 	for(var/obj/abstract/landmark/chargen_spawn/C in global.chargen_landmarks)
 		_spawn_turfs |= get_turf(C)
 
+/decl/spawnpoint/chargen
+	uid = "spawn_chargen"
+
 /decl/spawnpoint/chargen/after_join(mob/victim)
 	var/turf/myturf = get_turf(victim.loc)
 	var/area/chargen/A = get_area(myturf)

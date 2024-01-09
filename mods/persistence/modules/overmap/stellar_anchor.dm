@@ -5,7 +5,7 @@
 	desc = "A stellar anchor used to register new sectors."
 	icon = 'icons/obj/machines/tcomms/bus.dmi'
 	icon_state = "bus"
-	density = 1
+	density = TRUE
 
 	base_type = /obj/machinery/stellar_anchor
 	construct_state = /decl/machine_construction/default/panel_closed
