@@ -270,7 +270,7 @@
 
 		for(var/stype in all_strata)
 			var/decl/strata/strata = all_strata[stype]
-			if(strata.is_valid_level_stratum(src))
+			if(strata.default_strata_candidate && strata.is_valid_level_stratum(src))
 				possible_strata += stype
 
 		strata = DEFAULTPICK(possible_strata, GET_DECL(/decl/strata/sedimentary))
