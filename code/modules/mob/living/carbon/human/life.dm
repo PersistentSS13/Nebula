@@ -37,7 +37,7 @@
 	var/stamina = 100
 
 /mob/living/carbon/human/Life()
-	set invisibility = 0
+	set invisibility = FALSE
 	set background = BACKGROUND_ENABLED
 
 	if (HAS_TRANSFORMATION_MOVEMENT_HANDLER(src))
@@ -55,15 +55,10 @@
 	//No need to update all of these procs if the guy is dead.
 	if(stat != DEAD && !is_in_stasis())
 		last_pain = null // Clear the last cached pain value so further getHalloss() calls won't use an old value.
-
 		//Organs and blood
 		handle_organs()
-		stabilize_body_temperature() //Body temperature adjusts itself (self-regulation)
-
 		handle_shock()
-
 		handle_pain()
-
 		handle_stamina()
 
 	if(!handle_some_updates())
@@ -101,16 +96,6 @@
 	if(client && client.is_afk())
 		if(old_stat == UNCONSCIOUS && stat == CONSCIOUS)
 			playsound_local(null, 'sound/effects/bells.ogg', 100, is_global=TRUE)
-
-/mob/living/carbon/human/breathe()
-	var/species_organ = species.breathing_organ
-
-	if(species_organ)
-		var/active_breaths = 0
-		var/obj/item/organ/internal/lungs/L = get_organ(species_organ, /obj/item/organ/internal/lungs)
-		if(L)
-			active_breaths = L.active_breathing
-		..(active_breaths)
 
 // Calculate how vulnerable the human is to the current pressure.
 // Returns 0 (equals 0 %) if sealed in an undamaged suit that's rated for the pressure, 1 if unprotected (equals 100%).
@@ -162,22 +147,19 @@
 	..()
 	//Vision
 	var/obj/item/organ/vision
-	if(species.vision_organ)
-		vision = GET_INTERNAL_ORGAN(src, species.vision_organ)
+	var/decl/bodytype/root_bodytype = get_bodytype()
+	if(root_bodytype.vision_organ)
+		vision = GET_INTERNAL_ORGAN(src, root_bodytype.vision_organ)
 
-	if(!species.vision_organ) // Presumably if a species has no vision organs, they see via some other means.
+	if(!root_bodytype.vision_organ) // Presumably if a species has no vision organs, they see via some other means.
 		set_status(STAT_BLIND, 0)
-		blinded =    0
 		set_status(STAT_BLURRY, 0)
 	else if(!vision || (vision && !vision.is_usable()))   // Vision organs cut out or broken? Permablind.
-		set_status(STAT_BLIND, 1)
-		blinded =    1
-		set_status(STAT_BLURRY, 1)
-	else
-		//blindness
-		if(!(sdisabilities & BLINDED))
-			if(equipment_tint_total >= TINT_BLIND)	// Covered eyes, heal faster
-				ADJ_STATUS(src, STAT_BLURRY, -1)
+		SET_STATUS_MAX(src, STAT_BLIND, 2)
+		SET_STATUS_MAX(src, STAT_BLURRY, 1)
+	// Non-genetic blindness; covered eyes will heal faster.
+	else if(!(sdisabilities & BLINDED) && equipment_tint_total >= TINT_BLIND)
+		ADJ_STATUS(src, STAT_BLURRY, -1)
 
 /mob/living/carbon/human/handle_disabilities()
 	..()
@@ -201,53 +183,6 @@
 			gene.OnMobLife(src)
 
 	..()
-
-/** breathing **/
-/mob/living/carbon/human/handle_chemical_smoke(var/datum/gas_mixture/environment)
-	for(var/slot in global.standard_headgear_slots)
-		var/obj/item/gear = get_equipped_item(slot)
-		if(istype(gear) && (gear.item_flags & ITEM_FLAG_BLOCK_GAS_SMOKE_EFFECT))
-			return
-	..()
-
-/mob/living/carbon/human/get_breath_from_internal(volume_needed=STD_BREATH_VOLUME)
-	if(internal)
-
-		var/obj/item/tank/rig_supply
-		var/obj/item/rig/rig = get_rig()
-		if(rig && !rig.offline && (rig.air_supply && internal == rig.air_supply))
-			rig_supply = rig.air_supply
-
-		if(!rig_supply)
-			if(!contents.Find(internal))
-				set_internals(null)
-			else
-				var/found_mask = FALSE
-				for(var/slot in global.airtight_slots)
-					var/obj/item/gear = get_equipped_item(slot)
-					if(gear && (gear.item_flags & ITEM_FLAG_AIRTIGHT))
-						found_mask = TRUE
-						break
-				if(!found_mask)
-					set_internals(null)
-
-		if(internal)
-			return internal.remove_air_volume(volume_needed)
-	return null
-
-/mob/living/carbon/human/handle_breath(datum/gas_mixture/breath)
-	if(status_flags & GODMODE)
-		return
-	var/species_organ = species.breathing_organ
-	if(!species_organ)
-		return
-
-	var/obj/item/organ/internal/lungs/L = get_organ(species_organ, /obj/item/organ/internal/lungs)
-	if(!L || nervous_system_failure())
-		failed_last_breath = 1
-	else
-		failed_last_breath = L.handle_breath(breath) //if breath is null or vacuum, the lungs will handle it for us
-	return !failed_last_breath
 
 /mob/living/carbon/human/handle_environment(datum/gas_mixture/environment)
 
@@ -361,42 +296,18 @@
 
 	return
 
-/mob/living/carbon/human/proc/stabilize_body_temperature()
-	// We produce heat naturally.
-	if (species.passive_temp_gain)
-		bodytemperature += species.passive_temp_gain
+/mob/living/carbon/human/get_bodytemperature_difference()
+	if (on_fire)
+		return 0 //too busy for pesky metabolic regulation
+	return ..()
 
+/mob/living/carbon/human/stabilize_body_temperature()
 	// Robolimbs cause overheating too.
 	if(robolimb_count)
 		bodytemperature += round(robolimb_count/2)
+	return ..()
 
-	if (species.body_temperature == null || isSynthetic())
-		return //this species doesn't have metabolic thermoregulation
-
-	var/body_temperature_difference = species.body_temperature - bodytemperature
-
-	if (abs(body_temperature_difference) < 0.5)
-		return //fuck this precision
-
-	if (on_fire)
-		return //too busy for pesky metabolic regulation
-
-	var/cold_1 = get_temperature_threshold(COLD_LEVEL_1)
-	var/heat_1 = get_temperature_threshold(HEAT_LEVEL_1)
-	if(bodytemperature < cold_1) //260.15 is 310.15 - 50, the temperature where you start to feel effects.
-		var/nut_remove = 10 * DEFAULT_HUNGER_FACTOR
-		if(nutrition >= nut_remove) //If we are very, very cold we'll use up quite a bit of nutriment to heat us up.
-			adjust_nutrition(-nut_remove)
-			bodytemperature += max((body_temperature_difference / BODYTEMP_AUTORECOVERY_DIVISOR), BODYTEMP_AUTORECOVERY_MINIMUM)
-	else if(cold_1 <= bodytemperature && bodytemperature <= heat_1)
-		bodytemperature += body_temperature_difference / BODYTEMP_AUTORECOVERY_DIVISOR
-	else if(bodytemperature > heat_1) //360.15 is 310.15 + 50, the temperature where you start to feel effects.
-		var/hyd_remove = 10 * DEFAULT_THIRST_FACTOR
-		if(hydration >= hyd_remove)
-			adjust_hydration(-hyd_remove)
-			bodytemperature += min((body_temperature_difference / BODYTEMP_AUTORECOVERY_DIVISOR), -BODYTEMP_AUTORECOVERY_MINIMUM)
-
-	//This proc returns a number made up of the flags for body parts which you are protected on. (such as HEAD, SLOT_UPPER_BODY, SLOT_LOWER_BODY, etc. See setup.dm for the full list)
+//This proc returns a number made up of the flags for body parts which you are protected on. (such as HEAD, SLOT_UPPER_BODY, SLOT_LOWER_BODY, etc. See setup.dm for the full list)
 /mob/living/carbon/human/proc/get_heat_protection_flags(temperature) //Temperature is the temperature you're being exposed to.
 	. = 0
 	//Handle normal clothing
@@ -478,7 +389,7 @@
 
 	//SSD check, if a logged player is awake put them back to sleep!
 	if(stat == DEAD)	//DEAD. BROWN BREAD. SWIMMING WITH THE SPESS CARP
-		blinded = 1
+		SET_STATUS_MAX(src, STAT_BLIND, 2)
 		set_status(STAT_SILENCE, 0)
 	else				//ALIVE. LIGHTS ARE ON
 		updatehealth()	//TODO
@@ -492,8 +403,8 @@
 				src.visible_message("<B>[src]</B> [species.halloss_message]")
 			SET_STATUS_MAX(src, STAT_PARA, 10)
 
-		if(HAS_STATUS(src, STAT_PARA) ||HAS_STATUS(src, STAT_ASLEEP))
-			blinded = 1
+		if(HAS_STATUS(src, STAT_PARA) || HAS_STATUS(src, STAT_ASLEEP))
+			SET_STATUS_MAX(src, STAT_BLIND, 2)
 			set_stat(UNCONSCIOUS)
 			animate_tail_reset()
 			adjustHalLoss(-3)
@@ -553,13 +464,6 @@
 				to_chat(src, "<span class='notice'>You feel slow and sluggish...</span>")
 
 	return 1
-
-/mob/living/carbon/human/handle_nutrition_and_hydration()
-	if(nutrition > 0)
-		adjust_nutrition(-species.hunger_factor)
-	if(hydration > 0)
-		adjust_hydration(-species.thirst_factor)
-	..()
 
 /mob/living/carbon/human/handle_regular_hud_updates()
 	if(hud_updateflag) // update our mob's hud overlays, AKA what others see flaoting above our head
@@ -860,7 +764,7 @@
 		else if(is_asystole())
 			holder.icon_state = "flatline"
 		else
-			holder.icon_state = "[pulse()]"
+			holder.icon_state = "[get_pulse()]"
 		hud_list[HEALTH_HUD] = holder
 
 	if (BITTEST(hud_updateflag, LIFE_HUD) && hud_list[LIFE_HUD])

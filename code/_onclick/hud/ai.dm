@@ -13,5 +13,4 @@
 			ai_hud.input_procs,
 			ai_hud.input_args
 		)
-	if(mymob?.client)
-		mymob.client.screen = list(adding)
+	..()

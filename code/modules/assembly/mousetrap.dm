@@ -3,7 +3,7 @@
 	desc = "A handy little spring-loaded trap for catching pesty rodents."
 	icon_state = "mousetrap"
 	origin_tech = "{'combat':1}"
-	material = /decl/material/solid/wood
+	material = /decl/material/solid/organic/wood
 	matter = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT)
 	var/armed = 0
 
@@ -51,7 +51,7 @@
 	reset_plane_and_layer()
 	armed = 0
 	update_icon()
-	pulse(0)
+	pulse_device(0)
 
 /obj/item/assembly/mousetrap/proc/toggle_arming(var/mob/user)
 	if((MUTATION_CLUMSY in user.mutations) && prob(50))
@@ -74,17 +74,16 @@
 	. = toggle_arming(user) || ..()
 
 /obj/item/assembly/mousetrap/Crossed(atom/movable/AM)
-	if(armed)
-		if(ishuman(AM))
-			var/mob/living/carbon/H = AM
-			if(!MOVING_DELIBERATELY(H))
-				triggered(H)
-				H.visible_message("<span class='warning'>[H] accidentally steps on [src].</span>", \
-								  "<span class='warning'>You accidentally step on [src]</span>")
-		if(ismouse(AM))
-			triggered(AM)
 	..()
-
+	if(!armed || !isliving(AM))
+		return
+	var/mob/living/M = AM
+	if(MOVING_DELIBERATELY(M))
+		return
+	M.visible_message(
+		SPAN_DANGER("\The [M] steps on \the [src]!"),
+		SPAN_DANGER("You step on \the [src]!"))
+	triggered(M)
 
 /obj/item/assembly/mousetrap/on_found(mob/finder)
 	if(armed)

@@ -4,8 +4,9 @@
 	icon = 'icons/obj/items/chem/container.dmi'
 	icon_state = null
 	w_class = ITEM_SIZE_SMALL
-	material = /decl/material/solid/plastic
+	material = /decl/material/solid/organic/plastic
 	obj_flags = OBJ_FLAG_HOLLOW
+	abstract_type = /obj/item/chems
 
 	var/base_name
 	var/base_desc
@@ -24,6 +25,14 @@
 	if(!possible_transfer_amounts)
 		src.verbs -= /obj/item/chems/verb/set_amount_per_transfer_from_this
 
+/obj/item/chems/set_custom_name(var/new_name)
+	base_name = new_name
+	update_container_name()
+
+/obj/item/chems/set_custom_desc(var/new_desc)
+	base_desc = new_desc
+	update_container_desc()
+
 /obj/item/chems/proc/cannot_interact(mob/user)
 	if(!CanPhysicallyInteract(user))
 		to_chat(usr, SPAN_WARNING("You're in no condition to do that!"))
@@ -41,7 +50,7 @@
 /obj/item/chems/on_update_icon()
 	. = ..()
 	if(detail_state)
-		add_overlay(overlay_image(icon, "[icon_state][detail_state]", detail_color || COLOR_WHITE, RESET_COLOR))
+		add_overlay(overlay_image(icon, "[initial(icon_state)][detail_state]", detail_color || COLOR_WHITE, RESET_COLOR))
 
 /obj/item/chems/proc/update_container_name()
 	var/newname = get_base_name()
@@ -68,6 +77,7 @@
 	desc = new_desc_list.Join("\n")
 
 /obj/item/chems/on_reagent_change()
+	..()
 	update_container_name()
 	update_container_desc()
 	update_icon()
@@ -102,7 +112,7 @@
 		return ..()
 
 /obj/item/chems/proc/standard_dispenser_refill(var/mob/user, var/obj/structure/reagent_dispensers/target) // This goes into afterattack
-	if(!istype(target))
+	if(!istype(target) || (target.atom_flags & ATOM_FLAG_OPEN_CONTAINER))
 		return 0
 
 	if(!target.reagents || !target.reagents.total_volume)
@@ -164,9 +174,9 @@
 		return 1
 
 	// only carbons can eat
-	if(istype(target, /mob/living/carbon))
+	if(iscarbon(target))
 		if(target == user)
-			if(istype(user, /mob/living/carbon/human))
+			if(ishuman(user))
 				var/mob/living/carbon/human/H = user
 				if(!H.check_has_mouth())
 					to_chat(user, "Where do you intend to put \the [src]? You don't have a mouth!")

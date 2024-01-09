@@ -8,7 +8,7 @@
 	if(blood_overlay)
 		add_overlay(blood_overlay)
 	if(global.contamination_overlay && contaminated)
-		overlays += global.contamination_overlay
+		add_overlay(global.contamination_overlay)
 
 /obj/item/apply_hit_effect(mob/living/target, mob/living/user, var/hit_zone)
 	. = ..()
@@ -44,21 +44,6 @@
 		melt()
 		return
 	physically_destroyed()
-
-/obj/item/melt()
-	for(var/mat in matter)
-		var/decl/material/M = GET_DECL(mat)
-		if(!M)
-			log_warning("[src] ([type]) has a bad material path in its matter var.")
-			continue
-		var/turf/T = get_turf(src)
-		//TODO: Would be great to just call a proc to do that, like "Material.place_burn_product(loc, amount_matter)" so no need to care if its a gas or something else
-		var/datum/gas_mixture/environment = T?.return_air()
-		if(M.burn_product)
-			environment.adjust_gas(M.burn_product, M.fuel_value * (matter[mat] / SHEET_MATERIAL_AMOUNT))
-
-	new /obj/effect/decal/cleanable/molten_item(src)
-	qdel(src)
 
 /obj/item/proc/shatter(var/consumed)
 	var/turf/T = get_turf(src)
@@ -108,10 +93,10 @@
 			if(max_health < 1)
 				//Make sure to warn us if the values we set make the max_health be under 1
 				log_warning("The 'max_health' of '[src]'([type]) made out of '[material]' was calculated as [material_health_multiplier] * [material.integrity] == [max_health], which is smaller than 1.")
-				
+
 		if(isnull(health)) //only set health if we didn't specify one already, so damaged objects on spawn and etc can be a thing
 			health = max_health
-		
+
 		if(material.products_need_process())
 			START_PROCESSING(SSobj, src)
 		if(material.conductive)

@@ -25,7 +25,7 @@
 		else if(H.status_flags & FAKEDEATH)
 			pulse_result = 0
 		else
-			pulse_result = H.get_pulse(GETPULSE_TOOL)
+			pulse_result = H.get_pulse_as_string(GETPULSE_TOOL)
 	else
 		pulse_result = -1
 
@@ -84,9 +84,9 @@
 		scan["internal_organs"] += list(O)
 
 	scan["missing_organs"] = list()
-
-	for(var/organ_name in H.species.has_organ)
-		if(!locate(H.species.has_organ[organ_name]) in internal_organs)
+	var/decl/bodytype/root_bodytype = get_bodytype()
+	for(var/organ_name in root_bodytype.has_organ)
+		if(!GET_INTERNAL_ORGAN(H, organ_name))
 			scan["missing_organs"] += organ_name
 	if(H.sdisabilities & BLINDED)
 		scan["blind"] = TRUE
@@ -332,7 +332,7 @@
 	else
 		dat += subdat
 	for(var/organ_name in scan["missing_organs"])
-		if(organ_name != "appendix")
+		if(organ_name != BP_APPENDIX)
 			dat += "<tr><td colspan='3'><span class='bad'>No [organ_name] detected.</span></td></tr>"
 		else
 			dat += "<tr><td colspan='3'>No [organ_name] detected</td></tr>"

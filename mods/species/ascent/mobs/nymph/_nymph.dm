@@ -10,7 +10,7 @@
 #define ANYMPH_TIME_MOLT         300   // How long to wait between molts.
 
 /mob/living/carbon/alien/ascent_nymph
-	name = SPECIES_MANTID_NYMPH
+	name = "mantid nymph"
 	desc = "It's a little alien skittery critter. Hiss."
 	icon = 'mods/species/ascent/icons/species/nymph.dmi'
 	icon_state = ICON_STATE_WORLD
@@ -20,7 +20,7 @@
 	available_maneuvers = list(/decl/maneuver/leap)
 
 	only_species_language = 1
-	voice_name = SPECIES_MANTID_NYMPH
+	voice_name = "mantid nymph"
 	speak_emote = list("hisses", "chitters")
 	universal_understand = FALSE
 	universal_speak = FALSE
@@ -30,7 +30,7 @@
 
 	holder_type = /obj/item/holder/ascent_nymph
 	possession_candidate = 1
-	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_NO_REACT
+	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_NO_CHEM_CHANGE
 	hud_type = /datum/hud/ascent_nymph
 
 	var/obj/item/holding_item
@@ -58,8 +58,8 @@
 	if(holding_item)
 		to_chat(user, SPAN_NOTICE("It is holding \icon[holding_item] \a [holding_item]."))
 
-/mob/living/carbon/alien/ascent_nymph/has_dexterity()
-	return FALSE
+/mob/living/carbon/alien/ascent_nymph/get_dexterity(var/silent = FALSE)
+	return DEXTERITY_EQUIP_ITEM
 
 /mob/living/carbon/alien/ascent_nymph/death(gibbed)
 	if(holding_item)

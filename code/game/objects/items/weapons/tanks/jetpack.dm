@@ -19,6 +19,7 @@
 	. = ..()
 	ion_trail = new /datum/effect/effect/system/trail/ion()
 	ion_trail.set_up(src)
+	refresh_ion_trail()
 
 /obj/item/tank/jetpack/Destroy()
 	QDEL_NULL(ion_trail)
@@ -45,20 +46,29 @@
 		overlay.icon_state = "[overlay.icon_state]-on"
 	. = ..()
 
+/obj/item/tank/jetpack/equipped(mob/user, slot)
+	. = ..()
+	refresh_ion_trail()
+
+/obj/item/tank/jetpack/proc/refresh_ion_trail()
+	if(on && isliving(loc))
+		var/mob/living/wearer = loc
+		if(wearer.get_jetpack() == src)
+			ion_trail.start()
+			return
+	ion_trail.stop()
+
 /obj/item/tank/jetpack/verb/toggle()
 	set name = "Toggle Jetpack"
 	set category = "Object"
 
 	on = !on
-	if(on)
-		ion_trail.start()
-	else
-		ion_trail.stop()
+	refresh_ion_trail()
 	update_icon()
 
 	if (ismob(usr))
 		var/mob/M = usr
-		M.update_inv_back()
+		M.update_equipment_overlay(slot_back_str)
 		M.update_action_buttons()
 
 	to_chat(usr, "You toggle the thrusters [on? "on":"off"].")

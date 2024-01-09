@@ -136,10 +136,9 @@
 /obj/item/stock_parts/power/battery/on_refresh(var/obj/machinery/machine)
 	if(machine && !cell)
 		var/obj/item/stock_parts/building_material/mat = machine.get_component_of_type(/obj/item/stock_parts/building_material)
-		var/obj/item/cell/cell = mat && mat.remove_material(/obj/item/cell, 1)
+		var/obj/item/cell/cell = mat && mat.remove_material(/obj/item/cell, 1, src)
 		if(cell)
 			add_cell(machine, cell)
-			cell.forceMove(src)
 	charge_rate = initial(charge_rate)
 	charge_rate *= 1 + 0.5 * machine.total_component_rating_of_type(/obj/item/stock_parts/capacitor)
 
@@ -183,7 +182,7 @@
 	return ..()
 
 /obj/item/stock_parts/power/battery/attack_hand(mob/user)
-	if(cell && istype(loc, /obj/machinery) && user.check_dexterity(DEXTERITY_GRIP))
+	if(cell && istype(loc, /obj/machinery) && user.check_dexterity(DEXTERITY_HOLD_ITEM))
 		user.put_in_hands(cell)
 		extract_cell(user)
 		return TRUE
@@ -226,7 +225,7 @@
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_REINFORCEMENT,
-		/decl/material/solid/plastic = MATTER_AMOUNT_TRACE
+		/decl/material/solid/organic/plastic = MATTER_AMOUNT_TRACE
 	)
 
 /obj/item/stock_parts/power/battery/buildable/turbo/get_lore_info()
@@ -241,7 +240,7 @@
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_REINFORCEMENT,
-		/decl/material/solid/plastic = MATTER_AMOUNT_TRACE
+		/decl/material/solid/organic/plastic = MATTER_AMOUNT_TRACE
 	)
 
 /obj/item/stock_parts/power/battery/buildable/responsive/get_lore_info()

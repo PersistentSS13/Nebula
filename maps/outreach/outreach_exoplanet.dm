@@ -97,11 +97,9 @@
 //////////////////////////////////////////////////////////////////////////
 // Strata
 //////////////////////////////////////////////////////////////////////////
-/decl/strata/outreach
-	default_strata_candidate = TRUE
-
 /decl/strata/outreach/abyssal
 	name = "metamorphic rock"
+	default_strata_candidate = TRUE
 	base_materials = list(
 		/decl/material/solid/stone/granite,
 		/decl/material/solid/stone/basalt,
@@ -128,6 +126,7 @@
 
 /decl/strata/outreach/subterrane
 	name = "igneous rock"
+	default_strata_candidate = TRUE
 	base_materials = list(
 		/decl/material/solid/stone/granite,
 		/decl/material/solid/stone/basalt,
@@ -163,6 +162,7 @@
 
 /decl/strata/outreach/mountain
 	name = "mountain rock"
+	default_strata_candidate = TRUE
 	base_materials = list(
 		/decl/material/solid/stone/granite,
 		/decl/material/solid/stone/sandstone,

@@ -60,13 +60,13 @@
 
 	if (src.stat)
 		msg += "<span class='warning'>[use_He] [use_is]n't responding to anything around [use_him] and seems to be unconscious.</span>\n"
-		if((stat == DEAD || is_asystole() || src.losebreath) && distance <= 3)
+		if((stat == DEAD || is_asystole() || src.ticks_since_last_successful_breath) && distance <= 3)
 			msg += "<span class='warning'>[use_He] [use_does] not appear to be breathing.</span>\n"
 		if(ishuman(user) && !user.incapacitated() && Adjacent(user))
 			spawn(0)
 				user.visible_message("<b>\The [user]</b> checks \the [src]'s pulse.", "You check \the [src]'s pulse.")
 				if(do_after(user, 15, src))
-					if(pulse() == PULSE_NONE)
+					if(get_pulse() == PULSE_NONE)
 						to_chat(user, "<span class='deadsay'>[use_He] [use_has] no pulse.</span>")
 					else
 						to_chat(user, "<span class='deadsay'>[use_He] [use_has] a pulse!</span>")
@@ -100,9 +100,10 @@
 	var/list/shown_objects = list()
 	var/list/hidden_bleeders = list()
 
-	for(var/organ_tag in species.has_limbs)
+	var/decl/bodytype/root_bodytype = get_bodytype()
+	for(var/organ_tag in root_bodytype.has_limbs)
 
-		var/list/organ_data = species.has_limbs[organ_tag]
+		var/list/organ_data = root_bodytype.has_limbs[organ_tag]
 		var/organ_descriptor = organ_data["descriptor"]
 		var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, organ_tag)
 
@@ -157,7 +158,7 @@
 					else if(!parsedembed.Find("multiple [embedded.name]"))
 						parsedembed.Remove(embedded.name)
 						parsedembed.Add("multiple "+embedded.name)
-				wound_flavor_text["[E.name]"] += "The [wound.desc] on [use_his] [E.name] has \a [english_list(parsedembed, and_text = " and \a ", comma_text = ", \a ")] sticking out of it!<br>"
+				wound_flavor_text["[E.name]"] += "The [wound.desc] on [use_his] [E.name] has \a [english_list(parsedembed, and_text = " and a ", comma_text = ", a ")] sticking out of it!<br>"
 	for(var/hidden in hidden_bleeders)
 		wound_flavor_text[hidden] = "[use_He] [use_has] blood soaking through [hidden] around [use_his] [english_list(hidden_bleeders[hidden])]!<br>"
 

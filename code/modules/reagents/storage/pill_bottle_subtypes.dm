@@ -1,11 +1,3 @@
-/obj/item/storage/pill_bottle/antitox
-	labeled_name = "antitoxins"
-	desc = "Contains pills used to counter toxins."
-	wrapper_color = COLOR_GREEN
-
-/obj/item/storage/pill_bottle/antitox/WillContain()
-	return list(/obj/item/chems/pill/antitox = 21)
-
 /obj/item/storage/pill_bottle/brute_meds
 	labeled_name = "styptic"
 	desc = "Contains pills used to stabilize the severely injured."
@@ -24,7 +16,7 @@
 
 /obj/item/storage/pill_bottle/antitoxins
 	labeled_name = "antitoxins"
-	desc = "Contains pills used to treat toxic substances in the blood."
+	desc = "Contains pills used to treat toxic substances."
 	wrapper_color = COLOR_GREEN
 
 /obj/item/storage/pill_bottle/antitoxins/WillContain()
@@ -63,7 +55,7 @@
 	return list(/obj/item/chems/pill/painkillers = 14)
 
 /obj/item/storage/pill_bottle/strong_painkillers
-	name = "pill bottle (strong painkillers)"
+	labeled_name = "strong painkillers"
 	desc = "Contains pills used to relieve pain. Do not mix with alcohol consumption."
 	wrapper_color = COLOR_PURPLE_GRAY
 

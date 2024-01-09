@@ -1,4 +1,10 @@
 /mob/living/Initialize()
+
+	original_fingerprint_seed = sequential_id(/mob)
+	fingerprint               = md5(num2text(original_fingerprint_seed))
+	original_genetic_seed     = sequential_id(/mob)
+	unique_enzymes            = md5(num2text(original_genetic_seed))
+
 	. = ..()
 	if(stat == DEAD)
 		add_to_dead_mob_list()
@@ -72,7 +78,7 @@ default behaviour is:
 			return
 
 		now_pushing = 1
-		if (istype(AM, /mob/living))
+		if (isliving(AM))
 			var/mob/living/tmob = AM
 
 			for(var/mob/living/M in range(tmob, 1))
@@ -134,7 +140,7 @@ default behaviour is:
 						return
 				AM.glide_size = glide_size
 				step(AM, t)
-				if (istype(AM, /mob/living))
+				if (isliving(AM))
 					var/mob/living/tmob = AM
 					if(istype(tmob.buckled, /obj/structure/bed))
 						if(!tmob.buckled.anchored)
@@ -220,7 +226,7 @@ default behaviour is:
 		btemperature -= change
 		if(actual < desired)
 			btemperature = desired
-//	if(istype(src, /mob/living/carbon/human))
+//	if(ishuman(src))
 //		log_debug("[src] ~ [src.bodytemperature] ~ [temperature]")
 
 	return btemperature
@@ -400,12 +406,11 @@ default behaviour is:
 
 	// shut down ongoing problems
 	radiation = 0
-	bodytemperature = T20C
+	bodytemperature = get_species()?.body_temperature || initial(bodytemperature)
 	sdisabilities = 0
 	disabilities = 0
 
-	// fix blindness and deafness
-	blinded =     0
+	// fix all status conditions including blind/deaf
 	clear_status_effects()
 
 	heal_overall_damage(getBruteLoss(), getFireLoss())
@@ -584,7 +589,7 @@ default behaviour is:
 
 		// Update whether or not this mob needs to pass emotes to contents.
 		for(var/atom/A in M.contents)
-			if(istype(A,/mob) || istype(A,/obj/item/holder))
+			if(ismob(A) || istype(A,/obj/item/holder))
 				return
 		M.status_flags &= ~PASSEMOTES
 	else if(istype(H.loc,/obj/item/clothing/accessory/storage/holster) || istype(H.loc,/obj/item/storage/belt/holster))
@@ -714,26 +719,15 @@ default behaviour is:
 	update_icon()
 	return 1
 
-/mob/living/update_icon()
-	..()
-	compile_overlays()
-
-/mob/living/on_update_icon()
-	SHOULD_CALL_PARENT(TRUE)
-	..()
-	cut_overlays()
-	if(auras)
-		for(var/obj/aura/aura as anything in auras)
-			var/image/A = new()
-			A.appearance = aura
-			add_overlay(A)
-
 /mob/living/Destroy()
 	if(stressors) // Do not QDEL_NULL, keys are managed instances.
 		stressors = null
 	if(auras)
 		for(var/a in auras)
 			remove_aura(a)
+	// done in this order so that icon updates aren't triggered once all our organs are obliterated
+	delete_inventory(TRUE)
+	delete_organs()
 	return ..()
 
 /mob/living/proc/melee_accuracy_mods()
@@ -763,7 +757,13 @@ default behaviour is:
 		. -= 3
 
 /mob/living/can_drown()
-	return TRUE
+	if(get_internals())
+		return FALSE
+	var/obj/item/clothing/mask/mask = get_equipped_item(slot_wear_mask_str)
+	if(istype(mask) && mask.filters_water())
+		return FALSE
+	var/obj/item/organ/internal/lungs/L = get_organ(BP_LUNGS, /obj/item/organ/internal/lungs)
+	return (!L || L.can_drown())
 
 /mob/living/handle_drowning()
 	var/turf/T = get_turf(src)
@@ -788,19 +788,23 @@ default behaviour is:
 	return TRUE // Presumably chemical smoke can't be breathed while you're underwater.
 
 /mob/living/fluid_act(var/datum/reagents/fluids)
-	for(var/thing in get_equipped_items(TRUE))
-		if(isnull(thing)) continue
-		var/atom/movable/A = thing
-		if(A.simulated)
-			A.fluid_act(fluids)
-	if(fluids.total_volume)
-		var/datum/reagents/touching_reagents = get_contact_reagents()
-		if(touching_reagents)
-			var/saturation =  min(fluids.total_volume, round(mob_size * 1.5 * reagent_permeability()) - touching_reagents.total_volume)
-			if(saturation > 0)
-				fluids.trans_to_holder(touching_reagents, saturation)
-	if(fluids.total_volume)
-		. = ..()
+	..()
+	if(QDELETED(src) || !fluids?.total_volume)
+		return
+	fluids.touch_mob(src)
+	if(QDELETED(src) || !fluids.total_volume)
+		return
+	for(var/atom/movable/A as anything in get_equipped_items(TRUE))
+		if(!A.simulated)
+			continue
+		A.fluid_act(fluids)
+		if(QDELETED(src) || !fluids.total_volume)
+			return
+	var/datum/reagents/touching_reagents = get_contact_reagents()
+	if(touching_reagents)
+		var/saturation =  min(fluids.total_volume, round(mob_size * 1.5 * reagent_permeability()) - touching_reagents.total_volume)
+		if(saturation > 0)
+			fluids.trans_to_holder(touching_reagents, saturation)
 
 /mob/living/proc/nervous_system_failure()
 	return FALSE
@@ -829,20 +833,26 @@ default behaviour is:
 /mob/living/proc/get_max_nutrition()
 	return 500
 
-/mob/living/proc/get_nutrition()
-	return get_max_nutrition()
+/mob/living/proc/set_nutrition(var/amt)
+	nutrition = clamp(amt, 0, get_max_nutrition())
+
+/mob/living/proc/get_nutrition(var/amt)
+	return nutrition
 
 /mob/living/proc/adjust_nutrition(var/amt)
-	return
+	set_nutrition(get_nutrition() + amt)
 
 /mob/living/proc/get_max_hydration()
 	return 500
 
-/mob/living/proc/get_hydration()
-	return get_max_hydration()
+/mob/living/proc/get_hydration(var/amt)
+	return hydration
+
+/mob/living/proc/set_hydration(var/amt)
+	hydration = clamp(amt, 0, get_max_hydration())
 
 /mob/living/proc/adjust_hydration(var/amt)
-	return
+	set_hydration(get_hydration() + amt)
 
 /mob/living/proc/has_chemical_effect(var/chem, var/threshold_over, var/threshold_under)
 	var/val = GET_CHEMICAL_EFFECT(src, chem)
@@ -916,8 +926,15 @@ default behaviour is:
 /mob/living/proc/get_ingested_reagents()
 	return reagents
 
-/mob/living/proc/should_have_organ(var/organ_check)
-	return FALSE
+/mob/living/proc/should_have_organ(organ_to_check)
+	var/decl/bodytype/root_bodytype = get_bodytype()
+	return root_bodytype?.has_organ[organ_to_check]
+
+/// Returns null if the mob's bodytype doesn't have a limb tag by default.
+/// Otherwise, returns the data of the limb instead.
+/mob/living/proc/should_have_limb(limb_to_check)
+	var/decl/bodytype/root_bodytype = get_bodytype()
+	return root_bodytype?.has_limbs[limb_to_check]
 
 /mob/living/proc/get_contact_reagents()
 	return reagents
@@ -944,7 +961,7 @@ default behaviour is:
 				A.do_climb_out(user, T)
 				return TRUE
 
-		if(istype(over, /mob/living/exosuit))
+		if(isexosuit(over))
 			var/mob/living/exosuit/exosuit = over
 			if(exosuit.body)
 				if(user.mob_size >= exosuit.body.min_pilot_size && user.mob_size <= exosuit.body.max_pilot_size)
@@ -1049,14 +1066,15 @@ default behaviour is:
 
 /mob/living/handle_fall_effect(var/turf/landing)
 	..()
-	apply_fall_damage(landing)
-	if(client)
-		var/area/A = get_area(landing)
-		if(A)
-			A.alert_on_fall(src)
+	if(istype(landing) && !landing.is_open())
+		apply_fall_damage(landing)
+		if(client)
+			var/area/A = get_area(landing)
+			if(A)
+				A.alert_on_fall(src)
 
 /mob/living/proc/apply_fall_damage(var/turf/landing)
-	adjustBruteLoss(rand(max(1, CEILING(mob_size * 0.33)), max(1, CEILING(mob_size * 0.66))))
+	adjustBruteLoss(rand(max(1, CEILING(mob_size * 0.33)), max(1, CEILING(mob_size * 0.66))) * get_fall_height())
 
 /mob/living/proc/get_toxin_resistance()
 	var/decl/species/species = get_species()
@@ -1138,3 +1156,134 @@ default behaviour is:
 /mob/living/proc/handle_some_updates()
 	//We are long dead, or we're junk mobs spawned like the clowns on the clown shuttle
 	return life_tick <= 5 || !timeofdeath || (timeofdeath >= 5 && (world.time-timeofdeath) <= 10 MINUTES)
+
+/mob/living/get_unique_enzymes()
+	return unique_enzymes
+
+/mob/living/get_blood_type()
+	return blood_type
+
+/mob/living/proc/get_mob_footstep(var/footstep_type)
+	var/decl/species/my_species = get_species()
+	return my_species?.get_footstep(src, footstep_type)
+
+/mob/living/GetIdCards(list/exceptions)
+	. = ..()
+	// Grab our equipped ID.
+	// TODO: consider just iterating the entire equipment list here?
+	// Mask/neck slot lanyards or IDs as uniform accessories someday?
+	// TODO: May need handling for a held or equipped item returning
+	// multiple ID cards, currently will take the last one added.
+	var/obj/item/id = get_equipped_item(slot_wear_id_str)
+	if(istype(id))
+		id = id.GetIdCard()
+		if(istype(id) && !is_type_in_list(id, exceptions))
+			LAZYDISTINCTADD(., id)
+	// Go over everything we're holding.
+	for(var/obj/item/thing in get_held_items())
+		thing = thing.GetIdCard()
+		if(istype(thing) && !is_type_in_list(thing, exceptions))
+			LAZYDISTINCTADD(., thing)
+
+/mob/living/proc/update_surgery(update_icons)
+	SHOULD_CALL_PARENT(TRUE)
+	var/image/total = null
+	for(var/obj/item/organ/external/E in get_external_organs())
+		if(BP_IS_PROSTHETIC(E))
+			continue
+		var/how_open = round(E.how_open())
+		if(how_open <= 0)
+			continue
+		var/surgery_icon = E.species.get_surgery_overlay_icon(src)
+		if(!surgery_icon)
+			continue
+		if(!total)
+			total = new
+			total.appearance_flags = RESET_COLOR
+		var/base_state = "[E.icon_state][how_open]"
+		var/overlay_state = "[base_state]-flesh"
+		var/list/overlays_to_add
+		if(check_state_in_icon(overlay_state, surgery_icon))
+			var/image/flesh = image(icon = surgery_icon, icon_state = overlay_state, layer = -HO_SURGERY_LAYER)
+			flesh.color = E.species.get_flesh_colour(src)
+			LAZYADD(overlays_to_add, flesh)
+		overlay_state = "[base_state]-blood"
+		if(check_state_in_icon(overlay_state, surgery_icon))
+			var/image/blood = image(icon = surgery_icon, icon_state = overlay_state, layer = -HO_SURGERY_LAYER)
+			blood.color = E.species.get_blood_color(src)
+			LAZYADD(overlays_to_add, blood)
+		overlay_state = "[base_state]-bones"
+		if(check_state_in_icon(overlay_state, surgery_icon))
+			LAZYADD(overlays_to_add, image(icon = surgery_icon, icon_state = overlay_state, layer = -HO_SURGERY_LAYER))
+		total.overlays |= overlays_to_add
+	set_current_mob_overlay(HO_SURGERY_LAYER, total, update_icons)
+
+/mob/living/get_overhead_text_x_offset()
+	var/decl/bodytype/bodytype = get_bodytype()
+	return ..() + bodytype?.antaghud_offset_x
+
+/mob/living/get_overhead_text_y_offset()
+	var/decl/bodytype/bodytype = get_bodytype()
+	return ..() + bodytype?.antaghud_offset_y
+
+// Get rank from ID, ID inside PDA, PDA, ID in wallet, etc.
+/mob/living/proc/get_authentification_rank(if_no_id = "No id", if_no_job = "No job")
+	var/obj/item/card/id/id = GetIdCard()
+	return istype(id) ? (id.position || if_no_job) : if_no_id
+
+//gets assignment from ID or ID inside PDA or PDA itself
+//Useful when player do something with computers
+/mob/living/proc/get_assignment(if_no_id = "No id", if_no_job = "No job")
+	var/obj/item/card/id/id = GetIdCard()
+	if(istype(id))
+		return id.assignment ? id.assignment : if_no_job
+	return if_no_id
+
+//gets name from ID or ID inside PDA or PDA itself
+//Useful when players do something with computers
+/mob/living/proc/get_authentification_name(if_no_id = "Unknown")
+	var/obj/item/card/id/id = GetIdCard()
+	if(istype(id))
+		return id.registered_name
+	return if_no_id
+
+//repurposed proc. Now it combines get_id_name() and get_face_name() to determine a mob's name variable. Made into a seperate proc as it'll be useful elsewhere
+/mob/living/proc/get_visible_name()
+	var/face_name = get_face_name()
+	var/id_name = get_id_name("")
+	if((face_name == "Unknown") && id_name && (id_name != face_name))
+		return "[face_name] (as [id_name])"
+	return face_name
+
+//Returns "Unknown" if facially disfigured and real_name if not. Useful for setting name when polyacided or when updating a human's name variable
+//Also used in AI tracking people by face, so added in checks for head coverings like masks and helmets
+/mob/living/proc/get_face_name()
+	if(identity_is_visible())
+		return real_name
+	var/obj/item/clothing/mask = get_equipped_item(slot_wear_mask_str)
+	var/obj/item/clothing/head = get_equipped_item(slot_head_str)
+	if(istype(head) && head.visible_name)
+		return head.visible_name
+	else if(istype(mask) && mask.visible_name)
+		return mask.visible_name
+	else if(get_rig()?.visible_name)
+		return get_rig()?.visible_name
+	return "Unknown"
+
+/mob/living/proc/identity_is_visible()
+	if(!real_name)
+		return FALSE
+	var/obj/item/clothing/mask/mask = get_equipped_item(slot_wear_mask_str)
+	var/obj/item/head = get_equipped_item(slot_head_str)
+	if((mask?.flags_inv & HIDEFACE) || (head?.flags_inv & HIDEFACE))
+		return FALSE
+	if(should_have_limb(BP_HEAD))
+		var/obj/item/organ/external/skull = GET_EXTERNAL_ORGAN(src, BP_HEAD)
+		if(!skull || (skull.status & ORGAN_DISFIGURED))	//Face is unrecognizeable
+			return FALSE
+	return TRUE
+
+//gets name from ID or PDA itself, ID inside PDA doesn't matter
+//Useful when player is being seen by other mobs
+/mob/living/proc/get_id_name(if_no_id = "Unknown")
+	return GetIdCard(exceptions = list(/obj/item/holder))?.registered_name || if_no_id

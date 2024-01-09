@@ -99,7 +99,7 @@
 /area/ministation/medical)
 "ao" = (
 /obj/structure/table/reinforced,
-/obj/machinery/faxmachine,
+/obj/machinery/faxmachine/mapped,
 /turf/simulated/floor/tiled,
 /area/ministation/bridge)
 "ap" = (
@@ -1644,7 +1644,7 @@
 /area/ministation/atmospherics)
 "eB" = (
 /obj/structure/table,
-/obj/machinery/faxmachine,
+/obj/machinery/faxmachine/mapped,
 /turf/simulated/floor/tiled,
 /area/ministation/court)
 "eC" = (
@@ -4319,9 +4319,7 @@
 /area/ministation/science)
 "kX" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply,
-/obj/abstract/landmark{
-	name = "Observer-Start"
-	},
+/obj/abstract/landmark/latejoin/observer,
 /turf/simulated/floor/tiled,
 /area/ministation/hall/w)
 "kY" = (
@@ -7415,12 +7413,12 @@
 /turf/simulated/floor/tiled/white,
 /area/ministation/medical)
 "tb" = (
-/obj/item/chems/ivbag/blood/AMinus,
-/obj/item/chems/ivbag/blood/APlus,
-/obj/item/chems/ivbag/blood/BMinus,
-/obj/item/chems/ivbag/blood/BPlus,
-/obj/item/chems/ivbag/blood/OMinus,
-/obj/item/chems/ivbag/blood/OPlus,
+/obj/item/chems/ivbag/blood/aminus,
+/obj/item/chems/ivbag/blood/aplus,
+/obj/item/chems/ivbag/blood/bminus,
+/obj/item/chems/ivbag/blood/bplus,
+/obj/item/chems/ivbag/blood/ominus,
+/obj/item/chems/ivbag/blood/oplus,
 /obj/structure/closet/crate/freezer,
 /turf/simulated/floor/tiled/white,
 /area/ministation/medical)
@@ -9183,7 +9181,7 @@
 /area/ministation/hop)
 "xL" = (
 /obj/structure/table,
-/obj/machinery/faxmachine,
+/obj/machinery/faxmachine/mapped,
 /turf/simulated/floor/tiled,
 /area/ministation/hop)
 "xM" = (
@@ -13214,7 +13212,7 @@
 	},
 /obj/structure/curtain/open/bed{
 	icon_state = "closed";
-	opacity = 1
+	opacity = TRUE
 	},
 /turf/simulated/floor/plating,
 /area/ministation/disused_office)
@@ -13927,9 +13925,7 @@
 	pixel_x = 27;
 	pixel_y = 5
 	},
-/obj/abstract/landmark/start{
-	name = "AI"
-	},
+/obj/abstract/landmark/start/ai,
 /obj/machinery/network/requests_console{
 	department = "AI";
 	pixel_x = 32;

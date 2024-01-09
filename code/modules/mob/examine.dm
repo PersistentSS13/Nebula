@@ -59,10 +59,11 @@
 	show_other_examine_strings(user, distance, infix, suffix, hideflags, pronouns)
 	to_chat(user, "</quote>")
 
+/mob/living/examine(mob/user, distance, infix, suffix)
+	. = ..()
 	// Update our target dolly.
 	if(user.zone_sel)
-		var/decl/species/target_species = get_species()
-		if(target_species && (BP_TAIL in target_species.has_limbs))
+		if(should_have_limb(BP_TAIL))
 			user.zone_sel.icon_state = "zone_sel_tail"
 		else
 			user.zone_sel.icon_state = "zone_sel"

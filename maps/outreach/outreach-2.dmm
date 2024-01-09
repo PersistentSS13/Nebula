@@ -4806,6 +4806,7 @@
 /obj/structure/table,
 /obj/effect/floor_decal/spline/plain/orange,
 /obj/effect/decal/cleanable/dirt,
+/obj/item/twohanded/pipewrench,
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/atmospherics/b1/hall)
 "kk" = (
@@ -14819,7 +14820,8 @@
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/hydroponics)
 "Cc" = (
-/obj/machinery/atmospherics/unary/material/extractor,
+/obj/machinery/material_processing/extractor,
+/obj/machinery/atmospherics/portables_connector,
 /obj/effect/floor_decal/industrial/warning,
 /obj/effect/floor_decal/industrial/warning{
 	icon_state = "stripe";
@@ -18191,6 +18193,7 @@
 	icon_state = "camera";
 	dir = 1
 	},
+/obj/abstract/landmark/latejoin/observer,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/sleeproom)
 "Ih" = (
@@ -20653,10 +20656,6 @@
 /obj/item/crowbar,
 /obj/item/crowbar,
 /obj/item/crowbar,
-/obj/item/twohanded/pipewrench,
-/obj/item/twohanded/pipewrench,
-/obj/item/twohanded/pipewrench,
-/obj/item/twohanded/pipewrench,
 /obj/item/wrench,
 /obj/item/wrench,
 /obj/item/wrench,

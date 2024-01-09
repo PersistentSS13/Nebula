@@ -39,7 +39,9 @@ var/global/obj/temp_reagents_holder = new
 	clone.cached_color    = cached_color
 	return clone
 
-/datum/reagents/proc/get_reaction_loc()
+/datum/reagents/proc/get_reaction_loc(chemical_reaction_flags)
+	if((chemical_reaction_flags & CHEM_REACTION_FLAG_OVERFLOW_CONTAINER) && ATOM_IS_OPEN_CONTAINER(my_atom))
+		return get_turf(my_atom)
 	return my_atom
 
 /datum/reagents/proc/get_primary_reagent_name(var/codex = FALSE) // Returns the name of the reagent with the biggest volume.
@@ -51,7 +53,7 @@ var/global/obj/temp_reagents_holder = new
 			. = reagent.name
 
 /datum/reagents/proc/get_primary_reagent_decl()
-	. = primary_reagent && GET_DECL(primary_reagent)
+	. = GET_DECL(primary_reagent)
 
 /datum/reagents/proc/update_total() // Updates volume.
 	total_volume = 0
@@ -73,7 +75,7 @@ var/global/obj/temp_reagents_holder = new
 	var/atom/location = get_reaction_loc()
 	var/check_flags = location?.atom_flags || 0
 
-	if(check_flags & ATOM_FLAG_NO_REACT)
+	if((check_flags & ATOM_FLAG_NO_REACT) && (check_flags & ATOM_FLAG_NO_PHASE_CHANGE) && (check_flags & ATOM_FLAG_NO_DISSOLVE))
 		return 0
 
 	var/reaction_occured = FALSE
@@ -126,41 +128,42 @@ var/global/obj/temp_reagents_holder = new
 				if(replace_sound)
 					playsound(location, replace_sound, 80, 1)
 
-		else // Otherwise, collect all possible reactions.
+		else if(!(check_flags & ATOM_FLAG_NO_REACT)) // Otherwise, collect all possible reactions.
 			eligible_reactions |= SSmaterials.chemical_reactions_by_id[R.type]
 
-	var/list/active_reactions = list()
+	if(!(check_flags & ATOM_FLAG_NO_REACT))
+		var/list/active_reactions = list()
 
-	for(var/decl/chemical_reaction/C in eligible_reactions)
-		if(C.can_happen(src))
-			active_reactions[C] = 1 // The number is going to be 1/(fraction of remaining reagents we are allowed to use), computed below
-			reaction_occured = 1
+		for(var/decl/chemical_reaction/C in eligible_reactions)
+			if(C.can_happen(src))
+				active_reactions[C] = 1 // The number is going to be 1/(fraction of remaining reagents we are allowed to use), computed below
+				reaction_occured = 1
 
-	var/list/used_reagents = list()
-	// if two reactions share a reagent, each is allocated half of it, so we compute this here
-	for(var/decl/chemical_reaction/C in active_reactions)
-		var/list/adding = C.get_used_reagents()
-		for(var/R in adding)
-			LAZYADD(used_reagents[R], C)
+		var/list/used_reagents = list()
+		// if two reactions share a reagent, each is allocated half of it, so we compute this here
+		for(var/decl/chemical_reaction/C in active_reactions)
+			var/list/adding = C.get_used_reagents()
+			for(var/R in adding)
+				LAZYADD(used_reagents[R], C)
 
-	for(var/R in used_reagents)
-		var/counter = length(used_reagents[R])
-		if(counter <= 1)
-			continue // Only used by one reaction, so nothing we need to do.
-		for(var/decl/chemical_reaction/C in used_reagents[R])
-			active_reactions[C] = max(counter, active_reactions[C])
-			counter-- //so the next reaction we execute uses more of the remaining reagents
-			// Note: this is not guaranteed to maximize the size of the reactions we do (if one reaction is limited by reagent A, we may be over-allocating reagent B to it)
-			// However, we are guaranteed to fully use up the most profligate reagent if possible.
-			// Further reactions may occur on the next tick, when this runs again.
+		for(var/R in used_reagents)
+			var/counter = length(used_reagents[R])
+			if(counter <= 1)
+				continue // Only used by one reaction, so nothing we need to do.
+			for(var/decl/chemical_reaction/C in used_reagents[R])
+				active_reactions[C] = max(counter, active_reactions[C])
+				counter-- //so the next reaction we execute uses more of the remaining reagents
+				// Note: this is not guaranteed to maximize the size of the reactions we do (if one reaction is limited by reagent A, we may be over-allocating reagent B to it)
+				// However, we are guaranteed to fully use up the most profligate reagent if possible.
+				// Further reactions may occur on the next tick, when this runs again.
 
-	for(var/thing in active_reactions)
-		var/decl/chemical_reaction/C = thing
-		C.process(src, active_reactions[C])
+		for(var/thing in active_reactions)
+			var/decl/chemical_reaction/C = thing
+			C.process(src, active_reactions[C])
 
-	for(var/thing in active_reactions)
-		var/decl/chemical_reaction/C = thing
-		C.post_reaction(src)
+		for(var/thing in active_reactions)
+			var/decl/chemical_reaction/C = thing
+			C.post_reaction(src)
 
 	update_total()
 
@@ -264,10 +267,11 @@ var/global/obj/temp_reagents_holder = new
 
 /datum/reagents/proc/clear_reagents()
 	for(var/reagent in reagent_volumes)
-		clear_reagent(reagent, TRUE)
+		clear_reagent(reagent, defer_update = TRUE)
 	LAZYCLEARLIST(reagent_volumes)
 	LAZYCLEARLIST(reagent_data)
 	total_volume = 0
+	my_atom?.on_reagent_change()
 
 /datum/reagents/proc/get_overdose(var/decl/material/current)
 	if(current)
@@ -359,15 +363,22 @@ var/global/obj/temp_reagents_holder = new
 //If for some reason touch effects are bypassed (e.g. injecting stuff directly into a reagent container or person),
 //call the appropriate trans_to_*() proc.
 /datum/reagents/proc/trans_to(var/atom/target, var/amount = 1, var/multiplier = 1, var/copy = 0, var/defer_update = FALSE)
-	touch(target) //First, handle mere touch effects
-
 	if(ismob(target))
+		touch_mob(target)
+		if(QDELETED(target))
+			return TRUE
 		return splash_mob(target, amount, copy, defer_update = defer_update)
 	if(isturf(target))
+		touch_turf(target)
+		if(QDELETED(target))
+			return TRUE
 		return trans_to_turf(target, amount, multiplier, copy, defer_update = defer_update)
-	if(isobj(target) && ATOM_IS_OPEN_CONTAINER(target))
-		return trans_to_obj(target, amount, multiplier, copy, defer_update = defer_update)
-	return 0
+	if(isobj(target))
+		touch_obj(target)
+		if(!QDELETED(target) && ATOM_IS_OPEN_CONTAINER(target))
+			return trans_to_obj(target, amount, multiplier, copy, defer_update = defer_update)
+		return TRUE
+	return FALSE
 
 //Splashing reagents is messier than trans_to, the target's loc gets some of the reagents as well.
 /datum/reagents/proc/splash(var/atom/target, var/amount = 1, var/multiplier = 1, var/copy = 0, var/min_spill=0, var/max_spill=60, var/defer_update = FALSE)
@@ -450,7 +461,7 @@ var/global/obj/temp_reagents_holder = new
 	if (!target || !target.reagents || !target.simulated)
 		return
 
-	amount = min(amount, REAGENT_VOLUME(src, type))
+	amount = max(0, min(amount, REAGENT_VOLUME(src, type), REAGENTS_FREE_SPACE(target.reagents) / multiplier))
 
 	if(!amount)
 		return
@@ -465,7 +476,7 @@ var/global/obj/temp_reagents_holder = new
 	if (!target)
 		return
 
-	amount = min(amount, REAGENT_VOLUME(src, type))
+	amount = max(0, min(amount, REAGENT_VOLUME(src, type), REAGENTS_FREE_SPACE(target) / multiplier))
 
 	if(!amount)
 		return
@@ -476,25 +487,16 @@ var/global/obj/temp_reagents_holder = new
 	. = F.trans_to_holder(target, amount, multiplier, defer_update = defer_update) // Let this proc check the atom's type
 	qdel(F)
 
-// When applying reagents to an atom externally, touch() is called to trigger any on-touch effects of the reagent.
-// This does not handle transferring reagents to things.
+// When applying reagents to an atom externally, touch procs are called to trigger any on-touch effects of the reagent.
+// Options are touch_turf(), touch_mob() and touch_obj(). This does not handle transferring reagents to things.
 // For example, splashing someone with water will get them wet and extinguish them if they are on fire,
 // even if they are wearing an impermeable suit that prevents the reagents from contacting the skin.
-/datum/reagents/proc/touch(var/atom/target)
-	if(ismob(target))
-		touch_mob(target)
-	if(isturf(target))
-		touch_turf(target)
-	if(isobj(target))
-		touch_obj(target)
-
 /datum/reagents/proc/touch_mob(var/mob/target)
 	if(!target || !istype(target) || !target.simulated)
 		return
 	for(var/rtype in reagent_volumes)
 		var/decl/material/current = GET_DECL(rtype)
 		current.touch_mob(target, REAGENT_VOLUME(src, rtype), src)
-	update_total()
 
 /datum/reagents/proc/touch_turf(var/turf/target)
 	if(!istype(target) || !target.simulated)
@@ -526,7 +528,6 @@ var/global/obj/temp_reagents_holder = new
 				if(istype(target, /turf/simulated))
 					var/turf/simulated/simulated_turf = target
 					simulated_turf.dirt = 0
-	update_total()
 
 /datum/reagents/proc/touch_obj(var/obj/target)
 	if(!target || !istype(target) || !target.simulated)
@@ -534,7 +535,6 @@ var/global/obj/temp_reagents_holder = new
 	for(var/rtype in reagent_volumes)
 		var/decl/material/current = GET_DECL(rtype)
 		current.touch_obj(target, REAGENT_VOLUME(src, rtype), src)
-	update_total()
 
 // Attempts to place a reagent on the mob's skin.
 // Reagents are not guaranteed to transfer to the target.

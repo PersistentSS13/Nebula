@@ -14,7 +14,7 @@
 	material = /decl/material/solid/metal/titanium
 	matter = list(
 		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT,
-		/decl/material/solid/plastic = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/organic/plastic = MATTER_AMOUNT_TRACE,
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
 	)
 

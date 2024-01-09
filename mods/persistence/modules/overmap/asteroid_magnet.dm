@@ -9,7 +9,7 @@
 	desc = "A massive solenoid used to attract asteroids and other such material from nearby fields for mineral acquisition."
 	icon = 'icons/obj/machines/power/fusion.dmi'
 	icon_state = "injector0"
-	density = 1
+	density = TRUE
 	idle_power_usage = 0.1 KILOWATTS // Displays etc. Actual attraction of the asteroid takes far more.
 	active_power_usage = 25 KILOWATTS
 	construct_state = /decl/machine_construction/default/panel_closed

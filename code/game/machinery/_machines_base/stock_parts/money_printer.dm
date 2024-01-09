@@ -2,7 +2,7 @@
 	name = "cryptographic micro-printer"
 	desc = "A micro-printer capable of scanning, recycling, and printing cryptographically secured bank notes on ultra thin plastic."
 	icon_state = "printer"
-	material   = /decl/material/solid/plastic
+	material   = /decl/material/solid/organic/plastic
 	matter     = list(
 		/decl/material/solid/fiberglass = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/silicon = MATTER_AMOUNT_REINFORCEMENT
@@ -19,7 +19,7 @@
 
 /obj/item/stock_parts/computer/money_printer/attackby(obj/item/W, mob/user)
 	. = ..()
-	if(istype(W, /obj/item/stack/material) && W.get_material_type() == /decl/material/solid/plastic)
+	if(istype(W, /obj/item/stack/material) && W.get_material_type() == /decl/material/solid/organic/plastic)
 		var/obj/item/stack/material/stack = W
 
 		stored_plastic += SHEET_MATERIAL_AMOUNT * stack.amount
@@ -29,7 +29,7 @@
 
 	if(IS_SCREWDRIVER(W) && !istype(loc, /obj/machinery))
 		to_chat(user, "You pry out the plastic reserves of \the [src].")
-		SSmaterials.create_object(/decl/material/solid/plastic, get_turf(src), round(stored_plastic / SHEET_MATERIAL_AMOUNT))
+		SSmaterials.create_object(/decl/material/solid/organic/plastic, get_turf(src), round(stored_plastic / SHEET_MATERIAL_AMOUNT))
 		stored_plastic = 0
 
 	if(istype(W, /obj/item/cash))
@@ -41,7 +41,7 @@
 			return
 		var/obj/item/cash/receiving = W
 		var/decl/currency/receiving_currency = GET_DECL(receiving.currency)
-		if(receiving_currency.material != /decl/material/solid/plastic)
+		if(receiving_currency.material != /decl/material/solid/organic/plastic)
 			to_chat(user, SPAN_WARNING("\The [src] cannot accept cash of this currency!"))
 			return
 
@@ -62,7 +62,7 @@
 		return FALSE
 	// TODO: Support for non-plastic currencies
 	var/decl/currency/printed_currency = GET_DECL(currency_type)
-	if(printed_currency.material != /decl/material/solid/plastic)
+	if(printed_currency.material != /decl/material/solid/organic/plastic)
 		return FALSE
 	return (stored_plastic >= amount*max(1, round(SHEET_MATERIAL_AMOUNT/10)))
 

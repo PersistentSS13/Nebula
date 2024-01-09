@@ -40,7 +40,7 @@ var/global/list/floor_decals = list()
 				I.overlays |= overlay_image(icon, "[detail_overlay]", color = detail_color, flags=RESET_COLOR)
 			floor_decals[cache_key] = I
 		LAZYDISTINCTADD(T.decals, floor_decals[cache_key])
-		T.add_overlay(floor_decals[cache_key])
+		T.queue_icon_update()
 	qdel(src)
 
 /obj/effect/floor_decal/reset
@@ -1393,6 +1393,7 @@ var/global/list/floor_decals = list()
 /obj/effect/floor_decal/techfloor
 	name = "techfloor edges"
 	icon_state = "techfloor_edges"
+	layer = DECAL_LAYER - 0.005 // so other decals can show up over it
 
 /obj/effect/floor_decal/techfloor/corner
 	name = "techfloor corner"

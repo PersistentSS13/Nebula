@@ -161,7 +161,7 @@
 // Barricades
 ///////////////////////////////////////////////////////////////////////////////////
 /obj/structure/barricade/wood
-	material = /decl/material/solid/wood/maple
+	material = /decl/material/solid/organic/wood/maple
 
 /obj/structure/door/osmium
 	material = /decl/material/solid/metal/osmium

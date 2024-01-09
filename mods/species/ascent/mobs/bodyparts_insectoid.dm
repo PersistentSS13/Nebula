@@ -1,46 +1,10 @@
-/obj/item/organ/external/arm/insectoid
-	name = "left forelimb"
-	amputation_point = "coxa"
-	icon_position = LEFT
-	encased = "carapace"
-
-/obj/item/organ/external/arm/right/insectoid
-	name = "right forelimb"
-	amputation_point = "coxa"
-	icon_position = RIGHT
-	encased = "carapace"
-
-/obj/item/organ/external/leg/insectoid
-	name = "left tail side"
-	icon_position = LEFT
-	encased = "carapace"
-
-/obj/item/organ/external/leg/right/insectoid
-	name = "right tail side"
-	encased = "carapace"
-
-/obj/item/organ/external/foot/insectoid
-	name = "left tail tip"
-	icon_position = LEFT
-	encased = "carapace"
-
-/obj/item/organ/external/foot/right/insectoid
-	name = "right tail tip"
-	icon_position = RIGHT
-	encased = "carapace"
-
-/obj/item/organ/external/hand/insectoid
-	name = "left grasper"
-	icon_position = LEFT
-	encased = "carapace"
-
-
 /datum/inventory_slot/gripper/midlimb
 	slot_name = "Midlimb"
 	slot_id = BP_M_HAND
 	requires_organ_tag = BP_M_HAND
 	ui_label = "M"
 	ui_loc = "CENTER,BOTTOM+1:14"
+	covering_slot_flags = SLOT_HAND_LEFT|SLOT_HAND_RIGHT // todo: generalize?
 
 /obj/item/organ/external/hand/insectoid/midlimb
 	name = "central grasper"
@@ -57,83 +21,38 @@
 	slot_id = BP_L_HAND_UPPER
 	requires_organ_tag = BP_L_HAND_UPPER
 	ui_label = "UL"
-	ui_loc = "CENTER:16,BOTTOM+1:14"
+	hand_sort_priority = 2
+	covering_slot_flags = SLOT_HAND_LEFT
 
 /obj/item/organ/external/hand/insectoid/upper
 	name = "left raptorial"
-	joint = "left upper wrist"
-	amputation_point = "left upper wrist"
+	joint = "upper left wrist"
+	amputation_point = "upper left shoulder"
 	organ_tag = BP_L_HAND_UPPER
+	parent_organ = BP_CHEST
 	gripper_type = /datum/inventory_slot/gripper/upper_left_hand
 
-/obj/item/organ/external/hand/insectoid/upper/get_dexterity()
-	. = DEXTERITY_GRIP
-	if(model)
-		. = min(., ..())
-
-/obj/item/organ/external/hand/right/insectoid
-	name = "right grasper"
-	icon_position = RIGHT
-	encased = "carapace"
+/obj/item/organ/external/hand/insectoid/upper/get_manual_dexterity()
+	return (..() & ~(DEXTERITY_WEAPONS|DEXTERITY_COMPLEX_TOOLS))
 
 /datum/inventory_slot/gripper/upper_right_hand
 	slot_name = "Right Upper Hand"
 	slot_id = BP_R_HAND_UPPER
 	requires_organ_tag = BP_R_HAND_UPPER
 	ui_label = "UR"
-	ui_loc = "CENTER-1:16,BOTTOM+1:14"
+	hand_sort_priority = 2
+	covering_slot_flags = SLOT_HAND_RIGHT
 
 /obj/item/organ/external/hand/right/insectoid/upper
 	name = "right raptorial"
-	joint = "right upper wrist"
-	amputation_point = "right upper wrist"
+	joint = "upper right wrist"
+	amputation_point = "upper right shoulder"
 	organ_tag = BP_R_HAND_UPPER
+	parent_organ = BP_CHEST
 	gripper_type = /datum/inventory_slot/gripper/upper_right_hand
 
-/obj/item/organ/external/hand/right/insectoid/upper/get_dexterity()
-	. = DEXTERITY_GRIP
-	if(model)
-		. = min(., ..())
-
-/obj/item/organ/external/groin/insectoid
-	name = "abdomen"
-	icon_position = UNDER
-	encased = "carapace"
-
-/obj/item/organ/external/head/insectoid
-	name = "head"
-	has_lips = 0
-	encased = "carapace"
-
-/obj/item/organ/external/chest/insectoid
-	name = "thorax"
-	encased = "carapace"
-
-/obj/item/organ/internal/heart/insectoid
-	name = "hemolymph pump"
-
-/obj/item/organ/internal/stomach/insectoid
-	name = "digestive sac"
-
-/obj/item/organ/internal/lungs/insectoid
-	name = "spiracle junction"
-	icon_state = "trach"
-	gender = NEUTER
-
-/obj/item/organ/internal/liver/insectoid
-	name = "primary filters"
-	gender = PLURAL
-
-/obj/item/organ/internal/kidneys/insectoid
-	name = "secondary filters"
-
-/obj/item/organ/internal/brain/insectoid
-	name = "ganglial junction"
-	icon_state = "brain-distributed"
-
-/obj/item/organ/internal/eyes/insectoid
-	name = "compound ocelli"
-	icon_state = "eyes-compound"
+/obj/item/organ/external/hand/right/insectoid/upper/get_manual_dexterity()
+	return (..() & ~(DEXTERITY_WEAPONS|DEXTERITY_COMPLEX_TOOLS))
 
 /obj/item/organ/internal/egg_sac/insectoid
 	name = "gyne egg-sac"
@@ -162,3 +81,15 @@
 			H.visible_message(SPAN_NOTICE("\icon[H] [H] carelessly deposits an egg on \the [get_turf(src)]."))
 			var/obj/structure/insectoid_egg/egg = new(get_turf(H)) // splorp
 			egg.lineage = H.dna.lineage
+
+/obj/item/organ/external/foot/insectoid/mantid
+	name = "left tail tip"
+
+/obj/item/organ/external/foot/right/insectoid/mantid
+	name = "right tail tip"
+
+/obj/item/organ/external/leg/insectoid/mantid
+	name = "left tail side"
+
+/obj/item/organ/external/leg/right/insectoid/mantid
+	name = "right tail side"

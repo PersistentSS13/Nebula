@@ -3,9 +3,9 @@
 	desc = "A exosuit recharger, built into the floor."
 	icon = 'icons/mecha/mech_bay.dmi'
 	icon_state = "recharge_floor"
-	density = 0
+	density = FALSE
 	layer = ABOVE_TILE_LAYER
-	anchored = 1
+	anchored = TRUE
 	idle_power_usage = 200	// Some electronics, passive drain.
 	active_power_usage = 60 KILOWATTS // When charging
 	base_type = /obj/machinery/mech_recharger
@@ -18,14 +18,15 @@
 	var/repair_power_usage = 10 KILOWATTS		// Per 1 HP of health.
 	var/repair = 0
 
-/obj/machinery/mech_recharger/Crossed(var/mob/living/exosuit/M)
+/obj/machinery/mech_recharger/Crossed(atom/movable/AM)
 	. = ..()
-	if(istype(M) && charging != M)
-		start_charging(M)
+	if(istype(AM, /mob/living/exosuit) && charging != AM)
+		start_charging(AM)
 
-/obj/machinery/mech_recharger/Uncrossed(var/mob/living/exosuit/M)
+/obj/machinery/mech_recharger/Uncrossed(atom/movable/AM)
 	. = ..()
-	if(M == charging)
+	var/mob/living/exosuit/M = AM
+	if(istype(M) && M == charging)
 		stop_charging()
 
 /obj/machinery/mech_recharger/RefreshParts()

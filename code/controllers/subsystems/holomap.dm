@@ -5,8 +5,6 @@
 /datum/holomapdata
 	var/icon/holomap_base
 	var/list/icon/holomap_areas = list()
-	var/icon/holomap_combined
-	var/icon/holomap_areas_combined
 	var/icon/holomap_small
 
 SUBSYSTEM_DEF(minimap)
@@ -41,23 +39,17 @@ SUBSYSTEM_DEF(minimap)
 			single.Blend(A.holomap_color, ICON_MULTIPLY)
 		combinedareas.Blend(single, ICON_OVERLAY)
 
-	data.holomap_areas_combined = combinedareas
-
-	var/icon/map_base = icon(data.holomap_base)
-
-	// Generate the full sized map by blending the base and areas onto the backdrop
-	var/icon/big_map = icon(HOLOMAP_ICON, "stationmap")
-	big_map.Blend(map_base, ICON_OVERLAY)
-	big_map.Blend(combinedareas, ICON_OVERLAY)
-	data.holomap_combined = big_map
-
 	// Generate the "small" map
 	var/icon/small_map = icon(HOLOMAP_ICON, "blank")
+
 	//Make it green.
-	small_map.Blend(map_base, ICON_OVERLAY)
+	var/icon/map_base = icon(data.holomap_base)
+	small_map.Blend(map_base, ICON_OVERLAY, HOLOMAP_PIXEL_OFFSET_X(zlevel), HOLOMAP_PIXEL_OFFSET_Y(zlevel))
 	small_map.Blend(COLOR_HOLOMAP_HOLOFIER, ICON_MULTIPLY)
-	small_map.Blend(combinedareas, ICON_OVERLAY)
+	small_map.Blend(combinedareas, ICON_OVERLAY, HOLOMAP_PIXEL_OFFSET_X(zlevel), HOLOMAP_PIXEL_OFFSET_Y(zlevel))
 	small_map.Scale(WORLD_ICON_SIZE, WORLD_ICON_SIZE)
+	var/const/border_size = 6 // the width of the border (non-map) section of the icon
+	small_map.Shift(NORTHEAST, border_size)
 
 	// And rotate it in every direction of course!
 	var/icon/actual_small_map = icon(small_map)
@@ -72,8 +64,8 @@ SUBSYSTEM_DEF(minimap)
 // Generates the "base" holomap for one z-level, showing only the physical structure of walls and paths.
 /datum/controller/subsystem/minimap/proc/generateBaseHolomap(zlevel = 1)
 	// Save these values now to avoid a bazillion array lookups
-	var/offset_x = HOLOMAP_PIXEL_OFFSET_X
-	var/offset_y = HOLOMAP_PIXEL_OFFSET_Y
+	var/offset_x = HOLOMAP_PIXEL_OFFSET_X(zlevel)
+	var/offset_y = HOLOMAP_PIXEL_OFFSET_Y(zlevel)
 
 	// Sanity checks - Better to generate a helpful error message now than have DrawBox() runtime
 	var/icon/canvas = icon(HOLOMAP_ICON, "blank")
@@ -97,16 +89,17 @@ SUBSYSTEM_DEF(minimap)
 /datum/controller/subsystem/minimap/proc/generateHolomapAreaOverlays(zlevel)
 	var/list/icon/areas = list()
 
-	var/offset_x = HOLOMAP_PIXEL_OFFSET_X
-	var/offset_y = HOLOMAP_PIXEL_OFFSET_Y
+	var/offset_x = HOLOMAP_PIXEL_OFFSET_X(zlevel)
+	var/offset_y = HOLOMAP_PIXEL_OFFSET_Y(zlevel)
 
 	for(var/x = 1 to world.maxx)
 		for(var/y = 1 to world.maxy)
 			var/turf/tile = locate(x, y, zlevel)
 			if(tile && tile.loc)
 				var/area/areaToPaint = tile.loc
-				if(areaToPaint.holomap_color)
-					if(!areas[areaToPaint])
-						areas[areaToPaint] = icon(HOLOMAP_ICON, "blank")
-					areas[areaToPaint].DrawBox(HOLOMAP_AREACOLOR_BASE, x + offset_x, y + offset_y) //We draw white because we want a generic version to use later. However if there is no colour we ignore it
+				if((areaToPaint.area_flags & AREA_FLAG_HIDE_FROM_HOLOMAP) || !areaToPaint.holomap_color)
+					continue
+				if(!areas[areaToPaint])
+					areas[areaToPaint] = icon(HOLOMAP_ICON, "blank")
+				areas[areaToPaint].DrawBox(HOLOMAP_AREACOLOR_BASE, x + offset_x, y + offset_y) //We draw white because we want a generic version to use later. However if there is no colour we ignore it
 	return areas

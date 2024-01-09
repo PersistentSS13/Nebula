@@ -13,7 +13,7 @@
 	force = 5
 	material = /decl/material/solid/metal/steel
 	matter = list(
-		/decl/material/solid/wood = MATTER_AMOUNT_REINFORCEMENT
+		/decl/material/solid/organic/wood = MATTER_AMOUNT_REINFORCEMENT
 	)
 
 /obj/item/gun/projectile/revolver/handmade/empty

@@ -95,9 +95,7 @@
 /turf/simulated/floor/airless,
 /area/exoplanet/outreach/sky)
 "ap" = (
-/obj/effect/shuttle_landmark/automatic/clearing{
-	radius = 4
-	},
+/obj/effect/shuttle_landmark/automatic,
 /turf/simulated/floor/airless,
 /area/exoplanet/outreach/sky)
 "au" = (

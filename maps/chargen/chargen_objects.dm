@@ -24,7 +24,7 @@
 	desc = "A large vessel containing pressurized gas."
 	icon = 'icons/atmos/tank.dmi'
 	icon_state = "air"
-	density = 1
+	density = TRUE
 	layer = STRUCTURE_LAYER
 
 /obj/chargen/airlock
@@ -32,8 +32,8 @@
 	desc = "It opens and closes."
 	icon = 'icons/obj/doors/secure/door.dmi'
 	icon_state = "closed"
-	opacity = 1
-	density = 1
+	opacity = TRUE
+	density = TRUE
 /obj/chargen/airlock/Initialize()
 	. = ..()
 	if(!(/obj/chargen/airlock in global.wall_blend_objects))
@@ -68,8 +68,8 @@
 	desc = "Simple rocket nozzle, expelling gas at hypersonic velocities to propell the ship."
 	icon = 'icons/obj/ship_engine.dmi'
 	icon_state = "nozzle"
-	opacity = 1
-	density = 1
+	opacity = TRUE
+	density = TRUE
 
 /obj/chargen/screen
 	name = "status display"

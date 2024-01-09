@@ -1,7 +1,6 @@
 // This mob generically just holds a mind to show that it's
 // still floating around .. somewhere.
 /mob/living/limbo
-	use_me = 0
 	stat = UNCONSCIOUS
 
 	var/obj/item/organ/internal/stack/cortical_stack
@@ -46,6 +45,9 @@
 		to_chat(src, SPAN_NOTICE("Your character has died and you are now in limbo. Resleeve to continue playing as your character, or wait until a kind soul clones you from your cortical stack."))
 	else
 		to_chat(src, SPAN_NOTICE("Your character has died and you are now in limbo. Your sleeve has been destroyed but you may still have backups in the world. Resleeve to continue playing as your character. Otherwise, release yourself and create a new character!"))
+
+/mob/living/limbo/can_emote(emote_type)
+	return FALSE
 
 /datum/action/resleeve
 	name = "Resleeve"

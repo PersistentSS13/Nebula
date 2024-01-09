@@ -12,8 +12,7 @@
 	plane = HUD_PLANE
 	layer = HUD_BASE_LAYER
 	appearance_flags = NO_CLIENT_COLOR
-	unacidable = 1
-	var/obj/master = null    //A reference to the object in the slot. Grabs or items, generally.
+	is_spawnable_type = FALSE
 	var/globalscreen = FALSE //Global screens are not qdeled when the holding mob is destroyed.
 
 /obj/screen/receive_mouse_drop(atom/dropping, mob/user)
@@ -22,25 +21,92 @@
 /obj/screen/check_mousedrop_interactivity(var/mob/user)
 	return user.client && (src in user.client.screen)
 
-/obj/screen/Destroy()
-	master = null
-	return ..()
-
 /obj/screen/text
 	icon = null
 	icon_state = null
-	mouse_opacity = 0
+	mouse_opacity = MOUSE_OPACITY_UNCLICKABLE
 	screen_loc = "CENTER-7,CENTER-7"
 	maptext_height = 480
 	maptext_width = 480
 
-
 /obj/screen/inventory
 	var/slot_id	//The indentifier for the slot. It has nothing to do with ID cards.
+	var/weakref/mouse_over_atom_ref
+	var/weakref/owner_ref
 
+/obj/screen/inventory/Initialize(var/ml, var/mob/_owner)
+	if(!istype(_owner))
+		PRINT_STACK_TRACE("Inventory screen object supplied a non-mob owner!")
+	owner_ref = weakref(_owner)
+	return ..()
+
+/obj/screen/inventory/MouseDrop()
+	. = ..()
+	mouse_over_atom_ref = null
+	update_icon()
+
+/obj/screen/inventory/Click()
+	. = ..()
+	mouse_over_atom_ref = null
+	update_icon()
+
+/obj/screen/inventory/MouseEntered(location, control, params)
+	. = ..()
+	if(!slot_id || !usr)
+		return
+	var/equipped_item = usr.get_active_hand()
+	if(equipped_item)
+		var/new_mouse_over_atom = weakref(equipped_item)
+		if(new_mouse_over_atom != mouse_over_atom_ref)
+			mouse_over_atom_ref = new_mouse_over_atom
+			update_icon()
+
+/obj/screen/inventory/MouseExited(location, control, params)
+	. = ..()
+	if(mouse_over_atom_ref)
+		mouse_over_atom_ref = null
+		update_icon()
+
+/obj/screen/inventory/on_update_icon()
+
+	cut_overlays()
+
+	// Validate our owner still exists.
+	var/mob/owner = owner_ref?.resolve()
+	if(!istype(owner) || QDELETED(owner) || !(src in owner.client?.screen))
+		return
+
+	// Mark our selected hand.
+	if(owner.get_active_held_item_slot() == slot_id)
+		add_overlay("hand_selected")
+
+	// Mark anything we're potentially trying to equip.
+	var/obj/item/mouse_over_atom = mouse_over_atom_ref?.resolve()
+	if(istype(mouse_over_atom) && !QDELETED(mouse_over_atom) && !usr.get_equipped_item(slot_id))
+		var/mutable_appearance/MA = new /mutable_appearance(mouse_over_atom)
+		MA.layer   = HUD_ABOVE_ITEM_LAYER
+		MA.plane   = HUD_PLANE
+		MA.alpha   = 80
+		MA.color   = mouse_over_atom.mob_can_equip(owner, slot_id, TRUE) ? COLOR_GREEN : COLOR_RED
+		MA.pixel_x = mouse_over_atom.default_pixel_x
+		MA.pixel_y = mouse_over_atom.default_pixel_y
+		MA.pixel_w = mouse_over_atom.default_pixel_w
+		MA.pixel_z = mouse_over_atom.default_pixel_z
+		add_overlay(MA)
+	else
+		mouse_over_atom_ref = null
+
+	// UI needs to be responsive so avoid the subsecond update delay.
+	compile_overlays()
 
 /obj/screen/close
 	name = "close"
+	// A reference to the storage item this atom is associated with.
+	var/obj/master
+
+/obj/screen/close/Destroy()
+	master = null
+	return ..()
 
 /obj/screen/close/Click()
 	if(master)
@@ -51,7 +117,7 @@
 
 /obj/screen/default_attack_selector
 	name = "default attack selector"
-	icon_state = "attack_selector"
+	icon_state = "attack_none"
 	screen_loc = ui_attack_selector
 	var/mob/living/carbon/human/owner
 
@@ -61,13 +127,11 @@
 
 	var/list/modifiers = params2list(params)
 	if(modifiers["shift"])
-		var/decl/natural_attack/attack = owner.get_unarmed_attack()
-		to_chat(owner, SPAN_NOTICE("Your current default attack is <b>[attack?.name || "unset"]</b>."))
-		if(attack)
-			var/summary = attack.summarize()
+		to_chat(owner, SPAN_NOTICE("Your current default attack is <b>[owner.default_attack?.name || "unset"]</b>."))
+		if(owner.default_attack)
+			var/summary = owner.default_attack.summarize()
 			if(summary)
 				to_chat(owner, SPAN_NOTICE(summary))
-
 		return
 
 	owner.set_default_unarmed_attack(src)
@@ -88,11 +152,8 @@
 		update_icon()
 
 /obj/screen/default_attack_selector/on_update_icon()
-	var/decl/natural_attack/attack = owner?.get_unarmed_attack()
-	if(!attack)
-		maptext = "<center>[STYLE_SMALLFONTS_OUTLINE("NONE", 5, COLOR_WHITE, COLOR_BLACK)]</center>"
-	else
-		maptext = "<center>[STYLE_SMALLFONTS_OUTLINE("[uppertext(attack.name)]", 5, COLOR_WHITE, COLOR_BLACK)]</center>"
+	var/decl/natural_attack/attack = owner?.default_attack
+	icon_state = attack?.selector_icon_state || "attack_none"
 
 /obj/screen/item_action
 	var/obj/item/owner
@@ -118,6 +179,12 @@
 
 /obj/screen/storage
 	name = "storage"
+	// A reference to the storage item this atom is associated with.
+	var/obj/master
+
+/obj/screen/storage/Destroy()
+	master = null
+	return ..()
 
 /obj/screen/storage/Click()
 	if(!usr.canClick())
@@ -346,7 +413,7 @@
 		else
 			usr.select_held_item_slot(name)
 	else if(usr.attack_ui(slot_id))
-		usr.update_inv_hands(0)
+		usr.update_inhand_overlays(FALSE)
 
 	return TRUE
 
@@ -374,7 +441,7 @@
 /obj/screen/lighting_plane_master
 	screen_loc = "CENTER"
 	appearance_flags = PLANE_MASTER
-	mouse_opacity = 0
+	mouse_opacity = MOUSE_OPACITY_UNCLICKABLE
 	plane = LIGHTING_PLANE
 	blend_mode = BLEND_MULTIPLY
 	alpha = 255

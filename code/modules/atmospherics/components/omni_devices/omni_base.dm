@@ -6,7 +6,7 @@
 	icon = 'icons/atmos/omni_devices.dmi'
 	icon_state = "base"
 	initialize_directions = 0
-	level = 1
+	level = LEVEL_BELOW_PLATING
 	var/core_icon
 
 	var/configuring = 0
@@ -53,7 +53,7 @@
 				if(new_port.mode == ATM_FILTER && tag_filter_gas_north)
 					if(!istext(tag_filter_gas_north))
 						CRASH("The tag_filter_gas_north var of [src] ([x],[y],[z]) was not set to a material uid string! Got : '[tag_filter_gas_north]'.")
-					new_port.filtering = decls_repository.get_decl_by_id(tag_filter_gas_north)
+					new_port.filtering = decls_repository.get_decl_path_by_id(tag_filter_gas_north)
 				if(tag_north >= 3 && tag_north < 8)
 					new_port.filtering = handle_legacy_gas_filtering(tag_north)
 					new_port.mode = ATM_FILTER
@@ -62,7 +62,7 @@
 				if(new_port.mode == ATM_FILTER && tag_filter_gas_south)
 					if(!istext(tag_filter_gas_south))
 						CRASH("The tag_filter_gas_south var of [src] ([x],[y],[z]) was not set to a material uid string! Got : '[tag_filter_gas_south]'.")
-					new_port.filtering = decls_repository.get_decl_by_id(tag_filter_gas_south)
+					new_port.filtering = decls_repository.get_decl_path_by_id(tag_filter_gas_south)
 				if(tag_south >= 3 && tag_south < 8)
 					new_port.filtering = handle_legacy_gas_filtering(tag_south)
 					new_port.mode = ATM_FILTER
@@ -71,7 +71,7 @@
 				if(new_port.mode == ATM_FILTER && tag_filter_gas_east)
 					if(!istext(tag_filter_gas_east))
 						CRASH("The tag_filter_gas_east var of [src] ([x],[y],[z]) was not set to a material uid string! Got : '[tag_filter_gas_east]'.")
-					new_port.filtering = decls_repository.get_decl_by_id(tag_filter_gas_east)
+					new_port.filtering = decls_repository.get_decl_path_by_id(tag_filter_gas_east)
 				if(tag_east >= 3 && tag_east < 8)
 					new_port.filtering = handle_legacy_gas_filtering(tag_east)
 					new_port.mode = ATM_FILTER
@@ -80,7 +80,7 @@
 				if(new_port.mode == ATM_FILTER && tag_filter_gas_west)
 					if(!istext(tag_filter_gas_west))
 						CRASH("The tag_filter_gas_west var of [src] ([x],[y],[z]) was not set to a material uid string! Got : '[tag_filter_gas_west]'.")
-					new_port.filtering = decls_repository.get_decl_by_id(tag_filter_gas_west)
+					new_port.filtering = decls_repository.get_decl_path_by_id(tag_filter_gas_west)
 				if(tag_west >= 3 && tag_west < 8)
 					new_port.filtering = handle_legacy_gas_filtering(tag_west)
 					new_port.mode = ATM_FILTER
@@ -213,7 +213,7 @@
 		if(!istype(T))
 			return
 		var/obj/machinery/atmospherics/node = LAZYACCESS(P.nodes, 1)
-		if(!T.is_plating() && istype(node, /obj/machinery/atmospherics/pipe) && node.level == 1 )
+		if(!T.is_plating() && istype(node, /obj/machinery/atmospherics/pipe) && node.level == LEVEL_BELOW_PLATING)
 			pipe_state_key = "down"
 		else
 			pipe_state_key = "intact"

@@ -2,7 +2,7 @@
 	name = "water"
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "extinguish"
-	mouse_opacity = 0
+	mouse_opacity = MOUSE_OPACITY_UNCLICKABLE
 	pass_flags = PASS_FLAG_TABLE | PASS_FLAG_GRILLE
 
 /obj/effect/effect/water/Initialize()
@@ -54,7 +54,7 @@
 
 /obj/effect/effect/water/Bump(atom/A)
 	if(reagents)
-		reagents.touch(A)
+		A.fluid_act(reagents)
 	return ..()
 
 //Used by spraybottles.

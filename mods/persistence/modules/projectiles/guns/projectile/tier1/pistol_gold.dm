@@ -5,7 +5,7 @@
 	origin_tech = "{'combat':3,'engineering':2,'materials':5}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
-		/decl/material/solid/wood = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/organic/wood = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE,
 		/decl/material/solid/metal/gold = MATTER_AMOUNT_REINFORCEMENT
 	)
