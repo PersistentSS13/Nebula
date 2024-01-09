@@ -8,7 +8,7 @@ var/global/list/hygiene_props = list()
 	var/drainage = 0.5
 	var/last_gurgle = 0
 
-/obj/structure/hygiene/Initialize()
+/obj/structure/hygiene/Initialize(ml, _mat, _reinf_mat)
 	. = ..()
 	global.hygiene_props += src
 	START_PROCESSING(SSobj, src)
@@ -239,15 +239,17 @@ var/global/list/hygiene_props = list()
 	var/next_wash = 0
 	var/watertemp = "normal"	//freezing, normal, or boiling
 	var/list/temperature_settings = list("normal" = 310, "boiling" = T0C+100, "freezing" = T0C)
+	///The amount of internal reagent storage. Essentially the volume of fluid the shower dispenses each tick.
+	var/internal_volume = 5
 
 	var/sound_id = /obj/structure/hygiene/shower
 	var/datum/sound_token/sound_token
 
 //add heat controls? when emagged, you can freeze to death in it?
 
-/obj/structure/hygiene/shower/Initialize()
+/obj/structure/hygiene/shower/Initialize(ml, _mat, _reinf_mat)
 	. = ..()
-	create_reagents(5)
+	create_reagents(internal_volume)
 
 /obj/structure/hygiene/shower/Destroy()
 	QDEL_NULL(sound_token)
@@ -281,7 +283,7 @@ var/global/list/hygiene_props = list()
 	anchored = TRUE
 	mouse_opacity = MOUSE_OPACITY_UNCLICKABLE
 
-/obj/effect/mist/Initialize()
+/obj/effect/mist/Initialize(mapload)
 	. = ..()
 	if(. != INITIALIZE_HINT_QDEL)
 		addtimer(CALLBACK(src, /datum/proc/qdel_self), 25 SECONDS)
@@ -290,20 +292,30 @@ var/global/list/hygiene_props = list()
 	if(istype(I, /obj/item/scanner/gas))
 		to_chat(user, SPAN_NOTICE("The water temperature seems to be [watertemp]."))
 		return
-
-	if(IS_WRENCH(I))
-		var/newtemp = input(user, "What setting would you like to set the temperature valve to?", "Water Temperature Valve") in temperature_settings
-		if(newtemp != watertemp && !QDELETED(I) && !QDELETED(user) && !QDELETED(src) && user.Adjacent(src) && I.loc == src)
-			to_chat(user, SPAN_NOTICE("You begin to adjust the temperature valve with \the [I]."))
-			playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
-			if(do_after(user, (5 SECONDS), src) && newtemp != watertemp)
-				watertemp = newtemp
-				user.visible_message(
-					SPAN_NOTICE("\The [user] adjusts \the [src] with \the [I]."),
-					SPAN_NOTICE("You adjust the shower with \the [I]."))
-				add_fingerprint(user)
-		return TRUE
 	. = ..()
+
+/obj/structure/hygiene/shower/handle_default_wrench_attackby(mob/user, obj/item/wrench)
+	if(length(temperature_settings) <= 1)
+		return FALSE //If no options, don't do anything.
+	var/newtemp = input(user, "What setting would you like to set the temperature valve to?", "Water Temperature Valve") in temperature_settings
+
+	//Sanity check after the user closes the input dialog.
+	if(QDELETED(wrench) || QDELETED(user) || QDELETED(src))
+		return TRUE
+	if(!CanPhysicallyInteractWith(user, src) || !wrench.CanUseTopic(user, global.inventory_topic_state))
+		return TRUE
+	if(newtemp == watertemp)
+		return TRUE
+
+	to_chat(user, SPAN_NOTICE("You begin to adjust the temperature valve with \the [wrench]."))
+	playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
+	if(do_after(user, (5 SECONDS), src) && newtemp != watertemp)
+		watertemp = newtemp
+		user.visible_message(
+			SPAN_NOTICE("\The [user] adjusts \the [src] with \the [wrench]."),
+			SPAN_NOTICE("You adjust the shower with \the [wrench]."))
+		add_fingerprint(user)
+	return TRUE
 
 /obj/structure/hygiene/shower/on_update_icon()
 	..()
@@ -316,7 +328,7 @@ var/global/list/hygiene_props = list()
 		next_mist = world.time + (25 SECONDS)
 
 /obj/structure/hygiene/shower/Process()
-	..()
+	. = ..()
 	if(on)
 		update_mist()
 		for(var/thing in loc.get_contained_external_atoms())
@@ -339,6 +351,18 @@ var/global/list/hygiene_props = list()
 			to_chat(H, SPAN_DANGER("The water is searing hot!"))
 		else if(water_temperature <= H.get_temperature_threshold(COLD_LEVEL_1))
 			to_chat(H, SPAN_DANGER("The water is freezing cold!"))
+
+/obj/structure/hygiene/shower/emergency
+	name = "emergency shower"
+	desc = "An emergency decontamination shower."
+	color = PIPE_COLOR_YELLOW
+	icon_state = "eshower"
+	internal_volume = 8
+	drainage = 0.8
+	temperature_settings = list("normal" = T20C) //Room/pipe temperature, but since the whole thing is hardcoded, set to 20c
+
+/obj/structure/hygiene/shower/emergency/handle_default_wrench_attackby(mob/user, obj/item/wrench)
+	return FALSE //Can't change the temperature
 
 /obj/item/bikehorn/rubberducky
 	name = "rubber ducky"

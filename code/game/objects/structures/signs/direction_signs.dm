@@ -118,3 +118,12 @@
 /obj/structure/sign/deck/fifth
 	name       = "\improper Fifth Deck"
 	icon_state = "deck-5"
+
+/////////////////////////////////////////////////////
+// Misc Signs Definition
+/////////////////////////////////////////////////////
+
+/obj/structure/sign/eshowers
+	name       = "\improper EMERGENCY SHOWERS"
+	icon       = 'icons/obj/signs/slim_location_signs.dmi'
+	icon_state = "eshowers"
