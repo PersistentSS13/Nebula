@@ -21,6 +21,7 @@
 #include "controllers\atoms.dm"
 #include "controllers\autotransfer.dm"
 #include "controllers\ticker.dm"
+#include "controllers\subsystems\air.dm"
 #include "controllers\subsystems\autosave.dm"
 #include "controllers\subsystems\mapping.dm"
 #include "controllers\subsystems\mining.dm"
