@@ -1,0 +1,6 @@
+SAVED_VAR(/obj/machinery/turret/network, check_access)
+SAVED_VAR(/obj/machinery/turret/network, check_weapons)
+SAVED_VAR(/obj/machinery/turret/network, check_records)
+SAVED_VAR(/obj/machinery/turret/network, check_arrest)
+SAVED_VAR(/obj/machinery/turret/network, check_lifeforms)
+SAVED_VAR(/obj/machinery/turret/network, logs)
