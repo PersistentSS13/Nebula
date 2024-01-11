@@ -336,6 +336,10 @@
 		return
 	copy.recipe = recipe
 	copy.is_copy = TRUE
+	copy.finalized = TRUE
+
+	copy.stored_data += " This design appears to be a copy of the original, and cannot be copied further."
+
 	return copy
 
 #undef MAX_THEORIES
