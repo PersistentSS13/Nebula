@@ -168,3 +168,8 @@
 
 /datum/fabricator_recipe/network_pos
 	path = /obj/item/network_pos
+/datum/fabricator_recipe/clothes_iron
+	path = /obj/item/ironingiron
+
+/datum/fabricator_recipe/ironing_board
+	path = /obj/item/roller/ironingboard
