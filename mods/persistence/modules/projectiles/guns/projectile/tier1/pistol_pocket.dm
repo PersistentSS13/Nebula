@@ -18,5 +18,5 @@
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
 	)
 
-/obj/item/gun/projectile/pistol_pocket/simple/empty
+/obj/item/gun/projectile/pistol/pistol_pocket/simple/empty
 	starts_loaded = FALSE
