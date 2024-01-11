@@ -45,7 +45,7 @@
 /turf/unsimulated/rock,
 /area/exoplanet/outreach/underground)
 "ak" = (
-/turf/exterior/volcanic/mining/outreach/abyss,
+/turf/exterior/rock/volcanic/mining/outreach/abyss,
 /area/exoplanet/outreach/underground/mines/access/b2)
 "al" = (
 /obj/structure/stairs/long/east,
@@ -144,7 +144,7 @@
 /turf/simulated/floor/plating/outreach,
 /area/exoplanet/outreach/underground/mines/access/b2)
 "ax" = (
-/turf/exterior/volcanic/outreach/abyss,
+/turf/exterior/rock/volcanic/outreach/abyss,
 /area/exoplanet/outreach/underground/mines/access/b2)
 "ay" = (
 /turf/exterior/wall/random/outreach/abyss,
