@@ -1972,6 +1972,7 @@
 /area/outreach/outpost/airlock/basement1/north)
 "er" = (
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/hygiene/drain,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement1/north)
 "es" = (
@@ -5389,6 +5390,7 @@
 /area/exoplanet/outreach/underground/d1)
 "ll" = (
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/hygiene/drain,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement1/south)
 "lm" = (
@@ -5917,9 +5919,14 @@
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/airlock{
 	id_tag = "OH_l2_n_alck_pump"
 	},
-/obj/machinery/light/small/red{
-	icon_state = "bulb_map";
-	dir = 4
+/obj/effect/floor_decal/industrial/hatch/blue,
+/obj/structure/hygiene/shower/emergency{
+	icon_state = "eshower";
+	dir = 8
+	},
+/obj/structure/sign/eshowers{
+	icon_state = "eshowers";
+	dir = 8
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement1/north)
@@ -6050,6 +6057,10 @@
 	},
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/airlock{
 	id_tag = "OH_l2_s_alck_pump_out_internal"
+	},
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 4
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement1/south)
@@ -6432,6 +6443,7 @@
 /area/outreach/outpost/airlock/basement1/west)
 "nd" = (
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/hygiene/drain,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement1/east)
 "ne" = (
@@ -6543,10 +6555,9 @@
 	dir = 8;
 	id_tag = "OH_l2_e_alck_pump"
 	},
-/obj/machinery/light/small/red{
-	icon_state = "bulb_map";
-	dir = 1
-	},
+/obj/structure/sign/eshowers,
+/obj/structure/hygiene/shower/emergency,
+/obj/effect/floor_decal/industrial/hatch/blue,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement1/east)
 "np" = (
@@ -6573,6 +6584,10 @@
 	dir = 1;
 	icon_state = "map_vent";
 	id_tag = "OH_l2_n_alck_pump_out_internal"
+	},
+/obj/machinery/light/small/red{
+	icon_state = "bulb_map";
+	dir = 8
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement1/north)
@@ -6648,10 +6663,16 @@
 	icon_state = "map_vent";
 	id_tag = "OH_l2_s_alck_pump"
 	},
-/obj/machinery/light/small{
-	icon_state = "bulb_map";
-	dir = 8
+/obj/structure/sign/eshowers{
+	icon_state = "eshowers";
+	dir = 4
 	},
+/obj/structure/hygiene/shower/emergency{
+	color = "#c9a344";
+	dir = 4;
+	icon_state = "eshower"
+	},
+/obj/effect/floor_decal/industrial/hatch/blue,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement1/south)
 "ny" = (
@@ -12021,6 +12042,7 @@
 	dir = 4;
 	id_tag = "OH_l2_e_alck_pump_out_internal"
 	},
+/obj/machinery/light/small/red,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement1/east)
 "wZ" = (

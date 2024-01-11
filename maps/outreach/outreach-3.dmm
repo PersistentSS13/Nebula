@@ -83,6 +83,25 @@
 "am" = (
 /turf/simulated/wall,
 /area/outreach/outpost/vacant/ground/swroom)
+"an" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/hygiene/drain,
+/obj/effect/floor_decal/industrial/hatch/blue,
+/obj/structure/hygiene/shower/emergency{
+	icon_state = "eshower";
+	dir = 4
+	},
+/obj/structure/sign/eshowers,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/north)
+"ao" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/machinery/suit_cycler/emergency/prepared{
+	locked = 0
+	},
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/north)
 "ap" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -112,15 +131,43 @@
 	},
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/east/eva)
-"at" = (
-/turf/simulated/wall,
-/area/outreach/outpost/maint/passage/ground/east/eva)
-"aw" = (
-/obj/machinery/alarm,
+"as" = (
+/obj/effect/decal/cleanable/dirt,
 /obj/machinery/suit_cycler/emergency/prepared{
 	locked = 0
 	},
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
+"at" = (
+/turf/simulated/wall,
+/area/outreach/outpost/maint/passage/ground/east/eva)
+"av" = (
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/hygiene/drain,
+/obj/effect/floor_decal/industrial/hatch/blue,
+/obj/structure/hygiene/shower/emergency{
+	icon_state = "eshower";
+	dir = 4
+	},
+/obj/structure/sign/eshowers{
+	icon_state = "eshowers";
+	dir = 1
+	},
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
+"aw" = (
+/obj/machinery/portable_atmospherics/canister/oxygen,
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 1
+	},
+/obj/machinery/atmospherics/portables_connector{
+	icon_state = "map_connector";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/floor_decal/industrial/outline/blue,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/north)
 "ax" = (
@@ -130,6 +177,20 @@
 	},
 /turf/simulated/floor/tiled/steel_ridged/airless,
 /area/outreach/outpost/storage_shed/gf/north)
+"ay" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/closet/emcloset,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/north)
+"az" = (
+/obj/item/radio/intercom{
+	icon_state = "intercom";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/closet/crate/internals,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/north)
 "aA" = (
 /obj/machinery/atmospherics/pipe/simple/visible/cyan{
 	icon_state = "11";
@@ -191,19 +252,84 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/power/ground)
+"aH" = (
+/obj/machinery/light/small,
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/rack/dark,
+/obj/item/storage/firstaid/toxin,
+/obj/item/storage/firstaid/o2,
+/obj/machinery/alarm{
+	icon_state = "alarm0";
+	dir = 4
+	},
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/north)
 "aI" = (
 /obj/machinery/light/small,
 /obj/effect/floor_decal/industrial/outline/yellow,
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/techfloor/airless,
 /area/outreach/outpost/storage_shed/gf/north)
-"aK" = (
-/obj/machinery/atmospherics/unary/vent_pump/on,
+"aJ" = (
+/obj/machinery/light_switch{
+	icon_state = "light0";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/north)
+"aK" = (
+/obj/machinery/atmospherics/unary/vent_pump/on,
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/north)
+"aL" = (
+/obj/machinery/power/apc{
+	icon_state = "apc0";
+	dir = 4
+	},
+/obj/structure/cable/yellow,
+/obj/structure/rack/dark,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/effect/decal/cleanable/dirt,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/north)
+"aM" = (
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 1
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/item/storage/firstaid/o2,
+/obj/item/storage/firstaid/toxin,
+/obj/structure/rack/dark,
+/obj/machinery/alarm{
+	icon_state = "alarm0";
+	dir = 4
+	},
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
 "aN" = (
 /turf/exterior/concrete,
 /area/exoplanet/outreach)
+"aO" = (
+/obj/machinery/light_switch,
+/obj/effect/decal/cleanable/dirt,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
 "aP" = (
 /obj/effect/floor_decal/industrial/warning,
 /obj/machinery/atmospherics/pipe/manifold/hidden/supply{
@@ -230,8 +356,61 @@
 	icon_state = "map-supply";
 	dir = 8
 	},
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/north)
+"aR" = (
+/obj/machinery/atmospherics/pipe/simple/hidden,
+/obj/structure/cable/yellow{
+	icon_state = "0-2"
+	},
+/obj/machinery/power/apc{
+	icon_state = "apc0";
+	dir = 4
+	},
+/obj/structure/rack/dark,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/item/tank/emergency/oxygen/double,
+/obj/effect/decal/cleanable/dirt,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/obj/item/clothing/mask/gas/budget,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
+"aS" = (
+/obj/item/radio/intercom{
+	icon_state = "intercom";
+	dir = 8
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/closet/crate/internals,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
+"aT" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/closet/emcloset,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
+"aU" = (
+/obj/machinery/light/small,
+/obj/machinery/portable_atmospherics/canister/oxygen,
+/obj/machinery/atmospherics/portables_connector{
+	icon_state = "map_connector";
+	dir = 4
+	},
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/floor_decal/industrial/outline/blue,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
 "aV" = (
 /obj/machinery/door/airlock/hatch/maintenance{
 	icon_state = "closed";
@@ -783,6 +962,10 @@
 	icon_state = "11-supply";
 	dir = 9
 	},
+/obj/machinery/alarm{
+	icon_state = "alarm0";
+	dir = 1
+	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/east/ground)
 "cq" = (
@@ -817,6 +1000,11 @@
 "cB" = (
 /turf/simulated/wall/concrete,
 /area/outreach/outpost/maint/power/ground)
+"cC" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/north)
 "cE" = (
 /obj/machinery/light_switch{
 	icon_state = "light0";
@@ -2050,25 +2238,6 @@
 /obj/effect/catwalk_plated,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/hallway/south/ground/business_wing)
-"ih" = (
-/obj/machinery/light_switch{
-	icon_state = "light0";
-	dir = 1
-	},
-/obj/structure/rack/dark,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/north)
 "ii" = (
 /obj/effect/floor_decal/industrial/warning/fulltile,
 /obj/machinery/door/blast/shutters/open{
@@ -2193,6 +2362,10 @@
 	id_tag = "OH_l3_e_alck_pump"
 	},
 /obj/effect/decal/cleanable/dirt,
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 8
+	},
 /turf/simulated/floor/reinforced,
 /area/outreach/outpost/airlock/ground)
 "je" = (
@@ -2339,6 +2512,7 @@
 	icon_state = "map-supply";
 	dir = 8
 	},
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/south)
 "kh" = (
@@ -2569,29 +2743,6 @@
 /obj/effect/catwalk_plated/dark,
 /turf/simulated/floor/plating/outreach,
 /area/exoplanet/outreach)
-"lF" = (
-/obj/machinery/atmospherics/pipe/simple/hidden,
-/obj/structure/cable/yellow{
-	icon_state = "0-2"
-	},
-/obj/machinery/power/apc{
-	icon_state = "apc0";
-	dir = 4
-	},
-/obj/structure/rack/dark,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
 "lH" = (
 /obj/structure/cable/yellow{
 	icon_state = "16-0"
@@ -2655,6 +2806,10 @@
 "mb" = (
 /turf/exterior/water/outreach,
 /area/exoplanet/outreach)
+"me" = (
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
 "mh" = (
 /obj/effect/floor_decal/industrial/warning{
 	icon_state = "stripe";
@@ -2770,26 +2925,6 @@
 "mZ" = (
 /turf/simulated/wall,
 /area/outreach/outpost/maint/passage/ground/north/hangar)
-"nb" = (
-/obj/machinery/power/apc{
-	icon_state = "apc0";
-	dir = 4
-	},
-/obj/structure/cable/yellow,
-/obj/structure/rack/dark,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/item/tank/emergency/oxygen/double,
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/north)
 "nc" = (
 /obj/machinery/atmospherics/unary/vent_scrubber/on,
 /turf/simulated/floor/plating,
@@ -3082,17 +3217,6 @@
 "pp" = (
 /turf/simulated/wall/ocp_wall/prepainted,
 /area/outreach/outpost/maint/passage/ground/north/hangar)
-"ps" = (
-/obj/machinery/light/small{
-	icon_state = "bulb_map";
-	dir = 1
-	},
-/obj/machinery/suit_cycler/emergency/prepared{
-	locked = 0
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
 "pt" = (
 /turf/simulated/wall,
 /area/outreach/outpost/stairwell/ground)
@@ -3202,11 +3326,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/reinforced/airless,
 /area/exoplanet/outreach)
-"pV" = (
-/obj/structure/closet,
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/north)
 "qd" = (
 /obj/effect/floor_decal/industrial/warning/dust{
 	icon_state = "warning_dust";
@@ -3870,6 +3989,10 @@
 	icon_state = "map_vent_out";
 	dir = 1
 	},
+/obj/structure/sign/eshowers{
+	icon_state = "eshowers";
+	dir = 1
+	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/east/ground)
 "vi" = (
@@ -4200,11 +4323,6 @@
 /obj/structure/disposalpipe/segment,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/vacant/ground/office4)
-"xw" = (
-/obj/structure/closet,
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
 "xy" = (
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
@@ -4510,17 +4628,6 @@
 	},
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/north/hangar)
-"zi" = (
-/obj/machinery/alarm{
-	icon_state = "alarm0";
-	dir = 1
-	},
-/obj/machinery/suit_cycler/emergency/prepared{
-	locked = 0
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
 "zp" = (
 /obj/effect/floor_decal/industrial/warning/dust/corner{
 	icon_state = "warningcorner_dust";
@@ -4567,7 +4674,7 @@
 /area/outreach/outpost/airlock/ground)
 "zR" = (
 /obj/machinery/atmospherics/unary/vent_scrubber/on,
-/obj/machinery/alarm,
+/obj/structure/sign/eshowers,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/east/ground)
 "zT" = (
@@ -4685,22 +4792,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/east/airlock)
-"AB" = (
-/obj/machinery/light_switch,
-/obj/structure/rack/dark,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/item/clothing/mask/gas/budget,
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
 "AE" = (
 /obj/structure/stairs/long,
 /obj/structure/railing/mapped/stairwell{
@@ -5159,6 +5250,7 @@
 /area/exoplanet/outreach)
 "DS" = (
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/hygiene/drain,
 /turf/simulated/floor/reinforced,
 /area/outreach/outpost/airlock/ground)
 "DV" = (
@@ -5418,14 +5510,6 @@
 /obj/effect/catwalk_plated/dark,
 /turf/simulated/floor/plating/outreach,
 /area/exoplanet/outreach)
-"Fy" = (
-/obj/machinery/light/small,
-/obj/machinery/suit_cycler/emergency/prepared{
-	locked = 0
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/north)
 "Fz" = (
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/reinforced/airless,
@@ -5794,6 +5878,10 @@
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/airlock{
 	dir = 1;
 	id_tag = "OH_l3_e_alck_pump_out_internal"
+	},
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 4
 	},
 /turf/simulated/floor/reinforced,
 /area/outreach/outpost/airlock/ground)
@@ -6261,6 +6349,7 @@
 	locked = 0
 	},
 /obj/effect/decal/cleanable/dirt,
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/south)
 "Lj" = (
@@ -6549,6 +6638,7 @@
 	locked = 0
 	},
 /obj/effect/decal/cleanable/dirt,
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/north)
 "MU" = (
@@ -6609,6 +6699,7 @@
 	icon_state = "map_vent_out";
 	dir = 1
 	},
+/obj/effect/floor_decal/industrial/hatch/yellow,
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/eva/gf/south)
 "Ny" = (
@@ -7509,15 +7600,6 @@
 /obj/machinery/atmospherics/unary/vent_pump/on,
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/atmos/ground)
-"TR" = (
-/obj/item/radio/intercom{
-	icon_state = "intercom";
-	dir = 8
-	},
-/obj/structure/closet,
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/north)
 "TS" = (
 /obj/effect/floor_decal/corner/grey/bordercorner{
 	icon_state = "bordercolorcorner";
@@ -7667,19 +7749,6 @@
 	},
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/maint/storage/ground)
-"UN" = (
-/obj/machinery/portable_atmospherics/canister/oxygen,
-/obj/machinery/light/small{
-	icon_state = "bulb_map";
-	dir = 1
-	},
-/obj/machinery/atmospherics/portables_connector{
-	icon_state = "map_connector";
-	dir = 4
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/north)
 "UO" = (
 /obj/machinery/light/small{
 	icon_state = "bulb_map";
@@ -7730,16 +7799,6 @@
 	},
 /turf/simulated/floor/reinforced/airless,
 /area/exoplanet/outreach)
-"Vd" = (
-/obj/machinery/light/small,
-/obj/machinery/portable_atmospherics/canister/oxygen,
-/obj/machinery/atmospherics/portables_connector{
-	icon_state = "map_connector";
-	dir = 4
-	},
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
 "Ve" = (
 /obj/machinery/door/firedoor/autoset,
 /obj/effect/wallframe_spawn/concrete,
@@ -7813,15 +7872,6 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled/steel_ridged/outreach,
 /area/exoplanet/outreach)
-"VR" = (
-/obj/item/radio/intercom{
-	icon_state = "intercom";
-	dir = 8
-	},
-/obj/structure/closet,
-/obj/effect/decal/cleanable/dirt,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
 "VV" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-2"
@@ -7899,11 +7949,19 @@
 /turf/simulated/floor/reinforced/airless,
 /area/exoplanet/outreach)
 "Ws" = (
-/obj/machinery/light/small,
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/airlock{
 	dir = 8;
 	id_tag = "OH_l3_e_alck_pump"
 	},
+/obj/structure/hygiene/shower/emergency{
+	icon_state = "eshower";
+	dir = 1
+	},
+/obj/structure/sign/eshowers{
+	icon_state = "eshowers";
+	dir = 1
+	},
+/obj/effect/floor_decal/industrial/hatch/blue,
 /turf/simulated/floor/reinforced,
 /area/outreach/outpost/airlock/ground)
 "Wv" = (
@@ -30200,21 +30258,21 @@ sC
 Kc
 mZ
 Ku
-aw
+an
+ao
 MQ
 MQ
-MQ
-Fy
+aH
 by
 zR
 Ti
 vf
 Gj
-ps
+aM
 Li
 Li
-Li
-zi
+as
+av
 cS
 vP
 jD
@@ -30403,7 +30461,7 @@ Cc
 mZ
 ul
 Eg
-Yu
+cC
 aK
 aQ
 hs
@@ -30415,7 +30473,7 @@ PQ
 SG
 ka
 Nv
-qk
+me
 IC
 yQ
 vP
@@ -30608,13 +30666,13 @@ Yu
 Eg
 bc
 if
-ih
+aJ
 by
 bB
 bW
 TZ
 Gj
-AB
+aO
 de
 Gk
 qk
@@ -30806,21 +30864,21 @@ sC
 MD
 mZ
 Ku
-UN
-pV
-TR
+aw
+ay
+az
 uo
-nb
+aL
 Ve
 DF
 bW
 UK
 cT
-lF
+aR
 yJ
-VR
-xw
-Vd
+aS
+aT
+aU
 cS
 vP
 xS
