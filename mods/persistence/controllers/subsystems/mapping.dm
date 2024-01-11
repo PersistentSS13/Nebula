@@ -14,6 +14,9 @@
 				PRINT_STACK_TRACE("Missing z-level data object for loaded z[num2text(z)]!")
 			level.setup_level_data(TRUE)
 		report_progress_serializer("Finished setting up level data for loaded z-levels!")
+
+		// Stopgap fix. We do this here rather than in SSair.Initialize because SSair may be rebooted.
+		SSair.cull_updated_turfs()
 	else
 		report_progress_serializer("No existing save found. Loading from map files..")
 #else
