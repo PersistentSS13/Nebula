@@ -143,7 +143,7 @@
 	color          = "#d9c179"
 	open_turf_type = /turf/exterior/open
 
-/turf/exterior/volcanic/mining/outreach/abyss
+/turf/exterior/rock/volcanic/mining/outreach/abyss
 	open_turf_type = /turf/exterior/open
 
 //Mining Walls
@@ -157,7 +157,7 @@
 
 /turf/exterior/wall/random/outreach/abyss
 	material   = /decl/material/solid/stone/slate
-	floor_type = /turf/exterior/volcanic/mining/outreach/abyss
+	floor_type = /turf/exterior/rock/volcanic/mining/outreach/abyss
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Surface Turfs
@@ -181,7 +181,7 @@
 	reagent_type   = /decl/material/liquid/acid/hydrochloric
 	open_turf_type = /turf/exterior/chlorine_sand/outreach //Don't allow just removing this easily
 
-/turf/exterior/volcanic/outreach/abyss
+/turf/exterior/rock/volcanic/outreach/abyss
 	open_turf_type = /turf/simulated/magma
 
 ///////////////////////////////////////////////////////////////////////////////////
