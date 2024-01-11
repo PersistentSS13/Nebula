@@ -23,5 +23,5 @@
 		list(mode_name="3-round bursts", burst=3, fire_delay=2, one_hand_penalty=1, burst_accuracy=list(1,0,-1),       dispersion=list(0.0, 1.6, 2.4, 2.4)),
 	)
 
-/obj/item/gun/projectile/pistol_pocket/advanced/empty
+/obj/item/gun/projectile/pistol/pistol_pocket/advanced/empty
 	starts_loaded = FALSE
