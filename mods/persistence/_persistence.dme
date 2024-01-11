@@ -65,6 +65,8 @@
 #include "game\machinery\doors\_door.dm"
 #include "game\machinery\doors\double.dm"
 #include "game\machinery\kitchen\gibber.dm"
+#include "game\machinery\turrets\_turrets.dm"
+#include "game\machinery\turrets\network_turret.dm"
 #include "game\objects\item_materials.dm"
 #include "game\objects\obj.dm"
 #include "game\objects\effects\effect_system.dm"
