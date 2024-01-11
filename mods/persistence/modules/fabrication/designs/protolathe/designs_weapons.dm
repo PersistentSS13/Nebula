@@ -17,7 +17,7 @@
 	path = /obj/item/gun/projectile/bolt_action/simple/empty
 
 /datum/fabricator_recipe/protolathe/weapon/tier1/pistol_pocket
-	path = /obj/item/gun/projectile/pistol_pocket/simple/empty
+	path = /obj/item/gun/projectile/pistol/pistol_pocket/simple/empty
 
 /datum/fabricator_recipe/protolathe/weapon/tier1/pistol
 	path = /obj/item/gun/projectile/pistol/simple/empty
@@ -53,7 +53,7 @@
 	path = /obj/item/gun/projectile/bolt_action/advanced/empty
 
 /datum/fabricator_recipe/protolathe/weapon/tier2/pistol_pocket
-	path = /obj/item/gun/projectile/pistol_pocket/advanced/empty
+	path = /obj/item/gun/projectile/pistol/pistol_pocket/advanced/empty
 
 /datum/fabricator_recipe/protolathe/weapon/tier2/pistol
 	path = /obj/item/gun/projectile/pistol/advanced/empty
