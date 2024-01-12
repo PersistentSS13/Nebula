@@ -147,7 +147,7 @@
 
 ///Runs after deserialize on all the loaded atoms.
 /datum/controller/subsystem/persistence/proc/_run_after_deserialize()
-	//Run after_deserialize on all atoms in the map.
+	//Run after_deserialize on all datums deserialized.
 	for(var/id in serializer.reverse_map)
 		var/datum/T
 		try
@@ -155,35 +155,6 @@
 			T.after_deserialize()
 		catch(var/exception/e)
 			_handle_recoverable_load_exception(e, "while running after_deserialize() on PID: '[id]'[!isnull(T)? ", '[T]'(\ref[T])([T.type])" : ""]")
-
-	//Since datums used as list value and list key are stored in another list, run after_deserialize() on them too
-	for(var/id in serializer.reverse_list_map)
-		var/list/_list
-		try
-			_list = serializer.reverse_list_map[id]
-			//#FIXME: If the keys in the list are numbers, this will be even slower than it is right now.
-			//        Since it'll runtime if a number is out of range of the list.
-			for(var/key in _list)
-				var/datum/K = key
-				if(istype(K, /datum))
-					try
-						K.after_deserialize()
-					catch(var/exception/e_list_key)
-						_handle_recoverable_load_exception(e_list_key, "while running after_deserialize() on key [__PRINT_KEY_DETAIL(K)], of list: [__PRINT_STRING_LIST_DETAIL(id, _list)]")
-
-				var/datum/V
-				try
-					V = _list[key] //#FIXME: We really need to get rid of this awful way to check list types.
-				catch
-					continue
-				if(istype(V, /datum))
-					try
-						V.after_deserialize()
-					catch(var/exception/e_list_value)
-						_handle_recoverable_load_exception(e_list_value, "while running after_deserialize() on value [__PRINT_VALUE_DETAIL(V)], for key [__PRINT_KEY_DETAIL(K)], of list: [__PRINT_STRING_LIST_DETAIL(id, _list)]")
-		catch(var/exception/e_list)
-			//Catch any sort of bad index error
-			_handle_recoverable_load_exception(e_list, "while running after_deserialize() on elements of list: [__PRINT_STRING_LIST_DETAIL(id, _list)]")
 
 ///Clean up limbo by removing any characters present in the gameworld. This may occur if the server does not save after
 ///a player enters limbo.
