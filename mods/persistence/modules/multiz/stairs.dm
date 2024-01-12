@@ -1,10 +1,10 @@
-/obj/machinery/door/airlock/double/before_save()
+/obj/structure/stairs/long/before_save()
 	. = ..()
 	if(isturf(loc))
 		var/turf/T = loc
 		CUSTOM_SV("primary_loc", "[T.x],[T.y],[T.z]")
 
-/obj/machinery/door/airlock/double/after_deserialize()
+/obj/structure/stairs/long/after_deserialize()
 	var/primary_loc_coords = LOAD_CUSTOM_SV("primary_loc")
 	var/list/coords = splittext(primary_loc_coords, ",")
 	if(!islist(coords) || length(coords) < 3)
