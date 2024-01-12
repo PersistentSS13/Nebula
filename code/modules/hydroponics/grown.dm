@@ -33,8 +33,6 @@
 	update_icon()
 
 /obj/item/chems/food/grown/initialize_reagents(populate)
-	if(reagents)
-		reagents.clear_reagents()
 	if(!seed?.chems)
 		return
 	potency = seed.get_trait(TRAIT_POTENCY)
