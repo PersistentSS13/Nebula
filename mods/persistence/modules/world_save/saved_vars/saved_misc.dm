@@ -657,6 +657,8 @@ SAVED_VAR(/obj/item/clothing/accessory/badge/tags, owner_name)
 SAVED_VAR(/obj/item/clothing/accessory/badge/tags, owner_branch)
 SAVED_VAR(/obj/item/clothing/accessory/badge/tags, desc)
 
+SAVED_VAR(/obj/item/flame/lighter, reagents)
+
 ///////////////////////////////////////////////////////////////////////////////
 // item/clothing
 ///////////////////////////////////////////////////////////////////////////////

@@ -10,6 +10,7 @@
 	base_turf           = OUTREACH_SURFACE_TURF
 	loop_turf_type      = /turf/exterior/mimic_edge/transition/loop
 	border_filler       = /turf/unsimulated/dark_border
+	strata              = /decl/strata/outreach/mountain
 	ambient_light_level = 0.7
 	ambient_light_color = COLOR_GREEN_GRAY
 	exterior_atmos_temp = OUTREACH_TEMP
@@ -34,6 +35,7 @@
 	level_id            = OUTREACH_LEVEL_ID_UNDERGROUND
 	base_turf           = /turf/exterior/barren/subterrane/outreach
 	base_area           = /area/exoplanet/outreach/underground/d1
+	strata              = /decl/strata/outreach/subterrane
 	ambient_light_level = 0.2
 	ambient_light_color = COLOR_YELLOW_GRAY
 	border_filler       = /turf/unsimulated/mineral
@@ -48,6 +50,7 @@
 	level_id         = OUTREACH_LEVEL_ID_ABYSS
 	base_turf        = /turf/exterior/rock/volcanic/outreach/abyss
 	base_area        = /area/exoplanet/outreach/underground/d2
+	strata           = /decl/strata/outreach/abyssal
 	connected_levels = list(
 		OUTREACH_LEVEL_ID_UNDERGROUND = UP,
 		OUTREACH_LEVEL_ID_SOUTH_ABYSS = SOUTH,
