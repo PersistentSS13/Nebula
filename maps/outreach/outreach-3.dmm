@@ -1000,11 +1000,6 @@
 "cB" = (
 /turf/simulated/wall/concrete,
 /area/outreach/outpost/maint/power/ground)
-"cC" = (
-/obj/effect/decal/cleanable/dirt,
-/obj/effect/floor_decal/industrial/hatch/yellow,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/north)
 "cE" = (
 /obj/machinery/light_switch{
 	icon_state = "light0";
@@ -1999,6 +1994,10 @@
 	},
 /turf/simulated/floor/tiled/steel_ridged,
 /area/outreach/outpost/hallway/south/ground/business_wing)
+"gM" = (
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/south)
 "gN" = (
 /obj/machinery/atmospherics/unary/vent_pump/on{
 	icon_state = "map_vent_out";
@@ -2197,6 +2196,11 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/exterior/concrete,
 /area/exoplanet/outreach)
+"ic" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/turf/simulated/floor/tiled/steel_grid,
+/area/outreach/outpost/eva/gf/north)
 "id" = (
 /obj/structure/cable/yellow{
 	icon_state = "1-8"
@@ -2806,10 +2810,6 @@
 "mb" = (
 /turf/exterior/water/outreach,
 /area/exoplanet/outreach)
-"me" = (
-/obj/effect/floor_decal/industrial/hatch/yellow,
-/turf/simulated/floor/tiled/steel_grid,
-/area/outreach/outpost/eva/gf/south)
 "mh" = (
 /obj/effect/floor_decal/industrial/warning{
 	icon_state = "stripe";
@@ -30461,7 +30461,7 @@ Cc
 mZ
 ul
 Eg
-cC
+ic
 aK
 aQ
 hs
@@ -30473,7 +30473,7 @@ PQ
 SG
 ka
 Nv
-me
+gM
 IC
 yQ
 vP

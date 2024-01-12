@@ -46,7 +46,7 @@
 /datum/level_data/planetoid/outreach/underground/abyss
 	name             = "Outreach Depths"
 	level_id         = OUTREACH_LEVEL_ID_ABYSS
-	base_turf        = /turf/exterior/volcanic/outreach/abyss
+	base_turf        = /turf/exterior/rock/volcanic/outreach/abyss
 	base_area        = /area/exoplanet/outreach/underground/d2
 	connected_levels = list(
 		OUTREACH_LEVEL_ID_UNDERGROUND = UP,
@@ -61,7 +61,7 @@
 	level_id         = OUTREACH_LEVEL_ID_SOUTH_ABYSS
 	level_flags      = ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_MINING | ZLEVEL_SAVED | ZLEVEL_SEALED
 	level_gen_type   = /datum/random_map/automata/cave_system/outreach/abyss
-	base_turf        = /turf/exterior/volcanic/mining/outreach/abyss
+	base_turf        = /turf/exterior/rock/volcanic/mining/outreach/abyss
 	base_area        = /area/exoplanet/outreach/underground/mines/b2
 	connected_levels = list(
 		OUTREACH_LEVEL_ID_SOUTH_UNDERGROUND = UP,

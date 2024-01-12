@@ -1,5 +1,4 @@
 /turf/exterior/barren/mining
-/turf/exterior/volcanic/mining
 
 /datum/random_map/automata/cave_system/outreach
 	floor_type = /turf/exterior/barren/mining
