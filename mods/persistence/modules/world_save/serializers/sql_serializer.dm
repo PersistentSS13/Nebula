@@ -126,12 +126,6 @@ var/global/list/serialization_time_spent_type
 #endif
 		return existing
 
-	//locs check, to make sure we're saving a multi-tile object only on its original turf
-	if(isturf(object_parent) && ismovable(object))
-		var/atom/movable/am = object
-		if(length(am.locs) > 1 && (am.loc != object_parent))
-			return
-
 	var/time_before_serialize = REALTIMEOFDAY
 	// Thing didn't exist. Create it.
 	var/p_i = object.persistent_id ? object.persistent_id : PERSISTENT_ID
@@ -334,7 +328,7 @@ var/global/list/serialization_time_spent_type
 				KV = flattener.SerializeDatum(KV)
 			else
 				KT = SERIALIZER_TYPE_DATUM
-				KV = SerializeDatum(KV)
+				KV = SerializeDatum(KV, list_parent)
 		else
 #ifdef SAVE_DEBUG
 			to_world_log("(SerializeListElem-Skip) Unknown Key. Value: [key]")
@@ -381,7 +375,7 @@ var/global/list/serialization_time_spent_type
 					EV = flattener.SerializeDatum(EV)
 				else
 					ET = SERIALIZER_TYPE_DATUM
-					EV = SerializeDatum(EV)
+					EV = SerializeDatum(EV, list_parent)
 			else
 				// Don't know what this is. Skip it.
 #ifdef SAVE_DEBUG

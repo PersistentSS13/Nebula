@@ -201,6 +201,7 @@
 #include "modules\modular_computers\networking\machines\area_controller.dm"
 #include "modules\modular_computers\networking\machines\telecomms.dm"
 #include "modules\multiz\level_data.dm"
+#include "modules\multiz\stairs.dm"
 #include "modules\organs\organs.dm"
 #include "modules\organs\external\_external_saving.dm"
 #include "modules\organs\external\head.dm"
