@@ -54,6 +54,8 @@
 #include "game\area\area_space.dm"
 #include "game\area\areas.dm"
 #include "game\gamemodes\persistence.dm"
+#include "game\machinery\biogenerator.dm"
+#include "game\objects\items\cubes.dm"
 #include "game\machinery\cryopod.dm"
 #include "game\machinery\machinery.dm"
 #include "game\machinery\mantrap.dm"

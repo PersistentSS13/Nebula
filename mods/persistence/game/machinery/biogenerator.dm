@@ -1,0 +1,40 @@
+/obj/machinery/biogenerator/Initialize()
+	. = ..()
+
+// remove and replace existing lists and their contents with persistence-friendly material
+	products = list(
+		"Food" = list(
+			/obj/item/chems/drinks/milk/smallcarton = 50,                   // 30u milk
+			/obj/item/chems/drinks/milk = 80,                               // 50u milk
+			/obj/item/chems/food/meat/syntiflesh = 100,                     // this can only be used for cutlets
+			/obj/item/chems/food/egg = 50,                                  // 3u egg yolk
+			/obj/item/storage/fancy/egg_box = 450),                         // 1 free egg
+		"Nutrients" = list(                                                 // this needs names really bad. you cant tell what's what until you get it.
+			/obj/item/chems/glass/bottle/eznutrient = 60,
+			/obj/item/chems/glass/bottle/left4zed = 100,
+			/obj/item/chems/glass/bottle/robustharvest = 120),
+		"Botanical Supplies" = list(
+			/obj/item/clothing/gloves/thick/botany = 250,                   // these are necessary for some plants so arent required via tailoring
+			/obj/item/storage/plants = 300,                                 // i would put this in tailoring but botany is hell without it
+			/obj/item/chems/spray/plantbgone = 250,                         // no chem reaction for this. needs to be. but keep this in here even if there is.
+			/obj/item/grenade/chem_grenade/antiweed = 1000),                // let them have fun, i say!
+		"Textiles" = list(
+			/obj/item/stack/material/bolt/mapped/cloth = 150,               // only source of cloth currently
+			/obj/item/stack/material/bolt/mapped/cloth/ten = 1500,
+//			/obj/item/stack/material/bolt/mapped/lace = 200,                // useless currently
+//			/obj/item/stack/material/bolt/mapped/lace/ten = 2000,
+//			/obj/item/stack/material/bolt/mapped/silk = 300,                // useless currently
+//			/obj/item/stack/material/bolt/mapped/silk/ten = 3000,
+			/obj/item/stack/material/skin/mapped/synthleather =300,         // only souce of synthleather
+			/obj/item/stack/material/skin/mapped/synthleather/ten =3000,
+			/obj/item/stack/material/skin/mapped/leather = 300,             // only source of leather w/o violence
+			/obj/item/stack/material/skin/mapped/leather/ten = 3000),
+		"Livestock" = list(
+			/obj/item/chems/food/monkeycube = 1000,                         // only source of monkey cubes
+			/obj/item/storage/box/monkeycubes = 5000,                       // free monkey cube included
+			/obj/item/chems/food/meat/goat = 2000,                 // one slice of poultry, currently does not give an animal
+			/obj/item/chems/food/meat/goat = 2000,                  // one slice of beef, currently does not give an animal
+			/obj/item/chems/food/meat/goat = 2000,                    // one slice of chevon, currently does not give an animal
+			/obj/item/bee_pack = 5000,                                      // one-time use to produce a bee queen and her hive in an apiary frame
+			/obj/item/honey_frame = 1000,                                   // wood is still necessary to build the apiary
+			/obj/item/bee_smoker = 3000))                                   // high price for permanent item
