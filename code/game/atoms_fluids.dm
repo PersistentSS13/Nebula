@@ -2,8 +2,8 @@
 	return
 
 /atom/proc/fluid_act(var/datum/reagents/fluids)
-	fluids.touch(src)
-	if(reagents && fluids.total_volume >= FLUID_SHALLOW && ATOM_IS_OPEN_CONTAINER(src))
+	SHOULD_CALL_PARENT(TRUE)
+	if(reagents && fluids?.total_volume >= FLUID_SHALLOW && ATOM_IS_OPEN_CONTAINER(src))
 		reagents.trans_to_holder(fluids, reagents.total_volume)
 		fluids.trans_to_holder(reagents, min(fluids.total_volume, reagents.maximum_volume))
 
@@ -32,7 +32,7 @@
 		if(!istype(T))
 			return FALSE
 		depth = T.get_fluid_depth()
-	if(istype(loc, /mob))
+	if(ismob(loc))
 		return depth >= FLUID_SHALLOW
 	if(isturf(loc))
 		return depth >= 3

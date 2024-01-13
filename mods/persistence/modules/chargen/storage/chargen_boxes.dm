@@ -5,7 +5,7 @@
 	icon_state = "box"
 	item_state = "syringe_kit"
 
-	material = /decl/material/solid/cardboard
+	material = /decl/material/solid/organic/cardboard
 
 	var/startswith = list()
 	var/used = FALSE

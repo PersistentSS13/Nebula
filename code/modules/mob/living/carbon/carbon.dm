@@ -15,7 +15,6 @@
 	QDEL_NULL(touching)
 	QDEL_NULL(bloodstr)
 	reagents = null //We assume reagents is a reference to bloodstr here
-	delete_organs()
 	QDEL_NULL_LIST(hallucinations)
 	if(loc)
 		for(var/mob/M in contents)
@@ -303,14 +302,6 @@
 /mob/living/carbon/proc/can_devour(atom/movable/victim)
 	return FALSE
 
-/mob/living/carbon/can_feel_pain(var/check_organ)
-	if(isSynthetic())
-		return FALSE
-	return !(species && species.species_flags & SPECIES_FLAG_NO_PAIN)
-
-/mob/living/carbon/proc/need_breathe()
-	return
-
 /mob/living/carbon/check_has_mouth()
 	// carbon mobs have mouths by default
 	// behavior of this proc for humans is overridden in human.dm
@@ -327,35 +318,16 @@
 /mob/living/carbon/get_max_hydration()
 	return 400
 
-/mob/living/carbon/proc/set_nutrition(var/amt)
-	nutrition = clamp(amt, 0, get_max_nutrition())
-
-/mob/living/carbon/get_nutrition(var/amt)
-	return nutrition
-
-/mob/living/carbon/adjust_nutrition(var/amt)
-	set_nutrition(nutrition + amt)
-
-/mob/living/carbon/get_hydration(var/amt)
-	return hydration
-
-/mob/living/carbon/proc/set_hydration(var/amt)
-	hydration = clamp(amt, 0, get_max_hydration())
-
-/mob/living/carbon/adjust_hydration(var/amt)
-	set_hydration(hydration + amt)
-
-/mob/living/carbon/has_dexterity(var/dex_level)
-	. = ..() && (species.get_manual_dexterity() >= dex_level)
-
 /mob/living/carbon/fluid_act(var/datum/reagents/fluids)
+	..()
+	if(QDELETED(src) || !fluids?.total_volume || !touching)
+		return
 	var/saturation =  min(fluids.total_volume, round(mob_size * 1.5 * reagent_permeability()) - touching.total_volume)
 	if(saturation > 0)
 		fluids.trans_to_holder(touching, saturation)
-	if(fluids.total_volume)
-		..()
 
 /mob/living/carbon/get_species()
+	RETURN_TYPE(/decl/species)
 	return species
 
 /mob/living/carbon/get_species_name()

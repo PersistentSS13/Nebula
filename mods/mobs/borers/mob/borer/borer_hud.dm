@@ -15,14 +15,14 @@
 
 /datum/hud/borer/FinalizeInstantiation()
 	hud_intent_selector =  new
-	adding = list(hud_intent_selector)
+	adding += hud_intent_selector
 	hud_inject_chemicals = new
 	hud_leave_host =       new
 	borer_hud_elements = list(
 		hud_inject_chemicals,
 		hud_leave_host
 	)
-	if(istype(mymob, /mob/living/simple_animal/borer))
+	if(isborer(mymob))
 		var/mob/living/simple_animal/borer/borer = mymob
 		if(!borer.neutered)
 			hud_toggle_control = new
@@ -33,9 +33,8 @@
 		if(istype(borer) && borer.host)
 			for(var/obj/thing in borer_hud_elements)
 				thing.alpha =        255
-				thing.invisibility = 0
-		if(mymob.client)
-			mymob.client.screen |= adding
+				thing.set_invisibility(INVISIBILITY_NONE)
+	..()
 
 /mob/living/simple_animal/borer
 	hud_type = /datum/hud/borer
@@ -53,7 +52,7 @@
 	invisibility = INVISIBILITY_MAXIMUM
 
 /obj/screen/borer/Click(location, control, params)
-	if(!istype(usr, /mob/living/simple_animal/borer))
+	if(!isborer(usr))
 		return FALSE
 	if(usr.stat == DEAD)
 		return FALSE

@@ -4,8 +4,8 @@
 	desc = "There is no candy at the bottom."
 	icon = 'icons/obj/quicksand.dmi'
 	icon_state = "open"
-	density = 0
-	anchored = 1
+	density = FALSE
+	anchored = TRUE
 	can_buckle = 1
 	buckle_dir = SOUTH
 	var/exposed = 0
@@ -83,12 +83,13 @@
 	else
 		..()
 
-/obj/effect/quicksand/Crossed(var/atom/movable/AM)
-	if(isliving(AM))
-		var/mob/living/L = AM
-		if(L.throwing || L.can_overcome_gravity())
-			return
-		buckle_mob(L)
-		if(!exposed)
-			expose()
-		to_chat(L, SPAN_DANGER("You fall into \the [src]!"))
+/obj/effect/quicksand/Crossed(atom/movable/AM)
+	if(!isliving(AM))
+		return
+	var/mob/living/L = AM
+	if(L.throwing || L.can_overcome_gravity())
+		return
+	buckle_mob(L)
+	if(!exposed)
+		expose()
+	to_chat(L, SPAN_DANGER("You fall into \the [src]!"))

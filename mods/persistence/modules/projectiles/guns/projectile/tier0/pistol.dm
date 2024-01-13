@@ -6,7 +6,7 @@
 	force = 5
 	accuracy = 0
 	one_hand_penalty = 2
-	origin_tech = "{'combat':3,'engineering':2,'materials':2}"
+	origin_tech = "{'combat':2,'engineering':1,'materials':1}"
 	caliber = CALIBER_22LR
 	ammo_indicator = FALSE
 	w_class = ITEM_SIZE_NORMAL
@@ -14,7 +14,7 @@
 	allowed_magazines = /obj/item/ammo_magazine/twentytwolr
 	material = /decl/material/solid/metal/steel
 	matter = list(
-		/decl/material/solid/wood = MATTER_AMOUNT_REINFORCEMENT
+		/decl/material/solid/organic/wood = MATTER_AMOUNT_REINFORCEMENT
 	)
 
 /obj/item/gun/projectile/pistol/handmade/empty

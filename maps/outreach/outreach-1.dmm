@@ -4,10 +4,10 @@
 /area/exoplanet/outreach/underground/d2)
 "ab" = (
 /obj/effect/mine/kick,
-/turf/exterior/volcanic/outreach/abyss,
+/turf/exterior/rock/volcanic/outreach/abyss,
 /area/exoplanet/outreach/underground/d2)
 "ac" = (
-/turf/exterior/volcanic/outreach/abyss,
+/turf/exterior/rock/volcanic/outreach/abyss,
 /area/exoplanet/outreach/underground/d2)
 "ad" = (
 /obj/structure/cable/yellow{
@@ -1442,7 +1442,7 @@
 /area/outreach/outpost/hallway/central/basement2)
 "do" = (
 /obj/effect/decal/cleanable/dirt,
-/turf/exterior/volcanic/outreach/abyss,
+/turf/exterior/rock/volcanic/outreach/abyss,
 /area/exoplanet/outreach/underground/d2)
 "dp" = (
 /obj/structure/cable/yellow{
@@ -1553,7 +1553,7 @@
 /obj/machinery/geothermal{
 	dir = 8
 	},
-/turf/exterior/volcanic/outreach/abyss,
+/turf/exterior/rock/volcanic/outreach/abyss,
 /area/outreach/outpost/engineering/b2/geothermals)
 "dz" = (
 /obj/machinery/door/airlock/glass/civilian{
@@ -1674,7 +1674,7 @@
 /obj/machinery/geothermal{
 	dir = 4
 	},
-/turf/exterior/volcanic/outreach/abyss,
+/turf/exterior/rock/volcanic/outreach/abyss,
 /area/outreach/outpost/engineering/b2/geothermals)
 "dL" = (
 /obj/structure/cable/yellow{
@@ -2112,17 +2112,13 @@
 /obj/structure/cable/yellow{
 	icon_state = "4-8"
 	},
-/obj/structure/sign/warning/airlock{
-	pixel_y = 32
-	},
-/obj/machinery/light/small{
-	icon_state = "bulb_map";
-	dir = 1
-	},
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/airlock{
 	dir = 8;
 	id_tag = "OH_l1_e_alck_pump"
 	},
+/obj/structure/sign/eshowers,
+/obj/structure/hygiene/shower/emergency,
+/obj/effect/floor_decal/industrial/hatch/blue,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement2)
 "eG" = (
@@ -2350,6 +2346,10 @@
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/airlock{
 	dir = 1;
 	id_tag = "OH_l1_e_alck_pump"
+	},
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 8
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement2)
@@ -2586,6 +2586,10 @@
 "fB" = (
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/airlock{
 	id_tag = "OH_l1_e_alck_pump_out_internal"
+	},
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 4
 	},
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement2)
@@ -2925,6 +2929,7 @@
 /area/outreach/outpost/hallway/south/basement2)
 "gg" = (
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/hygiene/drain,
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/airlock/basement2)
 "gh" = (
@@ -3105,7 +3110,7 @@
 /area/outreach/outpost/hallway/west/basement2)
 "gC" = (
 /obj/effect/decal/cleanable/dirt,
-/turf/exterior/volcanic/outreach/abyss,
+/turf/exterior/rock/volcanic/outreach/abyss,
 /area/outreach/outpost/engineering/b2/geothermals)
 "gD" = (
 /obj/structure/cable/yellow{
@@ -4306,7 +4311,7 @@
 /area/outreach/outpost/stairwell/basement2)
 "je" = (
 /obj/effect/geyser,
-/turf/exterior/volcanic/outreach/abyss,
+/turf/exterior/rock/volcanic/outreach/abyss,
 /area/exoplanet/outreach/underground/d2)
 "jf" = (
 /turf/exterior/wall/outreach/abyss,
@@ -5064,7 +5069,7 @@
 "kH" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/decal/cleanable/dirt,
-/turf/exterior/volcanic/outreach/abyss,
+/turf/exterior/rock/volcanic/outreach/abyss,
 /area/exoplanet/outreach/underground/d2)
 "kI" = (
 /obj/effect/floor_decal/industrial/fire/corner,

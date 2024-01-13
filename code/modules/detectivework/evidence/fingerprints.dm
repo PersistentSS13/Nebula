@@ -62,8 +62,9 @@
 		ignore_gloves = 1
 
 	if(!ignore_gloves)
-		var/obj/item/cover = M.get_covering_equipped_item(M.get_active_held_item_slot())
-		if(cover)
+		var/datum/inventory_slot/gripper/holding_with = M.get_inventory_slot_datum(M.get_active_held_item_slot())
+		var/obj/item/cover = istype(holding_with) && M.get_covering_equipped_item(holding_with.covering_slot_flags)
+		if(istype(cover))
 			cover.add_fingerprint(M, 1)
 			return
 
@@ -82,18 +83,17 @@
 	return TRUE
 
 // Mob fingerprint getters
-/mob/proc/get_full_print()
-	return FALSE
+/mob/proc/get_full_print(ignore_blockers)
+	return null
 
-/mob/living/carbon/get_full_print()
-	if (!dna || (mFingerprints in mutations))
-		return FALSE
-	return md5(dna.uni_identity)
+/mob/living/get_full_print(var/ignore_blockers = FALSE)
+	if(!ignore_blockers)
+		var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, get_active_held_item_slot())
+		if(E)
+			return E.get_fingerprint()
+	return fingerprint
 
-/mob/living/carbon/human/get_full_print()
-	if(!..())
-		return FALSE
-
-	var/obj/item/organ/external/E = GET_EXTERNAL_ORGAN(src, get_active_held_item_slot())
-	if(E)
-		return E.get_fingerprint()
+/mob/living/carbon/get_full_print(var/ignore_blockers = FALSE)
+	if (!ignore_blockers && (mFingerprints in mutations))
+		return null
+	return ..()

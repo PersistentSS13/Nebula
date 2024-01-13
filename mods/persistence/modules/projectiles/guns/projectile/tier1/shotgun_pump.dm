@@ -15,7 +15,7 @@
 	one_hand_penalty = 10
 	material = /decl/material/solid/metal/steel
 	matter = list(
-		/decl/material/solid/wood = MATTER_AMOUNT_TRACE,
+		/decl/material/solid/organic/wood = MATTER_AMOUNT_TRACE,
 		/decl/material/solid/metal/titanium = MATTER_AMOUNT_TRACE
 	)
 

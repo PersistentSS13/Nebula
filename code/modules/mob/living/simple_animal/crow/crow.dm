@@ -6,7 +6,7 @@
 	storage_slots = 7
 	w_class = ITEM_SIZE_SMALL
 	max_w_class = ITEM_SIZE_SMALL
-	material = /decl/material/solid/cloth
+	material = /decl/material/solid/organic/cloth
 
 /mob/living/simple_animal/crow
 	name = "crow"
@@ -41,9 +41,9 @@
 	messenger_bag = new(src)
 	update_icon()
 
-/mob/living/simple_animal/crow/GetIdCards()
+/mob/living/simple_animal/crow/GetIdCards(list/exceptions)
 	. = ..()
-	if (istype(access_card))
+	if (istype(access_card) && !is_type_in_list(access_card, exceptions))
 		LAZYDISTINCTADD(., access_card)
 
 /mob/living/simple_animal/crow/show_stripping_window(var/mob/user)

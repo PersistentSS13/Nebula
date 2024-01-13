@@ -1,0 +1,11 @@
+SAVED_VAR(/obj/machinery/turret, enabled)
+SAVED_VAR(/obj/machinery/turret, installed_gun)
+SAVED_VAR(/obj/machinery/turret, traverse)
+SAVED_VAR(/obj/machinery/turret, turning_rate)
+SAVED_VAR(/obj/machinery/turret, vision_range)
+SAVED_VAR(/obj/machinery/turret, default_bearing)
+
+/obj/machinery/turret/Initialize()
+	if(persistent_id && istype(installed_gun))
+		setup_gun()
+	. = ..()

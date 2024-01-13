@@ -35,14 +35,14 @@
 		return
 	global_objectives = list()
 	for(var/mob/living/carbon/human/player in SSmobs.mob_list)
-		if(!player.mind || player.stat==2 || !(player.mind.assigned_role in SSjobs.titles_by_department(command_department_id)))
+		if(!player.mind || player.stat == DEAD || !(player.mind.assigned_role in SSjobs.titles_by_department(command_department_id)))
 			continue
 		var/datum/objective/rev/rev_obj = new
 		rev_obj.target = player.mind
 		rev_obj.explanation_text = "Assassinate, capture or convert [player.real_name], the [player.mind.assigned_role]."
 		global_objectives += rev_obj
 
-/decl/special_role/revolutionary/equip(var/mob/living/carbon/human/player)
+/decl/special_role/revolutionary/equip_role(var/mob/living/carbon/human/player)
 	. = ..()
 	if(.)
 		spawn_uplink(player)

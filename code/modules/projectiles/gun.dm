@@ -92,9 +92,11 @@
 	var/last_fire_message_time
 
 /obj/item/gun/Initialize()
-	. = ..()
+	// must have firemodes initialized prior to any update_icon_calls
+	// including reconsider_single_icon(), which is done in ..()
 	for(var/i in 1 to firemodes.len)
 		firemodes[i] = new /datum/firemode(src, firemodes[i])
+	. = ..()
 	if(isnull(scoped_accuracy))
 		scoped_accuracy = accuracy
 	if(scope_zoom)
@@ -159,7 +161,7 @@
 		if(has_safety && M.skill_check(SKILL_WEAPONS,SKILL_BASIC))
 			add_overlay(image('icons/obj/guns/gui.dmi',"safety[safety()]"))
 		if(src in M.get_held_items())
-			M.update_inv_hands()
+			M.update_inhand_overlays()
 	if(safety_icon)
 		add_overlay(get_safety_indicator())
 
@@ -178,7 +180,7 @@
 //Otherwise, if you want handle_click_empty() to be called, check in consume_next_projectile() and return null there.
 /obj/item/gun/proc/special_check(var/mob/user)
 
-	if(!istype(user, /mob/living))
+	if(!isliving(user))
 		return 0
 	if(!user.check_dexterity(DEXTERITY_WEAPONS))
 		return 0
@@ -489,7 +491,7 @@
 
 	//shooting while in shock
 	var/shock_dispersion = 0
-	if(istype(firer, /mob/living/carbon/human))
+	if(ishuman(firer))
 		var/mob/living/carbon/human/mob = firer
 		if(mob.shock_stage > 120)
 			shock_dispersion = rand(-4,4)
@@ -628,9 +630,9 @@
 		. = 1
 
 /obj/item/gun/attack_self(mob/user)
-	var/datum/firemode/new_mode = switch_firemodes(user)
+	var/datum/firemode/new_mode = switch_firemodes()
 	if(prob(20) && !user.skill_check(SKILL_WEAPONS, SKILL_BASIC))
-		new_mode = switch_firemodes(user)
+		new_mode = switch_firemodes()
 	if(new_mode)
 		to_chat(user, "<span class='notice'>\The [src] is now set to [new_mode.name].</span>")
 
@@ -651,12 +653,6 @@
 	set name = "Toggle Gun Safety"
 	if(usr == loc)
 		toggle_safety(usr)
-
-/obj/item/gun/CtrlClick(var/mob/user)
-	if(loc == user)
-		toggle_safety(user)
-		return TRUE
-	. = ..()
 
 /obj/item/gun/proc/safety()
 	return has_safety && safety_state
@@ -717,3 +713,15 @@
 	if(get_active_hand() != autofiring || incapacitated())
 		return FALSE
 	return TRUE
+
+/obj/item/gun/get_alt_interactions(mob/user)
+	. = ..()
+	LAZYADD(., /decl/interaction_handler/toggle_safety)
+
+/decl/interaction_handler/toggle_safety
+	name = "Toggle Gun Safety"
+	expected_target_type = /obj/item/gun
+
+/decl/interaction_handler/toggle_safety/invoked(atom/target, mob/user, obj/item/prop)
+	var/obj/item/gun/gun = target
+	gun.toggle_safety(user)

@@ -1,5 +1,5 @@
 /obj/item/clothing/Initialize()
-	// Call on_attached on each accessory to allow for the addition of verbs etc. 
+	// Call on_attached on each accessory to allow for the addition of verbs etc.
 	if(persistent_id)
 		if(islist(starting_accessories))
 			starting_accessories.Cut()
@@ -16,7 +16,6 @@
 SAVED_VAR(/obj/item/clothing, tint)
 SAVED_VAR(/obj/item/clothing, accessories)
 SAVED_VAR(/obj/item/clothing, ironed_state)
-SAVED_VAR(/obj/item/clothing, smell_state)
 
 //Underwears are dumb
 SAVED_VAR(/obj/item/underwear, icon)

@@ -40,8 +40,8 @@ Skill books that increase your skills while you activate and hold them
 	force = 4
 	w_class = ITEM_SIZE_LARGE            // Skill books are THICC with knowledge. Up one level from regular books to prevent library-in-a-bag silliness.
 	unique = TRUE
-	material = /decl/material/solid/plastic
-	matter = list(/decl/material/solid/wood = MATTER_AMOUNT_REINFORCEMENT)
+	material = /decl/material/solid/organic/plastic
+	matter = list(/decl/material/solid/organic/wood = MATTER_AMOUNT_REINFORCEMENT)
 	abstract_type = /obj/item/book/skill
 
 	var/decl/hierarchy/skill/skill       // e.g. SKILL_LITERACY
@@ -130,18 +130,15 @@ Skill books that increase your skills while you activate and hold them
 
 	return TRUE
 
-/obj/item/book/skill/attack_self(mob/user)
-	return try_to_read(user) || ..()
-
 /obj/item/book/skill/verb/read_book()
 	set name = "Read Book"
 	set category = "Object"
 	set src in view(1)
 	try_to_read(usr)
 
-/obj/item/book/skill/proc/try_to_read(mob/user)
+/obj/item/book/skill/try_to_read(mob/user)
 
-	if(istype(user, /mob/observer))
+	if(isobserver(user))
 		to_chat(user, SPAN_WARNING("Ghosts can't read! Go away!"))
 		return TRUE
 
@@ -206,9 +203,6 @@ Skill books that increase your skills while you activate and hold them
 	global.events_repository.unregister(/decl/observ/moved, src, src)
 	remove_buff()
 	. = ..()
-
-/obj/item/book/skill/get_codex_value()
-	return "textbook"
 
 ////////////////////////////////
 //THIS IS WHERE THE BOOKS LIVE//

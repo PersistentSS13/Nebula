@@ -10,6 +10,7 @@
 	base_turf           = OUTREACH_SURFACE_TURF
 	loop_turf_type      = /turf/exterior/mimic_edge/transition/loop
 	border_filler       = /turf/unsimulated/dark_border
+	strata              = /decl/strata/outreach/mountain
 	ambient_light_level = 0.7
 	ambient_light_color = COLOR_GREEN_GRAY
 	exterior_atmos_temp = OUTREACH_TEMP
@@ -34,6 +35,7 @@
 	level_id            = OUTREACH_LEVEL_ID_UNDERGROUND
 	base_turf           = /turf/exterior/barren/subterrane/outreach
 	base_area           = /area/exoplanet/outreach/underground/d1
+	strata              = /decl/strata/outreach/subterrane
 	ambient_light_level = 0.2
 	ambient_light_color = COLOR_YELLOW_GRAY
 	border_filler       = /turf/unsimulated/mineral
@@ -46,8 +48,9 @@
 /datum/level_data/planetoid/outreach/underground/abyss
 	name             = "Outreach Depths"
 	level_id         = OUTREACH_LEVEL_ID_ABYSS
-	base_turf        = /turf/exterior/volcanic/outreach/abyss
+	base_turf        = /turf/exterior/rock/volcanic/outreach/abyss
 	base_area        = /area/exoplanet/outreach/underground/d2
+	strata           = /decl/strata/outreach/abyssal
 	connected_levels = list(
 		OUTREACH_LEVEL_ID_UNDERGROUND = UP,
 		OUTREACH_LEVEL_ID_SOUTH_ABYSS = SOUTH,
@@ -59,8 +62,9 @@
 /datum/level_data/planetoid/outreach/underground/abyss/south
 	name             = "Outreach Southern Abyss"
 	level_id         = OUTREACH_LEVEL_ID_SOUTH_ABYSS
+	level_flags      = ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_MINING | ZLEVEL_SAVED | ZLEVEL_SEALED
 	level_gen_type   = /datum/random_map/automata/cave_system/outreach/abyss
-	base_turf        = /turf/exterior/volcanic/mining/outreach/abyss
+	base_turf        = /turf/exterior/rock/volcanic/mining/outreach/abyss
 	base_area        = /area/exoplanet/outreach/underground/mines/b2
 	connected_levels = list(
 		OUTREACH_LEVEL_ID_SOUTH_UNDERGROUND = UP,
@@ -70,6 +74,7 @@
 /datum/level_data/planetoid/outreach/underground/south
 	name             = "Outreach Southern Underground"
 	level_id         = OUTREACH_LEVEL_ID_SOUTH_UNDERGROUND
+	level_flags      = ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_MINING | ZLEVEL_SAVED | ZLEVEL_SEALED
 	level_gen_type   = /datum/random_map/automata/cave_system/outreach/subterrane
 	base_turf        = /turf/exterior/barren/mining/outreach/subterrane
 	base_area        = /area/exoplanet/outreach/underground/mines/b1
@@ -82,7 +87,7 @@
 /datum/level_data/planetoid/outreach/south
 	name             = "Outreach Southern Mountain"
 	level_id         = OUTREACH_LEVEL_ID_SOUTH_MOUNTAIN
-	level_flags      = ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_MINING | ZLEVEL_SEALED | ZLEVEL_SAVED
+	level_flags      = ZLEVEL_CONTACT | ZLEVEL_PLAYER | ZLEVEL_MINING | ZLEVEL_SAVED | ZLEVEL_SEALED
 	level_gen_type   = /datum/random_map/automata/cave_system/outreach/mountain
 	base_turf        = /turf/exterior/barren/mining/outreach/mountain
 	base_area        = /area/exoplanet/outreach/underground/mines/gf

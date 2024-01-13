@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/pistol_pocket/simple
+/obj/item/gun/projectile/pistol/pistol_pocket/simple
 	name = ".22LR 'Rimfire' HG"
 	desc = "Pistol of ancient design. Small enough to store in pockets, but struggles in combat due to weak caliber. Chambered in .22LR."
 	icon = 'mods/persistence/icons/obj/guns/tier1/pistol_pocket.dmi'
@@ -14,9 +14,9 @@
 	allowed_magazines = /obj/item/ammo_magazine/twentytwolr
 	material = /decl/material/solid/metal/steel
 	matter = list(
-		/decl/material/solid/wood = MATTER_AMOUNT_REINFORCEMENT,
+		/decl/material/solid/organic/wood = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
 	)
 
-/obj/item/gun/projectile/pistol_pocket/simple/empty
+/obj/item/gun/projectile/pistol/pistol_pocket/simple/empty
 	starts_loaded = FALSE

@@ -85,7 +85,6 @@
 
 	sdisabilities = 0
 	if(host)
-		blinded = host.blinded
 		set_status(STAT_BLIND, GET_STATUS(host, STAT_BLIND))
 		set_status(STAT_BLURRY, GET_STATUS(host, STAT_BLURRY))
 		if(host.sdisabilities & BLINDED)
@@ -93,7 +92,6 @@
 		if(host.sdisabilities & DEAFENED)
 			sdisabilities |= DEAFENED
 	else
-		blinded =    FALSE
 		set_status(STAT_BLIND, 0)
 		set_status(STAT_BLURRY, 0)
 
@@ -157,7 +155,7 @@
 
 	if(!host || !controlling) return
 
-	if(istype(host,/mob/living/carbon/human))
+	if(ishuman(host))
 		var/mob/living/carbon/human/H = host
 		var/obj/item/organ/external/head = GET_EXTERNAL_ORGAN(H, BP_HEAD)
 		LAZYREMOVE(head.implants, src)
@@ -219,8 +217,8 @@
 	var/datum/hud/borer/borer_hud = hud_used
 	if(istype(borer_hud))
 		for(var/obj/thing in borer_hud.borer_hud_elements)
-			thing.alpha =        0
-			thing.invisibility = INVISIBILITY_MAXIMUM
+			thing.alpha = 0
+			thing.set_invisibility(INVISIBILITY_ABSTRACT)
 
 	if(!host) return
 

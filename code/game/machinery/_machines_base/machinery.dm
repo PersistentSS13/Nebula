@@ -400,7 +400,7 @@ Class Procs:
 
 /obj/machinery/CouldUseTopic(var/mob/user)
 	..()
-	if(clicksound && istype(user, /mob/living/carbon))
+	if(clicksound && iscarbon(user))
 		playsound(src, clicksound, clickvol)
 
 /obj/machinery/proc/display_parts(mob/user)
@@ -444,7 +444,7 @@ Class Procs:
 // This is really pretty crap and should be overridden for specific machines.
 /obj/machinery/fluid_act(var/datum/reagents/fluids)
 	..()
-	if(!(stat & (NOPOWER|BROKEN)) && !waterproof && (fluids.total_volume > FLUID_DEEP))
+	if(!QDELETED(src) && !(stat & (NOPOWER|BROKEN)) && !waterproof && (fluids?.total_volume > FLUID_DEEP))
 		explosion_act(3)
 
 /obj/machinery/Move()
@@ -459,15 +459,6 @@ Class Procs:
 	var/obj/item/stock_parts/power/battery/battery = get_component_of_type(/obj/item/stock_parts/power/battery)
 	if(battery && (!functional_only || battery.is_functional()))
 		return battery.get_cell()
-
-/obj/machinery/building_cost()
-	. = ..()
-	var/list/component_types = types_of_component(/obj/item/stock_parts)
-	for(var/path in component_types)
-		var/obj/item/stock_parts/part = get_component_of_type(path)
-		var/list/part_costs = part.building_cost()
-		for(var/key in part_costs)
-			.[key] += part_costs[key] * component_types[path]
 
 /obj/machinery/emag_act(remaining_charges, mob/user, emag_source)
 	. = ..()
@@ -489,8 +480,12 @@ Class Procs:
 // This only includes external atoms by default, so we need to add components back.
 /obj/machinery/get_contained_matter()
 	. = ..()
-	for(var/obj/component in component_parts)
-		. = MERGE_ASSOCS_WITH_NUM_VALUES(., component.get_contained_matter())
+	var/list/component_types = types_of_component(/obj/item/stock_parts)
+	for(var/path in component_types)
+		for(var/obj/item/stock_parts/part in get_all_components_of_type(path))
+			var/list/part_costs = part.get_contained_matter()
+			for(var/key in part_costs)
+				.[key] += part_costs[key] * component_types[path]
 
 /obj/machinery/proc/get_auto_access()
 	var/area/A = get_area(src)
@@ -503,3 +498,10 @@ Class Procs:
 /obj/machinery/proc/set_id_tag(var/new_id_tag)
 	id_tag = new_id_tag
 	//#TODO: Add handling for components, when we're sure it will work for any kind of machinery. Some machines do not use the same id_tag on receiver and transmitters for example.
+
+// Make sure that mapped subtypes get the right codex entry.
+/obj/machinery/get_codex_value()
+	return base_type || ..()
+
+/obj/machinery/solvent_can_melt(var/solvent_power = MAT_SOLVENT_STRONG)
+	return FALSE

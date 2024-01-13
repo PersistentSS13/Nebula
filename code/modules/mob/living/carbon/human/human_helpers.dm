@@ -183,7 +183,10 @@
 	return istype(get_equipped_item(slot_l_ear_str), /obj/item/radio/headset) || istype(get_equipped_item(slot_r_ear_str), /obj/item/radio/headset)
 
 /mob/living/carbon/human/welding_eyecheck()
-	var/obj/item/organ/internal/eyes/E = get_organ(species.vision_organ, /obj/item/organ/internal/eyes)
+	var/vision_organ = get_bodytype()?.vision_organ
+	if(!vision_organ)
+		return
+	var/obj/item/organ/internal/eyes/E = get_organ(vision_organ, /obj/item/organ/internal/eyes)
 	if(!E)
 		return
 	var/safety = eyecheck()
@@ -213,8 +216,8 @@
 			to_chat(src, "<span class='warning'>Your eyes are really starting to hurt. This can't be good for you!</span>")
 		if (E.damage >= E.min_bruised_damage)
 			to_chat(src, "<span class='danger'>You go blind!</span>")
-			set_status(STAT_BLIND, 5)
-			set_status(STAT_BLURRY, 5)
+			SET_STATUS_MAX(src, STAT_BLIND, 5)
+			SET_STATUS_MAX(src, STAT_BLURRY, 5)
 			disabilities |= NEARSIGHTED
 			spawn(100)
 				disabilities &= ~NEARSIGHTED

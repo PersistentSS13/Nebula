@@ -95,9 +95,7 @@
 /turf/simulated/floor/airless,
 /area/exoplanet/outreach/sky)
 "ap" = (
-/obj/effect/shuttle_landmark/automatic/clearing{
-	radius = 4
-	},
+/obj/effect/shuttle_landmark/automatic,
 /turf/simulated/floor/airless,
 /area/exoplanet/outreach/sky)
 "au" = (
@@ -232,6 +230,10 @@
 	dir = 2;
 	icon_state = "map_vent";
 	id_tag = "OH_l4_e_alck_pump_out_internal"
+	},
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 4
 	},
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/airlock/floor1)
@@ -425,6 +427,7 @@
 	icon_state = "4-8"
 	},
 /obj/effect/decal/cleanable/dirt,
+/obj/structure/hygiene/drain,
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/airlock/floor1)
 "bB" = (
@@ -1360,6 +1363,10 @@
 	id_tag = "OH_l4_e_alck_pump"
 	},
 /obj/structure/cable/white,
+/obj/machinery/light/small{
+	icon_state = "bulb_map";
+	dir = 8
+	},
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/airlock/floor1)
 "rd" = (
@@ -2808,13 +2815,21 @@
 /turf/simulated/floor/tiled/techmaint,
 /area/outreach/outpost/maint/power/f1)
 "PM" = (
-/obj/machinery/light/small,
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/airlock{
 	dir = 1;
 	icon_state = "map_vent";
 	id_tag = "OH_l4_e_alck_pump_out_internal"
 	},
 /obj/effect/decal/cleanable/dirt,
+/obj/effect/floor_decal/industrial/hatch/blue,
+/obj/structure/hygiene/shower/emergency{
+	icon_state = "eshower";
+	dir = 1
+	},
+/obj/structure/sign/eshowers{
+	icon_state = "eshowers";
+	dir = 1
+	},
 /turf/simulated/floor/tiled/techfloor,
 /area/outreach/outpost/airlock/floor1)
 "PV" = (

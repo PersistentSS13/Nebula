@@ -11,6 +11,10 @@
 	announced = FALSE
 	forced_spawnpoint = /decl/spawnpoint/chargen
 
+// Currently, we don't want colonists to spawn with cash on hand, so we return 0 credits.
+/datum/job/colonist/create_cash_on_hand(var/mob/living/carbon/human/H, var/datum/money_account/M)
+	return 0
+
 /decl/hierarchy/outfit/job/kleibkhar
 	name = "Job - Kleibkhar Colonist"
 	id_type = /obj/item/card/id/network

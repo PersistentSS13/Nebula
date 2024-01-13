@@ -46,7 +46,7 @@
 							/decl/material/solid/metal/copper,
 							/decl/material/solid/metal/gold,
 							/decl/material/solid/metal/aluminium,
-							/decl/material/solid/plastic,
+							/decl/material/solid/organic/plastic,
 							/decl/material/solid/metal/silver
 	)
 	spec_type = SPEC_RECIPE

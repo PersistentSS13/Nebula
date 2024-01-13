@@ -31,7 +31,7 @@
 
 	//non-verbal languages are garbled if you can't see the speaker. Yes, this includes if they are inside a closet.
 	if (language && (language.flags & LANG_FLAG_NONVERBAL))
-		if (!speaker || (src.sdisabilities & BLINDED || src.blinded) || !(speaker in view(src)))
+		if (!speaker || is_blind() || !(speaker in view(src)))
 			message = stars(message)
 
 	var/understands_language = say_understands(speaker, language)
@@ -91,7 +91,7 @@
 	var/time = say_timestamp()
 	to_chat(src, "[time] [message]")
 
-/mob/proc/hear_radio(var/message, var/verb="says", var/decl/language/language=null, var/part_a, var/part_b, var/part_c, var/mob/speaker = null, var/hard_to_hear = 0, var/vname ="")
+/mob/proc/hear_radio(var/message, var/verb="says", var/decl/language/language=null, var/part_a, var/part_b, var/part_c, var/mob/speaker = null, var/hard_to_hear = 0, var/vname ="", var/vsource)
 
 	if(!client)
 		return
@@ -104,12 +104,12 @@
 
 	//non-verbal languages are garbled if you can't see the speaker. Yes, this includes if they are inside a closet.
 	if (language && (language.flags & LANG_FLAG_NONVERBAL))
-		if (!speaker || (src.sdisabilities & BLINDED || src.blinded) || !(speaker in view(src)))
+		if (!speaker || is_blind() || !(speaker in view(src)))
 			message = stars(message)
 
 	if(!(language && (language.flags & LANG_FLAG_INNATE))) // skip understanding checks for LANG_FLAG_INNATE languages
 		if(!say_understands(speaker,language))
-			if(istype(speaker,/mob/living/simple_animal))
+			if(isanimal(speaker))
 				var/mob/living/simple_animal/S = speaker
 				if(S.speak && S.speak.len)
 					message = pick(S.speak)
@@ -129,7 +129,7 @@
 
 	var/speaker_name = vname ? vname : speaker.name
 
-	if(istype(speaker, /mob/living/carbon/human))
+	if(ishuman(speaker))
 		var/mob/living/carbon/human/H = speaker
 		if(H.voice && !vname)
 			speaker_name = H.voice
@@ -139,7 +139,7 @@
 
 	var/changed_voice
 
-	if(istype(src, /mob/living/silicon/ai) && !hard_to_hear)
+	if(isAI(src) && !hard_to_hear)
 		var/jobname // the mob's "job"
 		var/mob/living/carbon/human/impersonating //The crew member being impersonated, if any.
 
@@ -174,7 +174,7 @@
 			jobname = "AI"
 		else if (isrobot(speaker))
 			jobname = "Robot"
-		else if (istype(speaker, /mob/living/silicon/pai))
+		else if (ispAI(speaker))
 			jobname = "Personal AI"
 		else
 			jobname = "Unknown"
@@ -218,25 +218,27 @@
 		var/mob/living/carbon/human/H = src
 		if(istype(H) && H.has_headset_in_ears() && prob(20))
 			to_chat(src, SPAN_WARNING("You feel your headset vibrate but can hear nothing from it!"))
+	else if(vsource)
+		on_hear_radio(part_a, speaker_name, track, part_b, part_c, formatted, " <small>\[[vsource]\]</small>")
 	else
-		on_hear_radio(part_a, speaker_name, track, part_b, part_c, formatted)
+		on_hear_radio(part_a, speaker_name, track, part_b, part_c, formatted, null)
 
 /proc/say_timestamp()
 	return "<span class='say_quote'>\[[stationtime2text()]\]</span>"
 
-/mob/proc/on_hear_radio(part_a, speaker_name, track, part_b, part_c, formatted)
-	to_chat(src, "[part_a][speaker_name][part_b][formatted][part_c]")
+/mob/proc/on_hear_radio(part_a, speaker_name, track, part_b, part_c, formatted, vsource)
+	to_chat(src, "[part_a][speaker_name][vsource][part_b][formatted][part_c]")
 
-/mob/observer/ghost/on_hear_radio(part_a, speaker_name, track, part_b, part_c, formatted)
-	to_chat(src, "[part_a][track][part_b][formatted][part_c]")
+/mob/observer/ghost/on_hear_radio(part_a, speaker_name, track, part_b, part_c, formatted, vsource)
+	to_chat(src, "[part_a][track][vsource][part_b][formatted][part_c]")
 
-/mob/living/silicon/on_hear_radio(part_a, speaker_name, track, part_b, part_c, formatted)
+/mob/living/silicon/on_hear_radio(part_a, speaker_name, track, part_b, part_c, formatted, vsource)
 	var/time = say_timestamp()
-	to_chat(src, "[time][part_a][speaker_name][part_b][formatted][part_c]")
+	to_chat(src, "[time][part_a][speaker_name][vsource][part_b][formatted][part_c]")
 
-/mob/living/silicon/ai/on_hear_radio(part_a, speaker_name, track, part_b, part_c, formatted)
+/mob/living/silicon/ai/on_hear_radio(part_a, speaker_name, track, part_b, part_c, formatted, vsource)
 	var/time = say_timestamp()
-	to_chat(src, "[time][part_a][track][part_b][formatted][part_c]")
+	to_chat(src, "[time][part_a][track][vsource][part_b][formatted][part_c]")
 
 /mob/proc/hear_signlang(var/message, var/verb = "gestures", var/decl/language/language, var/mob/speaker = null)
 	if(!client)

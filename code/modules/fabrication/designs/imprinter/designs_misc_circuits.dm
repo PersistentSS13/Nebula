@@ -341,6 +341,9 @@
 /datum/fabricator_recipe/imprinter/circuit/washer
 	path = /obj/item/stock_parts/circuitboard/washer
 
+/datum/fabricator_recipe/imprinter/circuit/autoclave
+	path = /obj/item/stock_parts/circuitboard/autoclave
+
 /datum/fabricator_recipe/imprinter/circuit/microwave
 	path = /obj/item/stock_parts/circuitboard/microwave
 

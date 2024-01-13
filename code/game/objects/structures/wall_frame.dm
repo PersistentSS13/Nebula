@@ -6,10 +6,10 @@
 	desc = "A low wall section which serves as the base of windows, amongst other things."
 	icon = 'icons/obj/structures/wall_frame.dmi'
 	icon_state = "frame"
-	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_CLIMBABLE | ATOM_FLAG_CAN_BE_PAINTED | ATOM_FLAG_ADJACENT_EXCEPTION
+	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_CLIMBABLE | ATOM_FLAG_ADJACENT_EXCEPTION
 	obj_flags = OBJ_FLAG_MOVES_UNSUPPORTED
-	anchored = 1
-	density = 1
+	anchored = TRUE
+	density = TRUE
 	throwpass = 1
 	layer = TABLE_LAYER
 	rad_resistance_modifier = 0.5

@@ -77,7 +77,7 @@
 	iterations = 5
 	descriptor = "outreach abyssal caves"
 	wall_type =  /turf/exterior/wall/outreach/abyss
-	floor_type = /turf/exterior/volcanic/mining/outreach/abyss
+	floor_type = /turf/exterior/rock/volcanic/mining/outreach/abyss
 	mineral_turf = /turf/exterior/wall/random/outreach/abyss
 
 /datum/random_map/automata/cave_system/outreach/subterrane
@@ -91,17 +91,15 @@
 	iterations = 5
 	descriptor = "outreach mountain caves"
 	wall_type =  /turf/exterior/wall/outreach/mountain
-	floor_type = /turf/exterior/volcanic/mining
+	floor_type = /turf/exterior/rock/volcanic/mining
 	mineral_turf = /turf/exterior/wall/random/outreach/mountain
 
 //////////////////////////////////////////////////////////////////////////
 // Strata
 //////////////////////////////////////////////////////////////////////////
-/decl/strata/outreach
-	default_strata_candidate = TRUE
-
 /decl/strata/outreach/abyssal
 	name = "metamorphic rock"
+	default_strata_candidate = TRUE
 	base_materials = list(
 		/decl/material/solid/stone/granite,
 		/decl/material/solid/stone/basalt,
@@ -128,6 +126,7 @@
 
 /decl/strata/outreach/subterrane
 	name = "igneous rock"
+	default_strata_candidate = TRUE
 	base_materials = list(
 		/decl/material/solid/stone/granite,
 		/decl/material/solid/stone/basalt,
@@ -163,6 +162,7 @@
 
 /decl/strata/outreach/mountain
 	name = "mountain rock"
+	default_strata_candidate = TRUE
 	base_materials = list(
 		/decl/material/solid/stone/granite,
 		/decl/material/solid/stone/sandstone,

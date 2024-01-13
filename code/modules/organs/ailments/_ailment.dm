@@ -21,12 +21,14 @@
 	var/treated_by_chem_effect_strength = 1 // How strong must the chemical effect be to cure this ailment?
 
 	// Fluff strings
-	var/initial_ailment_message = "Your $ORGAN$ doesn't feel quite right..."                // Shown in New()
+	var/initial_ailment_message = "Your $ORGAN$ $ORGAN_DOES$n't feel quite right..."        // Shown in New()
 	var/third_person_treatment_message = "$USER$ treats $TARGET$'s ailment with $ITEM$."    // Shown when treating other with an item.
 	var/self_treatment_message = "$USER$ treats $USER_HIS$ ailment with $ITEM$."            // Shown when treating self with an item.
 	var/medication_treatment_message = "Your ailment abates."                               // Shown when treated by a metabolized reagent or CE_X effect.
 	var/manual_diagnosis_string  /* ex: "$USER_HIS$ $ORGAN$ has something wrong with it" */ // Shown when grab-diagnosed by a doctor. Leave null to be undiagnosable.
 	var/scanner_diagnosis_string /* ex: "Significant swelling" */                           // Shown on the handheld and body scanners. Leave null to be undiagnosable.
+
+	var/hidden_from_codex = FALSE
 
 /datum/ailment/New(var/obj/item/organ/_organ)
 	..()
@@ -39,7 +41,7 @@
 /datum/ailment/proc/can_apply_to(var/obj/item/organ/_organ)
 	if(specific_organ_subtype && !istype(_organ, specific_organ_subtype))
 		return FALSE
-	if(affects_robotics != !!(BP_IS_PROSTHETIC(organ)))
+	if(affects_robotics != !!(BP_IS_PROSTHETIC(_organ)))
 		return FALSE
 	if(length(applies_to_organ) && !(_organ?.organ_tag in applies_to_organ))
 		return FALSE
@@ -81,6 +83,9 @@
 		. = replacetext(., "$TARGET$", "\the [target]")
 	if(organ)
 		. = replacetext(., "$ORGAN$", organ.name)
+		var/decl/pronouns/organ_pronouns = get_pronouns_by_gender(organ.gender)
+		. = replacetext(., "$ORGAN_DOES$", organ_pronouns.does)
+		. = replacetext(., "$ORGAN_IS$", organ_pronouns.is)
 	. = capitalize(trim(.))
 
 /datum/ailment/proc/was_treated_by_item(var/obj/item/treatment, var/mob/user, var/mob/target)
@@ -96,7 +101,7 @@
 
 	if(istype(treatment, /obj/item/stack))
 		var/obj/item/stack/stack = treatment
-		stack.use(1)
+		stack.use(treated_by_item_cost)
 	qdel(src)
 
 /datum/ailment/proc/treated_by_medication(var/reagent_type, var/dosage)

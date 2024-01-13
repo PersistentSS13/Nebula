@@ -32,8 +32,9 @@
 	var/obj/screen/move_intent
 	var/obj/screen/stamina/stamina_bar
 
-	var/list/adding
-	var/list/other
+	var/list/adding = list()
+	var/list/other = list()
+	var/list/hud_elements = list()
 	var/list/obj/screen/hotkeybuttons
 
 	var/obj/screen/action_button/hide_toggle/hide_actions_toggle
@@ -59,10 +60,10 @@
 
 /datum/hud/proc/update_stamina()
 	if(mymob && stamina_bar)
-		stamina_bar.invisibility = INVISIBILITY_MAXIMUM
+		stamina_bar.set_invisibility(INVISIBILITY_MAXIMUM)
 		var/stamina = mymob.get_stamina()
 		if(stamina < 100)
-			stamina_bar.invisibility = 0
+			stamina_bar.set_invisibility(INVISIBILITY_NONE)
 			stamina_bar.icon_state = "prog_bar_[FLOOR(stamina/5)*5][(stamina >= 5) && (stamina <= 25) ? "_fail" : null]"
 
 /datum/hud/proc/hide_inventory()
@@ -99,6 +100,7 @@
 			continue
 
 		// We're not showing anything, hide it.
+		gear.reconsider_client_screen_presence(mymob?.client, slot)
 		if(!show_hud)
 			inv_slot.hide_slot()
 		else
@@ -111,7 +113,21 @@
 	return FALSE
 
 /datum/hud/proc/FinalizeInstantiation()
-	return
+	SHOULD_CALL_PARENT(TRUE)
+	BuildInventoryUI()
+	if(mymob.client)
+		mymob.client.screen = list()
+		if(length(hand_hud_objects))
+			mymob.client.screen |= hand_hud_objects
+		if(length(swaphand_hud_objects))
+			mymob.client.screen |= swaphand_hud_objects
+		if(length(hud_elements))
+			mymob.client.screen |= hud_elements
+		if(length(adding))
+			mymob.client.screen |= adding
+		if(length(hotkeybuttons))
+			mymob.client.screen |= hotkeybuttons
+	hide_inventory()
 
 /datum/hud/proc/get_ui_style()
 	return ui_style2icon(mymob?.client?.prefs?.UI_style) || 'icons/mob/screen/white.dmi'
@@ -130,26 +146,36 @@
 
 	// Build held item boxes for missing slots.
 	var/list/held_slots = mymob.get_held_item_slots()
+
+	// Sort our slots for display.
+	var/list/gripper_datums = list()
 	for(var/hand_tag in held_slots)
+		gripper_datums += mymob.get_inventory_slot_datum(hand_tag)
+	gripper_datums = sortTim(gripper_datums, /proc/cmp_gripper_asc)
+
+	for(var/datum/inventory_slot/inv_slot in gripper_datums)
+
+		// Re-order the held slot list so it aligns with the display order.
+		var/hand_tag = inv_slot.slot_id
+		held_slots -= hand_tag
+		held_slots += hand_tag
+
 		var/obj/screen/inventory/inv_box
 		for(var/obj/screen/inventory/existing_box in hand_hud_objects)
 			if(existing_box.slot_id == hand_tag)
 				inv_box = existing_box
 				break
 		if(!inv_box)
-			inv_box = new /obj/screen/inventory()
-		var/datum/inventory_slot/inv_slot = mymob.get_inventory_slot_datum(hand_tag)
+			inv_box = new /obj/screen/inventory(null, mymob)
 		inv_box.SetName(hand_tag)
 		inv_box.icon = ui_style
 		inv_box.icon_state = "hand_base"
 
 		inv_box.cut_overlays()
-		inv_box.add_overlay("hand_[hand_tag]")
+		inv_box.add_overlay("hand_[hand_tag]", TRUE)
 		if(inv_slot.ui_label)
-			inv_box.add_overlay("hand_[inv_slot.ui_label]")
-		if(mymob.get_active_held_item_slot() == hand_tag)
-			inv_box.add_overlay("hand_selected")
-		inv_box.compile_overlays()
+			inv_box.add_overlay("hand_[inv_slot.ui_label]", TRUE)
+		inv_box.update_icon()
 
 		inv_box.slot_id = hand_tag
 		inv_box.color = ui_color
@@ -224,7 +250,7 @@
 		if(gear_slot in held_slots)
 			continue
 
-		inv_box = new /obj/screen/inventory()
+		inv_box = new /obj/screen/inventory(null, mymob)
 		inv_box.icon =  ui_style
 		inv_box.color = ui_color
 		inv_box.alpha = ui_alpha
@@ -275,7 +301,7 @@
 	var/list/held_slots = mymob.get_held_item_slots()
 	if(length(held_slots) > 1)
 
-		using = new /obj/screen/inventory()
+		using = new /obj/screen/inventory(null, mymob)
 		using.SetName("hand")
 		using.icon = ui_style
 		using.icon_state = "hand1"
@@ -284,7 +310,7 @@
 		src.adding += using
 		LAZYADD(swaphand_hud_objects, using)
 
-		using = new /obj/screen/inventory()
+		using = new /obj/screen/inventory(null, mymob)
 		using.SetName("hand")
 		using.icon = ui_style
 		using.icon_state = "hand2"
@@ -309,8 +335,6 @@
 		return
 
 	if(!client) return
-	if(client.view != world.view)
-		return
 	if(hud_used.hud_shown)
 		hud_used.hud_shown = 0
 		if(src.hud_used.adding)

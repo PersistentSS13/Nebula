@@ -8,7 +8,7 @@ var/global/list/hygiene_props = list()
 	var/drainage = 0.5
 	var/last_gurgle = 0
 
-/obj/structure/hygiene/Initialize()
+/obj/structure/hygiene/Initialize(ml, _mat, _reinf_mat)
 	. = ..()
 	global.hygiene_props += src
 	START_PROCESSING(SSobj, src)
@@ -100,8 +100,8 @@ var/global/list/hygiene_props = list()
 	desc = "The HT-451, a torque rotation-based, waste disposal unit for small matter. This one seems remarkably clean."
 	icon = 'icons/obj/watercloset.dmi'
 	icon_state = "toilet00"
-	density = 0
-	anchored = 1
+	density = FALSE
+	anchored = TRUE
 	tool_interaction_flags = TOOL_INTERACTION_ANCHOR
 
 	var/open = 0			//if the lid is up
@@ -115,7 +115,7 @@ var/global/list/hygiene_props = list()
 	update_icon()
 
 /obj/structure/hygiene/toilet/attack_hand(var/mob/user)
-	if(!user.check_dexterity(DEXTERITY_GRIP, TRUE))
+	if(!user.check_dexterity(DEXTERITY_HOLD_ITEM, TRUE))
 		return ..()
 
 	if(swirlie)
@@ -186,7 +186,7 @@ var/global/list/hygiene_props = list()
 				playsound(src.loc, 'sound/effects/bang.ogg', 25, 1)
 		return
 
-	if(cistern && !istype(user,/mob/living/silicon/robot)) //STOP PUTTING YOUR MODULES IN THE TOILET.
+	if(cistern && !isrobot(user)) //STOP PUTTING YOUR MODULES IN THE TOILET.
 		if(I.w_class > ITEM_SIZE_NORMAL)
 			to_chat(user, SPAN_WARNING("\The [I] does not fit."))
 			return
@@ -206,8 +206,8 @@ var/global/list/hygiene_props = list()
 	desc = "The HU-452, an experimental urinal."
 	icon = 'icons/obj/watercloset.dmi'
 	icon_state = "urinal"
-	density = 0
-	anchored = 1
+	density = FALSE
+	anchored = TRUE
 	directional_offset = "{'NORTH':{'y':-32}, 'SOUTH':{'y':32}, 'EAST':{'x':-32}, 'WEST':{'x':32}}"
 	obj_flags = OBJ_FLAG_MOVES_UNSUPPORTED
 
@@ -228,8 +228,8 @@ var/global/list/hygiene_props = list()
 	desc = "The HS-451. Installed in the 2200s by the Hygiene Division."
 	icon = 'icons/obj/watercloset.dmi'
 	icon_state = "shower"
-	density = 0
-	anchored = 1
+	density = FALSE
+	anchored = TRUE
 	clogged = -1
 	can_drain = 1
 	drainage = 0.2 			//showers are tiny, drain a little slower
@@ -239,15 +239,17 @@ var/global/list/hygiene_props = list()
 	var/next_wash = 0
 	var/watertemp = "normal"	//freezing, normal, or boiling
 	var/list/temperature_settings = list("normal" = 310, "boiling" = T0C+100, "freezing" = T0C)
+	///The amount of internal reagent storage. Essentially the volume of fluid the shower dispenses each tick.
+	var/internal_volume = 5
 
 	var/sound_id = /obj/structure/hygiene/shower
 	var/datum/sound_token/sound_token
 
 //add heat controls? when emagged, you can freeze to death in it?
 
-/obj/structure/hygiene/shower/Initialize()
+/obj/structure/hygiene/shower/Initialize(ml, _mat, _reinf_mat)
 	. = ..()
-	create_reagents(5)
+	create_reagents(internal_volume)
 
 /obj/structure/hygiene/shower/Destroy()
 	QDEL_NULL(sound_token)
@@ -278,10 +280,10 @@ var/global/list/hygiene_props = list()
 	icon = 'icons/obj/watercloset.dmi'
 	icon_state = "mist"
 	layer = MOB_LAYER + 1
-	anchored = 1
-	mouse_opacity = 0
+	anchored = TRUE
+	mouse_opacity = MOUSE_OPACITY_UNCLICKABLE
 
-/obj/effect/mist/Initialize()
+/obj/effect/mist/Initialize(mapload)
 	. = ..()
 	if(. != INITIALIZE_HINT_QDEL)
 		addtimer(CALLBACK(src, /datum/proc/qdel_self), 25 SECONDS)
@@ -290,20 +292,30 @@ var/global/list/hygiene_props = list()
 	if(istype(I, /obj/item/scanner/gas))
 		to_chat(user, SPAN_NOTICE("The water temperature seems to be [watertemp]."))
 		return
-
-	if(IS_WRENCH(I))
-		var/newtemp = input(user, "What setting would you like to set the temperature valve to?", "Water Temperature Valve") in temperature_settings
-		if(newtemp != watertemp && !QDELETED(I) && !QDELETED(user) && !QDELETED(src) && user.Adjacent(src) && I.loc == src)
-			to_chat(user, SPAN_NOTICE("You begin to adjust the temperature valve with \the [I]."))
-			playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
-			if(do_after(user, (5 SECONDS), src) && newtemp != watertemp)
-				watertemp = newtemp
-				user.visible_message(
-					SPAN_NOTICE("\The [user] adjusts \the [src] with \the [I]."),
-					SPAN_NOTICE("You adjust the shower with \the [I]."))
-				add_fingerprint(user)
-		return TRUE
 	. = ..()
+
+/obj/structure/hygiene/shower/handle_default_wrench_attackby(mob/user, obj/item/wrench)
+	if(length(temperature_settings) <= 1)
+		return FALSE //If no options, don't do anything.
+	var/newtemp = input(user, "What setting would you like to set the temperature valve to?", "Water Temperature Valve") in temperature_settings
+
+	//Sanity check after the user closes the input dialog.
+	if(QDELETED(wrench) || QDELETED(user) || QDELETED(src))
+		return TRUE
+	if(!CanPhysicallyInteractWith(user, src) || !wrench.CanUseTopic(user, global.inventory_topic_state))
+		return TRUE
+	if(newtemp == watertemp)
+		return TRUE
+
+	to_chat(user, SPAN_NOTICE("You begin to adjust the temperature valve with \the [wrench]."))
+	playsound(src.loc, 'sound/items/Ratchet.ogg', 50, 1)
+	if(do_after(user, (5 SECONDS), src) && newtemp != watertemp)
+		watertemp = newtemp
+		user.visible_message(
+			SPAN_NOTICE("\The [user] adjusts \the [src] with \the [wrench]."),
+			SPAN_NOTICE("You adjust the shower with \the [wrench]."))
+		add_fingerprint(user)
+	return TRUE
 
 /obj/structure/hygiene/shower/on_update_icon()
 	..()
@@ -316,7 +328,7 @@ var/global/list/hygiene_props = list()
 		next_mist = world.time + (25 SECONDS)
 
 /obj/structure/hygiene/shower/Process()
-	..()
+	. = ..()
 	if(on)
 		update_mist()
 		for(var/thing in loc.get_contained_external_atoms())
@@ -340,19 +352,30 @@ var/global/list/hygiene_props = list()
 		else if(water_temperature <= H.get_temperature_threshold(COLD_LEVEL_1))
 			to_chat(H, SPAN_DANGER("The water is freezing cold!"))
 
+/obj/structure/hygiene/shower/emergency
+	name = "emergency shower"
+	desc = "An emergency decontamination shower."
+	color = PIPE_COLOR_YELLOW
+	icon_state = "eshower"
+	internal_volume = 8
+	drainage = 0.8
+	temperature_settings = list("normal" = T20C) //Room/pipe temperature, but since the whole thing is hardcoded, set to 20c
+
+/obj/structure/hygiene/shower/emergency/handle_default_wrench_attackby(mob/user, obj/item/wrench)
+	return FALSE //Can't change the temperature
+
 /obj/item/bikehorn/rubberducky
 	name = "rubber ducky"
 	desc = "Rubber ducky you're so fine, you make bathtime lots of fuuun. Rubber ducky I'm awfully fooooond of yooooouuuu~"	//thanks doohl
-	icon = 'icons/obj/watercloset.dmi'
-	icon_state = "rubberducky"
-	item_state = "rubberducky"
+	icon = 'icons/obj/rubber_duck.dmi'
+	icon_state = ICON_STATE_WORLD
 
 /obj/structure/hygiene/sink
 	name = "sink"
 	icon = 'icons/obj/watercloset.dmi'
 	icon_state = "sink"
 	desc = "A sink used for washing one's hands and face."
-	anchored = 1
+	anchored = TRUE
 	var/busy = 0 	//Something's being washed at the moment
 
 /obj/structure/hygiene/sink/receive_mouse_drop(var/atom/dropping, var/mob/user)
@@ -401,11 +424,11 @@ var/global/list/hygiene_props = list()
 
 	var/obj/item/chems/RG = O
 	if (istype(RG) && ATOM_IS_OPEN_CONTAINER(RG) && RG.reagents)
-		RG.reagents.add_reagent(/decl/material/liquid/water, min(RG.volume - RG.reagents.total_volume, RG.amount_per_transfer_from_this))
 		user.visible_message(
 			SPAN_NOTICE("\The [user] fills \the [RG] using \the [src]."),
 			SPAN_NOTICE("You fill \the [RG] using \the [src]."))
 		playsound(loc, 'sound/effects/sink.ogg', 75, 1)
+		RG.reagents.add_reagent(/decl/material/liquid/water, min(RG.volume - RG.reagents.total_volume, RG.amount_per_transfer_from_this))
 		return 1
 
 	else if (istype(O, /obj/item/baton))
@@ -526,7 +549,7 @@ var/global/list/hygiene_props = list()
 		return
 
 	if(can_use(1))
-		visible_message(SPAN_NOTICE("\The [usr] tears a sheet from \the [src]."), SPAN_NOTICE("You tear a sheet from \the [src]."))
+		usr.visible_message(SPAN_NOTICE("\The [usr] tears a sheet from \the [src]."), SPAN_NOTICE("You tear a sheet from \the [src]."))
 		var/obj/item/paper/crumpled/bog/C =  new(loc)
 		usr.put_in_hands(C)
 
@@ -544,7 +567,7 @@ var/global/list/hygiene_props = list()
 	icon = 'icons/obj/watercloset.dmi'
 	icon_state = "faucet"
 	desc = "An outlet for liquids. Water you waiting for?"
-	anchored = 1
+	anchored = TRUE
 	drainage = 0
 	clogged = -1
 

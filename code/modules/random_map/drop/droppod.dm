@@ -190,12 +190,12 @@
 		spawned_mob.tag = "awaiting drop"
 
 		// Equip them, if they are human and it is desirable.
-		if(istype(spawned_mob, /mob/living/carbon/human))
+		if(ishuman(spawned_mob))
 			var/list/all_antag_types = decls_repository.get_decls_of_subtype(/decl/special_role)
 			var/antag_type = input("Select an equipment template to use or cancel for nude.", null) as null|anything in all_antag_types
 			if(antag_type)
 				var/decl/special_role/A = all_antag_types[antag_type]
-				A.equip(spawned_mob)
+				A.equip_role(spawned_mob)
 
 	if(alert("Are you SURE you wish to deploy this drop pod? It will cause a sizable explosion and gib anyone underneath it.",,"No","Yes") == "No")
 		if(spawned_mob)

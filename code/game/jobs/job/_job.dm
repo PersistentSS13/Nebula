@@ -9,7 +9,7 @@
 	var/current_positions = 0                 // How many players have this job
 	var/availablity_chance = 100              // Percentage chance job is available each round
 	var/guestbanned = FALSE                   // If set to 1 this job will be unavalible to guests
-	var/must_fill = FALSE                     // If set to 1 this job will be have priority over other job preferences. Do not reccommend on jobs with more that one position.
+	var/must_fill = FALSE                     // If set to 1 this job will be have priority over other job preferences. Do not recommend on jobs with more than one position.
 	var/not_random_selectable = FALSE         // If set to 1 this job will not be selected when a player asks for a random job.
 	var/description                           // If set, returns a static description. To add dynamic text, overwrite this proc, call parent aka . = ..() and then . += "extra text" on the line after that.
 	var/list/event_categories                 // A set of tags used to check jobs for suitability for things like random event selection.
@@ -85,26 +85,15 @@
 /datum/job/dd_SortValue()
 	return title
 
-/datum/job/proc/equip(var/mob/living/carbon/human/H, var/alt_title, var/datum/mil_branch/branch, var/datum/mil_rank/grade)
-
+/datum/job/proc/equip_job(var/mob/living/carbon/human/H, var/alt_title, var/datum/mil_branch/branch, var/datum/mil_rank/grade)
 	if (required_language)
 		H.add_language(required_language)
 		H.set_default_language(required_language)
-
 	H.add_language(/decl/language/human/common)
 	H.set_default_language(/decl/language/human/common)
 	var/decl/hierarchy/outfit/outfit = get_outfit(H, alt_title, branch, grade)
-	if(outfit) . = outfit.equip(H, title, alt_title)
-
-	if(!QDELETED(H))
-		var/obj/item/card/id/id = H.GetIdCard()
-		if(id)
-			id.rank = title
-			id.assignment = id.rank
-			id.access |= get_access()
-			if(!id.detail_color)
-				id.detail_color = selection_color
-			id.update_icon()
+	if(outfit)
+		return outfit.equip_outfit(H, alt_title || title, job = src, rank = grade)
 
 /datum/job/proc/get_outfit(var/mob/living/carbon/human/H, var/alt_title, var/datum/mil_branch/branch, var/datum/mil_rank/grade)
 	if(alt_title && alt_titles)
@@ -174,13 +163,12 @@
 	var/decl/hierarchy/outfit/outfit = get_outfit(H, alt_title, branch, grade)
 	if(!outfit)
 		return FALSE
-	. = outfit.equip(H, title, alt_title, OUTFIT_ADJUSTMENT_SKIP_POST_EQUIP|OUTFIT_ADJUSTMENT_SKIP_ID_PDA|additional_skips)
+	. = outfit.equip_outfit(H, alt_title || title, equip_adjustments = (OUTFIT_ADJUSTMENT_SKIP_POST_EQUIP|OUTFIT_ADJUSTMENT_SKIP_ID_PDA|additional_skips), job = src, rank = grade)
 
 /datum/job/proc/get_access()
 	if(minimal_access.len && (!config || config.jobs_have_minimal_access))
 		return minimal_access?.Copy()
-	else
-		return access?.Copy()
+	return access?.Copy()
 
 //If the configuration option is set to require players to be logged as old enough to play certain jobs, then this proc checks that they are, otherwise it just returns 1
 /datum/job/proc/player_old_enough(client/C)
@@ -451,13 +439,13 @@
 		spawnpos = null
 	if(!spawnpos)
 		// Step through all spawnpoints and pick first appropriate for job
-		for(var/decl/spawnpoint/candidate as anything in global.using_map.allowed_spawns)
+		for(var/decl/spawnpoint/candidate as anything in global.using_map.allowed_latejoin_spawns)
 			if(candidate?.check_job_spawning(src))
 				spawnpos = candidate
 				break
 	return spawnpos
 
-/datum/job/proc/post_equip_rank(var/mob/person, var/alt_title)
+/datum/job/proc/post_equip_job_title(var/mob/person, var/alt_title, var/rank)
 	if(is_semi_antagonist && person.mind)
 		var/decl/special_role/provocateur/provocateurs = GET_DECL(/decl/special_role/provocateur)
 		provocateurs.add_antagonist(person.mind)

@@ -1,6 +1,6 @@
 /turf
 	icon = 'icons/turf/floors.dmi'
-	level = 1
+	level = LEVEL_BELOW_PLATING
 	abstract_type = /turf
 	is_spawnable_type = TRUE
 	layer = TURF_LAYER
@@ -36,7 +36,7 @@
 	var/fluid_blocked_dirs = 0
 	var/flooded // Whether or not this turf is absolutely flooded ie. a water source.
 	var/footstep_type
-	var/open_turf_type // Which turf to use when this turf is destroyed or replaced in a multiz context. Overridden by area.
+	var/open_turf_type // Which open turf type to use by default above this turf in a multiz context. Overridden by area.
 
 	var/tmp/changing_turf
 	var/tmp/prev_type // Previous type of the turf, prior to turf translation.
@@ -330,7 +330,7 @@
 
 // Called when turf is hit by a thrown object
 /turf/hitby(atom/movable/AM, var/datum/thrownthing/TT)
-	..()
+	SHOULD_CALL_PARENT(FALSE) // /atom/hitby() applies damage to AM if it's a living mob.
 	if(density)
 		if(isliving(AM))
 			var/mob/living/M = AM
@@ -397,13 +397,10 @@
 /turf/proc/is_floor()
 	return FALSE
 
-/turf/proc/get_footstep_sound(var/mob/caller)
-	return
-
 /turf/proc/update_weather(var/obj/abstract/weather_system/new_weather, var/force_update_below = FALSE)
 
 	if(isnull(new_weather))
-		new_weather = SSweather.get_weather_for_level(z)
+		new_weather = SSweather.weather_by_z[z]
 
 	// We have a weather system and we are exposed to it; update our vis contents.
 	if(istype(new_weather) && is_outside())
@@ -426,6 +423,29 @@
 		if(below)
 			below.update_weather(new_weather)
 
+// Updates turf participation in ZAS according to outside status. Must be called whenever the outside status of a turf may change.
+/turf/proc/update_external_atmos_participation(overwrite_air = TRUE)
+	if(is_outside())
+		if(zone && external_atmosphere_participation)
+			if(can_safely_remove_from_zone())
+				#ifdef MULTIZAS
+				var/dirs = global.cardinalz
+				#else
+				var/dirs = global.cardinal
+				#endif
+				zone.remove(src)
+				// Update neighbors to create edges between zones and exterior
+				for(var/dir in dirs)
+					var/turf/neighbor = get_step(src, dir)
+					SSair.mark_for_update(neighbor)
+			else
+				zone.rebuild()
+	else if(zone_membership_candidate)
+		// Set the turf's air to the external atmosphere to add to its new zone.
+		if(overwrite_air)
+			air = get_external_air(FALSE)
+		SSair.mark_for_update(src)
+
 /turf/proc/is_outside()
 
 	// Can't rain inside or through solid walls.
@@ -447,7 +467,7 @@
 
 	// If we are in a multiz volume and not already inside, we return
 	// the outside value of the highest unenclosed turf in the stack.
-	if((. != OUTSIDE_NO) && HasAbove(z))
+	if(HasAbove(z))
 		. =  OUTSIDE_YES // assume for the moment we're unroofed until we learn otherwise.
 		var/turf/top_of_stack = src
 		while(HasAbove(top_of_stack.z))
@@ -469,14 +489,7 @@
 	SSambience.queued += src
 
 	last_outside_check = OUTSIDE_UNCERTAIN
-	if(is_outside())
-		if(zone && external_atmosphere_participation)
-			if(can_safely_remove_from_zone())
-				zone.remove(src)
-			else
-				zone.rebuild()
-	else if(zone_membership_candidate)
-		SSair.mark_for_update(src)
+	update_external_atmos_participation()
 
 	if(!HasBelow(z))
 		return TRUE
@@ -543,3 +556,6 @@
 
 /turf/proc/is_defiled()
 	return (locate(/obj/effect/narsie_footstep) in src)
+
+/turf/proc/resolve_to_actual_turf()
+	return src

@@ -82,9 +82,9 @@
 	. = ..()
 	add_overlay(overlay_image(icon, "[icon_state]_color", paint_color))
 	add_overlay(color_picker ? "[icon_state]_red" : "[icon_state]_blue")
-	if(ismob(loc))
+	if(isliving(loc))
 		var/mob/M = loc
-		M.update_inv_hands()
+		M.update_inhand_overlays()
 
 /obj/item/paint_sprayer/adjust_mob_overlay(var/mob/living/user_mob, var/bodytype,  var/image/overlay, var/slot, var/bodypart)
 	if(overlay && check_state_in_icon("[overlay.icon_state]_color", overlay.icon))
@@ -106,18 +106,19 @@
 		else if (istype(A, /turf/simulated/wall))
 			new_color = pick_color_from_wall(A, user)
 		else if (istype(A, /obj/structure/wall_frame))
-			var/obj/structure/wall_frame/WF = A
-			new_color = pick_color_from_wall_frame(WF, user)
+			new_color = pick_color_from_wall_frame(A, user)
 		else
 			new_color = A.get_color()
-		change_color(new_color, user)
-
-	else if (A.atom_flags & ATOM_FLAG_CAN_BE_PAINTED)
-		A.set_color(paint_color)
-		. = TRUE
+		if(!new_color)
+			to_chat(user, SPAN_NOTICE("You fail to scan a color from \the [A]."))
+		else
+			change_color(new_color, user)
 
 	else if (istype(A, /turf/simulated/wall))
 		. = paint_wall(A, user)
+
+	else if (istype(A, /obj/structure/wall_frame))
+		. = paint_wall_frame(A, user)
 
 	else if (istype(A, /turf/simulated/floor))
 		. = paint_floor(A, user, params)
@@ -125,12 +126,16 @@
 	else if (istype(A, /obj/machinery/door/airlock))
 		. = paint_airlock(A, user)
 
-	else if (istype(A, /mob/living/exosuit))
+	else if (isexosuit(A))
 		to_chat(user, SPAN_WARNING("You can't paint an active exosuit. Dismantle it first."))
 		. = FALSE
 
+	else if (A.atom_flags & ATOM_FLAG_CAN_BE_PAINTED)
+		A.set_color(paint_color)
+		. = TRUE
+
 	else
-		to_chat(user, SPAN_WARNING("\The [src] can only be used on floors, windows, walls, exosuits or certain airlocks."))
+		to_chat(user, SPAN_WARNING("\The [src] can only be used on floors, windows, walls, exosuits, airlocks, and certain other objects."))
 		. = FALSE
 
 	if (.)

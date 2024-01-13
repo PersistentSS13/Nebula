@@ -3,8 +3,20 @@
 #ifndef UNIT_TEST
 	if(SSpersistence.SaveExists())
 		report_progress_serializer("Existing save found. Loading save...")
+		var/old_maxz = world.maxz
 		SSpersistence.LoadWorld()
 		report_progress_serializer("Finished loading save!")
+
+		for(var/z = old_maxz + 1 to world.maxz)
+			var/datum/level_data/level = levels_by_z[z]
+			if(!istype(level))
+				level = new /datum/level_data/space(z)
+				PRINT_STACK_TRACE("Missing z-level data object for loaded z[num2text(z)]!")
+			level.setup_level_data(TRUE)
+		report_progress_serializer("Finished setting up level data for loaded z-levels!")
+
+		// Stopgap fix. We do this here rather than in SSair.Initialize because SSair may be rebooted.
+		SSair.cull_updated_turfs()
 	else
 		report_progress_serializer("No existing save found. Loading from map files..")
 #else

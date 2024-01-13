@@ -3,7 +3,7 @@
 	desc = "A telepad used to recieve imports and send exports."
 	icon = 'icons/obj/machines/telepad.dmi'
 	icon_state = "pad-idle"
-	anchored = 1
+	anchored = TRUE
 	use_power = 1
 	idle_power_usage = 20
 	active_power_usage = 500

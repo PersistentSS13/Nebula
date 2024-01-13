@@ -99,10 +99,12 @@
 		return loc.loc
 	return ..()
 
-/obj/item/holder/GetIdCards()
+/obj/item/holder/GetIdCards(list/exceptions)
 	. = ..()
 	for(var/mob/M in contents)
-		LAZYDISTINCTADD(., M.GetIdCards())
+		var/list/cards = M.GetIdCards(exceptions)
+		if(length(cards))
+			LAZYDISTINCTADD(., cards)
 
 /obj/item/holder/attack_self()
 	for(var/mob/M in contents)
@@ -110,7 +112,7 @@
 
 /obj/item/holder/attack(mob/target, mob/user)
 	// Devour on click on self with holder
-	if(target == user && istype(user,/mob/living/carbon))
+	if(target == user && iscarbon(user))
 		var/mob/living/carbon/M = user
 		for(var/mob/victim in src.contents)
 			M.devour(victim)

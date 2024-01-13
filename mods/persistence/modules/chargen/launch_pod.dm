@@ -1,12 +1,27 @@
 #define STARTING_POINTS 30
-
 /obj/machinery/cryopod/outreach
 	name = "cryogenic freezer"
+	var/spawn_decl = /decl/spawnpoint/cryo
 
 /obj/machinery/cryopod/outreach/Initialize()
 	. = ..()
-	global.latejoin_locations |= get_turf(src)
-	global.latejoin_cryo_locations |= get_turf(src)
+	if(spawn_decl && get_turf(src))
+		var/decl/spawnpoint/spawn_instance = GET_DECL(spawn_decl)
+		spawn_instance.add_spawn_turf(get_turf(src))
+
+/obj/machinery/cryopod/outreach/forceMove(atom/dest)
+	if(spawn_decl && get_turf(src))
+		var/decl/spawnpoint/spawn_instance = GET_DECL(spawn_decl)
+		spawn_instance.remove_spawn_turf(get_turf(src))
+		. = ..()
+		spawn_instance.add_spawn_turf(get_turf(src))
+	else
+		return ..()
+/obj/machinery/cryopod/outreach/Destroy()
+	if(spawn_decl && get_turf(src))
+		var/decl/spawnpoint/spawn_instance = GET_DECL(spawn_decl)
+		spawn_instance.remove_spawn_turf(get_turf(src))
+	. = ..()
 
 /obj/machinery/cryopod/chargen/Initialize()
 	. = ..()
@@ -79,7 +94,8 @@
 	SSpersistence.AddToLimbo(list(user, user.mind), user.mind.unique_id, LIMBO_MIND, user.mind.key, user.mind.current.real_name, TRUE, user.mind.key)
 	SSpersistence.limbo_removals += list(list(sanitize_sql(user.mind.unique_id), LIMBO_MIND))
 
-	for(var/turf/T in global.latejoin_cryo_locations)
+	var/decl/spawnpoint/cryo/spawnpoint = GET_DECL(/decl/spawnpoint/cryo)
+	for(var/turf/T in spawnpoint.get_spawn_turfs())
 		var/obj/machinery/cryopod/C = locate() in T
 		if(C.occupant)
 			continue
@@ -90,7 +106,7 @@
 		return
 
 	// If we didn't find a empty turf, put them on a filled one
-	var/turf/T = pick(global.latejoin_cryo_locations | global.latejoin_locations)
+	var/turf/T = pick(spawnpoint.get_spawn_turfs())
 	if(T)
 		go_out()
 		user.forceMove(T)

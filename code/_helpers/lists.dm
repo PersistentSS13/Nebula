@@ -76,18 +76,22 @@
 	return counting_english_list(input, output_icons, determiners, nothing_text, and_text, comma_text, final_comma_text)
 
 //Checks for specific types in a list
-/proc/is_type_in_list(var/atom/A, var/list/L)
-	for(var/type in L)
-		if(istype(A, type))
-			return 1
-	return 0
+/proc/is_type_in_list(datum/thing, list/type_list)
+	if(!length(type_list) || !istype(thing))
+		return FALSE
+	for(var/check_type in type_list)
+		if(istype(thing, check_type))
+			return TRUE
+	return FALSE
 
 //Checks for specific paths in a list
-/proc/is_path_in_list(var/path, var/list/L)
-	for(var/type in L)
-		if(ispath(path, type))
-			return 1
-	return 0
+/proc/is_path_in_list(var/check_path, list/type_list)
+	if(!length(type_list) || !ispath(check_path))
+		return FALSE
+	for(var/check_type in type_list)
+		if(ispath(check_path, check_type))
+			return TRUE
+	return FALSE
 
 //returns a new list with only atoms that are in typecache L
 /proc/typecache_filter_list(list/atoms, list/typecache)
@@ -797,7 +801,7 @@ var/global/list/json_cache = list()
 			else if(decoded)
 				return decoded
 		catch(var/exception/e)
-			log_error("Exception during JSON decoding ([json_to_decode]): [e]")
+			log_error("Exception during JSON decoding ([json_to_decode]): [EXCEPTION_TEXT(e)]")
 	return list()
 
 /proc/load_text_from_directory(var/directory, var/expected_extension = ".txt", var/recursive = TRUE)
@@ -855,7 +859,7 @@ var/global/list/json_cache = list()
 				loaded_files[checkfile] = safe_file2text(checkfile)
 				item_count++
 			catch(var/exception/e)
-				PRINT_STACK_TRACE("Exception loading [checkfile]: [e] on [e.file]:[e.line]")
+				PRINT_STACK_TRACE("Exception loading [checkfile]: [EXCEPTION_TEXT(e)]")
 
 	// Return a manifest for further processing.
 	return list(

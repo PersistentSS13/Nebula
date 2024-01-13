@@ -213,19 +213,23 @@
 
 	else if(href_list["remove_antagonist"])
 		var/decl/special_role/antag = locate(href_list["remove_antagonist"])
-		if(antag) antag.remove_antagonist(src)
+		if(istype(antag))
+			antag.remove_antagonist(src)
 
 	else if(href_list["equip_antagonist"])
 		var/decl/special_role/antag = locate(href_list["equip_antagonist"])
-		if(antag) antag.equip(src.current)
+		if(istype(antag))
+			antag.equip_role(src.current)
 
 	else if(href_list["unequip_antagonist"])
 		var/decl/special_role/antag = locate(href_list["unequip_antagonist"])
-		if(antag) antag.unequip(src.current)
+		if(istype(antag))
+			antag.unequip_role(src.current)
 
 	else if(href_list["move_antag_to_spawn"])
 		var/decl/special_role/antag = locate(href_list["move_antag_to_spawn"])
-		if(antag) antag.place_mob(src.current)
+		if(istype(antag))
+			antag.place_mob(src.current)
 
 	else if (href_list["role_edit"])
 		var/new_role = input("Select new role", "Assigned role", assigned_role) as null|anything in SSjobs.titles_to_datums
@@ -293,7 +297,7 @@
 
 				var/list/possible_targets = list("Free objective")
 				for(var/datum/mind/possible_target in SSticker.minds)
-					if ((possible_target != src) && istype(possible_target.current, /mob/living/carbon/human))
+					if ((possible_target != src) && ishuman(possible_target.current))
 						possible_targets += possible_target.current
 
 				var/mob/def_target = null
@@ -417,7 +421,7 @@
 					log_admin("[key_name_admin(usr)] has unemag'ed [R].")
 
 			if("unemagcyborgs")
-				if (istype(current, /mob/living/silicon/ai))
+				if (isAI(current))
 					var/mob/living/silicon/ai/ai = current
 					for (var/mob/living/silicon/robot/R in ai.connected_robots)
 						R.emagged = 0

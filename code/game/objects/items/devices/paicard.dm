@@ -23,7 +23,6 @@ var/global/list/pai_cards = list()
 
 /obj/item/paicard/Initialize()
 	. = ..()
-	overlays += "pai-off"
 	global.pai_cards += src
 
 /obj/item/paicard/preserve_in_cryopod(var/obj/machinery/cryopod/pod)
@@ -246,14 +245,14 @@ var/global/list/pai_cards = list()
 	if(href_list["setdna"])
 		if(pai.master_dna)
 			return
-		var/mob/M = usr
-		if(!istype(M, /mob/living/carbon))
-			to_chat(usr, "<span class='notice'>You don't have any DNA, or your DNA is incompatible with this device.</span>")
+		var/unique_enzymes = usr.get_unique_enzymes()
+		if(unique_enzymes)
+			pai.master     = usr.real_name
+			pai.master_dna = unique_enzymes
+			to_chat(pai, SPAN_NOTICE("You have been bound to a new master."))
 		else
-			var/datum/dna/dna = usr.dna
-			pai.master = M.real_name
-			pai.master_dna = dna.unique_enzymes
-			to_chat(pai, "<span class='warning'>You have been bound to a new master.</span>")
+			to_chat(usr, SPAN_WARNING("You don't have any DNA, or your DNA is incompatible with this device."))
+
 	if(href_list["request"])
 		src.looking_for_personality = 1
 		paiController.findPAI(src, usr)
@@ -289,16 +288,16 @@ var/global/list/pai_cards = list()
 
 /obj/item/paicard/proc/setPersonality(mob/living/silicon/pai/personality)
 	src.pai = personality
-	src.overlays += "pai-happy"
+	src.add_overlay("pai-happy")
 
 /obj/item/paicard/proc/removePersonality()
 	src.pai = null
-	src.overlays.Cut()
-	src.overlays += "pai-off"
+	src.add_overlay("pai-off")
 
 /obj/item/paicard/proc/setEmotion(var/emotion)
 	if(pai)
 		current_emotion = emotion
+		update_icon()
 
 /obj/item/paicard/on_update_icon()
 	. = ..()

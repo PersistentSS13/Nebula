@@ -60,7 +60,7 @@
 		to_chat(user, "There is nothing to remove in \the [src].")
 
 /obj/item/gun/launcher/pneumatic/attack_hand(mob/user)
-	if(!user.is_holding_offhand(src) || !user.check_dexterity(DEXTERITY_GRIP, TRUE))
+	if(!user.is_holding_offhand(src) || !user.check_dexterity(DEXTERITY_HOLD_ITEM, TRUE))
 		return ..()
 	unload_hopper(user)
 	return TRUE
@@ -131,7 +131,6 @@
 		icon_state = "[get_world_inventory_state()]-tank"
 	else
 		icon_state = get_world_inventory_state()
-
 	update_held_icon()
 
 /obj/item/gun/launcher/pneumatic/adjust_mob_overlay(var/mob/living/user_mob, var/bodytype,  var/image/overlay, var/slot, var/bodypart)

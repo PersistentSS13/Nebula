@@ -26,7 +26,7 @@
 	else
 		. = ..()
 
-/mob/living/carbon/human/Initialize()
+/mob/living/carbon/human/Initialize(mapload, species_name, datum/dna/new_dna, decl/bodytype/new_bodytype)
 	. = ..()
 	LATE_INIT_IF_SAVED
 
@@ -93,7 +93,7 @@ SAVED_VAR(/mob/living/carbon/human, eye_colour)
 SAVED_VAR(/mob/living/carbon/human, skin_tone)
 SAVED_VAR(/mob/living/carbon/human, damage_multiplier)
 SAVED_VAR(/mob/living/carbon/human, lip_style)
-SAVED_VAR(/mob/living/carbon/human, b_type)
+SAVED_VAR(/mob/living/carbon/human, blood_type)
 SAVED_VAR(/mob/living/carbon/human, worn_underwear)
 SAVED_VAR(/mob/living/carbon/human, cultural_info)
 SAVED_VAR(/mob/living/carbon/human, voice)

@@ -33,3 +33,13 @@
 	damage = 25
 	distance_falloff = 4
 	penetration_modifier = 1.2
+
+/obj/item/ammo_casing/twentytwolr/advanced
+	name = "advanced .22LR round"
+	desc = ".22 Long Rifle round of ancient design. Sports mediocre range and unimpressive armor penetration due to low velocity."
+	icon = 'mods/persistence/icons/obj/ammunition/22lr/tier2.dmi'
+	projectile_type = /obj/item/projectile/bullet/twentytwolr/advanced
+
+/obj/item/projectile/bullet/twentytwolr/advanced
+	damage = 30
+	distance_falloff = 3

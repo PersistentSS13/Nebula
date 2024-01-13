@@ -14,7 +14,7 @@
 	screen_shake = 2
 	accuracy = -1
 	one_hand_penalty = 10
-	material = /decl/material/solid/wood
+	material = /decl/material/solid/organic/wood
 	matter = list(
 		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT
 	)

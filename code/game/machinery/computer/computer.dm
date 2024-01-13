@@ -2,8 +2,8 @@
 	name = "computer console"
 	icon = 'icons/obj/computer.dmi'
 	icon_state = "computer"
-	density = 1
-	anchored = 1.0
+	density = TRUE
+	anchored = TRUE
 	idle_power_usage = 300
 	active_power_usage = 300
 	construct_state = /decl/machine_construction/default/panel_closed/computer
@@ -23,9 +23,6 @@
 	. = ..()
 	overlay_layer = layer
 	update_icon()
-
-/obj/machinery/computer/get_codex_value()
-	return "computer"
 
 /obj/machinery/computer/emp_act(severity)
 	if(prob(20/severity)) set_broken(TRUE)
