@@ -16,9 +16,9 @@
 	name = "cheap chemical hood"
 	desc = "A hood that protects the head from chemical contaminants. This one is cheaply-made and cannot be deconstructed for any meaningful resources."
 	color = "#33ffad"
-	material = /decl/material/solid/organic/paper
+	material = /decl/material/solid/metal/steel/r_styrofoam
 	matter = list(
-		/decl/material/solid/organic/paper = MATTER_AMOUNT_REINFORCEMENT
+		/decl/material/solid/metal/steel/r_styrofoam = MATTER_AMOUNT_TRACE
 	)
 	origin_tech = "{'materials':1}"
 
@@ -34,18 +34,18 @@
 	color = "#33ffad"
 	force = 5
 	throwforce = 2
-	material = /decl/material/solid/organic/paper
+	material = /decl/material/solid/metal/steel/r_styrofoam
 	matter = list(
-		/decl/material/solid/organic/paper = MATTER_AMOUNT_REINFORCEMENT
+		/decl/material/solid/metal/steel/r_styrofoam = MATTER_AMOUNT_TRACE
 	)
 
 /obj/item/flashlight/lantern/cheap
 	name = "cheap lantern"
 	desc = "A mining lantern. This one is made from 3D-printed paper and styrofoam; it doesn't emit much light."
 	force = 2
-	material = /decl/material/solid/organic/paper
+	material = /decl/material/solid/metal/steel/r_styrofoam
 	matter = list(
-		/decl/material/solid/organic/paper = MATTER_AMOUNT_REINFORCEMENT
+		/decl/material/solid/metal/steel/r_styrofoam = MATTER_AMOUNT_TRACE
 	)
 	flashlight_range = 1.5
 	origin_tech = "{'materials':1}"
@@ -56,9 +56,9 @@
 	desc = "A tank of oxygen. This one is made from 3D-printed paper and styrofoam; it doesn't have much capacity."
 	volume = 90
 	color = "#33ffad"
-	material = /decl/material/solid/organic/paper
+	material = /decl/material/solid/metal/steel/r_styrofoam
 	matter = list(
-		/decl/material/solid/organic/paper = MATTER_AMOUNT_REINFORCEMENT
+		/decl/material/solid/metal/steel/r_styrofoam = MATTER_AMOUNT_TRACE
 	)
 	force = 2
 	origin_tech = "{'materials':1}"
@@ -68,9 +68,9 @@
 	name = "\improper cheap SCBA mask"
 	icon = 'icons/clothing/mask/breath_scuba.dmi'
 	color = "#33ffad"
-	material = /decl/material/solid/organic/paper
+	material = /decl/material/solid/metal/steel/r_styrofoam
 	matter = list(
-		/decl/material/solid/organic/paper = MATTER_AMOUNT_REINFORCEMENT
+		/decl/material/solid/metal/steel/r_styrofoam = MATTER_AMOUNT_TRACE
 	)
 	origin_tech = "{'materials':1}"
 
@@ -79,8 +79,27 @@
 	desc = "This bag can be used to store and transport ores. This one is made from 3D-printed paper and styrofoam; it can't hold very much at all."
 	max_storage_space = 100
 	color = "#33ffad"
-	material = /decl/material/solid/organic/paper
+	material = /decl/material/solid/metal/steel/r_styrofoam
 	matter = list(
-		/decl/material/solid/organic/paper = MATTER_AMOUNT_REINFORCEMENT
+		/decl/material/solid/metal/steel/r_styrofoam = MATTER_AMOUNT_TRACE
 	)
 	origin_tech = "{'materials':1}"
+
+/decl/material/solid/metal/steel/r_styrofoam
+	name = "reinforced styrofoam"
+	codex_name = "reinforced styrofoam"
+	uid = "cheap_steel"
+	lore_text = "A form of styrofoam that is considerably more durable than regular styrofoam, but still worse than most metals. Often used for low-end tool fabrication."
+	wall_support_value = MAT_VALUE_EXTREMELY_LIGHT
+	hardness = MAT_VALUE_SOFT
+	integrity = 10
+	brute_armor = 0
+	hitsound = 'sound/weapons/smash.ogg'
+	construction_difficulty = MAT_VALUE_VERY_HARD_DIY
+	value = 0.1
+	dissolves_into = list(
+		/decl/material/solid/metal/steel/fake = 1
+	)
+	default_solid_form = /obj/item/stack/material/panel
+	sound_manipulate = 'sound/foley/paperpickup2.ogg'
+	sound_dropped = 'sound/foley/paperpickup1.ogg'
