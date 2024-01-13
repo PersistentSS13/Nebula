@@ -68,9 +68,9 @@
 	name = "\improper cheap SCBA mask"
 	icon = 'icons/clothing/mask/breath_scuba.dmi'
 	color = "#33ffad"
-	material = /decl/material/solid/metal/steel/r_styrofoam
+	material = /decl/material/solid/metal/iron/r_styrofoam
 	matter = list(
-		/decl/material/solid/metal/steel/r_styrofoam = MATTER_AMOUNT_TRACE
+		/decl/material/solid/metal/iron/r_styrofoam = MATTER_AMOUNT_TRACE
 	)
 	origin_tech = "{'materials':1}"
 
@@ -96,7 +96,7 @@
 	brute_armor = 0
 	hitsound = 'sound/weapons/smash.ogg'
 	construction_difficulty = MAT_VALUE_VERY_HARD_DIY
-	value = 0.1
+	value = 0.01
 	dissolves_into = list(
 		/decl/material/solid/metal/iron/r_styrofoam = 1
 	)
