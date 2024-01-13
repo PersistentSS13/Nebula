@@ -127,3 +127,15 @@
 	startswith = list(
 		/obj/item/storage/mre/random = 5
 	)
+
+/obj/item/chargen_box/industrial/cheap_mining
+	name = "'Colonist's First' super-ultra-deluxe mining kit(TM)"
+	startswith = list(
+		/obj/item/pickaxe/cheap = 1,
+		/obj/item/clothing/suit/chem_suit/cheap = 1,
+		/obj/item/clothing/head/chem_hood/cheap = 1,
+		/obj/item/flashlight/lantern/cheap = 1,
+		/obj/item/tank/oxygen/cheap = 1,
+		/obj/item/clothing/mask/breath/scba/cheap = 1,
+		/obj/item/storage/ore/cheap = 1
+	)

@@ -42,3 +42,23 @@
 		/obj/item/chargen_box/industrial/ore_processor = 999,
 		/obj/item/chargen_box/industrial/stirling = 999
 	)
+
+/obj/machinery/vending/infini/industrial/crap_mining
+	name = "Brownstone Solutions Minefab Basic"
+	desc = "An engineering vendor that synthesizes exceptionally poor-quality mining equipment. On the bright side, the cash input is shorted out; everything is free!"
+	markup = 0
+	icon_state = "tool"
+	icon_deny = "tool-deny"
+	icon_vend = "tool-vend"
+	vend_delay = 11
+	base_type = /obj/machinery/vending/infini/industrial/crap_mining
+	products = list(
+		/obj/item/chargen_box/industrial/cheap_mining = 999,
+		/obj/item/pickaxe/cheap = 999,
+		/obj/item/clothing/suit/chem_suit/cheap = 999,
+		/obj/item/clothing/head/chem_hood/cheap = 999,
+		/obj/item/flashlight/lantern/cheap = 999,
+		/obj/item/tank/oxygen/cheap = 999,
+		/obj/item/clothing/mask/breath/scba/cheap = 999,
+		/obj/item/storage/ore/cheap = 999
+	)
