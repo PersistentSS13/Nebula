@@ -3648,7 +3648,6 @@
 #include "mods\_modpack.dm"
 #include "mods\persistence\sequential_guid.dm"
 #include "mods\persistence\controllers\subsystems\trade_beacons.dm"
-#include "mods\persistence\modules\chargen\items.dm"
 #include "mods\persistence\modules\trade_beacons\exports.dm"
 #include "mods\persistence\modules\trade_beacons\imports.dm"
 #include "mods\persistence\modules\trade_beacons\trade_beacons.dm"
