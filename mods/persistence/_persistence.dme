@@ -101,6 +101,7 @@
 #include "modules\augment\active\cyberbrain.dm"
 #include "modules\chargen\_chargen.dm"
 #include "modules\chargen\dossier_console.dm"
+#include "modules\chargen\items.dm"
 #include "modules\chargen\launch_pod.dm"
 #include "modules\chargen\defines\origins.dm"
 #include "modules\chargen\defines\perks_flaws.dm"
