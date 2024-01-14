@@ -230,3 +230,10 @@
 		/decl/stock_part_preset/radio/receiver/vent_pump/airlock = 1,
 		/decl/stock_part_preset/radio/event_transmitter/vent_pump/airlock = 1
 	)
+
+/obj/machinery/atmospherics/unary/vent_pump/high_volume/airlock/cabled
+	stock_part_presets              = list(
+		/decl/stock_part_preset/radio/receiver/vent_pump/airlock = 1,
+		/decl/stock_part_preset/radio/event_transmitter/vent_pump/airlock = 1,
+		/decl/stock_part_preset/terminal_connect/offset_dir = 1,
+	)
