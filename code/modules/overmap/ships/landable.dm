@@ -124,7 +124,7 @@
 		*/
 
 	// Configure shuttle datum
-	events_repository.register(/decl/observ/shuttle_moved, shuttle_datum, src, .proc/on_shuttle_jump)
+	events_repository.register(/decl/observ/shuttle_moved, shuttle_datum, src, PROC_REF(on_shuttle_jump))
 	on_landing(landmark, shuttle_datum.current_location) // We "land" at round start to properly place ourselves on the overmap.
 	if(landmark == shuttle_datum.current_location)
 		status = SHIP_STATUS_OVERMAP // we spawned on the overmap, so have to initialize our state properly.
