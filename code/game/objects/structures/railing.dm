@@ -303,4 +303,4 @@
 			take_damage(maxhealth) // Fatboy
 
 	user.jump_layer_shift()
-	addtimer(CALLBACK(user, /mob/living/proc/jump_layer_shift_end), 2)
+	addtimer(CALLBACK(user, TYPE_PROC_REF(/mob/living, jump_layer_shift_end)), 2)
