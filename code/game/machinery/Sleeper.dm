@@ -25,6 +25,7 @@
 	var/pump_speed
 	var/stasis_power = 5 KILOWATTS
 	var/list/loaded_canisters
+	var/list/starter_canisters
 	var/max_canister_capacity = 5
 	var/static/list/banned_chem_types = list(
 		/decl/material/liquid/bromide,
@@ -34,19 +35,19 @@
 	var/open_sound = 'sound/machines/podopen.ogg'
 	var/close_sound = 'sound/machines/podclose.ogg'
 
-/obj/machinery/sleeper/standard/Initialize(mapload, d, populate_parts)
+/obj/machinery/sleeper/Initialize(mapload, d, populate_parts)
 	. = ..()
-	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/stabilizer())
-	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/sedatives())
-	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/painkillers())
-	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/antitoxins())
-	add_reagent_canister(null, new /obj/item/chems/chem_disp_cartridge/oxy_meds())
+	add_starter_canisters()
 
 /obj/machinery/sleeper/Destroy()
 	QDEL_NULL(beaker)
 	QDEL_NULL_LIST(loaded_canisters)
 	go_out()
 	. = ..()
+
+/obj/machinery/sleeper/proc/add_starter_canisters()
+	for(var/canister_type in starter_canisters)
+		add_reagent_canister(null, new canister_type)
 
 /obj/machinery/sleeper/proc/add_reagent_canister(var/mob/user, var/obj/item/chems/chem_disp_cartridge/canister)
 	if(!istype(canister))
@@ -455,3 +456,10 @@
 /obj/machinery/sleeper/emag_act(var/remaining_charges, var/mob/user)
 	emagged = !emagged
 	to_chat(user, SPAN_DANGER("You [emagged ? "disable" : "enable"] \the [src]'s chemical injection safety checks."))
+
+/obj/machinery/sleeper/standard
+	starter_canisters = list(/obj/item/chems/chem_disp_cartridge/stabilizer,
+							 /obj/item/chems/chem_disp_cartridge/sedatives,
+							 /obj/item/chems/chem_disp_cartridge/painkillers,
+							 /obj/item/chems/chem_disp_cartridge/antitoxins,
+							 /obj/item/chems/chem_disp_cartridge/oxy_meds)
