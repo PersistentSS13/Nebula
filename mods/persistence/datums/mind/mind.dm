@@ -53,8 +53,11 @@ var/global/list/player_minds = list()
 			if(!CP.is_valid_respawn(user.mind.unique_id))
 				to_chat(user, SPAN_WARNING("That cloning pod has become unavailable. Please choose a new cloning pod."))
 				return show_valid_respawns(user)
-			CP.create_character(user.mind, user.ckey)
-			qdel(user) // Whatever mob was storing us is no longer needed.
-			return TRUE
+			if(CP.create_character(user.mind, user.ckey))
+				qdel(user) // Whatever mob was storing us is no longer needed.
+				return TRUE
+			else
+				to_chat(user, SPAN_WARNING("That cloning pod has become unavailable. Please choose a new cloning pod."))
+				return show_valid_respawns(user)
 	else
 		to_chat(user, SPAN_NOTICE("There does not appear to be any viable clone pods for you to spawn in."))

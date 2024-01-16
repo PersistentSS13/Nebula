@@ -58,6 +58,7 @@
 #include "game\machinery\machinery.dm"
 #include "game\machinery\mantrap.dm"
 #include "game\machinery\resleever.dm"
+#include "game\machinery\Sleeper.dm"
 #include "game\machinery\_machines_base\stock_parts\_stock_parts.dm"
 #include "game\machinery\_machines_base\stock_parts\network_lock.dm"
 #include "game\machinery\_machines_base\stock_parts\power\battery.dm"

@@ -134,7 +134,6 @@
 /obj/machinery/cloning_pod/proc/set_occupant(var/atom/movable/target, var/mob/user)
 	var/datum/extension/network_device/cloning_pod/D = get_extension(src, /datum/extension/network_device)
 	occupant = target
-	D.occupied = !!occupant
 	update_icon()
 	if(!target)
 		D.cloning = FALSE

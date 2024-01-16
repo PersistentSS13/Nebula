@@ -2,7 +2,6 @@
 #define TASK_CLONE_TIME	60 SECONDS
 
 /datum/extension/network_device/cloning_pod
-	var/occupied = FALSE
 	var/scanning = FALSE
 	var/cloning = FALSE
 	var/cloning_progress = 0 // Used to display messages to whoever is being clone while they're in the vat.
@@ -16,7 +15,7 @@
 	if(!mind_id)
 		return FALSE
 	var/obj/machinery/cloning_pod/CP = holder
-	if(!CP.operable() || CP.stat & (BROKEN|NOPOWER) || occupied)
+	if(!CP.operable() || CP.stat & (BROKEN|NOPOWER) || get_occupant())
 		return FALSE
 	var/datum/computer_network/network = get_network()
 	if(!network)
@@ -32,6 +31,8 @@
 	return CP.eject_occupant(user)
 
 /datum/extension/network_device/cloning_pod/proc/create_character(var/datum/mind/mind, var/datum/computer_file/data/cloning/backup, var/obj/item/organ/internal/stack/stack)
+	if(get_occupant())
+		return
 	var/datum/computer_network/network = get_network()
 	if(!network)
 		return
@@ -53,8 +54,6 @@
 		var/obj/item/organ/O = new_character.get_organ(stack.parent_organ)
 		new_character.add_organ(stack, O)
 		qdel(stack.stackmob)
-	else
-		mind.philotic_damage += 10
 
 	// TODO: More feedback on philotic damage in general.
 	if(mind.philotic_damage > 75)
@@ -154,10 +153,7 @@
 	if(!check_clone())
 		return
 	cancel_task() // Delete any in progress timers just in case.
-	var/atom/movable/occupant = get_occupant()
-	if(!occupant)
+	var/obj/item/organ/internal/stack/S = get_occupant()
+	if(!istype(S) || !S.stackmob || !S.stackmob.mind)
 		return
-	var/obj/item/organ/internal/stack/S = occupant
-	if(!S)
-		return
-	return create_character(S?.stackmob?.mind, S.backup, S)
+	return create_character(S.stackmob?.mind, S.backup, S)

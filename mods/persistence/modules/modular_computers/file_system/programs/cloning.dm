@@ -53,6 +53,10 @@
 		var/datum/extension/network_device/cloning_pod/CP = network.get_device_by_tag(href_list["machine"])
 		if(!istype(CP))
 			return TOPIC_REFRESH
+		var/obj/item/organ/internal/stack/occupant = CP.get_occupant()
+		if(!istype(occupant) || !occupant.stackmob || !occupant.stackmob.mind)
+			to_chat(user, SPAN_WARNING("The console flashes an error: invalid occupant!"))
+			return TOPIC_REFRESH
 		CP.begin_clone(user)
 		return TOPIC_REFRESH
 
@@ -84,9 +88,10 @@
 			cloning_pod["can_clone"] = CP.check_clone()
 			cloning_pod["can_backup"] = CP.check_scan()
 			cloning_pod["can_save"] = !!CP.finished_scan
+			var/atom/movable/occupant = CP.get_occupant()
 			if(!cloning_pod["online"])
 				cloning_pod["status"] = "Offline."
-			else if(CP.occupied)
+			else if(occupant)
 				cloning_pod["status"] = "Occupied."
 				if(CP.finished_scan)
 					cloning_pod["operation"] = "Scan complete"
@@ -94,7 +99,6 @@
 					cloning_pod["operation"] = CP.scanning ? "Scanning" : "Cloning"
 					cloning_pod["progress"] = (world.time - CP.task_started_on) / (TASK_SCAN_TIME)
 					cloning_pod["remaining"] = round((TASK_SCAN_TIME + CP.task_started_on - world.time) / 10)
-				var/atom/movable/occupant = CP.get_occupant()
 				if(istype(occupant, /obj/item/organ/internal/stack))
 					cloning_pod["contents"] = occupant.name
 				else if(istype(occupant, /mob/living/carbon))
