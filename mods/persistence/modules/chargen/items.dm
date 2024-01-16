@@ -38,6 +38,8 @@
 	matter = list(
 		/decl/material/solid/metal/iron/r_styrofoam = MATTER_AMOUNT_TRACE
 	)
+	build_from_parts = TRUE
+	hardware_color = COLOR_SILVER
 
 /obj/item/flashlight/lantern/cheap
 	name = "cheap lantern"
