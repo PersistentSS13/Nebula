@@ -1,12 +1,12 @@
 /obj/item/gun/projectile/pistol/pistol_pocket/advanced
-	name = ".22LR 'Triple-Threat' HG"
+	name = ".22LR 'Triple-Threat' T2-HG"
 	desc = "Pistol of modern design. Small enough to store in pockets, and possesses both semi-automatic and three-round burst fire modes. Chambered in .22LR."
 	icon = 'mods/persistence/icons/obj/guns/tier2/pistol_pocket.dmi'
 	fire_delay = 2
 	force = 5
 	accuracy = 1
 	one_hand_penalty = 0
-	origin_tech = "{'combat':4,'engineering':4,'materials':4}"
+	origin_tech = "{'combat':15,'engineering':15,'materials':6}"
 	caliber = CALIBER_22LR
 	ammo_indicator = FALSE
 	w_class = ITEM_SIZE_SMALL
