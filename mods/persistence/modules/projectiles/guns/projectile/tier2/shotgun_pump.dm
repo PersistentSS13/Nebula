@@ -1,5 +1,5 @@
 /obj/item/gun/projectile/shotgun/pump/advanced
-	name = "12g 'Gladdy' SG"
+	name = "12g 'Gladdy' T2-SG"
 	desc = "Pump-action shotgun of modern design. Possesses an increased ammunition capacity and shorter fire delay compared to earlier models . Chambered in 12 gauge."
 	icon = 'mods/persistence/icons/obj/guns/tier2/shotgun_pump.dmi'
 	max_shells = 7
@@ -8,7 +8,7 @@
 	force = 10
 	slot_flags = SLOT_BACK
 	caliber = CALIBER_12G
-	origin_tech = "{'combat':4,'engineering':3,'materials':4}"
+	origin_tech = "{'combat':15,'engineering':15,'materials':6}"
 	load_method = SINGLE_CASING
 	ammo_type = /obj/item/ammo_casing/twelvegauge/slug/advanced
 	handle_casings = HOLD_CASINGS
