@@ -1,8 +1,8 @@
 /obj/item/gun/projectile/revolver/simple
-	name = ".357 'Chief' RV"
+	name = ".357 'Chief' T1-RV"
 	desc = "Revolver of ancient design. Uses high-power rounds, but struggles with a low ammunition capacity and poor armor penetration. Chambered in .357."
 	icon = 'mods/persistence/icons/obj/guns/tier1/revolver.dmi'
-	origin_tech = "{'combat':3,'engineering':2,'materials':2}"
+	origin_tech = "{'combat':10,'engineering':10,'materials':4}"
 	caliber = CALIBER_357
 	ammo_type = /obj/item/ammo_casing/threefiftyseven/simple
 	max_shells = 4
