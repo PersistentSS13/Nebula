@@ -1,5 +1,5 @@
 /obj/item/gun/energy/laser/pistol/simple
-	name = "Laser 'Settler' EG"
+	name = "Laser 'Settler' T1-EG"
 	desc = "Laser pistol used by modern spacers. Compact, but suffers from low charge capacity because of this. Fires Alpha-type laser beams."
 	icon = 'mods/persistence/icons/obj/guns/tier1/laspistol.dmi'
 	slot_flags = SLOT_LOWER_BODY
@@ -8,7 +8,7 @@
 	max_shots = 6
 	fire_delay = 5
 	force = 3 // made of light-ish plastics rather than wood and metal
-	origin_tech = "{'combat':3,'magnets':2,'engineering':2,'materials':3}"
+	origin_tech = "{'combat':10,'engineering':10,'materials':4,'magnets':4}"
 	projectile_type = /obj/item/projectile/beam/smalllaser
 	material = /decl/material/solid/metal/aluminium
 	matter = list(
