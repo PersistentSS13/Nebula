@@ -1,10 +1,10 @@
 /obj/item/gun/projectile/bolt_action/simple
-	name = "5.56x45mm 'Mosin' BA"
+	name = "5.56x45mm 'Mosin' T1-BA"
 	desc = "Bolt-action rifle of ancient design. Reliable, but slow-firing. Chambered in 5.56x45mm."
 	icon = 'mods/persistence/icons/obj/guns/tier1/boltaction.dmi'
 	force = 10
 	slot_flags = SLOT_BACK
-	origin_tech = "{'combat':3,'engineering':2,'materials':2}"
+	origin_tech = "{'combat':10,'engineering':10,'materials':4}"
 	caliber = CALIBER_556
 	handle_casings = HOLD_CASINGS
 	load_method = SINGLE_CASING
