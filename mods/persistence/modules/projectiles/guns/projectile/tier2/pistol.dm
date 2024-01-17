@@ -1,5 +1,5 @@
 /obj/item/gun/projectile/pistol/advanced
-	name = ".45 'Paco' HG"
+	name = ".45 'Paco' T2-HG"
 	desc = "Pistol of modern design. Highly accurate, and boasts a reduced fire delay compared to earlier models. Chambered in .45."
 	icon = 'mods/persistence/icons/obj/guns/tier2/pistol.dmi'
 	caliber = CALIBER_45
@@ -7,7 +7,7 @@
 	force = 5
 	accuracy = 2
 	one_hand_penalty = 1
-	origin_tech = "{'combat':4,'engineering':3,'materials':4}"
+	origin_tech = "{'combat':15,'engineering':15,'materials':6}"
 	ammo_indicator = FALSE
 	w_class = ITEM_SIZE_NORMAL
 	magazine_type = /obj/item/ammo_magazine/fortyfive/advanced
