@@ -6,7 +6,7 @@
 	force = 5
 	accuracy = 0
 	one_hand_penalty = 2
-	origin_tech = "{'combat':5,'engineering':4,'materials':2}"
+	origin_tech = "{'combat':5,'engineering':5,'materials':2}"
 	caliber = CALIBER_22LR
 	ammo_indicator = FALSE
 	w_class = ITEM_SIZE_NORMAL
