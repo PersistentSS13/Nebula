@@ -1,5 +1,5 @@
 /obj/item/gun/energy/laser/rifle/simple
-	name = "Laser 'Marine' EG"
+	name = "Laser 'Marine' T1-EG"
 	desc = "Laser rifle used by modern spacers. Powerful, but bulky and suffers from low charge capacity. Fires Beta-type laser beams."
 	icon = 'mods/persistence/icons/obj/guns/tier1/lasrifle.dmi'
 	slot_flags = SLOT_BACK
@@ -8,7 +8,7 @@
 	max_shots = 5
 	fire_delay = 12
 	force = 10
-	origin_tech = "{'combat':3,'magnets':2,'engineering':2,'materials':3}"
+	origin_tech = "{'combat':10,'engineering':10,'materials':4,'magnets':4}"
 	projectile_type = /obj/item/projectile/beam/midlaser
 	material = /decl/material/solid/metal/aluminium
 	matter = list(
