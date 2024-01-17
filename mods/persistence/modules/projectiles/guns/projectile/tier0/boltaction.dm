@@ -1,5 +1,5 @@
 /obj/item/gun/projectile/bolt_action/handmade
-	name = "5.56x45mm 'Minuteman' BA"
+	name = "5.56x45mm 'Minuteman' T0-BA"
 	desc = "Bolt-action rifle of dubious origin. Shoddy craftsmanship results in extremely low ammo capacity. Chambered in 5.56x45mm."
 	icon = 'mods/persistence/icons/obj/guns/tier0/boltaction.dmi'
 	force = 10
