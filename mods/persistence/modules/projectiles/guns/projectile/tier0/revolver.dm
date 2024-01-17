@@ -2,7 +2,7 @@
 	name = ".45 'Underdog' T0-RV"
 	desc = "Revolver of dubious origin. Shoddy craftsmanship results in low ammo capacity and high recoil. Chambered in .45."
 	icon = 'mods/persistence/icons/obj/guns/tier0/revolver.dmi'
-	origin_tech = "{'combat':5,'engineering':4,'materials':2}"
+	origin_tech = "{'combat':5,'engineering':5,'materials':2}"
 	caliber = CALIBER_45
 	ammo_type = /obj/item/ammo_casing/fortyfive/handmade
 	max_shells = 3
