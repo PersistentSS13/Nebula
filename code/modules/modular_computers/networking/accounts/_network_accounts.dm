@@ -16,6 +16,15 @@
 			result |= E
 	return result
 
+/datum/computer_network/proc/get_all_logins()
+	var/list/result = list()
+	for(var/datum/extension/network_device/mainframe/M in get_mainframes_by_role(MF_ROLE_ACCOUNT_SERVER))
+		for(var/datum/computer_file/data/account/E in M.get_all_files())
+			if(E.backup)
+				continue
+			ADD_SORTED(result, E.login, /proc/cmp_text_asc)
+	return result
+
 // Return account backups keyed by account login
 /datum/computer_network/proc/get_account_backups(accesses)
 	var/list/result = list()
