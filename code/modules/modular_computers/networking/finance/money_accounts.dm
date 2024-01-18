@@ -85,7 +85,7 @@
 	. = ..()
 
 /datum/money_account/child/network/Destroy(force)
-	var/datum/computer_file/data/account/attached_account = network_account.resolve()
+	var/datum/computer_file/data/account/attached_account = network_account?.resolve()
 	if(attached_account)
 		attached_account.money_account = null
 	. = ..()
