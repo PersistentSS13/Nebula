@@ -25,7 +25,7 @@
 	name = "makeshift .22LR magazine"
 	desc = ".22LR magazine of dubious origin. Suffers from reduced capacity due to flimsy materials and shoddy craftsmanship."
 	icon_state = "22lr0"
-	origin_tech = "{'combat':1}"
+	origin_tech = "{'combat':5,'materials':5}"
 	material = /decl/material/solid/organic/plastic
 	ammo_type = /obj/item/ammo_casing/twentytwolr/handmade
 	max_ammo = 5
@@ -34,7 +34,7 @@
 	name = "packet of makeshift .22LR rounds"
 	desc = "Container of dubious origin intended for holding loose .22LR rounds."
 	icon_state = "box_22lr0"
-	origin_tech = "{'combat':1,'materials':1}"
+	origin_tech = "{'combat':5,'materials':5}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic = MATTER_AMOUNT_TRACE
@@ -45,7 +45,7 @@
 	name = "standard .22LR magazine"
 	desc = ".22LR magazine of ancient design. Servicable capacity, but outpaced by more modern designs."
 	icon_state = "22lr1"
-	origin_tech = "{'combat':2}"
+	origin_tech = "{'combat':8,'materials':8}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic = MATTER_AMOUNT_REINFORCEMENT
@@ -57,7 +57,7 @@
 	name = "packet of standard .22LR rounds"
 	desc = "Container of ancient design intended for holding loose .22LR rounds."
 	icon_state = "box_22lr1"
-	origin_tech = "{'combat':2,'materials':2}"
+	origin_tech = "{'combat':8,'materials':8}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic   = MATTER_AMOUNT_REINFORCEMENT,
@@ -69,7 +69,7 @@
 	name = "advanced .22LR magazine"
 	desc = ".22LR magazine of modern design. Good capacity, and can be used well with both handguns and submachine guns alike."
 	icon_state = "22lr2"
-	origin_tech = "{'combat':3}"
+	origin_tech = "{'combat':12,'materials':12}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic = MATTER_AMOUNT_REINFORCEMENT,
@@ -82,7 +82,7 @@
 	name = "packet of advanced .22LR rounds"
 	desc = "Container of modern design intended for holding loose .22LR rounds."
 	icon_state = "box_22lr2"
-	origin_tech = "{'combat':3,'materials':3}"
+	origin_tech = "{'combat':12,'materials':12}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic   = MATTER_AMOUNT_REINFORCEMENT,
