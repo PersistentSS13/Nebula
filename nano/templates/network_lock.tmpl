@@ -13,10 +13,11 @@
 		<h2>Disconnected from network.</h2>
 	{{else}}
 		<div class='item'>
-			<div class='itemLabel'>Device Default State:</div>
+			<div class='itemLabel'>Network Requirement:</div>
 			<div class='itemBody'>
-				{{:helper.link('ALLOW ALL', null, { "allow_all" : 1 }, !data.default_state ? 'disabled' : null)}}
-				{{:helper.link('DENY ALL', null, { "deny_all" : 1 }, data.default_state ? 'disabled' : null)}}
+				{{:helper.link('On', null, { "req_network" : 1 }, data.req_network ? 'selected' : null)}}
+				{{:helper.link('Off', null, { "req_network" : 1 }, !data.req_network ? 'selected' : null)}}
+				{{:helper.link('?', null, { "info" : "req_network" }, null)}}
 			</div>
 		</div>
 		<hr>
@@ -26,7 +27,7 @@
 			<th>Operations
 			{{for data.patterns}}
 				<tr><td>{{:helper.link("Pattern " + value.index, null, { "select_pattern" : value.index}, (data.selected_pattern == value.index) ? 'selected' : null)}}
-				<td>{{:value.groups}}
+				<td>{{:value.access}}
 				<td>{{:helper.link('Delete pattern', null, { "remove_pattern" : value.index})}}
 			{{/for}}
 		</table>
@@ -34,23 +35,7 @@
 		{{:helper.link('Add pattern', null, { "add_pattern" : 1}, null)}}
 		{{:helper.link('?', null, { "info" : "pattern" }, null)}}
 		<hr>
-		{{if data.parent_groups}}
-			<h2>Parent Groups:</h2>
-			{{:helper.link('?', null, { "info" : "parent_groups" }, null)}}
-			<table>
-				<tr><th>Group
-				<th>Operations
-				{{for data.parent_groups}}
-					<tr><td>{{:helper.link(value.parent_group, null, { "select_parent_group" : value.parent_group })}}
-					<td>
-						{{if value.assigned}}
-							{{:helper.link('REMOVE', null, { "remove_group" : value.parent_group })}}
-						{{else}}
-							{{:helper.link('ASSIGN', null, { "assign_group" : value.parent_group })}}
-						{{/if}}
-				{{/for}}
-			</table>
-		{{else data.selected_parent_group}}
+		{{if data.selected_parent_group}}
 			<h2>Viewing Child Groups for: {{:data.selected_parent_group}}</h2>
 			{{if data.child_groups}}
 				<h2>Child Groups:</h2>
@@ -71,12 +56,50 @@
 				<i> No child groups found! </i>
 			{{/if}}
 			<div class='item'>
-				{{:helper.link('Back to parent group listing', null, { "select_parent_group" : null })}}
+				{{:helper.link('Back to access listings', null, { "back" : 1 })}}
 			</div>
-		{{else}}
-			{{if data.selected_pattern}}
-				<i>No groups found on network!</i>
+		{{else data.viewing_accounts}}
+			<h2>Viewing accounts:</h2>
+			{{if data.accounts}}
+				<table>
+					<tr><th>Account
+					<th>Operations
+					{{for data.accounts}}
+						<tr><td>{{:value.login}}
+						<td>
+							{{if value.assigned}}
+								{{:helper.link('REMOVE', null, { "remove_account" : value.login })}}
+							{{else}}
+								{{:helper.link('ASSIGN', null, { "assign_account" : value.login })}}
+							{{/if}}
+					{{/for}}
+				</table>
+			{{else}}
+				<i>No accounts found on network!</i>
 			{{/if}}
+			{{:helper.link('Back to access listings', null, { "back" : 1 })}}
+		{{else data.selected_pattern}}
+			<h2>Parent Groups:</h2>
+				{{if data.parent_groups}}
+					{{:helper.link('?', null, { "info" : "parent_groups" }, null)}}
+					<table>
+						<tr><th>Group
+						<th>Operations
+						{{for data.parent_groups}}
+							<tr><td>{{:helper.link(value.parent_group, null, { "select_parent_group" : value.parent_group })}}
+							<td>
+								{{if value.assigned}}
+									{{:helper.link('REMOVE', null, { "remove_group" : value.parent_group })}}
+								{{else}}
+									{{:helper.link('ASSIGN', null, { "assign_group" : value.parent_group })}}
+								{{/if}}
+						{{/for}}
+					</table>
+				{{else}}
+					<i>No groups found on network!</i>
+				{{/if}}
+			<hr>
+			{{:helper.link('View accounts', null, { "view_accounts" : "1" }, null)}}
 		{{/if}}
 	{{/if}}
 {{/if}}

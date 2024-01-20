@@ -294,3 +294,26 @@
 
 /obj/structure/closet/crate/uranium/WillContain()
 	return list(/obj/item/stack/material/puck/mapped/uranium/ten = 5)
+
+/obj/structure/closet/crate/secure/network
+	name = "network secured crate"
+	desc = "A storage crate capable of storing access codes from a functioning network lock."
+	closet_appearance = /decl/closet_appearance/crate/secure/network
+
+	reinf_material = /decl/material/solid/organic/plastic
+	locked = FALSE
+
+/obj/structure/closet/crate/secure/network/Initialize()
+	. = ..()
+	set_extension(src, /datum/extension/network_lockable)
+
+/obj/structure/closet/crate/secure/network/attackby(obj/item/W, mob/user)
+	if(!opened)
+		var/datum/extension/network_lockable/lockable = get_extension(src, /datum/extension/network_lockable)
+		if(lockable.process_interact(W, user))
+			return TRUE
+
+	. = ..()
+
+/obj/structure/closet/crate/secure/network/get_mechanics_info()
+	return "[..()]<BR>Can have its access set when closed with a functioning network lock.<BR>Can have its access reset with a multitool."

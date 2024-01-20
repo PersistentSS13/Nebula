@@ -1,7 +1,13 @@
+#define CACHE_TIME 30 MINUTES
 /obj/item/card/id/network
+	name = "network identification card"
+	desc = "A card used to provide ID and determine access. It connects remotely to a network to find its access codes."
 	var/weakref/current_account
 	color = COLOR_GRAY80
 	detail_color = COLOR_SKY_BLUE
+
+	var/list/cached_network_access = list()
+	var/last_cached				  // The real time of day the network access was last cached
 
 /obj/item/card/id/network/Initialize()
 	set_extension(src, /datum/extension/network_device/id_card)
@@ -12,14 +18,24 @@
 	var/datum/computer_file/data/account/access_account = resolve_account()
 	var/datum/extension/network_device/D = get_extension(src, /datum/extension/network_device)
 	var/datum/computer_network/network = D.get_network(NET_FEATURE_ACCESS)
-	if(network && access_account && access_account.login != ignore_account)
-		var/location = "[network.network_id]"
-		if(access_account)
-			. += "[access_account.login]@[location]" // User access uses '@'
+	if(network)
+		var/list/net_access = list()
+		if(access_account && access_account.login != ignore_account)
+			var/location = "[network.network_id]"
+			net_access += "[access_account.login]@[location]" // User access uses '@'
 			for(var/group in access_account.groups)
-				. += "[group].[location]"	// Group access uses '.'
+				net_access += "[group].[location]"	// Group access uses '.'
 			for(var/group in access_account.parent_groups) // Membership in a child group grants access to anything with an access requirement set to the parent group.
-				. += "[group].[location]"
+				net_access += "[group].[location]"
+
+		. += net_access
+		cached_network_access = net_access
+		last_cached = REALTIMEOFDAY
+	else if(REALTIMEOFDAY <= (last_cached + CACHE_TIME))
+		. += cached_network_access
+	else if(length(cached_network_access))
+		cached_network_access.Cut()
+		visible_message(SPAN_SUBTLE("\The [src] beeps, indicating that it cleared its cached access."), range = 1)
 
 /obj/item/card/id/network/proc/resolve_account(net_feature = NET_FEATURE_ACCESS)
 	if(!current_account)
@@ -114,6 +130,9 @@
 			current_account = weakref(check_account)
 			return TRUE
 
+	// Cache the access post login.
+	GetAccess()
+
 /obj/item/card/id/network/proc/get_network_id()
 	var/datum/extension/network_device/D = get_extension(src, /datum/extension/network_device)
 	var/datum/computer_network/network = D?.get_network()
@@ -128,3 +147,5 @@
 		"You flash your ID card: [html_icon(src)] [src.name]. The assignment on the card: '[src.assignment]'.")
 
 	src.add_fingerprint(usr)
+
+#undef CACHE_TIME

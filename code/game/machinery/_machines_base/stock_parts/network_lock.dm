@@ -7,14 +7,17 @@
 	part_flags = PART_FLAG_QDEL
 	base_type = /obj/item/stock_parts/network_receiver/network_lock
 
-	var/auto_deny_all								// Set this to TRUE to deny all access attempts if network connection is lost.
+	var/requires_network = FALSE					// Set this to TRUE to deny all access attempts if network connection is lost.
 	var/initial_network_id							// The address to the network
 	var/initial_network_key							// network KEY
 	var/selected_parent_group						// Current selected parent_group for access assignment.
 
-	var/list/groups									// List of lists of groups. In order to access the device, users must have membership in at least one
-													// of the groups in each list.
-	var/selected_pattern							// Index of the group pattern selected.
+	var/list/access_keys							// List of lists of groups and account logins.
+													// In order to access the device, users must have membership in at least one
+													// of the groups or accounts in each list. Account logins are denoted with an @ at the end.
+
+	var/selected_pattern							// Index of the access key pattern selected.
+	var/viewing_accounts = FALSE
 
 	var/emagged										// Whether or not this has been emagged.
 	var/error
@@ -40,35 +43,39 @@
 	if(!is_functional())
 		return list()
 
-	. = get_default_access()
 	var/datum/extension/network_device/D = get_extension(src, /datum/extension/network_device)
-	var/datum/computer_network/network = D.get_network(NET_FEATURE_ACCESS)
-	if(!network)
-		return
+	var/datum/computer_network/network = D?.get_network(NET_FEATURE_ACCESS)
+	var/datum/extension/network_device/acl/access_controller = network?.access_controller
 
-	var/datum/extension/network_device/acl/access_controller = network.access_controller
-	if(!access_controller)
-		return
+	var/list/all_groups = access_controller?.get_all_groups()
+	var/list/all_logins = network?.get_all_logins()
 
-	LAZYINITLIST(groups)
+	if(requires_network)
+		// Network locks require no access if the network is down and requires_network is toggled on
+		if(!network || !access_controller)
+			return list()
+
+	LAZYINITLIST(access_keys)
 	var/list/resulting_access = list()
-	for(var/list/pattern in groups)
+	for(var/list/pattern in access_keys)
 		var/list/resulting_pattern = list()
-		for(var/group in pattern)
-			if(!(group in access_controller.get_all_groups()))
-				pattern -= group // This group doesn't exist anymore - delete it.
-				continue
-			resulting_pattern |= "[group].[D.network_id]"
+		for(var/access_key in pattern)
+			// This is an account login.
+			if(text_ends_with(access_key, "@"))
+				if(all_logins && !(copytext(access_key, 1, -1) in all_logins)) // This account doesn't exist anymore - delete it
+					pattern -= access_key
+					continue
+				resulting_pattern |= "[access_key][D.network_id]" // The @ is included in the pattern.
+			else
+				if(all_groups && !(access_key in all_groups))  // Ditto for groups
+					pattern -= access_key
+					continue
+				resulting_pattern |= "[access_key].[D.network_id]"
 		if(resulting_pattern.len)
 			resulting_access += list(resulting_pattern)
 	if(!length(resulting_access))
 		return
 	return resulting_access
-
-/obj/item/stock_parts/network_receiver/network_lock/proc/get_default_access()
-	if(auto_deny_all)
-		return list("NO_PERMISSIONS_DENY_ALL")
-	return list()
 
 /obj/item/stock_parts/network_receiver/network_lock/examine(mob/user)
 	. = ..()
@@ -86,8 +93,8 @@
 /obj/item/stock_parts/network_receiver/network_lock/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	if(istype(target, /obj/item/stock_parts/network_receiver/network_lock))
 		var/obj/item/stock_parts/network_receiver/network_lock/other_lock = target
-		if(length(other_lock.groups)) // Prevent mistakingly copying from a blank lock instead of vice versa.
-			groups = other_lock.groups.Copy()
+		if(length(other_lock.access_keys)) // Prevent mistakingly copying from a blank lock instead of vice versa.
+			access_keys = other_lock.access_keys.Copy()
 			playsound(src, 'sound/machines/ping.ogg', 20, 0)
 			to_chat(user, SPAN_NOTICE("\The [src] pings as it successfully copies its access requirements from the other network lock."))
 
@@ -112,47 +119,59 @@
 		data["connected"] = FALSE
 		return
 	data["connected"] = TRUE
-	data["default_state"] = auto_deny_all
+	data["req_network"] = requires_network
 	if(!network.access_controller)
 		return
 
 	data["patterns"] = list()
 	var/pattern_index = 0
-	for(var/list/pattern in groups)
+	for(var/list/pattern in access_keys)
 		pattern_index++
 		data["patterns"].Add(list(list(
 			"index" = "[pattern_index]",
-			"groups" = english_list(pattern, "No groups assigned!", and_text = " or ")
+			"access" = english_list(pattern, "No access assigned!", and_text = " or ")
 			)))
 
-	var/list/group_dictionary = network.access_controller.get_group_dict()
 	var/list/parent_groups_data
 	var/list/child_groups_data
-
-	var/list/pattern = LAZYACCESS(groups, selected_pattern)
+	var/list/account_data
+	var/list/pattern = LAZYACCESS(access_keys, selected_pattern)
 
 	if(pattern)
-		if(selected_parent_group)
-			if(!(selected_parent_group in group_dictionary))
-				selected_parent_group = null
-			else
-				var/list/child_groups = group_dictionary[selected_parent_group]
-				if(child_groups)
-					child_groups_data = list()
-					for(var/child_group in child_groups)
-						child_groups_data.Add(list(list(
-							"child_group" = child_group,
-							"assigned" = (LAZYISIN(pattern, child_group))
-						)))
-		if(!selected_parent_group) // Check again in case we ended up with a non-existent selected parent group instead of breaking the UI.
-			parent_groups_data = list()
-			for(var/parent_group in group_dictionary)
-				parent_groups_data.Add(list(list(
-					"parent_group" = parent_group,
-					"assigned" = (LAZYISIN(pattern, parent_group))
-				)))
+		if(viewing_accounts)
+			data["viewing_accounts"] = TRUE
+			var/list/login_list = network.get_all_logins()
+			if(length(login_list))
+				account_data = list()
+				for(var/login in login_list)
+					account_data.Add(list(list(
+						"login" = login,
+						"assigned" = (LAZYISIN(pattern, (login + "@")))
+					)))
+		else
+			var/list/group_dictionary = network.access_controller.get_group_dict()
+			if(selected_parent_group)
+				if(!(selected_parent_group in group_dictionary))
+					selected_parent_group = null
+				else
+					var/list/child_groups = group_dictionary[selected_parent_group]
+					if(length(child_groups))
+						child_groups_data = list()
+						for(var/child_group in child_groups)
+							child_groups_data.Add(list(list(
+								"child_group" = child_group,
+								"assigned" = (LAZYISIN(pattern, child_group))
+							)))
+			if(!selected_parent_group) // Check again in case we ended up with a non-existent selected parent group instead of breaking the UI.
+				parent_groups_data = list()
+				for(var/parent_group in group_dictionary)
+					parent_groups_data.Add(list(list(
+						"parent_group" = parent_group,
+						"assigned" = (LAZYISIN(pattern, parent_group))
+					)))
 	data["parent_groups"] = parent_groups_data
 	data["child_groups"] = child_groups_data
+	data["accounts"] = account_data
 	data["selected_parent_group"] = selected_parent_group
 	data["selected_pattern"] = "[selected_pattern]"
 
@@ -165,6 +184,12 @@
 	if(href_list["refresh"])
 		error = null
 		return TOPIC_REFRESH
+
+	if(href_list["back"])
+		viewing_accounts = FALSE
+		selected_parent_group = null
+		return TOPIC_REFRESH
+
 	var/datum/extension/network_device/D = get_extension(src, /datum/extension/network_device)
 	if(!D)
 		return
@@ -173,24 +198,20 @@
 		D.ui_interact(user)
 		return TOPIC_REFRESH
 
-	if(href_list["allow_all"])
-		auto_deny_all = FALSE
-		return TOPIC_REFRESH
-
-	if(href_list["deny_all"])
-		auto_deny_all = TRUE
+	if(href_list["req_network"])
+		requires_network = !requires_network
 		return TOPIC_REFRESH
 
 	if(href_list["add_pattern"])
-		if(length(groups) >= MAX_PATTERNS)
+		if(length(access_keys) >= MAX_PATTERNS)
 			to_chat(usr, SPAN_WARNING("You cannot add more than [MAX_PATTERNS] patterns to \the [src]!"))
 			return TOPIC_HANDLED
-		LAZYADD(groups, list(list()))
+		LAZYADD(access_keys, list(list()))
 		return TOPIC_REFRESH
 
 	if(href_list["remove_pattern"])
 		var/pattern_index = text2num(href_list["remove_pattern"])
-		LAZYREMOVE(groups, list(LAZYACCESS(groups, pattern_index))) // We have to encapsulate the pattern in another list to actually delete it.
+		LAZYREMOVE(access_keys, list(LAZYACCESS(access_keys, pattern_index))) // We have to encapsulate the pattern in another list to actually delete it.
 		if(selected_pattern == pattern_index)
 			selected_pattern = null
 		else if(selected_pattern > pattern_index)
@@ -199,9 +220,13 @@
 
 	if(href_list["select_pattern"])
 		var/pattern_index = text2num(href_list["select_pattern"])
-		if(pattern_index > LAZYLEN(groups))
+		if(pattern_index > LAZYLEN(access_keys))
 			return TOPIC_HANDLED
 		selected_pattern = pattern_index
+		return TOPIC_REFRESH
+
+	if(href_list["view_accounts"])
+		viewing_accounts = TRUE
 		return TOPIC_REFRESH
 
 	if(href_list["select_parent_group"])
@@ -211,20 +236,48 @@
 	if(href_list["info"])
 		switch(href_list["info"])
 			if("pattern")
-				to_chat(user, SPAN_NOTICE("In order to access the device, users must be a member of at least one group in each access pattern."))
+				to_chat(user, SPAN_NOTICE("In order to access the device, users must be a member of at least one group or account in each access pattern."))
 			if("parent_groups")
 				to_chat(user, SPAN_NOTICE("Assigning a parent group to an access pattern will permit any member of its child groups access to the pattern."))
+			if("req_network")
+				to_chat(user, SPAN_NOTICE("If toggled on, the network lock will automatically allow all access attempts if the network goes down. This should rarely be used."))
 
-	var/list/pattern_list = LAZYACCESS(groups, selected_pattern)
+		return TOPIC_HANDLED
+
+	var/list/pattern_list = LAZYACCESS(access_keys, selected_pattern)
 	if(!pattern_list)
 		return TOPIC_REFRESH
 
+
+	var/datum/computer_network/network = D.get_network()
+	if(!network)
+		return TOPIC_REFRESH
+
+	var/datum/extension/network_device/acl/acl = network.access_controller
+	if(!acl)
+		return TOPIC_REFRESH
+
+
 	if(href_list["assign_group"])
+		var/list/valid_groups = acl.get_all_groups()
+		if(!(href_list["assign_group"] in valid_groups))
+			return TOPIC_REFRESH
 		pattern_list |= href_list["assign_group"]
 		return TOPIC_REFRESH
 
 	if(href_list["remove_group"])
 		pattern_list -= href_list["remove_group"]
+		return TOPIC_REFRESH
+
+	if(href_list["assign_account"])
+		var/list/valid_accounts = network.get_all_logins()
+		if(!(href_list["assign_account"] in valid_accounts))
+			return TOPIC_REFRESH
+		pattern_list |= (href_list["assign_account"] + "@")
+		return TOPIC_REFRESH
+
+	if(href_list["remove_account"])
+		pattern_list -= (href_list["remove_account"] + "@")
 		return TOPIC_REFRESH
 
 /obj/item/stock_parts/network_receiver/network_lock/ui_interact(mob/user, ui_key, datum/nanoui/ui, force_open, datum/nanoui/master_ui, datum/topic_state/state)

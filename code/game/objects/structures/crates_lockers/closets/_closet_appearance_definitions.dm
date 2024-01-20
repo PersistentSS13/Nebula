@@ -501,6 +501,15 @@
 /decl/closet_appearance/secure_closet/sol/two/dark
 	color = COLOR_DARK_BLUE_GRAY
 
+/decl/closet_appearance/secure_closet/network
+	color = COLOR_OFF_WHITE
+	decals = list(
+		"lower_side_vent"
+	)
+	extra_decals = list(
+		"stripe_vertical_mid_full" = COLOR_CYAN_BLUE
+	)
+
 // Crates.
 /decl/closet_appearance/crate
 	decals = null
@@ -596,6 +605,13 @@
 	extra_decals = list(
 		"crate_stripe_left" = COLOR_YELLOW_GRAY,
 		"crate_stripe_right" = COLOR_YELLOW_GRAY
+	)
+
+/decl/closet_appearance/crate/secure/network
+	color = COLOR_OFF_WHITE
+	extra_decals = list(
+		"crate_stripe_left" = COLOR_CYAN_BLUE,
+		"crate_stripe_right" = COLOR_CYAN_BLUE
 	)
 
 // Large crates.

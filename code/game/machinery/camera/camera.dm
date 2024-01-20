@@ -340,9 +340,6 @@
 /decl/stock_part_preset/network_lock/camera
 	expected_part_type = /obj/item/stock_parts/network_receiver/network_lock
 
-/decl/stock_part_preset/network_lock/camera/do_apply(obj/machinery/camera/machine, obj/item/stock_parts/network_receiver/network_lock/part)
-	part.auto_deny_all = TRUE
-
 /obj/machinery/camera
 	public_methods = list(
 		/decl/public_access/public_method/toggle_camera
