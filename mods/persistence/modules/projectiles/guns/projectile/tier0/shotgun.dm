@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/shotgun/handmade
+/obj/item/gun/projectile/shotgun/tierzero
 	name = "12g 'Slider' T0-SG"
 	desc = "Break-action shotgun of dubious origin. Shoddy craftsmanship results in extremely low ammo capacity and high recoil. Chambered in 12 gauge."
 	icon = 'mods/persistence/icons/obj/guns/tier0/shotgun.dmi'
@@ -19,5 +19,5 @@
 		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT
 	)
 
-/obj/item/gun/projectile/shotgun/handmade/empty
+/obj/item/gun/projectile/shotgun/tierzero/empty
 	starts_loaded = FALSE

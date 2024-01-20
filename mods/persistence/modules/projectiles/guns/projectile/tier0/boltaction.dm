@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/bolt_action/handmade
+/obj/item/gun/projectile/bolt_action/tierzero
 	name = "5.56x45mm 'Minuteman' T0-BA"
 	desc = "Bolt-action rifle of dubious origin. Shoddy craftsmanship results in extremely low ammo capacity. Chambered in 5.56x45mm."
 	icon = 'mods/persistence/icons/obj/guns/tier0/boltaction.dmi'
@@ -18,5 +18,5 @@
 		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT
 	)
 
-/obj/item/gun/projectile/bolt_action/handmade/empty
+/obj/item/gun/projectile/bolt_action/tierzero/empty
 	starts_loaded = FALSE

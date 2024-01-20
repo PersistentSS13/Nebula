@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/pistol/pistol_pocket/simple
+/obj/item/gun/projectile/pistol/pistol_pocket/tierone
 	name = ".22LR 'Rimfire' T1-HG"
 	desc = "Pistol of ancient design. Small enough to store in pockets, but struggles in combat due to weak caliber. Chambered in .22LR."
 	icon = 'mods/persistence/icons/obj/guns/tier1/pistol_pocket.dmi'
@@ -18,5 +18,5 @@
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
 	)
 
-/obj/item/gun/projectile/pistol/pistol_pocket/simple/empty
+/obj/item/gun/projectile/pistol/pistol_pocket/tierone/empty
 	starts_loaded = FALSE

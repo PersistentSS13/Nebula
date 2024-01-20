@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/bolt_action/simple
+/obj/item/gun/projectile/bolt_action/tierone
 	name = "5.56x45mm 'Mosin' T1-BA"
 	desc = "Bolt-action rifle of ancient design. Reliable, but slow-firing. Chambered in 5.56x45mm."
 	icon = 'mods/persistence/icons/obj/guns/tier1/boltaction.dmi'
@@ -20,5 +20,5 @@
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
 	)
 
-/obj/item/gun/projectile/bolt_action/simple/empty
+/obj/item/gun/projectile/bolt_action/tierone/empty
 	starts_loaded = FALSE

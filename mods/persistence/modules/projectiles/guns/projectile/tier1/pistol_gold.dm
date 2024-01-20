@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/pistol/simple/golden
+/obj/item/gun/projectile/pistol/tierone/golden
 	name = ".45 'Colt-M' T1-HG"
 	desc = "Luxurious pistol of ancient design. Reliable and fabulous, but struggles against armored targets. Chambered in .45."
 	icon = 'mods/persistence/icons/obj/guns/tier1/pistol_gold.dmi'
@@ -10,5 +10,5 @@
 		/decl/material/solid/metal/gold = MATTER_AMOUNT_REINFORCEMENT
 	)
 
-/obj/item/gun/projectile/pistol/simple/golden/empty
+/obj/item/gun/projectile/pistol/tierone/golden/empty
 	starts_loaded = FALSE

@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/revolver/simple
+/obj/item/gun/projectile/revolver/tierone
 	name = ".357 'Chief' T1-RV"
 	desc = "Revolver of ancient design. Uses high-power rounds, but struggles with a low ammunition capacity and poor armor penetration. Chambered in .357."
 	icon = 'mods/persistence/icons/obj/guns/tier1/revolver.dmi'
@@ -17,5 +17,5 @@
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
 	)
 
-/obj/item/gun/projectile/revolver/simple/empty
+/obj/item/gun/projectile/revolver/tierone/empty
 	starts_loaded = FALSE

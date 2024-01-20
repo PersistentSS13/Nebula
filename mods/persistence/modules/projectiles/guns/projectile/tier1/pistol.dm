@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/pistol/simple
+/obj/item/gun/projectile/pistol/tierone
 	name = ".45 'Colt' T1-HG"
 	desc = "Pistol of ancient design. Reliable, but struggles against armored targets. Chambered in .45."
 	icon = 'mods/persistence/icons/obj/guns/tier1/pistol.dmi'
@@ -18,5 +18,5 @@
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
 	)
 
-/obj/item/gun/projectile/pistol/simple/empty
+/obj/item/gun/projectile/pistol/tierone/empty
 	starts_loaded = FALSE

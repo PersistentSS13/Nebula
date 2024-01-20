@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/pistol/handmade
+/obj/item/gun/projectile/pistol/tierzero
 	name = ".22LR 'Zip' T0-HG"
 	desc = "Pistol of dubious origin. Struggles against armored targets, but carries the benefits of magazines over hand-loading. Chambered in .22LR."
 	icon = 'mods/persistence/icons/obj/guns/tier0/pistol.dmi'
@@ -17,5 +17,5 @@
 		/decl/material/solid/organic/wood = MATTER_AMOUNT_REINFORCEMENT
 	)
 
-/obj/item/gun/projectile/pistol/handmade/empty
+/obj/item/gun/projectile/pistol/tierzero/empty
 	starts_loaded = FALSE

@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/revolver/advanced
+/obj/item/gun/projectile/revolver/tiertwo
 	name = ".357 'Officer' T2-RV"
 	desc = "Revolver of modern design. Uses high-power rounds and has better ammunition capacity and accuracy compared to older models. Chambered in .357."
 	icon = 'mods/persistence/icons/obj/guns/tier2/revolver.dmi'
@@ -18,5 +18,5 @@
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
 	)
 
-/obj/item/gun/projectile/revolver/advanced/empty
+/obj/item/gun/projectile/revolver/tiertwo/empty
 	starts_loaded = FALSE

@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/pistol/advanced
+/obj/item/gun/projectile/pistol/tiertwo
 	name = ".45 'Paco' T2-HG"
 	desc = "Pistol of modern design. Highly accurate, and boasts a reduced fire delay compared to earlier models. Chambered in .45."
 	icon = 'mods/persistence/icons/obj/guns/tier2/pistol.dmi'
@@ -19,5 +19,5 @@
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
 	)
 
-/obj/item/gun/projectile/pistol/advanced/empty
+/obj/item/gun/projectile/pistol/tiertwo/empty
 	starts_loaded = FALSE

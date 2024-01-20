@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/revolver/handmade
+/obj/item/gun/projectile/revolver/tierzero
 	name = ".45 'Underdog' T0-RV"
 	desc = "Revolver of dubious origin. Shoddy craftsmanship results in low ammo capacity and high recoil. Chambered in .45."
 	icon = 'mods/persistence/icons/obj/guns/tier0/revolver.dmi'
@@ -16,5 +16,5 @@
 		/decl/material/solid/organic/wood = MATTER_AMOUNT_REINFORCEMENT
 	)
 
-/obj/item/gun/projectile/revolver/handmade/empty
+/obj/item/gun/projectile/revolver/tierzero/empty
 	starts_loaded = FALSE

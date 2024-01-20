@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/pistol/pistol_pocket/advanced
+/obj/item/gun/projectile/pistol/pistol_pocket/tiertwo
 	name = ".22LR 'Triple-Threat' T2-HG"
 	desc = "Pistol of modern design. Small enough to store in pockets, and possesses both semi-automatic and three-round burst fire modes. Chambered in .22LR."
 	icon = 'mods/persistence/icons/obj/guns/tier2/pistol_pocket.dmi'
@@ -23,5 +23,5 @@
 		list(mode_name="3-round bursts", burst=3, fire_delay=2, one_hand_penalty=1, burst_accuracy=list(1,0,-1),       dispersion=list(0.0, 1.6, 2.4, 2.4)),
 	)
 
-/obj/item/gun/projectile/pistol/pistol_pocket/advanced/empty
+/obj/item/gun/projectile/pistol/pistol_pocket/tiertwo/empty
 	starts_loaded = FALSE

@@ -1,4 +1,4 @@
-/obj/item/gun/projectile/shotgun/pump/simple
+/obj/item/gun/projectile/shotgun/pump/tierone
 	name = "12g 'Teufort' T1-SG"
 	desc = "Pump-action shotgun of ancient design. Powerful, but fires slowly due to pump-action mechanism and high recoil. Chambered in 12 gauge."
 	icon = 'mods/persistence/icons/obj/guns/tier1/shotgun_pump.dmi'
@@ -19,5 +19,5 @@
 		/decl/material/solid/metal/titanium = MATTER_AMOUNT_TRACE
 	)
 
-/obj/item/gun/projectile/shotgun/pump/simple/empty
+/obj/item/gun/projectile/shotgun/pump/tierone/empty
 	starts_loaded = FALSE
