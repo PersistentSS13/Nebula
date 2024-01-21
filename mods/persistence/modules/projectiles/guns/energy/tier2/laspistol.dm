@@ -1,4 +1,4 @@
-/obj/item/gun/energy/laser/pistol/advanced
+/obj/item/gun/energy/laser/pistol/tiertwo
 	name = "Laser 'Martin' T2-EG"
 	desc = "Laser pistol used by modern high-tech military groups. Compact, quick-firing, and boasts acceptable charge capacity due to advanced construction. Fires Alpha-type laser beams."
 	icon = 'mods/persistence/icons/obj/guns/tier2/laspistol.dmi'

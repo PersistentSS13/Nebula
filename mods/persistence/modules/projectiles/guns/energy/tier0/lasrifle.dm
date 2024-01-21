@@ -1,4 +1,4 @@
-/obj/item/gun/energy/laser/rifle/handmade
+/obj/item/gun/energy/laser/rifle/tierzero
 	name = "Laser 'Tagger' T0-EG"
 	desc = "Laser rifle of dubious origin. Shoddy craftsmanship results in low charge capacity and weak output. Fires Alpha-type laser beams."
 	icon = 'mods/persistence/icons/obj/guns/tier0/lasrifle.dmi'

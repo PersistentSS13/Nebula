@@ -1,4 +1,4 @@
-/obj/item/gun/energy/laser/rifle/advanced
+/obj/item/gun/energy/laser/rifle/tiertwo
 	name = "Laser 'Frontrunner' T2-EG"
 	desc = "Laser rifle used by modern high-tech military groups. Powerful compared to previous models of laser weapons, and boasts decent charge capacity. Fires Beta-type laser beams."
 	icon = 'mods/persistence/icons/obj/guns/tier2/lasrifle.dmi'

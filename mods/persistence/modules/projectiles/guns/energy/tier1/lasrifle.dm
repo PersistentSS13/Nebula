@@ -1,4 +1,4 @@
-/obj/item/gun/energy/laser/rifle/simple
+/obj/item/gun/energy/laser/rifle/tierone
 	name = "Laser 'Marine' T1-EG"
 	desc = "Laser rifle used by modern spacers. Powerful, but bulky and suffers from low charge capacity. Fires Beta-type laser beams."
 	icon = 'mods/persistence/icons/obj/guns/tier1/lasrifle.dmi'

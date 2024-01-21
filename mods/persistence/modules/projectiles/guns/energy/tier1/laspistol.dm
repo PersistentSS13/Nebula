@@ -1,4 +1,4 @@
-/obj/item/gun/energy/laser/pistol/simple
+/obj/item/gun/energy/laser/pistol/tierone
 	name = "Laser 'Settler' T1-EG"
 	desc = "Laser pistol used by modern spacers. Compact, but suffers from low charge capacity because of this. Fires Alpha-type laser beams."
 	icon = 'mods/persistence/icons/obj/guns/tier1/laspistol.dmi'
