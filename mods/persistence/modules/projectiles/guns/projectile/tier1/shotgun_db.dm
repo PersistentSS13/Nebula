@@ -1,5 +1,5 @@
-/obj/item/gun/projectile/shotgun/simple
-	name = "12g 'Bouncer' SG"
+/obj/item/gun/projectile/shotgun/tierone
+	name = "12g 'Bouncer' T1-SG"
 	desc = "Break-action shotgun of ancient design. Powerful, but struggles in prolonged engagements due to low ammo capacity. Can fire one or both chambers at a time. Chambered in 12 gauge."
 	icon = 'mods/persistence/icons/obj/guns/tier1/shotgun_db.dmi'
 	load_method = SINGLE_CASING
@@ -9,7 +9,7 @@
 	force = 10
 	slot_flags = SLOT_BACK
 	caliber = CALIBER_12G
-	origin_tech = "{'combat':3,'engineering':2,'materials':2}"
+	origin_tech = "{'combat':10,'engineering':10,'materials':4}"
 	ammo_type = /obj/item/ammo_casing/twelvegauge/slug/simple
 	screen_shake = 1
 	accuracy = 0
@@ -25,5 +25,5 @@
 		list(mode_name="fire two barrels at a time", burst=2)
 	)
 
-/obj/item/gun/projectile/shotgun/simple/empty
+/obj/item/gun/projectile/shotgun/tierone/empty
 	starts_loaded = FALSE

@@ -1,10 +1,10 @@
-/obj/item/gun/projectile/bolt_action/advanced
-	name = "5.56x45mm 'Deadshot' BA"
+/obj/item/gun/projectile/bolt_action/tiertwo
+	name = "5.56x45mm 'Deadshot' T2-BA"
 	desc = "Bolt-action rifle of modern design. Accurate, and comes with a built-in 2x scope alongside an increased ammunition capacity compared to earlier models. Chambered in 5.56x45mm."
 	icon = 'mods/persistence/icons/obj/guns/tier2/boltaction.dmi'
 	force = 10
 	slot_flags = SLOT_BACK
-	origin_tech = "{'combat':4,'engineering':4,'materials':3}"
+	origin_tech = "{'combat':15,'engineering':15,'materials':6}"
 	caliber = CALIBER_556
 	handle_casings = HOLD_CASINGS
 	load_method = SINGLE_CASING
@@ -23,5 +23,5 @@
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE
 	)
 
-/obj/item/gun/projectile/bolt_action/advanced/empty
+/obj/item/gun/projectile/bolt_action/tiertwo/empty
 	starts_loaded = FALSE

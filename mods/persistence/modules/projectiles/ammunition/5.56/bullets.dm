@@ -12,35 +12,35 @@
 	damage = 25
 	distance_falloff = 1
 
-/obj/item/ammo_casing/fivefiftysix/handmade
+/obj/item/ammo_casing/fivefiftysix/tierzero
 	name = "makeshift 5.56x45mm round"
 	desc = "5.56x45mm round of dubious origin. Sports poor range and poor armor penetration due to shoddy construction."
 	icon = 'mods/persistence/icons/obj/ammunition/5.56/tier0.dmi'
-	projectile_type = /obj/item/projectile/bullet/fivefiftysix/handmade
+	projectile_type = /obj/item/projectile/bullet/fivefiftysix/tierzero
 
-/obj/item/projectile/bullet/fivefiftysix/handmade
+/obj/item/projectile/bullet/fivefiftysix/tierzero
 	damage = 35
 	distance_falloff = 4
 	penetration_modifier = 1
 
-/obj/item/ammo_casing/fivefiftysix/simple
+/obj/item/ammo_casing/fivefiftysix/tierone
 	name = "standard 5.56x45mm round"
 	desc = "5.56x45mm round of ancient design. Sports good armor penetration capabilities, but most firearms which use it are bulky."
 	icon = 'mods/persistence/icons/obj/ammunition/5.56/tier1.dmi'
-	projectile_type = /obj/item/projectile/bullet/fivefiftysix/simple
+	projectile_type = /obj/item/projectile/bullet/fivefiftysix/tierone
 
-/obj/item/projectile/bullet/fivefiftysix/simple
+/obj/item/projectile/bullet/fivefiftysix/tierone
 	damage = 45
 	distance_falloff = 2
 	penetration_modifier = 0.8
 
-/obj/item/ammo_casing/fivefiftysix/advanced
+/obj/item/ammo_casing/fivefiftysix/tiertwo
 	name = "advanced 5.56x45mm round"
 	desc = "5.56x45mm round of modern design. Sports great armor penetration capabilities, but most firearms which use it are bulky."
 	icon = 'mods/persistence/icons/obj/ammunition/5.56/tier2.dmi'
-	projectile_type = /obj/item/projectile/bullet/fivefiftysix/advanced
+	projectile_type = /obj/item/projectile/bullet/fivefiftysix/tiertwo
 
-/obj/item/projectile/bullet/fivefiftysix/advanced
+/obj/item/projectile/bullet/fivefiftysix/tiertwo
 	damage = 55
 	distance_falloff = 1
 	penetration_modifier = 0.7

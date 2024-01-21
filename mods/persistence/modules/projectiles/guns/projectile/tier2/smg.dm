@@ -1,5 +1,5 @@
-/obj/item/gun/projectile/automatic/smg/advanced
-	name = ".22LR 'Junior' SMG"
+/obj/item/gun/projectile/automatic/smg/tiertwo
+	name = ".22LR 'Junior' T2-SMG"
 	desc = "Submachine gun of modern design. Somewhat accurate, and boasts both semi-automatic and fully automatic firing modes. Chambered in .22LR."
 	icon = 'mods/persistence/icons/obj/guns/tier2/smg.dmi'
 	caliber = CALIBER_22LR
@@ -7,7 +7,7 @@
 	w_class = ITEM_SIZE_LARGE
 	slot_flags = SLOT_LOWER_BODY|SLOT_BACK
 	force = 5
-	origin_tech = "{'combat':4,'engineering':4,'materials':3}"
+	origin_tech = "{'combat':15,'engineering':15,'materials':6}"
 	one_hand_penalty = 0
 	accuracy = 0
 	auto_eject = 0
@@ -25,6 +25,6 @@
 		list(mode_name="fully-automatic",      burst=1, fire_delay=0,    burst_delay=1,      one_hand_penalty=15,                 burst_accuracy=list(0,-1,-1,-2,-3), dispersion=list(1.6, 1.6, 2.0, 2.0, 2.4), autofire_enabled=1)
 	)
 
-/obj/item/gun/projectile/automatic/smg/advanced/empty
+/obj/item/gun/projectile/automatic/smg/tiertwo/empty
 	starts_loaded = FALSE
 

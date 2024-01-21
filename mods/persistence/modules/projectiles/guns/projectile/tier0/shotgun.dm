@@ -1,5 +1,5 @@
-/obj/item/gun/projectile/shotgun/handmade
-	name = "12g 'Slider' SG"
+/obj/item/gun/projectile/shotgun/tierzero
+	name = "12g 'Slider' T0-SG"
 	desc = "Break-action shotgun of dubious origin. Shoddy craftsmanship results in extremely low ammo capacity and high recoil. Chambered in 12 gauge."
 	icon = 'mods/persistence/icons/obj/guns/tier0/shotgun.dmi'
 	load_method = SINGLE_CASING
@@ -9,7 +9,7 @@
 	force = 5 // lacks a butt for effective rifle-whipping
 	slot_flags = SLOT_BACK
 	caliber = CALIBER_12G
-	origin_tech = "{'combat':2,'engineering':1,'materials':1}"
+	origin_tech = "{'combat':5,'engineering':5,'materials':2}"
 	ammo_type = /obj/item/ammo_casing/twelvegauge/slug/handmade
 	screen_shake = 2
 	accuracy = -1
@@ -19,5 +19,5 @@
 		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT
 	)
 
-/obj/item/gun/projectile/shotgun/handmade/empty
+/obj/item/gun/projectile/shotgun/tierzero/empty
 	starts_loaded = FALSE
