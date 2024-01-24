@@ -263,3 +263,38 @@
 /obj/item/ammo_magazine/speedloader/laser_revolver
 	caliber = CALIBER_PISTOL_LASBULB
 	ammo_type = /obj/item/ammo_casing/lasbulb
+
+/obj/item/ammo_magazine/shotgunmag
+	name = "shotgun drum magazine"
+	desc = "A magazine for semi-automatic shotguns."
+	icon_state = "shotdrum"
+	caliber = CALIBER_SHOTGUN
+	mag_type = MAGAZINE
+	ammo_type = /obj/item/ammo_casing/shotgun
+	max_ammo = 15
+	multiple_sprites = TRUE
+
+/obj/item/ammo_magazine/shotgunmag/shot
+	labels = list("shot")
+	ammo_type = /obj/item/ammo_casing/shotgun/pellet
+
+/obj/item/ammo_magazine/shotgunmag/flechette
+	labels = list("flechette")
+	ammo_type = /obj/item/ammo_casing/shotgun/flechette
+
+/obj/item/ammo_magazine/shotgunmag/beanbag
+	labels = list("beanbag")
+	ammo_type = /obj/item/ammo_casing/shotgun/beanbag
+
+/obj/item/ammo_magazine/box/machinegun
+	name             = "magazine box"
+	icon_state       = "machinegun"
+	origin_tech      = list(TECH_COMBAT = 2)
+	mag_type         = MAGAZINE
+	caliber          = CALIBER_RIFLE
+	ammo_type        = /obj/item/ammo_casing/rifle
+	max_ammo         = 50
+	multiple_sprites = TRUE
+
+/obj/item/ammo_magazine/box/machinegun/empty
+	initial_ammo = 0

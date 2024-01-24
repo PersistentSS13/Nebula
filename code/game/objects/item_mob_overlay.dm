@@ -60,6 +60,13 @@ var/global/list/icon_state_cache = list()
 	..()
 	update_world_inventory_state()
 
+/**
+Returns a suffix for the icon_state to use for the overlay on the mob.
+Allows to have different on mob icons depending on what state the item may be in.
+ */
+/obj/item/proc/get_mob_overlay_suffix(mob/user_mob, slot, bodypart)
+	return
+
 /obj/item/proc/get_mob_overlay(mob/user_mob, slot, bodypart)
 
 	if(!use_single_icon)
@@ -81,7 +88,8 @@ var/global/list/icon_state_cache = list()
 			bodytype = BODYTYPE_HUMANOID
 			useicon = get_icon_for_bodytype(bodytype)
 
-	var/use_state = "[bodytype]-[slot]"
+	var/suffix    = get_mob_overlay_suffix(user_mob, slot, bodypart) //Allow fetching an overlay icon for a specific situation.
+	var/use_state = length(suffix)? "[bodytype]-[slot]-[suffix]" : "[bodytype]-[slot]"
 	if(!check_state_in_icon(use_state, useicon) && global.bodypart_to_slot_lookup_table[slot])
 		use_state = "[bodytype]-[global.bodypart_to_slot_lookup_table[slot]]"
 

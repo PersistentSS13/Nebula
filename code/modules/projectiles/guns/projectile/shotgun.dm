@@ -112,3 +112,80 @@
 
 /obj/item/gun/projectile/shotgun/doublebarrel/sawn/empty
 	starts_loaded = FALSE
+
+/obj/item/gun/projectile/shotgun/magshot
+	name = "auto shotgun"
+	desc = "A remnant of a bygone era, the NZ CSG-242 was formerly standard issue for Confederate Naval Forces for ship defense during hostile boarding actions. With a change in doctrine after the losses at Gaia, and with more focus on a multi-role weapons platform, the weapon is slowly being phased out of service."
+	icon = 'icons/obj/guns/shotgun/magshot.dmi'
+	load_method = MAGAZINE
+	magazine_type = /obj/item/ammo_magazine/shotgunmag
+	allowed_magazines = /obj/item/ammo_magazine/shotgunmag
+	w_class = ITEM_SIZE_HUGE
+	force = 10
+	obj_flags =  OBJ_FLAG_CONDUCTIBLE
+	slot_flags = SLOT_BACK
+	caliber = CALIBER_SHOTGUN
+	origin_tech = list(TECH_COMBAT = 3, TECH_MATERIAL = 1)
+	auto_eject = TRUE
+	auto_eject_sound = 'sound/weapons/smg_empty_alarm.ogg'
+	one_hand_penalty = 8
+	bulk = GUN_BULK_RIFLE
+	burst_delay = 2
+	accuracy = -1
+	jam_chance = 0.5
+	safety_icon = "safety"
+	ammo_indicator = TRUE
+
+	firemodes = list(
+		list(mode_name="semi-auto",     burst=1, fire_delay=2, move_delay=3, one_hand_penalty=7, burst_accuracy=null, dispersion=1.5),
+		list(mode_name="3 shell burst", burst=3, fire_delay=1.5, move_delay=6, one_hand_penalty=9, burst_accuracy=list(-1,-1, -2), dispersion=list(2, 2, 4)),
+		list(mode_name="full auto",		can_autofire=TRUE, burst=1, fire_delay=1, move_delay=6, one_hand_penalty=15, burst_accuracy = list(-1,-2,-2,-3,-3,-3,-4,-4), dispersion = list(2, 4, 4, 6, 6, 8))
+		)
+
+/obj/item/gun/projectile/shotgun/magshot/empty
+	starts_loaded = FALSE
+
+/obj/item/gun/projectile/shotgun/magshot/get_ammo_indicator()
+	var/base_state = get_world_inventory_state()
+	if(ammo_magazine)
+		var/ammo_count = LAZYLEN(ammo_magazine.stored_ammo)
+		if(ammo_count == ammo_magazine.max_ammo)
+			return mutable_appearance(icon, "[base_state]100")
+		else if(ammo_count >= (0.75 * ammo_magazine.max_ammo))
+			return mutable_appearance(icon, "[base_state]75")
+		else if(ammo_count >= (0.5 * ammo_magazine.max_ammo))
+			return mutable_appearance(icon, "[base_state]50")
+
+	//If mag is empty or below
+	return mutable_appearance(icon, "[base_state]25")
+
+/obj/item/gun/projectile/shotgun/magshot/on_update_icon()
+	..()
+	if(ammo_magazine)
+		icon_state = get_world_inventory_state()
+	else
+		icon_state = "[get_world_inventory_state()]-empty"
+
+/obj/item/gun/projectile/shotgun/magshot/get_mob_overlay_suffix()
+	if(!ammo_magazine)
+		return "empty"
+
+/obj/item/gun/projectile/shotgun/pump/combat
+	name = "combat shotgun"
+	desc = "Built for close quarters combat, the Hephaestus Industries KS-40 is widely regarded as a weapon of choice for repelling boarders."
+	icon = 'icons/obj/guns/shotgun/combat.dmi'
+	origin_tech = list(TECH_COMBAT = 5, TECH_MATERIAL = 2)
+	max_shells = 7 //match the ammo box capacity, also it can hold a round in the chamber anyways, for a total of 8.
+	ammo_type = /obj/item/ammo_casing/shotgun
+	one_hand_penalty = 8
+
+/obj/item/gun/projectile/shotgun/pump/combat/on_update_icon()
+	..()
+	if(length(loaded) > 3)
+		for(var/i = 0 to length(loaded) - 4)
+			var/image/I = image(icon, "shell")
+			I.pixel_x = i * 2
+			add_overlay(I)
+
+/obj/item/gun/projectile/shotgun/pump/combat/empty
+	starts_loaded = FALSE

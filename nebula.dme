@@ -3058,6 +3058,7 @@
 #include "code\modules\projectiles\guns\projectile\dartgun.dm"
 #include "code\modules\projectiles\guns\projectile\flaregun.dm"
 #include "code\modules\projectiles\guns\projectile\lasvolver.dm"
+#include "code\modules\projectiles\guns\projectile\lmg.dm"
 #include "code\modules\projectiles\guns\projectile\pistol.dm"
 #include "code\modules\projectiles\guns\projectile\random_pistol.dm"
 #include "code\modules\projectiles\guns\projectile\revolver.dm"

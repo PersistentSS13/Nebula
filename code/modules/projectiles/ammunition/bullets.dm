@@ -105,6 +105,11 @@
 	projectile_type = /obj/item/projectile/bullet/pellet/shotgun
 	material = /decl/material/solid/metal/steel
 
+/obj/item/ammo_casing/shotgun/flechette
+	name = "flechette shell"
+	desc = "A flechette shell."
+	projectile_type = /obj/item/projectile/bullet/pellet/shotgun/flechette
+
 /obj/item/ammo_casing/shotgun/blank
 	name = "shotgun shell"
 	desc = "A blank shell."
