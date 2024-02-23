@@ -114,8 +114,6 @@
 /serializer/proc/save_z_level_remaps()
 	return FALSE
 
-/serializer/proc/save_area_chunks()
-	return FALSE
 
 /serializer/proc/_before_serialize()
 	return

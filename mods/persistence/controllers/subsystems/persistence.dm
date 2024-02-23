@@ -75,13 +75,6 @@
 	/// The serializer impl for one off serialization/deserialization.
 
 
-	//#FIXME: Ideally, this shouldn't be handled by the server. The database could cross-reference atoms that were in limbo with those already in the world,
-	//        and just clear their limbo entry. It would thousands of time faster.
-	/// Objects which will be removed from limbo on the next save. Format is list(limbo_key, limbo_type)
-	var/list/limbo_removals = list()
-	/// Objects which are deserialized out of limbo don't have their refs in the database immediately, so we add them here until the next save. Format is p_id -> ref
-	var/list/limbo_refs     = list()
-
 	/// Some wrapped objects need special behavior post-load. This list is cleared post-atom Init.
 	var/list/late_wrappers = list()
 

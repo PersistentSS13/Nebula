@@ -18,16 +18,7 @@
 		to_chat(usr, "Couldn't get DB status, connection failed: [dbcon_save.ErrorMsg()]")
 		return
 
-	var/DBQuery/query = dbcon_save.NewQuery("SELECT `id`, `z`, `dynamic`, `default_turf` FROM `[SQLS_TABLE_Z_LEVELS]`")
-	if(!query.Execute())
-		to_chat(usr, "Error: [query.ErrorMsg()]")
-	if(!query.RowCount())
-		to_chat(usr, "No Z data...")
-
-	while(query.NextRow())
-		to_chat(usr, "Z data: (ID: [query.item[1]], Z: [query.item[2]], Dynamic: [query.item[3]], Default Turf: [query.item[4]])")
-
-	query = dbcon_save.NewQuery("SELECT DATABASE();")
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT DATABASE();")
 	var/my_db_name
 	if(!query.Execute())
 		to_chat(usr, "Error: [query.ErrorMsg()]")
@@ -36,7 +27,7 @@
 	query.NextRow()
 	my_db_name = query.item[1]
 
-	query = dbcon_save.NewQuery("SELECT `TABLE_NAME`, `TABLE_ROWS` FROM information_schema.tables WHERE `TABLE_SCHEMA` = '[my_db_name]' AND `TABLE_NAME` IN ('[SQLS_TABLE_LIST_ELEM]', '[SQLS_TABLE_DATUM]', '[SQLS_TABLE_DATUM_VARS]', '[SQLS_TABLE_AREAS]', '[SQLS_TABLE_LIST_ELEM]')")
+	query = dbcon_save.NewQuery("SELECT `TABLE_NAME`, `TABLE_ROWS` FROM information_schema.tables WHERE `TABLE_SCHEMA` = '[my_db_name]' AND `TABLE_NAME` IN ('[SQLS_TABLE_LIST_ELEM]', '[SQLS_TABLE_DATUM]', '[SQLS_TABLE_DATUM_VARS]', '[SQLS_TABLE_LIST_ELEM]')")
 	if(!query.Execute())
 		to_chat(usr, "Error: [query.ErrorMsg()]")
 		return
@@ -768,30 +759,8 @@ var/global/list/serialization_time_spent_type
 	for(var/z in z_transform)
 		var/datum/persistence/load_cache/z_level/z_level = z_transform[z]
 		world_cache.z_levels |= z_level
-
-	/*
-		z_inserts += "([z_insert_index],[z_level.new_index],[z_level.dynamic],'[z_level.default_turf]','[z_level.metadata]','[json_encode(z_level.areas)]','[z_level.level_data_subtype]')"
-		z_insert_index++
-
-	var/DBQuery/query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_Z_LEVELS]` (`id`,`z`,`dynamic`,`default_turf`,`metadata`,`areas`,`level_data_subtype`) VALUES[jointext(z_inserts, ",")]")
-	SQLS_EXECUTE_AND_REPORT_ERROR(query, "Z_LEVEL SERIALIZATION FAILED:")
-	*/
 	return TRUE
 
-/serializer/sql/save_area_chunks(var/list/area_chunks)
-	var/list/area_inserts = list()
-	var/area_insert_index = 1
-	for(var/datum/persistence/load_cache/area_chunk/area_chunk in area_chunks)
-		area_inserts += "([area_insert_index],'[area_chunk.area_type]','[sanitize_sql(area_chunk.name)]','[json_encode(area_chunk.turfs)]')"
-		area_insert_index++
-
-	// No additional areas to save!
-	if(!length(area_inserts))
-		return TRUE
-	log_world("Query is: INSERT INTO `[SQLS_TABLE_AREAS]` (`id`,`type`,`name`,`turfs`) VALUES[jointext(area_inserts, ",")]")
-	var/DBQuery/query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_AREAS]` (`id`,`type`,`name`,`turfs`) VALUES[jointext(area_inserts, ",")]")
-	SQLS_EXECUTE_AND_REPORT_ERROR(query, "AREA CHUNK SERIALIZATION FAILED:")
-	return TRUE
 
 /serializer/sql/count_saved_datums(var/instanceid)
 	if(!establish_save_db_connection())

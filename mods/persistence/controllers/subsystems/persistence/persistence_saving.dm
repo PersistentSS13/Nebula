@@ -300,16 +300,6 @@
 
 		serializer.Commit(instanceid) // cleanup leftovers.
 
-	// try
-	// 	// Insert our z-level remaps.
-	// 	serializer.save_z_level_remaps(z_transform)
-	// 	if(length(area_chunks))
-	// 		serializer.save_area_chunks(area_chunks)
-	// 	serializer.Commit()
-	// 	serializer.CommitRefUpdates()
-	// catch(var/exception/e_commit)
-	// 	_handle_critical_save_exception(e_commit, "area saving turf ref commit")
-
 	report_progress_serializer("Z-levels areas saved in [REALTIMEOFDAY2SEC(time_start_zarea)]s.")
 	sleep(5)
 	return area_chunks
