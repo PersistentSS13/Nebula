@@ -67,10 +67,6 @@
 
 	CLEAR_ALL_SV //Clear saved vars
 
-/mob/living/carbon/human/should_save()
-	. = ..()
-	if(!mind)//mind && !mind.finished_chargen)
-		return FALSE // We don't save mindless characters
 
 // Don't let it update icons during initialize
 // Can't avoid upstream code from doing it, so just postpone it
