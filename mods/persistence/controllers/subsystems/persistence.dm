@@ -73,7 +73,7 @@
 	/// The serializer impl for actually saving.
 	var/serializer/sql/serializer       = new()
 	/// The serializer impl for one off serialization/deserialization.
-	var/serializer/sql/one_off/one_off	= new()
+
 
 	//#FIXME: Ideally, this shouldn't be handled by the server. The database could cross-reference atoms that were in limbo with those already in the world,
 	//        and just clear their limbo entry. It would thousands of time faster.
@@ -96,9 +96,16 @@
 ///Returns true if a save already exists on the DB
 /datum/controller/subsystem/persistence/proc/SaveExists()
 	if(!save_exists)
-		save_exists = establish_save_db_connection() && serializer.save_exists()
+
+		establish_save_db_connection()
+		var/list/combo = serializer.GetLatestWorldid()
+		if(!combo || !combo.len > 1)
+			return 0
+
+		save_exists = establish_save_db_connection() && serializer.save_exists(combo[2])
 		in_loaded_world = save_exists
 	return save_exists
+
 
 ///Timestamp of when the currently loaded save was made.
 /datum/controller/subsystem/persistence/proc/LoadedSaveTimestamp()
@@ -135,6 +142,44 @@
 // Save/Load
 /////////////////////////////////////////////////////////////////
 
+/datum/controller/subsystem/persistence/proc/AcceptDeath(var/c_id, var/ckey)
+	if(ckey)
+		if(!serializer.VerifyCharacterOwner(c_id,ckey)) return
+	return serializer.AcceptDeath(c_id)
+
+///Causes a character to be saved.
+/datum/controller/subsystem/persistence/proc/SaveCharacter(var/mob/target, var/status)
+	var/exception/last_except
+	var/instanceid
+	if(!target || !istype(target) || !target.mind || !target.mind.unique_id)
+		return 1
+	try
+
+		instanceid = _save_instance()
+		var/datum/persistence/load_cache/character/head = new()
+		head.target = target
+		serializer.SaveCharacter(instanceid, head, status)
+
+	catch(var/exception/e)
+		throw e
+		//If exceptions end up in here, then we must interrupt saving completely.
+		//Exceptions should be filtered in the sub-procs depending on severity and the error tolerance threshold set.
+		save_complete_span_class = "danger"
+		save_complete_text       = "CHARACTER SAVE FAILED: [EXCEPTION_TEXT(e)]"
+		. = FALSE
+
+	//Throw any exception, so it's a bit more obvious to people looking at the runtime log that it actually runtimed and failed
+	if(last_except)
+		throw last_except
+	return 1
+
+
+
+
+
+
+
+
 ///Causes a world save to be started.
 /datum/controller/subsystem/persistence/proc/SaveWorld(var/save_initiator)
 	//Make sure we log who started the save.
@@ -153,24 +198,30 @@
 	// Do preparation first
 	_before_save(save_initiator)
 
+	var/instanceid
+	var/datum/persistence/load_cache/world/world_cache = new()
 	try
+
+		instanceid = _save_instance()
+
 		//Prepare z levels structure for saving
 		var/list/z_transform = _prepare_zlevels_indexing()
 
 		//Save all individual turfs marked for saving
-		_save_turfs(z_transform)
+		_save_turfs(z_transform, instanceid)
 
 		//Save area related stuff
-		_save_areas(z_transform)
-
+		serializer.save_z_level_remaps(z_transform, world_cache)
+		world_cache.area_chunks = _save_areas(z_transform, instanceid)
 		// Now save all the extensions which have marked themselves to be saved.
 		// As with areas, we create a dummy wrapper holder to hold these during load etc.
-		_save_extensions()
+		_save_extensions(instanceid)
 
 		// Save escrow accounts which are normally held on the SSmoney_accounts subsystem
-		_save_bank_accounts()
+		_save_bank_accounts(instanceid)
 
 	catch(var/exception/e)
+		throw e
 		//If exceptions end up in here, then we must interrupt saving completely.
 		//Exceptions should be filtered in the sub-procs depending on severity and the error tolerance threshold set.
 		save_complete_span_class = "danger"
@@ -184,6 +235,7 @@
 		save_complete_text       = "Save complete! Took [REALTIMEOFDAY2SEC(start)]s to save world."
 		. = TRUE
 
+	_finish_save_world(instanceid, world_cache)
 	//Handle post-save cleanup and such
 	_after_save()
 
@@ -199,19 +251,80 @@
 	if(last_except)
 		throw last_except
 
+
+///Save Character
+/datum/controller/subsystem/persistence/proc/NewCharacter(var/realname, var/ckey, var/slot, var/mob/target)
+
+	var/c_id = serializer.NewCharacter(realname,ckey,slot,target)
+	var/cs_id = SaveCharacter(target, SQLS_CHAR_STATUS_FIRST)
+	serializer.UpdateCharacterOriginalSave(c_id, cs_id)
+	return
+
+
+
+
+/datum/controller/subsystem/persistence/proc/LoadCharacter(var/c_id)
+	var/instanceid
+	var/datum/persistence/load_cache/character/head
+	var/exception/first_except
+	try
+		//Establish connection and etc..
+		_before_load()
+		var/list/id_combo = serializer.GetLatestCharacterSave(c_id)
+//		worldid = text2num(id_combo[1])
+		instanceid = text2num(id_combo[2])
+
+		serializer.resolver.load_cache(instanceid) //This is entirely unrecoverable if it throws and exception.
+		head = serializer.GetHead(instanceid)
+	catch(var/exception/e_load)
+		//Don't return in here, we need to let the code try to run cleanup below!
+		to_world_log("Load failed: [EXCEPTION_TEXT(e_load)].")
+		first_except = e_load
+
+	try
+		serializer.Clear()
+		serializer.resolver.clear_cache()
+		serializer._after_deserialize()
+	catch(var/exception/e_cleanup)
+		to_world_log("Load cleanup failed: [EXCEPTION_TEXT(e_cleanup)]")
+		if(!first_except)
+			first_except = e_cleanup
+	//Throw any exception that were allowed, so it's a bit more obvious to people looking at the runtime log that it actually runtimed and failed
+	if(first_except)
+		throw first_except
+
+	if(head)
+		return head.target
+
+/datum/controller/subsystem/persistence/proc/ClearName(var/realname)
+	return serializer.ClearName(realname)
+
 ///Load the last saved world.
 /datum/controller/subsystem/persistence/proc/LoadWorld()
 	var/time_total       = REALTIMEOFDAY
 	var/exception/first_except
 	loading_world  = TRUE
+//	var/worldid
+	var/instanceid
 
 	try
 		//Establish connection and etc..
 		_before_load()
+		var/list/id_combo = serializer.GetLatestWorldid()
+
+//		worldid = text2num(id_combo[1])
+		instanceid = text2num(id_combo[2])
+
 
 		// We start by loading the cache. This will load everything from SQL into an object structure
 		// and is much faster than live-querying for information.
-		serializer.resolver.load_cache() //This is entirely unrecoverable if it throws and exception.
+		serializer.resolver.load_cache(instanceid) //This is entirely unrecoverable if it throws and exception.
+		var/datum/persistence/load_cache/world/world_cache = serializer.GetHead(instanceid)
+		serializer.resolver.z_levels = world_cache.z_levels
+		serializer.resolver.area_chunks = world_cache.area_chunks
+		serializer.resolver.world_cache_s = world_cache
+
+
 		report_progress_serializer("Cached DB data in [REALTIMEOFDAY2SEC(time_total)]s.")
 		sleep(5)
 
@@ -231,14 +344,13 @@
 		_run_after_deserialize()
 
 		//Sync references
-		try
-			serializer.CommitRefUpdates()
-		catch(var/exception/e_commit_ref)
+//		try
+//			serializer.CommitRefUpdates()
+//		catch(var/exception/e_commit_ref)
 			//If refs fails, it's pretty bad. So filter it as a critical exception.
-			_handle_critical_load_exception(e_commit_ref, "running CommitRefUpdates()")
+//			to_world("[e_commit_ref]")
+//			_handle_critical_load_exception(e_commit_ref, "running CommitRefUpdates()")
 
-		//Make sure objects loaded onto the world that are still in the limbo table are removed
-		_update_limbo_state()
 
 	catch(var/exception/e_load)
 		//Don't return in here, we need to let the code try to run cleanup below!

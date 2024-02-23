@@ -19,6 +19,9 @@
 		log_warning(EXCEPTION_TEXT(E))
 		log_warning("Error tolerance set to 'critical-only', proceeding with load despite error in '[code_location]'!")
 
+
+// DEPRECIATED.
+
 // Get an object from its p_id via ref tracking. This will not always work if an object is asynchronously deserialized from others.
 // This is also quite slow - if you're trying to locate many objects at once, it's best to use a single query for multiple objects.
 /datum/controller/subsystem/persistence/proc/get_object_from_p_id(var/target_p_id)
@@ -71,9 +74,6 @@
 	try
 		//Establish connection mainly
 		serializer._before_deserialize()
-
-		// Loads all data in as part of a version.
-		report_progress_serializer("Loading last save, `[serializer.last_loaded_save_time()]`, with [serializer.count_saved_datums()] atoms to load.")
 	catch(var/exception/e)
 		_handle_critical_load_exception(e, "establishing db connection before load")
 
@@ -156,15 +156,6 @@
 		catch(var/exception/e)
 			_handle_recoverable_load_exception(e, "while running after_deserialize() on PID: '[id]'[!isnull(T)? ", '[T]'(\ref[T])([T.type])" : ""]")
 
-///Clean up limbo by removing any characters present in the gameworld. This may occur if the server does not save after
-///a player enters limbo.
-/datum/controller/subsystem/persistence/proc/_update_limbo_state()
-	// TODO: Generalize this for other things in limbo.
-	for(var/datum/mind/char_mind in global.player_minds)
-		try
-			one_off.RemoveFromLimbo(char_mind.unique_id, LIMBO_MIND)
-		catch(var/exception/e)
-			_handle_recoverable_load_exception(e, "while updating off-world storage state for player '[char_mind.key]'")
 
 ///Deserialize cached top level wrapper datum/turf exclusively from the db cache.
 /datum/controller/subsystem/persistence/proc/_deserialize_turfs()
@@ -182,6 +173,8 @@
 				serializer.DeserializeDatum(T)
 				continue
 			if(!T.x || !T.y || !T.z)
+				if (ispath(T.thing_type, /turf))
+					return
 				continue // This isn't a turf or a wrapper holder. We can skip it.
 			serializer.DeserializeDatum(T)
 			turfs_loaded["([T.x], [T.y], [T.z])"] = TRUE

@@ -163,7 +163,6 @@ INITIALIZE_IMMEDIATE(/mob/new_player)
 		var/decl/species/S = get_species_by_key(client.prefs.species)
 		if(!check_species_allowed(S))
 			return 0
-
 		AttemptLateSpawn(job, client.prefs.spawnpoint)
 		return
 
@@ -344,6 +343,42 @@ INITIALIZE_IMMEDIATE(/mob/new_player)
 	var/datum/browser/popup = new(src, "latechoices", "Choose Profession", 450, 640)
 	popup.set_content(jointext(dat, null))
 	popup.open(0)
+
+
+/mob/new_player/proc/create_character_first()
+
+	var/mob/living/carbon/human/new_character
+
+	var/decl/species/chosen_species
+	if(client.prefs.species)
+		chosen_species = get_species_by_key(client.prefs.species)
+
+	if(chosen_species)
+		if(!check_species_allowed(chosen_species))
+			spawning = 0 //abort
+			return null
+		new_character = new(null, chosen_species.name)
+
+	if(!new_character)
+		new_character = new(null)
+
+	client.prefs.copy_to(new_character)
+
+	if(!mind) mind = new()
+	mind.active = 0 //we wish to transfer the key manually
+	mind.original = new_character
+	var/memory = client.prefs.records[PREF_MEM_RECORD]
+	if(memory)
+		mind.StoreMemory(memory)
+	mind.transfer_to(new_character)					//won't transfer key since the mind is not active
+
+	// Do the initial caching of the player's body icons.
+	new_character.force_update_limbs()
+	new_character.try_refresh_visible_overlays()
+
+
+	return new_character
+
 
 /mob/new_player/proc/create_character(var/turf/spawn_turf)
 	spawning = 1

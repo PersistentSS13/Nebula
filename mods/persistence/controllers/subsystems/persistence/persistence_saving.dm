@@ -71,30 +71,6 @@
 	SSair.invalidate_all_zones()
 	report_progress_serializer("Invalidated in [REALTIMEOFDAY2SEC(time_start)]s")
 
-///Update the list of things in limbo and not in limbo, so they don't get saved in 2 different states.
-/datum/controller/subsystem/persistence/proc/prepare_limbo_for_save()
-	var/time_start = REALTIMEOFDAY
-	for(var/list/queued in limbo_removals)
-		one_off.RemoveFromLimbo(queued[1], queued[2])
-		limbo_removals -= list(queued)
-	limbo_refs.Cut()
-	report_progress_serializer("Removed queued limbo objects in [REALTIMEOFDAY2SEC(time_start)]s.")
-
-	// Find all the minds gameworld and add any player characters to the limbo list.
-	time_start = REALTIMEOFDAY
-	for(var/datum/mind/char_mind in global.player_minds)
-		var/mob/current_mob = char_mind.current
-		if(!current_mob || !char_mind.key || istype(char_mind.current, /mob/new_player) || !char_mind.finished_chargen)
-			// Just in case, delete this character from limbo.
-			one_off.RemoveFromLimbo(char_mind.unique_id, LIMBO_MIND)
-			continue
-		if(QDELETED(current_mob))
-			continue
-		// Check to see if the mobs are already being saved.
-		if(current_mob.in_saved_location())
-			continue
-		one_off.AddToLimbo(list(current_mob, char_mind), char_mind.unique_id, LIMBO_MIND, char_mind.key, current_mob.real_name, TRUE)
-	report_progress_serializer("Added player minds to limbo in [REALTIMEOFDAY2SEC(time_start)]s.")
 
 /datum/controller/subsystem/persistence/proc/_prepare_zlevels_indexing()
 	var/time_start_zprepare = REALTIMEOFDAY
@@ -162,8 +138,24 @@
 
 	return z_transform
 
+
+///Creates an instance entry and returns InstanceID
+/datum/controller/subsystem/persistence/proc/_save_instance()
+	report_progress_serializer("Saving instance..")
+	return serializer.CommitInstance()
+
+
 ///Saves all the turfs marked for saving in the world.
-/datum/controller/subsystem/persistence/proc/_save_turfs(var/list/z_transform)
+/datum/controller/subsystem/persistence/proc/_save_single(var/datum/single, var/instanceid)
+	try
+		serializer.Serialize(single, null, 0, instanceid)
+		serializer.Commit(instanceid)
+	catch(var/exception/e_ref_commit)
+		_handle_critical_save_exception(e_ref_commit, "Save Single Failed!")
+
+
+///Saves all the turfs marked for saving in the world.
+/datum/controller/subsystem/persistence/proc/_save_turfs(var/list/z_transform, var/instanceid)
 	report_progress_serializer("Saving z-level turfs..")
 	sleep(5)
 
@@ -220,22 +212,24 @@
 								continue // Failed to find anything worth saving, skip to the next turf.
 
 						//If we got through the filter, save
-						serializer.Serialize(T, null, z)
+						serializer.Serialize(T, null, z, instanceid)
 
 					catch(var/exception/e_turf)
 						_handle_recoverable_save_exception(e_turf, "saving a turf") //Allow a turf to fail to save when allowed, that's minimal damage.
+
 
 					// Don't commit every single tile.
 					// Batch them up to save time.
 					if(nb_turfs_queued % 128 == 0)
 						try
-							serializer.Commit()
+							serializer.Commit(instanceid)
 							nb_turfs_queued = 1
 						catch(var/exception/e_turf_commit)
 							nb_turfs_queued = 1
 							_handle_critical_save_exception(e_turf_commit, "pushing turf commit") //Failing a commit is pretty bad since they're all batched together.
 					else
 						nb_turfs_queued++
+
 
 			if(last_area_type)
 				z_level.areas += list(list("[last_area_type]", sanitize_sql(last_area_name), area_turf_count))
@@ -244,8 +238,8 @@
 
 		//Ref update commit + flush commit
 		try
-			serializer.Commit() // cleanup leftovers.
-			serializer.CommitRefUpdates()
+			serializer.Commit(instanceid) // cleanup leftovers.
+			serializer.CommitRefUpdates(instanceid)
 		catch(var/exception/e_ref_commit)
 			_handle_critical_save_exception(e_ref_commit, "pushing a ref update commit") //Failing ref updates is really bad.
 
@@ -258,7 +252,7 @@
 	sleep(5)
 
 ///Saves area stuff
-/datum/controller/subsystem/persistence/proc/_save_areas(var/list/z_transform)
+/datum/controller/subsystem/persistence/proc/_save_areas(var/list/z_transform, var/instanceid)
 	var/time_start_zarea = REALTIMEOFDAY
 	var/list/area_chunks = list()
 	var/nb_turfs_queued  = 1
@@ -291,12 +285,12 @@
 			var/new_z = serializer.z_map["[T.z]"] //#FIXME: String concat is extremely slow.
 			if(new_z)
 				area_chunk.turfs += "[T.x],[T.y],[new_z]" //#FIXME: String concat is extremely slow.
-			serializer.Serialize(T, null, T.z)
+			serializer.Serialize(T, null, T.z, instanceid)
 
 			// Don't save every single tile.
 			// Batch them up to save time.
 			if(nb_turfs_queued % 128 == 0)
-				serializer.Commit()
+				serializer.Commit(instanceid)
 				nb_turfs_queued = 1
 			else
 				nb_turfs_queued++
@@ -304,55 +298,55 @@
 		if(length(area_chunk.turfs))
 			area_chunks += area_chunk
 
-		serializer.Commit() // cleanup leftovers.
+		serializer.Commit(instanceid) // cleanup leftovers.
 
-	try
-		// Insert our z-level remaps.
-		serializer.save_z_level_remaps(z_transform)
-		if(length(area_chunks))
-			serializer.save_area_chunks(area_chunks)
-		serializer.Commit()
-		serializer.CommitRefUpdates()
-	catch(var/exception/e_commit)
-		_handle_critical_save_exception(e_commit, "area saving turf ref commit")
+	// try
+	// 	// Insert our z-level remaps.
+	// 	serializer.save_z_level_remaps(z_transform)
+	// 	if(length(area_chunks))
+	// 		serializer.save_area_chunks(area_chunks)
+	// 	serializer.Commit()
+	// 	serializer.CommitRefUpdates()
+	// catch(var/exception/e_commit)
+	// 	_handle_critical_save_exception(e_commit, "area saving turf ref commit")
 
 	report_progress_serializer("Z-levels areas saved in [REALTIMEOFDAY2SEC(time_start_zarea)]s.")
 	sleep(5)
-
+	return area_chunks
 ///Saves extension wrapper stuff
-/datum/controller/subsystem/persistence/proc/_save_extensions()
+/datum/controller/subsystem/persistence/proc/_save_extensions(var/instanceid)
 	var/datum/wrapper_holder/extension_wrapper_holder = new(saved_extensions)
 	var/time_start_extensions = REALTIMEOFDAY
 
 	try
-		serializer.Serialize(extension_wrapper_holder)
+		serializer.Serialize(extension_wrapper_holder, instanceid)
 	catch(var/exception/e_serial)
 		_handle_recoverable_save_exception(e_serial, "extension serialization")
 
-	try
-		serializer.Commit()
-	catch(var/exception/e_commit)
-		_handle_critical_save_exception(e_commit, "extension commit") //If commit fails, we corrupted our commit cache so not good
+//	try
+//		serializer.Commit()
+//	catch(var/exception/e_commit)
+//		_handle_critical_save_exception(e_commit, "extension commit") //If commit fails, we corrupted our commit cache so not good
 
 	report_progress_serializer("Saved extensions in [REALTIMEOFDAY2SEC(time_start_extensions)]s.")
 	sleep(5)
 
 ///Save bank account stuff
-/datum/controller/subsystem/persistence/proc/_save_bank_accounts()
+/datum/controller/subsystem/persistence/proc/_save_bank_accounts(var/instanceid)
 	if(!length(SSmoney_accounts.all_escrow_accounts))
 		return
 	var/datum/wrapper_holder/escrow_holder/e_holder = new(SSmoney_accounts.all_escrow_accounts.Copy())
 	var/time_start_escrow = REALTIMEOFDAY
 
 	try
-		serializer.Serialize(e_holder)
+		serializer.Serialize(e_holder, instanceid)
 	catch(var/exception/e_serial)
 		_handle_recoverable_save_exception(e_serial, "bank account serialization")
 
-	try
-		serializer.Commit()
-	catch(var/exception/e_commit)
-		_handle_critical_save_exception(e_commit, "bank account  commit") //If commit fails, we corrupted our commit cache so not good
+//	try
+//		serializer.Commit()
+//	catch(var/exception/e_commit)
+//		_handle_critical_save_exception(e_commit, "bank account  commit") //If commit fails, we corrupted our commit cache so not good
 
 	report_progress_serializer("Escrow accounts saved in [REALTIMEOFDAY2SEC(time_start_escrow)]s.")
 	sleep(5)
@@ -397,12 +391,9 @@
 			_handle_recoverable_save_exception(e_presave, "serializer.PreWorldSave()")
 	sleep(5)
 
-	//Clear limbo stuff after we've connected to the db!
-	try
-		prepare_limbo_for_save()
-	catch(var/exception/e_limbo)
-		_handle_recoverable_save_exception(e_limbo, "prepare_limbo_for_save()")
-	sleep(5)
+///Runs the post-saving stuff
+/datum/controller/subsystem/persistence/proc/_finish_save_world(var/instanceid, var/datum/persistence/load_cache/world/world_cache)
+	return	serializer.FinishWorld(instanceid, world_cache)
 
 ///Runs the post-saving stuff
 /datum/controller/subsystem/persistence/proc/_after_save()
@@ -420,11 +411,11 @@
 			var/datum/serialization_stat/statistics = global.serialization_time_spent_type[key]
 			saved_types_stats += "\t[statistics.time_spent / (1 SECOND)] second(s)\t[statistics.nb_instances]\tinstance(s)\t\t'[key]'"
 
-		to_world(SPAN_CLASS(save_complete_span_class, save_complete_text))
+	//	to_world(SPAN_CLASS(save_complete_span_class, save_complete_text))
 		to_world_log(save_complete_text)
 		to_world_log("Time spent per type:\n[jointext(saved_types_stats, "\n")]")
 		to_world_log("Total time spent doing saved variables lookups: [global.get_saved_variables_lookup_time_total / (1 SECOND)] second(s).")
-
+		serializer.Clear()
 	catch(var/exception/e)
 		_handle_recoverable_save_exception(e, "_after_save()") //Anything post-save is recoverable
 

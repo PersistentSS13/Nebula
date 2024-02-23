@@ -1,5 +1,5 @@
 /mob/living/carbon/human
-	var/obj/home_spawn		// The object we last safe-slept on. Used for moving characters to safe locations on loads.
+	var/home_spawn		// The object we last safe-slept on. Used for moving characters to safe locations on loads. POINTS TO A UID
 
 /mob/living/carbon/human/before_save()
 	. = ..()
@@ -56,25 +56,21 @@
 
 	//Important to regen icons here, since we skipped on that before load!
 	refresh_visible_overlays()
-
-	if(ignore_persistent_spawn())
-		return
-
-	if(!loc) // We're loading into null-space because we were in an unsaved level or intentionally in limbo. Move them to the last valid spawn.
-		if(istype(home_spawn))
-			if(home_spawn.loc)
-				forceMove(get_turf(home_spawn)) // Welcome home!
-				return
-			else // Your bed is in nullspace with you!
-				QDEL_NULL(home_spawn)
+	if(!loc && !ignore_persistent_spawn()) // We're loading into null-space because we were in an unsaved level or intentionally in limbo. Move them to the last valid spawn.
+		if(home_spawn)
+			var/obj/machinery/cryopod/pod = FindCryopod(home_spawn)
+			if(istype(pod))
+				if(pod.loc)
+					forceMove(get_turf(pod)) // Welcome home!
+					return
 		forceMove(get_spawn_turf()) // Sorry man. Your bed/cryopod was not set.
 
 	CLEAR_ALL_SV //Clear saved vars
 
 /mob/living/carbon/human/should_save()
 	. = ..()
-	if(mind && !mind.finished_chargen)
-		return FALSE // We don't save characters who aren't finished CG.
+	if(!mind)//mind && !mind.finished_chargen)
+		return FALSE // We don't save mindless characters
 
 // Don't let it update icons during initialize
 // Can't avoid upstream code from doing it, so just postpone it

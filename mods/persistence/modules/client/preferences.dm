@@ -58,41 +58,30 @@
 	if(..())
 		return TRUE
 	if(href_list["finish"])
-		if(!global.config.enter_allowed && !check_rights(R_ADMIN))
-			to_chat(usr, SPAN_WARNING("There is currently an administrative lock on joining."))
+		if(!creation_slot)
 			return
 		if(!real_name)
 			to_chat(usr, "<span class='danger'>The must set a unique character name to continue.</span>")
 			return
-		switch(alert("Are you sure you want to finalize your character and join the game with the character you've created?", "Character Confirmation", "Yes", "No"))
+		switch(alert("Are you sure you want to finalize your character in slot [creation_slot]?", "Character Confirmation", "Yes", "No"))
 			if("No")
 				return
-		for(var/datum/mind/other_mind in global.player_minds)
-			if(other_mind.name == real_name)
-				to_chat(usr, "<span class='danger'>[real_name] is already a name in use! Please select a different name.</span>")
-				real_name = null
-				return
-		var/DBQuery/char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata2` = '[sanitize_sql(real_name)]'")
+		var/DBQuery/char_query = dbcon.NewQuery("SELECT `CharacterID` FROM `[SQLS_TABLE_CHARACTERS]` WHERE `RealName` = '[sanitize_sql(real_name)]'")
 		if(!char_query.Execute())
 			to_world_log("DUPLICATE NAME CHECK DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
 		if(char_query.NextRow())
 			to_chat(usr, "<span class='danger'>[real_name] is already a name in use! Please select a different name.</span>")
 			real_name = null
 			return
-		var/slots = 2
-		if(check_rights(R_DEBUG) || check_rights(R_ADMIN))
-			slots+=2
-		var/count = 0
-		char_query = dbcon.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[sanitize_sql(client.key)]'")
-		if(!char_query.Execute())
-			to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
-		for(var/i=1,i>=slots,i++)
-			if(char_query.NextRow()) count++
-		if(count >= slots)
-			to_chat(usr, "<span class='danger'>You already have the maximum amount of characters. You must delete one to create another.</span>")
-			real_name = null
-			if(isnewplayer(client.mob))
-				close_char_dialog(usr)
+		var/DBQuery/query = dbcon.NewQuery("SELECT `status` FROM `[SQLS_TABLE_CHARACTERS]` WHERE `ckey` = '[sanitize_sql(client_ckey)]' AND `slot` = [creation_slot] ORDER BY `CharacterID` DESC LIMIT 1;")
+		var/allowed = 1
+		SQLS_EXECUTE_AND_REPORT_ERROR(query, "Character Slot load failed")
+		if(query.NextRow())
+			var/status = query.item[1]
+			if(status == SQLS_CHAR_STATUS_DELETED)
+				allowed = 0
+		if(!allowed)
+			to_chat(usr, "You already have a character in slot [creation_slot].")
 			return
 
 		save_preferences()
@@ -101,8 +90,13 @@
 		if(isnewplayer(client.mob))
 			close_char_dialog(usr)
 			var/mob/new_player/M = client.mob
-			M.AttemptLateSpawn(SSjobs.get_by_path(global.using_map.default_job_type))
-
+			var/mob/t = M.create_character_first()
+			var/datum/job/job = SSjobs.get_by_path(global.using_map.default_job_type)
+			SSjobs.equip_job_title(t, job.title, 1)
+			SSpersistence.NewCharacter(sanitize_sql(real_name), sanitize_sql(client_ckey), creation_slot, t)
+			M.show_lobby_menu()
+			clear_character_previews()
+			return TRUE
 
 	if(href_list["save"])
 		save_preferences()
