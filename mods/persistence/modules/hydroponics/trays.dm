@@ -1,6 +1,6 @@
 /obj/machinery/portable_atmospherics/hydroponics/before_save()
 	. = ..()
-	if(round(temp_chem_holder.reagents.total_volume) > 0)
+	if(temp_chem_holder && round(temp_chem_holder.reagents.total_volume) > 0)
 		CUSTOM_SV("temp_chem_holder", temp_chem_holder)
 	SAVE_SEED_OR_SEEDNAME(seed)
 

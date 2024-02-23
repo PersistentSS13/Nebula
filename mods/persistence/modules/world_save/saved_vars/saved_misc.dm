@@ -1090,6 +1090,8 @@ SAVED_VAR(/obj/machinery/computer/shuttle_control, hacked)
 SAVED_VAR(/obj/machinery/computer/shuttle_control, shuttle_tag)
 
 SAVED_VAR(/obj/machinery/cryopod, occupant)
+SAVED_VAR(/obj/machinery/cryopod, unique_id)
+
 
 SAVED_VAR(/obj/machinery/deployable/barrier, locked)
 

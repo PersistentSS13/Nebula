@@ -18,16 +18,7 @@
 		to_chat(usr, "Couldn't get DB status, connection failed: [dbcon_save.ErrorMsg()]")
 		return
 
-	var/DBQuery/query = dbcon_save.NewQuery("SELECT `id`, `z`, `dynamic`, `default_turf` FROM `[SQLS_TABLE_Z_LEVELS]`")
-	if(!query.Execute())
-		to_chat(usr, "Error: [query.ErrorMsg()]")
-	if(!query.RowCount())
-		to_chat(usr, "No Z data...")
-
-	while(query.NextRow())
-		to_chat(usr, "Z data: (ID: [query.item[1]], Z: [query.item[2]], Dynamic: [query.item[3]], Default Turf: [query.item[4]])")
-
-	query = dbcon_save.NewQuery("SELECT DATABASE();")
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT DATABASE();")
 	var/my_db_name
 	if(!query.Execute())
 		to_chat(usr, "Error: [query.ErrorMsg()]")
@@ -36,7 +27,7 @@
 	query.NextRow()
 	my_db_name = query.item[1]
 
-	query = dbcon_save.NewQuery("SELECT `TABLE_NAME`, `TABLE_ROWS` FROM information_schema.tables WHERE `TABLE_SCHEMA` = '[my_db_name]' AND `TABLE_NAME` IN ('[SQLS_TABLE_LIST_ELEM]', '[SQLS_TABLE_DATUM]', '[SQLS_TABLE_DATUM_VARS]', '[SQLS_TABLE_AREAS]', '[SQLS_TABLE_LIMBO]', '[SQLS_TABLE_LIMBO_DATUM]', '[SQLS_TABLE_LIMBO_DATUM_VARS]', '[SQLS_TABLE_LIMBO_LIST_ELEM]', '[SQLS_TABLE_LIST_ELEM]')")
+	query = dbcon_save.NewQuery("SELECT `TABLE_NAME`, `TABLE_ROWS` FROM information_schema.tables WHERE `TABLE_SCHEMA` = '[my_db_name]' AND `TABLE_NAME` IN ('[SQLS_TABLE_LIST_ELEM]', '[SQLS_TABLE_DATUM]', '[SQLS_TABLE_DATUM_VARS]', '[SQLS_TABLE_LIST_ELEM]')")
 	if(!query.Execute())
 		to_chat(usr, "Error: [query.ErrorMsg()]")
 		return
@@ -58,12 +49,12 @@
 	var/list/ref_updates = list()
 
 	var/tot_element_inserts = 0
-
+	var/datums_saved_this_instance = 1
 	var/autocommit = TRUE // whether or not to autocommit after a certain number of inserts.
 	var/inserts_since_commit = 0
 	var/autocommit_threshold = 5000
 
-	var/ref_tracker = TRUE // whether or not this serializer does reference tracking and adds it to the thing insert list.
+	var/ref_tracker = FALSE // whether or not this serializer does reference tracking and adds it to the thing insert list.
 	var/inserts_since_ref_update = 0 // we automatically commit refs to the database in batches on load
 	var/ref_update_threshold = 200
 
@@ -112,12 +103,11 @@
 var/global/list/serialization_time_spent_type
 
 // Serialize an object datum. Returns the appropriate serialized form of the object. What's outputted depends on the serializer.
-/serializer/sql/SerializeDatum(var/datum/object, var/atom/object_parent)
+/serializer/sql/SerializeDatum(var/datum/object, var/atom/object_parent, var/instanceid = 0)
 	// Check for existing references first. If we've already saved
 	// there's no reason to save again.
 	if(isnull(object) || !object.should_save())
 		return
-
 	var/existing = thing_map["\ref[object]"]
 	if (existing)
 #ifdef SAVE_DEBUG
@@ -128,8 +118,10 @@ var/global/list/serialization_time_spent_type
 
 	var/time_before_serialize = REALTIMEOFDAY
 	// Thing didn't exist. Create it.
-	var/p_i = object.persistent_id ? object.persistent_id : PERSISTENT_ID
+	var/p_i = datums_saved_this_instance
+	datums_saved_this_instance++
 	object.persistent_id = p_i
+
 
 	var/x = 0
 	var/y = 0
@@ -155,9 +147,9 @@ var/global/list/serialization_time_spent_type
 	to_world_log("(SerializeThing) ('[p_i]','[object.type]',[x],[y],[z],'[ref(object)]')")
 #endif
 	if(ref_tracker)
-		thing_inserts.Add("'[p_i]','[object.type]',[x],[y],[z],'[ref(object)]'")
+		thing_inserts.Add("[p_i],'[object.type]',[x],[y],[z],'[ref(object)]',[instanceid]")
 	else
-		thing_inserts.Add("'[p_i]','[object.type]',[x],[y],[z]")
+		thing_inserts.Add("[p_i],'[object.type]',[x],[y],[z],NULL,[instanceid]")
 	inserts_since_commit++
 	thing_map["\ref[object]"] = p_i
 
@@ -178,7 +170,7 @@ var/global/list/serialization_time_spent_type
 				// that have 0 elements.
 				VV = SERIALIZER_TYPE_LIST_EMPTY
 			else
-				VV = SerializeList(VV, object)
+				VV = SerializeList(VV, object, instanceid)
 			if(isnull(VV))
 #ifdef SAVE_DEBUG
 				to_world_log("(SerializeThingVar-Skip) Null List")
@@ -210,24 +202,24 @@ var/global/list/serialization_time_spent_type
 			if(!GD.key)
 				// Wrapper is null.
 				continue
-			VV = flattener.SerializeDatum(GD, object)
+			VV = flattener.SerializeDatum(GD, object, instanceid)
 		else if (istype(VV, /datum))
 			var/datum/VD = VV
 			if(!VD.should_save(object))
 				continue
-			// Reference only vars do not serialize their target objects, only retaining the reference if its been serialized elsewhere.
-			if(V in global.reference_only_vars)
-				VT = SERIALIZER_TYPE_DATUM
-				if(!VD.persistent_id)
-					VD.persistent_id = PERSISTENT_ID
-				VV = VD.persistent_id
-			// Serialize it complex-like, baby.
+			//Reference only vars do not serialize their target objects, only retaining the reference if its been serialized elsewhere.
+			// if(V in global.reference_only_vars)
+			// 	VT = SERIALIZER_TYPE_DATUM
+			// 	if(!VD.persistent_id)
+			// 		continue
+			// 	VV = VD.persistent_id
+			//Serialize it complex-like, baby.
 			else if(should_flatten(VV))
 				VT = SERIALIZER_TYPE_DATUM_FLAT // If we flatten an object, the var becomes json. This saves on indexes for simple objects.
-				VV = flattener.SerializeDatum(VV, object)
+				VV = flattener.SerializeDatum(VV, object, instanceid)
 			else
 				VT = SERIALIZER_TYPE_DATUM
-				VV = SerializeDatum(VV, object)
+				VV = SerializeDatum(VV, object, instanceid)
 		else
 			// We don't know what this is. Skip it.
 #ifdef SAVE_DEBUG
@@ -238,7 +230,7 @@ var/global/list/serialization_time_spent_type
 #ifdef SAVE_DEBUG
 		to_world_log("(SerializeThingVar-Done) ('[p_i]','[V]','[VT]',\"[VV]\")")
 #endif
-		var_inserts.Add("'[p_i]','[V]','[VT]',\"[VV]\"")
+		var_inserts.Add("[p_i],'[V]','[VT]',\"[VV]\",[instanceid]")
 		inserts_since_commit++
 
 	var/before_after_save = REALTIMEOFDAY
@@ -247,7 +239,7 @@ var/global/list/serialization_time_spent_type
 		to_world_log("after_save() took [(REALTIMEOFDAY - before_after_save) / (1 SECOND)] to execute on type [object.type]!")
 
 	if(autocommit && inserts_since_commit > autocommit_threshold)
-		Commit()
+		Commit(instanceid)
 
 	//Tally up statistices
 	var/datum/serialization_stat/st = LAZYACCESS(serialization_time_spent_type, object.type)
@@ -259,7 +251,7 @@ var/global/list/serialization_time_spent_type
 	return p_i
 
 // Serialize a list. Returns the appropriate serialized form of the list. What's outputted depends on the serializer.
-/serializer/sql/SerializeList(var/list/_list, var/datum/list_parent)
+/serializer/sql/SerializeList(var/list/_list, var/datum/list_parent, var/instanceid = 0)
 	if(isnull(_list) || !islist(_list))
 		return
 	var/existing = list_map["\ref[_list]"]
@@ -302,7 +294,7 @@ var/global/list/serialization_time_spent_type
 			if(length(key) == 0)
 				KV = SERIALIZER_TYPE_LIST_EMPTY
 			else
-				KV = SerializeList(key)
+				KV = SerializeList(key,null, instanceid)
 		else if(istype(key, /decl))
 			var/decl/key_d = key
 			KT = SERIALIZER_TYPE_DECL
@@ -318,17 +310,17 @@ var/global/list/serialization_time_spent_type
 			if(!GD.key)
 				// Wrapper is null.
 				continue
-			KV = flattener.SerializeDatum(GD)
+			KV = flattener.SerializeDatum(GD, null, instanceid)
 		else if(istype(key, /datum))
 			var/datum/key_d = key
 			if(!key_d.should_save(list_parent))
 				continue
 			if(should_flatten(KV))
 				KT = SERIALIZER_TYPE_DATUM_FLAT // If we flatten an object, the var becomes json. This saves on indexes for simple objects.
-				KV = flattener.SerializeDatum(KV)
+				KV = flattener.SerializeDatum(KV, null, instanceid)
 			else
 				KT = SERIALIZER_TYPE_DATUM
-				KV = SerializeDatum(KV, list_parent)
+				KV = SerializeDatum(KV, list_parent, instanceid)
 		else
 #ifdef SAVE_DEBUG
 			to_world_log("(SerializeListElem-Skip) Unknown Key. Value: [key]")
@@ -352,7 +344,7 @@ var/global/list/serialization_time_spent_type
 				if(length(EV) == 0)
 					EV = SERIALIZER_TYPE_LIST_EMPTY
 				else
-					EV = SerializeList(EV)
+					EV = SerializeList(EV, null, instanceid)
 			else if(istype(EV, /decl))
 				var/decl/ED = EV
 				ET = SERIALIZER_TYPE_DECL
@@ -368,14 +360,14 @@ var/global/list/serialization_time_spent_type
 				if(!GD.key)
 					// Wrapper is null.
 					continue
-				EV = flattener.SerializeDatum(GD)
+				EV = flattener.SerializeDatum(GD, null, instanceid)
 			else if (istype(EV, /datum))
 				if(should_flatten(EV))
 					ET = SERIALIZER_TYPE_DATUM_FLAT // If we flatten an object, the var becomes json. This saves on indexes for simple objects.
-					EV = flattener.SerializeDatum(EV)
+					EV = flattener.SerializeDatum(EV, null, instanceid)
 				else
 					ET = SERIALIZER_TYPE_DATUM
-					EV = SerializeDatum(EV, list_parent)
+					EV = SerializeDatum(EV, list_parent, instanceid)
 			else
 				// Don't know what this is. Skip it.
 #ifdef SAVE_DEBUG
@@ -389,7 +381,7 @@ var/global/list/serialization_time_spent_type
 			to_world_log("(SerializeListElem-Done) ([l_i],\"[KV]\",'[KT]',\"[EV]\",\"[ET]\")")
 #endif
 		found_element = TRUE
-		element_inserts.Add("[l_i],\"[KV]\",'[KT]',\"[EV]\",\"[ET]\"")
+		element_inserts.Add("[l_i],\"[KV]\",'[KT]',\"[EV]\",\"[ET]\",[instanceid]")
 		inserts_since_commit++
 
 	if(!found_element) // There wasn't anything that actually needed serializing in this list, so return null.
@@ -473,8 +465,8 @@ var/global/list/serialization_time_spent_type
 #endif
 	ref_updates["[existing.persistent_id]"] = ref(existing)
 	inserts_since_ref_update++
-	if(inserts_since_ref_update > ref_update_threshold)
-		CommitRefUpdates()
+//	if(inserts_since_ref_update > ref_update_threshold)
+//		CommitRefUpdates()
 	return existing
 
 /serializer/sql/DeserializeList(var/raw_list)
@@ -554,7 +546,118 @@ var/global/list/serialization_time_spent_type
 
 	return existing
 
-/serializer/sql/proc/Commit()
+
+
+/serializer/sql/proc/CommitDatum(var/datum/D, var/instanceid)
+	if(!establish_save_db_connection())
+		CRASH("SQL Serializer: Failed to connect to db!")
+
+	var/DBQuery/query
+	var/exception/last_except
+	var/x = 0
+	var/y = 0
+	var/z = 0
+	var/p_id
+
+	try
+		if(ispath(D.type, /turf))
+			var/turf/T = D
+			x = T.x
+			y = T.y
+			if(nongreedy_serialize && !("[T.z]" in z_map))
+				return null
+			try
+				z = z_map["[T.z]"]
+			catch
+				z = T.z
+		query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM]`(`type`,`x`,`y`,`z`,`ref`,`InstanceID`) VALUES["("+ "'[D.type]',[x],[y],[z],'[ref(D)]',[instanceid]" +")"]")
+		SQLS_EXECUTE_AND_REPORT_ERROR(query, "THING SERIALIZATION FAILED:")
+		var/DBQuery/selectquery = dbcon_save.NewQuery("SELECT LAST_INSERT_ID();")
+		SQLS_EXECUTE_AND_REPORT_ERROR(selectquery, "PERSISTENCE ID RETRIEVAL FAILED:")
+		while(selectquery.NextRow())
+			p_id = text2num(selectquery.item[1])
+
+	catch (var/exception/e)
+		if(istype(e, /exception/sql_connection))
+			last_except = e //Throw it after we clean up
+		else
+			to_world_log("CommitDatum Failed. [D.type] [instanceid]")
+			to_world_log(e) //#FIXME: This doesn't print the exception's contents
+
+	//Throw after we cleanup
+	if(last_except)
+		throw last_except
+	return p_id
+
+/serializer/sql/proc/CommitVars(var/list/local_var_inserts)
+	if(!establish_save_db_connection())
+		CRASH("SQL Serializer: Failed to connect to db!")
+
+	var/DBQuery/query
+	var/exception/last_except
+	try
+		if(length(local_var_inserts) > 0)
+			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM_VARS]`(`thing_id`,`key`,`type`,`value`) VALUES["(" + jointext(local_var_inserts, "),(") + ")"]")
+			SQLS_EXECUTE_AND_REPORT_ERROR(query, "VAR SERIALIZATION FAILED:")
+	catch (var/exception/e)
+		if(istype(e, /exception/sql_connection))
+			last_except = e //Throw it after we clean up
+		else
+			to_world_log("World Serializer Failed")
+			to_world_log(e) //#FIXME: This doesn't print the exception's contents
+	//Throw after we cleanup
+	if(last_except)
+		throw last_except
+
+/serializer/sql/proc/CommitElements(var/list/local_element_inserts)
+	if(!establish_save_db_connection())
+		CRASH("SQL Serializer: Failed to connect to db!")
+
+	var/DBQuery/query
+	var/exception/last_except
+	try
+		if(length(local_element_inserts) > 0)
+			tot_element_inserts += length(local_element_inserts)
+			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIST_ELEM]`(`list_id`,`key`,`key_type`,`value`,`value_type`, `InstanceID`) VALUES["(" + jointext(local_element_inserts, "),(") + ")"]")
+			SQLS_EXECUTE_AND_REPORT_ERROR(query, "ELEMENT SERIALIZATION FAILED:")
+	catch (var/exception/e)
+		if(istype(e, /exception/sql_connection))
+			last_except = e //Throw it after we clean up
+		else
+			to_world_log("World Serializer Failed")
+			to_world_log(e) //#FIXME: This doesn't print the exception's contents
+	//Throw after we cleanup
+	if(last_except)
+		throw last_except
+
+
+
+/serializer/sql/proc/CommitInstance()
+	if(!establish_save_db_connection())
+		CRASH("SQL Serializer: Failed to connect to db!")
+	var/DBQuery/query
+	var/exception/last_except
+	var/i_id
+	try
+		query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_INSTANCES]`(`head`) VALUES (NULL)")
+		SQLS_EXECUTE_AND_REPORT_ERROR(query, "ELEMENT SERIALIZATION FAILED:")
+		var/DBQuery/selectquery = dbcon_save.NewQuery("SELECT LAST_INSERT_ID();")
+		SQLS_EXECUTE_AND_REPORT_ERROR(selectquery, "INSTANCE ID RETRIEVAL FAILED:")
+		while(selectquery.NextRow())
+			i_id = text2num(selectquery.item[1])
+
+	catch (var/exception/e)
+		if(istype(e, /exception/sql_connection))
+			last_except = e //Throw it after we clean up
+		else
+			to_world_log("World Serializer Failed")
+			to_world_log(e) //#FIXME: This doesn't print the exception's contents
+	//Throw after we cleanup
+	if(last_except)
+		throw last_except
+	return i_id
+
+/serializer/sql/proc/Commit(var/instanceid)
 	if(!establish_save_db_connection())
 		CRASH("SQL Serializer: Failed to connect to db!")
 
@@ -562,14 +665,14 @@ var/global/list/serialization_time_spent_type
 	var/exception/last_except
 	try
 		if(length(thing_inserts) > 0)
-			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM]`(`p_id`,`type`,`x`,`y`,`z`,`ref`) VALUES["(" + jointext(thing_inserts, "),(") + ")"] ON DUPLICATE KEY UPDATE `p_id` = `p_id`")
+			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM]`(`p_id`,`type`,`x`,`y`,`z`,`ref`,`InstanceID`) VALUES["(" + jointext(thing_inserts, "),(") + ")"]")
 			SQLS_EXECUTE_AND_REPORT_ERROR(query, "THING SERIALIZATION FAILED:")
 		if(length(var_inserts) > 0)
-			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM_VARS]`(`thing_id`,`key`,`type`,`value`) VALUES["(" + jointext(var_inserts, "),(") + ")"]")
+			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_DATUM_VARS]`(`thing_id`,`key`,`type`,`value`, `InstanceID`) VALUES["(" + jointext(var_inserts, "),(") + ")"]")
 			SQLS_EXECUTE_AND_REPORT_ERROR(query, "VAR SERIALIZATION FAILED:")
 		if(length(element_inserts) > 0)
 			tot_element_inserts += length(element_inserts)
-			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIST_ELEM]`(`list_id`,`key`,`key_type`,`value`,`value_type`) VALUES["(" + jointext(element_inserts, "),(") + ")"]")
+			query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_LIST_ELEM]`(`list_id`,`key`,`key_type`,`value`,`value_type`,`InstanceID`) VALUES["(" + jointext(element_inserts, "),(") + ")"]")
 			SQLS_EXECUTE_AND_REPORT_ERROR(query, "ELEMENT SERIALIZATION FAILED:")
 	catch (var/exception/e)
 		if(istype(e, /exception/sql_connection))
@@ -620,11 +723,11 @@ var/global/list/serialization_time_spent_type
 /serializer/sql/proc/PreWorldSave(var/save_initiator)
 	_before_serialize()
 	//Ask the db to clear the old world save
-	var/DBQuery/query = dbcon_save.NewQuery("CALL `[SQLS_PROC_CLEAR_WORLD_SAVE]`();")
-	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO WIPE PREVIOUS SAVE:")
+//	var/DBQuery/query = dbcon_save.NewQuery("CALL `[SQLS_PROC_CLEAR_WORLD_SAVE]`();")
+//	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO WIPE PREVIOUS SAVE:")
 
 	//Logs the world save into the table
-	query = dbcon_save.NewQuery("SELECT `[SQLS_FUNC_LOG_SAVE_WORLD_START]`('[sanitize_sql(sanitize(save_initiator, MAX_LNAME_LEN))]');")
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT `[SQLS_FUNC_LOG_SAVE_WORLD_START]`('[sanitize_sql(sanitize(save_initiator, MAX_LNAME_LEN))]');")
 	SQLS_EXECUTE_AND_REPORT_ERROR(query, "UNABLE TO LOG WORLD SAVE START:")
 	if(query.NextRow())
 		. = query.item[1]
@@ -639,8 +742,8 @@ var/global/list/serialization_time_spent_type
 	_after_serialize()
 	Clear()
 
-/serializer/sql/save_exists()
-	return count_saved_datums() > 0
+/serializer/sql/save_exists(var/instanceid)
+	return count_saved_datums(instanceid) > 0
 
 ///Returns the timestamp of when the currently loaded save was completed.
 /serializer/sql/last_loaded_save_time()
@@ -652,38 +755,124 @@ var/global/list/serialization_time_spent_type
 	if(query.NextRow())
 		return query.item[1]
 
-/serializer/sql/save_z_level_remaps(var/list/z_transform)
-	var/list/z_inserts = list()
-	var/z_insert_index = 1
+/serializer/sql/save_z_level_remaps(var/list/z_transform, var/datum/persistence/load_cache/world/world_cache)
 	for(var/z in z_transform)
 		var/datum/persistence/load_cache/z_level/z_level = z_transform[z]
-		z_inserts += "([z_insert_index],[z_level.new_index],[z_level.dynamic],'[z_level.default_turf]','[z_level.metadata]','[json_encode(z_level.areas)]','[z_level.level_data_subtype]')"
-		z_insert_index++
-
-	var/DBQuery/query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_Z_LEVELS]` (`id`,`z`,`dynamic`,`default_turf`,`metadata`,`areas`,`level_data_subtype`) VALUES[jointext(z_inserts, ",")]")
-	SQLS_EXECUTE_AND_REPORT_ERROR(query, "Z_LEVEL SERIALIZATION FAILED:")
+		world_cache.z_levels |= z_level
 	return TRUE
 
-/serializer/sql/save_area_chunks(var/list/area_chunks)
-	var/list/area_inserts = list()
-	var/area_insert_index = 1
-	for(var/datum/persistence/load_cache/area_chunk/area_chunk in area_chunks)
-		area_inserts += "([area_insert_index],'[area_chunk.area_type]','[sanitize_sql(area_chunk.name)]','[json_encode(area_chunk.turfs)]')"
-		area_insert_index++
 
-	// No additional areas to save!
-	if(!length(area_inserts))
-		return TRUE
-	log_world("Query is: INSERT INTO `[SQLS_TABLE_AREAS]` (`id`,`type`,`name`,`turfs`) VALUES[jointext(area_inserts, ",")]")
-	var/DBQuery/query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_AREAS]` (`id`,`type`,`name`,`turfs`) VALUES[jointext(area_inserts, ",")]")
-	SQLS_EXECUTE_AND_REPORT_ERROR(query, "AREA CHUNK SERIALIZATION FAILED:")
-	return TRUE
-
-/serializer/sql/count_saved_datums()
+/serializer/sql/count_saved_datums(var/instanceid)
 	if(!establish_save_db_connection())
 		CRASH("Couldn't count saved datums, connection failed!")
-	var/DBQuery/query = dbcon_save.NewQuery("SELECT COUNT(*) FROM `[SQLS_TABLE_DATUM]`;")
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT COUNT(*) FROM `[SQLS_TABLE_DATUM]` WHERE `InstanceID` = [instanceid];")
 	SQLS_EXECUTE_AND_REPORT_ERROR(query, "COUNT SAVED DATUMS FAILED:")
 	if(query.NextRow())
 		testing("counted [query.item[1]] entrie(s) in [SQLS_TABLE_DATUM] table..")
 		return text2num(query.item[1])
+
+
+
+/serializer/sql/GetLatestCharacterSave(var/c_id)
+	if(!establish_save_db_connection())
+		CRASH("Couldn't count saved datums, connection failed!")
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT `CharacterSaveID`, `InstanceID` FROM `[SQLS_TABLE_CHARACTERSAVES]` WHERE `CharacterID` = [c_id] ORDER BY `CharacterSaveID` DESC LIMIT 1;")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "GetLatestCharacterSave failed:")
+	if(query.NextRow())
+		return list(query.item[1], query.item[2])
+
+
+
+
+/serializer/sql/GetLatestWorldid()
+	if(!establish_save_db_connection())
+		CRASH("Couldn't count saved datums, connection failed!")
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT `WorldsaveID`, `InstanceID` FROM `[SQLS_TABLE_WORLDS]` ORDER BY `WorldsaveID` DESC LIMIT 1;")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "GetLatestWorldid failed:")
+	if(query.NextRow())
+		return list(query.item[1], query.item[2])
+
+/serializer/sql/GetHead(var/instanceid)
+	if(!establish_save_db_connection())
+		CRASH("Couldn't count saved datums, connection failed!")
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT `head` FROM `[SQLS_TABLE_INSTANCES]` WHERE `InstanceID` = [instanceid];")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "GetHead FAILED:")
+	if(query.NextRow())
+		return QueryAndDeserializeDatum(query.item[1], 0)
+
+/serializer/sql/FinishWorld(var/instanceid, var/datum/persistence/load_cache/world/world_cache)
+	if(!establish_save_db_connection())
+		CRASH("Couldn't count saved datums, connection failed!")
+	var/head_id = SerializeDatum(world_cache, null, instanceid)
+	Commit(instanceid)
+	var/DBQuery/iquery = dbcon_save.NewQuery("UPDATE `[SQLS_TABLE_INSTANCES]` SET `head` = [head_id] WHERE `InstanceID` = [instanceid];")
+	SQLS_EXECUTE_AND_REPORT_ERROR(iquery, "FinishWorld HeadUpdate Failed:")
+	var/DBQuery/query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_WORLDS]` (`InstanceID`) VALUES ([instanceid]);")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "FinishWorlds WorldSaves insert FAILED:")
+	var/DBQuery/selectquery = dbcon_save.NewQuery("SELECT LAST_INSERT_ID();")
+	SQLS_EXECUTE_AND_REPORT_ERROR(selectquery, "world ID RETRIEVAL FAILED:")
+	while(selectquery.NextRow())
+		return selectquery.item[1]
+
+/serializer/sql/SaveCharacter(var/instanceid, var/datum/persistence/load_cache/character/head, var/status)
+	if(!establish_save_db_connection())
+		CRASH("Couldn't count saved datums, connection failed!")
+	var/head_id = SerializeDatum(head, null, instanceid)
+	if(!head || !head.target || !head.target.mind || !head.target.mind.unique_id)
+		return 0
+	var/cs_id = 0
+	Commit(instanceid)
+	var/DBQuery/iquery = dbcon_save.NewQuery("UPDATE `[SQLS_TABLE_INSTANCES]` SET `head` = [head_id] WHERE `InstanceID` = [instanceid];")
+	SQLS_EXECUTE_AND_REPORT_ERROR(iquery, "SaveCharacter HeadUpdate Failed:")
+	var/DBQuery/query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_CHARACTERSAVES]` (`InstanceID`, `CharacterID`) VALUES ([instanceid], [head.target.mind.unique_id]);")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "Save Character charactersaves insert FAILED:")
+	var/DBQuery/selectquery = dbcon_save.NewQuery("SELECT LAST_INSERT_ID();")
+	SQLS_EXECUTE_AND_REPORT_ERROR(selectquery, "CHARACTER SAVE ID RETRIEVAL FAILED:")
+	while(selectquery.NextRow())
+		cs_id = selectquery.item[1]
+		. = cs_id
+	var/DBQuery/cquery = dbcon_save.NewQuery("UPDATE `[SQLS_TABLE_CHARACTERS]` SET `status` = [status] WHERE `CharacterID` = [head.target.mind.unique_id];")
+	SQLS_EXECUTE_AND_REPORT_ERROR(cquery, "FinishCharacter loaded update Failed:")
+
+/serializer/sql/UpdateCharacterOriginalSave(var/c_id, var/cs_id)
+	if(!establish_save_db_connection())
+		CRASH("Couldn't count saved datums, connection failed!")
+	var/DBQuery/iquery = dbcon_save.NewQuery("UPDATE `[SQLS_TABLE_CHARACTERS]` SET `OriginalSave` = [cs_id] WHERE `CharacterID` = [c_id];")
+	SQLS_EXECUTE_AND_REPORT_ERROR(iquery, "FinishCharacter loaded update Failed:")
+
+/serializer/sql/NewCharacter(var/realname, var/ckey, var/slot, var/mob/target)
+	if(!establish_save_db_connection())
+		CRASH("Couldn't count saved datums, connection failed!")
+	var/DBQuery/query = dbcon_save.NewQuery("INSERT INTO `[SQLS_TABLE_CHARACTERS]` (`RealName`, `ckey`, `slot`, `status`) VALUES ('[realname]', '[ckey]', [slot], [SQLS_CHAR_STATUS_FIRST]);")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "NewCharacter insert FAILED:")
+	var/DBQuery/selectquery = dbcon_save.NewQuery("SELECT LAST_INSERT_ID();")
+	SQLS_EXECUTE_AND_REPORT_ERROR(selectquery, "NewCharacter RETRIEVAL FAILED:")
+	var/c_id = 0
+	while(selectquery.NextRow())
+		c_id = selectquery.item[1]
+	target.mind.unique_id = c_id
+	return c_id
+
+/serializer/sql/ClearName(var/realname)
+	if(!establish_save_db_connection())
+		CRASH("Couldn't count saved datums, connection failed!")
+	var/DBQuery/iquery = dbcon_save.NewQuery("UPDATE `[SQLS_TABLE_CHARACTERS]` SET `RealName` = 'Mappy Boxo', `status` = [SQLS_CHAR_STATUS_DELETED] WHERE `RealName` = [realname];")
+	SQLS_EXECUTE_AND_REPORT_ERROR(iquery, "FinishCharacter loaded update Failed:")
+	return 1
+
+
+/serializer/sql/AcceptDeath(var/c_id)
+	if(!establish_save_db_connection())
+		CRASH("Couldn't count saved datums, connection failed!")
+	var/DBQuery/iquery = dbcon_save.NewQuery("UPDATE `[SQLS_TABLE_CHARACTERS]` SET `status` = [SQLS_CHAR_STATUS_DELETED] WHERE `CharacterID` = [c_id];")
+	SQLS_EXECUTE_AND_REPORT_ERROR(iquery, "FinishCharacter loaded update Failed:")
+	return 1
+
+/serializer/sql/VerifyCharacterOwner(var/c_id, var/ckey)
+	if(!establish_save_db_connection())
+		CRASH("Couldn't count saved datums, connection failed!")
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT `CharacterID` FROM `[SQLS_TABLE_CHARACTERS]` WHERE `CharacterID` = [c_id] AND `ckey` = '[ckey]';")
+	SQLS_EXECUTE_AND_REPORT_ERROR(query, "GetLatestCharacterSave failed:")
+	if(query.NextRow())
+		return 1
+	return 0
