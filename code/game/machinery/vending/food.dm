@@ -286,3 +286,62 @@
 	)
 	contraband = list(/obj/item/chems/drinks/bottle/space_up = 8) // TODO Russian cola can
 	idle_power_usage = 211
+
+/obj/machinery/vending/mredispenser
+	name = "\improper MRE dispenser"
+	desc = "A Vending machine filled with MRE's."
+	icon_state = "mrevend"
+	icon_deny = "mrevend-deny"
+	icon_vend = "mrevend-vend"
+	base_type = /obj/machinery/vending/mredispenser
+	idle_power_usage = 200
+	product_slogans = {"\
+		STARFIGHTER TESTED! STARFIGHTER RECOMMENDED! STARFIGHTER APPROVED!;\
+		YOU ARE NOT ALLOWED A JELLY DOUGHNUT!;\
+		YOU DON'T WANT TO DIE HUNGRY, SOLDIER!\
+	"}
+	product_ads = {"\
+		Everything the body needs!;\
+		Now transfat free!;\
+		Vegan options are available.;\
+		Rated for all known species*!\
+	"}
+	products = list(
+		/obj/item/storage/mre = 10,
+		/obj/item/storage/mre/menu2 = 10,
+		/obj/item/storage/mre/menu3 = 10,
+		/obj/item/storage/mre/menu4 = 10,
+		/obj/item/storage/mre/menu5 = 10,
+		/obj/item/storage/mre/menu6 = 10,
+		/obj/item/storage/mre/menu7 = 10,
+		/obj/item/storage/mre/menu8 = 10,
+		/obj/item/storage/mre/menu9 = 10,
+		/obj/item/storage/mre/menu10 = 10
+	)
+	contraband = list(
+		/obj/item/storage/mre/menu11 = 15,
+		/obj/item/chems/food/liquidfood = 15
+	)
+
+/obj/machinery/vending/soda
+	name = "\improper Radical Renard"
+	desc = "A softdrink vendor promoted by Radical Renard."
+	icon_state = "Soda_Machine"
+	icon_vend = "Soda_Machine-vend"
+	icon_deny = "Soda_Machine-deny"
+	base_type = /obj/machinery/vending/soda
+	idle_power_usage = 200
+	products = list(
+		/obj/item/chems/drinks/cans/cola_diet = 8,
+		/obj/item/chems/drinks/cans/rootbeer = 8,
+		/obj/item/chems/drinks/cans/cola_apple = 8,
+		/obj/item/chems/drinks/cans/cola_orange = 8,
+		/obj/item/chems/drinks/cans/waterbottle = 8,
+		/obj/item/chems/drinks/cans/cola_grape = 8,
+		/obj/item/chems/drinks/cans/cola_lemonlime = 8,
+		/obj/item/chems/drinks/cans/cola_strawberry = 8,
+		/obj/item/chems/drinks/cans/cola_pork = 8,
+	)
+	contraband = list(
+		/obj/item/chems/drinks/cans/space_mountain_wind = 8
+	)

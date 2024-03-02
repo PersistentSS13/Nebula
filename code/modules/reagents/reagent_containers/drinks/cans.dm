@@ -214,3 +214,69 @@
 
 /obj/item/chems/drinks/cans/ale/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/ethanol/ale, reagents.maximum_volume)
+
+//Fox's Sodas from Legacy Bay: NSV Luna
+
+/obj/item/chems/drinks/cans/cola_diet
+	name = "diet space cola"
+	desc = "Cola... in space! Now with extra self-confidence."
+	icon_state = "cola-blue"
+
+/obj/item/chems/drinks/cans/cola_diet/populate_reagents()
+	reagents.add_reagent(/decl/material/liquid/drink/diet_cola, 30)
+
+/obj/item/chems/drinks/cans/rootbeer
+	name = "rocket root beer"
+	desc = "Blast away with Rocket Root Beer!"
+	icon_state = "cola-brown"
+
+/obj/item/chems/drinks/cans/rootbeer/populate_reagents()
+	reagents.add_reagent(/decl/material/liquid/drink/rootbeer, 30)
+
+/obj/item/chems/drinks/cans/cola_apple
+	name = "andromeda apple"
+	desc = "Look to the stars with Andromeda Apple!"
+	icon_state = "cola-green"
+
+/obj/item/chems/drinks/cans/cola_apple/populate_reagents()
+	reagents.add_reagent(/decl/material/liquid/drink/apple_soda, 30)
+
+/obj/item/chems/drinks/cans/cola_orange
+	name = "orbital orange"
+	desc = "Feel out-of-this-world with Orbital Orange!"
+	icon_state = "cola-orange"
+
+/obj/item/chems/drinks/cans/cola_orange/populate_reagents()
+	reagents.add_reagent(/decl/material/liquid/drink/orange_soda, 30)
+
+/obj/item/chems/drinks/cans/cola_grape
+	name = "gravity grape"
+	desc = "Feel the planetfall with Gravity Grape!"
+	icon_state = "cola-purple"
+
+/obj/item/chems/drinks/cans/cola_grape/populate_reagents()
+	reagents.add_reagent(/decl/material/liquid/drink/grapesoda, 30)
+
+/obj/item/chems/drinks/cans/cola_lemonlime
+	name = "citrus star"
+	desc = "Shoot to space with Citrus Star!"
+	icon_state = "cola-yellow"
+
+/obj/item/chems/drinks/cans/cola_lemonlime/populate_reagents()
+	reagents.add_reagent(/decl/material/liquid/drink/lemon_lime, 30)
+
+/obj/item/chems/drinks/cans/cola_strawberry
+	name = "sirius strawberry"
+	desc = "See stars with Sirius Strawberry!"
+	icon_state = "cola-pink"
+
+/obj/item/chems/drinks/cans/cola_strawberry/populate_reagents()
+	reagents.add_reagent(/decl/material/liquid/drink/strawberry_soda, 30)
+
+/obj/item/chems/drinks/cans/cola_pork
+	name = "pork soda"
+	desc = "Primus sucks!"
+	icon_state = "cola-pork"
+
+/obj/item/chems/drinks/cans/cola_pork/populate_reagents()
+	reagents.add_reagent(/decl/material/liquid/drink/porksoda, 30)

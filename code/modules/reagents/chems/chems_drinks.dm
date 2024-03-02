@@ -865,3 +865,77 @@
 
 	glass_name = "Compote"
 	glass_desc = "Traditional dessert drink made from fruits or berries. Grandma would be proud."
+
+/decl/material/liquid/drink/diet_cola
+	name = "Diet Cola"
+	lore_text = "Refreshing diet cola. Contains anti-nutritional value."
+	taste_description = "diet cola"
+	color = "#100800"
+	adj_drowsy = -3
+	adj_temp = -5
+	uid = "chem_drink_diet_cola"
+
+	glass_name = "Diet Cola"
+	glass_desc = "A glass of refreshing Space Cola. This one's calorie-free!"
+	glass_special = list(DRINK_FIZZ)
+
+/decl/material/liquid/drink/orange_soda
+	name = "Fizzy Orange"
+	lore_text = "Artificial sugars and orange essence with fizz."
+	taste_description = "orange"
+	color = "#ffa500"
+	adj_temp = -5
+	uid = "chem_drink_orange_soda"
+
+	glass_name = "Orange Soda"
+	glass_desc = "A surprisingly tasty dye."
+	glass_special = list(DRINK_FIZZ)
+
+/decl/material/liquid/drink/rootbeer
+	name = "Root WeiBeer"
+	lore_text = "Root beer, brewed from the rare beer root. And a lot of chemicals."
+	taste_description = "faint toothpaste(?) and fizz"
+	color = "#290e05"
+	adj_temp = -5
+	uid = "chem_drink_rootbeer"
+
+	glass_name = "Root Beer"
+	glass_desc = "Yep that sure is some rooty beer."
+	glass_special = list(DRINK_FIZZ)
+
+/decl/material/liquid/drink/apple_soda
+	name = "Apple Soda"
+	lore_text = "Apple soda. Using only genuine genetically engineered apples. Engineered from bananas."
+	taste_description = "fizzy apples!"
+	color = "#ffe4a2"
+	adj_temp = -5
+	uid = "chem_drink_apple_soda"
+
+	glass_name = "Apple Soda"
+	glass_desc = "Disappointing cider."
+	glass_special = list(DRINK_FIZZ)
+
+/decl/material/liquid/drink/strawberry_soda
+	name = "Strawberry Soda"
+	lore_text = "Soda using sweet berries."
+	taste_description = "oddly bland"
+	color = "#ff6a9b"
+	adj_temp = -5
+	uid = "chem_drink_strawberry_soda"
+
+	glass_name = "Strawberry Soda"
+	glass_desc = "Attractive and alliterative."
+	glass_special = list(DRINK_FIZZ)
+
+/decl/material/liquid/drink/porksoda
+	name = "Pork Soda"
+	lore_text = "Soda made from straight up pork."
+	taste_description = "pork"
+	color = "#ff6a9b"
+	adj_temp = -5
+	nutrition = 0.8
+	uid = "chem_drink_porksoda"
+
+	glass_name = "Pork Soda"
+	glass_desc = "I asked for a glass of PORT!"
+	glass_special = list(DRINK_FIZZ)
