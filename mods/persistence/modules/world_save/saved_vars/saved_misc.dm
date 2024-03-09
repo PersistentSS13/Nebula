@@ -712,27 +712,6 @@ SAVED_VAR(/obj/item/assembly_holder, a_right)
 SAVED_VAR(/obj/item/assembly_holder, special_assembly)
 SAVED_VAR(/obj/item/assembly_holder, master)
 
-///////////////////////////////////////////////////////////////////////////////
-// item/card
-///////////////////////////////////////////////////////////////////////////////
-SAVED_VAR(/obj/item/card/id, access)
-SAVED_VAR(/obj/item/card/id, registered_name)
-SAVED_VAR(/obj/item/card/id, associated_account_id)
-SAVED_VAR(/obj/item/card/id, associated_network_account)
-SAVED_VAR(/obj/item/card/id, age)
-SAVED_VAR(/obj/item/card/id, blood_type)
-SAVED_VAR(/obj/item/card/id, dna_hash)
-SAVED_VAR(/obj/item/card/id, fingerprint_hash)
-SAVED_VAR(/obj/item/card/id, card_gender)
-SAVED_VAR(/obj/item/card/id, front)
-SAVED_VAR(/obj/item/card/id, side)
-SAVED_VAR(/obj/item/card/id, assignment)
-SAVED_VAR(/obj/item/card/id, military_branch)
-SAVED_VAR(/obj/item/card/id, military_rank)
-SAVED_VAR(/obj/item/card/id, formal_name_prefix)
-SAVED_VAR(/obj/item/card/id, formal_name_suffix)
-SAVED_VAR(/obj/item/card/id, detail_color)
-SAVED_VAR(/obj/item/card/id, extra_details)
 
 ///////////////////////////////////////////////////////////////////////////////
 // item/disk

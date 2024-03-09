@@ -74,6 +74,8 @@
 #include "game\objects\items\items.dm"
 #include "game\objects\items\items_saving.dm"
 #include "game\objects\items\books\skill_book.dm"
+#include "game\objects\items\cards\card_ids.dm"
+#include "game\objects\items\cards\card_misc.dm"
 #include "game\objects\items\weapons\storage.dm"
 #include "game\objects\items\weapons\tanks.dm"
 #include "game\objects\items\weapons\circuitboards\machinery\shipsensors.dm"

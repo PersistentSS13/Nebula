@@ -62,6 +62,7 @@
 	#include "outreach_structures.dm"
 	#include "outreach_music.dm"
 
+	#include "items/id_cards.dm"
 	#define USING_MAP_DATUM /datum/map/outreach
 #elif !defined(MAP_OVERRIDE)
 
