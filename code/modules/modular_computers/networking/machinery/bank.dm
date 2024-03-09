@@ -1,7 +1,7 @@
 /obj/machinery/network/bank
 	name = "banking mainframe"
 	desc = "A mainframe used for managing network finances. It must be interfaced with remotely."
-	icon = 'icons/obj/machines/tcomms/hub.dmi'
+	icon = 'icons/obj/machines/bank_controller.dmi'
 	icon_state = "hub"
 	network_device_type =  /datum/extension/network_device/bank
 	main_template = "banking_mainframe.tmpl"
