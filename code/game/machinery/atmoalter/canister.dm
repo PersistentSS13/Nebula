@@ -108,6 +108,9 @@
 /obj/machinery/portable_atmospherics/canister/empty/hydrogen
 	icon_state = "purple"
 	canister_type = /obj/machinery/portable_atmospherics/canister/hydrogen
+/obj/machinery/portable_atmospherics/canister/empty/chlorine
+	icon_state = "green"
+	canister_type = /obj/machinery/portable_atmospherics/canister/chlorine
 
 
 
@@ -454,8 +457,8 @@ update_flag
 
 /obj/machinery/portable_atmospherics/canister/chlorine
 	name = "\improper Canister \[Cl\]"
-	icon_state = "black"
-	canister_color = "black"
+	icon_state = "green"
+	canister_color = "green"
 	can_label = 0
 
 /obj/machinery/portable_atmospherics/canister/chlorine/Initialize()
