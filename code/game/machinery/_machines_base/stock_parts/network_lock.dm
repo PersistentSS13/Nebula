@@ -258,3 +258,16 @@
 	return ..()
 
 #undef MAX_PATTERNS
+
+//Stock part preset for network locks
+/decl/stock_part_preset/network_lock
+	expected_part_type = /obj/item/stock_parts/network_receiver/network_lock
+	var/network_id
+	var/network_passkey
+	var/list/allowed_groups
+
+/decl/stock_part_preset/network_lock/do_apply(obj/machinery/machine, obj/item/stock_parts/network_receiver/network_lock/part)
+	part.initial_network_id  = network_id
+	part.initial_network_key = network_passkey
+	part.groups = deepCopyList(allowed_groups)
+	part.auto_deny_all = TRUE
