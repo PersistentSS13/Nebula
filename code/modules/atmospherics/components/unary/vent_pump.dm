@@ -115,6 +115,19 @@
 	use_power = POWER_USE_IDLE
 	icon_state = "map_vent_out"
 
+/obj/machinery/atmospherics/unary/vent_pump/cabled
+	power_channel = LOCAL
+	uncreated_component_parts = list(
+		/obj/item/stock_parts/power/terminal/buildable,
+		/obj/item/stock_parts/radio/receiver/buildable,
+		/obj/item/stock_parts/radio/transmitter/on_event/buildable,
+	)
+	stock_part_presets = list(
+		/decl/stock_part_preset/radio/receiver/vent_pump = 1,
+		/decl/stock_part_preset/radio/event_transmitter/vent_pump = 1,
+		/decl/stock_part_preset/terminal_connect/offset_dir = 1,
+	)
+
 /obj/machinery/atmospherics/unary/vent_pump/siphon
 	pump_direction                  = 0
 	pressure_checks                 = VENT_PRESSURE_CHECK_FLAG_INTERNAL
@@ -166,6 +179,20 @@
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/Initialize()
 	. = ..()
 	air_contents.volume = ATMOS_DEFAULT_VOLUME_PUMP + 800
+
+/obj/machinery/atmospherics/unary/vent_pump/high_volume/siphon
+	controlled                      = FALSE
+	pump_direction                  = 0
+	pressure_checks                 = VENT_PRESSURE_CHECK_FLAG_INTERNAL
+	pressure_checks_default         = VENT_PRESSURE_CHECK_FLAG_INTERNAL
+	external_pressure_bound         = VENT_DEFAULT_EXTERNAL_PRESSURE_SIPHON
+	external_pressure_bound_default = VENT_DEFAULT_EXTERNAL_PRESSURE_SIPHON
+	internal_pressure_bound         = VENT_DEFAULT_INTERNAL_PRESSURE_SIPHON
+	internal_pressure_bound_default = VENT_DEFAULT_INTERNAL_PRESSURE_SIPHON
+
+/obj/machinery/atmospherics/unary/vent_pump/high_volume/siphon/on
+	use_power = POWER_USE_IDLE
+	icon_state = "map_vent_in"
 
 /obj/machinery/atmospherics/unary/vent_pump/on_update_icon()
 	var/visible_directions = build_device_underlays()

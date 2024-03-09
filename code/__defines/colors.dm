@@ -92,6 +92,7 @@
 #define COLOR_CRYSTAL          "#00c8a5"
 #define COLOR_ASTEROID_ROCK    "#735555"
 #define COLOR_DIAMOND          "#d8d4ea"
+#define COLOR_SUPPLY_BROWN     "#967032"
 
 #define PIPE_COLOR_GREY        "#808080"
 #define PIPE_COLOR_RED         "#ff0000"

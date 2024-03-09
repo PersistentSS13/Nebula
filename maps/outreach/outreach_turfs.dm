@@ -46,6 +46,10 @@
 	initial_gas = OUTREACH_ATMOS
 	temperature = OUTREACH_TEMP
 
+/turf/simulated/floor/reinforced/outreach
+	initial_gas = OUTREACH_ATMOS
+	temperature = OUTREACH_TEMP
+
 ///////////////////////////////////////////////////////////////////////////////////
 // Painted walls
 ///////////////////////////////////////////////////////////////////////////////////
@@ -62,6 +66,7 @@
 
 /turf/simulated/wall/prepainted/engineering
 	color        = COLOR_AMBER
+	paint_color  = COLOR_AMBER
 	stripe_color = COLOR_AMBER
 
 /turf/simulated/wall/prepainted/atmos
@@ -71,6 +76,11 @@
 /turf/simulated/wall/prepainted/mining
 	color        = COLOR_BEASTY_BROWN
 	stripe_color = COLOR_BEASTY_BROWN
+
+/turf/simulated/wall/prepainted/command
+	color        = COLOR_COMMAND_BLUE
+	stripe_color = COLOR_COMMAND_BLUE
+	paint_color  = COLOR_COMMAND_BLUE
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Painted Conrete Walls
@@ -90,18 +100,33 @@
 /turf/simulated/wall/r_wall/prepainted/engineering
 	color        = COLOR_AMBER
 	stripe_color = COLOR_AMBER
+	paint_color  = COLOR_AMBER
 
 /turf/simulated/wall/r_wall/prepainted/atmos
 	color        = COLOR_CYAN
+	paint_color  = COLOR_CYAN
 	stripe_color = COLOR_CYAN
 
 /turf/simulated/wall/r_wall/prepainted/security
 	color        = COLOR_NT_RED
+	paint_color  = COLOR_NT_RED
 	stripe_color = COLOR_NT_RED
 
 /turf/simulated/wall/r_wall/prepainted/command
 	color        = COLOR_COMMAND_BLUE
+	paint_color  = COLOR_COMMAND_BLUE
 	stripe_color = COLOR_COMMAND_BLUE
+
+/turf/simulated/wall/r_wall/prepainted/mining
+	color        = COLOR_BEASTY_BROWN
+	paint_color  = COLOR_BEASTY_BROWN
+	stripe_color = COLOR_BEASTY_BROWN
+
+/turf/simulated/wall/r_ocp
+	color = COLOR_GUNMETAL
+	icon_state = "reinforced_solid"
+	material = /decl/material/solid/metal/plasteel/ocp
+	reinf_material = /decl/material/solid/metal/plasteel/ocp
 
 ///////////////////////////////////////////////////////////////////////////////////
 // Underground Wall Turfs

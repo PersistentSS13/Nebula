@@ -585,6 +585,7 @@
 /obj/item/storage/box/headset
 	name = "box of spare headsets"
 	desc = "A box full of headsets."
+	icon_state = "headsets"
 /obj/item/storage/box/headset/WillContain()
 	return list(/obj/item/radio/headset = 7)
 
@@ -777,3 +778,51 @@
 	icon_state = "keyboard"
 /obj/item/storage/box/parts_pack/keyboard/WillContain()
 	return list(/obj/item/stock_parts/keyboard = 7)
+
+/obj/item/storage/box/pens
+	name = "box of spare pens"
+	desc = "A box full of pens."
+	icon_state = "pens"
+/obj/item/storage/box/pens/WillContain()
+	return list(
+		/obj/item/pen       = 3,
+		/obj/item/pen/blue  = 2,
+		/obj/item/pen/red   = 2,
+		/obj/item/pen/green = 2,
+	)
+
+/obj/item/storage/box/taperolls/police
+	name = "box of spare police taperolls"
+	desc = "A box full of police barricade tape rolls."
+/obj/item/storage/box/taperolls/police/WillContain()
+	return list(/obj/item/stack/tape_roll/barricade_tape/police = 8)
+
+/obj/item/storage/box/taperolls/engineering
+	name = "box of spare police taperolls"
+	desc = "A box full of police barricade tape rolls."
+/obj/item/storage/box/taperolls/engineering/WillContain()
+	return list(/obj/item/stack/tape_roll/barricade_tape/engineering = 8)
+
+/obj/item/storage/box/taperolls/atmos
+	name = "box of spare atmos taperolls"
+	desc = "A box full of atmos barricade tape rolls."
+/obj/item/storage/box/taperolls/atmos/WillContain()
+	return list(/obj/item/stack/tape_roll/barricade_tape/atmos = 8)
+
+/obj/item/storage/box/taperolls/research
+	name = "box of spare research taperolls"
+	desc = "A box full of research barricade tape rolls."
+/obj/item/storage/box/taperolls/research/WillContain()
+	return list(/obj/item/stack/tape_roll/barricade_tape/research = 8)
+
+/obj/item/storage/box/taperolls/medical
+	name = "box of spare medical taperolls"
+	desc = "A box full of medical barricade tape rolls."
+/obj/item/storage/box/taperolls/medical/WillContain()
+	return list(/obj/item/stack/tape_roll/barricade_tape/medical = 8)
+
+/obj/item/storage/box/taperolls/bureaucracy
+	name = "box of spare bureaucracy taperolls"
+	desc = "A box full of bureaucracy barricade tape rolls."
+/obj/item/storage/box/taperolls/bureaucracy/WillContain()
+	return list(/obj/item/stack/tape_roll/barricade_tape/bureaucracy = 8)

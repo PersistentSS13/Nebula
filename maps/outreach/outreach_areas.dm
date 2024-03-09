@@ -163,7 +163,7 @@ var/global/list/outreach_initial_protected_areas = list(
 ///////////////////////////////////////////////////
 /area/outreach/outpost/control
 	name       = OUTREACH_AREA_NAME_CONTROL_ROOM
-	icon_state = "server"
+	icon_state = "tcomsatcomp"
 	sound_env  = ROOM
 	secure     = TRUE
 	req_access = list(list(access_engine),list(access_heads))
@@ -175,10 +175,29 @@ var/global/list/outreach_initial_protected_areas = list(
 	)
 /area/outreach/outpost/control/hall
 	name       = "OB 1B Servers Entrance"
-	icon_state = "server"
+	icon_state = "tcomsatentrance"
+
+/area/outreach/outpost/control/generators
+	name       = "OB 1B Servers Backup Generators"
+	icon_state = "substation"
+
 /area/outreach/outpost/control/servers
-	name       = OUTREACH_AREA_NAME_SERVER_ROOM
+	name       = "OB 1B Servers"
 	icon_state = "server"
+
+/area/outreach/outpost/control/servers/access
+	name       = "OB 1B Servers Access"
+	icon_state = "server"
+/area/outreach/outpost/control/servers/uplink_room
+	name       = "OB 1B Servers Uplink Room"
+	icon_state = "tcomsateast"
+/area/outreach/outpost/control/servers/controller_room
+	name       = "OB 1B Servers Controllers Room"
+	icon_state = "tcomsatcham"
+/area/outreach/outpost/control/servers/mainframe_room
+	name       = "OB 1B Servers Mainframes Room"
+	icon_state = "tcomsatwest"
+
 /area/outreach/outpost/control/storage
 	name            = "OB 1B Servers Storage Room"
 	icon_state      = "server"
@@ -189,25 +208,85 @@ var/global/list/outreach_initial_protected_areas = list(
 	req_access      = list(list(access_engine))
 	forced_ambience = list('sound/ambience/ambiatm1.ogg')
 
-/area/outreach/outpost/control/command_hall
+///////////////////////////////////////////////////
+// Command
+///////////////////////////////////////////////////
+
+/area/outreach/outpost/command
+	req_access = list(list(access_bridge), list(access_security), list(access_heads))
+
+/area/outreach/outpost/command/hall
 	name       = "OB 1B Command Hall"
 	icon_state = "bridge_hallway"
-	req_access = list(list(access_bridge),list(access_security))
 
-/area/outreach/outpost/control/command_conference
+/area/outreach/outpost/command/hall/inner
+	name       = "OB 1B Command Inner Hall"
+	icon_state = "bridge_hallway"
+
+/area/outreach/outpost/command/conference
 	name       = "OB 1B Conference Hall"
 	icon_state = "bridge_meeting"
-	req_access = list(list(access_bridge),list(access_security))
 
-/area/outreach/outpost/control/command_office
+/area/outreach/outpost/command/office
 	name       = "OB 1B Command Office"
-	icon_state = "law"
+	icon_state = "office"
+	req_access = list(list(access_bridge))
+/area/outreach/outpost/command/office/second
+	name       = "OB 1B Command Office #2"
+	icon_state = "office"
+/area/outreach/outpost/command/office/third
+	name       = "OB 1B Command Office #3"
+	icon_state = "office"
+
+/area/outreach/outpost/command/supplies
+	name       = "OB 1B Command Supplies"
+	icon_state = "storage"
 	req_access = list(list(access_bridge))
 
-/area/outreach/outpost/control/command_room
-	name       = "OB 1B Command Room"
-	icon_state = "law"
+/area/outreach/outpost/command/archives
+	name       = "OB 1B Command Archives"
+	icon_state = "vault"
 	req_access = list(list(access_bridge))
+
+/area/outreach/outpost/command/lockers
+	name       = "OB 1B Command Lockers"
+	icon_state = "locker"
+	req_access = list(list(access_bridge))
+
+// Arrivals
+
+/area/outreach/outpost/command/arrivals
+	name       = "OB 1F Arrivals Office Access"
+	icon_state = "green"
+	req_access = list(list(access_bridge))
+
+/area/outreach/outpost/command/arrivals/lobby
+	name       = "OB 1F Arrivals Office Lobby"
+	icon_state = "dk_yellow"
+
+/area/outreach/outpost/command/arrivals/office
+	name = "OB 1F Arrivals Office"
+	icon_state = "checkpoint"
+
+///////////////////////////////////////////////////
+// Arrivals
+///////////////////////////////////////////////////
+
+/area/outreach/outpost/arrivals
+	name       = "OB 1F Arrival"
+	icon_state = "purple"
+
+/area/outreach/outpost/arrivals/entrance
+	name       = "OB 1F Arrival Entrance"
+	icon_state = "entry_1"
+
+/area/outreach/outpost/arrivals/teleporter
+	name       = "OB 1F Arrival Teleporter"
+	icon_state = "teleporter"
+
+/area/outreach/outpost/arrivals/lobby
+	name       = "OB 1F Arrival Lobby"
+	icon_state = "dk_yellow"
 
 ///////////////////////////////////////////////////
 //Chemistry Lab
@@ -226,6 +305,38 @@ var/global/list/outreach_initial_protected_areas = list(
 	sound_env  = ROOM
 
 ///////////////////////////////////////////////////
+//Xenoarch Lab
+///////////////////////////////////////////////////
+/area/outreach/outpost/lab/xeno
+	name       = "OB 1B Xeno Lab Lobby"
+	icon_state = "xeno_lab"
+
+/area/outreach/outpost/lab/xeno/experiment
+	name       = "OB 1B Xeno Experiment"
+	icon_state = "misclab"
+	sound_env  = ROOM
+
+/area/outreach/outpost/lab/xeno/storage
+	name       = "OB 1B Xeno Lab Storage"
+	icon_state = "xeno_f_store"
+
+///////////////////////////////////////////////////
+//Research Lab
+///////////////////////////////////////////////////
+/area/outreach/outpost/lab/research
+	name       = "OB 1B Research Lab Lobby"
+	icon_state = "research"
+
+/area/outreach/outpost/lab/research/workshop
+	name       = "OB 1B Research Lab Workshop"
+	icon_state = "labwing"
+	sound_env  = ROOM
+
+/area/outreach/outpost/lab/research/room
+	name       = "OB 1B Research Lab Room"
+	icon_state = "toxlab"
+
+///////////////////////////////////////////////////
 //Medbay
 ///////////////////////////////////////////////////
 /area/outreach/outpost/medbay
@@ -234,21 +345,27 @@ var/global/list/outreach_initial_protected_areas = list(
 
 /area/outreach/outpost/medbay/storage
 	name       = "OB 1B Medbay Storage"
-	icon_state = "medbay3"
-/area/outreach/outpost/medbay/storage/equipment
-	name = "OB 1B Medbay Equipment Storage"
-/area/outreach/outpost/medbay/storage/medical
-	name = "OB 1B Medbay Medical Storage"
+	icon_state = "storage"
 
 /area/outreach/outpost/medbay/lobby
 	name       = "OB 1B Medbay Lobby"
 	icon_state = "medbay2"
-	sound_env  = AUDITORIUM
+/area/outreach/outpost/medbay/lobby/counter
+	name       = "OB 1B Medbay Lobby Counter"
+	color      = "red"
+	icon_state = "medbay2"
+
+/area/outreach/outpost/medbay/staff_room
+	name       = "OB 1B Medbay Staff Room"
+	icon_state = "medbay3"
+
+/area/outreach/outpost/medbay/lockers
+	name       = "OB 1B Medbay Lockers"
+	icon_state = "locker"
 
 /area/outreach/outpost/medbay/main_hall
 	name       = "OB 1B Medbay Hall"
-	icon_state = "exam_room"
-	sound_env  = AUDITORIUM
+	icon_state = "medbay4"
 
 /area/outreach/outpost/medbay/triage
 	name       = "OB 1B Medbay Triage"
@@ -256,13 +373,43 @@ var/global/list/outreach_initial_protected_areas = list(
 	sound_env  = ROOM
 
 /area/outreach/outpost/medbay/op_room
-	name = "OB 1B Medbay Surgery Room"
+	name = "OB 1B Medbay Surgery Room 1"
 	icon_state = "surgery"
+	sound_env  = ROOM
+
+/area/outreach/outpost/medbay/op_room2
+	name = "OB 1B Medbay Surgery Room 2"
+	icon_state = "surgery"
+	color      = "red"
+	sound_env  = ROOM
+
+/area/outreach/outpost/medbay/workshop
+	name       = "OB 1B Medbay Workshop"
+	icon_state = "patients"
+	sound_env  = ROOM
+
+/area/outreach/outpost/medbay/cloning
+	name = "OB 1B Medbay Cloning Lab"
+	icon_state = "cloning"
+	sound_env  = ROOM
+
+/area/outreach/outpost/medbay/office
+	name = "OB 1B Medbay Office"
+	icon_state = "office"
+	sound_env  = ROOM
+
+/area/outreach/outpost/medbay/head_office
+	name = "OB 1B Medbay Head Office"
+	icon_state = "heads_cmo"
 	sound_env  = ROOM
 
 /area/outreach/outpost/medbay/morgue
 	name       = "OB 1B Medbay Morgue"
 	icon_state = "morgue"
+
+/area/outreach/outpost/medbay/crematorium
+	name       = "OB 1B Medbay Crematorium"
+	icon_state = "disposal"
 	sound_env  = SMALL_ENCLOSED
 
 ///////////////////////////////////////////////////
@@ -319,6 +466,8 @@ var/global/list/outreach_initial_protected_areas = list(
 	name = "OH GF West Hallway"
 /area/outreach/outpost/hallway/west/floor1
 	name = "OH 1F West Hallway"
+/area/outreach/outpost/hallway/west/south/floor1
+	name = "OH 1F SW Hallway"
 
 //Central
 /area/outreach/outpost/hallway/central
@@ -334,24 +483,43 @@ var/global/list/outreach_initial_protected_areas = list(
 
 /area/outreach/outpost/hallway/south/ground/business_wing
 	name = "OH GF Business Hallway"
+/area/outreach/outpost/hallway/south/floor1/business_wing
+	name = "OH 1F Business Hallway"
 
 ///////////////////////////////////////////////////
 //Stairwell
 ///////////////////////////////////////////////////
 /area/outreach/outpost/stairwell
-	name       = "OH Stairwell"
+	name       = "OB Stairwell"
 	icon_state = "purple"
 	sound_env  = CONCERT_HALL
 	area_flags = AREA_FLAG_HALLWAY
 
 /area/outreach/outpost/stairwell/basement2
-	name = "OH 2B Stairwell"
+	name = "OB 2B Stairwell"
 /area/outreach/outpost/stairwell/basement1
-	name = "OH 1B Stairwell"
+	name = "OB 1B Stairwell"
 /area/outreach/outpost/stairwell/ground
-	name = "OH GF Stairwell"
+	name = "OB GF Stairwell"
 /area/outreach/outpost/stairwell/floor1
-	name = "OH 1F Stairwell"
+	name = "OB 1F Stairwell"
+
+/area/outreach/outpost/stairwell/ground/se
+	name = "OB GF South-East Stairwell"
+/area/outreach/outpost/stairwell/floor1/se
+	name = "OB 1F South-East Stairwell"
+
+/area/outreach/outpost/stairwell/ground/atmos
+	name = "OB GF Atmos Stairwell"
+/area/outreach/outpost/stairwell/basement1/atmos
+	name = "OB 1B Atmos Stairwell"
+
+/area/outreach/outpost/stairwell/basement1/command
+	name = "OB 1B Command Stairwell"
+/area/outreach/outpost/stairwell/ground/command
+	name = "OB GF Command Stairwell"
+/area/outreach/outpost/stairwell/floor1/command
+	name = "OB GF Command Stairwell"
 
 ///////////////////////////////////////////////////
 //Maintenance
@@ -369,6 +537,9 @@ var/global/list/outreach_initial_protected_areas = list(
 /area/outreach/outpost/maint/passage/b2/northwest
 	name = "OB 2B NW Maint"
 	icon_state = "fpmaint"
+/area/outreach/outpost/maint/passage/b2/northwest/junction
+	name = "OB 2B NW Junction Maint"
+	icon_state = "fpmaint"
 /area/outreach/outpost/maint/passage/b2/northeast
 	name = "OB 2B NE Maint"
 	icon_state = "fsmaint"
@@ -383,8 +554,15 @@ var/global/list/outreach_initial_protected_areas = list(
 	name = "OB 1B NW Maint"
 	icon_state = "fpmaint"
 /area/outreach/outpost/maint/passage/b1/northwest/airlock
-	name = "OB 1B NE Alck Maint"
+	name = "OB 1B NW Alck Maint"
 	icon_state = "fpmaint"
+/area/outreach/outpost/maint/passage/b1/northwest/atmos
+	name = "OB 1B NW Atmos Maint"
+	icon_state = "maint_engineering"
+/area/outreach/outpost/maint/passage/b1/northwest/research
+	name = "OB 1B NW research Maint"
+	icon_state = "maint_research_port"
+
 /area/outreach/outpost/maint/passage/b1/northeast
 	name = "OB 1B NE Maint"
 	icon_state = "fsmaint"
@@ -407,6 +585,10 @@ var/global/list/outreach_initial_protected_areas = list(
 	name = "OB 1B Sec Maint"
 	icon_state = "maint_security_port"
 
+/area/outreach/outpost/maint/passage/b1/commandmaint
+	name = "OB 1B Command Maint"
+	icon_state = "maint_e_shuttle"
+
 /area/outreach/outpost/maint/passage/b1/east/junct
 	name = "OB 1B E Maint Junction"
 	icon_state = "smaint"
@@ -416,7 +598,9 @@ var/global/list/outreach_initial_protected_areas = list(
 /area/outreach/outpost/maint/passage/b1/north
 	name = "OB 1B N Maint"
 	icon_state = "fmaint"
-
+/area/outreach/outpost/maint/passage/b1/north/airlock
+	name = "OB 1B N Airlock Maint"
+	icon_state = "fmaint"
 
 /area/outreach/outpost/maint/passage/ground/northwest
 	name = "OB GF NW Maint"
@@ -429,6 +613,9 @@ var/global/list/outreach_initial_protected_areas = list(
 	name = "OB GF N Hangar Maint"
 /area/outreach/outpost/maint/passage/ground/west
 	name = "OB GF W Maint"
+	icon_state = "pmaint"
+/area/outreach/outpost/maint/passage/ground/west2
+	name = "OB GF W Maint2"
 	icon_state = "pmaint"
 /area/outreach/outpost/maint/passage/ground/west/junct
 	name = "OB GF W Maint Junction"
@@ -458,6 +645,16 @@ var/global/list/outreach_initial_protected_areas = list(
 /area/outreach/outpost/maint/passage/f1/southeast
 	name = "OB 1F SE Maint"
 	icon_state = "asmaint"
+
+/area/outreach/outpost/maint/passage/f1/west
+	name = "OB 1F W Wall Maint"
+	icon_state = "apmaint"
+/area/outreach/outpost/maint/passage/f1/southwest/wall
+	name = "OB 1F SW Wall Maint"
+	icon_state = "apmaint"
+/area/outreach/outpost/maint/passage/f1/south
+	name = "OB 1F S Wall Maint"
+	icon_state = "apmaint"
 
 /area/outreach/outpost/maint/storage
 	name = "OB 1B Maintenance Storage"
@@ -525,6 +722,7 @@ var/global/list/outreach_initial_protected_areas = list(
 	sound_env  = ROOM
 /area/outreach/outpost/cafeteria/kitchen/freezer
 	name       = "OB 1B Kitchen Freezer"
+	color      = "blue"
 	sound_env  = SMALL_ENCLOSED
 
 ///////////////////////////////////////////////////
@@ -534,6 +732,11 @@ var/global/list/outreach_initial_protected_areas = list(
 	name       = "OB 1B Hydroponics"
 	icon_state = "hydro"
 	sound_env  = STANDARD_STATION
+
+/area/outreach/outpost/hydroponics/backroom
+	name       = "OB 1B Hydroponics"
+	icon_state = "storage"
+	sound_env  = SMALL_ENCLOSED
 
 ///////////////////////////////////////////////////
 //Engineering
@@ -550,6 +753,11 @@ var/global/list/outreach_initial_protected_areas = list(
 /area/outreach/outpost/engineering/b2/smes
 	name       = OUTREACH_AREA_NAME_POWER_ROOM
 	icon_state = "engine_smes"
+
+/area/outreach/outpost/engineering/b2/geothermals_airlock
+	name       = "OB 2B Geothermals Airlock"
+	icon_state = "engine_eva"
+	sound_env  = SMALL_ENCLOSED
 
 /area/outreach/outpost/engineering/b2/geothermals
 	name            = OUTREACH_AREA_NAME_GEOTHERMALS
@@ -569,6 +777,30 @@ var/global/list/outreach_initial_protected_areas = list(
 		'sound/ambience/ambigen10.ogg',
 		'sound/ambience/ambigen11.ogg',
 	)
+
+/area/outreach/outpost/engineering/gf/hall
+	name       = "OB GF Engineering Hall"
+	icon_state = "engineering"
+/area/outreach/outpost/engineering/gf/chief
+	name       = "OB GF Chief Engineer Office"
+	icon_state = "engineering_foyer"
+/area/outreach/outpost/engineering/gf/storage
+	name       = "OB GF Engineering Storage"
+	icon_state = "engineering_storage"
+/area/outreach/outpost/engineering/gf/staffroom
+	name       = "OB GF Engineering Staffroom"
+	icon_state = "engineering_break"
+/area/outreach/outpost/engineering/gf/entrance
+	name       = "OB GF Engineering Entrance"
+	icon_state = "entry_1"
+	sound_env  = SMALL_ENCLOSED
+/area/outreach/outpost/engineering/gf/workshop
+	name       = "OB GF Engineering Workshop"
+	icon_state = "engineering_workshop"
+/area/outreach/outpost/engineering/gf/ce_storage
+	name       = "OB GF Storage"
+	icon_state = "engineering_storage"
+	sound_env  = SMALL_ENCLOSED
 
 ///////////////////////////////////////////////////
 //Atmos
@@ -596,6 +828,9 @@ var/global/list/outreach_initial_protected_areas = list(
 	name       = OUTREACH_AREA_NAME_GAS_TANKS
 	icon_state = "atmos"
 	sound_env  = CAVE
+/area/outreach/outpost/atmospherics/b2/gas_tank_maintenance
+	name       = "OB 2B Gas Tank Maintenance"
+	icon_state = "atmos"
 
 ///////////////////////////////////////////////////
 //Sec
@@ -617,6 +852,16 @@ var/global/list/outreach_initial_protected_areas = list(
 	icon_state = "checkpoint"
 	req_access = list(list(access_security), list(access_bridge))
 
+/area/outreach/outpost/security/b1/hallway/to_brig
+	name       = "OB 1B Security Hallway Brig"
+	icon_state = "checkpoint"
+	req_access = list(list(access_security), list(access_bridge))
+
+/area/outreach/outpost/security/b1/hallway/to_hos
+	name       = "OB 1B Security Hallway Head Office"
+	icon_state = "checkpoint"
+	req_access = list(list(access_security), list(access_bridge))
+
 /area/outreach/outpost/security/b1/office
 	name       = "OB 1B Security Office"
 	icon_state = "checkpoint"
@@ -629,7 +874,7 @@ var/global/list/outreach_initial_protected_areas = list(
 
 /area/outreach/outpost/security/b1/cell
 	name       = "OB 1B Brig Cell"
-	icon_state = "brig"
+	icon_state = "brig_cell"
 	sound_env  = PADDED_CELL
 	area_flags = AREA_FLAG_PRISON
 /area/outreach/outpost/security/b1/cell/A
@@ -639,27 +884,106 @@ var/global/list/outreach_initial_protected_areas = list(
 /area/outreach/outpost/security/b1/cell/C
 	name       = "OB 1B Brig Cell C"
 
+/area/outreach/outpost/security/b1/chief_office
+	name       = "OB 1B Security Chief Office"
+	icon_state = "sec_hos"
+	sound_env  = SMALL_SOFTFLOOR
+	req_access = list(list(access_armory), list(access_heads), list(access_hos))
+/area/outreach/outpost/security/b1/chief_office/storage
+	name = "OB 1B Security Chief Storage"
+	icon_state = "storage"
+	req_access = list(list(access_hos))
+	sound_env  = SMALL_ENCLOSED
+
+/area/outreach/outpost/security/b1/detective_office
+	name = "OB 1B Detective Office"
+	icon_state = "detective"
+	req_access = list(list(access_hos), list(access_forensics_lockers))
+
+/area/outreach/outpost/security/b1/forensics
+	name = "OB 1B Forensics Lab"
+	icon_state = "forensics"
+	req_access = list(list(access_forensics_lockers), list(access_morgue), list(access_surgery))
+
+/area/outreach/outpost/security/b1/lockers
+	name = "OB 1B Security Locker Hall"
+	icon_state = "security_lockers"
+	req_access = list(list(access_security))
+
+/area/outreach/outpost/security/b1/supply
+	name = "OB 1B Security Supplies"
+	icon_state = "security_lockers"
+	req_access = list(list(access_security))
+
+/area/outreach/outpost/security/b1/breakroom
+	name = "OB 1B Security Break Room"
+	icon_state = "security_breakroom"
+	req_access = list(list(access_security))
+/area/outreach/outpost/security/b1/breakroom/backroom
+	name = "OB 1B Security Break Room back"
+	icon_state = "security_breakroom"
+	req_access = list(list(access_security))
+
+/area/outreach/outpost/security/b1/armory
+	name       = "OB 1B Armory"
+	icon_state = "armory"
+	req_access = list(list(access_security), list(access_forensics_lockers), list(access_armory))
+
+/area/outreach/outpost/security/b1/armory/warden_office
+	name = "OB 1B Warden Office"
+	icon_state = "Warden"
+	req_access = list(list(access_hos), list(access_armory))
+
+/area/outreach/outpost/security/b1/armory/vault/weapons
+	name = "OB 1B Weapons Vault"
+	icon_state = "security_vault"
+	req_access = list(list(access_hos), list(access_armory))
+	sound_env  = SMALL_ENCLOSED
+
+/area/outreach/outpost/security/b1/armory/vault/evidences
+	name = "OB 1B Evidence Vault"
+	icon_state = "evidence"
+	req_access = list(list(access_hos), list(access_armory), list(access_security), list(access_forensics_lockers), list(access_morgue))
+	sound_env  = SMALL_ENCLOSED
+
 ///////////////////////////////////////////////////
 //Mining
 ///////////////////////////////////////////////////
 /area/outreach/outpost/mining
 	icon_state = "mining"
+	req_access = list(list(access_qm), list(access_cargo), list(access_mining), list(access_mining_office))
+
 /area/outreach/outpost/mining/b1/processing
 	name       = "OB 1B Ore Processing"
 	icon_state = "mining_production"
 	sound_env  = HANGAR
+	req_access = list(list(access_qm), list(access_mining_office), list(access_manufacturing))
+
+/area/outreach/outpost/mining/b1/ore_sorting
+	name       = "OB 1B Ore Sorting"
+	icon_state = "mining_production"
+	req_access = list(list(access_qm), list(access_mining_office), list(access_mining))
+
+/area/outreach/outpost/mining/b1/processing_hall
+	name       = "OB 1B Processing Hall"
+	icon_state = "mining_production"
+	req_access = list(list(access_qm), list(access_mining_office), list(access_mining))
+
+/area/outreach/outpost/mining/b1/workshop
+	name       = "OB 1B Mining Workshop"
+	sound_env  = HANGAR
+	req_access = list(list(access_qm), list(access_mining_office), list(access_manufacturing))
+
 /area/outreach/outpost/mining/b1/storage
 	name       = "OB 1B Mining Storage"
 /area/outreach/outpost/mining/b1/foyer
 	name       = "OB 1B Mining Foyer"
 	icon_state = "mining_living"
-/area/outreach/outpost/mining/b1/workshop
-	name       = "OB 1B Mining Workshop"
-	sound_env  = HANGAR
 /area/outreach/outpost/mining/b1/office
 	name       = "OB 1B Mining Office"
 	icon_state = "quartoffice"
 	sound_env  = LIVINGROOM
+	req_access = list(list(access_mining_office))
 /area/outreach/outpost/mining/b1/eva
 	name       = "OB 1B Mining Eva"
 	icon_state = "mining_eva"
@@ -668,6 +992,44 @@ var/global/list/outreach_initial_protected_areas = list(
 ///////////////////////////////////////////////////
 //Cargo
 ///////////////////////////////////////////////////
+/area/outreach/outpost/cargo
+	icon_state = "quart"
+	req_access = list(list(access_qm), list(access_cargo))
+
+/area/outreach/outpost/cargo/hall
+	name       = "OB GF Supply Entry Hall"
+	icon_state = "quart"
+	req_access = list()
+
+/area/outreach/outpost/cargo/office
+	name       = "OB GF Supply Office"
+	icon_state = "quartoffice"
+
+/area/outreach/outpost/cargo/warehouse
+	name       = "OB GF Supply Warehouse"
+	icon_state = "quartstorage"
+	sound_env  = HANGAR
+
+/area/outreach/outpost/cargo/distribution
+	name       = "OB GF Supply Distribution"
+	icon_state = "quartsorting"
+
+/area/outreach/outpost/cargo/desk_teleporter
+	name       = "OB GF Supply Desk Teleporter"
+	icon_state = "teleporter"
+
+/area/outreach/outpost/cargo/disposal
+	name       = "OB GF Supply Disposals"
+	icon_state = "disposal"
+
+/area/outreach/outpost/cargo/qm
+	name       = "OB GF Supply Chief Office"
+	icon_state = "quart"
+	req_access = list(list(access_qm))
+
+/area/outreach/outpost/cargo/workshop
+	name       = "OB GF Supply Workshop"
+	icon_state = "construction"
 
 ///////////////////////////////////////////////////
 //Airlock
@@ -676,6 +1038,7 @@ var/global/list/outreach_initial_protected_areas = list(
 	name       = "Airlock"
 	icon_state = "entry_1"
 	sound_env  = SMALL_ENCLOSED
+	req_access = list(list(access_external_airlocks))
 /area/outreach/outpost/airlock/basement2
 	name = "OH 2B Airlock"
 /area/outreach/outpost/airlock/basement1/east
@@ -746,6 +1109,26 @@ var/global/list/outreach_initial_protected_areas = list(
 	name = "OB GF South Maintenance Shed"
 
 ///////////////////////////////////////////////////
+// Harvesting Towers
+///////////////////////////////////////////////////
+
+/area/outreach/outpost/harvesting
+	name = "OB GF Harvesting Towers"
+	icon_state = "toxmisc"
+	sound_env  = BATHROOM
+
+/area/outreach/outpost/harvesting/power
+	name = "OB 1F Harvesting Tower Substation"
+	icon_state = "substation"
+
+/area/outreach/outpost/harvesting/tower1
+	name = "OB GF Harvesting Tower #1"
+/area/outreach/outpost/harvesting/tower2
+	name = "OB GF Harvesting Tower #2"
+/area/outreach/outpost/harvesting/tower3
+	name = "OB GF Harvesting Tower #3"
+
+///////////////////////////////////////////////////
 //Vacant
 ///////////////////////////////////////////////////
 /area/outreach/outpost/vacant
@@ -757,8 +1140,6 @@ var/global/list/outreach_initial_protected_areas = list(
 
 /area/outreach/outpost/vacant/ground/swroom
 	name = "OB GF Vacant Maint"
-/area/outreach/outpost/vacant/f1/swroom
-	name = "OB 1F Vacant Maint"
 
 /area/outreach/outpost/vacant/ground/depot
 	name = "OB GF Vacant Depot"
@@ -791,6 +1172,36 @@ var/global/list/outreach_initial_protected_areas = list(
 	name = "OB GF Vacant Office #9"
 	icon_state = "law"
 
+
+/area/outreach/outpost/vacant/f1
+/area/outreach/outpost/vacant/f1/swroom
+	name = "OB 1F Vacant Maint"
+/area/outreach/outpost/vacant/f1/office10
+	name = "OB 1F Vacant Office #10"
+/area/outreach/outpost/vacant/f1/office11
+	name = "OB 1F Vacant Office #10"
+
+/area/outreach/outpost/vacant/f1/room
+	name = "OB 1F Vacant Room"
+
+/area/outreach/outpost/vacant/f1/storefront
+	icon_state = "showroom"
+
+/area/outreach/outpost/vacant/f1/storefront/small
+	name = "OB 1F Vacant Small Storefront"
+/area/outreach/outpost/vacant/f1/storefront/small/backroom
+	name = "OB 1F Vacant Small Storefront Backroom"
+	icon_state = "storage"
+	sound_env = SMALL_ENCLOSED
+
+/area/outreach/outpost/vacant/f1/storefront/large
+	name = "OB 1F Vacant Large Storefront"
+/area/outreach/outpost/vacant/f1/storefront/large/backroom
+	name = "OB 1F Vacant Large Storefront Backroom"
+	icon_state = "storage"
+	sound_env = SMALL_ENCLOSED
+
+
 ///////////////////////////////////////////////////
 // Disposals
 ///////////////////////////////////////////////////
@@ -804,12 +1215,26 @@ var/global/list/outreach_initial_protected_areas = list(
 ///////////////////////////////////////////////////
 /area/outreach/outpost/eva
 	name       = "OB GF EVA Storage"
-	icon_state = "locker"
+	icon_state = "eva"
 	sound_env  = SMALL_ENCLOSED
+
 /area/outreach/outpost/eva/gf/north
 	name       = "OB GF North EVA Storage"
 /area/outreach/outpost/eva/gf/south
 	name       = "OB GF South EVA Storage"
+
+/area/outreach/outpost/eva/b1/east
+	name       = "OB 1B East EVA Storage"
+/area/outreach/outpost/eva/b1/south
+	name       = "OB 1B South EVA Storage"
+
+///////////////////////////////////////////////////
+// Chapel
+///////////////////////////////////////////////////
+/area/outreach/outpost/chapel
+	name       = "OB 1B Chapel"
+	icon_state = "chapel"
+	sound_env  = ROOM
 
 ///////////////////////////////////////////////////
 //Elevators
@@ -837,6 +1262,7 @@ var/global/list/outreach_initial_protected_areas = list(
 /area/turbolift/outreach/f1
 	name            = "OB Elevator 1st Floor"
 	lift_floor_name = "1st Floor"
+
 
 ///////////////////////////////////////////////////
 //Misc

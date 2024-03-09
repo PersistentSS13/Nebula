@@ -243,10 +243,7 @@
 /turf/exterior/concrete,
 /area/exoplanet/outreach/underground/mines/access/b1)
 "aK" = (
-/obj/machinery/light/small/wired,
-/obj/structure/cable/orange{
-	icon_state = "0-4"
-	},
+/obj/effect/catwalk_plated/dark,
 /turf/simulated/floor/plating/outreach,
 /area/exoplanet/outreach/underground/mines/access/b1)
 "aL" = (
@@ -271,11 +268,18 @@
 "aN" = (
 /obj/machinery/light/small/wired,
 /obj/structure/cable/orange{
-	icon_state = "0-8"
+	icon_state = "0-4"
 	},
-/turf/simulated/floor/plating/outreach,
+/turf/simulated/floor/tiled/techfloor/outreach,
 /area/exoplanet/outreach/underground/mines/access/b1)
 "aO" = (
+/obj/machinery/light/small/wired,
+/obj/structure/cable/orange{
+	icon_state = "0-8"
+	},
+/turf/simulated/floor/tiled/techfloor/outreach,
+/area/exoplanet/outreach/underground/mines/access/b1)
+"aP" = (
 /obj/machinery/light/small/wired{
 	icon_state = "bulb_map";
 	dir = 1
@@ -284,18 +288,7 @@
 	icon_state = "0-4"
 	},
 /obj/machinery/light/navigation/delay2,
-/turf/simulated/floor/plating/outreach,
-/area/exoplanet/outreach/underground/mines/access/b1)
-"aP" = (
-/obj/machinery/light/small/wired{
-	icon_state = "bulb_map";
-	dir = 1
-	},
-/obj/structure/cable/orange{
-	icon_state = "0-8"
-	},
-/obj/machinery/light/navigation/delay3,
-/turf/simulated/floor/plating/outreach,
+/turf/simulated/floor/tiled/techfloor/outreach,
 /area/exoplanet/outreach/underground/mines/access/b1)
 "aQ" = (
 /obj/structure/cable/orange{
@@ -612,7 +605,152 @@
 /obj/structure/cable/orange{
 	icon_state = "0-2"
 	},
+/obj/structure/cable/orange{
+	icon_state = "1-2"
+	},
+/obj/abstract/landmark/skip_test,
 /turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/mines/access/b1)
+"bE" = (
+/obj/structure/cable/orange{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/orange,
+/obj/abstract/landmark/skip_test,
+/obj/machinery/conveyor/outreach/mining/transport{
+	icon_state = "conveyor0";
+	dir = 1
+	},
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/mines/access/b1)
+"bF" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/cable/orange{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/orange,
+/obj/abstract/landmark/skip_test,
+/obj/machinery/conveyor/outreach/mining/transport_return,
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/mines/access/b1)
+"bG" = (
+/obj/structure/cable/orange{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/orange,
+/obj/machinery/conveyor/outreach/mining/transport{
+	icon_state = "conveyor0";
+	dir = 1
+	},
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/mines/access/b1)
+"bH" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/cable/orange{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/orange,
+/obj/machinery/conveyor/outreach/mining/transport_return,
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/mines/access/b1)
+"bI" = (
+/obj/effect/decal/cleanable/dirt,
+/obj/structure/cable/orange{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/orange,
+/obj/machinery/conveyor/outreach/mining/transport{
+	icon_state = "conveyor0";
+	dir = 1
+	},
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/mines/access/b1)
+"bJ" = (
+/obj/structure/cable/orange{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/orange,
+/obj/machinery/conveyor/outreach/mining/transport{
+	icon_state = "conveyor0";
+	dir = 1
+	},
+/obj/structure/plasticflaps/airtight,
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/mines/access/b1)
+"bK" = (
+/obj/effect/decal/cleanable/generic,
+/obj/machinery/conveyor_switch/oneway/outreach/mining/transport,
+/obj/structure/cable/orange{
+	icon_state = "0-4"
+	},
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/obj/structure/sign/directions/supply{
+	icon_state = "direction_supply";
+	dir = 1
+	},
+/turf/simulated/floor/tiled/techfloor/outreach,
+/area/exoplanet/outreach/underground/mines/access/b1)
+"bL" = (
+/obj/structure/cable/orange,
+/obj/machinery/conveyor/outreach/mining/transport{
+	icon_state = "conveyor0";
+	dir = 1
+	},
+/obj/structure/cable/orange{
+	icon_state = "1-8"
+	},
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/mines/access/b1)
+"bM" = (
+/obj/structure/cable/orange,
+/obj/machinery/conveyor/outreach/mining/transport_return,
+/obj/structure/cable/orange{
+	icon_state = "1-4"
+	},
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/mines/access/b1)
+"bN" = (
+/obj/machinery/conveyor_switch/oneway/outreach/mining/transport_return,
+/obj/structure/cable/orange{
+	icon_state = "0-8"
+	},
+/obj/effect/floor_decal/industrial/hatch/yellow,
+/obj/structure/sign/directions/supply,
+/turf/simulated/floor/tiled/techfloor/outreach,
+/area/exoplanet/outreach/underground/mines/access/b1)
+"bO" = (
+/obj/structure/cable/orange{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/orange{
+	icon_state = "1-2"
+	},
+/obj/structure/cable/orange,
+/obj/machinery/conveyor/outreach/mining/transport_return,
+/obj/structure/plasticflaps/airtight,
+/turf/simulated/floor/plating/outreach,
+/area/exoplanet/outreach/underground/mines/access/b1)
+"bP" = (
+/obj/machinery/light/small/wired{
+	icon_state = "bulb_map";
+	dir = 1
+	},
+/obj/structure/cable/orange{
+	icon_state = "0-8"
+	},
+/obj/machinery/light/navigation/delay3,
+/turf/simulated/floor/tiled/techfloor/outreach,
+/area/exoplanet/outreach/underground/mines/access/b1)
+"bQ" = (
+/obj/effect/floor_decal/industrial/loading{
+	icon_state = "loadingarea";
+	dir = 1
+	},
+/turf/simulated/floor/tiled/techfloor/outreach,
+/area/exoplanet/outreach/underground/mines/access/b1)
+"bR" = (
+/obj/effect/floor_decal/industrial/loading,
+/turf/simulated/floor/tiled/techfloor/outreach,
 /area/exoplanet/outreach/underground/mines/access/b1)
 
 (1,1,1) = {"
@@ -20217,12 +20355,12 @@ ag
 ag
 ag
 ag
-aS
-aS
-aS
 aK
+aK
+aK
+aN
 an
-aO
+aP
 am
 am
 aZ
@@ -21025,12 +21163,12 @@ ag
 ag
 ag
 ag
-aS
-aS
-aS
-aN
+aK
+aK
+aK
+aO
 an
-aP
+bP
 am
 am
 am
@@ -21636,8 +21774,8 @@ ad
 ay
 af
 an
-bv
-am
+bK
+aI
 am
 ae
 ae
@@ -21833,13 +21971,13 @@ ag
 ag
 ag
 ag
-ay
-ay
-af
-af
-an
-am
-am
+bE
+bG
+bI
+bI
+bJ
+bL
+bQ
 am
 ae
 ae
@@ -22035,13 +22173,13 @@ ag
 ag
 ag
 ag
-af
-af
-af
-af
-an
-am
-am
+bF
+bH
+bH
+bH
+bO
+bM
+bR
 am
 ae
 ae
@@ -22242,8 +22380,8 @@ an
 an
 an
 an
-am
-am
+bN
+aI
 am
 ae
 ae

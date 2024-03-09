@@ -44,6 +44,15 @@
 		/obj/item/tank/emergency/oxygen/engi
 	)
 
+/obj/structure/closet/l3closet/security/multi/WillContain()
+	return list(
+		/obj/item/clothing/suit/bio_suit/security = 5,
+		/obj/item/clothing/head/bio_hood/security = 5,
+		/obj/item/clothing/mask/gas/half = 5,
+		/obj/item/tank/emergency/oxygen/engi = 5,
+	)
+
+
 /obj/structure/closet/l3closet/janitor
 	closet_appearance = /decl/closet_appearance/bio/janitor
 	//mapper preview
@@ -55,6 +64,14 @@
 		/obj/item/clothing/head/bio_hood/janitor,
 		/obj/item/clothing/mask/gas/half,
 		/obj/item/tank/emergency/oxygen/engi
+	)
+
+/obj/structure/closet/l3closet/janitor/multi/WillContain()
+	return list(
+		/obj/item/clothing/suit/bio_suit/janitor = 5,
+		/obj/item/clothing/head/bio_hood/janitor = 5,
+		/obj/item/clothing/mask/gas/half = 5,
+		/obj/item/tank/emergency/oxygen/engi = 5,
 	)
 
 /obj/structure/closet/l3closet/scientist
@@ -87,4 +104,23 @@
 		/obj/item/clothing/head/bio_hood/cmo,
 		/obj/item/clothing/mask/gas/half,
 		/obj/item/tank/emergency/oxygen/engi
+	)
+
+/obj/structure/closet/l3closet/medical
+	closet_appearance = /decl/closet_appearance/bio/command
+
+/obj/structure/closet/l3closet/medical/WillContain()
+	return list(
+		/obj/item/clothing/suit/bio_suit/cmo,
+		/obj/item/clothing/head/bio_hood/cmo,
+		/obj/item/clothing/mask/gas/half,
+		/obj/item/tank/emergency/oxygen/engi
+	)
+
+/obj/structure/closet/l3closet/medical/multi/WillContain()
+	return list(
+		/obj/item/clothing/suit/bio_suit/cmo = 5,
+		/obj/item/clothing/head/bio_hood/cmo = 5,
+		/obj/item/clothing/mask/gas/half = 5,
+		/obj/item/tank/emergency/oxygen/engi = 5,
 	)

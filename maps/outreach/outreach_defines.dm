@@ -10,6 +10,7 @@
 	company_short   = "Outreach"
 	system_name     = "Outreach System"
 	dock_name       = "Outreach Docks"
+	id_hud_icons    = 'icons/hud.dmi' //Has more hud icon than the base nebula one
 
 	allowed_latejoin_spawns = list(/decl/spawnpoint/cryo)
 	default_spawn = /decl/spawnpoint/cryo
