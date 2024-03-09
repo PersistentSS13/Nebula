@@ -5,7 +5,7 @@
 /obj/machinery/artifact_harvester
 	name = "exotic particle harvester"
 	icon = 'icons/obj/xenoarchaeology.dmi'
-	icon_state = "xenoarchaeology_harvester"
+	icon_state = "xenoarch_harvester"
 	anchored = TRUE
 	density = TRUE
 	idle_power_usage = 50
@@ -98,9 +98,9 @@
 
 /obj/machinery/artifact_harvester/on_update_icon()
 	if(inserted_battery)
-		icon_state = "xenoarchaeology_harvester"
+		icon_state = "xenoarch_harvester"
 	else
-		icon_state = "xenoarchaeology_harvester_battery"
+		icon_state = "xenoarch_harvester_battery"
 
 /obj/machinery/artifact_harvester/proc/set_mode(new_mode)
 	mode = new_mode
