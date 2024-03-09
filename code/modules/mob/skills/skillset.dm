@@ -1,7 +1,7 @@
 //Holder for skill information for mobs.
 
 /datum/skillset
-	var/skill_list = list()
+	var/list/skill_list = list()
 	var/mob/owner
 	var/default_value = SKILL_DEFAULT
 	var/skills_transferable = TRUE
