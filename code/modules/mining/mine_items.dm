@@ -4,6 +4,8 @@
 	name = "miner's equipment"
 	closet_appearance = /decl/closet_appearance/secure_closet/mining
 	req_access = list(access_mining)
+	//mapper preview
+	color = COLOR_WARM_YELLOW
 
 /obj/structure/closet/secure_closet/miner/WillContain()
 	return list(

@@ -35,6 +35,8 @@
 /obj/structure/closet/excavation
 	name = "excavation tools"
 	closet_appearance = /decl/closet_appearance/secure_closet/engineering/tools
+	//mapper preview
+	color = COLOR_YELLOW_GRAY
 
 /obj/structure/closet/excavation/WillContain()
 	return list(
