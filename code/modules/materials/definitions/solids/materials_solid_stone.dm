@@ -51,6 +51,10 @@
 		/decl/material/solid/bauxite = 0.15,
 		/decl/material/solid/slag    = 0.10,
 	)
+	weight                  = MAT_VALUE_VERY_HEAVY
+	wall_support_value      = MAT_VALUE_VERY_HEAVY
+	reflectiveness          = MAT_VALUE_SHINY
+	construction_difficulty = MAT_VALUE_HARD_DIY
 
 /decl/material/solid/stone/ceramic
 	name                   = "ceramic"
@@ -125,19 +129,6 @@
 /decl/material/solid/stone/cult/reinforced
 	name = "runic inscriptions"
 	uid = "solid_runes_cult"
-
-/decl/material/solid/stone/granite
-	name                    = "granite"
-	uid                     = "solid_granite"
-	lore_text               = "A common and very hard igneous rock."
-	color                   = "#615f5f"
-	weight                  = MAT_VALUE_VERY_HEAVY
-	wall_support_value      = MAT_VALUE_VERY_HEAVY
-	hardness                = MAT_VALUE_VERY_HARD
-	reflectiveness          = MAT_VALUE_SHINY
-	construction_difficulty = MAT_VALUE_HARD_DIY
-	brute_armor             = 6
-	integrity               = 275
 
 /decl/material/solid/stone/slate
 	name                    = "slate"
