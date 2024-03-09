@@ -451,7 +451,7 @@
 	name = "cigarette butt"
 	desc = "A manky old cigarette butt."
 	icon = 'icons/clothing/mask/smokables/cigarette_butt.dmi'
-	icon_state = "butt"
+	icon_state = ICON_STATE_WORLD //all subclass use this icon format
 	randpixel = 10
 	w_class = ITEM_SIZE_TINY
 	slot_flags = SLOT_EARS

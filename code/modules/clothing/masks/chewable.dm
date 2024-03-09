@@ -70,6 +70,7 @@
 	name = "spit wad"
 	desc = "A disgusting spitwad."
 	icon = 'icons/clothing/mask/chewables/chew_spit.dmi'
+	icon_state = ICON_STATE_WORLD
 
 /obj/item/clothing/mask/chewable/proc/extinguish(var/mob/user, var/no_message)
 	STOP_PROCESSING(SSobj, src)
