@@ -2,7 +2,7 @@
 	name                    = "clipboard"
 	desc                    = "It's a board with a clip used to organise papers."
 	icon                    = 'icons/obj/items/clipboard.dmi'
-	icon_state              = "clipboard"
+	icon_state              = "clipboard_preview"
 	item_state              = "clipboard"
 	throwforce              = 0
 	w_class                 = ITEM_SIZE_SMALL
@@ -52,6 +52,7 @@
 
 /obj/item/clipboard/on_update_icon()
 	..()
+	icon_state = "clipboard"
 	var/obj/item/top_paper = top_paper()
 	if(top_paper)
 		var/mutable_appearance/I = new /mutable_appearance(top_paper)
