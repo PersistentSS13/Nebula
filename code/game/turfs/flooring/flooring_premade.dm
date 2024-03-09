@@ -155,6 +155,9 @@
 /turf/simulated/floor/reinforced/n20
 	initial_gas = list(/decl/material/gas/nitrous_oxide = ATMOSTANK_NITROUSOXIDE)
 
+/turf/simulated/floor/reinforced/chlorine
+	initial_gas = list(/decl/material/gas/chlorine = ATMOSTANK_CO2)
+
 /turf/simulated/floor/reinforced/elevator_shaft
 	name             = "elevator shaft floor"
 	icon             = 'icons/turf/floors.dmi'
@@ -198,6 +201,11 @@
 	name = "white floor"
 	icon_state = "white"
 	initial_flooring = /decl/flooring/tiling/white
+
+/turf/simulated/floor/tiled/checkered
+	name = "checkered floor"
+	icon_state = "white-checkered"
+	initial_flooring = /decl/flooring/tiling/checkered
 
 /turf/simulated/floor/tiled/white/monotile
 	name = "floor"
@@ -277,10 +285,16 @@
 	initial_flooring = /decl/flooring/tiling/tech/grid
 
 /turf/simulated/floor/lino
-	name = "lino"
+	name = "linoleum"
 	icon = 'icons/turf/flooring/linoleum.dmi'
 	icon_state = "lino"
 	initial_flooring = /decl/flooring/linoleum
+
+/turf/simulated/floor/lino/light
+	name = "light linoleum"
+	icon = 'icons/turf/flooring/linoleum.dmi'
+	icon_state = "base"
+	initial_flooring = /decl/flooring/linoleum/light
 
 //ATMOS PREMADES
 /turf/simulated/floor/reinforced/airless
@@ -397,3 +411,22 @@
 	icon = 'icons/turf/flooring/pool.dmi'
 	icon_state = "pool"
 	initial_flooring = /decl/flooring/pool/deep
+
+
+/turf/simulated/floor/concrete
+	name = "concrete floor"
+	icon = 'icons/turf/flooring/concrete.dmi'
+	icon_state = "concrete"
+	initial_flooring = /decl/flooring/concrete
+
+/turf/simulated/floor/concrete/slab
+	name = "concrete slab floor"
+	icon = 'icons/turf/flooring/concrete.dmi'
+	icon_state = "slab"
+	initial_flooring = /decl/flooring/concrete/slab
+
+/turf/simulated/floor/reinforced/concrete
+	name = "reinforced concrete floor"
+	icon = 'icons/turf/flooring/concrete.dmi'
+	icon_state = "reinforced"
+	initial_flooring = /decl/flooring/reinforced/concrete

@@ -156,6 +156,10 @@
 	flags = TURF_REMOVE_SCREWDRIVER
 	footstep_type = /decl/footsteps/tiles
 
+/decl/flooring/linoleum/light
+	name      = "light linoleum"
+	icon_base = "base"
+
 /decl/flooring/tiling
 	name = "floor"
 	desc = "A solid, heavy set of flooring plates."
@@ -188,6 +192,11 @@
 	desc = "How sterile."
 	color = COLOR_OFF_WHITE
 	build_type = /obj/item/stack/tile/floor_white
+
+/decl/flooring/tiling/checkered
+	icon_base = "tiled_checkered"
+	desc = "How basic."
+	build_type = /obj/item/stack/tile/floor_checkered
 
 /decl/flooring/tiling/dark
 	desc = "How ominous."
@@ -436,3 +445,30 @@
 
 /decl/flooring/pool/deep
 	height = -FLUID_DEEP - 50
+
+/decl/flooring/concrete
+	name = "concrete floor"
+	desc = "Heavily reinforced concrete with a latticework on top of regular plating."
+	icon = 'icons/turf/flooring/concrete.dmi'
+	icon_base = "concrete"
+	build_type = /obj/item/stack/material/panel
+	build_material = /decl/material/solid/stone/concrete
+
+/decl/flooring/concrete/slab
+	name = "concrete slab floor"
+	desc = "A slab of concrete on top of regular plating."
+	icon_base = "slab"
+	build_type = /obj/item/stack/material/slab
+	build_material = /decl/material/solid/stone/concrete
+
+/decl/flooring/reinforced/concrete
+	name = "reinforced concrete floor"
+	desc = "Heavily reinforced concrete with a latticework on top of regular plating."
+	icon = 'icons/turf/flooring/concrete.dmi'
+	icon_base = "reinforced"
+	flags = TURF_REMOVE_SHOVEL | TURF_CAN_BREAK | TURF_ACID_IMMUNE
+	build_type = /obj/item/stack/material/reinforced
+	build_material = /decl/material/solid/stone/concrete/reinforced
+	build_cost = 1
+	build_time = 20
+	footstep_type = /decl/footsteps/tiles

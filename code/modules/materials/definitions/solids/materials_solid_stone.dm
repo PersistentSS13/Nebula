@@ -92,13 +92,21 @@
 	construction_difficulty = MAT_VALUE_HARD_DIY
 
 /decl/material/solid/stone/concrete
-	name             = "concrete"
-	uid              = "solid_concrete"
-	lore_text        = "The most ubiquitous building material of old Earth, now in space. Consists of mineral aggregate bound with some sort of cementing solution."
-	color            = COLOR_GRAY
-	value            = 0.9
-	exoplanet_rarity_plant = MAT_RARITY_NOWHERE
-	exoplanet_rarity_gas = MAT_RARITY_NOWHERE
+	name                    = "concrete"
+	uid                     = "solid_concrete"
+	lore_text               = "The most ubiquitous building material of old Earth, now in space. Consists of mineral aggregate bound with some sort of cementing solution."
+	color                   = COLOR_GRAY
+	value                   = 0.9
+	hardness                = MAT_VALUE_HARD
+	brute_armor             = 10
+	explosion_resistance    = 15
+	integrity               = 220
+	exoplanet_rarity_plant  = MAT_RARITY_NOWHERE
+	exoplanet_rarity_gas    = MAT_RARITY_NOWHERE
+	weight                  = MAT_VALUE_HEAVY
+	wall_support_value      = MAT_VALUE_HEAVY
+	construction_difficulty = MAT_VALUE_VERY_HARD_DIY
+	melting_point           = T0C + 1527
 	var/image/texture
 
 /decl/material/solid/stone/concrete/Initialize()
@@ -108,6 +116,31 @@
 
 /decl/material/solid/stone/concrete/get_wall_texture()
 	return texture
+
+/decl/material/solid/stone/concrete/generate_recipes(reinforce_material)
+	//Don't call parent, since concrete isn't really useable to craft many things
+	if(reinforce_material)
+		return
+	. += new/datum/stack_recipe/furniture/girder(src)
+	. += new/datum/stack_recipe/furniture/wall_frame(src)
+	. += new/datum/stack_recipe/fountain(src)
+
+///Concrete with steel rebars essentially. Has to be a material, since composite materials are kind of a hack.
+/decl/material/solid/stone/concrete/reinforced
+	name                    = "reinforced concrete"
+	uid                     = "solid_reinforced_concrete"
+	lore_text               = "A mix of concrete with a reinforcing material to increase it's strenght."
+	color                   = COLOR_GRAY
+	value                   = 0.95
+	hardness                = MAT_VALUE_HARD + 8
+	brute_armor             = 20
+	explosion_resistance    = 35 //Reinforced concrete is resistant to explosion
+	integrity               = 500 //Reinforced concrete is very strong
+	weight                  = MAT_VALUE_VERY_HEAVY
+	wall_support_value      = MAT_VALUE_VERY_HEAVY
+	construction_difficulty = MAT_VALUE_VERY_HARD_DIY
+	melting_point           = T0C + 1527
+	default_solid_form      = /obj/item/stack/material/slab
 
 /decl/material/solid/stone/cult
 	name = "disturbing stone"
