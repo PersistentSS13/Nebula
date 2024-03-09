@@ -20,6 +20,7 @@ var/global/list/default_initial_tech_levels
 
 	var/initial_network_id
 	var/initial_network_key
+	var/initial_network_tag
 	var/list/tech_levels
 	var/need_disk_operation = FALSE
 	var/obj/item/disk/tech_disk/disk
@@ -35,7 +36,7 @@ var/global/list/default_initial_tech_levels
 
 	var/list/data = list()
 	var/datum/extension/network_device/device = get_extension(src, /datum/extension/network_device)
-	data["network_id"] = device.network_tag
+	data["network_id"] = device.network_tag //#FIXME: Is it supposed to be the device tag, or the network name/id??
 	if(disk)
 		data["disk_name"] = disk.name
 		var/list/tech_data = list()
@@ -85,12 +86,14 @@ var/global/list/default_initial_tech_levels
 			D.ui_interact(user)
 			return TOPIC_REFRESH
 
-/obj/machinery/design_database/Initialize()
+/obj/machinery/design_database/Initialize(mapload, d = 0, populate_parts = TRUE)
 	if(!tech_levels)
 		tech_levels = get_default_initial_tech_levels()
 	..()
 	design_databases += src
-	set_extension(src, /datum/extension/network_device, initial_network_id, initial_network_key, RECEIVER_STRONG_WIRELESS)
+	var/datum/extension/network_device/D = get_or_create_extension(src, /datum/extension/network_device, initial_network_id, initial_network_key, RECEIVER_STRONG_WIRELESS)
+	if(istype(D) && length(initial_network_tag))
+		D.set_network_tag(initial_network_tag)
 	update_icon()
 	. = INITIALIZE_HINT_LATELOAD
 
