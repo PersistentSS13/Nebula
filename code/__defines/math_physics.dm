@@ -24,8 +24,6 @@
 
 #define CELSIUS + T0C
 
-#define ATM *ONE_ATMOSPHERE
-
 #define ATMOS_PRECISION 0.0001
 #define QUANTIZE(variable) (round(variable, ATMOS_PRECISION))
 
@@ -36,3 +34,31 @@
 
 #define SIMPLE_SIGN(X) ((X) < 0 ? -1 : 1)
 #define SIGN(X)        ((X) ? SIMPLE_SIGN(X) : 0)
+/////////////////////////////
+// Volume Units
+/////////////////////////////
+
+///Multiplier for a single megaliter of a volume. Equivalent to 1 m^3
+#define MEGALITER *1000
+///Multiplier for a single liter of a volume. Equivalent to 1 cm^3
+#define LITER     *1
+///Multiplier for a single mililiter of a volume. Equivalent to 1 mm^3
+#define MILLILITER *0.001
+
+#define METER_CUBED  MEGALITER
+#define CM_CUBED LITER
+#define MM_CUBED MILLILITER
+
+/////////////////////////////
+// Pressure Units
+/////////////////////////////
+
+///Multiplier for a pressure value in atmospheres (atm)
+#define ATM *ONE_ATMOSPHERE
+
+///Multiplier for a thousand kilopascal, or a megapascal
+#define MEGAPASCAL *1000
+///Multiplier for a thousand pascal, or a kilopascal
+#define KILOPASCAL *1
+///Multiplier for a thousanth of a kilopascal, or a pascal
+#define PASCAL  *0.001
