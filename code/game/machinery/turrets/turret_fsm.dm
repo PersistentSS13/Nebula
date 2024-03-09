@@ -10,6 +10,7 @@
 	var/timer_wait = TURRET_WAIT
 
 /decl/state/turret/entered_state(obj/machinery/turret/turret)
+	log_debug("[turret] entered [type] state")
 	turret.ray_color = src.ray_color
 	turret.update_icon()
 	if(switched_to_sound)
@@ -18,6 +19,7 @@
 		turret.timer_id = addtimer(CALLBACK(turret, timer_proc), timer_wait, TIMER_UNIQUE|TIMER_STOPPABLE|TIMER_LOOP|TIMER_OVERRIDE)
 
 /decl/state/turret/exited_state(obj/machinery/turret/turret)
+	log_debug("[turret] exited [type] state")
 	if(timer_proc && turret.timer_id)
 		deltimer(turret.timer_id)
 		turret.timer_id = null

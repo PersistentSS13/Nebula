@@ -15,6 +15,7 @@
 
 	transform_animate_time = 0.2 SECONDS
 	uncreated_component_parts = list(/obj/item/stock_parts/power/apc)
+	maximum_component_parts   = list(/obj/item/stock_parts/ammo_box = 1, /obj/item/stock_parts = 10)
 	// Visuals.
 	var/image/turret_stand = null
 	var/image/turret_ray = null

@@ -9,7 +9,7 @@
 		/decl/material/solid/metal/brass = MATTER_AMOUNT_REINFORCEMENT,
 	)
 	var/list/stored_ammo = list()
-	var/stored_caliber = null
+	var/tmp/stored_caliber = null
 
 	var/max_ammo = 50
 

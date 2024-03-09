@@ -1,25 +1,22 @@
 #define MAX_TURRET_LOGS 50
 // Standard buildable model of turret.
 /obj/machinery/turret/network
-	name = "sentry turret"
-	desc = "An automatic turret capable of identifying and dispatching targets using a mounted firearm."
-
-	idle_power_usage = 5 KILOWATTS
+	name               = "sentry turret"
+	desc               = "An automatic turret capable of identifying and dispatching targets using a mounted firearm."
+	idle_power_usage   = 5 KILOWATTS
 	active_power_usage = 5 KILOWATTS // Determines how fast energy weapons can be recharged, so highly values are better.
-
-	reloading_speed = 10
-
-	installed_gun = null
-	gun_looting_prob = 100
-
-	traverse = 360
-	turning_rate = 270
-
-	base_type = /obj/machinery/turret/network
-	construct_state = /decl/machine_construction/default/panel_closed
-	stat_immune = NOSCREEN | NOINPUT
-
-	hostility = /decl/hostility/turret/network
+	reloading_speed    = 10
+	gun_looting_prob   = 100
+	traverse           = 360
+	turning_rate       = 180
+	base_type          = /obj/machinery/turret/network/buildable
+	construct_state    = /decl/machine_construction/default/panel_closed
+	stat_immune        = NOSCREEN | NOINPUT
+	hostility          = /decl/hostility/turret/network
+	uncreated_component_parts = list(
+		/obj/item/stock_parts/power/apc/buildable,
+		/obj/item/stock_parts/network_receiver/network_lock/buildable,
+	)
 
 	// Targeting modes.
 	var/check_access = FALSE
@@ -29,6 +26,10 @@
 	var/check_lifeforms = FALSE
 
 	var/list/logs
+
+/obj/machinery/turret/network/buildable
+	uncreated_component_parts = null
+	installed_gun             = null
 
 /obj/machinery/turret/network/Initialize()
 	. = ..()
@@ -143,7 +144,7 @@
 /obj/item/stock_parts/circuitboard/sentry_turret
 	name = "circuitboard (sentry turret)"
 	board_type = "machine"
-	build_path = /obj/machinery/turret/network
+	build_path = /obj/machinery/turret/network/buildable
 	origin_tech = "{'programming':5,'combat':5,'engineering':4}"
 	req_components = list(
 							/obj/item/stock_parts/capacitor = 1,
