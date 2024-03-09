@@ -343,7 +343,21 @@
 /obj/machinery/door/blast/regular/open
 	icon_state = "open"
 	begins_closed = FALSE
-	icon_state = "pdoor0"
+
+/obj/machinery/door/blast/regular/wired
+	power_channel = LOCAL
+	uncreated_component_parts = list(
+		/obj/item/stock_parts/power/terminal,
+		/obj/item/stock_parts/radio/receiver/buildable,
+	)
+	stock_part_presets = list(
+		/decl/stock_part_preset/radio/receiver/blast_door,
+		/decl/stock_part_preset/terminal_setup,
+	)
+
+/obj/machinery/door/blast/regular/wired/open
+	icon_state = "open"
+	begins_closed = FALSE
 
 // SUBTYPE: Shutters
 // Nicer looking, and also weaker, shutters. Found in kitchen and similar areas.
