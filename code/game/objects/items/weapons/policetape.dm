@@ -438,6 +438,10 @@ var/global/list/image/hazard_overlays //Cached hazard floor overlays for the bar
 	color         = COLOR_RED
 	tape_template = /decl/barricade_tape_template/police
 
+/obj/structure/tape_barricade/door/police
+	color         = COLOR_RED
+	tape_template = /decl/barricade_tape_template/police
+
 ////////////////////////////////////////////////////////////////////
 // Engineering Tape
 ////////////////////////////////////////////////////////////////////
@@ -454,6 +458,10 @@ var/global/list/image/hazard_overlays //Cached hazard floor overlays for the bar
 //mapper type
 /obj/structure/tape_barricade/engineering
 	icon_state    = "tape_h_0"
+	color         = COLOR_ORANGE
+	tape_template = /decl/barricade_tape_template/engineering
+
+/obj/structure/tape_barricade/door/engineering
 	color         = COLOR_ORANGE
 	tape_template = /decl/barricade_tape_template/engineering
 
@@ -479,6 +487,10 @@ var/global/list/image/hazard_overlays //Cached hazard floor overlays for the bar
 	color         = COLOR_BLUE_LIGHT
 	tape_template = /decl/barricade_tape_template/atmos
 
+/obj/structure/tape_barricade/door/atmos
+	color         = COLOR_BLUE_LIGHT
+	tape_template = /decl/barricade_tape_template/atmos
+
 ////////////////////////////////////////////////////////////////////
 // Research Tape
 ////////////////////////////////////////////////////////////////////
@@ -494,6 +506,10 @@ var/global/list/image/hazard_overlays //Cached hazard floor overlays for the bar
 
 //mapper type
 /obj/structure/tape_barricade/research
+	color         = COLOR_WHITE
+	tape_template = /decl/barricade_tape_template/research
+
+/obj/structure/tape_barricade/door/research
 	color         = COLOR_WHITE
 	tape_template = /decl/barricade_tape_template/research
 
@@ -519,6 +535,10 @@ var/global/list/image/hazard_overlays //Cached hazard floor overlays for the bar
 	color         = COLOR_PALE_BLUE_GRAY
 	tape_template = /decl/barricade_tape_template/medical
 
+/obj/structure/tape_barricade/door/medical
+	color         = COLOR_PALE_BLUE_GRAY
+	tape_template = /decl/barricade_tape_template/medical
+
 ////////////////////////////////////////////////////////////////////
 // Bureacratic Tape
 ////////////////////////////////////////////////////////////////////
@@ -537,6 +557,10 @@ var/global/list/image/hazard_overlays //Cached hazard floor overlays for the bar
 //mapper type
 /obj/structure/tape_barricade/bureaucracy
 	icon_state    = "stripetape_h_0"
+	color         = COLOR_RED
+	tape_template = /decl/barricade_tape_template/bureaucracy
+
+/obj/structure/tape_barricade/door/bureaucracy
 	color         = COLOR_RED
 	tape_template = /decl/barricade_tape_template/bureaucracy
 
