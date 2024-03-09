@@ -157,7 +157,7 @@ var/global/list/allCasters = list() //Global list that will contain reference to
 	uncreated_component_parts = null
 	stat_immune = 0
 	frame_type = /obj/item/frame/stock_offset/newscaster
-	directional_offset = "{'NORTH':{'y':-32}, 'SOUTH':{'y':32}, 'EAST':{'x':32}, 'WEST':{'x':-32}}"
+	directional_offset = "{'NORTH':{'y':-32}, 'SOUTH':{'y':32}, 'EAST':{'x':-32}, 'WEST':{'x':32}}"
 
 /obj/machinery/newscaster/Initialize()
 	. = ..()
@@ -932,3 +932,46 @@ var/global/list/allCasters = list() //Global list that will contain reference to
 	else
 		audible_message("<span class='newscaster'><EM>[src.name]</EM> beeps, \"Attention! Wanted issue distributed!\"</span>")
 		playsound(src.loc, 'sound/machines/warning-buzzer.ogg', 75, 1)
+
+//New Icon update stuff PS13
+/obj/machinery/newscaster
+	icon = 'icons/obj/machines/wall/newscaster.dmi'
+	icon_state = "frame"
+
+/obj/machinery/newscaster/on_update_icon()
+	cut_overlays()
+
+	//Handles construction states
+	if(panel_open)
+		var/obj/item/stock_parts/circuitboard/C = get_component_of_type(/obj/item/stock_parts/circuitboard)
+		if(C)
+			add_overlay("overlay-open-circuit")
+		else if(!istype(construct_state, /decl/machine_construction/wall_frame/no_wires))
+			add_overlay("overlay-open-wires")
+		else
+			add_overlay("overlay-open-empty")
+		return //return since none of the things below matter
+
+	//Handles working display
+	if(operable() && !(stat & NOSCREEN))
+		add_overlay("overlay-on")
+		if(news_network?.wanted_issue)
+			add_overlay("overlay-blinkers")
+		else if(alert)
+			add_overlay("overlay-alert")
+
+	//Handles broken display
+	else if(is_broken() && (reason_broken & MACHINE_BROKEN_GENERIC))
+		add_overlay("overlay-damage-3")
+		return //return so we don't stack damage overlays
+
+	//#TODO: Enable this when health stuff is in
+#if 0
+	//Handles cover damage overlay
+	 if(get_health_percent() <= 30)
+	 	add_overlay("overlay-damage-3")
+	 else if(get_health_percent() <= 60)
+	 	add_overlay("overlay-damage-2")
+	 else if(get_health_percent() <= 90)
+	 	add_overlay("overlay-damage-1")
+#endif
