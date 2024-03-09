@@ -15,9 +15,9 @@
 	if(network && access_account && access_account.login != ignore_account)
 		var/location = "[network.network_id]"
 		if(access_account)
-			. += "[access_account.login]@[location]" // User access uses '@'
+			. += "[access_account.login]@[location]" // User access uses '@' //#TODO: Make a proc to format that
 			for(var/group in access_account.groups)
-				. += "[group].[location]"	// Group access uses '.'
+				. += "[group].[location]"	// Group access uses '.' //#TODO: Make a proc to format that
 			for(var/group in access_account.parent_groups) // Membership in a child group grants access to anything with an access requirement set to the parent group.
 				. += "[group].[location]"
 
