@@ -22,11 +22,12 @@
 	return INITIALIZE_HINT_LATELOAD
 
 /mob/living/limbo/LateInitialize()
+	var/atom/limbo_loc = SSchargen.get_limbo_turf()
 	if(cortical_stack)
 		if(loc != cortical_stack)
 			forceMove(cortical_stack)
-	else if(loc != SSchargen.limbo_holder)
-		forceMove(SSchargen.limbo_holder)
+	else if(loc != limbo_loc)
+		forceMove(limbo_loc)
 	. = ..()
 
 /mob/living/limbo/Destroy()

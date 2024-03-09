@@ -12,7 +12,7 @@
 			to_chat(stack.stackmob, SPAN_NOTICE("Darkness envelopes you. Your character has died and you are now in limbo. Resleeve to continue playing as your character, or wait until a kind soul clones you from your cortical stack."))
 		else
 			hide_fullscreens()
-			var/mob/living/limbo/brainmob = new(SSchargen.limbo_holder)
+			var/mob/living/limbo/brainmob = new(SSchargen.get_limbo_turf())
 			brainmob.SetName(real_name)
 			brainmob.real_name = real_name
 			// brainmob.timeofhostdeath = timeofdeath

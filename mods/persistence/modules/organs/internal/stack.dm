@@ -40,7 +40,7 @@ var/global/list/cortical_stacks = list()
 	global.cortical_stacks -= src
 	QDEL_NULL(backup)
 	if(stackmob)
-		stackmob.forceMove(SSchargen.limbo_holder) // Move the stackmob to the limbo holder to allow it to otherwise resleeve.
+		stackmob.forceMove(SSchargen.get_limbo_turf()) // Move the stackmob to the limbo holder to allow it to otherwise resleeve.
 		stackmob.cortical_stack = null
 		stackmob = null
 	. = ..()

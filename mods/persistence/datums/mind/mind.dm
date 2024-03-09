@@ -31,6 +31,78 @@ var/global/list/player_minds = list()
 		if(S)
 			S.update_mind_id()
 
+/**
+	Called by the observ event /decl/observ/chargen_state_changed, during chargen to keep everything in sync.
+ */
+/datum/mind/proc/set_player_chargen_state(new_state)
+	if(new_state == CHARGEN_STATE_FORM_INCOMPLETE)
+		finished_chargen = FALSE
+	if(new_state == CHARGEN_STATE_FORM_COMPLETE || new_state == CHARGEN_STATE_AWAITING_SPAWN)
+		finished_chargen = TRUE
+
+/**
+
+ */
+/datum/mind/proc/should_spawn_with_stack()
+	return chargen_stack
+
+/**
+	Set whether the mob that own this mind, should spawn with a cortical stack.
+ */
+/datum/mind/proc/set_spawn_with_stack(new_value)
+	chargen_stack = new_value
+
+/**
+	Store the currently selected origin during chargen.
+ */
+/datum/mind/proc/set_chargen_origin(origin_id)
+	var/decl/hierarchy/chargen/origin/origins = GET_DECL(/decl/hierarchy/chargen/origin)
+	if(origin)
+		for(var/skill in origin.skills)
+			current.skillset.skill_list[skill] -= origin.skills[skill]
+
+	for(var/decl/hierarchy/chargen/D in origins.children)
+		if(D.ID == origin_id)
+			// Found.
+			origin = D
+			for(var/skill in D.skills)
+				current.skillset.skill_list[skill] += D.skills[skill]
+
+/**
+	Store the currently selected role during chargen.
+ */
+/datum/mind/proc/set_chargen_role(role_id)
+	var/decl/hierarchy/chargen/role/roles = GET_DECL(/decl/hierarchy/chargen/role)
+	if(role)
+		for(var/skill in role.skills)
+			current.skillset.skill_list[skill] -= role.skills[skill]
+
+	for(var/decl/hierarchy/chargen/D in roles.children)
+		if(D.ID == role_id)
+			// Found.
+			role = D
+			for(var/skill in D.skills)
+				current.skillset.skill_list[skill] += D.skills[skill]
+
+/**
+	Applies the chargen stuff saved in the mind during chargen setup and copy it to the mob.
+ */
+/datum/mind/proc/finalize_chargen_setup()
+	// Updating the mob's skills with the actual chargen choices.
+	var/datum/skillset/mob_skillset = current.skillset
+	mob_skillset.skill_list       = chargen_skillset.skill_list.Copy()
+	mob_skillset.default_value    = chargen_skillset.default_value
+	mob_skillset.points_remaining += max(origin.remaining_points_offset + role.remaining_points_offset, 0)
+	mob_skillset.on_levels_change()
+	to_chat(current, SPAN_NOTICE("You have an additional [mob_skillset.points_remaining] skill points to apply to your character. Use the 'Adjust Skills' verb to do so"))
+
+/datum/mind/proc/get_starter_book_type()
+	return role.text_book_type
+
+//
+//
+//
+
 /proc/get_valid_clone_pods(var/mind_id)
 	var/list/valid_clone_pods = list()
 	for(var/network_id in SSnetworking.networks)

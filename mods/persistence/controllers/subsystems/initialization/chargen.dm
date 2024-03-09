@@ -2,123 +2,181 @@ var/global/list/chargen_areas = list() //List of pod areas, and a number of time
 var/global/list/chargen_landmarks = list() //List of all the chargen landmarks available for spawn.
 #define MAX_NB_CHAR_GEN_PODS 20
 
+/queue
+	var/list/elements = list()
+
+/queue/proc/get_length()
+	return length(elements)
+
+/queue/proc/push(element)
+	elements.Insert(1, element)
+
+/queue/proc/pop()
+	var/queue_len = length(elements)
+	if(!queue_len)
+		return
+	. = elements[queue_len]
+	elements.len--
+
+/queue/proc/peek()
+	var/queue_len = length(elements)
+	if(queue_len)
+		return elements[queue_len]
+
+/**
+	System for managing the character generator for new players.
+	* Handles assigning chargen rooms.
+	* Handles moving players after completing chargen into the world.
+ */
 SUBSYSTEM_DEF(chargen)
 	name = "Chargen"
 	init_order = SS_INIT_MAPPING
-	flags = SS_NO_FIRE
-	var/map_z			// What z-level is being used for the pods.
 
-	var/obj/abstract/limbo_holder
+	///The level id of the level data being used as chargen level
+	var/chargen_level_id
+	///A queue of players currently awaiting spawning in the world after concluding chargen.
+	var/queue/world_spawn_queue = new()
 
-/datum/controller/subsystem/chargen/Initialize()
-	SSmapping.increment_world_z_size(/datum/level_data/chargen)
-	map_z = world.maxz
+/datum/controller/subsystem/chargen/fire(resumed)
+	//Checks our list of players awaiting a chargen room if any.
+	var/datum/queued_chargen_world_spawn/queued
+	while((queued = world_spawn_queue.peek()))
+		queued.spawn_attempts++
+		//Grab the player awaiting spawn
+		var/mob/living/player = queued.player.resolve()
+		if(!player || try_spawn_player_in_world(player, queued.spawn_provider))
+			qdel(world_spawn_queue.pop())
+		else
+			//Put the player at the end of the queue for now
+			world_spawn_queue.push(world_spawn_queue.pop())
+			//Tell the staff if a player has been stuck in the queue for a really long time.
+			if(queued.spawn_attempts == 300)
+				var/msg = "SSChargen: Player [player] ([player.ckey]) couldn't find a spawn point after [queued.spawn_attempts] attempts, and being queued for [(world.time - queued.time_queued) / (1 SECOND)] seconds!"
+				log_warning(msg)
+				message_staff(msg)
+				to_chat(player, SPAN_WARNING("Finding a spawn point is taking unusually long. Please contact the staff."))
+		CHECK_TICK
 
-	report_progress("Loading chargen map data.")
-	var/datum/map_load_metadata/M = maploader.load_map(file("maps/chargen/chargen.dmm"), 1, 1, map_z)
-	if (M)
-		var/width = M.bounds[4]
-		var/height = M.bounds[5]
+/**
+	Returns a turf to spawn limbo observers on.
+	#TODO: Move this somewhere that makes sense?
+ */
+/datum/controller/subsystem/chargen/proc/get_limbo_turf()
+	var/datum/level_data/LD = SSmapping.levels_by_id[chargen_level_id]
+	if(LD)
+		return WORLD_CENTER_TURF(LD.level_z)
 
-		report_progress("Created chargen away site at [M.bounds[3]].")
-		var/chargen_pod_counter = 1
-		for(var/x in 1 to FLOOR(world.maxx / width))
-			for(var/y in 1 to FLOOR(world.maxy / height))
-				// We already loaded the first one at (1, 1) so skip it
-				if(x == 1 && y == 1)
-					continue
-				if(chargen_pod_counter >= MAX_NB_CHAR_GEN_PODS)
-					break
-				chargen_pod_counter++
-				maploader.load_map(file("maps/chargen/chargen.dmm"), ((x - 1) * width) + 1, ((y - 1) * height) + 1, map_z, no_changeturf = TRUE)
-				CHECK_TICK
+/**
+	Sets the level_data id for the chargen level. This allows us to lookup the chargen level in the mapping ss without worrying about z indices.
+ */
+/datum/controller/subsystem/chargen/proc/set_chargen_level_id(level_id)
+	chargen_level_id = level_id
 
-	limbo_holder = new(locate(world.maxx / 2, world.maxy / 2, map_z))
-
-/datum/controller/subsystem/chargen/proc/assign_spawn_pod(var/area/chargen/pod)
+/**
+	Marks a chargen room as being occupied by the given player. Prevents assigning a room to multiple players at once.
+ */
+/datum/controller/subsystem/chargen/proc/assign_spawn_pod(area/chargen/pod, mob/living/player)
+	if(is_chargen_room_busy(pod))
+		log_warning("Chargen pod '[pod]' had more than one player assigned to it!")
 	chargen_areas[pod] += 1
+	//Let the area register some callbacks to track the player
+	pod.set_assigned_player(player)
+	log_debug("SSChargen: Assigned area '[pod]' with '[chargen_areas[pod]]' assigned users currently to '[player]'([player.ckey])!")
 
-	//Remove it from the list of landmarks
-	if(!pod.chargen_landmark)
-		log_warning("Chargen pod '[pod]' has not landmark set!")
-		return
-
-	//Because spawnpoints don't have a proc to return turfs and instead just share their turf var to grab the available turfs, we gotta change the spawnpoint :D
-	var/decl/spawnpoint/chargen/C = GET_DECL(/decl/spawnpoint/chargen)
-	if(C)
-		C.remove_spawn_turf(get_turf(pod.chargen_landmark))
-	log_debug("SSChargen: Assigned area '[pod]' with '[chargen_areas[pod]]' assigned users currently!")
-
+/**
+	Marks a chargen room as being free for re-use by another player.
+ */
 /datum/controller/subsystem/chargen/proc/release_spawn_pod(var/area/chargen/pod)
 	chargen_areas[pod] -= 1
-
-	//Add it to the list of landmarks
-	if(!pod.chargen_landmark)
-		log_warning("Chargen pod '[pod]' has not landmark set!")
-		return
-
-	//Because spawnpoints don't have a proc to return turfs and instead just share their turf var to grab the available turfs, we gotta change the spawnpoint :D
-	var/decl/spawnpoint/chargen/C = GET_DECL(/decl/spawnpoint/chargen)
-	if(C)
-		C.add_spawn_turf(get_turf(pod.chargen_landmark))
-
-	//Remove trash from the room
-	pod.run_chargen_cleanup()
+	//Let the area remove it's callbacks and run cleanup
+	pod.clear_assigned_player()
+	//Clean the place up from any trash someone might have left in there
+	pod.remove_trash()
 	log_debug("SSChargen: Unassaigned area '[pod]' with '[chargen_areas[pod]]' assigned users currently!")
 
-//Landmark
-/obj/abstract/landmark/chargen_spawn
-	delete_me = FALSE //Currently re-used to keep track of the spawn position
+/**
+	Returns true if the chargen room is already occupied by a player currently.
+ */
+/datum/controller/subsystem/chargen/proc/is_chargen_room_busy(area/chargen/room)
+	return room && (chargen_areas[room] >= 1)
 
-/obj/abstract/landmark/chargen_spawn/Initialize()
-	var/area/chargen/A = get_area(src)
-	if(!istype(A))
-		log_warning("[src] is outside of a '/area/chargen' area!! Only place '/obj/abstract/landmark/chargen_spawn' inside a '/area/chargen'!!")
-	A.chargen_landmark = src //Cache the landmark to save some time
-	chargen_areas[A] = 0 //Set the area to free
-	global.chargen_landmarks |= src
-	return ..()
+/**
+	Ran after completing chargen. To finish equipping a player
+ */
+/datum/controller/subsystem/chargen/proc/finish_equiping_player(mob/living/player_mob)
+	var/datum/mind/player_mind = player_mob.mind
+	player_mind.finalize_chargen_setup()
 
-/obj/abstract/landmark/chargen_spawn/Destroy()
-	var/area/chargen/A = get_area(src)
-	if(istype(A) && A.chargen_landmark == src)
-		A.chargen_landmark = null
-	global.chargen_landmarks -= src
-	return ..()
+	if(player_mind.should_spawn_with_stack())
+		var/obj/item/organ/internal/stack/new_stack = new()
+		player_mob.add_organ(new_stack, player_mob.get_organ(new_stack.parent_organ))
+		to_chat(player_mob, SPAN_NOTICE("You have been provided with a Cortical Stack to act as an emergency revival tool."))
 
-//Annoying stuff
-/mob/living/carbon/human/Destroy()
-	var/area/chargen/A = get_area(src)
-	if(istype(A) && SSchargen)
-		SSchargen.release_spawn_pod(A)
-	return ..()
+	var/obj/starter_book = player_mind.get_starter_book_type()
+	if(starter_book)
+		to_chat(player_mob, SPAN_NOTICE("You have brought with you a textbook related to your specialty. It can increase your skills temporarily by reading it, or permanently through dedicated study. It's highly valuable, so don't lose it!"))
+		player_mob.equip_to_slot_or_store_or_drop(new starter_book(player_mob), slot_in_backpack_str)
 
-/datum/level_data/chargen
-	name        = "chargen"
-	level_id    = "chargen_pods"
-	level_flags = ZLEVEL_SEALED | ZLEVEL_ADMIN
+/**
+	Gives us a player to spawn in the world after completing chargen.
+ */
+/datum/controller/subsystem/chargen/proc/queue_player_world_spawn(mob/living/player_mob, decl/spawnpoint/provider)
+	log_debug("SSChargen: Player [player_mob] has been queued for world spawn.")
+	world_spawn_queue.push(new /datum/queued_chargen_world_spawn(player_mob, provider))
 
-//Chargen spawnpoint
-/decl/spawnpoint/chargen/Initialize()
+/**
+	Try to have the spawnpoint spawn a player in the world.
+ */
+/datum/controller/subsystem/chargen/proc/try_spawn_player_in_world(mob/living/player_mob, decl/spawnpoint/provider)
+	return provider.try_spawn(player_mob)
+	// //Check if we have an available spawn turf
+	// var/atom/spawnloc = provider.pick_spawn_turf(player_mob)
+	// if(!spawnloc)
+	// 	return FALSE //No turfs available
+	// //If we got a turf, move us there. The callbacks set on the player should handle properly reseting the chargen room.
+	// player_mob.forceMove(spawnloc)
+	// //Run the spawn point post-spawn stuff
+	// provider.after_join(player_mob)
+	//return TRUE
+
+// Chargen Accessors
+
+/datum/controller/subsystem/chargen/proc/set_player_chargen_origin(mob/living/player, origin_id)
+	player.mind.set_chargen_origin(origin_id)
+
+/datum/controller/subsystem/chargen/proc/set_player_chargen_role(mob/living/player, role_id)
+	player.mind.set_chargen_role(role_id)
+
+/datum/controller/subsystem/chargen/proc/set_player_chargen_state(mob/living/player, chargen_state)
+	player.mind.set_player_chargen_state(chargen_state)
+
+/datum/controller/subsystem/chargen/proc/validate_chargen_form_submission(mob/living/player)
+	if(isnull(player.mind.origin))
+		to_chat(player, SPAN_NOTICE("Application incomplete. Please enter an origin to proceed."))
+		return
+	if(isnull(player.mind.role))
+		to_chat(player, SPAN_NOTICE("Application incomplete. Please enter a role to proceed."))
+		return
+	return TRUE
+
+///////////////////////////////////////////////////////////////////////////
+// Queued Spawn Entry
+///////////////////////////////////////////////////////////////////////////
+
+///Data on a player awauting spawning in the world
+/datum/queued_chargen_world_spawn
+	var/weakref/player
+	var/decl/spawnpoint/spawn_provider
+	var/spawn_attempts = 0
+	var/time_queued
+
+/datum/queued_chargen_world_spawn/New(mob/living/_player_mob, decl/spawnpoint/_provider)
+	player         = weakref(_player_mob)
+	spawn_provider = _provider
+	time_queued    = world.time
+
+/datum/queued_chargen_world_spawn/Destroy(force)
+	player = null
+	spawn_provider = null
 	. = ..()
-	LAZYINITLIST(_spawn_turfs)
-	for(var/obj/abstract/landmark/chargen_spawn/C in global.chargen_landmarks)
-		_spawn_turfs |= get_turf(C)
 
-/decl/spawnpoint/chargen
-	uid = "spawn_chargen"
-
-/decl/spawnpoint/chargen/after_join(mob/victim)
-	var/turf/myturf = get_turf(victim.loc)
-	var/area/chargen/A = get_area(myturf)
-	if(istype(A))
-		SSchargen.assign_spawn_pod(A) //Mark the pod area as reserved
-	else
-		var/mess = "'[victim]' (CKEY: [victim.ckey]) spawned outside chargen for some reasons."
-		log_warning(mess)
-		message_staff(mess)
-
-/datum/job/colonist/get_roundstart_spawnpoint()
-	CRASH("!!!!! datum/job/colonist/get_roundstart_spawnpoint() was called! !!!!!")
-
-#undef MAX_NB_CHAR_GEN_PODS

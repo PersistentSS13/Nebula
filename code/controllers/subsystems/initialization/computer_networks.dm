@@ -63,4 +63,15 @@ SUBSYSTEM_DEF(networking)
 			queue_connection(device)
 	LAZYCLEARLIST(reconnect_queues[network_id])
 
+/**
+	Creates the new player's network account on the map's default network. (Must have an id card for whatever reasons)
+ */
+/datum/controller/subsystem/networking/proc/register_player_default_network_account(mob/living/player_mob)
+	var/network_id                                = global.using_map.spawn_network
+	var/datum/computer_network/network            = networks[network_id]
+	var/datum/computer_file/report/crew_record/CR = get_crewmember_record(player_mob.real_name)
+	network.store_file(CR, MF_ROLE_CREW_RECORDS)
+	network.create_account(player_mob, player_mob.real_name, null, player_mob.real_name, null, TRUE)
+	return TRUE
+
 #undef MAX_CONNECTION_ATTEMPTS

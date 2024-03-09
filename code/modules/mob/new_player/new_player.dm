@@ -238,6 +238,9 @@ INITIALIZE_IMMEDIATE(/mob/new_player)
 		else if(spawnpoint.spawn_announcement)
 			AnnounceCyborg(character, job, spawnpoint.spawn_announcement)
 
+		///Then make sure to create a network account on the map's default network
+		SSnetworking.register_player_default_network_account(character)
+
 	callHook("player_latejoin", list(job, character))
 	log_and_message_admins("has joined the round as [character.mind.assigned_role].", character)
 

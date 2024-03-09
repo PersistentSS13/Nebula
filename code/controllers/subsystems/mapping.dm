@@ -90,6 +90,8 @@ SUBSYSTEM_DEF(mapping)
 		level.setup_level_data()
 
 	old_maxz = world.maxz
+	//PS13 Build utility levels
+	global.using_map.build_utility_sites()
 	//PS13 Build main map sites templates
 	global.using_map.build_main_sites()
 	// Build away sites.

@@ -40,4 +40,6 @@ if(other_init) { \
 #define MAP_TEMPLATE_CATEGORY_SPACE          "space_template"
 #define MAP_TEMPLATE_CATEGORY_AWAYSITE       "awaysite_template"
 ///PS13 Template that is spawned as part of the main map, and shouldn't be considered an away site during unit tests.
-#define MAP_TEMPLATE_CATEGORY_MAIN_SITE "main_site_template"
+#define MAP_TEMPLATE_CATEGORY_MAIN_SITE     "main"
+///PS13 template spawned before main sites, for game mechanic reasons/mapping reasons.
+#define MAP_TEMPLATE_CATEGORY_UTILITY_SITE "utility"

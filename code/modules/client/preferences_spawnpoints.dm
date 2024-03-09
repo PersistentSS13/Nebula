@@ -16,6 +16,10 @@
 		var/decl/spawnpoint/observer_spawn = GET_DECL(/decl/spawnpoint/observer)
 		return pick(observer_spawn.get_spawn_turfs())
 
+//
+//
+//
+
 /decl/spawnpoint
 	abstract_type = /decl/spawnpoint
 	decl_flags = DECL_FLAG_MANDATORY_UID
@@ -35,6 +39,9 @@
 	var/list/disallow_job
 	/// A list of event categories that are not allowed to use this spawnpoint (ex. ASSIGNMENT_JANITOR)
 	var/list/disallow_job_event_categories
+
+	///The positions avaible for spawning
+	VAR_PRIVATE/list/_spawn_positions
 
 // Returns the spawn list. Mob is supplied in case overrides want to check prefs.
 /decl/spawnpoint/proc/get_spawn_turfs(var/mob/spawning)
@@ -72,6 +79,36 @@
 //Called after mob is created, moved to a turf and equipped.
 /decl/spawnpoint/proc/after_join(mob/victim)
 	return
+
+///Pick a valid spawn turf to spawn the player on according to the spawnpoint's own criteras, and place the player there
+/decl/spawnpoint/proc/try_spawn(mob/victim)
+	var/list/possible_places
+	for(var/datum/extension/spawn_position/SP in _spawn_positions)
+		if(SP.is_available(victim) && !SP.is_busy())
+			LAZYADD(possible_places, SP)
+
+	//Add the turfs, if any
+	if(length(_spawn_turfs))
+		possible_places |= _spawn_turfs
+	var/datum/extension/spawn_position/chosen = SAFEPICK(possible_places)
+	if(istype(chosen, /datum/extension/spawn_position))
+		. = chosen.place(victim)
+		after_join(victim)
+	else if(isturf(chosen))
+		. = chosen
+		after_join(victim)
+
+// Adds to the spawn list. Uses a proc for subtype overrides.
+/decl/spawnpoint/proc/register_spawn_position(datum/extension/spawn_position/adding)
+	LAZYDISTINCTADD(_spawn_positions, adding)
+
+// Removes from the spawn list.
+/decl/spawnpoint/proc/unregister_spawn_position(datum/extension/spawn_position/removing)
+	LAZYREMOVE(_spawn_positions, removing)
+
+//////////////////////////////////////////////////////////////
+// Spawn Point Providers
+//////////////////////////////////////////////////////////////
 
 // Dummy spawnpoint for ghosts.
 /decl/spawnpoint/observer
