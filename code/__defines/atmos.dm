@@ -97,3 +97,27 @@
 #define ATMOSTANK_HYDROGEN      MOLES_IN(50000, CELL_VOLUME, T20C)
 #define ATMOSTANK_HYDROGEN_FUEL MOLES_IN(25000, CELL_VOLUME, T20C)
 #define ATMOSTANK_NITROUSOXIDE  MOLES_IN(10000, CELL_VOLUME, T20C) // N2O doesn't have a real useful use, i guess it's on station just to allow refilling of sec's riot control canisters?
+/////////////////////////////////////////
+//Vent Pressure Check Flags
+/////////////////////////////////////////
+
+/// If set, the vent will check the external pressure bound value it has before pumping/siphoning gas to/from the environment
+#define VENT_PRESSURE_CHECK_FLAG_EXTERNAL BITFLAG(1)
+/// If set, the vent will check the internal vent's pressure bound value it has before pumping/siphoning gas to/from the environment
+#define VENT_PRESSURE_CHECK_FLAG_INTERNAL BITFLAG(2)
+/// The default pressure check flag value for vents
+#define VENT_PRESSURE_CHECK_FLAG_DEFAULT  VENT_PRESSURE_CHECK_FLAG_EXTERNAL
+
+/////////////////////////////////////////
+//Vent Default Pressure Bounds
+/////////////////////////////////////////
+
+/// The pressure inside the vent at which it will stop pumping gas into the environment by default.
+#define VENT_DEFAULT_INTERNAL_PRESSURE_PUMP   0
+/// The pressure inside the vent at which it will stop siphoning gas from the environment by default.
+#define VENT_DEFAULT_INTERNAL_PRESSURE_SIPHON MAX_PUMP_PRESSURE
+
+/// The pressure in the environment of a vent at which it will stop pumping gas by default.
+#define VENT_DEFAULT_EXTERNAL_PRESSURE_PUMP   ONE_ATMOSPHERE
+/// The pressure in the environment of a vent at which it will stop siphoning gas from by default.
+#define VENT_DEFAULT_EXTERNAL_PRESSURE_SIPHON 0
