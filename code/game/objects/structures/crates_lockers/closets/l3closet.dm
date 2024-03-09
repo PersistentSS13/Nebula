@@ -2,6 +2,8 @@
 	name = "level-3 biohazard suit closet"
 	desc = "It's a storage unit for level-3 biohazard gear."
 	closet_appearance = /decl/closet_appearance/bio
+	//mapper preview
+	color = COLOR_PALE_ORANGE
 
 /obj/structure/closet/l3closet/general/WillContain()
 	return list(
@@ -44,6 +46,8 @@
 
 /obj/structure/closet/l3closet/janitor
 	closet_appearance = /decl/closet_appearance/bio/janitor
+	//mapper preview
+	color = COLOR_PURPLE
 
 /obj/structure/closet/l3closet/janitor/WillContain()
 	return list(

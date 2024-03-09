@@ -2,6 +2,8 @@
 	name = "cargo technician's locker"
 	req_access = list(access_cargo)
 	closet_appearance = /decl/closet_appearance/secure_closet/cargo
+	//mapper preview
+	color = COLOR_WARM_YELLOW
 
 /obj/structure/closet/secure_closet/cargotech/WillContain()
 	return list(
@@ -19,6 +21,8 @@
 	name = "quartermaster's locker"
 	req_access = list(access_qm)
 	closet_appearance = /decl/closet_appearance/secure_closet/cargo/qm
+	//mapper preview
+	color = COLOR_WARM_YELLOW
 
 /obj/structure/closet/secure_closet/quartermaster/WillContain()
 	return list(

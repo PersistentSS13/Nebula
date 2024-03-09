@@ -16,6 +16,8 @@
 	desc = "Filled with medical junk."
 	closet_appearance = /decl/closet_appearance/secure_closet/medical
 	req_access = list(access_medical_equip)
+	//mapper preview
+	color = COLOR_OFF_WHITE
 
 /obj/structure/closet/secure_closet/medical1/WillContain()
 	return list(
@@ -34,6 +36,8 @@
 	name = "medical doctor's locker"
 	req_access = list(access_medical_equip)
 	closet_appearance = /decl/closet_appearance/secure_closet/medical/alt
+	//mapper preview
+	color = COLOR_OFF_WHITE
 
 /obj/structure/closet/secure_closet/medical3/WillContain()
 	return list(
@@ -59,6 +63,8 @@
 	desc = "Supplies for a first responder."
 	closet_appearance = /decl/closet_appearance/secure_closet/medical
 	req_access = list(access_medical_equip)
+	//mapper preview
+	color = COLOR_OFF_WHITE
 
 /obj/structure/closet/secure_closet/paramedic/WillContain()
 	return list(
@@ -88,6 +94,8 @@
 	name = "chief medical officer's locker"
 	req_access = list(access_cmo)
 	closet_appearance = /decl/closet_appearance/secure_closet/cmo
+	//mapper preview
+	color = COLOR_BABY_BLUE
 
 /obj/structure/closet/secure_closet/CMO/WillContain()
 	return list(
@@ -112,6 +120,8 @@
 	desc = "Store dangerous chemicals in here."
 	closet_appearance = /decl/closet_appearance/secure_closet/medical
 	req_access = list(access_chemistry)
+	//mapper preview
+	color = COLOR_OFF_WHITE
 
 /obj/structure/closet/secure_closet/chemical/WillContain()
 	return list(
@@ -128,6 +138,7 @@
 	wall_mounted = 1
 	storage_types = CLOSET_STORAGE_ITEMS
 	req_access = list(access_medical_equip)
+	color = COLOR_OFF_WHITE
 
 /obj/structure/closet/secure_closet/medical_wall/Initialize()
 	. = ..()
@@ -137,6 +148,8 @@
 	name = "counselor's locker"
 	closet_appearance = /decl/closet_appearance/secure_closet/medical
 	req_access = list(access_psychiatrist)
+	//mapper preview
+	color = COLOR_OFF_WHITE
 
 /obj/structure/closet/secure_closet/counselor/WillContain()
 	return list(
@@ -160,8 +173,9 @@
 /obj/structure/closet/secure_closet/virology
 	name = "virologist's locker"
 	closet_appearance = /decl/closet_appearance/secure_closet/medical/virology
-
 	req_access = list(access_virology)
+	//mapper preview
+	color = COLOR_OFF_WHITE
 
 /obj/structure/closet/secure_closet/virology/WillContain()
 	return list(
@@ -189,6 +203,8 @@
 	desc = "Everything you need to keep the lunatics at bay."
 	closet_appearance = /decl/closet_appearance/secure_closet/medical/alt
 	req_access = list(access_psychiatrist)
+	//mapper preview
+	color = COLOR_OFF_WHITE
 
 /obj/structure/closet/secure_closet/psychiatry/WillContain()
 	return list(

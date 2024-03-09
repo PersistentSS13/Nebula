@@ -17,6 +17,7 @@
 	name = "\improper Burn crate"
 	desc = "A crate with burn equipment."
 	closet_appearance = /decl/closet_appearance/crate/medical
+	color = COLOR_GRAY80
 
 /obj/structure/closet/crate/med_crate/burn/WillContain()
 	return list(
@@ -32,6 +33,7 @@
 	name = "\improper Low oxygen crate"
 	desc = "A crate with low oxygen equipment."
 	closet_appearance = /decl/closet_appearance/crate/medical/oxygen
+	color = COLOR_GRAY80
 
 /obj/structure/closet/crate/med_crate/oxyloss/WillContain()
 	return list(
@@ -43,6 +45,7 @@
 	name = "\improper Toxin crate"
 	desc = "A crate with toxin equipment."
 	closet_appearance = /decl/closet_appearance/crate/medical/toxins
+	color = COLOR_GRAY80
 
 /obj/structure/closet/crate/med_crate/toxin/WillContain()
 	return list(

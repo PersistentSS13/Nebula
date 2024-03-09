@@ -261,6 +261,8 @@
 /obj/structure/closet/wardrobe/tactical
 	name = "tactical equipment"
 	closet_appearance = /decl/closet_appearance/tactical
+	//mapper preview
+	color = COLOR_RED_GRAY
 
 /obj/structure/closet/wardrobe/tactical/WillContain()
 	return list(

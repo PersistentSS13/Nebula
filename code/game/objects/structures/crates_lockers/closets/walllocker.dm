@@ -22,6 +22,7 @@
 	name = "wall suit storage"
 	desc = "A nook in the wall storing a couple of space suits."
 	closet_appearance = /decl/closet_appearance/wall/suit
+	color = COLOR_LIGHT_CYAN
 
 /obj/structure/closet/walllocker/suit/WillContain()
 	return list(

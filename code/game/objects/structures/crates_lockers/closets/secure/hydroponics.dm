@@ -2,6 +2,8 @@
 	name = "botanist's locker"
 	req_access = list(access_hydroponics)
 	closet_appearance = /decl/closet_appearance/secure_closet/hydroponics
+	//mapper preview
+	color = COLOR_GREEN_GRAY
 
 /obj/structure/closet/secure_closet/hydroponics/WillContain()
 	return list(

@@ -18,6 +18,8 @@
 	name = "emergency closet"
 	desc = "It's a storage unit for emergency breathmasks and o2 tanks."
 	closet_appearance = /decl/closet_appearance/oxygen
+	//mapper preview
+	color = COLOR_LIGHT_CYAN
 
 /obj/structure/closet/emcloset/WillContain()
 	//Guaranteed kit - two tanks and masks
@@ -37,7 +39,8 @@
 	name = "fire-safety closet"
 	desc = "It's a storage unit for fire-fighting supplies."
 	closet_appearance = /decl/closet_appearance/oxygen/fire
-
+	//mapper preview
+	color = COLOR_RED_GRAY
 
 /obj/structure/closet/firecloset/WillContain()
 	return list(
@@ -64,6 +67,8 @@
 	name = "tool closet"
 	desc = "It's a storage unit for tools."
 	closet_appearance = /decl/closet_appearance/secure_closet/engineering/tools
+	//mapper preview
+	color = COLOR_YELLOW_GRAY
 
 /obj/structure/closet/toolcloset/WillContain()
 	return list(
@@ -92,6 +97,8 @@
 	name = "radiation suit closet"
 	desc = "It's a storage unit for rad-protective suits."
 	closet_appearance = /decl/closet_appearance/secure_closet/engineering/tools/radiation
+	//mapper preview
+	color = COLOR_YELLOW_GRAY
 
 /obj/structure/closet/radiation/WillContain()
 	return list(
@@ -107,6 +114,8 @@
 	name = "\improper EOD closet"
 	desc = "It's a storage unit for explosion-protective suits."
 	closet_appearance = /decl/closet_appearance/bomb
+	//mapper preview
+	color = COLOR_DARK_GREEN_GRAY
 
 /obj/structure/closet/bombcloset/WillContain()
 	return list(
@@ -120,6 +129,8 @@
 	name = "\improper EOD closet"
 	desc = "It's a storage unit for explosion-protective suits."
 	closet_appearance = /decl/closet_appearance/bomb/security
+	//mapper preview
+	color = COLOR_DARK_GREEN_GRAY
 
 /obj/structure/closet/bombclosetsecurity/WillContain()
 	return list(
@@ -143,6 +154,7 @@
 	obj_flags = OBJ_FLAG_MOVES_UNSUPPORTED
 	directional_offset = "{'NORTH':{'y':-32}, 'SOUTH':{'y':32}, 'EAST':{'x':-32}, 'WEST':{'x':32}}"
 	icon = 'icons/obj/closets/bases/wall.dmi'
+	color = COLOR_NT_RED
 
 /obj/structure/closet/hydrant/Initialize(ml, _mat, _reinf_mat)
 	. = ..()
@@ -194,6 +206,7 @@
 	obj_flags = OBJ_FLAG_MOVES_UNSUPPORTED
 	directional_offset = "{'NORTH':{'y':-32}, 'SOUTH':{'y':32}, 'EAST':{'x':-32}, 'WEST':{'x':32}}"
 	icon = 'icons/obj/closets/bases/wall.dmi'
+	color = COLOR_WARM_YELLOW
 
 /obj/structure/closet/shipping_wall/Initialize()
 	. = ..()

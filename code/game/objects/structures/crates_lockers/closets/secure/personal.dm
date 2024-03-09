@@ -22,6 +22,10 @@
 
 /obj/structure/closet/secure_closet/personal/cabinet
 	closet_appearance = /decl/closet_appearance/cabinet/secure
+	//mapper preview
+	icon  =  'icons/obj/closets/bases/cabinet.dmi'
+	icon_state = "base"
+	color      = WOOD_COLOR_RICH
 
 /obj/structure/closet/secure_closet/personal/cabinet/WillContain()
 	return list(/obj/item/storage/backpack/satchel/grey/withwallet, /obj/item/radio/headset)

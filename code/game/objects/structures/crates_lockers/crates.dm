@@ -8,6 +8,9 @@
 	storage_types = CLOSET_STORAGE_ITEMS
 	var/rigged = 0
 
+	//mapper preview
+	color = COLOR_GRAY40
+
 /obj/structure/closet/crate/open()
 	if((atom_flags & ATOM_FLAG_OPEN_CONTAINER) && !opened && can_open())
 		object_shaken()
@@ -74,6 +77,8 @@
 	name = "plastic crate"
 	desc = "A rectangular plastic crate."
 	closet_appearance = /decl/closet_appearance/crate/plastic
+	//mapper preview
+	color = COLOR_GRAY80
 
 /obj/structure/closet/crate/internals
 	name = "internals crate"
@@ -91,11 +96,13 @@
 	desc = "A heavy, metal trashcart with wheels."
 	closet_appearance = /decl/closet_appearance/cart/trash
 	icon = 'icons/obj/closets/bases/cart.dmi'
+	color = COLOR_BOTTLE_GREEN
 
 /obj/structure/closet/crate/medical
 	name = "medical crate"
 	desc = "A medical crate."
 	closet_appearance = /decl/closet_appearance/crate/medical
+	color = COLOR_GRAY80
 
 /obj/structure/closet/crate/rcd
 	name = "\improper RCD crate"
@@ -129,6 +136,7 @@
 	desc = "A freezer."
 	temperature = -16 CELSIUS
 	closet_appearance = /decl/closet_appearance/crate/freezer
+	color = COLOR_BABY_BLUE
 
 	var/target_temp = T0C - 40
 	var/cooling_power = 40
@@ -175,11 +183,13 @@
 	name = "radioactive crate"
 	desc = "A leadlined crate with a radiation sign on it."
 	closet_appearance = /decl/closet_appearance/crate/radiation
+	color = COLOR_BROWN_ORANGE
 
 /obj/structure/closet/crate/radiation_gear
 	name = "radioactive gear crate"
 	desc = "A crate with a radiation sign on it."
 	closet_appearance = /decl/closet_appearance/crate/radiation
+	color = COLOR_BROWN_ORANGE
 
 /obj/structure/closet/crate/radiation_gear/WillContain()
 	return list(/obj/item/clothing/suit/radiation = 8)
@@ -188,11 +198,13 @@
 	name = "weapons crate"
 	desc = "A secure weapons crate."
 	closet_appearance = /decl/closet_appearance/crate/secure/weapon
+	color = COLOR_GREEN_GRAY
 
 /obj/structure/closet/crate/secure/explosives
 	name = "explosives crate"
 	desc = "A secure exploxives crate."
 	closet_appearance = /decl/closet_appearance/crate/secure/hazard
+	color = COLOR_NT_RED
 
 /obj/structure/closet/crate/secure/shuttle
 	name = "storage compartment"
@@ -204,6 +216,7 @@
 	name = "gear crate"
 	desc = "A secure gear crate."
 	closet_appearance = /decl/closet_appearance/crate/secure/weapon
+	color = COLOR_GREEN_GRAY
 
 /obj/structure/closet/crate/secure/hydrosec
 	name = "secure hydroponics crate"
@@ -232,6 +245,7 @@
 
 /obj/structure/closet/crate/secure/large/supermatter
 	closet_appearance = /decl/closet_appearance/large_crate/secure/hazard
+	color = COLOR_NT_RED
 
 //fluff variant
 /obj/structure/closet/crate/secure/large/reinforced
@@ -279,6 +293,7 @@
 	req_access = list(access_surgery)
 	closet_appearance = /decl/closet_appearance/cart/biohazard/alt
 	movable_flags = MOVABLE_FLAG_WHEELED
+	color = COLOR_SURGERY_BLUE
 
 /obj/structure/closet/crate/paper_refill
 	name = "paper refill crate"

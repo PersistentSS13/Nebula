@@ -2,6 +2,10 @@
 	name = "cabinet"
 	desc = "Old will forever be in fashion."
 	closet_appearance = /decl/closet_appearance/cabinet
+	//mapper preview
+	icon  =  'icons/obj/closets/bases/cabinet.dmi'
+	icon_state = "base"
+	color      = WOOD_COLOR_RICH
 
 /obj/structure/closet/acloset
 	name = "strange closet"
@@ -13,6 +17,8 @@
 	desc = "It's a storage unit for things that have no right being here."
 	closet_appearance = /decl/closet_appearance/tactical
 	anchored = FALSE
+	//mapper preview
+	color = COLOR_RED_GRAY
 
 /obj/structure/closet/gimmick/russian
 	name = "russian surplus closet"
