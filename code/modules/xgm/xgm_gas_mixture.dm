@@ -571,3 +571,21 @@
 		cached_mix_color = rgb(colors[1] / total_color_weight, colors[2] / total_color_weight, colors[3] / total_color_weight, colors[4] / total_color_weight)
 
 	return cached_mix_color
+
+//Update the gasmix after VV tempering
+/decl/vv_set_handler/gas_mixture_handler
+	handled_type = /datum/gas_mixture
+	handled_vars = list("total_moles", "temperature", "volume")
+	predicates = list(/proc/is_num_predicate)
+
+/decl/vv_set_handler/gas_mixture_handler/handle_set_var(var/datum/gas_mixture/GM, variable, var_value, client)
+	GM.update_values()
+
+//Update gasmix when the gas list changes
+/decl/vv_set_handler/gas_mixture_gases_handler
+	handled_type = /datum/gas_mixture
+	handled_vars = list("gas")
+	predicates = null
+
+/decl/vv_set_handler/gas_mixture_gases_handler/handle_set_var(var/datum/gas_mixture/GM, variable, var_value, client)
+	GM.update_values()
