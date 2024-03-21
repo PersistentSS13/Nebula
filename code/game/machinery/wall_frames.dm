@@ -208,8 +208,8 @@
 /obj/item/frame/stock_offset/request_console
 	name = "request console frame"
 	desc = "Used for building request consoles."
-	icon = 'icons/obj/terminals.dmi'
-	icon_state = "req_comp0"
+	icon = 'icons/obj/machines/wall/request_console.dmi'
+	icon_state = "frame"
 	build_machine_type = /obj/machinery/network/requests_console
 
 /obj/item/frame/stock_offset/request_console/kit
