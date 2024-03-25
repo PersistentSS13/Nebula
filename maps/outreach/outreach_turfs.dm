@@ -230,6 +230,6 @@
 
 	for(var/path in possible_spawns)
 		possible_spawns[path] = rand(0, possible_spawns[path])
-	sortTim(possible_spawns, .proc/cmp_numeric_dsc, TRUE)
+	sortTim(possible_spawns, PROC_REF(cmp_numeric_dsc), TRUE)
 	var/spawn_type = possible_spawns[1]
 	new spawn_type(T)
