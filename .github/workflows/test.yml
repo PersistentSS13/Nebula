@@ -6,11 +6,13 @@ on:
       - dev
       - stable
       - staging
+      - staging-515
   pull_request:
     branches:
       - dev
       - stable
       - staging
+      - staging-515
   workflow_dispatch:
 
 env:
