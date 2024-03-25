@@ -113,7 +113,7 @@
 	. = ..()
 	if(ispath(holding))
 		holding = new holding(src)
-		events_repository.register(/decl/observ/destroyed, holding, src, PROC_REF(.proc/forget_holding))
+		events_repository.register(/decl/observ/destroyed, holding, src, PROC_REF(forget_holding))
 	if(!istype(holding))
 		return
 	if(!icon_state)
