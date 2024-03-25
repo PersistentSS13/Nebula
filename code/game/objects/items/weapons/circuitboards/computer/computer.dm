@@ -101,10 +101,6 @@
 	name = "circuitboard (area air control console)"
 	build_path = /obj/machinery/computer/area_atmos/area
 
-/obj/item/stock_parts/circuitboard/area_atmos/tag
-	name = "circuitboard (wireless scrubber control console)"
-	build_path = /obj/machinery/computer/area_atmos/tag
-
 /obj/item/stock_parts/circuitboard/account_database
 	name = "circuitboard (accounts uplink terminal)"
 	build_path = /obj/machinery/computer/account_database
