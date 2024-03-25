@@ -1,6 +1,7 @@
 
 #define CELL_VOLUME        2500 // Liters in a cell.
-#define MOLES_CELLSTANDARD (ONE_ATMOSPHERE*CELL_VOLUME/(T20C*R_IDEAL_GAS_EQUATION)) // Moles in a 2.5 m^3 cell at 101.325 kPa and 20 C.
+#define MOLES_IN(PRESSURE_KPA, VOLUME_LITER, TEMPERATURE_K) ((PRESSURE_KPA * VOLUME_LITER) / (TEMPERATURE_K * R_IDEAL_GAS_EQUATION))
+#define MOLES_CELLSTANDARD MOLES_IN(ONE_ATMOSPHERE, CELL_VOLUME, T20C) // Moles in a 2.5 m^3 cell at 101.325 kPa and 20 C.
 
 #define O2STANDARD 0.21 // Percentage.
 #define N2STANDARD 0.79
@@ -87,12 +88,12 @@
 #define ZONE_SLEEPING 0
 
 // Defines how much of certain gas do the Atmospherics tanks start with. Values are in kpa per tile (assuming 20C)
-#define ATMOSTANK_NITROGEN      90000 // A lot of N2 is needed to produce air mix, that's why we keep 90MPa of it
-#define ATMOSTANK_OXYGEN        50000 // O2 is also important for airmix, but not as much as N2 as it's only 21% of it.
-#define ATMOSTANK_CO2           60000 // CO2 is used for smaller vessels as the primary fuel propellant, and we need lots to stick around.
-#define ATMOSTANK_HYDROGEN      50000
-#define ATMOSTANK_HYDROGEN_FUEL 25000
-#define ATMOSTANK_NITROUSOXIDE  10000 // N2O doesn't have a real useful use, i guess it's on station just to allow refilling of sec's riot control canisters?
 
 #define MAX_PUMP_PRESSURE		15000	// Maximal pressure setting for pumps and vents
 #define MAX_OMNI_PRESSURE		15000	// Maximal output(s) pressure for omni devices (filters/mixers)
+#define ATMOSTANK_NITROGEN      MOLES_IN(90000, CELL_VOLUME, T20C) // A lot of N2 is needed to produce air mix, that's why we keep 90MPa of it
+#define ATMOSTANK_OXYGEN        MOLES_IN(50000, CELL_VOLUME, T20C) // O2 is also important for airmix, but not as much as N2 as it's only 21% of it.
+#define ATMOSTANK_CO2           MOLES_IN(60000, CELL_VOLUME, T20C) // CO2 is used for smaller vessels as the primary fuel propellant, and we need lots to stick around.
+#define ATMOSTANK_HYDROGEN      MOLES_IN(50000, CELL_VOLUME, T20C)
+#define ATMOSTANK_HYDROGEN_FUEL MOLES_IN(25000, CELL_VOLUME, T20C)
+#define ATMOSTANK_NITROUSOXIDE  MOLES_IN(10000, CELL_VOLUME, T20C) // N2O doesn't have a real useful use, i guess it's on station just to allow refilling of sec's riot control canisters?
