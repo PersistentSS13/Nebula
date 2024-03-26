@@ -286,6 +286,7 @@
 
 /obj/item/chems/pill/detergent/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/contaminant_cleaner, 30)
+	. = ..()
 
 /obj/item/chems/pill/pod
 	name = "master flavorpod item"
