@@ -161,7 +161,6 @@ var/global/list/telecomms_hubs = list()
 
 	var/formatted_msg = "<span style='color:[channel?.color || default_color]'><small><b>\[[channel?.name || format_frequency(frequency)]\]</b></small> <span class='name'>"
 	var/send_name = istype(speaker) ? speaker.real_name : ("[speaker]" || "unknown")
-	var/overmap_send_name = istype(send_overmap_object) ? "[send_name] ([send_overmap_object.name])" : send_name
 
 	var/list/listeners = list() // Dictionary of listener -> boolean (include overmap origin)
 	// Broadcast to all radio devices in our network.
