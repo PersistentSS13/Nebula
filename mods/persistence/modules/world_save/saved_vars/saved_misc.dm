@@ -555,9 +555,6 @@ SAVED_VAR(/obj/item/evidencebag, stored_item)
 SAVED_VAR(/obj/item/forensics/sample, object)
 SAVED_VAR(/obj/item/forensics/sample, evidence)
 
-
-SAVED_VAR(/obj/item/key, key_data)
-
 SAVED_VAR(/obj/item/baton, status)
 SAVED_VAR(/obj/item/baton, bcell)
 
