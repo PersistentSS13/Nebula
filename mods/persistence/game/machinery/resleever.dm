@@ -2,7 +2,7 @@
 	name = "circuitboard (cortical stack resleever)"
 	build_path = /obj/machinery/resleever
 	board_type = "machine"
-	origin_tech = "{'biotech':3,'programming':3}"
+	origin_tech = @'{"biotech":3,"programming":3}'
 	req_components = list(
 							/obj/item/stack/cable_coil = 2,
 							/obj/item/stock_parts/scanning_module = 1,

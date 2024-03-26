@@ -142,7 +142,7 @@
 	name = "circuitboard (mantrap airlock)"
 	build_path = /obj/machinery/mantrap
 	board_type = "machine"
-	origin_tech = "{'engineering':1,'magnets':1}"
+	origin_tech = @'{"engineering":1,"magnets":1}'
 	req_components = list(
 		/obj/item/stock_parts/matter_bin = 2,
 		/obj/item/stock_parts/manipulator = 1

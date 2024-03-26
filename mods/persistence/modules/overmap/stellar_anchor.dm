@@ -121,7 +121,7 @@
 	name = "circuitboard (stellar anchor)"
 	build_path = /obj/machinery/stellar_anchor
 	board_type = "machine"
-	origin_tech = "{'programming':1, 'engineering':1}"
+	origin_tech = @'{"programming":1, "engineering":1}'
 	req_components = list(
 		/obj/item/stock_parts/capacitor = 1,
 		/obj/item/stock_parts/micro_laser = 1

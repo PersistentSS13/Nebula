@@ -24,7 +24,7 @@
 	name = "packet of makeshift 12g slug shells"
 	desc = "Container of dubious origin intended for holding loose 12g slug shells."
 	icon_state = "box_12g0_slug"
-	origin_tech = "{'combat':1,'materials':1}"
+	origin_tech = @'{"combat":1,"materials":1}'
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic = MATTER_AMOUNT_TRACE
@@ -35,7 +35,7 @@
 	name = "packet of makeshift 12g buckshot shells"
 	desc = "Container of dubious origin intended for holding loose 12g buckshot shells."
 	icon_state = "box_12g0_buckshot"
-	origin_tech = "{'combat':1,'materials':1}"
+	origin_tech = @'{"combat":1,"materials":1}'
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic = MATTER_AMOUNT_TRACE
@@ -46,7 +46,7 @@
 	name = "packet of standard 12g slug shells"
 	desc = "Container of ancient design intended for holding loose 12g slug shells."
 	icon_state = "box_12g1_slug"
-	origin_tech = "{'combat':2,'materials':2}"
+	origin_tech = @'{"combat":2,"materials":2}'
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic   = MATTER_AMOUNT_REINFORCEMENT,
@@ -58,7 +58,7 @@
 	name = "packet of standard 12g buckshot shells"
 	desc = "Container of ancient design intended for holding loose 12g buckshot shells."
 	icon_state = "box_12g1_buckshot"
-	origin_tech = "{'combat':2,'materials':2}"
+	origin_tech = @'{"combat":2,"materials":2}'
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic   = MATTER_AMOUNT_REINFORCEMENT,
@@ -70,7 +70,7 @@
 	name = "packet of advanced 12g slug shells"
 	desc = "Container of modern design intended for holding loose 12g slug shells."
 	icon_state = "box_12g2_slug"
-	origin_tech = "{'combat':3,'materials':3}"
+	origin_tech = @'{"combat":3,"materials":3}'
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic   = MATTER_AMOUNT_REINFORCEMENT,
@@ -83,7 +83,7 @@
 	name = "packet of advanced 12g buckshot shells"
 	desc = "Container of modern design intended for holding loose 12g buckshot shells."
 	icon_state = "box_12g2_buckshot"
-	origin_tech = "{'combat':3,'materials':3}"
+	origin_tech = @'{"combat":3,"materials":3}'
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic   = MATTER_AMOUNT_REINFORCEMENT,

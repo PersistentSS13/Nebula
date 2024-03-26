@@ -7,7 +7,7 @@
 	w_class = ITEM_SIZE_LARGE
 	slot_flags = SLOT_LOWER_BODY|SLOT_BACK
 	force = 5
-	origin_tech = "{'combat':4,'engineering':4,'materials':3}"
+	origin_tech = @'{"combat":4,"engineering":4,"materials":3}'
 	one_hand_penalty = 0
 	accuracy = 0
 	auto_eject = 0

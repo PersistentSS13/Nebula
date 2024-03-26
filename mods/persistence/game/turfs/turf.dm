@@ -38,7 +38,7 @@ SAVED_VAR(/turf, applied_decals)
 	. = ..()
 	if(T)
 		//Save the decal data in the turf as a json object, so we can actually reproduce them on load properly
-		LAZYADD(T.applied_decals, "{'type':'[type]', 'dir':[dir], 'color':'[color]'}")
+		LAZYADD(T.applied_decals, @'{"type":"[type]", "dir":[dir], "color":"[color]"}')
 
 /obj/effect/floor_decal/reset/LateInitialize(mapload, newdir, newcolour, newappearance)
 	var/turf/T = get_turf(src)
