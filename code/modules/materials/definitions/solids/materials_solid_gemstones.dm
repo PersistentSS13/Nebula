@@ -35,6 +35,8 @@
 	ore_data_value = 2
 	exoplanet_rarity_plant = MAT_RARITY_UNCOMMON
 	exoplanet_rarity_gas = MAT_RARITY_NOWHERE
+	dissolves_in = MAT_SOLVENT_IMMUNE
+	dissolves_into = null
 
 /decl/material/solid/gemstone/crystal
 	name = "crystal"
@@ -45,3 +47,5 @@
 	value = 2
 	exoplanet_rarity_plant = MAT_RARITY_UNCOMMON
 	exoplanet_rarity_gas = MAT_RARITY_NOWHERE
+	dissolves_in = MAT_SOLVENT_IMMUNE
+	dissolves_into = null

@@ -106,6 +106,8 @@
 	. = ..()
 	if(. != INITIALIZE_HINT_QDEL && isnull(pain_disability_threshold))
 		pain_disability_threshold = (max_damage * 0.75)
+	if(force_limb_dir && force_limb_dir != SOUTH)
+		set_dir(force_limb_dir)
 
 /obj/item/organ/external/Destroy()
 	//Update the hierarchy BEFORE clearing all the vars and refs
@@ -895,7 +897,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 		if(update_surgery)
 			owner.update_surgery()
 		if (update_damstate())
-			owner.UpdateDamageIcon(1)
+			owner.update_damage_overlays(TRUE)
 
 //Updates brute_damn and burn_damn from wound damages. Updates BLEEDING status.
 /obj/item/organ/external/proc/update_damages()
@@ -942,8 +944,8 @@ Note that amputating the affected organ does in fact remove the infection from t
 	var/n_is = damage_state_text()
 	if (n_is != damage_state)
 		damage_state = n_is
-		return 1
-	return 0
+		return TRUE
+	return FALSE
 
 // new damage icon system
 // returns just the brute/burn damage code
@@ -1309,7 +1311,7 @@ Note that amputating the affected organ does in fact remove the infection from t
 /obj/item/organ/external/proc/is_malfunctioning()
 	return (is_robotic() && (brute_dam + burn_dam) >= 10 && prob(brute_dam + burn_dam))
 
-/obj/item/organ/external/proc/embed(var/obj/item/W, var/silent = 0, var/supplied_message, var/datum/wound/supplied_wound)
+/obj/item/organ/external/proc/embed_in_organ(var/obj/item/W, var/silent = FALSE, var/supplied_message, var/datum/wound/supplied_wound)
 	if(!owner || loc != owner)
 		return
 	if(species.species_flags & SPECIES_FLAG_NO_EMBED)

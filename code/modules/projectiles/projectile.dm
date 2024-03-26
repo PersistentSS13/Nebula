@@ -341,7 +341,7 @@
 		var/obj/item/shrapnel = get_shrapnel()
 		if(shrapnel)
 			shrapnel.forceMove(organ)
-			organ.embed(shrapnel)
+			organ.embed_in_organ(shrapnel)
 	else if(prob(2 * damage_prob))
 		organ.sever_artery()
 
@@ -464,7 +464,15 @@
 		M.Turn(Angle)
 		transform = M
 	trajectory.increment(trajectory_multiplier)
+
 	var/turf/T = trajectory.return_turf()
+	if(!T)
+		if(!QDELETED(src))
+			if(loc)
+				on_impact(loc)
+			qdel(src)
+		return
+
 	if(T.z != loc.z)
 		before_move()
 		before_z_change(loc, T)

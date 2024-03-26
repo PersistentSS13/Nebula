@@ -966,9 +966,9 @@
 /area/outpost/abandoned)
 "ds" = (
 /obj/machinery/door/airlock/medical{
-	density = FALSE;
+	density = 0;
 	icon_state = "door_open";
-	opacity = FALSE
+	opacity = 0
 	},
 /obj/machinery/holosign/surgery,
 /turf/simulated/floor/tiled/airless,
@@ -1988,9 +1988,9 @@
 /area/outpost/abandoned)
 "gz" = (
 /obj/machinery/door/airlock/external{
-	density = FALSE;
+	density = 0;
 	icon_state = "door_open";
-	opacity = FALSE
+	opacity = 0
 	},
 /obj/machinery/door/blast/regular/open,
 /obj/machinery/door/firedoor,

@@ -331,6 +331,7 @@
 // Called when turf is hit by a thrown object
 /turf/hitby(atom/movable/AM, var/datum/thrownthing/TT)
 	SHOULD_CALL_PARENT(FALSE) // /atom/hitby() applies damage to AM if it's a living mob.
+	. = TRUE
 	if(density)
 		if(isliving(AM))
 			var/mob/living/M = AM
@@ -484,12 +485,11 @@
 		return FALSE
 
 	is_outside = new_outside
+	last_outside_check = OUTSIDE_UNCERTAIN
+	SSambience.queued += src
+	update_external_atmos_participation()
 	if(!skip_weather_update)
 		update_weather()
-	SSambience.queued += src
-
-	last_outside_check = OUTSIDE_UNCERTAIN
-	update_external_atmos_participation()
 
 	if(!HasBelow(z))
 		return TRUE
