@@ -555,9 +555,6 @@ SAVED_VAR(/obj/item/evidencebag, stored_item)
 SAVED_VAR(/obj/item/forensics/sample, object)
 SAVED_VAR(/obj/item/forensics/sample, evidence)
 
-
-SAVED_VAR(/obj/item/key, key_data)
-
 SAVED_VAR(/obj/item/baton, status)
 SAVED_VAR(/obj/item/baton, bcell)
 
@@ -642,7 +639,8 @@ SAVED_VAR(/obj/item/fuel_assembly, matter)
 SAVED_VAR(/obj/item/fuel_assembly, percent_depleted)
 SAVED_VAR(/obj/item/fuel_assembly, radioactivity)
 
-SAVED_VAR(/obj/item/key/soap, uses)
+SAVED_VAR(/obj/item/key, key_data)
+SAVED_VAR(/obj/item/key/temporary, uses)
 
 SAVED_VAR(/obj/item/lock_construct, lock_data)
 
