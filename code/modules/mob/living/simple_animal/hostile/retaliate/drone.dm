@@ -6,10 +6,10 @@
 	icon = 'icons/mob/simple_animal/drone_combat.dmi'
 	ranged = 1
 	rapid = 0
-	speak_chance = 5
+	speak_chance = 2.5
 	turns_per_move = 3
-	speak = list("ALERT.","Hostile-ile-ile entities dee-twhoooo-wected.","Threat parameterszzzz- szzet.","Bring sub-sub-sub-systems uuuup to combat alert alpha-a-a.")
-	emote_see = list("beeps menacingly","whirrs threateningly","scans its immediate vicinity")
+	emote_speech = list("ALERT.","Hostile-ile-ile entities dee-twhoooo-wected.","Threat parameterszzzz- szzet.","Bring sub-sub-sub-systems uuuup to combat alert alpha-a-a.")
+	emote_see    = list("beeps menacingly","whirrs threateningly","scans its immediate vicinity")
 	a_intent = I_HURT
 	stop_automated_movement_when_pulled = 0
 	health = 300
@@ -92,12 +92,12 @@
 	if(disabled > 0)
 		set_stat(UNCONSCIOUS)
 		disabled--
-		wander = 0
+		wander = FALSE
 		speak_chance = 0
 		if(disabled <= 0)
 			set_stat(CONSCIOUS)
-			wander = 1
-			speak_chance = 5
+			wander = TRUE
+			speak_chance = 2.5
 
 	//repair a bit of damage
 	if(prob(1))
@@ -141,7 +141,7 @@
 	if(!exploding && !disabled && prob(explode_chance))
 		exploding = 1
 		set_stat(UNCONSCIOUS)
-		wander = 1
+		wander = TRUE
 		walk(src,0)
 		spawn(rand(50,150))
 			if(!disabled && exploding)
@@ -201,53 +201,43 @@
 		if(spawnees & 1)
 			C = new(src.loc)
 			C.SetName("Drone CPU motherboard")
-			C.origin_tech = "{'[TECH_DATA]':[rand(3, 6)]}"
-
+			C.origin_tech = @'{"[TECH_DATA]":[rand(3, 6)]}'
 		if(spawnees & 2)
 			C = new(src.loc)
 			C.SetName("Drone neural interface")
-			C.origin_tech = "{'[TECH_BIO]':[rand(3, 6)]}"
-
+			C.origin_tech = @'{"[TECH_BIO]":[rand(3, 6)]}'
 		if(spawnees & 4)
 			C = new(src.loc)
 			C.SetName("Drone suspension processor")
-			C.origin_tech = "{'[TECH_MAGNET]':[rand(3, 6)]}"
-
+			C.origin_tech = @'{"[TECH_MAGNET]":[rand(3, 6)]}'
 		if(spawnees & 8)
 			C = new(src.loc)
 			C.SetName("Drone shielding controller")
-			C.origin_tech = "{'wormholes':[rand(3, 6)]}"
-
+			C.origin_tech = @'{"wormholes":[rand(3, 6)]}'
 		if(spawnees & 16)
 			C = new(src.loc)
 			C.SetName("Drone power capacitor")
-			C.origin_tech = "{'[TECH_POWER]':[rand(3, 6)]}"
-
+			C.origin_tech = @'{"[TECH_POWER]":[rand(3, 6)]}'
 		if(spawnees & 32)
 			C = new(src.loc)
 			C.SetName("Drone hull reinforcer")
-			C.origin_tech = "{'[TECH_MATERIAL]':[rand(3, 6)]}"
-
+			C.origin_tech = @'{"[TECH_MATERIAL]":[rand(3, 6)]}'
 		if(spawnees & 64)
 			C = new(src.loc)
 			C.SetName("Drone auto-repair system")
-			C.origin_tech = "{'[TECH_ENGINEERING]':[rand(3, 6)]}"
-
+			C.origin_tech = @'{"[TECH_ENGINEERING]":[rand(3, 6)]}'
 		if(spawnees & 128)
 			C = new(src.loc)
 			C.SetName("Drone antigravity overcharge counter")
-			C.origin_tech = "{'[TECH_EXOTIC_MATTER]':[rand(3, 6)]}"
-
+			C.origin_tech = @'{"[TECH_EXOTIC_MATTER]":[rand(3, 6)]}'
 		if(spawnees & 256)
 			C = new(src.loc)
 			C.SetName("Drone targetting circuitboard")
-			C.origin_tech = "{'[TECH_COMBAT]':[rand(3, 6)]}"
-
+			C.origin_tech = @'{"[TECH_COMBAT]":[rand(3, 6)]}'
 		if(spawnees & 512)
 			C = new(src.loc)
 			C.SetName("Corrupted drone morality core")
-			C.origin_tech = "{'[TECH_ESOTERIC]':[rand(3, 6)]}"
-
+			C.origin_tech = @'{"[TECH_ESOTERIC]":[rand(3, 6)]}'
 	return ..()
 
 /obj/item/projectile/beam/drone

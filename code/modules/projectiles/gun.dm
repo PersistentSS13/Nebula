@@ -41,7 +41,7 @@
 	throw_speed = 4
 	throw_range = 5
 	force = 5
-	origin_tech = "{'combat':1}"
+	origin_tech = @'{"combat":1}'
 	attack_verb = list("struck", "hit", "bashed")
 	zoomdevicename = "scope"
 
@@ -123,7 +123,7 @@
 		autofiring_at = fire_at
 		autofiring_by = fire_by
 		if(!autofiring_timer)
-			autofiring_timer = addtimer(CALLBACK(src, .proc/handle_autofire, autoturn), burst_delay, (TIMER_STOPPABLE | TIMER_LOOP | TIMER_UNIQUE | TIMER_OVERRIDE))
+			autofiring_timer = addtimer(CALLBACK(src, PROC_REF(handle_autofire), autoturn), burst_delay, (TIMER_STOPPABLE | TIMER_LOOP | TIMER_UNIQUE | TIMER_OVERRIDE))
 	else
 		clear_autofire()
 
@@ -170,10 +170,16 @@
 /obj/item/gun/proc/get_safety_indicator()
 	return mutable_appearance(icon, "[get_world_inventory_state()][safety_icon][safety()]")
 
-/obj/item/gun/adjust_mob_overlay(var/mob/living/user_mob, var/bodytype,  var/image/overlay, var/slot, var/bodypart)
-	if(overlay && user_mob.can_wield_item(src) && is_held_twohanded(user_mob) && check_state_in_icon("[overlay.icon_state]-wielded", overlay.icon))
-		overlay.icon_state = "[overlay.icon_state]-wielded"
+/obj/item/gun/adjust_mob_overlay(var/mob/living/user_mob, var/bodytype,  var/image/overlay, var/slot, var/bodypart, var/skip_offset = FALSE)
+	if(overlay && user_mob.can_wield_item(src) && is_held_twohanded(user_mob))
+		var/wielded_state = "[overlay.icon_state]-wielded"
+		if(check_state_in_icon(wielded_state, overlay.icon))
+			overlay.icon_state = wielded_state
+	apply_gun_mob_overlays(user_mob, bodytype, overlay, slot, bodypart)
 	. = ..()
+
+/obj/item/gun/proc/apply_gun_mob_overlays(var/mob/living/user_mob, var/bodytype,  var/image/overlay, var/slot, var/bodypart, var/skip_offset = FALSE)
+	return
 
 //Checks whether a given mob can use the gun
 //Any checks that shouldn't result in handle_click_empty() being called if they fail should go here.
@@ -259,6 +265,7 @@
 	var/mob/living/user = null
 	if(isliving(firer))
 		user = firer
+		target_zone = user.get_target_zone()
 
 	if(istype(user))
 		add_fingerprint(user)
@@ -703,7 +710,7 @@
 		else
 			M.setClickCooldown(DEFAULT_QUICK_COOLDOWN) // Spam prevention, essentially.
 			M.visible_message(SPAN_DANGER("\The [M] pulls the trigger reflexively!"))
-			Fire(aiming_at, M, target_zone = M.get_target_zone())
+			Fire(aiming_at, M)
 			if(M.aiming)
 				M.aiming.toggle_active(FALSE, TRUE)
 

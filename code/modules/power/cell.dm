@@ -5,7 +5,7 @@
 	icon = 'icons/obj/power.dmi'
 	icon_state = "cell"
 	item_state = "cell"
-	origin_tech = "{'powerstorage':1}"
+	origin_tech = @'{"powerstorage":1}'
 	force = 5.0
 	throwforce = 5
 	throw_speed = 3
@@ -18,7 +18,6 @@
 	)
 	var/charge			                // Current charge
 	var/maxcharge = 1000 // Capacity in Wh
-	var/overlay_state
 
 /obj/item/cell/Initialize()
 	. = ..()
@@ -40,19 +39,16 @@
 
 /obj/item/cell/on_update_icon()
 	. = ..()
-	var/new_overlay_state = null
+	var/overlay_state = null
 	switch(percent())
 		if(95 to 100)
-			new_overlay_state = "cell-o2"
+			overlay_state = "cell-o2"
 		if(25 to 95)
-			new_overlay_state = "cell-o1"
+			overlay_state = "cell-o1"
 		if(0.05 to 25)
-			new_overlay_state = "cell-o0"
-
-	if(new_overlay_state != overlay_state)
-		overlay_state = new_overlay_state
-		if(overlay_state)
-			add_overlay(overlay_state)
+			overlay_state = "cell-o0"
+	if(overlay_state)
+		add_overlay(overlay_state)
 
 /obj/item/cell/proc/percent()		// return % charge of cell
 	return maxcharge && (100.0*charge/maxcharge)
@@ -151,12 +147,12 @@
 	maxcharge = 100
 	material = /decl/material/solid/metal/steel
 	matter = list(/decl/material/solid/fiberglass = MATTER_AMOUNT_REINFORCEMENT)
-	origin_tech = "{'powerstorage':2}"
+	origin_tech = @'{"powerstorage":2}'
 
 /obj/item/cell/crap
 	name = "old power cell"
 	desc = "A cheap old power cell. It's probably been in use for quite some time now."
-	origin_tech = "{'powerstorage':1}"
+	origin_tech = @'{"powerstorage":1}'
 	maxcharge = 100
 	material = /decl/material/solid/metal/steel
 	matter = list(
@@ -170,7 +166,7 @@
 /obj/item/cell/standard
 	name = "standard power cell"
 	desc = "A standard and relatively cheap power cell, commonly used."
-	origin_tech = "{'powerstorage':1}"
+	origin_tech = @'{"powerstorage":1}'
 	maxcharge = 250
 	material = /decl/material/solid/metal/steel
 	matter = list(
@@ -181,7 +177,7 @@
 /obj/item/cell/apc
 	name = "APC power cell"
 	desc = "A special power cell designed for heavy-duty use in area power controllers."
-	origin_tech = "{'powerstorage':1}"
+	origin_tech = @'{"powerstorage":1}'
 	maxcharge = 500
 	material = /decl/material/solid/metal/steel
 	matter = list(
@@ -193,7 +189,7 @@
 /obj/item/cell/high
 	name = "advanced power cell"
 	desc = "An advanced high-grade power cell, for use in important systems."
-	origin_tech = "{'powerstorage':2}"
+	origin_tech = @'{"powerstorage":2}'
 	icon_state = "hcell"
 	maxcharge = 1000
 	material = /decl/material/solid/metal/steel
@@ -208,7 +204,7 @@
 /obj/item/cell/exosuit
 	name = "exosuit power cell"
 	desc = "A special power cell designed for heavy-duty use in industrial exosuits."
-	origin_tech = "{'powerstorage':3}"
+	origin_tech = @'{"powerstorage":3}'
 	icon_state = "hcell"
 	maxcharge = 1500
 	material = /decl/material/solid/metal/steel
@@ -221,7 +217,7 @@
 /obj/item/cell/super
 	name = "enhanced power cell"
 	desc = "A very advanced power cell with increased energy density, for use in critical applications."
-	origin_tech = "{'powerstorage':5}"
+	origin_tech = @'{"powerstorage":5}'
 	icon_state = "scell"
 	maxcharge = 2000
 	material = /decl/material/solid/metal/steel
@@ -236,7 +232,7 @@
 /obj/item/cell/hyper
 	name = "superior power cell"
 	desc = "Pinnacle of power storage technology, this very expensive power cell provides the best energy density reachable with conventional electrochemical cells."
-	origin_tech = "{'powerstorage':6}"
+	origin_tech = @'{"powerstorage":6}'
 	icon_state = "hpcell"
 	maxcharge = 3000
 	material = /decl/material/solid/metal/steel
@@ -287,7 +283,7 @@
 /obj/item/cell/potato
 	name = "potato battery"
 	desc = "A rechargable starch based power cell."
-	origin_tech = "{'powerstorage':1}"
+	origin_tech = @'{"powerstorage":1}'
 	icon = 'icons/obj/power.dmi'
 	icon_state = "potato_cell"
 	maxcharge = 20
@@ -296,7 +292,7 @@
 /obj/item/cell/gun
 	name = "weapon energy cell"
 	desc = "A military grade high-density battery, expected to deplete after tens of thousands of complete charge cycles."
-	origin_tech = "{'combat':2,'materials':2,'powerstorage': 2}"
+	origin_tech = @'{"combat":2,"materials":2,"powerstorage": 2}'
 	icon_state = "gunbattery"
 	maxcharge = 500
 	w_class = ITEM_SIZE_SMALL //Perhaps unwise.

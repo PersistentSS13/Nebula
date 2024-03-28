@@ -124,7 +124,7 @@
 	for(var/current_list in all_products)
 		var/category = current_list[2]
 		for(var/entry in current_list[1])
-			var/datum/stored_items/vending_products/infini/product = new(src, entry, get_product_name(entry))
+			var/datum/stored_items/vending_products/infini/product = new(src, entry)
 			product.price = atom_info_repository.get_combined_worth_for(entry) * markup
 			product.category = category
 			if(product && populate_parts)

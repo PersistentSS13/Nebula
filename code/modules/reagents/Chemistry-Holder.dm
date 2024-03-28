@@ -91,7 +91,7 @@ var/global/obj/temp_reagents_holder = new
 		var/replace_sound
 
 		if(!(check_flags & ATOM_FLAG_NO_PHASE_CHANGE))
-			if(!isnull(R.chilling_point) && R.type != R.bypass_cooling_products_for_root_type && LAZYLEN(R.chilling_products) && temperature <= R.chilling_point)
+			if(!isnull(R.chilling_point) && R.type != R.bypass_chilling_products_for_root_type && LAZYLEN(R.chilling_products) && temperature <= R.chilling_point)
 				replace_self_with = R.chilling_products
 				if(R.chilling_message)
 					replace_message = "\The [lowertext(R.name)] [R.chilling_message]"
@@ -382,6 +382,9 @@ var/global/obj/temp_reagents_holder = new
 
 //Splashing reagents is messier than trans_to, the target's loc gets some of the reagents as well.
 /datum/reagents/proc/splash(var/atom/target, var/amount = 1, var/multiplier = 1, var/copy = 0, var/min_spill=0, var/max_spill=60, var/defer_update = FALSE)
+
+	if(!istype(target))
+		return
 
 	if(isturf(target))
 		trans_to_turf(target, amount, multiplier, copy, defer_update = defer_update)

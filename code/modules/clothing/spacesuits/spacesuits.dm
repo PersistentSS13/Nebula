@@ -23,14 +23,13 @@
 	randpixel = 0
 	flash_protection = FLASH_PROTECTION_MAJOR
 	action_button_name = "Toggle Helmet Light"
-	light_overlay = "helmet_light"
 	brightness_on = 4
 	light_wedge = LIGHT_WIDE
 	on = 0
 
 	var/obj/machinery/camera/camera
 	var/tinted = null	//Set to non-null for toggleable tint helmets
-	origin_tech = "{'materials':1}"
+	origin_tech = @'{"materials":1}'
 	material = /decl/material/solid/metal/steel
 
 /obj/item/clothing/head/helmet/space/Destroy()
@@ -98,7 +97,7 @@
 	to_chat(usr, "You toggle [src]'s visor tint.")
 	update_tint()
 
-/obj/item/clothing/head/helmet/space/adjust_mob_overlay(var/mob/living/user_mob, var/bodytype,  var/image/overlay, var/slot, var/bodypart)
+/obj/item/clothing/head/helmet/space/adjust_mob_overlay(var/mob/living/user_mob, var/bodytype,  var/image/overlay, var/slot, var/bodypart, var/skip_offset = FALSE)
 	if(overlay && tint && check_state_in_icon("[overlay.icon_state]_dark", overlay.icon))
 		overlay.icon_state = "[overlay.icon_state]_dark"
 	. = ..()
@@ -136,7 +135,7 @@
 	center_of_mass = null
 	randpixel = 0
 	valid_accessory_slots = list(ACCESSORY_SLOT_INSIGNIA, ACCESSORY_SLOT_ARMBAND, ACCESSORY_SLOT_OVER)
-	origin_tech = "{'materials':3, 'engineering':3}"
+	origin_tech = @'{"materials":3, "engineering":3}'
 	material = /decl/material/solid/organic/plastic
 	matter = list(
 		/decl/material/solid/metal/steel = MATTER_AMOUNT_REINFORCEMENT,

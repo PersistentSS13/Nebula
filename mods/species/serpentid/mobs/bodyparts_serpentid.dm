@@ -42,7 +42,7 @@
 		else
 			to_chat(owner, "<span class='notice'>Your protective lenses retract out of the way.</span>")
 			override_flash_protection = FLASH_PROTECTION_VULNERABLE
-			addtimer(CALLBACK(src, .proc/remove_shield), 1 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(remove_shield)), 1 SECONDS)
 			owner.update_icon()
 		refresh_action_button()
 
@@ -158,7 +158,7 @@
 				playsound(owner.loc, 'sound/effects/angrybug.ogg', 60, 0)
 				owner.skin_state = SKIN_THREAT
 				owner.update_skin()
-				addtimer(CALLBACK(owner, /mob/living/carbon/human/proc/reset_skin), 10 SECONDS, TIMER_UNIQUE)
+				addtimer(CALLBACK(owner, TYPE_PROC_REF(/mob/living/carbon/human, reset_skin)), 10 SECONDS, TIMER_UNIQUE)
 		else if(owner.skin_state == SKIN_THREAT)
 			owner.reset_skin()
 

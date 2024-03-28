@@ -3,11 +3,11 @@
 	name = "cat"
 	desc = "A domesticated, feline pet. Has a tendency to adopt crewmembers."
 	icon = 'icons/mob/simple_animal/cat_calico.dmi'
-	speak = list("Meow!","Esp!","Purr!","HSSSSS")
-	speak_emote = list("purrs", "meows")
-	emote_hear = list("meows","mews")
-	emote_see = list("shakes their head", "shivers")
-	speak_chance = 1
+	emote_speech = list("Meow!","Esp!","Purr!","HSSSSS")
+	speak_emote  = list("purrs", "meows")
+	emote_hear   = list("meows","mews")
+	emote_see    = list("shakes their head", "shivers")
+	speak_chance = 0.5
 	turns_per_move = 5
 	see_in_dark = 6
 	minbodytemp = 223		//Below -50 Degrees Celsius
@@ -233,7 +233,7 @@
 	holder_type = /obj/item/holder/runtime
 
 /obj/item/holder/runtime
-	origin_tech = "{'programming':1,'biotech':1}"
+	origin_tech = @'{"programming":1,"biotech":1}'
 
 /mob/living/simple_animal/cat/kitten
 	name = "kitten"

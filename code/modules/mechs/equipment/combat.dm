@@ -2,7 +2,8 @@
 	name = "mounted electrolaser carbine"
 	desc = "A dual fire mode electrolaser system connected to the exosuit's targetting system."
 	icon_state = "mech_taser"
-	holding_type = /obj/item/gun/energy/taser/mounted/mech
+	origin_tech = @'{"combat":1,"magnets":1,"engineering":1}'
+	holding = /obj/item/gun/energy/taser/mounted/mech
 	restricted_hardpoints = list(HARDPOINT_LEFT_HAND, HARDPOINT_RIGHT_HAND)
 	restricted_software = list(MECH_SOFTWARE_WEAPONS)
 
@@ -10,13 +11,15 @@
 	name = "mounted ion rifle"
 	desc = "An exosuit-mounted ion rifle. Handle with care."
 	icon_state = "mech_ionrifle"
-	holding_type = /obj/item/gun/energy/ionrifle/mounted/mech
+	holding = /obj/item/gun/energy/ionrifle/mounted/mech
+	origin_tech = @'{"combat":2,"powerstorage":2,"magnets":4,"engineering":2}'
 
 /obj/item/mech_equipment/mounted_system/taser/laser
 	name = "\improper CH-PS \"Immolator\" laser"
 	desc = "An exosuit-mounted laser rifle. Handle with care."
 	icon_state = "mech_lasercarbine"
-	holding_type = /obj/item/gun/energy/laser/mounted/mech
+	holding = /obj/item/gun/energy/laser/mounted/mech
+	origin_tech = @'{"combat":2,"powerstorage":2,"magnets":4,"engineering":2}'
 
 /obj/item/gun/energy/taser/mounted/mech
 	use_external_power = TRUE
@@ -51,6 +54,7 @@
 	restricted_hardpoints = list(HARDPOINT_BACK)
 	restricted_software = list(MECH_SOFTWARE_WEAPONS)
 	material = /decl/material/solid/metal/steel
+	origin_tech = @'{"magnets":3,"powerstorage":4,"materials":2,"engineering":2}'
 	matter = list(
 		/decl/material/solid/metal/silver = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/metal/gold = MATTER_AMOUNT_TRACE
@@ -156,7 +160,7 @@
 	. = ..()
 	add_vis_contents(target, src)
 	set_dir(target.dir)
-	events_repository.register(/decl/observ/dir_set, user, src, /obj/aura/mechshield/proc/update_dir)
+	events_repository.register(/decl/observ/dir_set, user, src, TYPE_PROC_REF(/obj/aura/mechshield, update_dir))
 
 /obj/aura/mechshield/proc/update_dir(var/user, var/old_dir, var/dir)
 	set_dir(dir)
@@ -169,7 +173,7 @@
 
 /obj/aura/mechshield/Destroy()
 	if(user)
-		events_repository.unregister(/decl/observ/dir_set, user, src, /obj/aura/mechshield/proc/update_dir)
+		events_repository.unregister(/decl/observ/dir_set, user, src, TYPE_PROC_REF(/obj/aura/mechshield, update_dir))
 		remove_vis_contents(user, src)
 	shields = null
 	. = ..()
@@ -210,17 +214,20 @@
 
 /obj/aura/mechshield/hitby(atom/movable/M, var/datum/thrownthing/TT)
 	. = ..()
-	if(!active)
-		return
-	if(shields.charge && TT.speed <= 5)
-		user.visible_message(SPAN_WARNING("\The [shields.owner]'s shields flash briefly as they deflect \the [M]."))
-		flick("shield_impact", src)
-		playsound(user,'sound/effects/basscannon.ogg',10,1)
-		return AURA_FALSE|AURA_CANCEL
+	if(.)
+		if(!active)
+			return
+		if(shields.charge && TT.speed <= 5)
+			user.visible_message(SPAN_WARNING("\The [shields.owner]'s shields flash briefly as they deflect \the [M]."))
+			flick("shield_impact", src)
+			playsound(user,'sound/effects/basscannon.ogg',10,1)
+			return AURA_FALSE|AURA_CANCEL
 	//Too fast!
 
 //Melee! As a general rule I would recommend using regular objects and putting logic in them.
 /obj/item/mech_equipment/mounted_system/melee
+	abstract_type = /obj/item/mech_equipment/mounted_system/melee
+	origin_tech = @'{"combat":1,"materials":1,"engineering":1}'
 	restricted_hardpoints = list(HARDPOINT_LEFT_HAND, HARDPOINT_RIGHT_HAND)
 	restricted_software = list(MECH_SOFTWARE_UTILITY)
 
@@ -279,6 +286,7 @@
 	name = "exosuit ballistic shield"
 	desc = "This formidable line of defense, sees widespread use in planetary peacekeeping operations and military formations alike."
 	icon_state = "mech_shield" //Rendering is handled by aura due to layering issues: TODO, figure out a better way to do this
+	origin_tech = @'{"materials":2,"engineering":2}'
 	var/obj/aura/mech_ballistic/aura = null
 	var/last_push = 0
 	var/chance = 60 //For attacks from the front, diminishing returns
@@ -396,14 +404,14 @@
 	. = ..()
 	add_vis_contents(target, src)
 	set_dir(target.dir)
-	global.events_repository.register(/decl/observ/dir_set, user, src, /obj/aura/mech_ballistic/proc/update_dir)
+	global.events_repository.register(/decl/observ/dir_set, user, src, TYPE_PROC_REF(/obj/aura/mech_ballistic, update_dir))
 
 /obj/aura/mech_ballistic/proc/update_dir(user, old_dir, dir)
 	set_dir(dir)
 
 /obj/aura/mech_ballistic/Destroy()
 	if (user)
-		global.events_repository.unregister(/decl/observ/dir_set, user, src, /obj/aura/mech_ballistic/proc/update_dir)
+		global.events_repository.unregister(/decl/observ/dir_set, user, src, TYPE_PROC_REF(/obj/aura/mech_ballistic, update_dir))
 		remove_vis_contents(user, src)
 	shield = null
 	. = ..()
@@ -419,12 +427,11 @@
 
 /obj/aura/mech_ballistic/hitby(atom/movable/M, datum/thrownthing/TT)
 	. = ..()
-	if (shield)
+	if (. && shield)
 		var/throw_damage = 0
 		if (istype(M,/obj/))
 			var/obj/O = M
 			throw_damage = O.throwforce*(TT.speed/THROWFORCE_SPEED_DIVISOR)
-
 		if (prob(shield.block_chance(throw_damage, 0, source = M, attacker = TT.thrower)))
 			user.visible_message(SPAN_WARNING("\The [M] bounces off \the [user]'s [shield]."))
 			playsound(user.loc, 'sound/weapons/Genhit.ogg', 50, 1)
@@ -449,7 +456,7 @@
 	restricted_software = list(MECH_SOFTWARE_WEAPONS)
 	active_power_use = 7 KILOWATTS
 	var/next_use = 0
-	origin_tech = "{'magnets':2,'combat':3}"
+	origin_tech = @'{"magnets":2,"combat":3}'
 
 /obj/item/mech_equipment/flash/proc/area_flash()
 	playsound(src.loc, 'sound/weapons/flash.ogg', 100, 1)

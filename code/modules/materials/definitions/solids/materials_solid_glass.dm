@@ -24,6 +24,8 @@
 	conductive = 0
 	wall_support_value = MAT_VALUE_LIGHT
 	default_solid_form = /obj/item/stack/material/pane
+	dissolves_in = MAT_SOLVENT_IMMUNE
+	dissolves_into = null
 
 /decl/material/solid/glass/proc/is_reinforced()
 	return (integrity > 75) //todo
@@ -44,7 +46,7 @@
 	burn_armor = 5
 	melting_point = T0C + 4000
 	color = GLASS_COLOR_SILICATE
-	stack_origin_tech = "{'materials':4}"
+	stack_origin_tech = @'{"materials":4}'
 	construction_difficulty = MAT_VALUE_HARD_DIY
 	value = 1.8
 
@@ -69,7 +71,7 @@
 	door_icon_base = "plastic"
 	hardness = MAT_VALUE_FLEXIBLE
 	weight = MAT_VALUE_LIGHT
-	stack_origin_tech = "{'materials':3}"
+	stack_origin_tech = @'{"materials":3}'
 	conductive = 0
 	construction_difficulty = MAT_VALUE_NORMAL_DIY
 	reflectiveness = MAT_VALUE_MATTE

@@ -5,6 +5,9 @@
 	var/lit = FALSE
 	material = /decl/material/solid/organic/wood
 
+/obj/item/flame/get_tool_quality(archetype, property)
+	return (!lit && archetype == TOOL_CAUTERY) ? TOOL_QUALITY_NONE : ..()
+
 /obj/item/flame/afterattack(var/obj/O, var/mob/user, proximity)
 	..()
 	if(proximity && lit && istype(O))
@@ -50,7 +53,7 @@
 	var/smoketime = 5
 	obj_flags = OBJ_FLAG_HOLLOW // so that it's not super overpriced compared to lighters
 	w_class = ITEM_SIZE_TINY
-	origin_tech = "{'materials':1}"
+	origin_tech = @'{"materials":1}'
 	slot_flags = SLOT_EARS
 	attack_verb = list("burnt", "singed")
 	randpixel = 10

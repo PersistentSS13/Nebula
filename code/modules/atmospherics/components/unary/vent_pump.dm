@@ -83,7 +83,7 @@
 		var/area/A = get_area(src)
 		if(A && !A.air_vent_names[id_tag])
 			update_name()
-			events_repository.register(/decl/observ/name_set, A, src, .proc/change_area_name)
+			events_repository.register(/decl/observ/name_set, A, src, PROC_REF(change_area_name))
 	. = ..()
 	air_contents.volume = ATMOS_DEFAULT_VOLUME_PUMP
 	update_sound()
@@ -157,11 +157,11 @@
 	if(old_area == new_area)
 		return
 	if(old_area)
-		events_repository.unregister(/decl/observ/name_set, old_area, src, .proc/change_area_name)
+		events_repository.unregister(/decl/observ/name_set, old_area, src, PROC_REF(change_area_name))
 		old_area.air_vent_info -= id_tag
 		old_area.air_vent_names -= id_tag
 	if(new_area && new_area == get_area(src))
-		events_repository.register(/decl/observ/name_set, new_area, src, .proc/change_area_name)
+		events_repository.register(/decl/observ/name_set, new_area, src, PROC_REF(change_area_name))
 		if(!new_area.air_vent_names[id_tag])
 			var/new_name = "[new_area.proper_name] Vent Pump #[new_area.air_vent_names.len+1]"
 			new_area.air_vent_names[id_tag] = new_name
@@ -231,10 +231,7 @@
 			power_draw = pump_gas(src, air_contents, environment, transfer_moles, power_rating)
 		else //external -> internal
 			var/datum/pipe_network/network = network_in_dir(dir)
-			transfer_moles = calculate_transfer_moles(environment, air_contents, pressure_delta, network?.volume)
-
-			//limit flow rate from turfs
-			transfer_moles = min(transfer_moles, environment.total_moles*air_contents.volume/environment.volume)	//group_multiplier gets divided out here
+			transfer_moles = calculate_transfer_moles(environment, air_contents, pressure_delta, network?.volume) / environment.group_multiplier // limit it to just one turf's worth of gas per tick
 			power_draw = pump_gas(src, environment, air_contents, transfer_moles, power_rating)
 
 	else

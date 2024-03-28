@@ -15,7 +15,7 @@
 	throw_speed = 1
 	throw_range = 5
 	w_class = ITEM_SIZE_NORMAL
-	origin_tech = "{'engineering':4,'materials':2}"
+	origin_tech = @'{"engineering":4,"materials":2}'
 	material = /decl/material/solid/metal/steel
 	var/stored_matter = 0
 	var/max_stored_matter = 120
@@ -128,10 +128,23 @@
 	icon_state = "rcd"
 	item_state = "rcdammo"
 	w_class = ITEM_SIZE_SMALL
-	origin_tech = "{'materials':2}"
+	origin_tech = @'{"materials":2}'
 	material = /decl/material/solid/metal/steel
-	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
 	var/remaining = 30
+
+// Full override due to the weirdness of compressed matter cart legacy matter units.
+// TODO: make this use actual matter.
+/obj/item/rcd_ammo/create_matter()
+	// Formula: 3 MU per wall == 6 steel sheets == 2 sheets per MU, /2 for glass and steel, with a
+	// discount for the outlay of materials (and to make the final costs less obscene). Technically 
+	// this means you can generate steel from nothing by building walls with an RCD and then 
+	// deconstructing them but until we have a unified matter/material system on /atom I think we're 
+	// just going to have to cop it.
+	var/sheets = round((remaining * SHEET_MATERIAL_AMOUNT) * 0.75)
+	matter = list(
+		/decl/material/solid/metal/steel = sheets,
+		/decl/material/solid/glass       = sheets
+	)
 
 /obj/item/rcd_ammo/examine(mob/user, distance)
 	. = ..()
@@ -142,10 +155,8 @@
 	name = "high-capacity matter cartridge"
 	desc = "Do not ingest."
 	icon_state = "rcdlarge"
-	material = /decl/material/solid/metal/steel
-	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
 	remaining = 120
-	origin_tech = "{'materials':4}"
+	origin_tech = @'{"materials":4}'
 
 /obj/item/rcd/borg
 	canRwall = 1

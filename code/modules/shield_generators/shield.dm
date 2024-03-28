@@ -169,22 +169,14 @@
 	if(!gen)
 		qdel(src)
 		return 1
-
 	if(disabled_for || diffused_for)
 		return 1
-
 	// Atmosphere containment.
 	if(air_group)
 		return !gen.check_flag(MODEFLAG_ATMOSPHERIC)
-
 	if(mover)
 		return mover.can_pass_shield(gen)
 	return 1
-
-
-/obj/effect/shield/c_airblock(turf/other)
-	return gen.check_flag(MODEFLAG_ATMOSPHERIC) ? BLOCKED : 0
-
 
 // EMP. It may seem weak but keep in mind that multiple shield segments are likely to be affected.
 /obj/effect/shield/emp_act(var/severity)
@@ -322,7 +314,7 @@
 	affected_shields |= src
 	i--
 	if(i)
-		addtimer(CALLBACK(src, .proc/spread_impact_effect, i, affected_shields), 2)
+		addtimer(CALLBACK(src, PROC_REF(spread_impact_effect), i, affected_shields), 2)
 
 /obj/effect/shield/proc/spread_impact_effect(var/i, var/list/affected_shields = list())
 	for(var/direction in global.cardinal)

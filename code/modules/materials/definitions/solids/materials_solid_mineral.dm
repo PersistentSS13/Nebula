@@ -2,26 +2,20 @@
 	name = "pitchblende"
 	uid = "solid_pitchblende"
 	color = "#917d1a"
-	heating_products = list(
-		/decl/material/solid/metal/uranium = 0.8,
-		/decl/material/solid/slag = 0.2
-	)
-	heating_point = GENERIC_SMELTING_HEAT_POINT
-	heating_sound = null
-	heating_message = null
 	ore_result_amount = 5
 	ore_spread_chance = 10
 	ore_name = "pitchblende"
 	ore_scan_icon = "mineral_uncommon"
-	stack_origin_tech = "{'materials':5}"
+	stack_origin_tech = @'{"materials":5}'
 	xarch_source_mineral = /decl/material/solid/phosphorus
 	ore_icon_overlay = "nugget"
 	value = 0.8
 	sparse_material_weight = 8
 	rich_material_weight = 10
 	dissolves_into = list(
-		/decl/material/solid/metal/uranium = 0.5,
-		/decl/material/solid/metal/radium = 0.5
+		/decl/material/solid/metal/uranium = 0.6,
+		/decl/material/solid/metal/radium  = 0.3,
+		/decl/material/solid/slag          = 0.1
 	)
 	ore_type_value = ORE_NUCLEAR
 	ore_data_value = 3

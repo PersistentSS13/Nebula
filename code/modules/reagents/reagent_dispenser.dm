@@ -45,11 +45,6 @@
 	if(. && unwrenched)
 		leak()
 
-/obj/structure/reagent_dispensers/Process()
-	if(!unwrenched)
-		return PROCESS_KILL
-	leak()
-
 /obj/structure/reagent_dispensers/examine(mob/user, distance)
 	. = ..()
 	if(unwrenched)
@@ -70,19 +65,13 @@
 	if(reagents?.maximum_volume)
 		to_chat(user, "It may contain up to [reagents.maximum_volume] units of fluid.")
 
-/obj/structure/reagent_dispensers/Destroy()
-	. = ..()
-	STOP_PROCESSING(SSprocessing, src)
-
 /obj/structure/reagent_dispensers/attackby(obj/item/W, mob/user)
 	if(IS_WRENCH(W))
 		unwrenched = !unwrenched
 		visible_message(SPAN_NOTICE("\The [user] wrenches \the [src]'s tap [unwrenched ? "open" : "shut"]."))
 		if(unwrenched)
 			log_and_message_admins("opened a tank at [get_area_name(loc)].")
-			START_PROCESSING(SSprocessing, src)
-		else
-			STOP_PROCESSING(SSprocessing, src)
+			leak()
 		return TRUE
 	. = ..()
 
@@ -236,7 +225,7 @@
 	anchored           = TRUE
 	density            = FALSE
 	amount_dispensed   = 45
-	directional_offset = "{'NORTH':{'y':-32}, 'SOUTH':{'y':32}, 'EAST':{'x':-32}, 'WEST':{'x':32}}"
+	directional_offset = @'{"NORTH":{"y":-32}, "SOUTH":{"y":32}, "EAST":{"x":-32}, "WEST":{"x":32}}'
 
 /obj/structure/reagent_dispensers/peppertank/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/capsaicin/condensed, reagents.maximum_volume)
@@ -310,7 +299,7 @@
 	icon_state         = "acidtank"
 	amount_dispensed   = 10
 	anchored           = TRUE
-	directional_offset = "{'NORTH':{'y':-32}, 'SOUTH':{'y':32}, 'EAST':{'x':-32}, 'WEST':{'x':32}}"
+	directional_offset =  @'{"NORTH":{"y":-32}, "SOUTH":{"y":32}, "EAST":{"x":-32}, "WEST":{"x":32}}'
 
 /obj/structure/reagent_dispensers/acid/populate_reagents()
 	reagents.add_reagent(/decl/material/liquid/acid, reagents.maximum_volume)
