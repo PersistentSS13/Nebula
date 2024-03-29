@@ -154,7 +154,7 @@
 	icon_state = "cortical-stack"
 	organ_tag = BP_STACK
 	organ_properties = ORGAN_PROP_PROSTHETIC
-	origin_tech = @"{'biotech':4,'materials':4,'magnets':2,'programming':3}"
+	origin_tech = @'{"biotech":4,"materials":4,"magnets":2,"programming":3}'
 	relative_size = 10
 
 	var/ownerckey
@@ -165,7 +165,7 @@
 
 /obj/item/organ/internal/voxstack/Initialize(mapload, material_key, datum/dna/given_dna, decl/bodytype/new_bodytype)
 	var/decl/species/dna_species = given_dna && get_species_by_key(given_dna.species)
-	. = ..(mapload, material_key, given_dna, dna_species?.base_prosthetics_model)
+	. = ..(mapload, material_key, given_dna, dna_species?.base_internal_prosthetics_model)
 	do_backup()
 
 /obj/item/organ/internal/voxstack/examine(mob/user)

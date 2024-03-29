@@ -2,7 +2,7 @@
 	name           = "circuit board (crusher)"
 	build_path     = /obj/machinery/recycler
 	board_type     = "machine"
-	origin_tech    = "{'engineering':2,'materials':1}"
+	origin_tech    = @'{"engineering":2,"materials":1}'
 	req_components = list()
 	additional_spawn_components = list(
 		/obj/item/stock_parts/matter_bin      = 2,

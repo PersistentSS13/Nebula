@@ -208,7 +208,7 @@ var/global/list/hygiene_props = list()
 	icon_state = "urinal"
 	density = FALSE
 	anchored = TRUE
-	directional_offset = "{'NORTH':{'y':-32}, 'SOUTH':{'y':32}, 'EAST':{'x':-32}, 'WEST':{'x':32}}"
+	directional_offset = @'{"NORTH":{"y":-32}, "SOUTH":{"y":32}, "EAST":{"x":-32}, "WEST":{"x":32}}'
 	obj_flags = OBJ_FLAG_MOVES_UNSUPPORTED
 
 /obj/structure/hygiene/urinal/attackby(var/obj/item/I, var/mob/user)
@@ -286,7 +286,7 @@ var/global/list/hygiene_props = list()
 /obj/effect/mist/Initialize(mapload)
 	. = ..()
 	if(. != INITIALIZE_HINT_QDEL)
-		addtimer(CALLBACK(src, /datum/proc/qdel_self), 25 SECONDS)
+		addtimer(CALLBACK(src, TYPE_PROC_REF(/datum, qdel_self)), 25 SECONDS)
 
 /obj/structure/hygiene/shower/attackby(obj/item/I, var/mob/user)
 	if(istype(I, /obj/item/scanner/gas))

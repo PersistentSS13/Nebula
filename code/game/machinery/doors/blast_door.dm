@@ -195,7 +195,7 @@
 	force_open()
 
 	if(autoclose)
-		addtimer(CALLBACK(src, .proc/close), 15 SECONDS, TIMER_UNIQUE|TIMER_OVERRIDE)
+		addtimer(CALLBACK(src, PROC_REF(close)), 15 SECONDS, TIMER_UNIQUE|TIMER_OVERRIDE)
 
 	return TRUE
 

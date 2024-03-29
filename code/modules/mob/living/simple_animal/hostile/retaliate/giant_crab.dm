@@ -6,7 +6,7 @@
 	speak_emote = list("clicks")
 	emote_hear = list("clicks")
 	emote_see = list("clacks")
-	speak_chance = 1
+	speak_chance = 0.5
 	turns_per_move = 5
 	meat_amount = 12
 	can_escape = TRUE //snip snip
@@ -81,7 +81,7 @@
 				return
 
 		if(!victim && can_act() && !is_on_special_ability_cooldown() && Adjacent(H))
-			events_repository.register(/decl/observ/destroyed, victim, src, .proc/release_grab)
+			events_repository.register(/decl/observ/destroyed, victim, src, PROC_REF(release_grab))
 			victim = H
 			SET_STATUS_MAX(H, STAT_WEAK, grab_duration)
 			SET_STATUS_MAX(H, STAT_STUN, grab_duration)

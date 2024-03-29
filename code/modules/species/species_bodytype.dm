@@ -23,7 +23,7 @@ var/global/list/bodytypes_by_category = list()
 	var/appearance_flags = 0 // Appearance/display related features.
 
 	/// What tech levels should limbs of this type use/need?
-	var/limb_tech = "{'biotech':2}"
+	var/limb_tech = @'{"biotech":2}'
 	var/icon_cache_uid
 	/// Determines if eyes should render on heads using this bodytype.
 	var/has_eyes = TRUE
@@ -211,6 +211,18 @@ var/global/list/bodytypes_by_category = list()
 /decl/bodytype/validate()
 	. = ..()
 
+	var/damage_icon = get_damage_overlays()
+	if(damage_icon)
+		for(var/brute = 0 to 3)
+			for(var/burn = 0 to 3)
+				var/damage_state = "[brute][burn]"
+				if(!check_state_in_icon(damage_state, damage_icon))
+					. += "missing state '[damage_state]' in icon '[damage_icon]'"
+		if(!check_state_in_icon("", damage_icon))
+			. += "missing default empty state in icon '[damage_icon]'"
+	else
+		. += "null damage overlay icon"
+
 	if(eye_base_low_light_vision > 1)
 		. += "base low light vision is greater than 1 (over 100%)"
 	else if(eye_base_low_light_vision < 0)
@@ -231,16 +243,28 @@ var/global/list/bodytypes_by_category = list()
 	else if(eye_low_light_vision_adjustment_speed < 0)
 		. += "low light vision adjustment speed is less than 0 (below 0%)"
 
-	if(icon_base)
-		if(check_state_in_icon("torso", icon_base))
-			. += "deprecated \"torso\" state present in icon_base"
-		if(!check_state_in_icon(BP_CHEST, icon_base))
-			. += "\"[BP_CHEST]\" state not present in icon_base"
-	if(icon_deformed && icon_deformed != icon_base)
-		if(check_state_in_icon("torso", icon_deformed))
-			. += "deprecated \"torso\" state present in icon_deformed"
-		if(!check_state_in_icon(BP_CHEST, icon_deformed))
-			. += "\"[BP_CHEST]\" state not present in icon_deformed"
+	if(icon_base || icon_deformed)
+
+		var/list/limb_tags = list()
+		for(var/limb in has_limbs)
+			limb_tags |= limb
+		for(var/limb in override_limb_types)
+			limb_tags |= limb
+
+		if(icon_base)
+			if(check_state_in_icon("torso", icon_base))
+				. += "deprecated \"torso\" state present in icon_base"
+			for(var/limb in limb_tags)
+				if(!check_state_in_icon(limb, icon_base))
+					. += "missing required state in [icon_base]: [limb]"
+
+		if(icon_deformed && icon_deformed != icon_base)
+			if(check_state_in_icon("torso", icon_deformed))
+				. += "deprecated \"torso\" state present in icon_deformed"
+			for(var/limb in limb_tags)
+				if(!check_state_in_icon(limb, icon_deformed))
+					. += "missing required state in [icon_deformed]: [limb]"
+
 	if((appearance_flags & HAS_SKIN_COLOR) && isnull(base_color))
 		. += "uses skin color but missing base_color"
 	if((appearance_flags & HAS_HAIR_COLOR) && isnull(base_hair_color))

@@ -166,6 +166,9 @@
 /datum/fabricator_recipe/gift_wrapper
 	path = /obj/item/stack/package_wrap/gift
 
+/datum/fabricator_recipe/duct_tape
+	path = /obj/item/stack/tape_roll/duct_tape
+
 /datum/fabricator_recipe/network_pos
 	path = /obj/item/network_pos
 /datum/fabricator_recipe/clothes_iron

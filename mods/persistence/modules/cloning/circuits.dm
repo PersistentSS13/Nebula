@@ -2,7 +2,7 @@
 	name = "circuitboard (cloning_pod)"
 	build_path = /obj/machinery/cloning_pod
 	board_type = "machine"
-	origin_tech = "{'programming':2}"
+	origin_tech = @'{"programming":2}'
 	req_components = list()
 	additional_spawn_components = list(
 		/obj/item/stock_parts/power/apc/buildable = 1,

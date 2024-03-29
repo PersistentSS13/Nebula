@@ -11,7 +11,7 @@
 
 /client/New()
 	// Cache our callback as we will potentially be using it (10 / ticklag) times per second,
-	mouseover_callback = CALLBACK(src, .proc/refresh_mouseover_highlight_timer)
+	mouseover_callback = CALLBACK(src, PROC_REF(refresh_mouseover_highlight_timer))
 	. = ..()
 
 // This proc iterates constantly whenever something is being mouseover'd, so that it
@@ -74,7 +74,7 @@
 	mouseover_highlight_dummy.plane = HUD_ABOVE_ITEM_LAYER
 	mouseover_highlight_dummy.alpha = prefs?.UI_mouseover_alpha || 255
 	mouseover_highlight_dummy.appearance_flags |= (KEEP_TOGETHER|RESET_COLOR)
-	mouseover_highlight_dummy.add_filter("glow", 1, list("drop_shadow", color = (prefs?.UI_mouseover_color || COLOR_AMBER) + "F0", size = 1, offset = 1, x = 0, y = 0))
+	mouseover_highlight_dummy.add_filter("glow", 1, list(type = "drop_shadow", color = (prefs?.UI_mouseover_color || COLOR_AMBER) + "F0", size = 1, offset = 1, x = 0, y = 0))
 
 	// Replanes the overlays to avoid explicit plane/layer setting (such as
 	// computer overlays) interfering with the ordering of the highlight.

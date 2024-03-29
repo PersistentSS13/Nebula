@@ -20,7 +20,7 @@
 
 /decl/material/solid/stone/generate_recipes(var/reinforce_material)
 	. = ..()
-	if(reinforce_material)	//recipes below don't support composite materials
+	if(holographic || reinforce_material)	//recipes below don't support composite materials
 		return
 	if(wall_support_value >= 10)
 		. += new/datum/stack_recipe/furniture/girder(src)
@@ -61,6 +61,8 @@
 	flags                  = MAT_FLAG_BRITTLE
 	exoplanet_rarity_plant = MAT_RARITY_NOWHERE
 	exoplanet_rarity_gas   = MAT_RARITY_NOWHERE
+	dissolves_in           = MAT_SOLVENT_IMMUNE
+	dissolves_into         = null
 
 /decl/material/solid/stone/marble
 	name                    = "marble"

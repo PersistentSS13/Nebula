@@ -202,7 +202,7 @@
 		. = PROCESS_KILL
 	else if(leaking)
 		parent.mingle_with_turf(loc, volume)
-		var/air = parent.air && parent.air.return_pressure()
+		var/air = parent.air?.return_pressure()
 		if(!sound_token && air)
 			update_sound(1)
 		else if(sound_token && !air)

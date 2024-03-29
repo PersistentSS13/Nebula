@@ -266,7 +266,7 @@
 	name = "circuitboard (area control server)"
 	build_path = /obj/machinery/network/area_controller
 	board_type = "machine"
-	origin_tech = "{'programming':1, 'engineering':2}"
+	origin_tech = @'{"programming":1, "engineering":2}'
 	req_components = list(
 		/obj/item/stack/cable_coil = 30,
 		/obj/item/stock_parts/capacitor = 1

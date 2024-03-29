@@ -8,7 +8,7 @@
 	max_shots = 6
 	fire_delay = 5
 	force = 3 // made of light-ish plastics rather than wood and metal
-	origin_tech = "{'combat':3,'magnets':2,'engineering':2,'materials':3}"
+	origin_tech = @'{"combat":3,"magnets":2,"engineering":2,"materials":3}'
 	projectile_type = /obj/item/projectile/beam/smalllaser
 	material = /decl/material/solid/metal/aluminium
 	matter = list(

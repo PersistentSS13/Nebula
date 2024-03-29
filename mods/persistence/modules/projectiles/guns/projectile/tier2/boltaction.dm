@@ -4,7 +4,7 @@
 	icon = 'mods/persistence/icons/obj/guns/tier2/boltaction.dmi'
 	force = 10
 	slot_flags = SLOT_BACK
-	origin_tech = "{'combat':4,'engineering':4,'materials':3}"
+	origin_tech = @'{"combat":4,"engineering":4,"materials":3}'
 	caliber = CALIBER_556
 	handle_casings = HOLD_CASINGS
 	load_method = SINGLE_CASING

@@ -7,7 +7,7 @@
 	force = 5
 	accuracy = 2
 	one_hand_penalty = 1
-	origin_tech = "{'combat':4,'engineering':3,'materials':4}"
+	origin_tech = @'{"combat":4,"engineering":3,"materials":4}'
 	ammo_indicator = FALSE
 	w_class = ITEM_SIZE_NORMAL
 	magazine_type = /obj/item/ammo_magazine/fortyfive/advanced

@@ -8,7 +8,7 @@
 	force = 10
 	slot_flags = SLOT_BACK
 	caliber = CALIBER_12G
-	origin_tech = "{'combat':3,'engineering':2,'materials':2}"
+	origin_tech = @'{"combat":3,"engineering":2,"materials":2}'
 	load_method = SINGLE_CASING
 	ammo_type = /obj/item/ammo_casing/twelvegauge/slug/simple
 	handle_casings = HOLD_CASINGS

@@ -66,7 +66,7 @@ var/global/list/wall_fullblend_objects = list(
 		girder_material = GET_DECL(girder_material)
 
 	. = INITIALIZE_HINT_LATELOAD
-	set_extension(src, /datum/extension/penetration/proc_call, .proc/CheckPenetration)
+	set_extension(src, /datum/extension/penetration/proc_call, PROC_REF(CheckPenetration))
 	START_PROCESSING(SSturf, src) //Used for radiation.
 
 /turf/simulated/wall/LateInitialize(var/ml)
@@ -130,8 +130,8 @@ var/global/list/wall_fullblend_objects = list(
 	take_damage(damage)
 
 /turf/simulated/wall/hitby(AM, var/datum/thrownthing/TT)
-	..()
-	if(density && !ismob(AM))
+	. = ..()
+	if(. && density && !ismob(AM))
 		var/obj/O = AM
 		var/tforce = O.throwforce * (TT.speed/THROWFORCE_SPEED_DIVISOR)
 		playsound(src, hitsound, tforce >= 15 ? 60 : 25, TRUE)
@@ -272,7 +272,7 @@ var/global/list/wall_fullblend_objects = list(
 	if(!QDELETED(src) && istype(material) && material.combustion_effect(src, temperature, 0.7))
 		for(var/turf/simulated/wall/W in range(3,src))
 			if(W != src)
-				addtimer(CALLBACK(W, /turf/simulated/wall/proc/burn, temperature/4), 2)
+				addtimer(CALLBACK(W, TYPE_PROC_REF(/turf/simulated/wall, burn), temperature/4), 2)
 		dismantle_wall(TRUE)
 
 /turf/simulated/wall/get_color()

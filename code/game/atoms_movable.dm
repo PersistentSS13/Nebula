@@ -10,7 +10,7 @@
 	var/buckle_layer_above = FALSE
 	var/buckle_dir = 0
 	var/buckle_lying = -1             // bed-like behavior, forces mob.lying = buckle_lying if != -1
-	var/buckle_pixel_shift            // ex. @"{'x':0,'y':0,'z':0}" //where the buckled mob should be pixel shifted to, or null for no pixel shift control
+	var/buckle_pixel_shift            // ex. @'{"x":0,"y":0,"z":0}' //where the buckled mob should be pixel shifted to, or null for no pixel shift control
 	var/buckle_require_restraints = 0 // require people to be cuffed before being able to buckle. eg: pipes
 	var/buckle_require_same_tile = FALSE
 	var/buckle_sound
@@ -88,12 +88,13 @@
 	return TRUE
 
 /atom/movable/hitby(var/atom/movable/AM, var/datum/thrownthing/TT)
-	..()
+	. = ..()
+	if(. && density && prob(50))
+		do_simple_ranged_interaction()
 	process_momentum(AM,TT)
 
 /atom/movable/proc/process_momentum(var/atom/movable/AM, var/datum/thrownthing/TT)//physic isn't an exact science
 	. = momentum_power(AM,TT)
-
 	if(.)
 		momentum_do(.,TT,AM)
 
@@ -144,7 +145,7 @@
 
 	if (A && yes)
 		A.last_bumped = world.time
-		INVOKE_ASYNC(A, /atom/proc/Bumped, src) // Avoids bad actors sleeping or unexpected side effects, as the legacy behavior was to spawn here
+		INVOKE_ASYNC(A, TYPE_PROC_REF(/atom, Bumped), src) // Avoids bad actors sleeping or unexpected side effects, as the legacy behavior was to spawn here
 	..()
 
 /atom/movable/proc/forceMove(atom/destination)

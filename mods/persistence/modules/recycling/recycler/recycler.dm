@@ -399,8 +399,8 @@
 	//Play sound effects
 	if(crushsound && (world.realtime >= (time_last_crush_sound + 1 SECONDS))) //Prevent sound spam
 		time_last_crush_sound = world.realtime
-		addtimer(CALLBACK(GLOBAL_PROC, .proc/playsound, src, sound_processing, 45, TRUE, 8, 3), 0, TIMER_UNIQUE)
-		addtimer(CALLBACK(GLOBAL_PROC, .proc/playsound, src, RECYCLER_SOUND_CRUSH_OBJECT, 50, TRUE), 1, TIMER_UNIQUE)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(playsound), src, sound_processing, 45, TRUE, 8, 3), 0, TIMER_UNIQUE)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(playsound), src, RECYCLER_SOUND_CRUSH_OBJECT, 50, TRUE), 1, TIMER_UNIQUE)
 
 ///Crushes a mob and it's contents
 /obj/machinery/recycler/proc/crush_mob(var/mob/living/L, var/crushsound = TRUE, var/recursive_depth = 1)
@@ -423,12 +423,12 @@
 
 	//Play engine straining sound
 	if(crushsound)
-		addtimer(CALLBACK(GLOBAL_PROC, .proc/playsound, src, sound_processing, 45, TRUE, 8, 3), 0, TIMER_UNIQUE)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(playsound), src, sound_processing, 45, TRUE, 8, 3), 0, TIMER_UNIQUE)
 	//Play break down sound #TODO: Ideally, use the break sound of each things when that's implemented
 	if(isrobot(L))
-		addtimer(CALLBACK(GLOBAL_PROC, .proc/playsound, src, RECYCLER_SOUND_CRUSH_OBJECT, 50, TRUE), 1, TIMER_UNIQUE)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(playsound), src, RECYCLER_SOUND_CRUSH_OBJECT, 50, TRUE), 1, TIMER_UNIQUE)
 	else
-		addtimer(CALLBACK(GLOBAL_PROC, .proc/playsound, src, RECYCLER_SOUND_CRUSH_ORGANIC, 50, TRUE), 1, TIMER_UNIQUE)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(playsound), src, RECYCLER_SOUND_CRUSH_ORGANIC, 50, TRUE), 1, TIMER_UNIQUE)
 
 	if(L.is_dead() || (L.mob_size <= MOB_SIZE_TINY))
 		L.gib()

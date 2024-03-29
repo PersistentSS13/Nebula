@@ -8,7 +8,7 @@
 	max_shots = 5
 	fire_delay = 12
 	force = 10
-	origin_tech = "{'combat':3,'magnets':2,'engineering':2,'materials':3}"
+	origin_tech = @'{"combat":3,"magnets":2,"engineering":2,"materials":4}'
 	projectile_type = /obj/item/projectile/beam/midlaser
 	material = /decl/material/solid/metal/aluminium
 	matter = list(

@@ -68,7 +68,7 @@
 /obj/machinery/door/Initialize(var/mapload, var/d, var/populate_parts = TRUE, var/obj/structure/door_assembly/assembly = null)
 	if(!populate_parts)
 		inherit_from_assembly(assembly)
-	set_extension(src, /datum/extension/penetration, /datum/extension/penetration/proc_call, .proc/CheckPenetration)
+	set_extension(src, /datum/extension/penetration, /datum/extension/penetration/proc_call, PROC_REF(CheckPenetration))
 	..()
 	. = INITIALIZE_HINT_LATELOAD
 
@@ -120,7 +120,7 @@
 	if(close_door_at && world.time >= close_door_at)
 		if(autoclose)
 			close_door_at = next_close_time()
-			INVOKE_ASYNC(src, /obj/machinery/door/proc/close)
+			INVOKE_ASYNC(src, TYPE_PROC_REF(/obj/machinery/door, close))
 		else
 			close_door_at = 0
 
@@ -216,15 +216,16 @@
 		take_damage(min(damage, 100), Proj.damage_type)
 
 /obj/machinery/door/hitby(var/atom/movable/AM, var/datum/thrownthing/TT)
-	..()
-	visible_message("<span class='danger'>[src.name] was hit by [AM].</span>")
-	var/tforce = 0
-	if(ismob(AM))
-		tforce = 3 * TT.speed
-	else
-		tforce = AM:throwforce * (TT.speed/THROWFORCE_SPEED_DIVISOR)
-	playsound(src.loc, hitsound, 100, 1)
-	take_damage(tforce)
+	. = ..()
+	if(.)
+		visible_message("<span class='danger'>[src.name] was hit by [AM].</span>")
+		var/tforce = 0
+		if(ismob(AM))
+			tforce = 3 * TT.speed
+		else
+			tforce = AM:throwforce * (TT.speed/THROWFORCE_SPEED_DIVISOR)
+		playsound(src.loc, hitsound, 100, 1)
+		take_damage(tforce)
 
 // This is legacy code that should be revisited, probably by moving the bulk of the logic into here.
 /obj/machinery/door/physical_attack_hand(user)

@@ -57,7 +57,7 @@ Skill books that increase your skills while you activate and hold them
 
 	. = ..()
 
-	global.events_repository.register(/decl/observ/moved, src, src, .proc/check_buff)
+	global.events_repository.register(/decl/observ/moved, src, src, PROC_REF(check_buff))
 
 	if(!custom && skill && skill_req)// custom books should already have all they need
 		skill_name = initial(skill.name)
@@ -925,20 +925,20 @@ MEDICAL
 /obj/structure/bookcase/skill_books/all
 
 /obj/structure/bookcase/skill_books/all/Initialize()
-	. = ..()
 	for(var/category in catalogue)
 		for(var/real_book in subtypesof(category))
 			new real_book(src)
+	. = ..()
 
 //Bookshelf with some random textbooks
 /obj/structure/bookcase/skill_books/random
 
 /obj/structure/bookcase/skill_books/random/Initialize()
-	. = ..()
 	for(var/category in catalogue)
 		for(var/real_book in subtypesof(category))
 			if(prob(20))
 				new real_book(src)
+	. = ..()
 
 #undef RANDOM_BOOK_TITLE
 #undef SKILLBOOK_PROG_NONE

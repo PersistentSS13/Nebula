@@ -5,7 +5,7 @@
 	matter = list(
 		/decl/material/solid/metal/iron/r_styrofoam = MATTER_AMOUNT_TRACE
 	)
-	origin_tech = "{'materials':1}"
+	origin_tech = @'{"materials":1}'
 	color = "#33ffad"
 
 /obj/item/clothing/suit/chem_suit/cheap/Initialize()
@@ -20,7 +20,7 @@
 	matter = list(
 		/decl/material/solid/metal/iron/r_styrofoam = MATTER_AMOUNT_TRACE
 	)
-	origin_tech = "{'materials':1}"
+	origin_tech = @'{"materials":1}'
 
 /obj/item/pickaxe/cheap
 	name = "cheap pickaxe"
@@ -28,7 +28,7 @@
 	icon_state = "preview"
 	icon = 'icons/obj/items/tool/drills/pickaxe.dmi'
 	digspeed = 80 // twice as long as a regular pick
-	origin_tech = "{'materials':1}"
+	origin_tech = @'{"materials":1}'
 	drill_verb = "picking"
 	sharp = 1
 	color = "#33ffad"
@@ -50,7 +50,7 @@
 		/decl/material/solid/metal/iron/r_styrofoam = MATTER_AMOUNT_TRACE
 	)
 	flashlight_range = 1.5
-	origin_tech = "{'materials':1}"
+	origin_tech = @'{"materials":1}'
 	color = "#33ffad"
 
 /obj/item/tank/oxygen/cheap
@@ -63,7 +63,7 @@
 		/decl/material/solid/metal/iron/r_styrofoam = MATTER_AMOUNT_TRACE
 	)
 	force = 2
-	origin_tech = "{'materials':1}"
+	origin_tech = @'{"materials":1}'
 
 /obj/item/clothing/mask/breath/scba/cheap
 	desc = "A close-fitting self contained breathing apparatus mask. Can be connected to an air supply. This one is made from 3D-printed paper and styrofoam."
@@ -74,7 +74,7 @@
 	matter = list(
 		/decl/material/solid/metal/iron/r_styrofoam = MATTER_AMOUNT_TRACE
 	)
-	origin_tech = "{'materials':1}"
+	origin_tech = @'{"materials":1}'
 
 /obj/item/storage/ore/cheap
 	name = "cheap mining satchel"
@@ -85,7 +85,7 @@
 	matter = list(
 		/decl/material/solid/metal/iron/r_styrofoam = MATTER_AMOUNT_TRACE
 	)
-	origin_tech = "{'materials':1}"
+	origin_tech = @'{"materials":1}'
 
 /decl/material/solid/metal/iron/r_styrofoam
 	name = "reinforced styrofoam"

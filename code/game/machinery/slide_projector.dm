@@ -58,9 +58,9 @@
 /obj/item/storage/slide_projector/proc/stop_projecting()
 	if(projection)
 		QDEL_NULL(projection)
-	events_repository.unregister(/decl/observ/moved, src, src, .proc/check_projections)
+	events_repository.unregister(/decl/observ/moved, src, src, PROC_REF(check_projections))
 	update_icon()
-	
+
 /obj/item/storage/slide_projector/proc/project_at(turf/target)
 	stop_projecting()
 	if(!current_slide)
@@ -72,19 +72,19 @@
 			break
 	projection = new projection_type(target)
 	projection.set_source(current_slide)
-	events_repository.register(/decl/observ/moved, src, src, .proc/check_projections)
+	events_repository.register(/decl/observ/moved, src, src, PROC_REF(check_projections))
 	update_icon()
 
 /obj/item/storage/slide_projector/attack_self(mob/user)
 	interact(user)
 
-/obj/item/storage/slide_projector/interact(mob/user)	
+/obj/item/storage/slide_projector/interact(mob/user)
 	var/data = list()
 	if(projection)
 		data += "<a href='?src=\ref[src];stop_projector=1'>Disable projector</a>"
 	else
 		data += "Projector inactive"
-	
+
 	var/table = list("<table><th>#<th>SLIDE<th>SHOW")
 	var/i = 1
 	for(var/obj/item/I in contents)
@@ -115,7 +115,7 @@
 			return TOPIC_HANDLED
 		set_slide(contents[index])
 		. = TOPIC_REFRESH
-	
+
 	if(. == TOPIC_REFRESH)
 		interact(user)
 
@@ -132,7 +132,7 @@
 	var/weakref/source
 
 /obj/effect/projection/on_update_icon()
-	add_filter("glow", 1, list("drop_shadow", color = COLOR_WHITE, size = 4, offset = 1,x = 0, y = 0))
+	add_filter("glow", 1, list(type = "drop_shadow", color = COLOR_WHITE, size = 4, offset = 1,x = 0, y = 0))
 	project_icon()
 
 /obj/effect/projection/proc/project_icon()

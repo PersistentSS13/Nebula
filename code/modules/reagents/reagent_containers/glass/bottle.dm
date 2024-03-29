@@ -8,7 +8,7 @@
 	icon = 'icons/obj/items/chem/bottle.dmi'
 	icon_state = ICON_STATE_WORLD
 	randpixel = 7
-	center_of_mass = @"{'x':16,'y':15}"
+	center_of_mass = @'{"x":16,"y":15}'
 	amount_per_transfer_from_this = 10
 	possible_transfer_amounts = @"[5,10,15,25,30,60]"
 	w_class = ITEM_SIZE_SMALL
@@ -64,9 +64,9 @@
 	update_icon()
 
 /obj/item/chems/glass/bottle/populate_reagents()
-	. = ..()
 	SHOULD_CALL_PARENT(TRUE)
-	if(reagents.total_volume > 0 && autolabel && !label_text) // don't override preset labels
+	. = ..()
+	if(reagents?.total_volume > 0 && autolabel && !label_text) // don't override preset labels
 		label_text = reagents.get_primary_reagent_name()
 		update_container_name()
 

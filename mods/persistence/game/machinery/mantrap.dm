@@ -63,7 +63,7 @@
 	playsound(src, 'sound/machines/AirlockClose_heavy.ogg', 25, 1)
 	update_use_power(POWER_USE_ACTIVE)
 	queue_icon_update()
-	addtimer(CALLBACK(src, .proc/transport_occupant), 10 SECONDS)
+	addtimer(CALLBACK(src, PROC_REF(transport_occupant)), 10 SECONDS)
 
 /obj/machinery/mantrap/proc/transport_occupant()
 	update_use_power(POWER_USE_IDLE)
@@ -142,7 +142,7 @@
 	name = "circuitboard (mantrap airlock)"
 	build_path = /obj/machinery/mantrap
 	board_type = "machine"
-	origin_tech = "{'engineering':1,'magnets':1}"
+	origin_tech = @'{"engineering":1,"magnets":1}'
 	req_components = list(
 		/obj/item/stock_parts/matter_bin = 2,
 		/obj/item/stock_parts/manipulator = 1

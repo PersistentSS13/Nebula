@@ -7,7 +7,7 @@
 
 	w_class = ITEM_SIZE_LARGE // Not actually that large, but quite heavy.
 
-	origin_tech = "{'programming':2,'magnets':3,'materials':3}"
+	origin_tech = @'{"programming":2, "magnets":3, "materials":3}'
 
 	material = /decl/material/solid/metal/titanium
 	matter = list(

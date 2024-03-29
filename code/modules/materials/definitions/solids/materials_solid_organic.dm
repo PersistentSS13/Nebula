@@ -18,7 +18,7 @@
 	hardness = MAT_VALUE_FLEXIBLE + 10
 	weight = MAT_VALUE_LIGHT
 	melting_point = T0C+371 //assuming heat resistant plastic
-	stack_origin_tech = "{'materials':3}"
+	stack_origin_tech = @'{"materials":3}'
 	conductive = 0
 	construction_difficulty = MAT_VALUE_NORMAL_DIY
 	reflectiveness = MAT_VALUE_SHINY
@@ -32,7 +32,7 @@
 
 /decl/material/solid/organic/plastic/generate_recipes(var/reinforce_material)
 	. = ..()
-	if(reinforce_material)	//recipes below don't support composite materials
+	if(holographic || reinforce_material)	//recipes below don't support composite materials
 		return
 	. += new/datum/stack_recipe/furniture/crate/plastic(src)
 	. += new/datum/stack_recipe/bag(src)
@@ -45,13 +45,7 @@
 /decl/material/solid/organic/plastic/holographic
 	name = "holographic plastic"
 	uid = "solid_holographic_plastic"
-	shard_type = SHARD_NONE
-	hidden_from_codex = TRUE
-	exoplanet_rarity_plant = MAT_RARITY_NOWHERE
-	exoplanet_rarity_gas = MAT_RARITY_NOWHERE
-
-/decl/material/solid/organic/plastic/holographic/get_recipes(reinf_mat)
-	return list()
+	holographic = TRUE
 
 /decl/material/solid/organic/cardboard
 	name = "cardboard"
@@ -69,7 +63,7 @@
 	weight = MAT_VALUE_EXTREMELY_LIGHT - 5
 	ignition_point = T0C+232 //"the temperature at which book-paper catches fire, and burns." close enough
 	melting_point = T0C+232 //temperature at which cardboard walls would be destroyed
-	stack_origin_tech = "{'materials':1}"
+	stack_origin_tech = @'{"materials":1}'
 	door_icon_base = "wood"
 	destruction_desc = "crumples"
 	conductive = 0
@@ -84,7 +78,7 @@
 
 /decl/material/solid/organic/cardboard/generate_recipes(var/reinforce_material)
 	. = ..()
-	if(reinforce_material)	//recipes below don't support composite materials
+	if(holographic || reinforce_material)	//recipes below don't support composite materials
 		return
 	. += create_recipe_list(/datum/stack_recipe/box)
 	. += new/datum/stack_recipe/cardborg_suit(src)
@@ -96,7 +90,7 @@
 	uid                     = "solid_paper"
 	lore_text               = "Low tech writing medium made from cellulose fibers. Also used in wrappings and packaging."
 	color                   = "#cfcece"
-	stack_origin_tech       = "{'materials':1}"
+	stack_origin_tech       = @'{"materials":1}'
 	door_icon_base          = "wood"
 	destruction_desc        = "tears"
 	icon_base               = 'icons/turf/walls/solid.dmi'
@@ -124,7 +118,7 @@
 
 /decl/material/solid/organic/paper/generate_recipes(var/reinforce_material)
 	. = ..()
-	if(reinforce_material)	//recipes below don't support composite materials
+	if(holographic || reinforce_material)	//recipes below don't support composite materials
 		return
 	. += new/datum/stack_recipe/paper_sheets(src)
 
@@ -133,7 +127,7 @@
 	uid = "solid_cotton"
 	use_name = "cotton"
 	color = "#ffffff"
-	stack_origin_tech = "{'materials':2}"
+	stack_origin_tech = @'{"materials":2}'
 	door_icon_base = "wood"
 	ignition_point = T0C+232
 	melting_point = T0C+300
@@ -154,7 +148,7 @@
 
 /decl/material/solid/organic/cloth/generate_recipes(var/reinforce_material)
 	. = ..()
-	if(reinforce_material)	//recipes below don't support composite materials
+	if(holographic || reinforce_material)	//recipes below don't support composite materials
 		return
 	. += new/datum/stack_recipe/cloak(src)
 	. += new/datum/stack_recipe/banner(src)
@@ -313,7 +307,7 @@
 
 /decl/material/solid/organic/skin/generate_recipes(var/reinforce_material)
 	. = ..()
-	if(reinforce_material)	//recipes below don't support composite materials
+	if(holographic || reinforce_material)	//recipes below don't support composite materials
 		return
 	. += new/datum/stack_recipe/cloak(src)
 	. += new/datum/stack_recipe/banner(src)
@@ -443,7 +437,7 @@
 
 /decl/material/solid/organic/bone/generate_recipes(var/reinforce_material)
 	. = ..()
-	if(!reinforce_material && wall_support_value >= 10)
+	if(!holographic && !reinforce_material && wall_support_value >= 10)
 		. += new/datum/stack_recipe/furniture/girder(src)
 		. += new/datum/stack_recipe/furniture/ladder(src)
 
@@ -478,7 +472,7 @@
 	name = "leather"
 	uid = "solid_leather"
 	color = "#5c4831"
-	stack_origin_tech = "{'materials':2}"
+	stack_origin_tech = @'{"materials":2}'
 	flags = MAT_FLAG_PADDING
 	ignition_point = T0C+300
 	melting_point = T0C+300
@@ -498,7 +492,7 @@
 
 /decl/material/solid/organic/leather/generate_recipes(var/reinforce_material)
 	. = ..()
-	if(reinforce_material)	//recipes below don't support composite materials
+	if(holographic || reinforce_material)	//recipes below don't support composite materials
 		return
 	. += new/datum/stack_recipe/cloak(src)
 	. += new/datum/stack_recipe/banner(src)
