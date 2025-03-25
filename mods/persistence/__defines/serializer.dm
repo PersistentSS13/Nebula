@@ -26,12 +26,11 @@
 #define SQLS_TABLE_DATUM            "thing"
 #define SQLS_TABLE_DATUM_VARS       "thing_var"
 #define SQLS_TABLE_LIST_ELEM        "list_element"
-#define SQLS_TABLE_Z_LEVELS         "z_level"
-#define SQLS_TABLE_AREAS            "areas"
-#define SQLS_TABLE_LIMBO            "limbo"
-#define SQLS_TABLE_LIMBO_DATUM      "limbo_thing"
-#define SQLS_TABLE_LIMBO_DATUM_VARS "limbo_thing_var"
-#define SQLS_TABLE_LIMBO_LIST_ELEM  "limbo_list_element"
+#define SQLS_TABLE_INSTANCES        "instances"
+#define SQLS_TABLE_WORLDS           "worldsaves"
+#define SQLS_TABLE_CHARACTERSAVES   "charactersaves"
+#define SQLS_TABLE_CHARACTERS       "characters"
+
 
 /////////////////////////////////////////////////////////
 // SQL Stored Functions Names
@@ -41,8 +40,6 @@
 #define SQLS_FUNC_GET_LAST_SAVE_TIME     "GetLastWorldSaveTime"
 ///Log to the table when a world save begins, returns the current save log id.
 #define SQLS_FUNC_LOG_SAVE_WORLD_START   "LogSaveWorldStart"
-///Log to the table when a limbo/storage save begins, returns the current save log id.
-#define SQLS_FUNC_LOG_SAVE_STORAGE_START "LogSaveStorageStart"
 ///Log to the table when any save ends, returns the current save log id.
 #define SQLS_FUNC_LOG_SAVE_END           "LogSaveEnd"
 
@@ -53,6 +50,13 @@
 ///Delete the current world save from the db, so we can write a newer one. Procedures are executed with CALL, and don't return anything.
 #define SQLS_PROC_CLEAR_WORLD_SAVE       "ClearWorldSave"
 
+/////////////////////////////////////////////////////////
+// Character Status ENUM
+/////////////////////////////////////////////////////////
+#define SQLS_CHAR_STATUS_CRYO  1
+#define SQLS_CHAR_STATUS_WORLD  2
+#define SQLS_CHAR_STATUS_FIRST  3
+#define SQLS_CHAR_STATUS_DELETED  4
 /////////////////////////////////////////////////////////
 // SQL Helpers
 /////////////////////////////////////////////////////////

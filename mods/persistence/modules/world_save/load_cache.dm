@@ -1,3 +1,20 @@
+SAVED_VAR(/datum/persistence/load_cache/world, z_levels)
+SAVED_VAR(/datum/persistence/load_cache/world, area_chunks)
+
+SAVED_VAR(/datum/persistence/load_cache/z_level, index)
+SAVED_VAR(/datum/persistence/load_cache/z_level, dynamic)
+SAVED_VAR(/datum/persistence/load_cache/z_level, default_turf)
+SAVED_VAR(/datum/persistence/load_cache/z_level, metadata)
+SAVED_VAR(/datum/persistence/load_cache/z_level, areas)
+SAVED_VAR(/datum/persistence/load_cache/z_level, level_data_subtype)
+
+SAVED_VAR(/datum/persistence/load_cache/area_chunk, name)
+SAVED_VAR(/datum/persistence/load_cache/area_chunk, area_type)
+SAVED_VAR(/datum/persistence/load_cache/area_chunk, turfs)
+
+SAVED_VAR(/datum/persistence/load_cache/character, target)
+
+
 /datum/persistence/load_cache/thing
 	var/p_id
 	var/thing_type
@@ -38,6 +55,14 @@
 	key_type = sql_row["key_type"]
 	value = sql_row["value"]
 	value_type = sql_row["value_type"]
+
+/datum/persistence/load_cache/world
+	var/list/z_levels = list()
+	var/list/area_chunks = list()
+
+/datum/persistence/load_cache/character
+	var/mob/target
+
 
 /datum/persistence/load_cache/z_level
 	var/index			// The index in the database for the z_level
@@ -85,51 +110,31 @@
 	var/area_chunks_cached = 0
 
 	var/failed_vars = 0
+	var/datum/persistence/load_cache/world/world_cache_s
 
-/datum/persistence/load_cache/resolver/proc/load_cache()
+
+/datum/persistence/load_cache/resolver/proc/load_cache(var/instanceid)
 	clear_cache()
 
 	if(!establish_save_db_connection())
 		CRASH("Load_Cache: Couldn't establish DB connection!")
 	// Deserialize levels
 	var/start = world.timeofday
-	var/DBQuery/query = dbcon_save.NewQuery("SELECT `z`,`dynamic`,`default_turf`,`metadata`,`areas`,`level_data_subtype` FROM `[SQLS_TABLE_Z_LEVELS]`;")
-	SQLS_EXECUTE_AND_REPORT_ERROR(query, "DESERIALIZE Z LEVELS FAILED:")
-	while(query.NextRow())
-		var/items = query.GetRowData()
-		var/datum/persistence/load_cache/z_level/z_level = new(items)
-		z_levels += z_level
-		z_levels_cached++
-		CHECK_TICK
-	to_world_log("Took [(world.timeofday - start) / 10]s to cache [z_levels_cached] z_levels")
-	
-	// Deserialize areas
-	start = world.timeofday
-	query = dbcon_save.NewQuery("SELECT `type`,`name`,`turfs` FROM `[SQLS_TABLE_AREAS]`;")
-	SQLS_EXECUTE_AND_REPORT_ERROR(query, "DESERIALIZE AREAS FAILED:")
-	while(query.NextRow())
-		var/items = query.GetRowData()
-		var/datum/persistence/load_cache/area_chunk/area_chunk = new(items)
-		area_chunks += area_chunk
-		area_chunks_cached++
-		CHECK_TICK
-	to_world_log("Took [(world.timeofday - start) / 10]s to cache [area_chunks_cached] area_chunks")
 
 	// Deserialize the objects
 	start = world.timeofday
-	query = dbcon_save.NewQuery("SELECT `p_id`,`type`,`x`,`y`,`z` FROM `[SQLS_TABLE_DATUM]`;")
+	var/DBQuery/query = dbcon_save.NewQuery("SELECT `p_id`,`type`,`x`,`y`,`z` FROM `[SQLS_TABLE_DATUM]` WHERE `InstanceID` = [instanceid];")
 	SQLS_EXECUTE_AND_REPORT_ERROR(query, "DESERIALIZE DATUMS FAILED:")
 	while(query.NextRow())
 		var/items = query.GetRowData()
 		var/datum/persistence/load_cache/thing/T = new(items)
-		things[items["p_id"]] = T
+		things["[items["p_id"]]"] = T
 		things_cached++
 		CHECK_TICK
-	to_world_log("Took [(world.timeofday - start) / 10]s to cache [things_cached] things.")
 
-	// Deserialize vars
+// Deserialize vars
 	start = world.timeofday
-	query = dbcon_save.NewQuery("SELECT `thing_id`,`key`,`type`,`value` FROM `[SQLS_TABLE_DATUM_VARS]`;")
+	query = dbcon_save.NewQuery("SELECT `thing_id`,`key`,`type`,`value` FROM `[SQLS_TABLE_DATUM_VARS]` WHERE `InstanceID` = [instanceid];")
 	SQLS_EXECUTE_AND_REPORT_ERROR(query, "DESERIALIZE VARS FAILED:")
 	while(query.NextRow())
 		var/items = query.GetRowData()
@@ -141,18 +146,18 @@
 		else
 			failed_vars++
 		CHECK_TICK
-	to_world_log("Took [(world.timeofday - start) / 10]s to cache [vars_cached] thing vars.")
+
+	to_world_log("Took [(world.timeofday - start) / 10]s to cache [things_cached] things.")
 
 	// Deserialized lists
 	start = world.timeofday
-	query = dbcon_save.NewQuery("SELECT `list_id`,`key`,`key_type`,`value`,`value_type` FROM `[SQLS_TABLE_LIST_ELEM]`;")
+	query = dbcon_save.NewQuery("SELECT `list_id`,`key`,`key_type`,`value`,`value_type` FROM `[SQLS_TABLE_LIST_ELEM]` WHERE `InstanceID` = [instanceid];")
 	SQLS_EXECUTE_AND_REPORT_ERROR(query, "DESERIALIZE LIST FAILED:")
 	while(query.NextRow())
 		var/items = query.GetRowData()
 		var/datum/persistence/load_cache/list_element/element = new(items)
 		LAZYADD(lists["[items["list_id"]]"], element)
 		lists_cached++
-		CHECK_TICK
 	to_world_log("Took [(world.timeofday - start) / 10]s to cache [lists_cached] lists")
 
 	// Done!

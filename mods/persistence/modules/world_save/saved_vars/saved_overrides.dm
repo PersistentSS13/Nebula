@@ -9,7 +9,8 @@
 
 /obj/machinery/embedded_controller/before_save()
 	..()
-	saved_memory = program.memory
+	if(istype(program))
+		saved_memory = program.memory
 
 /obj/machinery/embedded_controller/after_deserialize()
 	..()

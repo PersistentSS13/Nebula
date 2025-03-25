@@ -1,3 +1,8 @@
+var/global/list/all_cryopods = list()
+/proc/FindCryopod(var/uid)
+	for(var/obj/machinery/cryopod/pod in all_cryopods)
+		if(pod.unique_id == "[uid]")
+			return pod
 /*
  * Cryogenic refrigeration unit. Basically a despawner.
  * Stealing a lot of concepts/code from sleepers due to massive laziness.
@@ -166,6 +171,7 @@
 	stat_immune = 0
 	var/open_sound = 'sound/machines/podopen.ogg'
 	var/close_sound = 'sound/machines/podclose.ogg'
+	var/unique_id
 
 /obj/machinery/cryopod/robot
 	name = "robotic storage unit"
@@ -245,10 +251,16 @@
 	..()
 
 /obj/machinery/cryopod/Destroy()
+	all_cryopods  -= src
 	clear_control_computer()
 	if(occupant)
 		occupant.forceMove(loc)
 		occupant.resting = 1
+	. = ..()
+
+/obj/machinery/cryopod/New()
+	unique_id = "[make_sequential_guid(/obj/machinery/cryopod)]"
+	all_cryopods += src
 	. = ..()
 
 /obj/machinery/cryopod/Initialize()

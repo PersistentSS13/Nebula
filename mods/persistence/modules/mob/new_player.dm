@@ -26,18 +26,69 @@
 		return // Not ready yet.
 	var/output = list()
 	output += "<div style='text-align:center;'>"
-	output += "<i>[global.using_map.get_map_info()]</i>"
-	output +="<hr>"
+//	output += "<i>[global.using_map.get_map_info()]</i>"
+
+	var/slots = 2
+	if(check_rights(R_DEBUG) || check_rights(R_ADMIN))
+		slots+=2
+	output += "<div style='width:575px;max-width:575px;border-width:2px;border-style:solid;border-color:black;display:flex;text-align:center;'>"
+	for(var/i= 1 to slots)
+		var/state
+		output += "<div style='width:150px;max-width:150px;border-width:2px;border-style:solid;border-color:black;'>"
+		if(!establish_save_db_connection())
+			CRASH("Couldn't connect realname duplication check")
+		var/DBQuery/query = dbcon_save.NewQuery("SELECT `RealName`, `CharacterID`, `status` FROM `[SQLS_TABLE_CHARACTERS]` WHERE `ckey` = '[sanitize_sql(key)]' AND `slot` = [i] ORDER BY `CharacterID` DESC LIMIT 1;")
+		SQLS_EXECUTE_AND_REPORT_ERROR(query, "Character Slot load failed")
+		var/sub_output = ""
+		var/ico = "0"
+		send_rsc(src, icon('icons/mob/hologram.dmi', "Question"), "[0].png")
+		send_rsc(src, icon('icons/obj/Cryogenic2.dmi', "body_scanner_0"), "[1].png")
+
+		if(query.NextRow())
+			var/realname = query.item[1]
+			var/characterid = query.item[2]
+			state = query.item[3]
+			sub_output += "<b>[realname]</b><br><hr>"
+			switch(text2num(state))
+				if(SQLS_CHAR_STATUS_CRYO) // cryo
+					ico =  "1"
+					sub_output += "<a href='byond://?src=\ref[src];joinGame=[characterid]'>Select</a>"
+					sub_output += "<a href='byond://?src=\ref[src];deleteCharacter=[characterid];realname=[realname]'>Delete</a>"
+				if(SQLS_CHAR_STATUS_WORLD) // world
+					for(var/datum/mind/target_mind in global.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
+						if(target_mind.unique_id == characterid)
+							if(!target_mind.current || istype(target_mind.current, /mob/new_player) || QDELETED(target_mind.current))
+								continue
+							transition_to_game()
+							to_chat(src, SPAN_NOTICE("A character is already in game."))
+							spawning = TRUE
+							target_mind.current.key = key
+							target_mind.current.on_persistent_join()
+							qdel(src)
+							return
+					ico =  "1"
+					sub_output += "<a href='byond://?src=\ref[src];joinGame=[characterid];status=[state]'>Select</a>"
+					sub_output += "<a href='byond://?src=\ref[src];deleteCharacter=[characterid];realname=[realname]'>Delete</a>"
+				if(SQLS_CHAR_STATUS_FIRST) // first
+					ico =  "1"
+					sub_output += "<a href='byond://?src=\ref[src];joinGame=[characterid];status=[state]'>Select</a>"
+					sub_output += "<a href='byond://?src=\ref[src];deleteCharacter=[characterid];realname=[realname]'>Delete</a>"
+				if(SQLS_CHAR_STATUS_DELETED) // deleted
+					ico =  "1"
+					sub_output += "<a href='byond://?src=\ref[src];setupCharacter=[i]'>Create</a>"
+
+		else // empty character slot.
+			sub_output += "<b>Open Slot #[i]</b><br><hr>"
+			sub_output += "<a href='byond://?src=\ref[src];setupCharacter=[i]'>Create</a><br>"
+		output += "<img style='width:100px;height:100px;'src=\"[ico].png\"><br>"
+		output += sub_output
+
+		output += "</div>"
+	output +="</div><hr>"
+
 	if(GAME_STATE < RUNLEVEL_GAME)
 		//Do not let clients design characters before load. It causes issues, and we don't use rounds anyways.
 		output += "<p>Loading...</p>"
-	else
-		output += "<div style='text-align:center;'>"
-		output += "<a href='byond://?src=\ref[src];setupCharacter=1'>Create a new Character</a> "
-		output += "<a href='byond://?src=\ref[src];joinGame=1'>Select a Character</a><br><br>"
-		output += "<a href='byond://?src=\ref[src];deleteCharacter=1'>Delete a Character</a>"
-		output += "</div>"
-
 	output += "<br>"
 	output += "<div style='text-align:center;'>"
 	if(check_rights(R_DEBUG, FALSE, client))
@@ -64,14 +115,18 @@
 		return TOPIC_NOACTION
 
 	if(href_list["setupCharacter"])
-		newCharacterPanel()
+		newCharacterPanel(href_list["setupCharacter"])
 		return 0
 
 	if(href_list["deleteCharacter"])
-		characterSelect(CHARSELECTDELETE)
+		if(input("Are you SURE you want to delete [href_list["realname"]]? THIS IS PERMANENT. Enter the character\'s full name to confirm.", "DELETE A CHARACTER", "") == href_list["realname"])
+			SSpersistence.AcceptDeath(href_list["deleteCharacter"], sanitize_sql(key))
+			panel.close()
+			show_lobby_menu()
 		return 0
 	if(href_list["joinGame"])
-		characterSelect(CHARSELECTLOAD)
+		joinGamePersistent(href_list["joinGame"], href_list["status"])
+
 		return 0
 
 	if(href_list["observeGame"])
@@ -99,7 +154,7 @@
 		if(charselect)
 			charselect.close()
 			charselect = null
-		joinGame(characters[char_index])
+//		joinGame(characters[char_index])
 
 	if(href_list["Delete"])
 		var/char_index = text2num(href_list["Delete"])
@@ -111,95 +166,17 @@
 
 		var/char_name = characters[char_index]
 		if(input("Are you SURE you want to delete [char_name]? THIS IS PERMANENT. Enter the character\'s full name to confirm.", "DELETE A CHARACTER", "") == char_name)
+			return ":)"
 
-			var/new_db_connection = FALSE
-			if(!check_save_db_connection())
-				if(!establish_save_db_connection())
-					CRASH("new_player: Couldn't establish DB connection while deleting a character!")
-				new_db_connection = TRUE
-
-			var/DBQuery/char_query = dbcon_save.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[sanitize_sql(key)]' AND `metadata2` = '[sanitize_sql(char_name)]'")
-			if(!char_query.Execute())
-				to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
-			if(char_query.NextRow())
-				var/list/char_items = char_query.GetRowData()
-				var/char_key = char_items["key"]
-				SSpersistence.RemoveFromLimbo(char_key, LIMBO_MIND, ckey)
-				to_chat(src, SPAN_NOTICE("Character Delete Completed."))
-			else
-				to_chat(src, SPAN_NOTICE("Delete Failed! Contact a developer."))
-
-			if(new_db_connection)
-				close_save_db_connection()
-
-/mob/new_player/proc/newCharacterPanel()
-	for(var/mob/M in SSmobs.mob_list)
-		if(M.loc && !istype(M, /mob/new_player) && (M.saved_ckey == ckey || M.saved_ckey == "@[ckey]"))
-			to_chat(src, SPAN_NOTICE("You already have a character in game!"))
-			return
-
+/mob/new_player/proc/newCharacterPanel(var/slot)
 	if(!check_rights(R_DEBUG, FALSE, src))
 		client.prefs.real_name = null	// This will force players to set a new character name every time they open character creator
 										// Meaning they cant just click finalize as soon as they open the character creator. They are forced to engage.
+	client.prefs.creation_slot = slot
 	client.prefs.open_setup_window(src)
 	return
 
-/mob/new_player/proc/characterSelect(var/func = CHARSELECTLOAD)
-	if(!config.enter_allowed && !check_rights(R_ADMIN, FALSE, src))
-		to_chat(src, SPAN_WARNING("There is an administrative lock on entering the game!"))
-		return
-	if(func == CHARSELECTLOAD)
-		for(var/datum/mind/target_mind in global.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
-			if(cmptext(target_mind.key, key))
-				if(!target_mind.current || istype(target_mind.current, /mob/new_player) || QDELETED(target_mind.current))
-					continue
-				transition_to_game()
-				to_chat(src, SPAN_NOTICE("A character is already in game."))
-				spawning = TRUE
-				target_mind.current.key = key
-				target_mind.current.on_persistent_join()
-				qdel(src)
-				return
-
-	characters = list()
-
-	var/func_text = "Load"
-	if(func == CHARSELECTDELETE)
-		func_text = "Delete"
-	var/slots = 2
-	if(check_rights(R_DEBUG, FALSE, src) || check_rights(R_ADMIN, FALSE, src))
-		slots+=2
-	var/output = list()
-	output += "<div style='text-align:center;'>"
-	output += "Select a character to [func_text].<br><br>"
-
-	var/new_db_connection = FALSE
-	if(!check_save_db_connection())
-		if(!establish_save_db_connection())
-			CRASH("new_player: Couldn't establish DB connection while selecting a character!")
-		new_db_connection = TRUE
-
-	var/DBQuery/char_query = dbcon_save.NewQuery("SELECT `metadata2` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[sanitize_sql(key)]'")
-	if(!char_query.Execute())
-		to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
-	for(var/i=1, i<=slots, i++)
-		if(char_query.NextRow())
-			var/list/char_items = char_query.GetRowData()
-			var/char_name = char_items["metadata2"]
-			if(char_name)
-				characters += char_name
-				output += "<a href='byond://?src=\ref[src];[func_text]=[length(characters)]'>[char_name]</a><br>"
-		else
-			output += "*Open Slot*<br>"
-	output += "</div>"
-	charselect = new(src, "[func_text]","[func_text] a character.", 280, 300, src)
-	charselect.set_content(JOINTEXT(output))
-	charselect.open()
-
-	if(new_db_connection)
-		close_save_db_connection()
-
-/mob/new_player/proc/joinGame(selected_char_name)
+/mob/new_player/proc/joinGamePersistent(var/c_id, var/status)
 	if(GAME_STATE < RUNLEVEL_GAME)
 		to_chat(src, SPAN_NOTICE("Wait until the round starts to join."))
 		return
@@ -210,62 +187,32 @@
 		to_chat(src, SPAN_NOTICE("Already set to spawning."))
 		return
 
-	for(var/datum/mind/target_mind in global.player_minds)   // A mob with a matching saved_ckey is already in the game, put the player back where they were.
-		if(cmptext(target_mind.key, key))
-			if(!target_mind.current || istype(target_mind.current, /mob/new_player) || QDELETED(target_mind.current))
-				continue
-			transition_to_game()
-			to_chat(src, SPAN_NOTICE("A character is already in game."))
-			spawning = TRUE
-			target_mind.current.key = key
-			target_mind.current.on_persistent_join()
-			qdel(src)
-			return
-	// Query for the character associated with this ckey
-	var/new_db_connection = FALSE
-	if(!check_save_db_connection())
-		if(!establish_save_db_connection())
-			CRASH("new_player: Couldn't establish DB connection while joining as character!")
-		new_db_connection = TRUE
+	var/mob/person = SSpersistence.LoadCharacter(c_id)
+	switch(text2num(status))
+		if(SQLS_CHAR_STATUS_CRYO)
+			person.LateInitialize()
+		if(SQLS_CHAR_STATUS_FIRST)
+			var/datum/job/job = SSjobs.get_by_path(global.using_map.default_job_type)
+			var/decl/spawnpoint/spawnpoint = job.get_spawnpoint(client)
+			var/turf/spawn_turf
+			spawn_turf = SAFEPICK(spawnpoint.get_spawn_turfs(person))
+			if(!spawn_turf && istype(person, /mob/living/carbon/human))
+				person.LateInitialize()
+			else
+				person.loc = spawn_turf
+				spawnpoint.after_join(person)
+				person.LateInitialize()
+		if(SQLS_CHAR_STATUS_WORLD)
+			person.LateInitialize()
+		else
+			person.LateInitialize()
+	transition_to_game()
+	person.key = key
+	person.on_persistent_join()
 
-	spawning = TRUE
-	var/DBQuery/char_query = dbcon_save.NewQuery("SELECT `key` FROM `limbo` WHERE `type` = '[LIMBO_MIND]' AND `metadata` = '[sanitize_sql(key)]' AND `metadata2` = '[sanitize_sql(selected_char_name)]'")
-	if(!char_query.Execute())
-		to_world_log("CHARACTER DESERIALIZATION FAILED: [char_query.ErrorMsg()].")
-	if(char_query.NextRow())
-		var/list/char_items = char_query.GetRowData()
-		var/list/deserialized = SSpersistence.LoadFromLimbo(char_items["key"], LIMBO_MIND)
-		var/datum/mind/target_mind
-		for(var/thing in deserialized)
-			if(istype(thing, /datum/mind))
-				var/datum/mind/check_mind = thing
-				if(cmptext(check_mind.key, key))
-					target_mind = check_mind
-				break
-		if(!target_mind)
-			to_world_log("CHARACTER DESERIALIZATION FAILED: Could not locate key [char_items["key"]] from limbo list.")
-			to_chat(src, SPAN_WARNING("Something has gone wrong while returning you to your body. Contact an admin."))
-			spawning = FALSE
+	qdel(src)
 
-			if(new_db_connection)
-				close_save_db_connection()
-
-			return
-		var/mob/person = target_mind.current
-		transition_to_game()
-		person.key = key
-		person.on_persistent_join()
-		qdel(src)
-
-		if(new_db_connection)
-			close_save_db_connection()
-		return
-	to_chat(src, SPAN_NOTICE("Load Failed! Contact a developer."))
-	message_staff("'[key]''s character '[selected_char_name]' failed to load on character select!")
 	spawning = FALSE
-
-	if(new_db_connection)
-		close_save_db_connection()
 	return
 
 /mob/new_player/Move()

@@ -66,7 +66,8 @@
 
 	// Find the starting network, and create the crew record + user account for convenience.
 
-	// Crew record is created on spawn, just reuse it
+	CreateModularRecord(user)
+
 	var/datum/computer_file/report/crew_record/CR = get_crewmember_record(user.real_name)
 	if(!CR)
 		error("obj/machinery/cryopod/chargen/proc/send_to_outpost(): Missing crew record for '[user.real_name]'(Ckey:'[user.ckey]')!")
@@ -90,9 +91,8 @@
 	unready()
 	SSchargen.release_spawn_pod(get_area(src))
 
-	// Add the mob to limbo for safety. Mark for removal on the next save.
-	SSpersistence.AddToLimbo(list(user, user.mind), user.mind.unique_id, LIMBO_MIND, user.mind.key, user.mind.current.real_name, TRUE, user.mind.key)
-	SSpersistence.limbo_removals += list(list(sanitize_sql(user.mind.unique_id), LIMBO_MIND))
+	// Save the mob for savety, and update the character status to 'loaded'
+	SSpersistence.SaveCharacter(user, SQLS_CHAR_STATUS_WORLD)
 
 	var/decl/spawnpoint/cryo/spawnpoint = GET_DECL(/decl/spawnpoint/cryo)
 	for(var/turf/T in spawnpoint.get_spawn_turfs())
@@ -102,7 +102,7 @@
 		go_out()
 		C.set_occupant(user, silent = TRUE)
 		C.on_mob_spawn()
-		to_chat(user, SPAN_NOTICE("You've waken up from the cryostasis."))
+		to_chat(user, SPAN_NOTICE("You've woke up from the cryostasis."))
 		return
 
 	// If we didn't find a empty turf, put them on a filled one

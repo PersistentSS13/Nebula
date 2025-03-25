@@ -34,20 +34,42 @@
 // object: A thing to serialize.
 // object_parent: That object's parent. Could be a container or other. Optional.
 // z: The z_level of this object. Also optional. Used for reordering z_levels in the world save
-/serializer/proc/Serialize(var/object, var/object_parent, var/z)
+/serializer/proc/Serialize(var/object, var/object_parent, var/z, var/instanceid = 0)
 	if(islist(object))
-		return SerializeList(object, object_parent)
-	return SerializeDatum(object, object_parent)
+		return SerializeList(object, object_parent, instanceid)
+	return SerializeDatum(object, object_parent, instanceid)
 
 // Serialize an object datum. Returns the appropriate serialized form of the object. What's outputted depends on the serializer.
-/serializer/proc/SerializeDatum(var/datum/object, var/object_parent)
+/serializer/proc/SerializeDatum(var/datum/object, var/object_parent, var/instanceid = 0)
 
 // Serialize a list. Returns the appropriate serialized form of the list. What's outputted depends on the serializer.
-/serializer/proc/SerializeList(var/list/list, var/list_parent)
+/serializer/proc/SerializeList(var/list/list, var/list_parent, var/instanceid = 0)
+
+/serializer/proc/GetLatestWorldid()
+
+/serializer/proc/GetLatestCharacterSave(var/c_id)
+
+/serializer/proc/GetWorldInstanceid(var/worldid)
 
 /serializer/proc/DeserializeDatum(var/datum/persistence/load_cache/thing/object)
 
 /serializer/proc/DeserializeList(var/raw_list)
+
+/serializer/proc/GetHead(var/instanceid)
+
+/serializer/proc/FinishWorld(var/instanceid, var/datum/persistence/load_cache/world/world_cache)
+
+/serializer/proc/SaveCharacter(var/instanceid, var/datum/persistence/load_cache/character/head, var/status)
+
+/serializer/proc/NewCharacter()
+
+/serializer/proc/UpdateCharacterOriginalSave(var/c_id, var/cs_id)
+
+/serializer/proc/AcceptDeath(var/c_id)
+
+/serializer/proc/VerifyCharacterOwner(var/c_id, var/ckey)
+
+/serializer/proc/ClearName(var/realname)
 
 /serializer/proc/QueryAndDeserializeDatum(var/object_id, var/reference_only = FALSE)
 	var/datum/existing = reverse_map["[object_id]"]
@@ -57,7 +79,7 @@
 	if(reference_only && !resolver.things["[object_id]"])
 		return null
 	if(!istype(resolver.things["[object_id]"], /datum/persistence/load_cache/thing))
-		to_world_log("serializer/QueryAndDeserializeDatum(): Got a reference to a thing with a bad type. ([object_id])")
+		to_world_log("serializer/QueryAndDeserializeDatum(): Got a reference to a thing with a bad type. ([object_id], [resolver.things["[object_id]"]])")
 		return null
 	return DeserializeDatum(resolver.things["[object_id]"])
 
@@ -92,8 +114,6 @@
 /serializer/proc/save_z_level_remaps()
 	return FALSE
 
-/serializer/proc/save_area_chunks()
-	return FALSE
 
 /serializer/proc/_before_serialize()
 	return
@@ -105,5 +125,5 @@
 /serializer/proc/_after_deserialize()
 	return
 
-/serializer/proc/count_saved_datums()
+/serializer/proc/count_saved_datums(var/instanceid)
 	return

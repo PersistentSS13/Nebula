@@ -75,7 +75,7 @@
 	who_put_me_in = null
 	return
 
-// Players shoved into this will be removed from the game and added to limbo to be deserialized later.
+// Players shoved into this will be removed from the game and instanced to be deserialized later.
 /obj/machinery/cryopod/despawner
 	name = "cryo storage pod"
 	time_till_despawn = 60 SECONDS
@@ -157,10 +157,10 @@
 
 	var/mob/living/carbon/human/H = occupant
 	if(istype(H))
-		H.home_spawn = src
+		H.home_spawn = src.unique_id
 		var/datum/mind/occupant_mind = occupant.mind
 		if(occupant_mind)
-			var/success = SSpersistence.AddToLimbo(list(occupant, occupant_mind), occupant_mind.unique_id, LIMBO_MIND, occupant_mind.key, occupant_mind.current.real_name, TRUE, (who_put_me_in || occupant.ckey))
+			var/success = SSpersistence.SaveCharacter(occupant, SQLS_CHAR_STATUS_CRYO)
 			if(!success)
 				log_and_message_admins("\The cryopod at ([x], [y], [z]) failed to despawn the occupant [occupant]!")
 				to_chat(occupant, SPAN_WARNING("Something has gone wrong while saving your character. Contact an admin!"))

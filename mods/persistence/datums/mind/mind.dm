@@ -15,7 +15,8 @@ var/global/list/player_minds = list()
 
 /datum/mind/New()
 	. = ..()
-	unique_id = "[make_sequential_guid(/datum/mind)]"
+//	unique_id = "[make_sequential_guid(/datum/mind)]"
+	unique_id = 0
 	global.player_minds += src
 
 /datum/mind/Destroy()

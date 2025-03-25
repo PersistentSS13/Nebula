@@ -63,6 +63,8 @@ var/global/list/time_prefs_fixed = list()
 	var/datum/category_collection/player_setup_collection/player_setup
 	var/datum/browser/panel
 
+	var/creation_slot = 0 // which slot the character will be created under.
+
 /datum/preferences/New(client/C)
 	if(istype(C))
 

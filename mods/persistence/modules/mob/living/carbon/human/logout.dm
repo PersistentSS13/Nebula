@@ -38,14 +38,17 @@
 
 	addtimer(CALLBACK(src, /mob/living/carbon/human/proc/goto_sleep), 5 MINUTES)
 
-	var/obj/bed = locate(/obj/structure/bed) in get_turf(src)
-	var/obj/cryopod = locate(/obj/machinery/cryopod) in get_turf(src)
-	if(istype(bed))
-		// We logged out in a bed or cryopod. Set this as home_spawn.
-		home_spawn = bed
-	if(istype(cryopod))
-		// We logged out in a bed or cryopod. Set this as home_spawn.
-		home_spawn = cryopod
+//	var/obj/bed = locate(/obj/structure/bed) in get_turf(src)
+//	var/obj/cryopod = locate(/obj/machinery/cryopod) in get_turf(src)
+
+	// home_spawn  should be set just before a save.
+
+	// if(istype(bed))
+	// 	// We logged out in a bed or cryopod. Set this as home_spawn.
+	// 	home_spawn = bed.
+	// if(istype(cryopod))
+	// 	// We logged out in a bed or cryopod. Set this as home_spawn.
+	// 	home_spawn = cryopod
 
 /mob/living/carbon/human/proc/goto_sleep()
 	if(istype(client))
