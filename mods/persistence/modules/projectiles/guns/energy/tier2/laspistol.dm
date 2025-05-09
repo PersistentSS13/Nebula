@@ -1,5 +1,5 @@
-/obj/item/gun/energy/laser/pistol/advanced
-	name = "Laser 'Martin' EG"
+/obj/item/gun/energy/laser/pistol/tiertwo
+	name = "Laser 'Martin' T2-EG"
 	desc = "Laser pistol used by modern high-tech military groups. Compact, quick-firing, and boasts acceptable charge capacity due to advanced construction. Fires Alpha-type laser beams."
 	icon = 'mods/persistence/icons/obj/guns/tier2/laspistol.dmi'
 	slot_flags = SLOT_LOWER_BODY
@@ -8,7 +8,7 @@
 	max_shots = 12
 	fire_delay = 3
 	force = 3
-	origin_tech = "{'combat':4,'magnets':3,'engineering':4,'materials':3}"
+	origin_tech = "{'combat':15,'engineering':15,'materials':6,'magnets':6}"
 	projectile_type = /obj/item/projectile/beam/smalllaser
 	material = /decl/material/solid/metal/titanium
 	matter = list(

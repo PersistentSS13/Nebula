@@ -12,34 +12,34 @@
 	damage = 30
 	distance_falloff = 1
 
-/obj/item/ammo_casing/threefiftyseven/handmade
+/obj/item/ammo_casing/threefiftyseven/tierzero
 	name = "makeshift .357 round"
 	desc = ".357 round of dubious origin. Sports poor range and poor armor penetration due to shoddy construction."
 	icon = 'mods/persistence/icons/obj/ammunition/357/tier0.dmi'
-	projectile_type = /obj/item/projectile/bullet/threefiftyseven/handmade
+	projectile_type = /obj/item/projectile/bullet/threefiftyseven/tierzero
 
-/obj/item/projectile/bullet/threefiftyseven/handmade
+/obj/item/projectile/bullet/threefiftyseven/tierzero
 	damage = 40
 	distance_falloff = 6
 
-/obj/item/ammo_casing/threefiftyseven/simple
+/obj/item/ammo_casing/threefiftyseven/tierone
 	name = "standard .357 round"
 	desc = ".357 round of ancient design. Sports mediocre range due to unimpressive velocity."
 	icon = 'mods/persistence/icons/obj/ammunition/357/tier1.dmi'
-	projectile_type = /obj/item/projectile/bullet/threefiftyseven/simple
+	projectile_type = /obj/item/projectile/bullet/threefiftyseven/tierone
 
-/obj/item/projectile/bullet/threefiftyseven/simple
+/obj/item/projectile/bullet/threefiftyseven/tierone
 	damage = 50
 	distance_falloff = 4
 	penetration_modifier = 0.9
 
-/obj/item/ammo_casing/threefiftyseven/advanced
+/obj/item/ammo_casing/threefiftyseven/tiertwo
 	name = "advanced .357 round"
 	desc = ".357 round of modern design. Sports middling range and acceptable armor penetration due to modern construction techniques."
 	icon = 'mods/persistence/icons/obj/ammunition/357/tier2.dmi'
-	projectile_type = /obj/item/projectile/bullet/threefiftyseven/advanced
+	projectile_type = /obj/item/projectile/bullet/threefiftyseven/tiertwo
 
-/obj/item/projectile/bullet/threefiftyseven/advanced
+/obj/item/projectile/bullet/threefiftyseven/tiertwo
 	damage = 60
 	distance_falloff = 3
 	penetration_modifier = 0.8

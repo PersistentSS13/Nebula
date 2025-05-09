@@ -21,72 +21,72 @@
 	ammo_type = /obj/item/ammo_casing/twentytwolr
 	max_ammo = 30
 
-/obj/item/ammo_magazine/twentytwolr/handmade
+/obj/item/ammo_magazine/twentytwolr/tierzero
 	name = "makeshift .22LR magazine"
 	desc = ".22LR magazine of dubious origin. Suffers from reduced capacity due to flimsy materials and shoddy craftsmanship."
 	icon_state = "22lr0"
-	origin_tech = "{'combat':1}"
+	origin_tech = "{'combat':5,'materials':5}"
 	material = /decl/material/solid/organic/plastic
-	ammo_type = /obj/item/ammo_casing/twentytwolr/handmade
+	ammo_type = /obj/item/ammo_casing/twentytwolr/tierzero
 	max_ammo = 5
 
-/obj/item/ammo_magazine/box_twentytwolr/handmade
+/obj/item/ammo_magazine/box_twentytwolr/tierzero
 	name = "packet of makeshift .22LR rounds"
 	desc = "Container of dubious origin intended for holding loose .22LR rounds."
 	icon_state = "box_22lr0"
-	origin_tech = "{'combat':1,'materials':1}"
+	origin_tech = "{'combat':5,'materials':5}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic = MATTER_AMOUNT_TRACE
 	)
-	ammo_type = /obj/item/ammo_casing/twentytwolr/handmade
+	ammo_type = /obj/item/ammo_casing/twentytwolr/tierzero
 
-/obj/item/ammo_magazine/twentytwolr/simple
+/obj/item/ammo_magazine/twentytwolr/tierone
 	name = "standard .22LR magazine"
 	desc = ".22LR magazine of ancient design. Servicable capacity, but outpaced by more modern designs."
 	icon_state = "22lr1"
-	origin_tech = "{'combat':2}"
+	origin_tech = "{'combat':8,'materials':8}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic = MATTER_AMOUNT_REINFORCEMENT
 	)
-	ammo_type = /obj/item/ammo_casing/twentytwolr/simple
+	ammo_type = /obj/item/ammo_casing/twentytwolr/tierone
 	max_ammo = 12
 
-/obj/item/ammo_magazine/box_twentytwolr/simple
+/obj/item/ammo_magazine/box_twentytwolr/tierone
 	name = "packet of standard .22LR rounds"
 	desc = "Container of ancient design intended for holding loose .22LR rounds."
 	icon_state = "box_22lr1"
-	origin_tech = "{'combat':2,'materials':2}"
+	origin_tech = "{'combat':8,'materials':8}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic   = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/organic/cardboard = MATTER_AMOUNT_TRACE
 	)
-	ammo_type = /obj/item/ammo_casing/twentytwolr/simple
+	ammo_type = /obj/item/ammo_casing/twentytwolr/tierone
 
-/obj/item/ammo_magazine/twentytwolr/advanced
+/obj/item/ammo_magazine/twentytwolr/tiertwo
 	name = "advanced .22LR magazine"
 	desc = ".22LR magazine of modern design. Good capacity, and can be used well with both handguns and submachine guns alike."
 	icon_state = "22lr2"
-	origin_tech = "{'combat':3}"
+	origin_tech = "{'combat':12,'materials':12}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_REINFORCEMENT
 	)
-	ammo_type = /obj/item/ammo_casing/twentytwolr/advanced
+	ammo_type = /obj/item/ammo_casing/twentytwolr/tiertwo
 	max_ammo = 20
 
-/obj/item/ammo_magazine/box_twentytwolr/advanced
+/obj/item/ammo_magazine/box_twentytwolr/tiertwo
 	name = "packet of advanced .22LR rounds"
 	desc = "Container of modern design intended for holding loose .22LR rounds."
 	icon_state = "box_22lr2"
-	origin_tech = "{'combat':3,'materials':3}"
+	origin_tech = "{'combat':12,'materials':12}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic   = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE,
 		/decl/material/solid/organic/cardboard = MATTER_AMOUNT_TRACE
 	)
-	ammo_type = /obj/item/ammo_casing/twentytwolr/advanced
+	ammo_type = /obj/item/ammo_casing/twentytwolr/tiertwo

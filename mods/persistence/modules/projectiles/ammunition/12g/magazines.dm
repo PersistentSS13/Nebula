@@ -20,74 +20,74 @@
 	icon_state = "box_12g1_buckshot"
 	ammo_type = /obj/item/ammo_casing/twelvegauge/buckshot
 
-/obj/item/ammo_magazine/box_twelvegauge/slug/handmade
+/obj/item/ammo_magazine/box_twelvegauge/slug/tierzero
 	name = "packet of makeshift 12g slug shells"
 	desc = "Container of dubious origin intended for holding loose 12g slug shells."
 	icon_state = "box_12g0_slug"
-	origin_tech = "{'combat':1,'materials':1}"
+	origin_tech = "{'combat':5,'materials':5}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic = MATTER_AMOUNT_TRACE
 	)
-	ammo_type = /obj/item/ammo_casing/twelvegauge/slug/handmade
+	ammo_type = /obj/item/ammo_casing/twelvegauge/slug/tierzero
 
-/obj/item/ammo_magazine/box_twelvegauge/buckshot/handmade
+/obj/item/ammo_magazine/box_twelvegauge/buckshot/tierzero
 	name = "packet of makeshift 12g buckshot shells"
 	desc = "Container of dubious origin intended for holding loose 12g buckshot shells."
 	icon_state = "box_12g0_buckshot"
-	origin_tech = "{'combat':1,'materials':1}"
+	origin_tech = "{'combat':5,'materials':5}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic = MATTER_AMOUNT_TRACE
 	)
-	ammo_type = /obj/item/ammo_casing/twelvegauge/buckshot/handmade
+	ammo_type = /obj/item/ammo_casing/twelvegauge/buckshot/tierzero
 
-/obj/item/ammo_magazine/box_twelvegauge/slug/simple
+/obj/item/ammo_magazine/box_twelvegauge/slug/tierone
 	name = "packet of standard 12g slug shells"
 	desc = "Container of ancient design intended for holding loose 12g slug shells."
 	icon_state = "box_12g1_slug"
-	origin_tech = "{'combat':2,'materials':2}"
+	origin_tech = "{'combat':8,'materials':8}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic   = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/organic/cardboard = MATTER_AMOUNT_TRACE
 	)
-	ammo_type = /obj/item/ammo_casing/twelvegauge/slug/simple
+	ammo_type = /obj/item/ammo_casing/twelvegauge/slug/tierone
 
-/obj/item/ammo_magazine/box_twelvegauge/buckshot/simple
+/obj/item/ammo_magazine/box_twelvegauge/buckshot/tierone
 	name = "packet of standard 12g buckshot shells"
 	desc = "Container of ancient design intended for holding loose 12g buckshot shells."
 	icon_state = "box_12g1_buckshot"
-	origin_tech = "{'combat':2,'materials':2}"
+	origin_tech = "{'combat':8,'materials':8}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic   = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/organic/cardboard = MATTER_AMOUNT_TRACE
 	)
-	ammo_type = /obj/item/ammo_casing/twelvegauge/buckshot/simple
+	ammo_type = /obj/item/ammo_casing/twelvegauge/buckshot/tierone
 
-/obj/item/ammo_magazine/box_twelvegauge/slug/advanced
+/obj/item/ammo_magazine/box_twelvegauge/slug/tiertwo
 	name = "packet of advanced 12g slug shells"
 	desc = "Container of modern design intended for holding loose 12g slug shells."
 	icon_state = "box_12g2_slug"
-	origin_tech = "{'combat':3,'materials':3}"
+	origin_tech = "{'combat':12,'materials':12}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic   = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE,
 		/decl/material/solid/organic/cardboard = MATTER_AMOUNT_TRACE
 	)
-	ammo_type = /obj/item/ammo_casing/twelvegauge/slug/advanced
+	ammo_type = /obj/item/ammo_casing/twelvegauge/slug/tiertwo
 
-/obj/item/ammo_magazine/box_twelvegauge/buckshot/advanced
+/obj/item/ammo_magazine/box_twelvegauge/buckshot/tiertwo
 	name = "packet of advanced 12g buckshot shells"
 	desc = "Container of modern design intended for holding loose 12g buckshot shells."
 	icon_state = "box_12g2_buckshot"
-	origin_tech = "{'combat':3,'materials':3}"
+	origin_tech = "{'combat':12,'materials':12}"
 	material = /decl/material/solid/metal/steel
 	matter = list(
 		/decl/material/solid/organic/plastic   = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/metal/aluminium = MATTER_AMOUNT_TRACE,
 		/decl/material/solid/organic/cardboard = MATTER_AMOUNT_TRACE
 	)
-	ammo_type = /obj/item/ammo_casing/twelvegauge/buckshot/advanced
+	ammo_type = /obj/item/ammo_casing/twelvegauge/buckshot/tiertwo
