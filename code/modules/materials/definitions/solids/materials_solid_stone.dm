@@ -18,21 +18,20 @@
 		/decl/material/solid/silicon = 1
 	)
 
-/decl/material/solid/stone/generate_recipes(var/reinforce_material)
-	. = ..()
-	if(reinforce_material)	//recipes below don't support composite materials
-		return
-	if(wall_support_value >= 10)
-		. += new/datum/stack_recipe/furniture/girder(src)
-	. += new/datum/stack_recipe/furniture/planting_bed(src)
-	. += new/datum/stack_recipe/fountain(src)
-
+// Placeholder for firemaking.
 /decl/material/solid/stone/sandstone
 	name      = "sandstone"
 	uid       = "solid_sandstone"
 	lore_text = "A clastic sedimentary rock. The cost of boosting it to orbit is almost universally much higher than the actual value of the material."
 	value = 1.5
 	melting_point = T0C + 600
+
+/decl/material/solid/stone/flint
+	name      = "flint"
+	uid       = "solid_flint"
+	lore_text = "A hard, smooth stone traditionally used for making fire."
+	value     = 3
+	color     = "#615f5f"
 
 /decl/material/solid/stone/granite
 	name                   = "granite"
@@ -51,16 +50,30 @@
 		/decl/material/solid/bauxite = 0.15,
 		/decl/material/solid/slag    = 0.10,
 	)
+	weight                  = MAT_VALUE_VERY_HEAVY
+	wall_support_value      = MAT_VALUE_VERY_HEAVY
+	reflectiveness          = MAT_VALUE_SHINY
+	construction_difficulty = MAT_VALUE_HARD_DIY
+
+/decl/material/solid/stone/pottery
+	name = "fired clay"
+	uid = "solid_pottery"
+	lore_text = "A hard but brittle substance produced by firing clay in a kiln."
+	color = "#cd8f75"
+	melting_point = 1750 // Arbitrary, hotter than the kiln currently reaches.
 
 /decl/material/solid/stone/ceramic
-	name                   = "ceramic"
-	uid                    = "solid_ceramic"
-	lore_text              = "A hard substance produced by firing clay in a kiln."
-	color                  = COLOR_OFF_WHITE
-	hardness               = MAT_VALUE_NORMAL
-	flags                  = MAT_FLAG_BRITTLE
+	name = "ceramic"
+	uid = "solid_ceramic"
+	lore_text = "A hard, heat-resistant substance produced by firing clay in a kiln."
+	color = COLOR_OFF_WHITE
+	melting_point = 6000 // Arbitrary, very heat-resistant.
+	hardness = MAT_VALUE_NORMAL
+	flags = MAT_FLAG_BRITTLE
+	dissolves_in = MAT_SOLVENT_IMMUNE
+	dissolves_into = null
 	exoplanet_rarity_plant = MAT_RARITY_NOWHERE
-	exoplanet_rarity_gas   = MAT_RARITY_NOWHERE
+	exoplanet_rarity_gas = MAT_RARITY_NOWHERE
 
 /decl/material/solid/stone/marble
 	name                    = "marble"
@@ -88,13 +101,22 @@
 	construction_difficulty = MAT_VALUE_HARD_DIY
 
 /decl/material/solid/stone/concrete
-	name             = "concrete"
-	uid              = "solid_concrete"
-	lore_text        = "The most ubiquitous building material of old Earth, now in space. Consists of mineral aggregate bound with some sort of cementing solution."
-	color            = COLOR_GRAY
-	value            = 0.9
-	exoplanet_rarity_plant = MAT_RARITY_NOWHERE
-	exoplanet_rarity_gas = MAT_RARITY_NOWHERE
+	name                    = "concrete"
+	uid                     = "solid_concrete"
+	codex_name              = "poured concrete"
+	lore_text               = "The most ubiquitous building material of old Earth, now in space. Consists of mineral aggregate bound with some sort of cementing solution."
+	color                   = COLOR_GRAY
+	value                   = 0.9
+	hardness                = MAT_VALUE_HARD
+	brute_armor             = 10
+	explosion_resistance    = 15
+	integrity               = 220
+	exoplanet_rarity_plant  = MAT_RARITY_NOWHERE
+	exoplanet_rarity_gas    = MAT_RARITY_NOWHERE
+	weight                  = MAT_VALUE_HEAVY
+	wall_support_value      = MAT_VALUE_HEAVY
+	construction_difficulty = MAT_VALUE_VERY_HARD_DIY
+	melting_point           = T0C + 1527
 	var/image/texture
 
 /decl/material/solid/stone/concrete/Initialize()
@@ -104,6 +126,24 @@
 
 /decl/material/solid/stone/concrete/get_wall_texture()
 	return texture
+
+///Concrete with steel rebars essentially. Has to be a material, since composite materials are kind of a hack.
+/decl/material/solid/stone/concrete/reinforced
+	name                    = "reinforced concrete"
+	uid                     = "solid_reinforced_concrete"
+	lore_text               = "A mix of concrete with a reinforcing material to increase it's strenght."
+	codex_name              = null
+	color                   = COLOR_GRAY
+	value                   = 0.95
+	hardness                = MAT_VALUE_HARD + 8
+	brute_armor             = 20
+	explosion_resistance    = 35 //Reinforced concrete is resistant to explosion
+	integrity               = 500 //Reinforced concrete is very strong
+	weight                  = MAT_VALUE_VERY_HEAVY
+	wall_support_value      = MAT_VALUE_VERY_HEAVY
+	construction_difficulty = MAT_VALUE_VERY_HARD_DIY
+	melting_point           = T0C + 1527
+	default_solid_form      = /obj/item/stack/material/slab
 
 /decl/material/solid/stone/cult
 	name = "disturbing stone"
@@ -125,19 +165,6 @@
 /decl/material/solid/stone/cult/reinforced
 	name = "runic inscriptions"
 	uid = "solid_runes_cult"
-
-/decl/material/solid/stone/granite
-	name                    = "granite"
-	uid                     = "solid_granite"
-	lore_text               = "A common and very hard igneous rock."
-	color                   = "#615f5f"
-	weight                  = MAT_VALUE_VERY_HEAVY
-	wall_support_value      = MAT_VALUE_VERY_HEAVY
-	hardness                = MAT_VALUE_VERY_HARD
-	reflectiveness          = MAT_VALUE_SHINY
-	construction_difficulty = MAT_VALUE_HARD_DIY
-	brute_armor             = 6
-	integrity               = 275
 
 /decl/material/solid/stone/slate
 	name                    = "slate"

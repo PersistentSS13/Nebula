@@ -38,10 +38,10 @@
 	var/adjusted_air = FALSE
 	for(var/mtype in reagents?.reagent_volumes)
 		var/decl/material/mat = GET_DECL(mtype)
-		if(mat.boiling_point && temperature >= mat.boiling_point)
+		if(!isnull(mat.boiling_point) && temperature >= mat.boiling_point)
 			adjusted_air = TRUE
 			var/removing = REAGENT_VOLUME(reagents, mtype)
-			reagents.remove_reagent(mtype, removing, defer_update = TRUE)
+			remove_from_reagents(mtype, removing, defer_update = TRUE)
 			if(environment)
 				environment.adjust_gas_temp(mtype, (removing * 0.2), temperature, FALSE) // Arbitrary conversion constant, TODO consistent one
 
@@ -56,7 +56,7 @@
 /obj/machinery/material_processing/smeltery/ProcessAtomTemperature()
 	if(use_power)
 		if(temperature < HIGH_SMELTING_HEAT_POINT)
-			temperature = min(temperature + rand(1000, 2000), HIGH_SMELTING_HEAT_POINT)
+			temperature = min(temperature + rand(100, 200), HIGH_SMELTING_HEAT_POINT)
 		else if(temperature > HIGH_SMELTING_HEAT_POINT)
 			temperature = HIGH_SMELTING_HEAT_POINT
 		return TRUE
@@ -70,7 +70,7 @@
 /obj/machinery/material_processing/smeltery/proc/can_eat(var/obj/item/eating)
 	for(var/mtype in eating.matter)
 		var/decl/material/mat = GET_DECL(mtype)
-		if(mat.melting_point > temperature)
+		if(isnull(mat.melting_point) || mat.melting_point > temperature)
 			return FALSE
 	return TRUE
 
@@ -92,7 +92,7 @@
 			if(eating.reagents?.total_volume)
 				eating.reagents.trans_to_obj(src, FLOOR(eating.reagents.total_volume * 0.75)) // liquid reagents, lossy
 			for(var/mtype in eating.matter)
-				reagents.add_reagent(mtype, FLOOR(eating.matter[mtype] * REAGENT_UNITS_PER_MATERIAL_UNIT))
+				add_to_reagents(mtype, FLOOR(eating.matter[mtype] * REAGENT_UNITS_PER_MATERIAL_UNIT))
 			qdel(eating)
 			if(eaten >= MAX_INTAKE_ORE_PER_TICK)
 				break
@@ -103,7 +103,7 @@
 						continue
 					visible_message(SPAN_DANGER("\The [src] rips \the [H]'s [eating.name] clean off!"))
 					for(var/mtype in eating.matter)
-						reagents.add_reagent(mtype, FLOOR(eating.matter[mtype] * REAGENT_UNITS_PER_MATERIAL_UNIT))
+						add_to_reagents(mtype, FLOOR(eating.matter[mtype] * REAGENT_UNITS_PER_MATERIAL_UNIT))
 					eating.dismember(silent = TRUE)
 					qdel(eating)
 					break
@@ -114,7 +114,7 @@
 			var/samt = FLOOR((ramt / REAGENT_UNITS_PER_MATERIAL_UNIT) / SHEET_MATERIAL_AMOUNT)
 			if(samt > 0)
 				SSmaterials.create_object(mtype, output_turf, samt)
-				reagents.remove_reagent(mtype, ramt)
+				remove_from_reagents(mtype, ramt)
 
 /obj/machinery/material_processing/smeltery/Topic(var/user, var/list/href_list)
 	. = ..()

@@ -5,6 +5,8 @@
 	organ_tag = BP_VOICE
 	var/list/assists_languages
 
+SAVED_VAR(/obj/item/organ/internal/voicebox, assists_languages)
+
 /obj/item/organ/internal/voicebox/Initialize()
 	. = ..()
 	var/list/language_datums = list()

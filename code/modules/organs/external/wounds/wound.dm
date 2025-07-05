@@ -29,6 +29,23 @@
 	var/tmp/list/desc_list = list()
 	var/tmp/list/damage_list = list()
 
+SAVED_VAR(/datum/wound, current_stage)
+SAVED_VAR(/datum/wound, damage)
+SAVED_VAR(/datum/wound, bleed_timer)
+SAVED_VAR(/datum/wound, bleed_threshold)
+SAVED_VAR(/datum/wound, min_damage)
+SAVED_VAR(/datum/wound, bandaged)
+SAVED_VAR(/datum/wound, clamped)
+SAVED_VAR(/datum/wound, salved)
+SAVED_VAR(/datum/wound, disinfected)
+SAVED_VAR(/datum/wound, created)
+SAVED_VAR(/datum/wound, amount)
+SAVED_VAR(/datum/wound, germ_level)
+SAVED_VAR(/datum/wound, parent_organ)
+SAVED_VAR(/datum/wound, embedded_objects)
+SAVED_VAR(/datum/wound, desc_list)
+SAVED_VAR(/datum/wound, damage_list)
+
 /datum/wound/New(var/damage, var/obj/item/organ/external/organ = null, var/surgical)
 
 	created = world.time
@@ -169,6 +186,9 @@
 	// return amount of healing still leftover, can be used for other wounds
 	return amount
 
+/datum/wound/proc/is_open()
+	return current_stage <= max_bleeding_stage && !bandaged
+
 // opens the wound again
 /datum/wound/proc/open_wound(damage)
 	src.damage += damage
@@ -198,12 +218,11 @@
 	return 1
 
 /datum/wound/proc/bleeding()
-	for(var/obj/item/thing in embedded_objects)
-		if(thing.w_class > ITEM_SIZE_SMALL)
-			return FALSE
-	if(bandaged || clamped)
-		return FALSE
-	return ((bleed_timer > 0 || wound_damage() > bleed_threshold) && current_stage <= max_bleeding_stage)
+	. = !clamped && is_open() && (bleed_timer > 0 || wound_damage() > bleed_threshold)
+	if(. && length(embedded_objects))
+		for(var/obj/item/thing in embedded_objects)
+			if(thing.w_class > ITEM_SIZE_SMALL)
+				return FALSE
 
 /datum/wound/proc/is_surgical()
 	return 0

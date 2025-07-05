@@ -1,4 +1,5 @@
-/obj/structure/bed/chair	//YES, chairs are a type of bed, which are a type of stool. This works, believe me.	-Pete
+//YES, chairs are a type of bed, which are a type of stool. This works, believe me.	-Pete
+/obj/structure/bed/chair
 	name = "chair"
 	desc = "You sit in this, either by will or force."
 	icon_state = "chair_preview"
@@ -7,7 +8,6 @@
 	buckle_lying = 0 //force people to sit up in chairs when buckled
 	obj_flags = OBJ_FLAG_ROTATABLE
 	base_icon = "chair"
-
 	var/propelled = 0 // Check for fire-extinguisher-driven chairs
 	var/has_special_overlay = FALSE
 
@@ -91,7 +91,10 @@
 	desc = "It's a chair. It looks comfy."
 	icon_state = "comfychair_preview"
 	base_icon = "comfychair"
+	reinf_material = /decl/material/solid/organic/cloth
 
+/obj/structure/bed/chair/comfy/unpadded
+	reinf_material = null
 /obj/structure/bed/chair/comfy/brown
 	reinf_material = /decl/material/solid/organic/leather
 /obj/structure/bed/chair/comfy/red
@@ -265,9 +268,9 @@
 
 /obj/structure/bed/chair/shuttle/post_buckle_mob()
 	if(buckled_mob)
-		icon_state = "shuttle_chair-b"
+		base_icon = "shuttle_chair-b"
 	else
-		icon_state = "shuttle_chair"
+		base_icon = "shuttle_chair"
 	..()
 
 /obj/structure/bed/chair/shuttle/blue

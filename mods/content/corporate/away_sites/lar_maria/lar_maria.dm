@@ -29,10 +29,10 @@
 	environment_smash = 1
 	faction = "lar_maria"
 	status_flags = CANPUSH
-	speak = list("Die!", "Fresh meat!", "Hurr!", "You said help will come!", "I did nothing!", "Eat my fist!", "One for the road!")
-	speak_chance = 50
-	emote_hear = list("roars", "giggles", "breathes loudly", "mumbles", "yells something unintelligible")
-	emote_see = list("cries", "grins insanely", "itches fiercly", "scratches his face", "shakes his fists above his head")
+	speak_chance = 25
+	emote_speech = list("Die!", "Fresh meat!", "Hurr!", "You said help will come!", "I did nothing!", "Eat my fist!", "One for the road!")
+	emote_hear   = list("roars", "giggles", "breathes loudly", "mumbles", "yells something unintelligible")
+	emote_see    = list("cries", "grins insanely", "itches fiercly", "scratches his face", "shakes his fists above his head")
 	turns_per_move = 5
 	speed = 8
 	can_escape = TRUE
@@ -42,20 +42,20 @@
 	var/obj/abstract/landmark/corpse/lar_maria/corpse = null
 	var/weapon = null
 
-/mob/living/simple_animal/hostile/lar_maria/death(gibbed, deathmessage, show_dead_message)
-	..(gibbed, deathmessage, show_dead_message)
-	if(corpse)
-		new corpse (src.loc)
-	if (weapon)
-		new weapon(src.loc)
-	visible_message("<span class='warning'>Small shining spores float away from dying [src]!</span>")
-	qdel(src)
+/mob/living/simple_animal/hostile/lar_maria/death(gibbed)
+	. = ..()
+	if(. && !gibbed)
+		if(corpse)
+			new corpse (src.loc)
+		if (weapon)
+			new weapon(src.loc)
+		visible_message(SPAN_WARNING("Small shining spores float away from the dying [name]!"))
+		qdel(src)
 
 /mob/living/simple_animal/hostile/lar_maria/test_subject
 	name = "test subject"
 	desc = "Sick, filthy, angry and probably crazy human in an orange robe."
-	maxHealth = 40
-	health = 40
+	max_health = 40
 	corpse = /obj/abstract/landmark/corpse/lar_maria/test_subject
 	icon = 'mods/content/corporate/away_sites/lar_maria/lar_maria_test_subject.dmi'
 
@@ -88,8 +88,7 @@
 /mob/living/simple_animal/hostile/lar_maria/guard//angry guards armed with batons and shotguns. Still bite
 	name = "security"
 	desc = "Guard dressed at Zeng-Hu Pharmaceuticals uniform."
-	maxHealth = 60
-	health = 60
+	max_health = 60
 	natural_weapon = /obj/item/baton
 	weapon = /obj/item/baton
 	corpse = /obj/abstract/landmark/corpse/lar_maria/zhp_guard
@@ -124,8 +123,7 @@
 	name = "virologist"
 	desc = "Virologist dressed at Zeng-Hu Pharmaceuticals uniform."
 	icon = 'mods/content/corporate/away_sites/lar_maria/lar_maria_virologist_m.dmi'
-	maxHealth = 50
-	health = 50
+	max_health = 50
 	corpse = /obj/abstract/landmark/corpse/lar_maria/virologist
 
 /obj/abstract/landmark/corpse/lar_maria/virologist

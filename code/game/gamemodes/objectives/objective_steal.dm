@@ -4,6 +4,11 @@
 	var/theft_material
 	var/theft_amount = 1
 
+SAVED_VAR(/datum/objective/steal, theft_name)
+SAVED_VAR(/datum/objective/steal, theft_type)
+SAVED_VAR(/datum/objective/steal, theft_material)
+SAVED_VAR(/datum/objective/steal, theft_amount)
+
 /datum/objective/steal/find_target()
 
 	var/list/possible_items = global.using_map.get_theft_targets() | global.using_map.get_special_theft_targets()

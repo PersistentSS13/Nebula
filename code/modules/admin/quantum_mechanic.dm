@@ -95,7 +95,7 @@
 	spark_at(src)
 
 	if(key)
-		var/mob/observer/ghost/ghost = ghostize(1)
+		var/mob/observer/ghost/ghost = ghostize()
 		ghost.set_dir(dir)
 		ghost.can_reenter_corpse = TRUE
 		ghost.reload_fullscreen()
@@ -191,8 +191,6 @@
 	icon = 'icons/clothing/under/uniform_quantum.dmi'
 	cold_protection = SLOT_FULL_BODY
 	heat_protection = SLOT_FULL_BODY
-	sensor_mode = SUIT_SENSOR_OFF
-	has_sensor = FALSE
 	siemens_coefficient = 0
 
 /obj/item/clothing/under/color/quantum/attack_hand(mob/user)

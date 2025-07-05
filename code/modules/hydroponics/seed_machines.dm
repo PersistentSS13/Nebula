@@ -7,6 +7,9 @@
 	var/list/genes = list()
 	var/genesource = "unknown"
 
+SAVED_VAR(/obj/item/disk/botany, genes)
+SAVED_VAR(/obj/item/disk/botany, genesource)
+
 /obj/item/disk/botany/attack_self(var/mob/user)
 	if(genes.len)
 		var/choice = alert(user, "Are you sure you want to wipe the disk?", "Xenobotany Data", "No", "Yes")

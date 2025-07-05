@@ -1,7 +1,7 @@
 /turf/unsimulated/floor
 	name = "floor"
 	icon = 'icons/turf/floors.dmi'
-	icon_state = "Floor3"
+	icon_state = "shuttle"
 	turf_flags = TURF_IS_HOLOMAP_PATH
 
 /turf/unsimulated/floor/can_climb_from_below(var/mob/climber)
@@ -30,6 +30,7 @@
 //
 /turf/unsimulated/floor/tiled
 	icon = 'icons/turf/flooring/tiles.dmi'
+	icon_state = "steel"
 
 /turf/unsimulated/floor/tiled/dark
 	name = "dark floor"
@@ -60,14 +61,17 @@
 	icon_state = "freezer"
 
 /turf/unsimulated/floor/tiled/monofloor
-	icon_state = "monofloor"
+	icon_state = "steel_monofloor"
 /turf/unsimulated/floor/tiled/monotile
 	icon_state = "steel_monotile"
 
 /turf/unsimulated/floor/tiled/techmaint
 	icon_state = "techmaint"
 /turf/unsimulated/floor/tiled/techfloor
+	icon = 'icons/turf/flooring/techfloor.dmi'
 	icon_state = "techfloor_gray"
+/turf/unsimulated/floor/tiled/techfloor/grid
+	icon_state = "techfloor_grid"
 
 /turf/unsimulated/floor/tiled/steel_grid
 	icon_state = "steel_grid"
@@ -86,10 +90,7 @@
 
 /turf/unsimulated/floor/tiled/stone
 	name = "stone slab floor"
-	icon_state = "stone_full"
-
-/turf/unsimulated/floor/tiled/techfloor/grid
-	icon_state = "techfloor_grid"
+	icon_state = "stone"
 
 /turf/unsimulated/floor/lino
 	name = "lino"
@@ -99,4 +100,4 @@
 /turf/unsimulated/floor/crystal
 	name = "crystal floor"
 	icon = 'icons/turf/flooring/crystal.dmi'
-	icon_state = ""
+	icon_state = "crystal"

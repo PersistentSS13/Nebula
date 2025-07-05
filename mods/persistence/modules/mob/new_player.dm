@@ -145,7 +145,7 @@
 	return
 
 /mob/new_player/proc/characterSelect(var/func = CHARSELECTLOAD)
-	if(!config.enter_allowed && !check_rights(R_ADMIN, FALSE, src))
+	if(!get_config_value(/decl/config/toggle/on/enter_allowed) && !check_rights(R_ADMIN, FALSE, src))
 		to_chat(src, SPAN_WARNING("There is an administrative lock on entering the game!"))
 		return
 	if(func == CHARSELECTLOAD)
@@ -203,7 +203,7 @@
 	if(GAME_STATE < RUNLEVEL_GAME)
 		to_chat(src, SPAN_NOTICE("Wait until the round starts to join."))
 		return
-	if(!config.enter_allowed && !check_rights(R_ADMIN, FALSE, src))
+	if(!get_config_value(/decl/config/toggle/on/enter_allowed) && !check_rights(R_ADMIN, FALSE, src))
 		to_chat(src, SPAN_WARNING("There is an administrative lock on entering the game!"))
 		return
 	if(spawning)

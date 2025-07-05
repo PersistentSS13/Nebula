@@ -2,8 +2,7 @@
 	name = "maintenance drone"
 	real_name = "drone"
 	icon = 'icons/mob/robots/drones/drone.dmi'
-	maxHealth = 35
-	health = 35
+	max_health = 35
 	cell_emp_mult = 1
 	universal_speak = FALSE
 	universal_understand = TRUE
@@ -47,7 +46,7 @@
 
 	default_language = /decl/language/binary/drone
 	// NO BRAIN.
-	mmi = null
+	central_processor = null
 
 	//We need to screw with their HP a bit. They have around one fifth as much HP as a full borg.
 	for(var/V in components) if(V != "power cell")
@@ -57,39 +56,37 @@
 	verbs -= /mob/living/silicon/robot/verb/Namepick
 	update_icon()
 
-	events_repository.register(/decl/observ/moved, src, src, /mob/living/silicon/robot/drone/proc/on_moved)
+	events_repository.register(/decl/observ/moved, src, src, TYPE_PROC_REF(/mob/living/silicon/robot/drone, on_moved))
 
 /mob/living/silicon/robot/drone/Destroy()
-	events_repository.unregister(/decl/observ/moved, src, src, /mob/living/silicon/robot/drone/proc/on_moved)
+	events_repository.unregister(/decl/observ/moved, src, src, TYPE_PROC_REF(/mob/living/silicon/robot/drone, on_moved))
 	. = ..()
 
 /mob/living/silicon/robot/drone/proc/on_moved(var/atom/movable/am, var/turf/old_loc, var/turf/new_loc)
 	old_loc = get_turf(old_loc)
 	new_loc = get_turf(new_loc)
-
 	if(!(old_loc && new_loc)) // Allows inventive admins to move drones between non-adjacent Z-levels by moving them to null space first I suppose
 		return
 	if(LEVELS_ARE_Z_CONNECTED(old_loc.z, new_loc.z))
 		return
-
 	// None of the tests passed, good bye
-	self_destruct()
+	gib()
 
 /mob/living/silicon/robot/drone/can_be_possessed_by(var/mob/observer/ghost/possessor)
 	if(!istype(possessor) || !possessor.client || !possessor.ckey)
-		return 0
-	if(!config.allow_drone_spawn)
-		to_chat(src, "<span class='danger'>Playing as drones is not currently permitted.</span>")
-		return 0
+		return FALSE
+	if(!get_config_value(/decl/config/toggle/on/allow_drone_spawn))
+		to_chat(possessor, SPAN_DANGER("Playing as drones is not currently permitted."))
+		return FALSE
 	if(too_many_active_drones())
-		to_chat(src, "<span class='danger'>The maximum number of active drones has been reached..</span>")
-		return 0
+		to_chat(possessor, SPAN_DANGER("The maximum number of active drones has been reached."))
+		return FALSE
 	if(jobban_isbanned(possessor,ASSIGNMENT_ROBOT))
-		to_chat(usr, "<span class='danger'>You are banned from playing synthetics and cannot spawn as a drone.</span>")
-		return 0
+		to_chat(possessor, SPAN_DANGER("You are banned from playing synthetics and cannot spawn as a drone."))
+		return FALSE
 	if(!possessor.MayRespawn(1,DRONE_SPAWN_DELAY))
-		return 0
-	return 1
+		return FALSE
+	return TRUE
 
 /mob/living/silicon/robot/drone/do_possession(var/mob/observer/ghost/possessor)
 	if(!(istype(possessor) && possessor.ckey))
@@ -137,7 +134,7 @@
 
 //Redefining some robot procs...
 /mob/living/silicon/robot/drone/fully_replace_character_name(pickedName as text)
-	// Would prefer to call the grandparent proc but this isn't possible, so..
+	// Would prefer to call the grandparent proc but this isn't possible, so...
 	real_name = pickedName
 	SetName(real_name)
 
@@ -180,7 +177,7 @@
 
 		if(stat == DEAD)
 
-			if(!config.allow_drone_spawn || emagged || health < -35) //It's dead, Dave.
+			if(!get_config_value(/decl/config/toggle/on/allow_drone_spawn) || emagged || should_be_dead()) //It's dead, Dave.
 				to_chat(user, "<span class='danger'>The interface is fried, and a distressing burned smell wafts from the robot's interior. You're not rebooting this one.</span>")
 				return
 
@@ -244,32 +241,10 @@
 		to_chat(src, SPAN_DANGER("ALERT: [user.real_name] is your new master. Obey your new laws and [G.his] commands."))
 	return 1
 
-//DRONE LIFE/DEATH
-//For some goddamn reason robots have this hardcoded. Redefining it for our fragile friends here.
-/mob/living/silicon/robot/drone/updatehealth()
-	if(status_flags & GODMODE)
-		health = 35
-		set_stat(CONSCIOUS)
-		return
-	health = 35 - (getBruteLoss() + getFireLoss())
-	return
-
-//Easiest to check this here, then check again in the robot proc.
-//Standard robots use config for crit, which is somewhat excessive for these guys.
-//Drones killed by damage will gib.
-/mob/living/silicon/robot/drone/handle_regular_status_updates()
-	if(health <= -35 && src.stat != DEAD)
-		self_destruct()
-		return
-	if(health <= 0 && src.stat != DEAD)
-		death()
-		return
-	..()
-
-/mob/living/silicon/robot/drone/self_destruct()
-	timeofdeath = world.time
-	death() //Possibly redundant, having trouble making death() cooperate.
-	gib()
+/mob/living/silicon/robot/drone/adjustBruteLoss(var/amount, var/do_update_health = TRUE)
+	. = ..()
+	if(amount && should_be_dead() && stat == DEAD && !QDELETED(src))
+		gib()
 
 //DRONE MOVEMENT.
 /mob/living/silicon/robot/drone/slip_chance(var/prob_slip)
@@ -358,7 +333,7 @@
 	for(var/mob/living/silicon/robot/drone/D in global.silicon_mob_list)
 		if(D.key && D.client)
 			drones++
-	return drones >= config.max_maint_drones
+	return drones >= get_config_value(/decl/config/num/max_maint_drones)
 
 /mob/living/silicon/robot/drone/show_laws(var/everyone = 0)
 	if(!controlling_ai)

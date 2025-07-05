@@ -4,6 +4,7 @@
 	result_amount = 1
 	mix_message = "The solution hardens and begins to crystallize."
 	abstract_type = /decl/chemical_reaction/synthesis
+	reaction_category = REACTION_TYPE_SYNTHESIS
 
 /decl/chemical_reaction/synthesis/fiberglass
 	name = "Fiberglass"
@@ -96,7 +97,7 @@
 
 /decl/chemical_reaction/synthesis/plastication
 	name = "Plastic"
-	required_reagents = list(/decl/material/liquid/acid/polyacid = 1, /decl/material/liquid/plasticide = 2)
+	required_reagents = list(/decl/material/liquid/acid = 1, /decl/material/liquid/plasticide = 2)
 	mix_message = "The solution solidifies into a grey-white mass."
 
 /decl/chemical_reaction/synthesis/plastication/on_reaction(var/datum/reagents/holder, var/created_volume, var/reaction_flags)

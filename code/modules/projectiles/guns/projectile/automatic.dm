@@ -6,7 +6,7 @@
 	safety_icon = "safety"
 	w_class = ITEM_SIZE_NORMAL
 	caliber = CALIBER_PISTOL_SMALL
-	origin_tech = "{'combat':5,'materials':2}"
+	origin_tech = @'{"combat":5,"materials":2}'
 	slot_flags = SLOT_LOWER_BODY|SLOT_BACK
 	ammo_type = /obj/item/ammo_casing/pistol/small
 	load_method = MAGAZINE
@@ -44,7 +44,7 @@
 	w_class = ITEM_SIZE_HUGE
 	force = 10
 	caliber = CALIBER_RIFLE
-	origin_tech = "{'combat':7,'materials':3}"
+	origin_tech = @'{"combat":7,"materials":3}'
 	ammo_type = /obj/item/ammo_casing/rifle
 	slot_flags = SLOT_BACK
 	load_method = MAGAZINE
@@ -70,19 +70,17 @@
 		list(mode_name="full auto",      burst=1,    fire_delay=0,    burst_delay=1,       one_hand_penalty=7,             burst_accuracy = list(0,-1,-1), dispersion=list(0.0, 0.6, 1.0), autofire_enabled=1)
 	)
 
-/obj/item/gun/projectile/automatic/assault_rifle/update_base_icon()
-	if(ammo_magazine)
-		if(ammo_magazine.stored_ammo.len)
-			icon_state = "[get_world_inventory_state()]-loaded"
-		else
-			icon_state = "[get_world_inventory_state()]-empty"
+/obj/item/gun/projectile/automatic/assault_rifle/update_base_icon_state()
+	. = ..()
+	if(length(ammo_magazine?.stored_ammo))
+		icon_state = "[icon_state]-loaded"
 	else
-		icon_state = get_world_inventory_state()
+		icon_state = "[icon_state]-empty"
 
 /obj/item/gun/projectile/automatic/assault_rifle/grenade
 	name = "assault rifle"
 	desc = "The Z8 Bulldog is an older model bullpup carbine. This one has an underslung grenade launcher. REALLY makes you feel like a space marine when you hold it."
-	origin_tech = "{'combat':8,'materials':3}"
+	origin_tech = @'{"combat":8,"materials":3}'
 
 	firemodes = list(
 		list(mode_name="semi auto",      burst=1,    fire_delay=null, use_launcher=null, one_hand_penalty=8,  burst_accuracy=null,            dispersion=null),
@@ -137,7 +135,7 @@
 	w_class = ITEM_SIZE_HUGE
 	force = 10
 	caliber = CALIBER_RIFLE
-	origin_tech = "{'combat':9,'materials':3}"
+	origin_tech = @'{"combat":9,"materials":3}'
 	ammo_type = /obj/item/ammo_casing/rifle
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/rifle/drum

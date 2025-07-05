@@ -5,8 +5,7 @@
 	icon_state = "egg"
 	pixel_x = -128
 	pixel_y = -128
-	health = 100
-	maxHealth = 100 //I dunno what to do with health at this point.
+	max_health = 100
 	universal_understand = TRUE
 	mob_sort_value = 5
 
@@ -33,7 +32,7 @@
 	eyeobj.possess(src)
 	eyenet.add_source(src)
 
-/mob/living/deity/death()
+/mob/living/deity/death(gibbed)
 	. = ..()
 	if(.)
 		for(var/m in minions)
@@ -67,7 +66,7 @@
 			qdel(items[i])
 		items.Cut()
 
-	death(0)
+	death()
 	if(length(minions))
 		minions.Cut()
 	if(length(structures))
@@ -103,14 +102,14 @@
 	var/list/forms = subtypesof(/datum/god_form)
 
 	for(var/form in forms)
-		var/datum/god_form/G = form
-		var/god_name = initial(G.name)
-		var/icon/god_icon = icon('icons/mob/mob.dmi', initial(G.pylon_icon_state))
+		var/datum/god_form/god = form
+		var/god_name = initial(god.name)
+		var/icon/god_icon = icon('icons/mob/mob.dmi', initial(god.pylon_icon_state))
 		send_rsc(src,god_icon, "[god_name].png")
 		dat += {"<tr>
-					<td><a href="?src=\ref[src];form=\ref[G]">[god_name]</a></td>
+					<td><a href="?src=\ref[src];form=\ref[god]">[god_name]</a></td>
 					<td><img src="[god_name].png"></td>
-					<td>[initial(G.info)]</td>
+					<td>[initial(god.info)]</td>
 				</tr>"}
 	dat += "</table>"
 	show_browser(src, JOINTEXT(dat), "window=godform;can_close=0")

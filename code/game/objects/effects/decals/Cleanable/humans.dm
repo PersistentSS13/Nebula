@@ -30,20 +30,28 @@ var/global/list/image/splatter_cache=list()
 	var/list/blood_data
 	var/chemical = /decl/material/liquid/blood
 
+SAVED_VAR(/obj/effect/decal/cleanable/blood, base_icon)
+SAVED_VAR(/obj/effect/decal/cleanable/blood, basecolor)
+SAVED_VAR(/obj/effect/decal/cleanable/blood, amount)
+SAVED_VAR(/obj/effect/decal/cleanable/blood, drytime)
+SAVED_VAR(/obj/effect/decal/cleanable/blood, blood_size)
+SAVED_VAR(/obj/effect/decal/cleanable/blood, blood_data)
+SAVED_VAR(/obj/effect/decal/cleanable/blood, chemical)
+
 /obj/effect/decal/cleanable/blood/reveal_blood()
 	if(!fluorescent)
 		fluorescent = FLUORESCENT_GLOWS
 		basecolor = COLOR_LUMINOL
 		update_icon()
 
-/obj/effect/decal/cleanable/blood/clean_blood()
+/obj/effect/decal/cleanable/blood/clean(clean_forensics = TRUE)
 	fluorescent = FALSE
 	if(invisibility != INVISIBILITY_ABSTRACT)
 		set_invisibility(INVISIBILITY_ABSTRACT)
 		amount = 0
 		STOP_PROCESSING(SSobj, src)
 		remove_extension(src, /datum/extension/scent)
-	. = ..(ignore = TRUE)
+	. = ..(clean_forensics = FALSE)
 
 /obj/effect/decal/cleanable/blood/hide()
 	return
@@ -160,6 +168,15 @@ var/global/list/image/splatter_cache=list()
 /obj/effect/decal/cleanable/blood/drip/Initialize()
 	. = ..()
 	drips = list(icon_state)
+
+/obj/effect/decal/cleanable/blood/drip/on_update_icon()
+	SHOULD_CALL_PARENT(FALSE)
+	color = basecolor
+	set_overlays(drips?.Copy())
+
+/obj/effect/decal/cleanable/blood/drip/Destroy()
+	LAZYCLEARLIST(drips)
+	return ..()
 
 /obj/effect/decal/cleanable/blood/writing
 	icon = 'icons/effects/writing.dmi'

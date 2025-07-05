@@ -73,7 +73,7 @@
 /decl/public_access/public_method/igniter_toggle
 	name = "igniter toggle"
 	desc = "Toggle the igniter on or off."
-	call_proc = /obj/machinery/igniter/proc/ignite
+	call_proc = TYPE_PROC_REF(/obj/machinery/igniter, ignite)
 
 /decl/stock_part_preset/radio/receiver/igniter
 	frequency = BUTTON_FREQ
@@ -106,7 +106,7 @@
 	construct_state = /decl/machine_construction/wall_frame/panel_closed/simple
 	frame_type = /obj/item/frame/button/sparker
 	base_type = /obj/machinery/sparker/buildable
-	directional_offset = "{'NORTH':{'y':-32}, 'SOUTH':{'y':32}, 'EAST':{'x':32}, 'WEST':{'x':-32}}"
+	directional_offset = @'{"NORTH":{"y":-32}, "SOUTH":{"y":32}, "EAST":{"x":32}, "WEST":{"x":-32}}'
 
 /obj/machinery/sparker/buildable
 	uncreated_component_parts = null
@@ -164,7 +164,7 @@
 /decl/public_access/public_method/sparker_spark
 	name = "spark"
 	desc = "Creates sparks to ignite nearby gases."
-	call_proc = /obj/machinery/sparker/proc/ignite
+	call_proc = TYPE_PROC_REF(/obj/machinery/sparker, ignite)
 
 /decl/stock_part_preset/radio/receiver/sparker
 	frequency = BUTTON_FREQ

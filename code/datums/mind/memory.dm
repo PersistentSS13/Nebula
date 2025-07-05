@@ -1,6 +1,8 @@
 /datum/mind
 	var/list/memories
 
+SAVED_VAR(/datum/mind, memories)
+
 /mob/proc/StoreMemory(var/memory, var/options)
 	if(!mind)
 		return "There is no mind to store a memory in."
@@ -84,6 +86,13 @@
 	var/weakref/owner
 	var/_owner_name
 	var/_owner_ckey   // The ckey of the original creator. Shouldn't be overriden once set
+
+SAVED_VAR(/datum/memory, creation_source)
+SAVED_VAR(/datum/memory, memory)
+SAVED_VAR(/datum/memory, tags)
+SAVED_VAR(/datum/memory, owner)
+SAVED_VAR(/datum/memory, _owner_name)
+SAVED_VAR(/datum/memory, _owner_ckey)
 
 /datum/memory/New(var/decl/memory_options/creation_source, var/weakref/owner, var/memory, var/tags)
 	..()

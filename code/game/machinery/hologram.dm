@@ -114,25 +114,31 @@ var/global/list/holopads = list()
 			else
 				to_chat(user, "<span class='notice'>A request for AI presence was already sent recently.</span>")
 		if("Holocomms")
+
 			if(user.loc != src.loc)
 				to_chat(user, "<span class='info'>Please step onto the holopad.</span>")
 				return
+
 			if(last_request + 200 < world.time) //don't spam other people with requests either, you jerk!
+
 				last_request = world.time
 				var/list/holopadlist = list()
 				var/zlevels = SSmapping.get_connected_levels(z)
-				var/zlevels_long = list()
+				var/list/zlevels_long = list()
+
 				if(holopadType == HOLOPAD_LONG_RANGE && length(reachable_overmaps))
 					for(var/zlevel in global.overmap_sectors)
-						var/obj/effect/overmap/visitable/O = global.overmap_sectors[num2text(zlevel)]
-						if(!isnull(O) && (O.overmap_id in reachable_overmaps))
+						var/obj/effect/overmap/visitable/O = global.overmap_sectors[zlevel]
+						if(!isnull(O) && (O.overmap_id in reachable_overmaps) && LAZYLEN(O.map_z))
 							zlevels_long |= O.map_z
+
 				for(var/obj/machinery/hologram/holopad/H in SSmachines.machinery)
 					if (H.operable())
 						if(H.z in zlevels)
 							holopadlist["[H.holopad_id]"] = H	//Define a list and fill it with the area of every holopad in the world
 						if (H.holopadType == HOLOPAD_LONG_RANGE && (H.z in zlevels_long))
 							holopadlist["[H.holopad_id]"] = H
+
 				holopadlist = sortTim(holopadlist, /proc/cmp_text_asc)
 				var/temppad = input(user, "Which holopad would you like to contact?", "holopad list") as null|anything in holopadlist
 				targetpad = holopadlist["[temppad]"]
@@ -140,7 +146,7 @@ var/global/list/holopads = list()
 					to_chat(user, "<span class='info'>Using such sophisticated technology, just to talk to yourself seems a bit silly.</span>")
 					return
 				if(targetpad && targetpad.caller_id)
-					to_chat(user, "<span class='info'>The pad flashes a busy sign. Maybe you should try again later..</span>")
+					to_chat(user, "<span class='info'>The pad flashes a busy sign. Maybe you should try again later.</span>")
 					return
 				if(targetpad)
 					make_call(targetpad, user)
@@ -229,7 +235,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 					ai_text = stars(text)
 			if(isanimal(M) && !M.universal_speak)
 				var/mob/living/simple_animal/SA = M
-				ai_text = pick(SA.speak)
+				ai_text = DEFAULTPICK(SA.emote_speech, "...")
 			var/name_used = M.GetVoice()
 			//This communication is imperfect because the holopad "filters" voices and is only designed to connect to the master only.
 			var/short_links = master.get_preference_value(/datum/client_preference/ghost_follow_link_length) == PREF_SHORT
@@ -240,7 +246,7 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 	var/message
 	if(isanimal(M) && !M.universal_speak)
 		var/mob/living/simple_animal/SA = M
-		message = get_hear_message(name_used, pick(SA.speak), verb, speaking)
+		message = get_hear_message(name_used, DEFAULTPICK(SA.emote_speech, "..."), verb, speaking)
 	else
 		message = get_hear_message(name_used, text, verb, speaking)
 	if(targetpad && !targetpad.incoming_connection) //If this is the pad you're making the call from and the call is accepted
@@ -399,28 +405,6 @@ For the other part of the code, check silicon say.dm. Particularly robot talk.*/
 	for (var/mob/living/master in masters)
 		clear_holo(master)
 	return ..()
-
-/*
-Holographic project of everything else.
-
-/mob/verb/hologram_test()
-	set name = "Hologram Debug New"
-	set category = "CURRENT DEBUG"
-
-	var/obj/effect/overlay/hologram = new(loc)//Spawn a blank effect at the location.
-	var/icon/flat_icon = icon(getFlatIcon(src,0))//Need to make sure it's a new icon so the old one is not reused.
-	flat_icon.ColorTone(rgb(125,180,225))//Let's make it bluish.
-	flat_icon.ChangeOpacity(0.5)//Make it half transparent.
-	var/input = input("Select what icon state to use in effect.",,"")
-	if(input)
-		var/icon/alpha_mask = new('icons/effects/effects.dmi', "[input]")
-		flat_icon.AddAlphaMask(alpha_mask)//Finally, let's mix in a distortion effect.
-		hologram.icon = flat_icon
-
-		log_debug("Your icon should appear now.")
-
-	return
-*/
 
 /*
  * Other Stuff: Is this even used?

@@ -7,6 +7,20 @@ SUBSYSTEM_DEF(persistence)
 	var/elevator_fall_shifts = -1 // This is snowflake, but oh well.
 	var/list/tracking_values = list()
 
+#ifdef NO_NEB_PERSISTENCE
+
+/datum/controller/subsystem/persistence/proc/track_value()
+	return
+/datum/controller/subsystem/persistence/proc/is_tracking()
+	return
+/datum/controller/subsystem/persistence/proc/forget_value()
+	return
+/datum/controller/subsystem/persistence/proc/show_info(mob/user)
+	to_chat(user, SPAN_INFO("Disabled with persistence modpack (how ironic)..."))
+	return
+
+#else //NO_NEB_PERSISTENCE
+
 /datum/controller/subsystem/persistence/Initialize()
 	. = ..()
 
@@ -75,3 +89,5 @@ SUBSYSTEM_DEF(persistence)
 	var/datum/browser/popup = new(user, "admin_persistence", "Persistence Data")
 	popup.set_content(jointext(dat, null))
 	popup.open()
+
+#endif //NO_NEB_PERSISTENCE

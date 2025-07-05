@@ -51,9 +51,6 @@
 /turf/simulated/magma/add_blood(mob/living/carbon/human/M)
 	return FALSE
 
-/turf/simulated/magma/add_blood_floor(mob/living/carbon/M)
-	return FALSE
-
 /turf/simulated/magma/Entered(atom/movable/AM)
 	..()
 	//Check for anything covering the lava

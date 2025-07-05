@@ -2,8 +2,9 @@
 
 /datum/extension/forensic_evidence
 	should_save = TRUE
-
 	var/last_updated
+
+SAVED_VAR(/datum/extension/forensic_evidence, last_updated)
 
 /datum/extension/forensic_evidence/add_data(evidence_type, data)
 	. = ..()

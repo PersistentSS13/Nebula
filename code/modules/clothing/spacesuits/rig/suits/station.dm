@@ -59,7 +59,16 @@
 	boots = /obj/item/clothing/shoes/magboots/rig/industrial
 	gloves = /obj/item/clothing/gloves/rig/industrial
 
-	allowed = list(/obj/item/flashlight,/obj/item/tank,/obj/item/suit_cooling_unit,/obj/item/stack/flag,/obj/item/storage/ore,/obj/item/t_scanner,/obj/item/pickaxe, /obj/item/rcd)
+	allowed = list(
+		/obj/item/flashlight,
+		/obj/item/tank,
+		/obj/item/suit_cooling_unit,
+		/obj/item/stack/flag,
+		/obj/item/storage/ore,
+		/obj/item/t_scanner,
+		/obj/item/tool,
+		/obj/item/rcd
+	)
 
 /obj/item/clothing/head/helmet/space/rig/industrial
 	camera = /obj/machinery/camera/network/mining
@@ -110,7 +119,6 @@
 	req_access = list(access_engine_equip)
 
 /obj/item/clothing/head/helmet/space/rig/eva
-	light_overlay = "helmet_light_dual"
 	camera = /obj/machinery/camera/network/engineering
 	icon = 'icons/clothing/rigs/helmets/helmet_eva.dmi'
 /obj/item/clothing/suit/space/rig/eva
@@ -152,7 +160,19 @@
 	helmet = /obj/item/clothing/head/helmet/space/rig/ce
 	gloves = /obj/item/clothing/gloves/rig/ce
 
-	allowed = list(/obj/item/gun,/obj/item/flashlight,/obj/item/tank,/obj/item/suit_cooling_unit,/obj/item/storage/ore,/obj/item/storage/toolbox,/obj/item/storage/briefcase/inflatable,/obj/item/inflatable_dispenser,/obj/item/t_scanner,/obj/item/pickaxe,/obj/item/rcd)
+	allowed = list(
+		/obj/item/gun,
+		/obj/item/flashlight,
+		/obj/item/tank,
+		/obj/item/suit_cooling_unit,
+		/obj/item/storage/ore,
+		/obj/item/storage/toolbox,
+		/obj/item/storage/briefcase/inflatable,
+		/obj/item/inflatable_dispenser,
+		/obj/item/t_scanner,
+		/obj/item/tool,
+		/obj/item/rcd
+	)
 
 	req_access = list(access_ce)
 	max_pressure_protection = FIRESUIT_MAX_PRESSURE
@@ -206,13 +226,29 @@
 	boots =  /obj/item/clothing/shoes/magboots/rig/hazmat
 	gloves = /obj/item/clothing/gloves/rig/hazmat
 
-	allowed = list(/obj/item/flashlight,/obj/item/tank,/obj/item/suit_cooling_unit,/obj/item/stack/flag,/obj/item/storage/excavation,/obj/item/pickaxe,/obj/item/scanner/health,/obj/item/scanner/breath,/obj/item/measuring_tape,/obj/item/ano_scanner,/obj/item/depth_scanner,/obj/item/core_sampler,/obj/item/gps,/obj/item/pinpointer/radio,/obj/item/radio/beacon,/obj/item/pickaxe/xeno,/obj/item/storage/bag/fossils)
+	allowed = list(
+		/obj/item/flashlight,
+		/obj/item/tank,
+		/obj/item/suit_cooling_unit,
+		/obj/item/stack/flag,
+		/obj/item/storage/excavation,
+		/obj/item/tool,
+		/obj/item/scanner/health,
+		/obj/item/scanner/breath,
+		/obj/item/measuring_tape,
+		/obj/item/ano_scanner,
+		/obj/item/depth_scanner,
+		/obj/item/core_sampler,
+		/obj/item/gps,
+		/obj/item/pinpointer/radio,
+		/obj/item/radio/beacon,
+		/obj/item/storage/bag/fossils
+	)
 
 	anomaly_shielding = 1
 	req_access = list(access_tox)
 
 /obj/item/clothing/head/helmet/space/rig/hazmat
-	light_overlay = "helmet_light_dual"
 	camera = /obj/machinery/camera/network/research
 	icon = 'icons/clothing/rigs/helmets/helmet_science.dmi'
 /obj/item/clothing/suit/space/rig/hazmat
@@ -303,7 +339,6 @@
 	anomaly_shielding = 1
 
 /obj/item/clothing/head/helmet/space/rig/hazard
-	light_overlay = "helmet_light_dual"
 	camera = /obj/machinery/camera/network/security
 	icon = 'icons/clothing/rigs/helmets/helmet_hazard.dmi'
 /obj/item/clothing/suit/space/rig/hazard
@@ -354,11 +389,10 @@
 
 /obj/item/clothing/head/helmet/space/rig/zero
 	camera = null
-	light_overlay = "helm_light"
 	desc = "A bubble helmet that maximizes the field of view. A state of the art holographic display provides a stream of information"
 	icon = 'icons/clothing/rigs/helmets/helmet_null.dmi'
 
 /obj/item/clothing/suit/space/rig/zero
 	breach_threshold = 18
-	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_FEET|SLOT_ARMS|SLOT_HANDS
+	body_parts_covered = SLOT_UPPER_BODY|SLOT_LOWER_BODY|SLOT_LEGS|SLOT_FEET|SLOT_ARMS|SLOT_HANDS|SLOT_TAIL
 	icon = 'icons/clothing/rigs/chests/chest_null.dmi'

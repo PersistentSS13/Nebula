@@ -28,7 +28,7 @@
 		/decl/music_track/inorbit
 	)
 
-	starting_money = 5000
+	starting_money = 0
 	department_money = 0
 	salary_modifier = 0.2
 	num_exoplanets = 0

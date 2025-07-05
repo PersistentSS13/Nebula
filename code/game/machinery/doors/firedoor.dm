@@ -58,10 +58,16 @@
 		"hot",
 		"cold"
 	)
-
-	blend_objects = list(/obj/machinery/door/firedoor, /obj/structure/wall_frame, /turf/unsimulated/wall, /obj/structure/window) // Objects which to blend with
-
 	var/allow_multiple_instances_on_same_tile = FALSE
+
+/obj/machinery/door/firedoor/get_blend_objects()
+	var/static/list/blend_objects = list(
+		/obj/machinery/door/firedoor, 
+		/obj/structure/wall_frame, 
+		/turf/unsimulated/wall, 
+		/obj/structure/window
+	) // Objects which to blend with
+	return blend_objects
 
 /obj/machinery/door/firedoor/autoset
 	autoset_access = TRUE	//subtype just to make mapping away sites with custom access usage
@@ -280,7 +286,7 @@
 		var/changed = 0
 		lockdown=0
 		// Pressure alerts
-		pdiff = getOPressureDifferential(src.loc)
+		pdiff = get_surrounding_pressure_differential(loc, src)
 		if(pdiff >= FIREDOOR_MAX_PRESSURE_DIFF)
 			lockdown = 1
 			if(!pdiff_alert)
@@ -356,14 +362,22 @@
 // Only opens when all areas connecting with our turf have an air alarm and are cleared
 /obj/machinery/door/firedoor/proc/can_safely_open()
 	var/turf/neighbour
+	var/turf/myturf = loc
+	if(!istype(myturf))
+		return TRUE
 	for(var/dir in global.cardinal)
-		neighbour = get_step(src.loc, dir)
-		if(neighbour.c_airblock(src.loc) & AIR_BLOCKED)
+		neighbour = get_step(myturf, dir)
+		if(!neighbour)
 			continue
-		for(var/obj/O in src.loc)
+		var/airblock // zeroed by ATMOS_CANPASS_TURF, declared early as microopt
+		ATMOS_CANPASS_TURF(airblock, neighbour, myturf)
+		if(airblock & AIR_BLOCKED)
+			continue
+		for(var/obj/O in myturf)
 			if(istype(O, /obj/machinery/door))
 				continue
-			. |= O.c_airblock(neighbour)
+			ATMOS_CANPASS_MOVABLE(airblock, O, neighbour)
+			. |= airblock
 		if(. & AIR_BLOCKED)
 			continue
 		var/area/A = get_area(neighbour)
@@ -453,11 +467,11 @@
 		return TRUE
 
 /obj/machinery/door/firedoor/border/update_nearby_tiles(need_rebuild)
-	var/turf/simulated/source = get_turf(src)
-	var/turf/simulated/destination = get_step(source,dir)
+	var/turf/source = get_turf(src)
+	var/turf/destination = get_step(source,dir)
 
 	update_heat_protection(loc)
 
-	if(istype(source)) SSair.mark_for_update(source)
-	if(istype(destination)) SSair.mark_for_update(destination)
+	if(istype(source) && source.simulated) SSair.mark_for_update(source)
+	if(istype(destination) && destination.simulated) SSair.mark_for_update(destination)
 	return TRUE

@@ -40,16 +40,16 @@
 	if (!(ndir in global.cardinal))
 		return
 
-	var/turf/loc = get_turf(usr)
-	if (!istype(loc, /turf/simulated/floor))
+	var/turf/my_turf = get_turf(usr)
+	if (!istype(my_turf) || !my_turf.simulated || !my_turf.is_floor())
 		to_chat(usr, "<span class='danger'>\The [src] cannot be placed on this spot.</span>")
 		return
 
-	if(gotwallitem(loc, get_dir(usr,on_wall))) // Use actual dir, not the new machine's dir
+	if(gotwallitem(my_turf, get_dir(usr,on_wall))) // Use actual dir, not the new machine's dir
 		to_chat(usr, "<span class='danger'>There's already an item on this wall!</span>")
 		return
 
-	var/obj/machinery/machine = new build_machine_type(loc, ndir, fully_construct)
+	var/obj/machinery/machine = new build_machine_type(my_turf, ndir, fully_construct)
 	modify_positioning(machine, ndir, click_params)
 	if(istype(machine) && machine.construct_state && !fully_construct)
 		machine.construct_state.post_construct(machine)
@@ -208,8 +208,8 @@
 /obj/item/frame/stock_offset/request_console
 	name = "request console frame"
 	desc = "Used for building request consoles."
-	icon = 'icons/obj/terminals.dmi'
-	icon_state = "req_comp0"
+	icon = 'icons/obj/machines/wall/request_console.dmi'
+	icon_state = "frame"
 	build_machine_type = /obj/machinery/network/requests_console
 
 /obj/item/frame/stock_offset/request_console/kit
@@ -303,7 +303,7 @@
 /obj/item/frame/button/airlock_controller/kit/warn_not_setup(mob/user)
 	to_chat(user, SPAN_WARNING("First, use a multitool on the kit to properly setup the controller's software!"))
 
-//Let them also hit it with a circuitboard if they so wish. But multitool is better when you don't want to print one for nothing..
+//Let them also hit it with a circuitboard if they so wish. But multitool is better when you don't want to print one for nothing.
 /obj/item/frame/button/airlock_controller/kit/attackby(obj/item/W, mob/user)
 	if(!IS_MULTITOOL(W))
 		return ..()

@@ -1,4 +1,6 @@
 var/global/list/cortical_stacks = list()
+
+///#FIXME: Global proc isn't ideal
 /proc/switchToStack(var/obj/stack_holder, var/datum/mind/mind)
 	// See if we can find the stack in whatever the holder was, usually a person.
 	var/obj/item/organ/internal/stack/target = locate() in stack_holder
@@ -32,6 +34,11 @@ var/global/list/cortical_stacks = list()
 	var/cortical_alias
 	var/last_alias_change
 
+SAVED_VAR(/obj/item/organ/internal/stack, stackmob)
+SAVED_VAR(/obj/item/organ/internal/stack, backup)
+SAVED_VAR(/obj/item/organ/internal/stack, cortical_alias)
+SAVED_VAR(/obj/item/organ/internal/stack, mind_id)
+
 /obj/item/organ/internal/stack/Initialize()
 	. = ..()
 	global.cortical_stacks |= src
@@ -39,8 +46,9 @@ var/global/list/cortical_stacks = list()
 /obj/item/organ/internal/stack/Destroy()
 	global.cortical_stacks -= src
 	QDEL_NULL(backup)
+	//#TODO: This probably should be up to the game mode or something.
 	if(stackmob)
-		stackmob.forceMove(SSchargen.limbo_holder) // Move the stackmob to the limbo holder to allow it to otherwise resleeve.
+		stackmob.forceMove(SSchargen.get_limbo_turf()) // Move the stackmob to the limbo holder to allow it to otherwise resleeve.
 		stackmob.cortical_stack = null
 		stackmob = null
 	. = ..()
@@ -68,6 +76,7 @@ var/global/list/cortical_stacks = list()
 	. = ..()
 	//Since language list gets reset all the time, its better to do this here!
 	if(owner && !(status & ORGAN_CUT_AWAY))
+		events_repository.register(/decl/observ/logged_in, owner, src, /obj/item/organ/internal/stack/proc/on_client_login)
 		owner.add_language(/decl/language/cortical)
 		verbs |= /obj/item/organ/internal/stack/proc/change_cortical_alias
 		if(!cortical_alias)
@@ -76,6 +85,7 @@ var/global/list/cortical_stacks = list()
 /obj/item/organ/internal/stack/do_uninstall(in_place, detach, ignore_children, update_icon)
 	//Since language list gets reset all the time, its better to do this here!
 	if(owner)
+		events_repository.unregister(/decl/observ/logged_in, owner, src, /obj/item/organ/internal/stack/proc/on_client_login)
 		owner.remove_language(/decl/language/cortical)
 		verbs -= /obj/item/organ/internal/stack/proc/change_cortical_alias
 	. = ..()
@@ -115,6 +125,12 @@ var/global/list/cortical_stacks = list()
 		to_chat(owner, SPAN_NOTICE("You change your Cortical Chat alias to [cortical_alias]"))
 		last_alias_change = world.time
 
+///Called when a client takes control of the mob owning this stack.
+/obj/item/organ/internal/stack/proc/on_client_login()
+	if(!mind_id)
+		// New mobs tend to have their organs installed before the mind is transferred, so we'll double check that the mind_id is correct here.
+		update_mind_id()
+
 /**Override to handle cortical chat. Ideally should be a section in base update language to check for language given from organs. */
 /mob/living/carbon/human/update_languages()
 	. = ..()
@@ -129,7 +145,4 @@ var/global/list/cortical_stacks = list()
 			if(!stack.cortical_alias)
 				stack.cortical_alias = Gibberish(name, 100)
 
-SAVED_VAR(/obj/item/organ/internal/stack, stackmob)
-SAVED_VAR(/obj/item/organ/internal/stack, backup)
-SAVED_VAR(/obj/item/organ/internal/stack, cortical_alias)
-SAVED_VAR(/obj/item/organ/internal/stack, mind_id)
+

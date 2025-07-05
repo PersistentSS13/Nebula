@@ -1,12 +1,12 @@
 // Disposal pipes
 
 /obj/structure/disposalpipe
-	icon = 'icons/obj/pipes/disposal.dmi'
+	icon = 'icons/obj/pipes/disposal_pipe.dmi'
 	name = "disposal pipe"
 	desc = "An underfloor disposal pipe."
 	anchored = TRUE
 	density = FALSE
-	maxhealth = 10
+	max_health = 10
 	level = LEVEL_BELOW_PLATING
 	dir = 0				// dir will contain dominant direction for junction pipes
 	alpha = 192 // Plane and alpha modified for mapping, reset to normal on spawn.
@@ -17,6 +17,9 @@
 	var/turn = DISPOSAL_FLIP_NONE
 	var/flipped_state // If it has a mirrored version, this is the typepath for it.
 	// new pipe, set the icon_state as on map
+
+SAVED_VAR(/obj/structure/disposalpipe, dpdir)
+SAVED_VAR(/obj/structure/disposalpipe, base_icon_state)
 
 /obj/structure/disposalpipe/Initialize()
 	. = ..()

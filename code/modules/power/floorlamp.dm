@@ -64,7 +64,7 @@
 	set_scale(1.2, 1.2) // i hate this
 
 /obj/machinery/light/flamp/noshade
-	icon_state = "flampshade_map"
+	icon_state = "flamp_map"
 	lampshade = null
 
 /obj/item/lampshade

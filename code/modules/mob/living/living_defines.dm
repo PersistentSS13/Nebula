@@ -5,8 +5,8 @@
 	abstract_type = /mob/living
 
 	//Health and life related vars
-	var/maxHealth = 100 //Maximum health that should be possible.
-	var/health = 100 	//A mob's health
+	max_health = 100 //Maximum health that should be possible.
+	current_health = INFINITY // A mob's current health. Set by update_health(). Defaults to INFINITY so mobs don't die on init.
 
 	var/hud_updateflag = 0
 
@@ -66,3 +66,7 @@
 	var/original_genetic_seed
 	var/unique_enzymes
 	var/blood_type = "A+"
+
+	// Used to track appearance descriptor datums.
+	// Currently only on humans due to the spaghetti code involved, TODO: generalize.
+	var/list/appearance_descriptors

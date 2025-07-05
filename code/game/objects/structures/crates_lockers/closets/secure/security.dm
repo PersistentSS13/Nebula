@@ -2,6 +2,8 @@
 	name = "captain's locker"
 	req_access = list(access_captain)
 	closet_appearance = /decl/closet_appearance/secure_closet/command
+	//mapper preview
+	color = COLOR_BLUE_GRAY
 
 /obj/structure/closet/secure_closet/captains/WillContain()
 	return list(
@@ -26,6 +28,8 @@
 	name = "head of personnel's locker"
 	closet_appearance = /decl/closet_appearance/secure_closet/command/hop
 	req_access = list(access_hop)
+	//mapper preview
+	color = COLOR_PALE_BLUE_GRAY
 
 /obj/structure/closet/secure_closet/hop/WillContain()
 	return list(
@@ -40,6 +44,8 @@
 	name = "head of personnel's attire"
 	req_access = list(access_hop)
 	closet_appearance = /decl/closet_appearance/secure_closet/command/hop
+	//mapper preview
+	color = COLOR_PALE_BLUE_GRAY
 
 /obj/structure/closet/secure_closet/hop2/WillContain()
 	return list(
@@ -62,6 +68,8 @@
 	name = "head of security's locker"
 	req_access = list(access_hos)
 	closet_appearance = /decl/closet_appearance/secure_closet/security/hos
+	//mapper preview
+	color = COLOR_NT_RED
 
 /obj/structure/closet/secure_closet/hos/WillContain()
 	return list(
@@ -89,6 +97,8 @@
 	name = "warden's locker"
 	req_access = list(access_armory)
 	closet_appearance = /decl/closet_appearance/secure_closet/security/warden
+	//mapper preview
+	color = COLOR_NT_RED
 
 /obj/structure/closet/secure_closet/warden/WillContain()
 	return list(
@@ -115,6 +125,8 @@
 	name = "security officer's locker"
 	req_access = list(access_brig)
 	closet_appearance = /decl/closet_appearance/secure_closet/security
+	//mapper preview
+	color = COLOR_NT_RED
 
 /obj/structure/closet/secure_closet/security/WillContain()
 	return list(
@@ -139,6 +151,10 @@
 	name = "detective's cabinet"
 	req_access = list(access_forensics_lockers)
 	closet_appearance = /decl/closet_appearance/cabinet/secure
+	//mapper preview
+	icon  =  'icons/obj/closets/bases/cabinet.dmi'
+	icon_state = "base"
+	color      = WOOD_COLOR_RICH
 
 /obj/structure/closet/secure_closet/detective/WillContain()
 	return list(

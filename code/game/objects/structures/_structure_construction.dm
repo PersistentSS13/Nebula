@@ -2,6 +2,8 @@
 	var/wired
 	var/tool_interaction_flags
 
+SAVED_VAR(/obj/structure, wired)
+
 /obj/structure/proc/handle_default_wrench_attackby(var/mob/user, var/obj/item/wrench)
 	if((tool_interaction_flags & TOOL_INTERACTION_ANCHOR) && can_unanchor(user))
 		playsound(src.loc, 'sound/items/Ratchet.ogg', 100, 1)
@@ -103,14 +105,15 @@
 	. = istype(tool, /obj/item/stack/material) && tool.get_material_type() == get_material_type()
 
 /obj/structure/proc/handle_repair(mob/user, obj/item/tool)
+	var/current_max_health = get_max_health()
 	var/obj/item/stack/stack = tool
-	var/amount_needed = CEILING((maxhealth - health)/DOOR_REPAIR_AMOUNT)
+	var/amount_needed = CEILING((current_max_health - current_health)/DOOR_REPAIR_AMOUNT)
 	var/used = min(amount_needed,stack.amount)
 	if(used)
-		to_chat(user, SPAN_NOTICE("You fit [used] [stack.singular_name]\s to damaged areas of \the [src]."))
+		to_chat(user, SPAN_NOTICE("You fit [stack.get_string_for_amount(used)] to damaged areas of \the [src]."))
 		stack.use(used)
 		last_damage_message = null
-		health = clamp(health, health + used*DOOR_REPAIR_AMOUNT, maxhealth)
+		current_health = clamp(current_health + used*DOOR_REPAIR_AMOUNT, current_health, current_max_health)
 
 /obj/structure/attackby(obj/item/O, mob/user)
 

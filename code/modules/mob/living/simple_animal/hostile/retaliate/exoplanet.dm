@@ -4,6 +4,9 @@
 	nutrition = 300
 	var/list/prey
 
+/mob/living/simple_animal/hostile/retaliate/beast/get_satiated_nutrition()
+	return 250
+
 /mob/living/simple_animal/hostile/retaliate/beast/get_max_nutrition()
 	return 300
 
@@ -40,7 +43,7 @@
 		var/turf/T = get_turf(S)
 		var/obj/item/remains/xeno/X = new(T)
 		X.desc += "These look like they belong to \a [S.name]."
-		beast.adjust_nutrition(5 * S.maxHealth)
+		beast.adjust_nutrition(5 * S.get_max_health())
 		if(prob(5))
 			S.gib()
 		else
@@ -74,18 +77,17 @@
 	faction = "samak"
 	icon = 'icons/mob/simple_animal/samak.dmi'
 	move_to_delay = 2
-	maxHealth = 125
-	health = 125
+	max_health = 125
 	speed = 2
 	natural_weapon = /obj/item/natural_weapon/claws
 	cold_damage_per_tick = 0
-	speak_chance = 5
-	speak = list("Hruuugh!","Hrunnph")
-	emote_see = list("paws the ground","shakes its mane","stomps")
-	emote_hear = list("snuffles")
+	speak_chance = 2.5
+	emote_speech = list("Hruuugh!","Hrunnph")
+	emote_see    = list("paws the ground","shakes its mane","stomps")
+	emote_hear   = list("snuffles")
 	natural_armor = list(
 		ARMOR_MELEE = ARMOR_MELEE_KNIVES
-		)
+	)
 
 /mob/living/simple_animal/hostile/retaliate/beast/samak/alt
 	desc = "A fast, armoured predator accustomed to hiding and ambushing."
@@ -96,16 +98,15 @@
 	desc = "A small pack animal. Although omnivorous, it will hunt meat on occasion."
 	faction = "diyaab"
 	icon = 'icons/mob/simple_animal/diyaab.dmi'
-	move_to_delay = 1
-	maxHealth = 25
-	health = 25
+	move_to_delay = 3
+	max_health = 25
 	speed = 1
 	natural_weapon = /obj/item/natural_weapon/claws/weak
 	cold_damage_per_tick = 0
-	speak_chance = 5
-	speak = list("Awrr?","Aowrl!","Worrl")
-	emote_see = list("sniffs the air cautiously","looks around")
-	emote_hear = list("snuffles")
+	speak_chance = 2.5
+	emote_speech = list("Awrr?","Aowrl!","Worrl")
+	emote_see    = list("sniffs the air cautiously","looks around")
+	emote_hear   = list("snuffles")
 	mob_size = MOB_SIZE_SMALL
 
 /mob/living/simple_animal/hostile/retaliate/beast/shantak
@@ -113,15 +114,14 @@
 	desc = "A piglike creature with a bright iridiscent mane that sparkles as though lit by an inner light. Don't be fooled by its beauty though."
 	faction = "shantak"
 	icon = 'icons/mob/simple_animal/shantak.dmi'
-	move_to_delay = 1
-	maxHealth = 75
-	health = 75
+	move_to_delay = 3
+	max_health = 75
 	speed = 1
 	natural_weapon = /obj/item/natural_weapon/claws
 	cold_damage_per_tick = 0
-	speak_chance = 2
-	speak = list("Shuhn","Shrunnph?","Shunpf")
-	emote_see = list("scratches the ground","shakes out its mane","tinkles gently")
+	speak_chance = 1
+	emote_speech = list("Shuhn","Shrunnph?","Shunpf")
+	emote_see    = list("scratches the ground","shakes out its mane","tinkles gently")
 
 /mob/living/simple_animal/hostile/retaliate/beast/shantak/alt
 	desc = "A piglike creature with a long and graceful mane. Don't be fooled by its beauty."
@@ -144,7 +144,7 @@
 	name = "taki"
 	desc = "It looks like a bunch of legs."
 	icon = 'icons/mob/simple_animal/bug.dmi'
-	speak_chance = 1
+	speak_chance = 0.5
 	emote_hear = list("scratches the ground","chitters")
 	mob_size = MOB_SIZE_MINISCULE
 
@@ -154,11 +154,10 @@
 	faction = "crab"
 	icon = 'icons/mob/simple_animal/royalcrab.dmi'
 	move_to_delay = 3
-	maxHealth = 150
-	health = 150
+	max_health = 150
 	speed = 1
 	natural_weapon = /obj/item/natural_weapon/pincers
-	speak_chance = 1
+	speak_chance = 0.5
 	emote_see = list("skitters","oozes liquid from its mouth", "scratches at the ground", "clicks its claws")
 	natural_armor = list(
 		ARMOR_MELEE = ARMOR_MELEE_RESISTANT
@@ -169,8 +168,7 @@
 	desc = "A huge grubby creature."
 	icon = 'icons/mob/simple_animal/char.dmi'
 	mob_size = MOB_SIZE_LARGE
-	health = 45
-	maxHealth = 45
+	max_health = 45
 	natural_weapon = /obj/item/natural_weapon/charbaby
 	speed = 2
 	return_damage_min = 2
@@ -203,4 +201,4 @@
 /mob/living/simple_animal/hostile/retaliate/beast/shantak/lava
 	desc = "A vaguely canine looking beast. It looks as though its fur is made of stone wool."
 	icon = 'icons/mob/simple_animal/lavadog.dmi'
-	speak = list("Karuph","Karump")
+	emote_speech = list("Karuph","Karump")

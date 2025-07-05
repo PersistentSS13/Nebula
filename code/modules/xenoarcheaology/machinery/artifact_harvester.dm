@@ -5,7 +5,7 @@
 /obj/machinery/artifact_harvester
 	name = "exotic particle harvester"
 	icon = 'icons/obj/xenoarchaeology.dmi'
-	icon_state = "xenoarchaeology_harvester"
+	icon_state = "xenoarch_harvester"
 	anchored = TRUE
 	density = TRUE
 	idle_power_usage = 50
@@ -31,7 +31,7 @@
 	if(!owned_scanner)
 		owned_scanner = locate(/obj/machinery/artifact_scanpad) in orange(1, src)
 	if(owned_scanner)
-		events_repository.register(/decl/observ/destroyed, owned_scanner, src, /obj/machinery/artifact_analyser/proc/clear_scanner)
+		events_repository.register(/decl/observ/destroyed, owned_scanner, src, TYPE_PROC_REF(/obj/machinery/artifact_analyser, clear_scanner))
 
 /obj/machinery/artifact_harvester/Destroy()
 	clear_scanner()
@@ -53,7 +53,7 @@
 	if(cur_artifact == new_artifact || !new_artifact)
 		return
 	clear_artifact()
-	events_repository.register(/decl/observ/destroyed, new_artifact, src, /obj/machinery/artifact_harvester/proc/clear_artifact)
+	events_repository.register(/decl/observ/destroyed, new_artifact, src, TYPE_PROC_REF(/obj/machinery/artifact_harvester, clear_artifact))
 	cur_artifact = new_artifact
 
 /obj/machinery/artifact_harvester/attackby(var/obj/I, var/mob/user)
@@ -98,9 +98,9 @@
 
 /obj/machinery/artifact_harvester/on_update_icon()
 	if(inserted_battery)
-		icon_state = "xenoarchaeology_harvester"
+		icon_state = "xenoarch_harvester"
 	else
-		icon_state = "xenoarchaeology_harvester_battery"
+		icon_state = "xenoarch_harvester_battery"
 
 /obj/machinery/artifact_harvester/proc/set_mode(new_mode)
 	mode = new_mode

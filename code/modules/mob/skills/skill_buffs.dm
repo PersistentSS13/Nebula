@@ -4,6 +4,10 @@
 	var/limit                   //How many buffs of this type a skillset can have. null = no limit
 	var/datum/skillset/skillset //The skillset to which this buff belongs.
 
+SAVED_VAR(/datum/skill_buff, buffs)
+SAVED_VAR(/datum/skill_buff, limit)
+SAVED_VAR(/datum/skill_buff, skillset)
+
 /datum/skill_buff/New(buff)
 	buffs = buff
 	..()
@@ -71,7 +75,7 @@
 	buff.skillset = skillset
 	skillset.on_levels_change()
 	if(duration)
-		addtimer(CALLBACK(buff, /datum/skill_buff/proc/remove), duration)
+		addtimer(CALLBACK(buff, TYPE_PROC_REF(/datum/skill_buff, remove)), duration)
 	return buff
 
 //Takes a buff type or datum; typing is false here.

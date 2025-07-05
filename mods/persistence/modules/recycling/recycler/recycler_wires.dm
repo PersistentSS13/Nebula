@@ -62,35 +62,35 @@ var/global/const/RECYCLER_WIRE_POWER_SUPPLY    = 5
 			R.recycler_state = !mended? (R.recycler_state | RECYCLER_FLAG_SHORTED) : (R.recycler_state & (~RECYCLER_FLAG_SHORTED))
 	R.update_icon()
 
-/datum/wires/alarm/UpdatePulsed(var/index)
+/datum/wires/recycler/UpdatePulsed(var/index)
 	var/obj/machinery/recycler/R = holder
 	var/mob/living/user = usr
 	switch(index)
 		if(RECYCLER_WIRE_POWER)
 			if(!(R.recycler_state & RECYCLER_FLAG_POWER_CUT))
-				addtimer(CALLBACK(src, /datum/wires/recycler/.proc/clear_power_cut, 10 SECONDS))
+				addtimer(CALLBACK(src, PROC_REF(clear_power_cut), 10 SECONDS))
 				R.update_use_power(POWER_USE_OFF)
 				R.recycler_state |= RECYCLER_FLAG_POWER_CUT
 
 		if(RECYCLER_WIRE_SAFETY_ON)
 			if(!(R.recycler_state & RECYCLER_FLAG_UNSAFE))
 				R.recycler_state |= RECYCLER_FLAG_UNSAFE
-				addtimer(CALLBACK(src, /datum/wires/recycler/.proc/clear_ignore_safety, 5 SECONDS))
+				addtimer(CALLBACK(src, PROC_REF(clear_ignore_safety), 5 SECONDS))
 
 		if (RECYCLER_WIRE_SAFETY_DURATION)
 			if(R.emergency_stop_time == initial(R.emergency_stop_time))
 				R.emergency_stop_time = ((user.skill_check(SKILL_ELECTRICAL, SKILL_EXPERT))? 0 : (1 SECOND))
-				addtimer(CALLBACK(src, /datum/wires/recycler/.proc/clear_emergency_stop_time, 5 SECONDS))
+				addtimer(CALLBACK(src, PROC_REF(clear_emergency_stop_time), 5 SECONDS))
 
 		if(RECYCLER_WIRE_MOTOR_LIMITER)
 			if(!(R.recycler_state & RECYCLER_FLAG_OVERHEATING))
 				R.recycler_state |= RECYCLER_FLAG_OVERHEATING
-				addtimer(CALLBACK(src, /datum/wires/recycler/.proc/clear_overheating, 5 SECONDS))
+				addtimer(CALLBACK(src, PROC_REF(clear_overheating), 5 SECONDS))
 
 		if(RECYCLER_WIRE_POWER_SUPPLY)
 			if(!(R.recycler_state & RECYCLER_FLAG_SHORTED))
 				R.recycler_state |= RECYCLER_FLAG_SHORTED
-				addtimer(CALLBACK(src, /datum/wires/recycler/.proc/clear_shorted, 5 SECONDS))
+				addtimer(CALLBACK(src, PROC_REF(clear_shorted), 5 SECONDS))
 	R.update_icon()
 
 /datum/wires/recycler/proc/clear_ignore_safety()

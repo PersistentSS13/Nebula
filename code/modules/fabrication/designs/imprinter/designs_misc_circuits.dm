@@ -221,9 +221,6 @@
 /datum/fabricator_recipe/imprinter/circuit/chemical_dispenser
 	path = /obj/item/stock_parts/circuitboard/chemical_dispenser
 
-/datum/fabricator_recipe/imprinter/circuit/atmos_control
-	path = /obj/item/stock_parts/circuitboard/atmoscontrol
-
 /datum/fabricator_recipe/imprinter/circuit/pipe_dispenser
 	path = /obj/item/stock_parts/circuitboard/pipedispensor
 
@@ -498,3 +495,24 @@
 
 /datum/fabricator_recipe/imprinter/circuit/geothermal_generator
 	path = /obj/item/stock_parts/circuitboard/geothermal
+
+/datum/fabricator_recipe/imprinter/circuit/area_atmos
+	path = /obj/item/stock_parts/circuitboard/area_atmos
+
+/datum/fabricator_recipe/imprinter/circuit/area_atmos_control
+	path = /obj/item/stock_parts/circuitboard/area_atmos/area
+
+/datum/fabricator_recipe/imprinter/circuit/tag_scrubber_control
+	path = /obj/item/stock_parts/circuitboard/area_atmos/tag
+
+/datum/fabricator_recipe/imprinter/circuit/central_atmos
+	path = /obj/item/stock_parts/circuitboard/central_atmos
+
+/datum/fabricator_recipe/imprinter/circuit/banking_mainframe
+	path = /obj/item/stock_parts/circuitboard/banking_mainframe
+
+/datum/fabricator_recipe/imprinter/circuit/trade_controller
+	path = /obj/item/stock_parts/circuitboard/trade_controller
+
+/datum/fabricator_recipe/imprinter/circuit/telepad
+	path = /obj/item/stock_parts/circuitboard/telepad

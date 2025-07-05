@@ -23,7 +23,7 @@
 	transfer_fingerprints_to(R)
 	R.add_fingerprint(user)
 	if(inflatable_health)
-		R.health = inflatable_health
+		R.current_health = inflatable_health
 	qdel(src)
 
 /obj/item/inflatable/door
@@ -41,7 +41,7 @@
 	opacity = FALSE
 	icon = 'icons/obj/structures/inflatable.dmi'
 	icon_state = "wall"
-	maxhealth = 20
+	max_health = 20
 	hitsound = 'sound/effects/Glasshit.ogg'
 	atmos_canpass = CANPASS_DENSITY
 	material = /decl/material/solid/organic/plastic
@@ -75,19 +75,32 @@
 	check_environment()
 
 /obj/structure/inflatable/proc/check_environment()
-	var/min_pressure = INFINITY
-	var/max_pressure = 0
+
+	var/turf/my_turf = get_turf(src)
+	if(!my_turf || !prob(50))
+		return
+
+	var/airblock // zeroed by ATMOS_CANPASS_TURF
 	var/max_local_temp = 0
+	var/take_environment_damage = get_surrounding_pressure_differential(my_turf, src) > max_pressure_diff
+	if(!take_environment_damage)
+		for(var/check_dir in global.cardinal)
+			var/turf/neighbour = get_step(my_turf, check_dir)
+			if(!istype(neighbour))
+				continue
+			for(var/obj/O in my_turf)
+				if(O == src)
+					continue
+				ATMOS_CANPASS_MOVABLE(airblock, O, neighbour)
+				. |= airblock
+			if(airblock & AIR_BLOCKED)
+				continue
+			ATMOS_CANPASS_TURF(airblock, neighbour, my_turf)
+			if(airblock & AIR_BLOCKED)
+				continue
+			max_local_temp = max(max_local_temp, neighbour.return_air()?.temperature)
 
-	for(var/check_dir in global.cardinal)
-		var/turf/T = get_step(get_turf(src), check_dir)
-		var/datum/gas_mixture/env = T.return_air()
-		var/pressure = env.return_pressure()
-		min_pressure = min(min_pressure, pressure)
-		max_pressure = max(max_pressure, pressure)
-		max_local_temp = max(max_local_temp, env.temperature)
-
-	if(prob(50) && (max_pressure - min_pressure > max_pressure_diff || max_local_temp > max_temp))
+	if(take_environment_damage || max_local_temp > max_temp)
 		take_damage(1)
 
 /obj/structure/inflatable/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
@@ -107,7 +120,7 @@
 			deflate(TRUE)
 
 /obj/structure/inflatable/can_repair_with(obj/item/tool)
-	. = istype(tool, /obj/item/stack/tape_roll/duct_tape) && (health < maxhealth)
+	. = istype(tool, /obj/item/stack/tape_roll/duct_tape) && (current_health < get_max_health())
 
 /obj/structure/inflatable/handle_repair(mob/user, obj/item/tool)
 	var/obj/item/stack/tape_roll/duct_tape/T = tool
@@ -121,7 +134,7 @@
 	playsound(src, 'sound/effects/tape.ogg', 50, TRUE)
 	last_damage_message = null
 	to_chat(user, SPAN_NOTICE("You tape up some of the damage to \the [src]."))
-	health = clamp(health + 3, 0, maxhealth)
+	current_health = clamp(current_health + 3, 0, get_max_health())
 	taped = TRUE
 
 /obj/structure/inflatable/attackby(obj/item/W, mob/user)
@@ -157,7 +170,7 @@
 		spawn(50)
 			var/obj/item/inflatable/R = new undeploy_path(src.loc)
 			src.transfer_fingerprints_to(R)
-			R.inflatable_health = health
+			R.inflatable_health = current_health
 			qdel(src)
 
 /obj/structure/inflatable/verb/hand_deflate()

@@ -10,7 +10,7 @@
 	anchored = TRUE
 	movable_flags = MOVABLE_FLAG_PROXMOVE
 	obj_flags = OBJ_FLAG_MOVES_UNSUPPORTED
-	directional_offset = "{'SOUTH':{'y':21}, 'EAST':{'x':-10}, 'WEST':{'x':10}}"
+	directional_offset = @'{"SOUTH":{"y":21}, "EAST":{"x":-10}, "WEST":{"x":10}}'
 	base_type = /obj/machinery/camera
 	uncreated_component_parts = null
 	construct_state = /decl/machine_construction/wall_frame/panel_closed
@@ -187,8 +187,8 @@
 		set_broken(TRUE)
 
 /obj/machinery/camera/hitby(var/atom/movable/AM)
-	..()
-	if (istype(AM, /obj))
+	. = ..()
+	if(. && istype(AM, /obj))
 		var/obj/O = AM
 		if (O.throwforce >= src.toughness)
 			visible_message(SPAN_WARNING("[src] was hit by [O]!"))
@@ -357,7 +357,7 @@
 /decl/public_access/public_method/toggle_camera
 	name = "toggle camera"
 	desc = "Toggles camera on or off."
-	call_proc = /obj/machinery/camera/proc/toggle_status
+	call_proc = TYPE_PROC_REF(/obj/machinery/camera, toggle_status)
 
 /decl/public_access/public_variable/camera_state
 	expected_type = /obj/machinery/camera

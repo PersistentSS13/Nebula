@@ -25,7 +25,7 @@
 	parts_type = /obj/item/stack/material/strut
 	var/base_icon = "bed"
 
-/obj/structure/bed/user_can_mousedrop_onto(var/mob/user, var/atom/being_dropped, var/incapacitation_flags)
+/obj/structure/bed/user_can_mousedrop_onto(mob/user, atom/being_dropped, incapacitation_flags, params)
 	if(user == being_dropped)
 		return user.Adjacent(src) && !user.incapacitated(INCAPACITATION_STUNNED|INCAPACITATION_KNOCKOUT)
 	return ..()
@@ -50,18 +50,17 @@
 // Reuse the cache/code from stools, todo maybe unify.
 /obj/structure/bed/on_update_icon()
 	..()
+	icon_state = base_icon
 	if(istype(reinf_material))
-		var/image/I = image(icon, "[icon_state]_padding")
 		if(material_alteration & MAT_FLAG_ALTERATION_COLOR)
-			I.appearance_flags |= RESET_COLOR
-			I.color = reinf_material.color
-			add_overlay(I)
+			add_overlay(overlay_image(icon, "[icon_state]_padding", reinf_material.color, RESET_COLOR))
+		else
+			add_overlay(overlay_image(icon, "[icon_state]_padding"))
 
 /obj/structure/bed/CanPass(atom/movable/mover, turf/target, height=0, air_group=0)
 	if(istype(mover) && mover.checkpass(PASS_FLAG_TABLE))
 		return 1
-	else
-		return ..()
+	return ..()
 
 /obj/structure/bed/explosion_act(severity)
 	. = ..()
@@ -237,7 +236,7 @@
 	queue_icon_update()
 	STOP_PROCESSING(SSobj,src)
 
-/obj/structure/bed/roller/handle_mouse_drop(atom/over, mob/user)
+/obj/structure/bed/roller/handle_mouse_drop(atom/over, mob/user, params)
 	if(ishuman(user) || isrobot(user))
 		if(over == buckled_mob && beaker)
 			if(iv_attached)

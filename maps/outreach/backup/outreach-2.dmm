@@ -19,7 +19,7 @@
 /turf/exterior/barren/subterrane/outreach,
 /area/exoplanet/outreach/underground/d1)
 "af" = (
-/turf/exterior/water/outreach,
+/turf/exterior/chlorine_sand/muriatic_acid_swamp,
 /area/exoplanet/outreach/underground/d1)
 "ag" = (
 /obj/structure/cable/yellow{
@@ -1439,7 +1439,7 @@
 	dir = 8;
 	icon_state = "bulb_map"
 	},
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/maint/power/b1)
 "dq" = (
 /obj/machinery/atmospherics/pipe/simple/visible,
@@ -1629,7 +1629,7 @@
 /turf/simulated/floor/bluegrid,
 /area/outreach/outpost/control/servers)
 "dK" = (
-/turf/simulated/open,
+/turf/open,
 /area/turbolift/outreach/b1)
 "dL" = (
 /obj/machinery/light_switch{
@@ -2405,9 +2405,9 @@
 /obj/item/scanner/plant,
 /obj/item/scanner/plant,
 /obj/item/scanner/plant,
-/obj/item/shovel/spade,
-/obj/item/shovel/spade,
-/obj/item/shovel/spade,
+/obj/item/tool/spade,
+/obj/item/tool/spade,
+/obj/item/tool/spade,
 /obj/item/storage/plants,
 /obj/item/storage/plants,
 /obj/item/storage/plants,
@@ -5751,7 +5751,7 @@
 /area/outreach/outpost/medbay/triage)
 "lT" = (
 /obj/structure/table,
-/obj/item/storage/box/donut,
+/obj/item/storage/box/fancy/donut,
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/cafeteria)
 "lU" = (
@@ -8473,7 +8473,7 @@
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/hydroponics)
 "qA" = (
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/stairwell/basement1)
 "qB" = (
 /obj/structure/cable/blue{
@@ -12074,7 +12074,7 @@
 /obj/structure/sign/deck/second{
 	pixel_y = 32
 	},
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/maint/power/b1)
 "xd" = (
 /obj/structure/morgue,
@@ -13812,7 +13812,7 @@
 	icon_state = "down-scrubbers";
 	dir = 1
 	},
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/maint/atmos/b1)
 "An" = (
 /obj/structure/lattice,
@@ -13834,7 +13834,7 @@
 	dir = 1
 	},
 /obj/machinery/light/small,
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/maint/atmos/b1)
 "Ao" = (
 /obj/machinery/atmospherics/pipe/manifold/visible/yellow{
@@ -16287,7 +16287,7 @@
 	icon_state = "open";
 	dir = 8
 	},
-/obj/structure/plasticflaps/airtight,
+/obj/structure/flaps/airtight,
 /obj/machinery/conveyor{
 	dir = 4;
 	icon_state = "conveyor0";
@@ -19273,10 +19273,10 @@
 	dir = 6
 	},
 /obj/structure/rack/dark,
-/obj/item/pickaxe/hammer,
-/obj/item/pickaxe/hammer,
-/obj/item/pickaxe/hammer,
-/obj/item/pickaxe/hammer,
+/obj/item/tool/hammer,
+/obj/item/tool/hammer,
+/obj/item/tool/hammer,
+/obj/item/tool/hammer,
 /obj/effect/decal/cleanable/dirt,
 /turf/simulated/floor/tiled,
 /area/outreach/outpost/mining/b1/storage)

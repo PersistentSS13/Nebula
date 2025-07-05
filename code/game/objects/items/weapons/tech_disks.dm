@@ -112,6 +112,8 @@
 	color = COLOR_BOTTLE_GREEN
 	var/list/stored_tech
 
+SAVED_VAR(/obj/item/disk/tech_disk, stored_tech)
+
 ///////////////////////////////////////////////////////////////////////////////
 // Component Design Data Disk
 ///////////////////////////////////////////////////////////////////////////////
@@ -128,3 +130,18 @@
 	SetName(initial(name))
 	to_chat(user, SPAN_DANGER("You flick the erase switch and wipe \the [src]."))
 	return TRUE
+
+///////////////////////////////////////////////////////////////////////////////
+// Exploration and Mining Data Disk
+///////////////////////////////////////////////////////////////////////////////
+/obj/item/disk/survey
+	name = "survey data disk"
+	color = COLOR_DARK_BROWN
+	var/data = 0
+
+/obj/item/disk/survey/examine(mob/user)
+	. = ..()
+	to_chat(user, "A tiny indicator on \the [src] shows it holds [data] good explorer point\s.")
+
+/obj/item/disk/survey/get_base_value()
+	. = holographic ? 0 : (sqrt(data) * 5)

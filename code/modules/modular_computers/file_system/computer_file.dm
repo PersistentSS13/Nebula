@@ -22,6 +22,13 @@ var/global/file_uid = 0
 	var/list/write_access
 	var/list/mod_access
 
+SAVED_VAR(/datum/computer_file, filename)
+SAVED_VAR(/datum/computer_file, holder)
+SAVED_VAR(/datum/computer_file, metadata)
+SAVED_VAR(/datum/computer_file, read_access)
+SAVED_VAR(/datum/computer_file, write_access)
+SAVED_VAR(/datum/computer_file, mod_access)
+
 /datum/computer_file/New(var/list/md = null)
 	..()
 	uid = file_uid

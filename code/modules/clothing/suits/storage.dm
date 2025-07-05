@@ -2,6 +2,9 @@
 	var/obj/item/storage/internal/pockets/pockets
 	var/slots = 2
 
+SAVED_VAR(/obj/item/clothing/suit/storage, pockets)
+SAVED_VAR(/obj/item/clothing/suit/storage, slots)
+
 /obj/item/clothing/suit/storage/Initialize()
 	. = ..()
 	pockets = new/obj/item/storage/internal/pockets(src, slots, ITEM_SIZE_SMALL) //fit only pocket sized items
@@ -15,7 +18,7 @@
 		return ..(user)
 	return TRUE
 
-/obj/item/clothing/suit/storage/handle_mouse_drop(atom/over, mob/user)
+/obj/item/clothing/suit/storage/handle_mouse_drop(atom/over, mob/user, params)
 	if(istype(over, /obj/screen/inventory))
 		return ..()
 	return pockets?.handle_storage_internal_mouse_drop(user, over) && ..()

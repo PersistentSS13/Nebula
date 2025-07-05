@@ -29,7 +29,7 @@
 	use_sound = 'sound/effects/storage/box.ogg'
 	material = /decl/material/solid/organic/cardboard
 	obj_flags = OBJ_FLAG_HOLLOW
-	var/foldable = /obj/item/stack/material/cardstock	// BubbleWrap - if set, can be folded (when empty) into a sheet of cardboard
+	var/foldable = /obj/item/stack/material/cardstock
 
 /obj/item/storage/box/large
 	name = "large box"
@@ -56,11 +56,10 @@
 /obj/item/storage/box/attack_self(mob/user)
 	. = ..()
 	if(. || length(contents) || !ispath(foldable) || !istype(material))
-		return
+		return TRUE
 	var/sheet_amount = FLOOR(LAZYACCESS(matter, material.type) / SHEET_MATERIAL_AMOUNT)
 	if(sheet_amount <= 0 || !user.try_unequip(src))
-		return
-
+		return TRUE
 	to_chat(user, SPAN_NOTICE("You fold \the [src] flat."))
 	if(ispath(foldable, /obj/item/stack))
 		new foldable(get_turf(src), sheet_amount, material.type)
@@ -82,7 +81,7 @@
 	return list(
 				/obj/item/clothing/mask/breath,
 				/obj/item/tank/emergency/oxygen,
-				/obj/item/chems/hypospray/autoinjector,
+				/obj/item/chems/hypospray/autoinjector/stabilizer,
 				/obj/item/stack/medical/bruise_pack,
 				/obj/item/flashlight/flare/glowstick,
 				/obj/item/chems/food/candy/proteinbar,
@@ -99,7 +98,7 @@
 	return list(
 				/obj/item/clothing/mask/breath/scba,
 				/obj/item/tank/emergency/oxygen/engi,
-				/obj/item/chems/hypospray/autoinjector,
+				/obj/item/chems/hypospray/autoinjector/stabilizer,
 				/obj/item/chems/hypospray/autoinjector/antirad,
 				/obj/item/stack/medical/bruise_pack,
 				/obj/item/flashlight/flare/glowstick,
@@ -450,7 +449,7 @@
 	icon_state = "syringe"
 
 /obj/item/storage/box/autoinjectors/WillContain()
-	return list(/obj/item/chems/hypospray/autoinjector = 7)
+	return list(/obj/item/chems/hypospray/autoinjector/stabilizer = 7)
 
 /obj/item/storage/box/lights
 	name = "box of replacement bulbs"
@@ -523,6 +522,13 @@
 /obj/item/storage/box/greenglowsticks/WillContain()
 	return list(/obj/item/flashlight/flare/glowstick = 6)
 
+/obj/item/storage/box/flares
+	name = "box of flares"
+	icon_state = "box"
+
+/obj/item/storage/box/flares/WillContain()
+	return list(/obj/item/flashlight/flare = 6)
+
 /obj/item/storage/box/freezer
 	name = "portable freezer"
 	desc = "This nifty shock-resistant device will keep your 'groceries' nice and non-spoiled."
@@ -546,11 +552,11 @@
 	icon_state = "checkers"
 	max_storage_space = 24
 	foldable = null
-	can_hold = list(/obj/item/chems/food/checker)
+	can_hold = list(/obj/item/checker)
 /obj/item/storage/box/checkers/WillContain()
 	return list(
-			/obj/item/chems/food/checker = 12,
-			/obj/item/chems/food/checker/red = 12
+			/obj/item/checker = 12,
+			/obj/item/checker/red = 12
 		)
 
 /obj/item/storage/box/checkers/chess
@@ -559,12 +565,12 @@
 	icon_state = "chess_b"
 /obj/item/storage/box/checkers/chess/WillContain()
 	return list(
-			/obj/item/chems/food/checker/pawn   = 8,
-			/obj/item/chems/food/checker/knight = 2,
-			/obj/item/chems/food/checker/bishop = 2,
-			/obj/item/chems/food/checker/rook   = 2,
-			/obj/item/chems/food/checker/queen  = 1,
-			/obj/item/chems/food/checker/king   = 1
+			/obj/item/checker/pawn   = 8,
+			/obj/item/checker/knight = 2,
+			/obj/item/checker/bishop = 2,
+			/obj/item/checker/rook   = 2,
+			/obj/item/checker/queen  = 1,
+			/obj/item/checker/king   = 1
 		)
 
 /obj/item/storage/box/checkers/chess/red
@@ -573,18 +579,19 @@
 	icon_state = "chess_r"
 /obj/item/storage/box/checkers/chess/red/WillContain()
 	return list(
-			/obj/item/chems/food/checker/pawn/red   = 8,
-			/obj/item/chems/food/checker/knight/red = 2,
-			/obj/item/chems/food/checker/bishop/red = 2,
-			/obj/item/chems/food/checker/rook/red   = 2,
-			/obj/item/chems/food/checker/queen/red  = 1,
-			/obj/item/chems/food/checker/king/red   = 1
+			/obj/item/checker/pawn/red   = 8,
+			/obj/item/checker/knight/red = 2,
+			/obj/item/checker/bishop/red = 2,
+			/obj/item/checker/rook/red   = 2,
+			/obj/item/checker/queen/red  = 1,
+			/obj/item/checker/king/red   = 1
 		)
 
 
 /obj/item/storage/box/headset
 	name = "box of spare headsets"
 	desc = "A box full of headsets."
+	icon_state = "headsets"
 /obj/item/storage/box/headset/WillContain()
 	return list(/obj/item/radio/headset = 7)
 
@@ -777,3 +784,57 @@
 	icon_state = "keyboard"
 /obj/item/storage/box/parts_pack/keyboard/WillContain()
 	return list(/obj/item/stock_parts/keyboard = 7)
+
+/obj/item/storage/box/pens
+	name = "box of spare pens"
+	desc = "A box full of pens."
+	icon_state = "pens"
+/obj/item/storage/box/pens/WillContain()
+	return list(
+		/obj/item/pen       = 3,
+		/obj/item/pen/blue  = 2,
+		/obj/item/pen/red   = 2,
+		/obj/item/pen/green = 2,
+	)
+
+/obj/item/storage/box/taperolls/police
+	name = "box of spare police taperolls"
+	desc = "A box full of police barricade tape rolls."
+/obj/item/storage/box/taperolls/police/WillContain()
+	var/obj/item/stack/tape_roll/barricade_tape/police/P = /obj/item/stack/tape_roll/barricade_tape/police
+	return list(/obj/item/stack/tape_roll/barricade_tape/police =  BASE_STORAGE_CAPACITY(initial(P.w_class)))
+
+/obj/item/storage/box/taperolls/engineering
+	name = "box of spare police taperolls"
+	desc = "A box full of police barricade tape rolls."
+/obj/item/storage/box/taperolls/engineering/WillContain()
+	var/obj/item/stack/tape_roll/barricade_tape/engineering/P = /obj/item/stack/tape_roll/barricade_tape/engineering
+	return list(/obj/item/stack/tape_roll/barricade_tape/engineering =  BASE_STORAGE_CAPACITY(initial(P.w_class)))
+
+/obj/item/storage/box/taperolls/atmos
+	name = "box of spare atmos taperolls"
+	desc = "A box full of atmos barricade tape rolls."
+/obj/item/storage/box/taperolls/atmos/WillContain()
+	var/obj/item/stack/tape_roll/barricade_tape/atmos/P = /obj/item/stack/tape_roll/barricade_tape/atmos
+	return list(/obj/item/stack/tape_roll/barricade_tape/atmos =  BASE_STORAGE_CAPACITY(initial(P.w_class)))
+
+/obj/item/storage/box/taperolls/research
+	name = "box of spare research taperolls"
+	desc = "A box full of research barricade tape rolls."
+/obj/item/storage/box/taperolls/research/WillContain()
+	var/obj/item/stack/tape_roll/barricade_tape/research/P = /obj/item/stack/tape_roll/barricade_tape/research
+	return list(/obj/item/stack/tape_roll/barricade_tape/research =  BASE_STORAGE_CAPACITY(initial(P.w_class)))
+
+/obj/item/storage/box/taperolls/medical
+	name = "box of spare medical taperolls"
+	desc = "A box full of medical barricade tape rolls."
+/obj/item/storage/box/taperolls/medical/WillContain()
+	var/obj/item/stack/tape_roll/barricade_tape/medical/P = /obj/item/stack/tape_roll/barricade_tape/medical
+	return list(/obj/item/stack/tape_roll/barricade_tape/medical =  BASE_STORAGE_CAPACITY(initial(P.w_class)))
+
+/obj/item/storage/box/taperolls/bureaucracy
+	name = "box of spare bureaucracy taperolls"
+	desc = "A box full of bureaucracy barricade tape rolls."
+/obj/item/storage/box/taperolls/bureaucracy/WillContain()
+	var/obj/item/stack/tape_roll/barricade_tape/bureaucracy/P = /obj/item/stack/tape_roll/barricade_tape/bureaucracy
+	return list(/obj/item/stack/tape_roll/barricade_tape/bureaucracy =  BASE_STORAGE_CAPACITY(initial(P.w_class)))

@@ -8,5 +8,4 @@
 
 /turf/exterior/barren/subterrane/outreach/acid/Initialize(ml, floortype)
 	. = ..()
-	make_flooded(TRUE)
-	add_fluid(/decl/material/liquid/acid/hydrochloric, FLUID_MAX_DEPTH)
+	set_flooded(/decl/material/liquid/acid/hydrochloric)

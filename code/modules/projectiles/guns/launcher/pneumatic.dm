@@ -3,7 +3,7 @@
 	desc = "A large gas-powered cannon."
 	icon = 'icons/obj/guns/launcher/pneumatic.dmi'
 	icon_state = ICON_STATE_WORLD
-	origin_tech = "{'combat':4,'materials':3}"
+	origin_tech = @'{"combat":4,"materials":3}'
 	slot_flags = SLOT_LOWER_BODY
 	w_class = ITEM_SIZE_HUGE
 	obj_flags =  OBJ_FLAG_CONDUCTIBLE
@@ -22,6 +22,10 @@
 	var/force_divisor = 400                     // Force equates to speed. Speed/5 equates to a damage multiplier for whoever you hit.
 	                                            // For reference, a fully pressurized oxy tank at 50% gas release firing a health
 	                                            // analyzer with a force_divisor of 10 hit with a damage multiplier of 3000+.
+
+SAVED_VAR(/obj/item/gun/launcher/pneumatic, tank)
+SAVED_VAR(/obj/item/gun/launcher/pneumatic, item_storage)
+SAVED_VAR(/obj/item/gun/launcher/pneumatic, pressure_setting)
 
 /obj/item/gun/launcher/pneumatic/Initialize()
 	. = ..()
@@ -133,7 +137,7 @@
 		icon_state = get_world_inventory_state()
 	update_held_icon()
 
-/obj/item/gun/launcher/pneumatic/adjust_mob_overlay(var/mob/living/user_mob, var/bodytype,  var/image/overlay, var/slot, var/bodypart)
+/obj/item/gun/launcher/pneumatic/adjust_mob_overlay(mob/living/user_mob, bodytype, image/overlay, slot, bodypart, use_fallback_if_icon_missing = TRUE)
 	if(overlay && tank)
 		overlay.icon_state += "-tank"
 	. = ..()

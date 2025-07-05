@@ -48,7 +48,7 @@
 
 	var/note_num = delta1+delta2+global.musical_config.nn2no[note]
 	if (note_num < 0 || note_num > 127)
-		CRASH("play_synthesized note failed because of 0..127 condition, [note], [acc], [oct]")
+		CRASH("play_synthesized note failed because of 0-127 condition, [note], [acc], [oct]")
 
 	var/datum/sample_pair/pair = src.instrument_data.sample_map[global.musical_config.n2t(note_num)]
 	#define Q 0.083 // 1/12
@@ -191,7 +191,7 @@
 	var/list/allowed_suff = list("b", "n", "#", "s")
 	var/list/note_off_delta = list("a"=91, "b"=91, "c"=98, "d"=98, "e"=98, "f"=98, "g"=98)
 	var/list/lines_copy = src.lines.Copy()
-	addtimer(CALLBACK(src, .proc/play_lines, user, allowed_suff, note_off_delta, lines_copy), 0)
+	addtimer(CALLBACK(src, PROC_REF(play_lines), user, allowed_suff, note_off_delta, lines_copy), 0)
 
 #undef CP
 #undef IS_DIGIT

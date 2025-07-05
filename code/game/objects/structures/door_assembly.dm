@@ -21,6 +21,14 @@
 	var/symbol_color = "none"
 	var/width = 1 // For multi-tile doors
 
+SAVED_VAR(/obj/structure/door_assembly, state)
+SAVED_VAR(/obj/structure/door_assembly, glass)
+SAVED_VAR(/obj/structure/door_assembly, glass_material)
+SAVED_VAR(/obj/structure/door_assembly, door_color)
+SAVED_VAR(/obj/structure/door_assembly, stripe_color)
+SAVED_VAR(/obj/structure/door_assembly, symbol_color)
+SAVED_VAR(/obj/structure/door_assembly, electronics)
+
 /obj/structure/door_assembly/Initialize(mapload, _mat, _reinf_mat, _dir)
 	. = ..(mapload, _mat, _reinf_mat)
 	set_dir(_dir)

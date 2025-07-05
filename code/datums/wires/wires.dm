@@ -23,6 +23,11 @@ var/global/list/wireColourNames = list("darkred" = "dark red")
 
 	var/list/descriptions // Descriptions of wires (datum/wire_description) for use with examining.
 
+SAVED_VAR(/datum/wires, wire_count)
+SAVED_VAR(/datum/wires, wires_status)
+SAVED_VAR(/datum/wires, wires)
+SAVED_VAR(/datum/wires, signallers)
+
 /datum/wires/New(var/atom/holder)
 	..()
 	src.holder = holder

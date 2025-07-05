@@ -37,7 +37,7 @@
 	level_id            = "kleibkhar_sky"
 	ambient_light_level = 1.0
 	base_area           = /area/exoplanet/kleibkhar/sky
-	base_turf           = /turf/exterior/open
+	base_turf           = /turf/open
 
 /datum/level_data/planetoid/kleibkhar/underground
 	name                = "kleibkhar underground"

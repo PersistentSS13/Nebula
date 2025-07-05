@@ -8,20 +8,17 @@
 
 /obj/machinery/computer/modular/preset/full
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/computer/card_slot,
 		/obj/item/stock_parts/computer/ai_slot,
 		)
 
 /obj/machinery/computer/modular/preset/aislot
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/computer/ai_slot
 		)
 
 /obj/machinery/computer/modular/preset/cardslot
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/computer/card_slot
 		)
 
@@ -70,6 +67,15 @@
 		/datum/computer_file/program/wordprocessor
 	)
 	autorun_program = /datum/computer_file/program/rcon_console
+
+/obj/machinery/computer/modular/preset/engineering/atmospherics
+	default_software = list(
+		/datum/computer_file/program/atmos_control,
+		/datum/computer_file/program/shutoff_valve,
+		/datum/computer_file/program/alarm_monitor,
+		/datum/computer_file/program/wordprocessor
+	)
+	autorun_program = /datum/computer_file/program/shutoff_valve
 
 /obj/machinery/computer/modular/preset/medical
 	default_software = list(

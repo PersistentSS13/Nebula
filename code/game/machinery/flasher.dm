@@ -5,7 +5,7 @@
 	desc = "A wall-mounted flashbulb device."
 	icon = 'icons/obj/machines/flash_mounted.dmi'
 	icon_state = "mflash1"
-	directional_offset = "{'NORTH':{'y':-32}, 'SOUTH':{'y':32}, 'EAST':{'x':32}, 'WEST':{'x':-32}}"
+	directional_offset = @'{"NORTH":{"y":-16}, "SOUTH":{"y":32}, "EAST":{"x":32}, "WEST":{"x":-32}}'
 	obj_flags = OBJ_FLAG_MOVES_UNSUPPORTED
 	var/range = 2 //this is roughly the size of brig cell
 	var/disable = 0
@@ -145,7 +145,7 @@
 /decl/public_access/public_method/flasher_flash
 	name = "flash"
 	desc = "Performs a flash, if possible."
-	call_proc = /obj/machinery/flasher/proc/flash
+	call_proc = TYPE_PROC_REF(/obj/machinery/flasher, flash)
 
 /decl/stock_part_preset/radio/receiver/flasher
 	frequency = BUTTON_FREQ

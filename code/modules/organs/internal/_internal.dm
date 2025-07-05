@@ -24,6 +24,9 @@
 	var/min_bruised_damage = 10       // Damage before considered bruised
 	var/damage_reduction = 0.5     //modifier for internal organ injury
 
+	/// Whether or not we should try to transfer a brainmob when removed or replaced in a mob.
+	var/transfer_brainmob_with_organ = FALSE
+
 /obj/item/organ/internal/Initialize(mapload, material_key, datum/dna/given_dna, decl/bodytype/new_bodytype)
 	if(!alive_icon)
 		alive_icon = initial(icon_state)
@@ -54,6 +57,9 @@
 		affected.update_internal_organs_cost()
 
 /obj/item/organ/internal/do_uninstall(in_place, detach, ignore_children, update_icon)
+
+	var/mob/living/victim = owner // cleared in parent proc
+
 	//Make sure we're removed from whatever parent organ we have, either in a mob or not
 	var/obj/item/organ/external/affected
 	if(owner)
@@ -66,6 +72,7 @@
 	if(affected)
 		LAZYREMOVE(affected.internal_organs, src)
 		affected.update_internal_organs_cost()
+
 	. = ..()
 
 	//Remove it from the implants if we are fully removing, or add it to the implants if we are detaching
@@ -74,6 +81,9 @@
 			LAZYDISTINCTADD(affected.implants, src)
 		else
 			LAZYREMOVE(affected.implants, src)
+
+	if(transfer_brainmob_with_organ && istype(victim))
+		transfer_key_to_brainmob(victim, update_brainmob = TRUE)
 
 //#TODO: Remove rejuv hacks
 /obj/item/organ/internal/remove_rejuv()
@@ -94,8 +104,8 @@
 /obj/item/organ/internal/proc/is_bruised()
 	return damage >= min_bruised_damage
 
-/obj/item/organ/internal/proc/set_max_damage(var/ndamage)
-	max_damage = FLOOR(ndamage)
+/obj/item/organ/internal/set_max_damage(var/ndamage)
+	. = ..()
 	min_broken_damage = FLOOR(0.75 * max_damage)
 	min_bruised_damage = FLOOR(0.25 * max_damage)
 	if(damage_threshold_count > 0)
@@ -106,9 +116,9 @@
 
 /obj/item/organ/internal/proc/take_internal_damage(amount, var/silent=0)
 	if(BP_IS_PROSTHETIC(src))
-		damage = clamp(0, src.damage + (amount * 0.8), max_damage)
+		damage = clamp(src.damage + (amount * 0.8), 0, max_damage)
 	else
-		damage = clamp(0, src.damage + amount, max_damage)
+		damage = clamp(src.damage + amount, 0, max_damage)
 
 		//only show this if the organ is not robotic
 		if(owner && can_feel_pain() && parent_organ && (amount > 5 || prob(10)))
@@ -147,6 +157,9 @@
 	if(owner && damage && !(status & ORGAN_DEAD))
 		handle_damage_effects()
 
+/obj/item/organ/internal/proc/has_limited_healing()
+	return !min_regeneration_cutoff_threshold || past_damage_threshold(min_regeneration_cutoff_threshold)
+
 /obj/item/organ/internal/proc/handle_damage_effects()
 	SHOULD_CALL_PARENT(TRUE)
 	if(organ_can_heal())
@@ -154,9 +167,7 @@
 		// Determine the lowest our damage can go with the current state.
 		// If we're under the min regeneration cutoff threshold, we can always heal to zero.
 		// If we don't have one set, we can only heal to the nearest threshold value.
-		var/min_heal_val = 0
-		if(!min_regeneration_cutoff_threshold || past_damage_threshold(min_regeneration_cutoff_threshold))
-			min_heal_val = (get_current_damage_threshold() * damage_threshold_value)
+		var/min_heal_val = has_limited_healing() ? (get_current_damage_threshold() * damage_threshold_value) : 0
 
 		// We clamp/round here so that we don't accidentally heal past the threshold and
 		// cheat our way into a full second threshold of healing.
@@ -253,3 +264,37 @@
 		var/obj/item/organ/O = last_owner.get_organ(parent_organ)
 		if(O)
 			O.vital_to_owner = null
+
+// Stub to allow brain interfaces to return their wrapped brainmob.
+/obj/item/organ/internal/proc/get_brainmob(var/create_if_missing = FALSE)
+	return
+
+/obj/item/organ/internal/proc/transfer_key_to_brainmob(var/mob/living/M, var/update_brainmob = TRUE)
+	var/mob/living/brainmob = get_brainmob(create_if_missing = TRUE)
+	if(brainmob)
+		transfer_key_from_mob_to_mob(M, brainmob)
+		if(update_brainmob)
+			brainmob.SetName(M.real_name)
+			brainmob.real_name = M.real_name
+			brainmob.dna = M.dna?.Clone()
+			brainmob.languages = M.languages?.Copy()
+			brainmob.default_language = M.default_language
+			to_chat(brainmob, SPAN_NOTICE("You feel slightly disoriented. That's normal when you're just \a [initial(src.name)]."))
+			callHook("debrain", list(brainmob))
+		return TRUE
+	return FALSE
+
+/obj/item/organ/internal/proc/get_synthetic_owner_name()
+	return "Cyborg"
+
+/obj/item/organ/internal/preserve_in_cryopod(var/obj/machinery/cryopod/pod)
+	var/mob/living/brainmob = get_brainmob()
+	return brainmob?.key
+
+// This might need revisiting to stop people successfully implanting brains in groins and transferring minds.
+/obj/item/organ/internal/do_install(mob/living/carbon/human/target, obj/item/organ/external/affected, in_place, update_icon, detached)
+	. = ..()
+	if(transfer_brainmob_with_organ && istype(owner))
+		var/mob/living/brainmob = get_brainmob(create_if_missing = FALSE)
+		if(brainmob?.key)
+			transfer_key_from_mob_to_mob(brainmob, owner)

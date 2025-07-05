@@ -19,12 +19,26 @@
 	slot_flags = SLOT_EARS
 	sharp = 1
 	item_flags = ITEM_FLAG_NO_BLUDGEON
+
 	var/mode = SYRINGE_DRAW
 	var/visible_name = "a syringe"
 	var/time = 30
+	var/autolabel = TRUE // if set, will add label with the name of the first initial reagent
 	var/can_stab = TRUE
 
 /obj/item/chems/syringe/Initialize(var/mapload)
+	. = ..()
+	update_icon()
+
+/obj/item/chems/syringe/populate_reagents()
+	SHOULD_CALL_PARENT(TRUE)
+	. = ..()
+	if(reagents.total_volume > 0 && autolabel && !label_text) // don't override preset labels
+		label_text = reagents.get_primary_reagent_name()
+		update_container_name()
+
+
+/obj/item/chems/syringe/on_reagent_change()
 	. = ..()
 	update_icon()
 
@@ -182,12 +196,14 @@
 		to_chat(user, SPAN_NOTICE("The syringe is empty."))
 		mode = SYRINGE_DRAW
 		return
-	if(istype(target, /obj/item/implantcase/chem))
+
+	if(!user.Adjacent(target))
 		return
 
-	if(!ATOM_IS_OPEN_CONTAINER(target) && !ismob(target) && !istype(target, /obj/item/chems/food) && !istype(target, /obj/item/clothing/mask/smokable/cigarette) && !istype(target, /obj/item/storage/fancy/cigarettes))
+	if(!ismob(target) && (!target.reagents || !target.can_be_injected_by(src)))
 		to_chat(user, SPAN_NOTICE("You cannot directly fill this object."))
 		return
+
 	if(!REAGENTS_FREE_SPACE(target.reagents))
 		to_chat(user, SPAN_NOTICE("[target] is full."))
 		return
@@ -305,12 +321,14 @@
 	amount_per_transfer_from_this = 60
 	volume = 60
 	visible_name = "a giant syringe"
-	time = 300
+	time = 30 SECONDS
 	mode = SYRINGE_INJECT
+	autolabel = FALSE
 	can_stab = FALSE
 
 /obj/item/chems/syringe/ld50_syringe/populate_reagents()
-	reagents.add_reagent(/decl/material/liquid/heartstopper, reagents.maximum_volume)
+	SHOULD_CALL_PARENT(FALSE)
+	add_to_reagents(/decl/material/liquid/heartstopper, reagents.maximum_volume)
 
 /obj/item/chems/syringe/ld50_syringe/drawReagents(var/target, var/mob/user)
 	if(ismob(target)) // No drawing 60 units of blood at once
@@ -323,49 +341,49 @@
 ////////////////////////////////////////////////////////////////////////////////
 
 /obj/item/chems/syringe/stabilizer
-	name = "syringe (stabilizer)"
 	desc = "Contains stabilizer - for patients in danger of brain damage."
 	mode = SYRINGE_INJECT
 
 /obj/item/chems/syringe/stabilizer/populate_reagents()
-	reagents.add_reagent(/decl/material/liquid/stabilizer, reagents.maximum_volume)
+	add_to_reagents(/decl/material/liquid/stabilizer, reagents.maximum_volume)
+	return ..()
 
 /obj/item/chems/syringe/antitoxin
-	name = "syringe (anti-toxin)"
 	desc = "Contains anti-toxins."
 	mode = SYRINGE_INJECT
 
 /obj/item/chems/syringe/antitoxin/populate_reagents()
-	reagents.add_reagent(/decl/material/liquid/antitoxins, reagents.maximum_volume)
+	add_to_reagents(/decl/material/liquid/antitoxins, reagents.maximum_volume)
+	return ..()
 
 /obj/item/chems/syringe/antibiotic
-	name = "syringe (antibiotics)"
 	desc = "Contains antibiotic agents."
 	mode = SYRINGE_INJECT
 
 /obj/item/chems/syringe/antibiotic/populate_reagents()
-	reagents.add_reagent(/decl/material/liquid/antibiotics, reagents.maximum_volume)
+	add_to_reagents(/decl/material/liquid/antibiotics, reagents.maximum_volume)
+	return ..()
 
 /obj/item/chems/syringe/drugs
-	name = "syringe (drugs)"
 	desc = "Contains aggressive drugs meant for torture."
 	mode = SYRINGE_INJECT
 
 /obj/item/chems/syringe/drugs/populate_reagents()
 	var/vol_each = round(reagents.maximum_volume / 3)
-	reagents.add_reagent(/decl/material/liquid/psychoactives,   vol_each)
-	reagents.add_reagent(/decl/material/liquid/hallucinogenics, vol_each)
-	reagents.add_reagent(/decl/material/liquid/presyncopics,    vol_each)
+	add_to_reagents(/decl/material/liquid/psychoactives,   vol_each)
+	add_to_reagents(/decl/material/liquid/hallucinogenics, vol_each)
+	add_to_reagents(/decl/material/liquid/presyncopics,    vol_each)
+	return ..()
 
 /obj/item/chems/syringe/steroid
-	name = "syringe (anabolic steroids)"
 	desc = "Contains drugs for muscle growth."
 	mode = SYRINGE_INJECT
 
 /obj/item/chems/syringe/steroid/populate_reagents()
 	var/vol_third = round(reagents.maximum_volume/3)
-	reagents.add_reagent(/decl/material/liquid/adrenaline,   vol_third)
-	reagents.add_reagent(/decl/material/liquid/amphetamines, 2 * vol_third)
+	add_to_reagents(/decl/material/liquid/adrenaline,   vol_third)
+	add_to_reagents(/decl/material/liquid/amphetamines, 2 * vol_third)
+	return ..()
 
 // TG ports
 
@@ -380,17 +398,17 @@
 		/decl/material/solid/metal/uranium = MATTER_AMOUNT_TRACE,
 		/decl/material/solid/gemstone/diamond = MATTER_AMOUNT_TRACE
 	)
-	origin_tech = "{'biotech':3,'materials':4,'exoticmatter':2}"
+	origin_tech = @'{"biotech":3,"materials":4,"exoticmatter":2}'
 
 /obj/item/chems/syringe/noreact
 	name = "cryostasis syringe"
 	desc = "An advanced syringe that stops reagents inside from reacting. It can hold up to 20 units."
 	volume = 20
-	atom_flags = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_NO_CHEM_CHANGE
+	atom_flags = ATOM_FLAG_NO_CHEM_CHANGE
 	icon = 'icons/obj/syringe_cryo.dmi'
 	material = /decl/material/solid/glass
 	matter = list(
 		/decl/material/solid/metal/gold = MATTER_AMOUNT_REINFORCEMENT,
 		/decl/material/solid/organic/plastic = MATTER_AMOUNT_TRACE
 	)
-	origin_tech = "{'biotech':4,'materials':4}"
+	origin_tech = @'{"biotech":4,"materials":4}'

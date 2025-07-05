@@ -17,6 +17,17 @@
 	var/open			= FALSE	// Whether or not the lock panel is open.
 	var/error					// Any errors from user input. Temporary.
 
+SAVED_VAR(/datum/extension/lockable, locked)
+SAVED_VAR(/datum/extension/lockable, code)
+SAVED_VAR(/datum/extension/lockable, l_code)
+SAVED_VAR(/datum/extension/lockable, l_set)
+SAVED_VAR(/datum/extension/lockable, l_setshort)
+SAVED_VAR(/datum/extension/lockable, l_hacking)
+SAVED_VAR(/datum/extension/lockable, emagged)
+SAVED_VAR(/datum/extension/lockable, is_digital_lock)
+SAVED_VAR(/datum/extension/lockable, open)
+SAVED_VAR(/datum/extension/lockable, error)
+
 /datum/extension/lockable/New(holder, var/is_digital = FALSE)
 	..(holder)
 	is_digital_lock = is_digital
@@ -125,7 +136,7 @@
 				if (prob(user.skill_fail_chance(SKILL_DEVICES, 40, SKILL_EXPERT)))
 					l_setshort = FALSE
 					user.show_message(SPAN_NOTICE("Internal memory reset. Please give it a few seconds to reinitialize."), 1)
-					addtimer(CALLBACK(src, /datum/extension/lockable/proc/reset_memory), 3 SECONDS)
+					addtimer(CALLBACK(src, TYPE_PROC_REF(/datum/extension/lockable, reset_memory)), 3 SECONDS)
 					return TRUE
 				else
 					user.show_message(SPAN_WARNING("Unable to reset internal memory."), 1)

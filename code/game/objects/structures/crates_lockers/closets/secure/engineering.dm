@@ -2,6 +2,8 @@
 	name = "chief engineer's locker"
 	closet_appearance = /decl/closet_appearance/secure_closet/engineering/ce
 	req_access = list(access_ce)
+	//mapper preview
+	color = COLOR_OFF_WHITE
 
 /obj/structure/closet/secure_closet/engineering_chief/WillContain()
 	return list(
@@ -28,6 +30,8 @@
 	name = "electrical supplies"
 	req_access = list(access_engine_equip)
 	closet_appearance = /decl/closet_appearance/secure_closet/engineering/electrical
+	//mapper preview
+	color = COLOR_YELLOW_GRAY
 
 /obj/structure/closet/secure_closet/engineering_electrical/WillContain()
 	return list(
@@ -42,6 +46,8 @@
 	name = "welding supplies"
 	req_access = list(access_construction)
 	closet_appearance = /decl/closet_appearance/secure_closet/engineering/welding
+	//mapper preview
+	color = COLOR_YELLOW_GRAY
 
 /obj/structure/closet/secure_closet/engineering_welding/WillContain()
 	return list(
@@ -56,6 +62,8 @@
 	name = "engineer's locker"
 	req_access = list(access_engine_equip)
 	closet_appearance = /decl/closet_appearance/secure_closet/engineering
+	//mapper preview
+	color = COLOR_YELLOW_GRAY
 
 /obj/structure/closet/secure_closet/engineering_personal/WillContain()
 	return list(
@@ -75,6 +83,8 @@
 	name = "technician's locker"
 	req_access = list(access_atmospherics)
 	closet_appearance = /decl/closet_appearance/secure_closet/engineering/atmos
+	//mapper preview
+	color = COLOR_YELLOW_GRAY
 
 /obj/structure/closet/secure_closet/atmos_personal/WillContain()
 	return list(

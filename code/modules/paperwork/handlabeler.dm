@@ -45,7 +45,7 @@
 		if(length(label))
 			to_chat(user, "Its label text reads '[SPAN_ITALIC(label)]'.")
 	else
-		to_chat(user, SPAN_NOTICE("You're too far away to tell much more.."))
+		to_chat(user, SPAN_NOTICE("You're too far away to tell much more."))
 
 /obj/item/hand_labeler/attack(mob/living/M, mob/living/user, target_zone, animate)
 	return //No attacking
@@ -91,7 +91,7 @@
 	update_icon()
 
 /obj/item/hand_labeler/proc/show_action_radial_menu(var/mob/user)
-	//#TODO: Cache some of that stuff..
+	//#TODO: Cache some of that stuff.
 	var/image/btn_power = image('icons/screen/radial.dmi', icon_state = safety? "radial_power" : "radial_power_off")
 	btn_power.plane = FLOAT_PLANE
 	btn_power.layer = FLOAT_LAYER
@@ -248,7 +248,7 @@
 // Attach Label Overrides
 ////////////////////////////////////////////////////////////
 /atom/proc/attach_label(var/mob/user, var/atom/labeler, var/label_text)
-	to_chat(user, SPAN_WARNING("The label refuses to stick to [name]."))
+	to_chat(user, SPAN_WARNING("The label refuses to stick to \the [src]."))
 	return FALSE
 
 /mob/observer/attach_label(mob/user, atom/labeler, label_text)

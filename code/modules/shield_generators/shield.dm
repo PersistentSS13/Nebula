@@ -169,22 +169,14 @@
 	if(!gen)
 		qdel(src)
 		return 1
-
 	if(disabled_for || diffused_for)
 		return 1
-
 	// Atmosphere containment.
 	if(air_group)
 		return !gen.check_flag(MODEFLAG_ATMOSPHERIC)
-
 	if(mover)
 		return mover.can_pass_shield(gen)
 	return 1
-
-
-/obj/effect/shield/c_airblock(turf/other)
-	return gen.check_flag(MODEFLAG_ATMOSPHERIC) ? BLOCKED : 0
-
 
 // EMP. It may seem weak but keep in mind that multiple shield segments are likely to be affected.
 /obj/effect/shield/emp_act(var/severity)
@@ -201,9 +193,9 @@
 
 // Fire
 /obj/effect/shield/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
+	SHOULD_CALL_PARENT(FALSE)
 	if(!disabled_for)
 		take_damage(rand(5,10), SHIELD_DAMTYPE_HEAT)
-
 
 // Projectiles
 /obj/effect/shield/bullet_act(var/obj/item/projectile/proj)
@@ -316,13 +308,13 @@
 
 // Small visual effect, makes the shield tiles brighten up by becoming more opaque for a moment, and spreads to nearby shields.
 /obj/effect/shield/proc/impact_effect(var/i, var/list/affected_shields = list())
-	i = clamp(1, i, 10)
+	i = clamp(i, 1, 10)
 	alpha = 255
 	animate(src, alpha = initial(alpha), time = 1 SECOND)
 	affected_shields |= src
 	i--
 	if(i)
-		addtimer(CALLBACK(src, .proc/spread_impact_effect, i, affected_shields), 2)
+		addtimer(CALLBACK(src, PROC_REF(spread_impact_effect), i, affected_shields), 2)
 
 /obj/effect/shield/proc/spread_impact_effect(var/i, var/list/affected_shields = list())
 	for(var/direction in global.cardinal)

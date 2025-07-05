@@ -51,7 +51,7 @@
 /turf/simulated/floor/tiled/techfloor/outreach,
 /area/exoplanet/outreach/underground/mines/stairwell/gf)
 "q" = (
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/outreach/underground/mines/stairwell/gf)
 "r" = (
 /turf/simulated/floor/tiled/techfloor/outreach,
@@ -176,7 +176,7 @@
 /obj/structure/cable/orange{
 	icon_state = "32-1"
 	},
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/outreach/underground/mines/stairwell/gf)
 "J" = (
 /obj/structure/railing/mapped,

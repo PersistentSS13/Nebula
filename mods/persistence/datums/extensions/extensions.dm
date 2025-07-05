@@ -4,7 +4,7 @@
 /datum/extension/New(datum/holder)
 	. = ..()
 	if(should_save)
-		events_repository.register(/decl/observ/world_saving_start_event, SSpersistence, src, .proc/on_save)
+		events_repository.register(/decl/observ/world_saving_start_event, SSpersistence, src, PROC_REF(on_save))
 
 /datum/extension/Destroy()
 	if(should_save)

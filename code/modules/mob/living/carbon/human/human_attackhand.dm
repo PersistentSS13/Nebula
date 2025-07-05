@@ -334,10 +334,12 @@
 
 	return 1
 
-/mob/living/carbon/human/verb/set_default_unarmed_attack(var/atom/radial_target)
+/mob/living/carbon/human/verb/set_default_unarmed_attack()
+
 	set name = "Set Default Unarmed Attack"
 	set category = "IC"
 	set src = usr
+
 	var/list/choices
 	for(var/thing in get_natural_attacks())
 		var/decl/natural_attack/u_attack = GET_DECL(thing)
@@ -345,7 +347,7 @@
 			var/image/radial_button = new
 			radial_button.name = capitalize(u_attack.name)
 			LAZYSET(choices, u_attack, radial_button)
-	var/decl/natural_attack/new_attack = show_radial_menu(src, (radial_target || src), choices, radius = 42, use_labels = TRUE)
+	var/decl/natural_attack/new_attack = show_radial_menu(src, (attack_selector || src), choices, radius = 42, use_labels = TRUE)
 	if(QDELETED(src) || !istype(new_attack) || !(new_attack.type in get_natural_attacks()))
 		return
 	default_attack = new_attack
@@ -355,3 +357,12 @@
 		if(summary)
 			to_chat(src, SPAN_NOTICE(summary))
 	attack_selector?.update_icon()
+
+/mob/living/carbon/human/UnarmedAttack(atom/A, proximity_flag)
+	// Hackfix for humans trying to attack someone without hands.
+	// Dexterity ect. should be checked in these procs regardless,
+	// but unarmed attacks that don't require hands should still
+	// have the ability to be used.
+	if(!(. = ..()) && !get_active_held_item_slot() && a_intent == I_HURT && isliving(A))
+		var/mob/living/victim = A
+		return victim.default_hurt_interaction(src)

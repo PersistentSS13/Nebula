@@ -4,7 +4,7 @@
 /obj/item/organ/internal/augment/boost
 	icon_state = "booster"
 	allowed_organs = list(BP_AUGMENT_HEAD)
-	origin_tech = "{'materials':2,'magnets':2,'engineering':2,'biotech':3}"
+	origin_tech = @'{"materials":2,"magnets":2,"engineering":2,"biotech":3}'
 	var/list/buffs = list()//Which abilities does this impact?
 	var/list/injury_debuffs = list()//If organ is damaged, should we reduce anything?
 	var/buffpath = /datum/skill_buff/augment //if you use something else it should be a subtype or it will runtime
@@ -16,16 +16,17 @@
 	. = ..()
 	id = "[/obj/item/organ/internal/augment/boost]_[sequential_id(/obj/item/organ/internal/augment/boost)]"
 
-
-/obj/item/organ/internal/augment/boost/onInstall()
-	if(buffs.len)
+/obj/item/organ/internal/augment/boost/on_add_effects()
+	. = ..()
+	if(istype(owner) && buffs.len)
 		var/datum/skill_buff/augment/A
 		A = owner.buff_skill(buffs, 0, buffpath)
 		if(A && istype(A))
 			active = 1
 			A.id = id
 
-/obj/item/organ/internal/augment/boost/onRemove()
+/obj/item/organ/internal/augment/boost/on_remove_effects(mob/living/last_owner)
+	. = ..()
 	debuffing = 0
 	if(!active)
 		return

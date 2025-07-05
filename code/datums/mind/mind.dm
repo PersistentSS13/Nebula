@@ -29,6 +29,9 @@
 
 */
 
+//Persistence
+var/global/list/player_minds = list()
+
 /datum/mind
 	var/key
 	var/name				//replaces mob/var/original_name
@@ -60,11 +63,42 @@
 	var/list/initial_account_login = list("login" = "", "password" = "")
 	var/account_network	// Network id of the network the account was created on.
 
+	//Persistence Stuff
+	// This is a unique UID that will forever identify this mind.
+	// No two minds are ever the same, and this ID will always identify 'this character'.
+	var/unique_id
+	var/age = 0 // How old the mob's mind is in years.
+	var/philotic_damage = 0
+
+SAVED_VAR(/datum/mind, key)
+SAVED_VAR(/datum/mind, name)
+SAVED_VAR(/datum/mind, current)
+SAVED_VAR(/datum/mind, active)
+SAVED_VAR(/datum/mind, gen_relations_info)
+SAVED_VAR(/datum/mind, assigned_role)
+SAVED_VAR(/datum/mind, assigned_special_role)
+SAVED_VAR(/datum/mind, role_alt_title)
+SAVED_VAR(/datum/mind, assigned_job)
+SAVED_VAR(/datum/mind, objectives)
+SAVED_VAR(/datum/mind, has_been_rev)
+SAVED_VAR(/datum/mind, brigged_since)
+SAVED_VAR(/datum/mind, initial_account)
+SAVED_VAR(/datum/mind, initial_account_login)
+SAVED_VAR(/datum/mind, account_network)
+
+SAVED_VAR(/datum/mind, unique_id)
+SAVED_VAR(/datum/mind, age)
+SAVED_VAR(/datum/mind, philotic_damage)
+
 /datum/mind/New(var/key)
 	src.key = key
 	..()
+	//persistence
+	unique_id = "[make_sequential_guid(/datum/mind)]"
+	global.player_minds += src
 
 /datum/mind/Destroy()
+	global.player_minds -= src
 	QDEL_NULL_LIST(memories)
 	QDEL_NULL_LIST(objectives)
 	SSticker.minds -= src
@@ -152,8 +186,8 @@
 
 	if(href_list["add_goal"])
 
-		var/mob/caller = locate(href_list["add_goal_caller"])
-		if(caller && caller == current) can_modify = TRUE
+		var/mob/calling_mob = locate(href_list["add_goal_caller"])
+		if(calling_mob && calling_mob == current) can_modify = TRUE
 
 		if(can_modify)
 			if(is_admin)
@@ -171,8 +205,8 @@
 	if(href_list["abandon_goal"])
 		var/datum/goal/goal = get_goal_from_href(href_list["abandon_goal"])
 
-		var/mob/caller = locate(href_list["abandon_goal_caller"])
-		if(caller && caller == current) can_modify = TRUE
+		var/mob/calling_mob = locate(href_list["abandon_goal_caller"])
+		if(calling_mob && calling_mob == current) can_modify = TRUE
 
 		if(goal && can_modify)
 			if(usr == current)
@@ -186,8 +220,8 @@
 	if(href_list["reroll_goal"])
 		var/datum/goal/goal = get_goal_from_href(href_list["reroll_goal"])
 
-		var/mob/caller = locate(href_list["reroll_goal_caller"])
-		if(caller && caller == current) can_modify = TRUE
+		var/mob/calling_mob = locate(href_list["reroll_goal_caller"])
+		if(calling_mob && calling_mob == current) can_modify = TRUE
 
 		if(goal && (goal in goals) && can_modify)
 			qdel(goal)

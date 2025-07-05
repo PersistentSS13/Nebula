@@ -85,7 +85,7 @@
 	leaves_residue = 0
 	material = /decl/material/solid/metal/steel
 	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
-	origin_tech = "{'combat':3,'materials':3}"
+	origin_tech = @'{"combat":3,"materials":3}'
 
 /obj/item/ammo_casing/shotgun
 	name = "shotgun slug"
@@ -104,6 +104,11 @@
 	spent_icon = "gshell-spent"
 	projectile_type = /obj/item/projectile/bullet/pellet/shotgun
 	material = /decl/material/solid/metal/steel
+
+/obj/item/ammo_casing/shotgun/flechette
+	name = "flechette shell"
+	desc = "A flechette shell."
+	projectile_type = /obj/item/projectile/bullet/pellet/shotgun/flechette
 
 /obj/item/ammo_casing/shotgun/blank
 	name = "shotgun shell"
@@ -140,7 +145,7 @@
 	leaves_residue = 0
 	material = /decl/material/solid/metal/steel
 	matter = list(/decl/material/solid/glass = MATTER_AMOUNT_REINFORCEMENT)
-	origin_tech = "{'combat':3,'materials':3}"
+	origin_tech = @'{"combat":3,"materials":3}'
 
 /obj/item/ammo_casing/shotgun/stunshell/emp_act(severity)
 	if(prob(100/severity)) BB = null
@@ -164,7 +169,7 @@
 	projectile_type  = /obj/item/projectile/ion
 	material = /decl/material/solid/metal/steel
 	matter = list(/decl/material/solid/metal/uranium = MATTER_AMOUNT_REINFORCEMENT)
-	origin_tech = "{'combat':4,'materials':3}"
+	origin_tech = @'{"combat":4,"materials":3}'
 
 /obj/item/ammo_casing/shell
 	name = "shell casing"

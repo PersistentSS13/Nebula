@@ -5,6 +5,12 @@
 	var/list/obj/item/seeds/seeds = list() // Tracks actual objects contained in the pile
 	var/ID
 
+SAVED_VAR(/datum/seed_pile, name)
+SAVED_VAR(/datum/seed_pile, amount)
+SAVED_VAR(/datum/seed_pile, seed_type)
+SAVED_VAR(/datum/seed_pile, seeds)
+SAVED_VAR(/datum/seed_pile, ID)
+
 /datum/seed_pile/New(var/obj/item/seeds/O, var/ID)
 	name = O.name
 	amount = 1

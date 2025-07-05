@@ -64,17 +64,20 @@ SUBSYSTEM_DEF(vote)
 /datum/controller/subsystem/vote/proc/initiate_vote(vote_type, mob/creator, automatic = 0)
 	set waitfor = FALSE
 	if(active_vote)
+		to_chat(creator, SPAN_WARNING("There is already a vote in progress."))
 		return FALSE
 	if(!automatic && (!istype(creator) || !creator.client))
 		return FALSE
 
 	if(last_started_time != null && !(is_admin(creator) || automatic))
-		var/next_allowed_time = (last_started_time + config.vote_delay)
+		var/next_allowed_time = (last_started_time + get_config_value(/decl/config/num/vote_delay))
 		if(next_allowed_time > world.time)
+			to_chat(creator, SPAN_WARNING("Another vote cannot be run so soon."))
 			return FALSE
 
 	var/datum/vote/new_vote = new vote_type
 	if(!new_vote.setup(creator, automatic))
+		to_chat(creator, SPAN_WARNING("The selected vote could not be set up or run."))
 		return FALSE
 
 	active_vote = new_vote
@@ -176,7 +179,7 @@ SUBSYSTEM_DEF(vote)
 
 // Helper proc for determining whether addantag vote can be called.
 /datum/controller/subsystem/vote/proc/is_addantag_allowed(mob/creator, automatic)
-	if(!config.allow_extra_antags)
+	if(!get_config_value(/decl/config/toggle/allow_extra_antags))
 		return 0
 	// Gamemode has to be determined before we can add antagonists, so we can respect gamemode's add antag vote settings.
 	if((GAME_STATE <= RUNLEVEL_SETUP) || !SSticker.mode)

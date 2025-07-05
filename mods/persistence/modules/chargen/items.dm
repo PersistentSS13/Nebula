@@ -22,24 +22,25 @@
 	)
 	origin_tech = "{'materials':1}"
 
-/obj/item/pickaxe/cheap
-	name = "cheap pickaxe"
-	desc = "This pickaxe is made from 3D-printed paper and styrofoam. It takes a long time to dig anything with this."
-	icon_state = "preview"
-	icon = 'icons/obj/items/tool/drills/pickaxe.dmi'
-	digspeed = 80 // twice as long as a regular pick
-	origin_tech = "{'materials':1}"
-	drill_verb = "picking"
-	sharp = 1
-	color = "#33ffad"
-	force = 5
-	throwforce = 2
-	material = /decl/material/solid/metal/iron/r_styrofoam
-	matter = list(
-		/decl/material/solid/metal/iron/r_styrofoam = MATTER_AMOUNT_TRACE
-	)
-	build_from_parts = TRUE
-	hardware_color = COLOR_SILVER
+//#TODO: Rewrite this, cause the pickaxe code is completely different now.
+// /obj/item/tool/pickaxe/cheap
+// 	name = "cheap pickaxe"
+// 	desc = "This pickaxe is made from 3D-printed paper and styrofoam. It takes a long time to dig anything with this."
+// 	icon_state = "preview"
+// 	icon = 'icons/obj/items/tool/drills/pickaxe.dmi'
+// 	digspeed = 80 // twice as long as a regular pick
+// 	origin_tech = "{'materials':1}"
+// 	drill_verb = "picking"
+// 	sharp = 1
+// 	color = "#33ffad"
+// 	force = 5
+// 	throwforce = 2
+// 	material = /decl/material/solid/metal/iron/r_styrofoam
+// 	matter = list(
+// 		/decl/material/solid/metal/iron/r_styrofoam = MATTER_AMOUNT_TRACE
+// 	)
+// 	build_from_parts = TRUE
+// 	hardware_color = COLOR_SILVER
 
 /obj/item/flashlight/lantern/cheap
 	name = "cheap lantern"

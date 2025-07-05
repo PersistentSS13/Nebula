@@ -1,7 +1,7 @@
 /obj/machinery/network/trade_controller
 	name = "trade control device"
 	desc = "A device used for controlling trade beacons and adding import/export tax. It must remain in a gravity well near the trade beacon"
-	icon = 'icons/obj/machines/tcomms/hub.dmi'
+	icon = 'icons/obj/machines/trade_controller.dmi'
 	icon_state = "hub"
 	network_device_type =  /datum/extension/network_device/trade_controller
 	main_template = "trade_controller.tmpl"

@@ -7,6 +7,11 @@
 	var/do_not_edit = 0				// Whether the user will be reminded that the file probably shouldn't be edited.
 	var/read_only = 0				// Protects files that should never be edited by the user due to special properties.
 
+SAVED_FLATTEN(/datum/computer_file/data)
+SAVED_VAR(/datum/computer_file/data, stored_data)
+SAVED_VAR(/datum/computer_file/data, size)
+SAVED_VAR(/datum/computer_file/data, block_size)
+
 /datum/computer_file/data/PopulateClone(datum/computer_file/data/clone)
 	clone = ..()
 	clone.stored_data = stored_data

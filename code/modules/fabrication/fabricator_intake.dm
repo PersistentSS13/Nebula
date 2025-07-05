@@ -15,7 +15,7 @@
 		var/reagent_matter = round(taking_reagent / REAGENT_UNITS_PER_MATERIAL_UNIT)
 		if(reagent_matter <= 0)
 			continue
-		thing.reagents.remove_reagent(R, taking_reagent)
+		thing.remove_from_reagents(R, taking_reagent)
 		stored_material[R] += reagent_matter
 		// If we're destroying this, take everything.
 		if(destructive)
@@ -66,7 +66,7 @@
 			adding_mat_overlay.color = mat_colour
 			material_overlays += adding_mat_overlay
 			update_icon()
-			addtimer(CALLBACK(src, /obj/machinery/fabricator/proc/remove_mat_overlay, adding_mat_overlay), 1 SECOND)
+			addtimer(CALLBACK(src, TYPE_PROC_REF(/obj/machinery/fabricator, remove_mat_overlay), adding_mat_overlay), 1 SECOND)
 
 		if(stack_ref && stacks_used)
 			stack_ref.use(stacks_used)
@@ -121,6 +121,13 @@
 			design_cache |= disk.blueprint
 			visible_message(SPAN_NOTICE("\The [user] inserts \the [O] into \the [src], and after a second or so of loud clicking, the fabricator beeps and spits it out again."))
 			return
+
+	// TEMP HACK FIX:
+	// Autolathes currently do not process atom contents. As a workaround, refuse all atoms with contents.
+	if(length(O.contents) && !ignore_input_contents_length)
+		to_chat(user, SPAN_WARNING("\The [src] cannot process an object containing other objects. Empty it out first."))
+		return
+	// REMOVE FIX WHEN LATHES TAKE CONTENTS PLS.
 
 	// Take reagents, if any are applicable.
 	var/atom_name = O.name

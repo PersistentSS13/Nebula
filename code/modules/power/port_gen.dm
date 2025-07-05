@@ -2,7 +2,7 @@
 /obj/machinery/port_gen
 	name = "Placeholder Generator"	//seriously, don't use this. It can't be anchored without VV magic.
 	desc = "A portable generator for emergency backup power."
-	icon = 'icons/obj/power.dmi'
+	icon = 'icons/obj//machines/power/portable_generators.dmi'
 	icon_state = "portgen0"
 	density = TRUE
 	anchored = FALSE
@@ -259,7 +259,7 @@
 
 	if (operating_temperature > cooling_temperature)
 		var/temp_loss = (operating_temperature - cooling_temperature)/TEMPERATURE_DIVISOR
-		temp_loss = clamp(2, round(temp_loss, 1), TEMPERATURE_CHANGE_MAX)
+		temp_loss = clamp(round(temp_loss, 1), 2, TEMPERATURE_CHANGE_MAX)
 		operating_temperature = max(operating_temperature - temp_loss, cooling_temperature)
 		src.updateDialog()
 
@@ -467,7 +467,7 @@
 	if(reagents.has_reagent(/decl/material/liquid/ethanol/vodka))
 		rad_power = 4
 		temperature_gain = 60
-		reagents.remove_any(1)
+		remove_any_reagents(1)
 		if(prob(2))
 			audible_message("<span class='notice'>[src] churns happily</span>")
 	else

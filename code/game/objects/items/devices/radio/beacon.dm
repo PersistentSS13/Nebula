@@ -6,12 +6,15 @@ var/global/list/radio_beacons = list()
 	icon = 'icons/obj/items/device/radio/beacon.dmi'
 	icon_state = "beacon"
 	item_state = "signaler"
-	origin_tech = "{'wormholes':1}"
+	origin_tech = @'{"wormholes":1}'
 	material = /decl/material/solid/metal/aluminium
 	matter = list(/decl/material/solid/fiberglass = MATTER_AMOUNT_REINFORCEMENT)
 
 	var/code = "electronic"
 	var/functioning = TRUE
+
+SAVED_VAR(/obj/item/radio/beacon, code)
+SAVED_VAR(/obj/item/radio/beacon, functioning)
 
 /obj/item/radio/beacon/Initialize()
 	. = ..()

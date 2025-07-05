@@ -2,6 +2,9 @@
 	var/metabolism_class //CHEM_TOUCH, CHEM_INGEST, or CHEM_INJECT
 	var/mob/living/parent
 
+SAVED_VAR(/datum/reagents/metabolism, metabolism_class)
+SAVED_VAR(/datum/reagents/metabolism, parent)
+
 /datum/reagents/metabolism/clear_reagent(var/reagent_type, var/defer_update = FALSE, var/force = FALSE)
 	// Duplicated check so that reagent data is accessible in on_leaving_metabolism.
 	if(force || !!(REAGENT_VOLUME(src, reagent_type) || REAGENT_DATA(src, reagent_type)))

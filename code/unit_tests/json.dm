@@ -11,17 +11,17 @@
 		try
 			var/list/output = cached_json_decode(check_json)
 			if(!islist(output) || !length(output))
-				LAZYADD(failures, check_json)
+				LAZYADD(failures, "[subtype] - \"[check_json]\"")
 			else
 				for(var/tech in output)
 					if(!isnum(output[tech]) || output[tech] < 1)
-						LAZYADD(failures, check_json)
+						LAZYADD(failures, "[subtype] - \"[check_json]\"")
 					else
 						var/decl/research_field/field = SSfabrication.get_research_field_by_id(tech)
 						if(!istype(field) || !field.name)
 							LAZYADD(failures, "[subtype] - [tech]")
 		catch()
-			LAZYADD(failures, check_json)
+			LAZYADD(failures, "[subtype] - \"[check_json]\"")
 	if(LAZYLEN(failures))
 		fail("Some items had invalid tech levels present in origin_tech: [english_list(failures)].")
 	else
@@ -37,6 +37,11 @@
 	var/list/failures
 	var/list/json_to_check
 
+	for(var/subtype in typesof(/obj))
+		var/obj/test = subtype
+		var/check_json = initial(test.directional_offset)
+		if(!isnull(check_json))
+			LAZYSET(json_to_check, "[subtype].directional_offset", check_json)
 	for(var/subtype in typesof(/obj/item))
 		var/obj/item/test = subtype
 		var/check_json = initial(test.center_of_mass)
@@ -62,11 +67,17 @@
 		var/check_json = initial(test.possible_transfer_amounts)
 		if(!isnull(check_json))
 			LAZYSET(json_to_check, "[subtype].possible_transfer_amounts", check_json)
+	var/list/prefabs = decls_repository.get_decls_of_subtype(/decl/prefab/ic_assembly)
+	for(var/assembly_path in prefabs)
+		var/decl/prefab/ic_assembly/assembly = prefabs[assembly_path]
+		var/check_json = assembly.data
+		if(!isnull(check_json))
+			LAZYSET(json_to_check, "[assembly_path].data", check_json)
 	// Validate JSON.
 	for(var/check_key in json_to_check)
 		try
 			var/list/output = cached_json_decode(json_to_check[check_key])
-			if(!islist(output) || !length(output))
+			if(findtext(json_to_check[check_key], "{'") || !islist(output) || !length(output))
 				LAZYADD(failures, check_key)
 		catch()
 			LAZYADD(failures, check_key)

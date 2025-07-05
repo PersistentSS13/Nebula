@@ -3,11 +3,11 @@
 	name = "cat"
 	desc = "A domesticated, feline pet. Has a tendency to adopt crewmembers."
 	icon = 'icons/mob/simple_animal/cat_calico.dmi'
-	speak = list("Meow!","Esp!","Purr!","HSSSSS")
-	speak_emote = list("purrs", "meows")
-	emote_hear = list("meows","mews")
-	emote_see = list("shakes their head", "shivers")
-	speak_chance = 1
+	emote_speech = list("Meow!","Esp!","Purr!","HSSSSS")
+	speak_emote  = list("purrs", "meows")
+	emote_hear   = list("meows","mews")
+	emote_see    = list("shakes their head", "shivers")
+	speak_chance = 0.5
 	turns_per_move = 5
 	see_in_dark = 6
 	minbodytemp = 223		//Below -50 Degrees Celsius
@@ -153,7 +153,7 @@
 		var/follow_dist = 4
 		if (friend.stat >= DEAD || friend.is_asystole()) //danger
 			follow_dist = 1
-		else if (friend.stat || friend.health <= 50) //danger or just sleeping
+		else if (friend.stat || friend.current_health <= 50) //danger or just sleeping
 			follow_dist = 2
 		var/near_dist = max(follow_dist - 2, 1)
 		var/current_dist = get_dist(src, friend)
@@ -195,7 +195,7 @@
 								   "brushes against [friend].",
 								   "rubs against [friend].",
 								   "purrs."))
-	else if (friend.health <= 50)
+	else if (friend.current_health <= 50)
 		if (prob(10))
 			var/verb = pick("meows", "mews", "mrowls")
 			audible_emote("[verb] anxiously.")
@@ -233,7 +233,7 @@
 	holder_type = /obj/item/holder/runtime
 
 /obj/item/holder/runtime
-	origin_tech = "{'programming':1,'biotech':1}"
+	origin_tech = @'{"programming":1,"biotech":1}'
 
 /mob/living/simple_animal/cat/kitten
 	name = "kitten"

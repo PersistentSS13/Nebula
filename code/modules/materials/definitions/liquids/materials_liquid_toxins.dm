@@ -88,6 +88,8 @@
 	lore_text = "A highly toxic chemical."
 	taste_mult = 0.6
 	color = "#cf3600"
+	melting_point = 261
+	boiling_point = 299
 	toxicity = 20
 	metabolism = REM * 2
 	toxicity_targets_organ = BP_HEART
@@ -255,6 +257,15 @@
 		else if (prob(10))
 			to_chat(H, "<span class='warning'>You feel terribly ill!</span>")
 
+/decl/material/liquid/acrylamide
+	name = "acrylamide"
+	uid = "liquid_acrylamide"
+	lore_text = "A colourless substance formed when food is burned. Rumoured to cause cancer, but mostly just nasty to eat."
+	taste_description = "bitter char"
+	color = "#a39894"
+	toxicity = 2
+	taste_mult = 2
+
 /decl/material/liquid/bromide
 	name = "bromide"
 	codex_name = "elemental bromide"
@@ -271,6 +282,8 @@
 	uid = "liquid_mercury"
 	lore_text = "A chemical element."
 	taste_mult = 0 //mercury apparently is tasteless. IDK
+	melting_point = 234
+	boiling_point = 629
 	color = "#484848"
 	value = 0.5
 	narcosis = 5

@@ -30,7 +30,9 @@
 	radar = image(loc = effect, icon = 'icons/obj/overmap.dmi', icon_state = "sensor_range")
 	radar.color = source.color
 	radar.tag = "radar"
-	radar.add_filter("blur", 1, list("blur", size = 1))
+	radar.add_filter("blur", 1, list(type = "blur", size = 1))
+	radar.appearance_flags |= RESET_TRANSFORM | KEEP_APART
+	radar.appearance_flags &= ~PIXEL_SCALE
 
 /datum/overmap_contact/proc/update_marker_icon()
 
@@ -88,7 +90,7 @@
 	pinged = TRUE
 	show()
 	animate(marker, alpha=255, 0.5 SECOND, 1, LINEAR_EASING)
-	addtimer(CALLBACK(src, .proc/unping), 1 SECOND)
+	addtimer(CALLBACK(src, PROC_REF(unping)), 1 SECOND)
 
 /datum/overmap_contact/proc/unping()
 	animate(marker, alpha=75, 2 SECOND, 1, LINEAR_EASING)

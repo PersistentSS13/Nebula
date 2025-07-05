@@ -10,6 +10,10 @@
 	name = "Outpost"
 	base_turf = /turf/exterior/barren
 
+/area/kleibkhar/outpost/arrivals
+	name = "Arrivals"
+	icon_state = "start"
+
 /area/kleibkhar/outpost/sleeproom
 	name = "Cyrogenic Storage"
 	icon_state = "cryo"
@@ -97,8 +101,8 @@
 /area/exoplanet/kleibkhar/sky
 	name = "Up Above"
 	icon_state = "blueold"
-	base_turf = /turf/exterior/open
-	open_turf = /turf/exterior/open
+	base_turf = /turf/open
+	open_turf = /turf/open
 
 /area/exoplanet/kleibkhar/mines
 	name = "Deep Underground"
@@ -106,7 +110,7 @@
 	ignore_mining_regen = TRUE
 	is_outside = OUTSIDE_NO
 	base_turf = /turf/exterior/barren
-	open_turf = /turf/exterior/open
+	open_turf = /turf/open
 	area_flags = AREA_FLAG_IS_NOT_PERSISTENT | AREA_FLAG_IS_BACKGROUND | AREA_FLAG_ION_SHIELDED | AREA_FLAG_RAD_SHIELDED
 
 /area/exoplanet/kleibkhar/mines/depth_1

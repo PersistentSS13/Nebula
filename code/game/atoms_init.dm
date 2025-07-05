@@ -136,13 +136,18 @@
 		QDEL_NULL(bound_overlay)
 
 	vis_locs = null //clears this atom out of all vis_contents
-	clear_vis_contents(src)
+	clear_vis_contents()
+
+	if(!isnull(updating_turf_alpha_mask))
+		var/atom/movable/mask = global._alpha_masks[src]
+		if(!QDELETED(mask))
+			qdel(mask)
 
 /atom/GetCloneArgs()
 	return list(loc)
 
 /atom/PopulateClone(atom/clone)
-	//Not entirely sure about icon stuff. Some legacy things would need it copied, but not more recently coded atoms..
+	//Not entirely sure about icon stuff. Some legacy things would need it copied, but not more recently coded atoms.
 	clone.appearance = appearance
 	clone.set_invisibility(invisibility)
 

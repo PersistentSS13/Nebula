@@ -29,30 +29,11 @@
 
 //Convenience function for atoms to update turfs they occupy
 /atom/movable/proc/update_nearby_tiles(need_rebuild)
-	for(var/turf/simulated/turf in locs)
-		SSair.mark_for_update(turf)
+	for(var/turf/turf in locs)
+		if(turf.simulated)
+			SSair.mark_for_update(turf)
 	fluid_update()
 	return TRUE
-
-//Basically another way of calling CanPass(null, other, 0, 0) and CanPass(null, other, 1.5, 1).
-//Returns:
-// 0 - Not blocked
-// AIR_BLOCKED - Blocked
-// ZONE_BLOCKED - Not blocked, but zone boundaries will not cross.
-// BLOCKED - Blocked, zone boundaries will not cross even if opened.
-/atom/proc/c_airblock(turf/other)
-	#ifdef ZASDBG
-	ASSERT(isturf(other))
-	#endif
-	return (AIR_BLOCKED*!CanPass(null, other, 0, 0))|(ZONE_BLOCKED*!CanPass(null, other, 1.5, 1))
-
-/turf/c_airblock(turf/other)
-	#ifdef ZASDBG
-	ASSERT(isturf(other))
-	#endif
-
-	. = 0
-	ATMOS_CANPASS_TURF(., src, other)
 
 /atom/movable
 	var/atmos_canpass = CANPASS_ALWAYS

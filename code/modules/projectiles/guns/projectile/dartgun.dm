@@ -8,7 +8,7 @@
 	fire_sound = 'sound/weapons/empty.ogg'
 	fire_sound_text = "a metallic click"
 	screen_shake = 0
-	silenced = 1
+	silencer = TRUE
 	load_method = MAGAZINE
 	magazine_type = /obj/item/ammo_magazine/chemdart
 	allowed_magazines = /obj/item/ammo_magazine/chemdart
@@ -31,7 +31,7 @@
 		return
 	for(var/chem in starting_chems)
 		var/obj/B = new container_type(src)
-		B.reagents.add_reagent(chem, 60)
+		B.add_to_reagents(chem, 60)
 		beakers += B
 
 /obj/item/gun/projectile/dartgun/on_update_icon()
@@ -41,16 +41,16 @@
 	else
 		icon_state = get_world_inventory_state()
 
-/obj/item/gun/projectile/dartgun/adjust_mob_overlay(var/mob/living/user_mob, var/bodytype,  var/image/overlay, var/slot, var/bodypart)
+/obj/item/gun/projectile/dartgun/adjust_mob_overlay(mob/living/user_mob, bodytype, image/overlay, slot, bodypart, use_fallback_if_icon_missing = TRUE)
 	if(overlay && (slot in user_mob?.get_held_item_slots()) && ammo_magazine)
 		overlay.icon_state += "-[clamp(length(ammo_magazine.stored_ammo.len), 0, 5)]"
 	. = ..()
 
 /obj/item/gun/projectile/dartgun/consume_next_projectile()
-	. = ..()
-	var/obj/item/projectile/bullet/chemdart/dart = .
+	var/obj/item/projectile/bullet/chemdart/dart = ..()
 	if(istype(dart))
 		fill_dart(dart)
+	return dart
 
 /obj/item/gun/projectile/dartgun/examine(mob/user)
 	. = ..()

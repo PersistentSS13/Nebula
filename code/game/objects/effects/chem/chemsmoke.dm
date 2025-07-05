@@ -10,6 +10,10 @@
 	var/splash_amount = 10 //atoms moving through a smoke cloud get splashed with up to 10 units of reagent
 	var/turf/destination
 
+SAVED_VAR(/obj/effect/effect/smoke/chem, splash_amount)
+SAVED_VAR(/obj/effect/effect/smoke/chem, destination)
+SAVED_VAR(/obj/effect/effect/smoke/chem, reagents)
+
 /obj/effect/effect/smoke/chem/Initialize(mapload, smoke_duration, turf/dest_turf = null, icon/cached_icon = null)
 	. = ..()
 
@@ -181,7 +185,7 @@
 	var/pressure = 0
 	var/datum/gas_mixture/environment = location.return_air()
 	if(environment) pressure = environment.return_pressure()
-	smoke_duration = clamp(5, smoke_duration*pressure/(ONE_ATMOSPHERE/3), smoke_duration)
+	smoke_duration = clamp(smoke_duration*pressure/(ONE_ATMOSPHERE/3), 5, smoke_duration)
 
 	var/const/arcLength = 2.3559 //distance between each smoke cloud
 
@@ -243,6 +247,7 @@
 
 	pending += location
 
+	var/airblock // zeroed by ATMOS_CANPASS_TURF
 	while(pending.len)
 		for(var/turf/current in pending)
 			for(var/D in global.cardinal)
@@ -259,9 +264,11 @@
 					continue
 				if(!(target in targetTurfs))
 					continue
-				if(current.c_airblock(target)) //this is needed to stop chemsmoke from passing through thin window walls
+				ATMOS_CANPASS_TURF(airblock, current, target)
+				if(airblock) //this is needed to stop chemsmoke from passing through thin window walls
 					continue
-				if(target.c_airblock(current))
+				ATMOS_CANPASS_TURF(airblock, target, current)
+				if(airblock)
 					continue
 				pending += target
 

@@ -204,21 +204,21 @@
 ///////////////////////////////////////////////////////////////////////////////////////////
 
 ///A dummy airtight plasticflap to hide the inside of the cargo shuttle offsite docks.
-/obj/structure/plasticflaps/airtight/indestructible
+/obj/structure/flaps/airtight/indestructible
 	anchored = TRUE
 	density  = TRUE
 	opacity  = TRUE
-/obj/structure/plasticflaps/airtight/indestructible/clear_airtight()
+/obj/structure/flaps/airtight/indestructible/clear_airtight()
 	return
-/obj/structure/plasticflaps/airtight/indestructible/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
+/obj/structure/flaps/airtight/indestructible/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
 	return
-/obj/structure/plasticflaps/airtight/indestructible/explosion_act(severity)
+/obj/structure/flaps/airtight/indestructible/explosion_act(severity)
 	SHOULD_CALL_PARENT(FALSE)
 	return
-/obj/structure/plasticflaps/airtight/indestructible/physically_destroyed()
+/obj/structure/flaps/airtight/indestructible/physically_destroyed()
 	SHOULD_CALL_PARENT(FALSE)
 	return
-/obj/structure/plasticflaps/airtight/indestructible/attackby(var/obj/item/C, var/mob/user)
+/obj/structure/flaps/airtight/indestructible/attackby(var/obj/item/C, var/mob/user)
 	return
 
 ///Sign

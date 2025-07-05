@@ -3,11 +3,11 @@
 /turf/unsimulated/dark_border,
 /area/exoplanet/kleibkhar/sky)
 "ab" = (
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "ac" = (
 /obj/effect/overmap/visitable/sector/planetoid/exoplanet/kleibkhar,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "ad" = (
 /obj/structure/railing/mapped{
@@ -112,7 +112,7 @@
 	icon_state = "railing_preview";
 	dir = 8
 	},
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "ao" = (
 /obj/structure/cable{
@@ -193,7 +193,7 @@
 	dir = 4
 	},
 /obj/structure/lattice,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "ax" = (
 /obj/structure/railing/mapped{
@@ -201,7 +201,7 @@
 	dir = 8
 	},
 /obj/structure/lattice,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "ay" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/universal,
@@ -230,7 +230,7 @@
 "aB" = (
 /obj/structure/lattice,
 /obj/structure/railing/mapped,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "aC" = (
 /obj/structure/railing/mapped{
@@ -239,7 +239,7 @@
 	},
 /obj/structure/lattice,
 /obj/structure/railing/mapped,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "aD" = (
 /obj/structure/cable{
@@ -258,7 +258,7 @@
 	dir = 8;
 	icon_state = "railing0-1"
 	},
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "aE" = (
 /obj/structure/cable{
@@ -347,7 +347,7 @@
 	dir = 1;
 	icon_state = "railing0-1"
 	},
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "aM" = (
 /obj/structure/railing/mapped{
@@ -359,7 +359,7 @@
 	dir = 1;
 	icon_state = "railing0-1"
 	},
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "aN" = (
 /obj/structure/lattice,
@@ -378,7 +378,7 @@
 /obj/structure/cable{
 	icon_state = "32-4"
 	},
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "aO" = (
 /obj/structure/cable{
@@ -401,12 +401,12 @@
 	},
 /obj/structure/railing/mapped,
 /obj/structure/lattice,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "aQ" = (
 /obj/structure/railing/mapped,
 /obj/structure/lattice,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "aR" = (
 /obj/structure/cable{
@@ -455,7 +455,7 @@
 	icon_state = "railing0-1"
 	},
 /obj/structure/lattice,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "aV" = (
 /obj/structure/railing/mapped{
@@ -463,7 +463,7 @@
 	icon_state = "railing0-1"
 	},
 /obj/structure/lattice,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "aW" = (
 /obj/structure/railing/mapped,
@@ -483,7 +483,7 @@
 /area/exoplanet/kleibkhar/sky)
 "aY" = (
 /obj/structure/lattice,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "aZ" = (
 /obj/structure/lattice,
@@ -491,7 +491,7 @@
 	icon_state = "railing_preview";
 	dir = 4
 	},
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "ba" = (
 /obj/structure/lattice,
@@ -499,7 +499,7 @@
 	icon_state = "railing_preview";
 	dir = 8
 	},
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "bb" = (
 /obj/structure/catwalk,
@@ -512,7 +512,7 @@
 	icon_state = "railing_preview";
 	dir = 8
 	},
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "bc" = (
 /obj/structure/lattice,
@@ -521,7 +521,7 @@
 	icon_state = "railing_preview";
 	dir = 1
 	},
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "bd" = (
 /obj/structure/railing/mapped{
@@ -548,24 +548,24 @@
 	icon_state = "railing_preview";
 	dir = 8
 	},
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "bg" = (
 /obj/structure/lattice,
 /obj/structure/ladder,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "bh" = (
 /obj/structure/cable{
 	icon_state = "32-4"
 	},
 /obj/structure/lattice,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "bi" = (
 /obj/structure/lattice,
 /obj/structure/catwalk,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "bj" = (
 /obj/structure/catwalk,
@@ -575,13 +575,13 @@
 	icon_state = "railing_preview";
 	dir = 8
 	},
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "bk" = (
 /obj/structure/lattice,
 /obj/structure/catwalk,
 /obj/structure/railing/mapped,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "bl" = (
 /obj/structure/railing/mapped{
@@ -600,13 +600,13 @@
 /area/kleibkhar/atmos_pump)
 "bn" = (
 /obj/abstract/level_data_spawner/exoplanet/kleibkhar/sky,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 "bo" = (
 /obj/abstract/map_data{
 	height = 4
 	},
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/sky)
 
 (1,1,1) = {"

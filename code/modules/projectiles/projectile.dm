@@ -177,8 +177,8 @@
 	//randomize clickpoint a bit based on dispersion
 	if(dispersion)
 		var/radius = round((dispersion*0.443)*world.icon_size*0.8) //0.443 = sqrt(pi)/4 = 2a, where a is the side length of a square that shares the same area as a circle with diameter = dispersion
-		p_x = clamp(0, p_x + gaussian(0, radius) * 0.25, world.icon_size)
-		p_y = clamp(0, p_y + gaussian(0, radius) * 0.25, world.icon_size)
+		p_x = clamp(p_x + gaussian(0, radius) * 0.25, 0, world.icon_size)
+		p_y = clamp(p_y + gaussian(0, radius) * 0.25, 0, world.icon_size)
 
 //Used to change the direction of the projectile in flight.
 /obj/item/projectile/proc/redirect(var/new_x, var/new_y, var/atom/starting_loc, var/atom/movable/new_firer=null, var/is_ricochet = FALSE)
@@ -341,7 +341,7 @@
 		var/obj/item/shrapnel = get_shrapnel()
 		if(shrapnel)
 			shrapnel.forceMove(organ)
-			organ.embed(shrapnel)
+			organ.embed_in_organ(shrapnel)
 	else if(prob(2 * damage_prob))
 		organ.sever_artery()
 
@@ -464,7 +464,15 @@
 		M.Turn(Angle)
 		transform = M
 	trajectory.increment(trajectory_multiplier)
+
 	var/turf/T = trajectory.return_turf()
+	if(!T)
+		if(!QDELETED(src))
+			if(loc)
+				on_impact(loc)
+			qdel(src)
+		return
+
 	if(T.z != loc.z)
 		before_move()
 		before_z_change(loc, T)

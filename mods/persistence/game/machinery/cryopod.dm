@@ -114,7 +114,7 @@
 /obj/machinery/cryopod/despawner/proc/update_sound()
 	if(operable() && use_power)
 		if(!sound_looping)
-			sound_looping = play_looping_sound(src, "[type]", 'sound/machines/refrigerator_hum_loop.ogg', 30, 5, 2, prefer_mute = TRUE)
+			sound_looping = play_looping_sound(src, "[type]", 'sound/machines/refrigerator_hum_loop.ogg', 15, 5, 2, prefer_mute = TRUE)
 		else
 			sound_looping.Unpause()
 	else if(sound_looping)

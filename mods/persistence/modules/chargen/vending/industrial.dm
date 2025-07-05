@@ -54,7 +54,6 @@
 	base_type = /obj/machinery/vending/infini/industrial/crap_mining
 	products = list(
 		/obj/item/chargen_box/industrial/cheap_mining = 999,
-		/obj/item/pickaxe/cheap = 999,
 		/obj/item/clothing/suit/chem_suit/cheap = 999,
 		/obj/item/clothing/head/chem_hood/cheap = 999,
 		/obj/item/flashlight/lantern/cheap = 999,

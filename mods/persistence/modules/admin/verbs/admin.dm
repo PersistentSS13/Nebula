@@ -71,7 +71,7 @@ var/global/list/persistence_admin_verbs = list(
 	if(alert(usr, "This will immediately kick all players to the lobby. Proceed?", "Kick all players and lock the server", "Yes", "No") != "Yes")
 		return
 
-	if(global.config.enter_allowed)
+	if(get_config_value(/decl/config/toggle/on/enter_allowed))
 		holder.toggleenter()
 	else
 		to_chat(usr, SPAN_NOTICE("Entering is already disabled."))

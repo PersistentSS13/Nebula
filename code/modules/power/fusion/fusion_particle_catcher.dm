@@ -9,6 +9,9 @@
 	var/obj/effect/fusion_em_field/parent
 	var/mysize = 0
 
+SAVED_VAR(/obj/effect/fusion_particle_catcher, parent)
+SAVED_VAR(/obj/effect/fusion_particle_catcher, mysize)
+
 /obj/effect/fusion_particle_catcher/Destroy()
 	. =..()
 	parent.particle_catchers -= src

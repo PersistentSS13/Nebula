@@ -18,6 +18,11 @@
 	var/sector_type = "sector"
 	var/sector_color = COLOR_WHITE					 // Color of the sector or other objects created by the stellar anchor.
 
+SAVED_VAR(/obj/machinery/stellar_anchor, anchored_areas)
+SAVED_VAR(/obj/machinery/stellar_anchor, sector_name)
+SAVED_VAR(/obj/machinery/stellar_anchor, sector_type)
+SAVED_VAR(/obj/machinery/stellar_anchor, sector_color)
+
 /obj/machinery/stellar_anchor/interface_interact(user)
 	ui_interact(user)
 	return TRUE

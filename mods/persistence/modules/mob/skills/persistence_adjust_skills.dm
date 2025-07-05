@@ -6,14 +6,21 @@
 	var/points_remaining = 0
 	var/total_points_added = 0
 
-	var/datum/skillset/temp_skillset				 // Temporary skillset while adjusting skills.
+	var/tmp/datum/skillset/temp_skillset				 // Temporary skillset while adjusting skills.
 
-	var/list/min_skill_level = list()				 // Minimum level that a skill cannot go beneath. 
+	var/list/min_skill_level = list()				 // Minimum level that a skill cannot go beneath.
 	var/list/textbook_skills = list()				 // Skills that are being learned via textbook. Maximum MAX_TEXTBOOK_SKILLS per character.
 
 	var/last_read_time = 0
 
 	literacy_charges = 999							 // No need to limit the amount of textbooks one mob can make. This var should not be saved.
+
+SAVED_VAR(/datum/skillset, time_active)
+SAVED_VAR(/datum/skillset, points_remaining)
+SAVED_VAR(/datum/skillset, total_points_added)
+SAVED_VAR(/datum/skillset, min_skill_level)
+SAVED_VAR(/datum/skillset, textbook_skills)
+SAVED_VAR(/datum/skillset, last_read_time)
 
 /datum/skillset/proc/set_skillset_min()				 // Outside of Persistence skills are tied to job preferences, so this should be kept here.
 	for(var/decl/hierarchy/skill/S in global.skills)
@@ -44,7 +51,7 @@
 		return
 	if(last_read_time && (world.realtime < last_read_time + TEXTBOOK_COOLDOWN))
 		return
-	
+
 	var/skill_name = initial(S.name)
 	textbook_skills[S]++
 	last_read_time = world.realtime
@@ -109,7 +116,7 @@
 			HTML +=	"<br><b>[level_name]</b>: [S.levels[level_name]]<br>"
 		show_browser(usr, jointext(HTML, null), "window=\ref[usr]skillinfo")
 		return TOPIC_HANDLED
-	
+
 	else if(href_list["finalize_skills"])
 		var/confirm = alert(usr, "Are you sure you want to make the following changes to your skills? This cannot be undone!", "Confirm", "Yes", "No")
 		if(confirm && skillset.temp_skillset)

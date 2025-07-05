@@ -116,11 +116,11 @@
 		return 0
 
 	if(!target.reagents || !target.reagents.total_volume)
-		to_chat(user, SPAN_NOTICE("[target] is empty."))
+		to_chat(user, SPAN_NOTICE("\The [target] is empty of reagents."))
 		return 1
 
 	if(reagents && !REAGENTS_FREE_SPACE(reagents))
-		to_chat(user, SPAN_NOTICE("[src] is full."))
+		to_chat(user, SPAN_NOTICE("\The [src] is full of reagents."))
 		return 1
 
 	var/trans = target.reagents.trans_to_obj(src, target.amount_dispensed)
@@ -136,11 +136,11 @@
 		return 1
 
 	if(!reagents || !reagents.total_volume)
-		to_chat(user, SPAN_NOTICE("[src] is empty."))
+		to_chat(user, SPAN_NOTICE("\The [src] is empty of reagents."))
 		return 1
 
 	if(target.reagents && !REAGENTS_FREE_SPACE(target.reagents))
-		to_chat(user, SPAN_NOTICE("[target] is full."))
+		to_chat(user, SPAN_NOTICE("\The [target] is full of reagents."))
 		return 1
 
 	var/contained = REAGENT_LIST(src)
@@ -152,69 +152,6 @@
 
 	reagents.splash(target, reagents.total_volume)
 	return 1
-
-/obj/item/chems/proc/self_feed_message(var/mob/user)
-	to_chat(user, SPAN_NOTICE("You eat \the [src]"))
-
-/obj/item/chems/proc/other_feed_message_start(var/mob/user, var/mob/target)
-	user.visible_message(SPAN_NOTICE("[user] is trying to feed [target] \the [src]!"))
-
-/obj/item/chems/proc/other_feed_message_finish(var/mob/user, var/mob/target)
-	user.visible_message(SPAN_NOTICE("[user] has fed [target] \the [src]!"))
-
-/obj/item/chems/proc/feed_sound(var/mob/user)
-	return
-
-/obj/item/chems/proc/standard_feed_mob(var/mob/user, var/mob/target) // This goes into attack
-	if(!istype(target))
-		return 0
-
-	if(!reagents || !reagents.total_volume)
-		to_chat(user, SPAN_NOTICE("\The [src] is empty."))
-		return 1
-
-	// only carbons can eat
-	if(iscarbon(target))
-		if(target == user)
-			if(ishuman(user))
-				var/mob/living/carbon/human/H = user
-				if(!H.check_has_mouth())
-					to_chat(user, "Where do you intend to put \the [src]? You don't have a mouth!")
-					return
-				var/obj/item/blocked = H.check_mouth_coverage()
-				if(blocked)
-					to_chat(user, SPAN_NOTICE("\The [blocked] is in the way!"))
-					return
-
-			user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN) //puts a limit on how fast people can eat/drink things
-			self_feed_message(user)
-			reagents.trans_to_mob(user, issmall(user) ? CEILING(amount_per_transfer_from_this/2) : amount_per_transfer_from_this, CHEM_INGEST)
-			feed_sound(user)
-			add_trace_DNA(user)
-			return 1
-
-
-		else
-			if(!user.can_force_feed(target, src))
-				return
-
-			other_feed_message_start(user, target)
-
-			user.setClickCooldown(DEFAULT_ATTACK_COOLDOWN)
-			if(!do_mob(user, target))
-				return
-
-			other_feed_message_finish(user, target)
-
-			var/contained = REAGENT_LIST(src)
-			admin_attack_log(user, target, "Fed the victim with [name] (Reagents: [contained])", "Was fed [src] (Reagents: [contained])", "used [src] (Reagents: [contained]) to feed")
-
-			reagents.trans_to_mob(target, amount_per_transfer_from_this, CHEM_INGEST)
-			feed_sound(user)
-			add_trace_DNA(target)
-			return 1
-
-	return 0
 
 /obj/item/chems/proc/standard_pour_into(var/mob/user, var/atom/target) // This goes into afterattack and yes, it's atom-level
 	if(!target.reagents)
@@ -229,11 +166,11 @@
 		return 0
 
 	if(!reagents || !reagents.total_volume)
-		to_chat(user, SPAN_NOTICE("[src] is empty."))
+		to_chat(user, SPAN_NOTICE("\The [src] is empty of reagents."))
 		return 1
 
 	if(!REAGENTS_FREE_SPACE(target.reagents))
-		to_chat(user, SPAN_NOTICE("[target] is full."))
+		to_chat(user, SPAN_NOTICE("\The [target] is full of reagents."))
 		return 1
 
 	var/trans = reagents.trans_to(target, amount_per_transfer_from_this)

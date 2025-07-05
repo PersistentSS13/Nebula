@@ -13,15 +13,15 @@
 
 /obj/effect/vine/Initialize(mapload, datum/seed/newseed, obj/effect/vine/newparent, start_matured)
 	if(persistent_id)
-		
+
 		newseed = seed
 		newparent = parent
 		start_matured = (mature_time == 0)
 
 		var/prev_max_growth = max_growth
-		var/prev_health = health
+		var/prev_health = current_health
 		. = ..(mapload, newseed, newparent, start_matured)
 		max_growth = prev_max_growth //Prevents vines from growing more on each save load
-		health = prev_health
+		current_health = prev_health
 	else
 		. = ..()

@@ -110,17 +110,17 @@
 /decl/public_access/public_method/add_group
 	name = "Add group"
 	desc = "Adds a new group with the passed name. A parent group can be passed to add a child group."
-	call_proc = /datum/extension/network_device/acl/proc/add_group
+	call_proc = TYPE_PROC_REF(/datum/extension/network_device/acl, add_group)
 	forward_args = TRUE
 
 /decl/public_access/public_method/remove_group
 	name = "Remove group"
 	desc = "Removes a group with the passed name. A parent group can be passed to remove a child group of that parent."
-	call_proc = /datum/extension/network_device/acl/proc/remove_group
+	call_proc = TYPE_PROC_REF(/datum/extension/network_device/acl, remove_group)
 	forward_args = TRUE
 
 /decl/public_access/public_method/list_groups
 	name = "List groups"
 	desc = "Lists groups on the group access controller. A parent group can be passed list children of that parent group."
-	call_proc = /datum/extension/network_device/acl/proc/get_group_listing
+	call_proc = TYPE_PROC_REF(/datum/extension/network_device/acl, get_group_listing)
 	forward_args = TRUE

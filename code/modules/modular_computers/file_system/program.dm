@@ -25,6 +25,9 @@
 
 	mod_access = list(list(access_network))
 
+SAVED_VAR(/datum/computer_file/program, program_state)
+SAVED_VAR(/datum/computer_file/program, computer)
+
 /datum/computer_file/program/Destroy()
 	if(computer && computer.active_program == src)
 		computer.kill_program(src)

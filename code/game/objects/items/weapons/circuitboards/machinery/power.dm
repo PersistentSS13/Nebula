@@ -2,7 +2,7 @@
 	name = "circuitboard (superconductive magnetic energy storage)"
 	build_path = /obj/machinery/power/smes/buildable
 	board_type = "machine"
-	origin_tech = "{'powerstorage':6,'engineering':4}"
+	origin_tech = @'{"powerstorage":6,"engineering":4}'
 	req_components = list(/obj/item/stock_parts/smes_coil = 1, /obj/item/stack/cable_coil = 30)
 	additional_spawn_components = list(
 		/obj/item/stock_parts/console_screen = 1,
@@ -14,7 +14,7 @@
 	name = "circuitboard (battery rack PSU)"
 	build_path = /obj/machinery/power/smes/batteryrack
 	board_type = "machine"
-	origin_tech = "{'powerstorage':3,'engineering':2}"
+	origin_tech = @'{"powerstorage":3,"engineering":2}'
 	req_components = list(
 		/obj/item/stock_parts/capacitor/ = 3,
 		/obj/item/stock_parts/matter_bin/ = 1,
@@ -29,7 +29,7 @@
 	name = "circuitboard (recharger)"
 	build_path = /obj/machinery/recharger
 	board_type = "machine"
-	origin_tech = "{'powerstorage':2,'engineering':2}"
+	origin_tech = @'{"powerstorage":2,"engineering":2}'
 	req_components = list(
 		/obj/item/stock_parts/capacitor = 1
 	)
@@ -46,7 +46,7 @@
 	name = "circuitboard (cell charger)"
 	build_path = /obj/machinery/cell_charger
 	board_type = "machine"
-	origin_tech = "{'powerstorage':2,'engineering':2}"
+	origin_tech = @'{"powerstorage":2,"engineering":2}'
 	req_components = list()
 	additional_spawn_components = list(
 		/obj/item/stock_parts/power/battery/buildable/turbo = 1,
@@ -58,7 +58,7 @@
 	name = "circuitboard (small turbine)"
 	build_path = /obj/machinery/atmospherics/pipeturbine
 	board_type = "machine"
-	origin_tech = "{'powerstorage':4,'engineering':4}"
+	origin_tech = @'{"powerstorage":4,"engineering":4}'
 	req_components = list(
 		/obj/item/stock_parts/manipulator = 2,
 		/obj/item/stock_parts/matter_bin = 2
@@ -69,7 +69,7 @@
 	name = "circuitboard (small turbine motor)"
 	build_path = /obj/machinery/turbinemotor
 	board_type = "machine"
-	origin_tech = "{'powerstorage':4,'engineering':4}"
+	origin_tech = @'{"powerstorage":4,"engineering":4}'
 	req_components = list(
 		/obj/item/stock_parts/manipulator = 2,
 		/obj/item/stock_parts/capacitor = 4
@@ -79,7 +79,7 @@
 	name = "circuitboard (large turbine compressor)"
 	build_path = /obj/machinery/compressor
 	board_type = "machine"
-	origin_tech = "{'powerstorage':4,'engineering':4}"
+	origin_tech = @'{"powerstorage":4,"engineering":4}'
 	req_components = list(
 		/obj/item/stock_parts/manipulator = 3,
 		/obj/item/stock_parts/matter_bin = 3
@@ -92,7 +92,7 @@
 	name = "circuitboard (large turbine motor)"
 	build_path = /obj/machinery/turbine
 	board_type = "machine"
-	origin_tech = "{'powerstorage':4,'engineering':4}"
+	origin_tech = @'{"powerstorage":4,"engineering":4}'
 	req_components = list(
 		/obj/item/stock_parts/manipulator = 2,
 		/obj/item/stock_parts/capacitor = 4
@@ -107,7 +107,7 @@
 	name = "circuitboard (thermoelectric generator turbine)"
 	build_path = /obj/machinery/atmospherics/binary/circulator
 	board_type = "machine"
-	origin_tech = "{'powerstorage':4,'engineering':4}"
+	origin_tech = @'{"powerstorage":4,"engineering":4}'
 	req_components = list(
 		/obj/item/stock_parts/manipulator = 3,
 		/obj/item/stock_parts/matter_bin = 3
@@ -120,7 +120,7 @@
 	name = "circuitboard (thermoelectric generator motor)"
 	build_path = /obj/machinery/generator
 	board_type = "machine"
-	origin_tech = "{'powerstorage':4,'engineering':4}"
+	origin_tech = @'{"powerstorage":4,"engineering":4}'
 	req_components = list(
 		/obj/item/stock_parts/manipulator = 2,
 		/obj/item/stock_parts/capacitor = 4
@@ -135,7 +135,7 @@
 	name = "circuitboard (breaker box)"
 	build_path = /obj/machinery/power/breakerbox
 	board_type = "machine"
-	origin_tech = "{'powerstorage':4,'engineering':4}"
+	origin_tech = @'{"powerstorage":4,"engineering":4}'
 	req_components = list(
 		/obj/item/stock_parts/manipulator = 2,
 		/obj/item/stock_parts/capacitor = 2
@@ -150,7 +150,7 @@
 	name = "circuitboard (fuel compressor)"
 	build_path = /obj/machinery/fuel_compressor
 	board_type = "machine"
-	origin_tech = "{'powerstorage':2,'engineering':3,'materials':3}"
+	origin_tech = @'{"powerstorage":2,"engineering":3,"materials":3}'
 	req_components = list(
 							/obj/item/stock_parts/manipulator = 2,
 							/obj/item/stock_parts/matter_bin/super = 2,
@@ -162,7 +162,7 @@
 	name = "circuit board (stirling engine)"
 	build_path = /obj/machinery/atmospherics/binary/stirling
 	board_type = "machine"
-	origin_tech = "{'engineering':2,'powerstorage':1}"
+	origin_tech = @'{"engineering":2,"powerstorage":1}'
 	req_components = list(
 		/obj/item/stack/cable_coil = 20,
 		/obj/item/stock_parts/matter_bin = 2,

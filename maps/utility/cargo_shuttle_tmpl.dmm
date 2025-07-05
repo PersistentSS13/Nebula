@@ -140,7 +140,7 @@
 /turf/simulated/floor/indestructible,
 /area/shuttle/supply_shuttle)
 "v" = (
-/obj/structure/plasticflaps/airtight/indestructible,
+/obj/structure/flaps/airtight/indestructible,
 /obj/machinery/door/blast/shutters/indestructible/supply_dock{
 	dir = 4
 	},

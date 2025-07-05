@@ -200,7 +200,7 @@
 		state |= WASHER_STATE_BLOODY
 
 	update_use_power(POWER_USE_ACTIVE)
-	addtimer(CALLBACK(src, /obj/machinery/washing_machine/proc/wash), 20 SECONDS)
+	addtimer(CALLBACK(src, TYPE_PROC_REF(/obj/machinery/washing_machine, wash)), 20 SECONDS)
 
 	return TRUE
 
@@ -255,7 +255,7 @@
 /obj/machinery/washing_machine/on_update_icon()
 	icon_state = "wm_[state][panel_open]"
 
-/obj/machinery/washing_machine/clean_blood()
+/obj/machinery/washing_machine/clean(clean_forensics = TRUE)
 	. = ..()
 	state &= ~WASHER_STATE_BLOODY
 	update_icon()

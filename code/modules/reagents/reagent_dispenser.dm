@@ -8,7 +8,7 @@
 	anchored                          = FALSE
 	material                          = /decl/material/solid/organic/plastic
 	matter                            = list(/decl/material/solid/metal/steel = MATTER_AMOUNT_SECONDARY)
-	maxhealth                         = 100
+	max_health = 100
 	tool_interaction_flags            = TOOL_INTERACTION_DECONSTRUCT
 	var/unwrenched                    = FALSE
 	var/tmp/volume                    = 1000
@@ -45,11 +45,6 @@
 	if(. && unwrenched)
 		leak()
 
-/obj/structure/reagent_dispensers/Process()
-	if(!unwrenched)
-		return PROCESS_KILL
-	leak()
-
 /obj/structure/reagent_dispensers/examine(mob/user, distance)
 	. = ..()
 	if(unwrenched)
@@ -70,19 +65,13 @@
 	if(reagents?.maximum_volume)
 		to_chat(user, "It may contain up to [reagents.maximum_volume] units of fluid.")
 
-/obj/structure/reagent_dispensers/Destroy()
-	. = ..()
-	STOP_PROCESSING(SSprocessing, src)
-
 /obj/structure/reagent_dispensers/attackby(obj/item/W, mob/user)
 	if(IS_WRENCH(W))
 		unwrenched = !unwrenched
 		visible_message(SPAN_NOTICE("\The [user] wrenches \the [src]'s tap [unwrenched ? "open" : "shut"]."))
 		if(unwrenched)
 			log_and_message_admins("opened a tank at [get_area_name(loc)].")
-			START_PROCESSING(SSprocessing, src)
-		else
-			STOP_PROCESSING(SSprocessing, src)
+			leak()
 		return TRUE
 	. = ..()
 
@@ -129,11 +118,11 @@
 	amount_dispensed          = 10
 	possible_transfer_amounts = @"[10,25,50,100]"
 	volume                    = 7500
-	atom_flags                = ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_CLIMBABLE
+	atom_flags                = ATOM_FLAG_CLIMBABLE
 	movable_flags             = MOVABLE_FLAG_WHEELED
 
 /obj/structure/reagent_dispensers/watertank/populate_reagents()
-	reagents.add_reagent(/decl/material/liquid/water, reagents.maximum_volume)
+	add_to_reagents(/decl/material/liquid/water, reagents.maximum_volume)
 
 /obj/structure/reagent_dispensers/watertank/firefighter
 	name   = "firefighting water reserve"
@@ -158,7 +147,7 @@
 	var/obj/item/assembly_holder/rig
 
 /obj/structure/reagent_dispensers/fueltank/populate_reagents()
-	reagents.add_reagent(/decl/material/liquid/fuel, reagents.maximum_volume)
+	add_to_reagents(/decl/material/liquid/fuel, reagents.maximum_volume)
 
 /obj/structure/reagent_dispensers/fueltank/examine(mob/user, distance)
 	. = ..()
@@ -236,10 +225,10 @@
 	anchored           = TRUE
 	density            = FALSE
 	amount_dispensed   = 45
-	directional_offset = "{'NORTH':{'y':-32}, 'SOUTH':{'y':32}, 'EAST':{'x':-32}, 'WEST':{'x':32}}"
+	directional_offset = @'{"NORTH":{"y":-32}, "SOUTH":{"y":32}, "EAST":{"x":-32}, "WEST":{"x":32}}'
 
 /obj/structure/reagent_dispensers/peppertank/populate_reagents()
-	reagents.add_reagent(/decl/material/liquid/capsaicin/condensed, reagents.maximum_volume)
+	add_to_reagents(/decl/material/liquid/capsaicin/condensed, reagents.maximum_volume)
 
 /obj/structure/reagent_dispensers/water_cooler
 	name                      = "water cooler"
@@ -256,7 +245,7 @@
 	var/tmp/cup_type          = /obj/item/chems/drinks/sillycup
 
 /obj/structure/reagent_dispensers/water_cooler/populate_reagents()
-	reagents.add_reagent(/decl/material/liquid/water, reagents.maximum_volume)
+	add_to_reagents(/decl/material/liquid/water, reagents.maximum_volume)
 
 /obj/structure/reagent_dispensers/water_cooler/attack_hand(var/mob/user)
 	if(user.check_dexterity(DEXTERITY_HOLD_ITEM, TRUE))
@@ -302,7 +291,7 @@
 	matter           = list(/decl/material/solid/metal/stainlesssteel = MATTER_AMOUNT_TRACE)
 
 /obj/structure/reagent_dispensers/beerkeg/populate_reagents()
-	reagents.add_reagent(/decl/material/liquid/ethanol/beer, reagents.maximum_volume)
+	add_to_reagents(/decl/material/liquid/ethanol/beer, reagents.maximum_volume)
 
 /obj/structure/reagent_dispensers/acid
 	name               = "sulphuric acid dispenser"
@@ -310,10 +299,10 @@
 	icon_state         = "acidtank"
 	amount_dispensed   = 10
 	anchored           = TRUE
-	directional_offset = "{'NORTH':{'y':-32}, 'SOUTH':{'y':32}, 'EAST':{'x':-32}, 'WEST':{'x':32}}"
+	directional_offset = @'{"NORTH":{"y":-32}, "SOUTH":{"y":32}, "EAST":{"x":-32}, "WEST":{"x":32}}'
 
 /obj/structure/reagent_dispensers/acid/populate_reagents()
-	reagents.add_reagent(/decl/material/liquid/acid, reagents.maximum_volume)
+	add_to_reagents(/decl/material/liquid/acid, reagents.maximum_volume)
 
 //Interactions
 /obj/structure/reagent_dispensers/get_alt_interactions(var/mob/user)

@@ -305,14 +305,6 @@
 		i++
 	return candidates
 
-/proc/ScreenText(obj/O, maptext="", screen_loc="CENTER-7,CENTER-7", maptext_height=480, maptext_width=480)
-	if(!isobj(O))	O = new /obj/screen/text()
-	O.maptext = maptext
-	O.maptext_height = maptext_height
-	O.maptext_width = maptext_width
-	O.screen_loc = screen_loc
-	return O
-
 /datum/projectile_data
 	var/src_x
 	var/src_y
@@ -400,16 +392,31 @@
 * Gets the highest and lowest pressures from the tiles in cardinal directions
 * around us, then checks the difference.
 */
-/proc/getOPressureDifferential(var/turf/loc)
-	var/minp=16777216;
-	var/maxp=0;
+/proc/get_surrounding_pressure_differential(var/turf/loc, atom/originator)
+	var/minp = INFINITY
+	var/maxp = 0
+	var/has_neighbour = FALSE
+	var/airblock // zeroed by ATMOS_CANPASS_TURF, declared early as microopt
 	for(var/dir in global.cardinal)
-		var/turf/T = get_step(loc,dir)
-		var/datum/gas_mixture/environment = T.return_air()
-		var/cp = environment?.return_pressure()
-		if(cp<minp)minp=cp
-		if(cp>maxp)maxp=cp
-	return abs(minp-maxp)
+		var/turf/neighbour = get_step(loc,dir)
+		if(!neighbour)
+			continue
+		for(var/obj/O in loc)
+			if(originator && O == originator)
+				continue
+			ATMOS_CANPASS_MOVABLE(airblock, O, neighbour)
+			. |= airblock
+		if(airblock & AIR_BLOCKED)
+			continue
+		ATMOS_CANPASS_TURF(airblock, neighbour, loc)
+		if(airblock & AIR_BLOCKED)
+			continue
+		var/datum/gas_mixture/environment = neighbour.return_air()
+		var/cp = environment ? environment.return_pressure() : 0
+		has_neighbour = TRUE
+		minp = min(minp, cp)
+		maxp = max(maxp, cp)
+	return has_neighbour ? abs(minp-maxp) : 0
 
 /proc/convert_k2c(var/temp)
 	return ((temp - T0C))
@@ -449,7 +456,7 @@
 /proc/SecondsToTicks(var/seconds)
 	return seconds * 10
 
-/proc/round_is_spooky(var/spookiness_threshold = config.cult_ghostwriter_req_cultists)
+/proc/round_is_spooky(var/spookiness_threshold = get_config_value(/decl/config/num/cult_ghostwriter_req_cultists))
 	var/decl/special_role/cult = GET_DECL(/decl/special_role/cultist)
 	return (cult.current_antagonists.len > spookiness_threshold)
 

@@ -56,17 +56,17 @@
 /decl/public_access/public_method/airlock_lock
 	name = "engage bolts"
 	desc = "Bolts the airlock, if possible."
-	call_proc = /obj/machinery/door/airlock/proc/lock
+	call_proc = TYPE_PROC_REF(/obj/machinery/door/airlock, lock)
 
 /decl/public_access/public_method/airlock_unlock
 	name = "disengage bolts"
 	desc = "Unbolts the airlock, if possible."
-	call_proc = /obj/machinery/door/airlock/proc/unlock
+	call_proc = TYPE_PROC_REF(/obj/machinery/door/airlock, unlock)
 
 /decl/public_access/public_method/airlock_toggle_bolts
 	name = "toggle bolts"
 	desc = "Toggles whether the airlock is bolted or not, if possible."
-	call_proc = /obj/machinery/door/airlock/proc/toggle_lock
+	call_proc = TYPE_PROC_REF(/obj/machinery/door/airlock, toggle_lock)
 
 /decl/public_access/public_variable/airlock_door_state
 	expected_type = /obj/machinery/door/airlock
@@ -120,7 +120,7 @@
 	base_type = /obj/machinery/airlock_sensor/buildable
 	construct_state = /decl/machine_construction/wall_frame/panel_closed/simple
 	frame_type = /obj/item/frame/button/airlock_controller_config/airlock_sensor
-	directional_offset = "{'NORTH':{'y':-18}, 'SOUTH':{'y':24}, 'EAST':{'x':-22}, 'WEST':{'x':22}}"
+	directional_offset = @'{"NORTH":{"y":-18}, "SOUTH":{"y":24}, "EAST":{"x":-22}, "WEST":{"x":22}}'
 	var/alert = FALSE
 	var/master_cycling = FALSE
 	var/pressure
@@ -259,7 +259,7 @@
 		/obj/item/stock_parts/radio/transmitter/on_event/buildable,
 		/obj/item/stock_parts/radio/receiver/buildable,
 	)
-	directional_offset = "{'NORTH':{'y':-22}, 'SOUTH':{'y':24}, 'EAST':{'x':-20}, 'WEST':{'x':20}}"
+	directional_offset = @'{"NORTH":{"y":-22}, "SOUTH":{"y":24}, "EAST":{"x":-20}, "WEST":{"x":20}}'
 	frame_type = /obj/item/frame/button/airlock_controller_config/access
 	base_type = /obj/machinery/button/access/buildable
 	var/command = "cycle"

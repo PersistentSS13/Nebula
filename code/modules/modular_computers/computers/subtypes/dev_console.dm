@@ -1,6 +1,38 @@
 /obj/machinery/computer/modular
 	name = "modular console"
-	maximum_component_parts   = list(/obj/item/stock_parts = 14)	//There's a lot of stuff that goes in these
+	//There's a lot of stuff that goes in these
+	maximum_component_parts = list(
+		/obj/item/stock_parts/keyboard       = 1,
+		/obj/item/stock_parts/console_screen = 1,
+		/obj/item/stock_parts/power/apc      = 1,
+		/obj/item/stock_parts/power/battery  = 1,
+		/obj/item/stock_parts/power/terminal = 1,
+		/obj/item/stock_parts/item_holder/card_reader = 1,
+		/obj/item/stock_parts/item_holder/disk_reader = 1,
+		/obj/item/stock_parts/network_receiver/network_lock = 1,
+		/obj/item/stock_parts/access_lock      = 1,
+		/obj/item/stock_parts/network_receiver = 2,
+		/obj/item/stock_parts/shielding        = 2,
+		/obj/item/stock_parts/radio            = 2,
+		/obj/item/stock_parts/computer/ai_slot           = 1,
+		/obj/item/stock_parts/computer/processor_unit    = 1,
+		/obj/item/stock_parts/computer/card_slot         = 1,
+		/obj/item/stock_parts/computer/charge_stick_slot = 1,
+		/obj/item/stock_parts/computer/data_disk_drive   = 1,
+		/obj/item/stock_parts/computer/drive_slot        = 1,
+		/obj/item/stock_parts/computer/hard_drive        = 1,
+		/obj/item/stock_parts/computer/lan_port          = 1,
+		/obj/item/stock_parts/computer/money_printer     = 1,
+		/obj/item/stock_parts/computer/nano_printer      = 1,
+		/obj/item/stock_parts/computer/network_card      = 1,
+		/obj/item/stock_parts/computer/scanner/atmos     = 1,
+		/obj/item/stock_parts/computer/scanner/medical   = 1,
+		/obj/item/stock_parts/computer/scanner/paper     = 1,
+		/obj/item/stock_parts/computer/scanner/reagent   = 1,
+		/obj/item/stock_parts/computer/tesla_link        = 0,
+		/obj/item/stock_parts/computer/battery_module    = 0,
+		/obj/item/stock_parts = 10,
+	)
 	icon = 'icons/obj/modular_computers/modular_console.dmi'
 	icon_state = "console-off"
 	var/list/interact_sounds  = list("keyboard", "keystroke")
@@ -94,7 +126,7 @@
 			to_chat(user, "This component is too large for \the [src].")
 			return 0
 	. = ..()
-	
+
 /obj/machinery/computer/modular/verb/emergency_shutdown()
 	set name = "Forced Shutdown"
 	set category = "Object"

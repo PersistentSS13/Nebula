@@ -13,6 +13,14 @@
 	var/logo                                               //Can be set to a pencode logo for use with some display methods.
 	var/list/searchable_fields = list()                    //The names of fields in the report which are searchable.
 
+SAVED_VAR(/datum/computer_file/report, title)
+SAVED_VAR(/datum/computer_file/report, form_name)
+SAVED_VAR(/datum/computer_file/report, creator)
+SAVED_VAR(/datum/computer_file/report, file_time)
+SAVED_VAR(/datum/computer_file/report, fields)
+SAVED_VAR(/datum/computer_file/report, available_on_network)
+SAVED_VAR(/datum/computer_file/report, logo)
+
 /datum/computer_file/report/New()
 	..()
 	generate_fields()

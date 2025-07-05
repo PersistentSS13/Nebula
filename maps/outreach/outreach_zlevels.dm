@@ -24,7 +24,7 @@
 /datum/level_data/planetoid/outreach/sky
 	name             = "Outreach Sky"
 	level_id         = OUTREACH_LEVEL_ID_SKY
-	base_turf        = /turf/exterior/open
+	base_turf        = /turf/open
 	base_area        = /area/exoplanet/outreach/sky
 	connected_levels = list(
 		OUTREACH_LEVEL_ID_SURFACE = DOWN,

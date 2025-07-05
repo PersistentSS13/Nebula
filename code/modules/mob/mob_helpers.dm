@@ -24,7 +24,6 @@
 			if(BP_IS_PROSTHETIC(E))
 				robolimb_count++
 		full_prosthetic = robolimb_count > 0 && (robolimb_count == LAZYLEN(limbs)) //If no organs, no way to tell
-		update_emotes()
 	return full_prosthetic
 
 /mob/living/silicon/isSynthetic()
@@ -66,11 +65,12 @@
 
 /proc/getsensorlevel(A)
 	var/mob/M = A
-	if(istype(M))
-		var/obj/item/clothing/under/U = M.get_equipped_item(slot_w_uniform_str)
-		if(istype(U))
-			return U.sensor_mode
-	return SUIT_SENSOR_OFF
+	if(!istype(M))
+		return VITALS_SENSOR_OFF
+	var/obj/item/clothing/accessory/vitals_sensor/sensor = M.get_vitals_sensor()
+	if(sensor)
+		return sensor.sensor_mode
+	return VITALS_SENSOR_OFF
 
 /proc/is_admin(var/mob/user)
 	return check_rights(R_ADMIN, 0, user) != 0
@@ -475,37 +475,26 @@ var/global/list/intents = list(I_HELP,I_DISARM,I_GRAB,I_HURT)
 /mob/proc/is_client_active(var/active = 1)
 	return client && client.inactivity < active MINUTES
 
-/mob/proc/can_eat()
-	return 1
-
-/mob/proc/can_force_feed()
-	return 1
-
 #define SAFE_PERP -50
 /mob/living/proc/assess_perp(var/obj/access_obj, var/check_access, var/auth_weapons, var/check_records, var/check_arrest, var/check_network)
+
 	if(stat == DEAD)
 		return SAFE_PERP
 
-	return 0
-
-/mob/living/carbon/assess_perp(var/obj/access_obj, var/check_access, var/auth_weapons, var/check_records, var/check_arrest, var/check_network)
 	if(get_equipped_item(slot_handcuffed_str))
 		return SAFE_PERP
 
-	return ..()
-
-/mob/living/carbon/human/assess_perp(var/obj/access_obj, var/check_access, var/auth_weapons, var/check_records, var/check_arrest, var/check_network)
-	var/threatcount = ..()
-	if(. == SAFE_PERP)
-		return SAFE_PERP
-
 	//Agent cards lower threatlevel.
+	var/threatcount = 0
 	var/obj/item/card/id/id = GetIdCard()
-	if(id && istype(id, /obj/item/card/id/syndicate))
-		threatcount -= 2
+
 	// A proper	CentCom id is hard currency.
-	else if(id && istype(id, /obj/item/card/id/centcom))
+	if(istype(id, /obj/item/card/id/centcom))
 		return SAFE_PERP
+
+	// Syndicate IDs have masking I guess.
+	if(istype(id, /obj/item/card/id/syndicate))
+		threatcount -= 2
 
 	if(check_access && !access_obj.allowed(src))
 		threatcount += 4
@@ -519,7 +508,7 @@ var/global/list/intents = list(I_HELP,I_DISARM,I_GRAB,I_HURT)
 		if(istype(belt, /obj/item/gun) || istype(belt, /obj/item/energy_blade) || istype(belt, /obj/item/baton))
 			threatcount += 2
 
-		if(species.name != global.using_map.default_species)
+		if(get_species_name() != global.using_map.default_species)
 			threatcount += 2
 
 	if(check_records || check_arrest)

@@ -19,6 +19,11 @@
 	category = /datum/shuttle/autodock
 	flags = SHUTTLE_FLAGS_PROCESS | SHUTTLE_FLAGS_ZERO_G
 
+SAVED_VAR(/datum/shuttle/autodock, current_dock_target)
+SAVED_VAR(/datum/shuttle/autodock, dock_target)
+SAVED_VAR(/datum/shuttle/autodock, docking_codes)
+SAVED_VAR(/datum/shuttle/autodock, next_location)
+
 /datum/shuttle/autodock/New(var/map_hash, var/obj/effect/shuttle_landmark/start_waypoint)
 	..()
 	if(map_hash)

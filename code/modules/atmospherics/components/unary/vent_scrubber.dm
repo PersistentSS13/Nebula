@@ -77,11 +77,11 @@
 	if(old_area == new_area)
 		return
 	if(old_area)
-		events_repository.unregister(/decl/observ/name_set, old_area, src, .proc/change_area_name)
+		events_repository.unregister(/decl/observ/name_set, old_area, src, PROC_REF(change_area_name))
 		old_area.air_scrub_info -= id_tag
 		old_area.air_scrub_names -= id_tag
 	if(new_area && new_area == get_area(src))
-		events_repository.register(/decl/observ/name_set, new_area, src, .proc/change_area_name)
+		events_repository.register(/decl/observ/name_set, new_area, src, PROC_REF(change_area_name))
 		if(!new_area.air_scrub_names[id_tag])
 			var/new_name = "[new_area.proper_name] Vent Scrubber #[new_area.air_scrub_names.len+1]"
 			new_area.air_scrub_names[id_tag] = new_name
@@ -93,10 +93,10 @@
 		icon_state = "weld"
 	else if((stat & NOPOWER) || !use_power)
 		icon_state = "off"
-	else if(scrubbing == SCRUBBER_EXCHANGE)
-		icon_state = "on"
-	else
+	else if(scrubbing == SCRUBBER_SIPHON)
 		icon_state = "in"
+	else
+		icon_state = "on"
 
 	build_device_underlays()
 
@@ -317,13 +317,13 @@
 /decl/public_access/public_method/toggle_panic_siphon
 	name = "toggle panic siphon"
 	desc = "Toggles the panic siphon function."
-	call_proc = /obj/machinery/atmospherics/unary/vent_scrubber/proc/toggle_panic
+	call_proc = TYPE_PROC_REF(/obj/machinery/atmospherics/unary/vent_scrubber, toggle_panic)
 
 /decl/public_access/public_method/set_scrub_gas
 	name = "set filter gases"
 	desc = "Given a list of gases, sets whether the gas is being scrubbed to the value of the gas in the list."
 	forward_args = TRUE
-	call_proc = /obj/machinery/atmospherics/unary/vent_scrubber/proc/set_scrub_gas
+	call_proc = TYPE_PROC_REF(/obj/machinery/atmospherics/unary/vent_scrubber, set_scrub_gas)
 
 /decl/stock_part_preset/radio/event_transmitter/vent_scrubber
 	frequency = PUMP_FREQ

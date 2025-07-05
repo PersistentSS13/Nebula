@@ -1,6 +1,6 @@
 //MAP CONVERTED BY dmm2tgm.py THIS HEADER COMMENT PREVENTS RECONVERSION, DO NOT REMOVE
 "aa" = (
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/outreach/sky)
 "ab" = (
 /turf/simulated/wall/r_wall,
@@ -199,7 +199,7 @@
 /obj/structure/sign/warning/fall{
 	pixel_y = 24
 	},
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/maint/waste/f1)
 "aD" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/black{
@@ -380,7 +380,7 @@
 	icon_state = "down-scrubbers";
 	dir = 1
 	},
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/maint/atmos/f1)
 "bc" = (
 /obj/machinery/atmospherics/unary/vent_scrubber/on{
@@ -419,7 +419,7 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/west/floor1)
 "bi" = (
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/janitorial)
 "bj" = (
 /obj/structure/cable/yellow,
@@ -488,7 +488,7 @@
 /turf/simulated/floor/tiled/steel_grid,
 /area/outreach/outpost/hallway/south/floor1)
 "bq" = (
-/turf/simulated/open,
+/turf/open,
 /area/turbolift/outreach/f1)
 "br" = (
 /obj/machinery/atmospherics/pipe/simple/hidden/supply{
@@ -1335,7 +1335,7 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/waste/f1)
 "cO" = (
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/stairwell/floor1)
 "cP" = (
 /obj/machinery/network/relay/wall_mounted/outreach{
@@ -1555,7 +1555,7 @@
 	icon_state = "pipe-d";
 	dir = 1
 	},
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/maint/atmos/f1)
 "dk" = (
 /obj/structure/flora/pottedplant/largebush,
@@ -1568,7 +1568,7 @@
 /obj/structure/sign/warning/fall{
 	pixel_y = 24
 	},
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/maint/power/f1)
 "dm" = (
 /obj/structure/cable/yellow{
@@ -1582,7 +1582,7 @@
 	icon_state = "bulb_map";
 	dir = 1
 	},
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/maint/power/f1)
 "dn" = (
 /obj/structure/sign/warning/nosmoking_1{
@@ -2648,7 +2648,7 @@
 	icon_state = "32-1"
 	},
 /obj/structure/lattice,
-/turf/simulated/open,
+/turf/open,
 /area/exoplanet/outreach/sky)
 "fF" = (
 /obj/effect/overmap/visitable/sector/exoplanet/outreach,
@@ -2676,7 +2676,7 @@
 	icon_state = "32-2"
 	},
 /obj/structure/lattice,
-/turf/simulated/open,
+/turf/open,
 /area/exoplanet/outreach/sky)
 "fK" = (
 /obj/machinery/atmospherics/pipe/manifold/hidden/black{
@@ -2933,13 +2933,13 @@
 /area/outreach/outpost/maint/passage/f1/northwest)
 "gm" = (
 /obj/structure/lattice,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/outreach/sky)
 "gn" = (
 /obj/structure/cable/yellow{
 	icon_state = "32-8"
 	},
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/outreach/sky)
 "go" = (
 /obj/effect/decal/cleanable/dirt,

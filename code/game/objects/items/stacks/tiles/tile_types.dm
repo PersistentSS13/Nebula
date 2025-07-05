@@ -52,7 +52,7 @@
 	singular_name = "grass floor tile"
 	desc = "A patch of grass like they often use on golf courses."
 	icon_state = "tile_grass"
-	origin_tech = "{'biotech':1}"
+	origin_tech = @'{"biotech":1}'
 
 /*
  * Wood
@@ -220,6 +220,15 @@
 	material = /decl/material/solid/organic/plastic
 
 /obj/item/stack/tile/floor_white/fifty
+	amount = 50
+
+/obj/item/stack/tile/floor_checkered
+	name = "checkered floor tile"
+	singular_name = "checkered floor tile"
+	icon_state = "tile_checkered"
+	material = /decl/material/solid/organic/plastic
+
+/obj/item/stack/tile/floor_checkered/fifty
 	amount = 50
 
 /obj/item/stack/tile/floor_dark

@@ -1,10 +1,10 @@
 /obj/machinery/door/Initialize(mapload, d, populate_parts, obj/structure/door_assembly/assembly)
 	if(persistent_id)
-		CUSTOM_SV("health", health) //Health gets overwritten with maxhealth in parent init
+		CUSTOM_SV("current_health", current_health) //Health gets overwritten with maxhealth in parent init
 	. = ..()
 	if(persistent_id)
-		health = LOAD_CUSTOM_SV("health")
-		CLEAR_SV("health")
+		current_health = LOAD_CUSTOM_SV("current_health")
+		CLEAR_SV("current_health")
 
 /obj/machinery/door/LateInitialize(mapload, dir=0, populate_parts=TRUE)
 	// Don't populate parts if this is a saved door

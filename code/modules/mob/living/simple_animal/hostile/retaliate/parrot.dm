@@ -31,12 +31,12 @@
 	icon = 'icons/mob/simple_animal/parrot.dmi'
 	pass_flags = PASS_FLAG_TABLE
 	mob_size = MOB_SIZE_SMALL
-	speak = list("Hi","Hello!","Cracker?")
-	speak_emote = list("squawks","says","yells")
-	emote_hear = list("squawks","bawks")
-	emote_see = list("flutters its wings")
+	emote_speech = list("Hi","Hello!","Cracker?")
+	speak_emote  = list("squawks","says","yells")
+	emote_hear   = list("squawks","bawks")
+	emote_see    = list("flutters its wings")
 	natural_weapon = /obj/item/natural_weapon/beak
-	speak_chance = 1//1% (1 in 100) chance every tick; So about once per 150 seconds, assuming an average tick is 1.5s
+	speak_chance = 1 // 1% (1 in 100) chance every tick; So about once per 150 seconds, assuming an average tick is 1.5s
 	turns_per_move = 5
 	response_harm = "swats"
 	stop_automated_movement = 1
@@ -101,12 +101,15 @@
 		held_item = null
 	return ..()
 
-/mob/living/simple_animal/hostile/retaliate/parrot/death(gibbed, deathmessage, show_dead_message)
-	if(held_item)
-		held_item.dropInto(loc)
-		held_item = null
-	walk(src,0)
-	..(gibbed, deathmessage, show_dead_message)
+/mob/living/simple_animal/hostile/retaliate/parrot/death(gibbed)
+	var/oldloc = loc
+	. = ..()
+	if(. && held_item)
+		if(oldloc)
+			held_item.dropInto(oldloc)
+			held_item = null
+		else
+			QDEL_NULL(held_item)
 
 /mob/living/simple_animal/hostile/retaliate/parrot/Stat()
 	. = ..()
@@ -122,10 +125,10 @@
 		if(parrot_state == PARROT_PERCH)
 			parrot_sleep_dur = parrot_sleep_max //Reset it's sleep timer if it was perched
 		parrot_interest = user
-		parrot_state = PARROT_SWOOP //The parrot just got hit, it WILL move, now to pick a direction..
+		parrot_state = PARROT_SWOOP //The parrot just got hit, it WILL move, now to pick a direction...
 		if(isliving(user))
 			var/mob/living/M = user
-			if(M.health < 50) //Weakened mob? Fight back!
+			if(M.current_health < 50) //Weakened mob? Fight back!
 				parrot_state |= PARROT_ATTACK
 				return
 		parrot_state |= PARROT_FLEE		//Otherwise, fly like a bat out of hell!
@@ -206,7 +209,7 @@
 			SelfMove(pick(global.cardinal))
 			return
 
-		if(!held_item && !parrot_perch) //If we've got nothing to do.. look for something to do.
+		if(!held_item && !parrot_perch) //If we've got nothing to do, look for something to do.
 			var/atom/movable/AM = search_for_perch_and_item() //This handles checking through lists so we know it's either a perch or stealable item
 			if(AM)
 				if((isitem(AM) && can_pick_up(AM)) || isliving(AM))	//If stealable item
@@ -319,9 +322,7 @@
 				return
 
 			//Time for the hurt to begin!
-			var/attacking_with = get_natural_weapon()
-			if(attacking_with)
-				L.attackby(attacking_with, src)
+			UnarmedAttack(L)
 			return
 
 		//Otherwise, fly towards the mob!
@@ -513,4 +514,4 @@
 /mob/living/simple_animal/hostile/retaliate/parrot/Poly
 	name = "Poly"
 	desc = "Poly the Parrot. An expert on quantum cracker theory."
-	speak = list("Poly wanna cracker!", "Check the singlo, you chucklefucks!","Wire the solars, you lazy bums!","WHO TOOK THE DAMN HARDSUITS?","OH GOD ITS FREE CALL THE SHUTTLE!")
+	emote_speech = list("Poly wanna cracker!", "Check the singlo, you chucklefucks!","Wire the solars, you lazy bums!","WHO TOOK THE DAMN HARDSUITS?","OH GOD ITS FREE CALL THE SHUTTLE!")

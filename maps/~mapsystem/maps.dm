@@ -68,6 +68,8 @@ var/global/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 	                                              // second level maps from program friendly display names ("Picnic Area") to program string ids ("picnicarea")
 	                                              // as defined in holodeck_programs
 	var/list/holodeck_restricted_programs = list() // as above... but EVIL!
+	var/list/holodeck_default_program = list() // map of program list string ids to default program string id
+	var/list/holodeck_off_program = list() // as above... but for being off i guess
 
 	var/allowed_latejoin_spawns = list(
 		/decl/spawnpoint/arrivals
@@ -148,6 +150,11 @@ var/global/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 		ACCESS_REGION_SUPPLY = list(access_change_ids)
 	)
 	var/secrets_directory
+	/// Network ID of the computer network used on the station if any.
+	var/spawn_network
+
+	/// A list of /decl/loadout_category types which will be available for characters made on this map. Uses all categories if null.
+	var/list/decl/loadout_category/loadout_categories
 
 /datum/map/proc/get_lobby_track(var/exclude)
 	var/lobby_track_type
@@ -160,6 +167,15 @@ var/global/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 	return GET_DECL(lobby_track_type)
 
 /datum/map/proc/setup_map()
+
+	if(!length(loadout_categories))
+		loadout_categories = list()
+		for(var/decl_type in decls_repository.get_decls_of_type(/decl/loadout_category))
+			loadout_categories += decl_type
+
+	for(var/loadout_category in loadout_categories)
+		loadout_categories -= loadout_category
+		loadout_categories += GET_DECL(loadout_category)
 
 	if(secrets_directory)
 		secrets_directory = trim(lowertext(secrets_directory))
@@ -432,27 +448,38 @@ var/global/const/MAP_HAS_RANK = 2		//Rank system, also togglable
 ///Loads main sites templates. Main sites template are not always saved btw, and may still be loaded when there is saved data
 /datum/map/proc/build_main_sites()
 	report_progress("Loading main sites...")
+	load_guaranteed_sites_category(MAP_TEMPLATE_CATEGORY_MAIN_SITE)
+	report_progress("Finished loading main sites.")
+
+/**
+	PS13
+	Builds utility z-levels needed for everything to function.
+ */
+/datum/map/proc/build_utility_sites()
+	report_progress("Loading utility sites...")
+	load_guaranteed_sites_category(MAP_TEMPLATE_CATEGORY_UTILITY_SITE)
+	report_progress("Finished loading utility sites.")
+
+/**
+	PS13
+	Loads all the given sites category in weighted order
+ */
+/datum/map/proc/load_guaranteed_sites_category(category)
 	var/list/sites_by_spawn_weight = list()
-	var/list/sites_templates = SSmapping.get_templates_by_category(MAP_TEMPLATE_CATEGORY_MAIN_SITE)
+	var/list/sites_templates       = SSmapping.get_templates_by_category(category)
 
-	for (var/site_name in sites_templates)
-		var/datum/map_template/site = sites_templates[site_name]
-		if((site.template_flags & TEMPLATE_FLAG_SPAWN_GUARANTEED) && site.load_new_z()) // no check for budget, but guaranteed means guaranteed
-			report_progress("Processed guaranteed main site [site]!")
-			away_site_budget -= site.get_template_cost()
-			continue
-		sites_by_spawn_weight[site] = site.get_spawn_weight()
+	//Orders the sites by weight
+	for(var/site_name in sites_templates)
+		sites_by_spawn_weight |= sites_templates[site_name]
+	sites_by_spawn_weight = sortTim(sites_by_spawn_weight, /proc/cmp_template_weight_dsc, FALSE)
 
-	while (away_site_budget > 0 && sites_by_spawn_weight.len)
-		var/datum/map_template/selected_site = pickweight(sites_by_spawn_weight)
-		if (!selected_site)
-			break
-		sites_by_spawn_weight -= selected_site
-		var/site_cost = selected_site.get_template_cost()
-		if(site_cost > away_site_budget)
-			continue
-		if (selected_site.load_new_z())
-			report_progress("Loaded main site [selected_site]!")
-			away_site_budget -= site_cost
+	//Spawn all sites in weight order
+	for(var/datum/map_template/selected_site in sites_by_spawn_weight)
+		if(selected_site.load_new_z())
+			report_progress("Loaded [category] site [selected_site]!")
 
-	report_progress("Finished loading main sites, remaining budget [away_site_budget], remaining sites [sites_by_spawn_weight.len]")
+/**
+Compare the spawn weight between 2 templates.
+ */
+/proc/cmp_template_weight_dsc(datum/map_template/a, datum/map_template/b)
+	return cmp_numeric_dsc(a.get_spawn_weight(), b.get_spawn_weight())

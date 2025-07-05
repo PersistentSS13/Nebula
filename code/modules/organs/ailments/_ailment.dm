@@ -8,8 +8,10 @@
 	var/obj/item/organ/organ      // Organ associated with the ailment (ailment is in organ.ailments list).
 
 	// Requirements before applying to a target.
-	var/list/applies_to_organ         // What organ tags (BP_HEAD, etc) is the ailment valid for?
-	var/affects_robotics = FALSE      // Does the ailment affect prosthetics specifically or flesh?
+	var/list/applies_to_organ          // What organ tags (BP_HEAD, etc) is the ailment valid for?
+	var/applies_to_prosthetics = FALSE // Does the ailment affect prosthetic or non-prosthetic limbs?
+	var/applies_to_robotics    = FALSE // Does the ailment affect robotic limbs?
+	var/applies_to_crystalline = FALSE // Does the ailment affect crystalline limbs?
 	var/specific_organ_subtype = /obj/item/organ/external // What organ subtype, if any, does the ailment apply to?
 
 	// Treatment types
@@ -23,9 +25,9 @@
 	// Fluff strings
 	var/initial_ailment_message = "Your $ORGAN$ $ORGAN_DOES$n't feel quite right..."        // Shown in New()
 	var/third_person_treatment_message = "$USER$ treats $TARGET$'s ailment with $ITEM$."    // Shown when treating other with an item.
-	var/self_treatment_message = "$USER$ treats $USER_HIS$ ailment with $ITEM$."            // Shown when treating self with an item.
+	var/self_treatment_message = "$USER$ treats $USER_THEIR$ ailment with $ITEM$."            // Shown when treating self with an item.
 	var/medication_treatment_message = "Your ailment abates."                               // Shown when treated by a metabolized reagent or CE_X effect.
-	var/manual_diagnosis_string  /* ex: "$USER_HIS$ $ORGAN$ has something wrong with it" */ // Shown when grab-diagnosed by a doctor. Leave null to be undiagnosable.
+	var/manual_diagnosis_string  /* ex: "$USER_THEIR$ $ORGAN$ has something wrong with it" */ // Shown when grab-diagnosed by a doctor. Leave null to be undiagnosable.
 	var/scanner_diagnosis_string /* ex: "Significant swelling" */                           // Shown on the handheld and body scanners. Leave null to be undiagnosable.
 
 	var/hidden_from_codex = FALSE
@@ -41,7 +43,11 @@
 /datum/ailment/proc/can_apply_to(var/obj/item/organ/_organ)
 	if(specific_organ_subtype && !istype(_organ, specific_organ_subtype))
 		return FALSE
-	if(affects_robotics != !!(BP_IS_PROSTHETIC(_organ)))
+	if(!isnull(applies_to_prosthetics) && (applies_to_prosthetics != !!BP_IS_PROSTHETIC(_organ)))
+		return FALSE
+	if(!isnull(applies_to_robotics) && (applies_to_robotics != !!BP_IS_ROBOTIC(_organ)))
+		return FALSE
+	if(!isnull(applies_to_crystalline) && (applies_to_crystalline != !!BP_IS_CRYSTAL(_organ)))
 		return FALSE
 	if(length(applies_to_organ) && !(_organ?.organ_tag in applies_to_organ))
 		return FALSE
@@ -56,7 +62,7 @@
 /datum/ailment/proc/begin_ailment_event()
 	if(!organ?.owner)
 		return
-	timer_id = addtimer(CALLBACK(src, .proc/do_malfunction), rand(min_time, max_time), TIMER_STOPPABLE | TIMER_UNIQUE | TIMER_OVERRIDE | TIMER_NO_HASH_WAIT)
+	timer_id = addtimer(CALLBACK(src, PROC_REF(do_malfunction)), rand(min_time, max_time), TIMER_STOPPABLE | TIMER_UNIQUE | TIMER_OVERRIDE | TIMER_NO_HASH_WAIT)
 
 /datum/ailment/proc/do_malfunction()
 	if(!organ?.owner)
@@ -69,7 +75,13 @@
 	return
 
 /datum/ailment/proc/treated_by_item(var/obj/item/treatment)
-	return treated_by_item_type && istype(treatment, treated_by_item_type)
+	if(islist(treated_by_item_type))
+		for(var/treatment_type in treated_by_item_type)
+			if(istype(treatment, treatment_type))
+				return TRUE
+	else if(ispath(treated_by_item_type))
+		return istype(treatment, treated_by_item_type)
+	return FALSE
 
 /datum/ailment/proc/replace_tokens(var/message, var/obj/item/treatment, var/mob/user, var/mob/target)
 	. = message
@@ -78,7 +90,7 @@
 	if(user)
 		var/decl/pronouns/G = user.get_pronouns()
 		. = replacetext(., "$USER$", "\the [user]")
-		. = replacetext(., "$USER_HIS$", G.his)
+		. = replacetext(., "$USER_THEIR$", G.his)
 	if(target)
 		. = replacetext(., "$TARGET$", "\the [target]")
 	if(organ)

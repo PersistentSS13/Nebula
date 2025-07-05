@@ -36,7 +36,8 @@
 	return -1
 
 /obj/machinery/atmospherics/pipe/Initialize()
-	if(istype(get_turf(src), /turf/simulated/wall) || istype(get_turf(src), /turf/simulated/shuttle/wall) || istype(get_turf(src), /turf/unsimulated/wall))
+	var/turf/T = get_turf(src)
+	if(T?.is_wall())
 		level = LEVEL_BELOW_PLATING
 	alpha = 255 // for mapping hidden pipes
 	. = ..()
@@ -190,19 +191,20 @@
 	set_leaking(missing)
 
 /obj/machinery/atmospherics/pipe/hide(var/i)
-	if(istype(loc, /turf/simulated))
+	var/turf/turf = loc
+	if(istype(turf) && turf.simulated)
 		set_invisibility(i ? 101 : 0)
 	update_icon()
 
 /obj/machinery/atmospherics/pipe/Process()
-	if(!parent) //This should cut back on the overhead calling build_network thousands of times per cycle
+	if(!parent || !parent.air) //This should cut back on the overhead calling build_network thousands of times per cycle
 		..()
-	else if(parent.air?.compare(loc?.return_air()))
+	else if(parent.air?.compare(loc.return_air()))
 		update_sound(0)
 		. = PROCESS_KILL
 	else if(leaking)
 		parent.mingle_with_turf(loc, volume)
-		var/air = parent.air && parent.air.return_pressure()
+		var/air = parent.air?.return_pressure()
 		if(!sound_token && air)
 			update_sound(1)
 		else if(sound_token && !air)
@@ -242,6 +244,7 @@
 		//TODO: leak to turf, doing pfshhhhh
 		if(prob(5))
 			burst()
+		else return 1
 
 	else return 1
 

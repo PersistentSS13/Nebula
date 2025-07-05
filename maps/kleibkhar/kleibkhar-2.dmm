@@ -24,7 +24,7 @@
 /turf/exterior/barren/mining,
 /area/exoplanet/kleibkhar/mines/depth_1)
 "af" = (
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/mines/exits)
 "ag" = (
 /obj/structure/railing/mapped,
@@ -565,14 +565,14 @@
 /area/exoplanet/kleibkhar/mines/exits)
 "bm" = (
 /obj/structure/lattice,
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/mines/exits)
 "bn" = (
 /obj/structure/lattice,
 /obj/structure/cable/yellow{
 	icon_state = "32-1"
 	},
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/kleibkhar/mines/exits)
 
 (1,1,1) = {"

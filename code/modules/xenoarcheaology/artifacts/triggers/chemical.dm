@@ -16,7 +16,7 @@
 	. = ..()
 	if(istype(O, /obj/item/chems))
 		for(var/reagent in required_chemicals)
-			if(O.reagents.remove_reagent(reagent, 1))
+			if(O.remove_from_reagents(reagent, 1))
 				return TRUE
 
 /datum/artifact_trigger/chemical/water
@@ -36,6 +36,7 @@
 	name = "presence of acid"
 	required_chemicals = list(
 		/decl/material/liquid/acid,
+		/decl/material/liquid/acid/hydrochloric,
 		/decl/material/liquid/acid/polyacid
 	)
 

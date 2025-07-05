@@ -11,7 +11,7 @@
 	anchored = TRUE
 	idle_power_usage = 10
 	obj_flags = OBJ_FLAG_MOVES_UNSUPPORTED
-	directional_offset = "{'NORTH':{'y':-32}, 'SOUTH':{'y':32}, 'EAST':{'x':-32}, 'WEST':{'x':32}}"
+	directional_offset = @'{"NORTH":{"y":-32}, "SOUTH":{"y":32}, "EAST":{"x":-32}, "WEST":{"x":32}}'
 
 	var/datum/money_account/authenticated_account
 	var/number_incorrect_tries = 0
@@ -471,3 +471,23 @@
 	if(ishuman(human_user) && !human_user.get_active_hand())
 		human_user.put_in_hands(held_card)
 	held_card = null
+
+//New icon stuff ps13
+/obj/machinery/atm
+	icon = 'icons/obj/machines/wall/atm.dmi'
+	icon_state = "frame"
+
+/obj/machinery/atm/on_update_icon()
+	cut_overlays()
+
+	if(panel_open)
+		var/obj/item/stock_parts/circuitboard/C = get_component_of_type(/obj/item/stock_parts/circuitboard)
+		if(C)
+			add_overlay("overlay-open-circuit")
+		else if(!istype(construct_state, /decl/machine_construction/wall_frame/no_wires))
+			add_overlay("overlay-open-wires")
+		else
+			add_overlay("overlay-open-empty")
+		return //return since none of the things below matter
+	else if(operable())
+		add_overlay("overlay-on")

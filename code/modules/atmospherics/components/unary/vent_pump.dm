@@ -1,12 +1,5 @@
 #define DEFAULT_PRESSURE_DELTA 10000
 
-#define EXTERNAL_PRESSURE_BOUND ONE_ATMOSPHERE
-#define INTERNAL_PRESSURE_BOUND 0
-#define PRESSURE_CHECKS 1
-
-#define PRESSURE_CHECK_EXTERNAL 1
-#define PRESSURE_CHECK_INTERNAL 2
-
 /obj/machinery/atmospherics/unary/vent_pump
 	icon = 'icons/atmos/vent_pump.dmi'
 	icon_state = "map_vent"
@@ -24,18 +17,19 @@
 	var/hibernate = 0 //Do we even process?
 	var/pump_direction = 1 //0 = siphoning, 1 = releasing
 
-	var/external_pressure_bound = EXTERNAL_PRESSURE_BOUND
-	var/internal_pressure_bound = INTERNAL_PRESSURE_BOUND
+	var/external_pressure_bound = VENT_DEFAULT_EXTERNAL_PRESSURE_PUMP
+	var/internal_pressure_bound = VENT_DEFAULT_INTERNAL_PRESSURE_PUMP
 
-	var/pressure_checks = PRESSURE_CHECKS
+	var/pressure_checks = VENT_PRESSURE_CHECK_FLAG_DEFAULT
 	//1: Do not pass external_pressure_bound
 	//2: Do not pass internal_pressure_bound
 	//3: Do not pass either
 
 	// Used when handling incoming radio signals requesting default settings
-	var/external_pressure_bound_default = EXTERNAL_PRESSURE_BOUND
-	var/internal_pressure_bound_default = INTERNAL_PRESSURE_BOUND
-	var/pressure_checks_default = PRESSURE_CHECKS
+	//#TODO: Those default pressures might be better handled on a per-map/area/controller/something else basis?
+	var/external_pressure_bound_default = VENT_DEFAULT_EXTERNAL_PRESSURE_PUMP
+	var/internal_pressure_bound_default = VENT_DEFAULT_INTERNAL_PRESSURE_PUMP
+	var/pressure_checks_default = VENT_PRESSURE_CHECK_FLAG_DEFAULT
 
 	var/welded = 0 // Added for aliens -- TLE
 
@@ -83,7 +77,7 @@
 		var/area/A = get_area(src)
 		if(A && !A.air_vent_names[id_tag])
 			update_name()
-			events_repository.register(/decl/observ/name_set, A, src, .proc/change_area_name)
+			events_repository.register(/decl/observ/name_set, A, src, PROC_REF(change_area_name))
 	. = ..()
 	air_contents.volume = ATMOS_DEFAULT_VOLUME_PUMP
 	update_sound()
@@ -121,31 +115,37 @@
 	use_power = POWER_USE_IDLE
 	icon_state = "map_vent_out"
 
+/obj/machinery/atmospherics/unary/vent_pump/cabled
+	power_channel = LOCAL
+	uncreated_component_parts = list(
+		/obj/item/stock_parts/power/terminal/buildable,
+		/obj/item/stock_parts/radio/receiver/buildable,
+		/obj/item/stock_parts/radio/transmitter/on_event/buildable,
+	)
+	stock_part_presets = list(
+		/decl/stock_part_preset/radio/receiver/vent_pump = 1,
+		/decl/stock_part_preset/radio/event_transmitter/vent_pump = 1,
+		/decl/stock_part_preset/terminal_connect/offset_dir = 1,
+	)
+
 /obj/machinery/atmospherics/unary/vent_pump/siphon
-	pump_direction = 0
+	pump_direction                  = 0
+	pressure_checks                 = VENT_PRESSURE_CHECK_FLAG_INTERNAL
+	pressure_checks_default         = VENT_PRESSURE_CHECK_FLAG_INTERNAL
+	external_pressure_bound         = VENT_DEFAULT_EXTERNAL_PRESSURE_SIPHON
+	external_pressure_bound_default = VENT_DEFAULT_EXTERNAL_PRESSURE_SIPHON
+	internal_pressure_bound         = VENT_DEFAULT_INTERNAL_PRESSURE_SIPHON
+	internal_pressure_bound_default = VENT_DEFAULT_INTERNAL_PRESSURE_SIPHON
 
 /obj/machinery/atmospherics/unary/vent_pump/siphon/on
 	use_power = POWER_USE_IDLE
 	icon_state = "map_vent_in"
 
 /obj/machinery/atmospherics/unary/vent_pump/siphon/on/atmos
-	use_power = POWER_USE_IDLE
-	icon_state = "map_vent_in"
-	external_pressure_bound = 0
-	external_pressure_bound_default = 0
-	internal_pressure_bound = MAX_PUMP_PRESSURE
-	internal_pressure_bound_default = MAX_PUMP_PRESSURE
-	pressure_checks = PRESSURE_CHECK_INTERNAL
-	pressure_checks_default = PRESSURE_CHECK_INTERNAL
+	controlled = FALSE
 
 /obj/machinery/atmospherics/unary/vent_pump/siphon/atmos
-	use_power = POWER_USE_OFF
-	external_pressure_bound = 0
-	external_pressure_bound_default = 0
-	internal_pressure_bound = MAX_PUMP_PRESSURE
-	internal_pressure_bound_default = MAX_PUMP_PRESSURE
-	pressure_checks = PRESSURE_CHECK_INTERNAL
-	pressure_checks_default = PRESSURE_CHECK_INTERNAL
+	controlled = FALSE
 
 /obj/machinery/atmospherics/unary/vent_pump/Destroy()
 	QDEL_NULL(sound_token)
@@ -157,11 +157,11 @@
 	if(old_area == new_area)
 		return
 	if(old_area)
-		events_repository.unregister(/decl/observ/name_set, old_area, src, .proc/change_area_name)
+		events_repository.unregister(/decl/observ/name_set, old_area, src, PROC_REF(change_area_name))
 		old_area.air_vent_info -= id_tag
 		old_area.air_vent_names -= id_tag
 	if(new_area && new_area == get_area(src))
-		events_repository.register(/decl/observ/name_set, new_area, src, .proc/change_area_name)
+		events_repository.register(/decl/observ/name_set, new_area, src, PROC_REF(change_area_name))
 		if(!new_area.air_vent_names[id_tag])
 			var/new_name = "[new_area.proper_name] Vent Pump #[new_area.air_vent_names.len+1]"
 			new_area.air_vent_names[id_tag] = new_name
@@ -179,6 +179,20 @@
 /obj/machinery/atmospherics/unary/vent_pump/high_volume/Initialize()
 	. = ..()
 	air_contents.volume = ATMOS_DEFAULT_VOLUME_PUMP + 800
+
+/obj/machinery/atmospherics/unary/vent_pump/high_volume/siphon
+	controlled                      = FALSE
+	pump_direction                  = 0
+	pressure_checks                 = VENT_PRESSURE_CHECK_FLAG_INTERNAL
+	pressure_checks_default         = VENT_PRESSURE_CHECK_FLAG_INTERNAL
+	external_pressure_bound         = VENT_DEFAULT_EXTERNAL_PRESSURE_SIPHON
+	external_pressure_bound_default = VENT_DEFAULT_EXTERNAL_PRESSURE_SIPHON
+	internal_pressure_bound         = VENT_DEFAULT_INTERNAL_PRESSURE_SIPHON
+	internal_pressure_bound_default = VENT_DEFAULT_INTERNAL_PRESSURE_SIPHON
+
+/obj/machinery/atmospherics/unary/vent_pump/high_volume/siphon/on
+	use_power = POWER_USE_IDLE
+	icon_state = "map_vent_in"
 
 /obj/machinery/atmospherics/unary/vent_pump/on_update_icon()
 	var/visible_directions = build_device_underlays()
@@ -231,16 +245,13 @@
 			power_draw = pump_gas(src, air_contents, environment, transfer_moles, power_rating)
 		else //external -> internal
 			var/datum/pipe_network/network = network_in_dir(dir)
-			transfer_moles = calculate_transfer_moles(environment, air_contents, pressure_delta, network?.volume)
-
-			//limit flow rate from turfs
-			transfer_moles = min(transfer_moles, environment.total_moles*air_contents.volume/environment.volume)	//group_multiplier gets divided out here
+			transfer_moles = calculate_transfer_moles(environment, air_contents, pressure_delta, network?.volume) / environment.group_multiplier // limit it to just one turf's worth of gas per tick
 			power_draw = pump_gas(src, environment, air_contents, transfer_moles, power_rating)
 
 	else
 		//If we're in an area that is fucking ideal, and we don't have to do anything, chances are we won't next tick either so why redo these calculations?
 		//JESUS FUCK.  THERE ARE LITERALLY 250 OF YOU MOTHERFUCKERS ON ZLEVEL ONE AND YOU DO THIS SHIT EVERY TICK WHEN VERY OFTEN THERE IS NO REASON TO
-		if(pump_direction && pressure_checks == PRESSURE_CHECK_EXTERNAL) //99% of all vents
+		if(pump_direction && pressure_checks == VENT_PRESSURE_CHECK_FLAG_EXTERNAL) //99% of all vents
 			hibernate = world.time + (rand(100,200))
 
 	if(transfer_moles > 0)
@@ -256,14 +267,14 @@
 	var/environment_pressure = environment.return_pressure()
 
 	if(pump_direction) //internal -> external
-		if(pressure_checks & PRESSURE_CHECK_EXTERNAL)
+		if(pressure_checks & VENT_PRESSURE_CHECK_FLAG_EXTERNAL)
 			pressure_delta = min(pressure_delta, external_pressure_bound - environment_pressure) //increasing the pressure here
-		if(pressure_checks & PRESSURE_CHECK_INTERNAL)
+		if(pressure_checks & VENT_PRESSURE_CHECK_FLAG_INTERNAL)
 			pressure_delta = min(pressure_delta, air_contents.return_pressure() - internal_pressure_bound) //decreasing the pressure here
 	else //external -> internal
-		if(pressure_checks & PRESSURE_CHECK_EXTERNAL)
+		if(pressure_checks & VENT_PRESSURE_CHECK_FLAG_EXTERNAL)
 			pressure_delta = min(pressure_delta, environment_pressure - external_pressure_bound) //decreasing the pressure here
-		if(pressure_checks & PRESSURE_CHECK_INTERNAL)
+		if(pressure_checks & VENT_PRESSURE_CHECK_FLAG_INTERNAL)
 			pressure_delta = min(pressure_delta, internal_pressure_bound - air_contents.return_pressure()) //increasing the pressure here
 
 	return pressure_delta
@@ -272,7 +283,7 @@
 	return controlled ? ..() : "NONE"
 
 /obj/machinery/atmospherics/unary/vent_pump/proc/purge()
-	pressure_checks &= ~PRESSURE_CHECK_EXTERNAL
+	pressure_checks &= ~VENT_PRESSURE_CHECK_FLAG_EXTERNAL
 	pump_direction = 0
 	queue_icon_update()
 
@@ -451,12 +462,12 @@
 /decl/public_access/public_method/purge_pump
 	name = "activate purge mode"
 	desc = "Activates purge mode, overriding pressure checks and removing air."
-	call_proc = /obj/machinery/atmospherics/unary/vent_pump/proc/purge
+	call_proc = TYPE_PROC_REF(/obj/machinery/atmospherics/unary/vent_pump, purge)
 
 /decl/public_access/public_method/toggle_pump_dir
 	name = "toggle pump direction"
 	desc = "Toggles the pump's direction, from release to siphon or vice versa."
-	call_proc = /obj/machinery/atmospherics/unary/vent_pump/proc/toggle_pump_dir
+	call_proc = TYPE_PROC_REF(/obj/machinery/atmospherics/unary/vent_pump, toggle_pump_dir)
 
 /decl/stock_part_preset/radio/event_transmitter/vent_pump
 	frequency = PUMP_FREQ
@@ -596,10 +607,3 @@
 		QDEL_NULL(sound_token)
 
 #undef DEFAULT_PRESSURE_DELTA
-
-#undef EXTERNAL_PRESSURE_BOUND
-#undef INTERNAL_PRESSURE_BOUND
-#undef PRESSURE_CHECKS
-
-#undef PRESSURE_CHECK_EXTERNAL
-#undef PRESSURE_CHECK_INTERNAL

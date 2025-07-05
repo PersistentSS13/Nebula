@@ -53,7 +53,7 @@ var/global/list/outfits_decls_by_type_
 	var/id_pda_assignment
 
 	var/list/backpack_overrides
-	var/flags = OUTFIT_RESET_EQUIPMENT
+	var/outfit_flags = OUTFIT_RESET_EQUIPMENT
 
 /decl/hierarchy/outfit/Initialize()
 	. = ..()
@@ -62,12 +62,51 @@ var/global/list/outfits_decls_by_type_
 		outfits_decls_by_type_[type] = src
 		dd_insertObjectList(outfits_decls_, src)
 
+// This proc is structured slightly strangely because I will be adding pants to it.
+/decl/hierarchy/outfit/validate()
+	. = ..()
+
+	for(var/check_type in list(uniform, suit, back, belt, gloves, shoes, head, mask, l_ear, r_ear, glasses, id, l_pocket, r_pocket, suit_store, pda_type, id_type))
+		var/obj/item/thing = check_type
+		if(isnull(thing))
+			continue
+		if(TYPE_IS_ABSTRACT(thing))
+			. += "equipment includes abstract type '[thing]'"
+
+	for(var/check_type in hands)
+		var/obj/item/thing = check_type
+		if(isnull(thing))
+			continue
+		if(TYPE_IS_ABSTRACT(thing))
+			. += "hands includes abstract type '[thing]'"
+
+	for(var/check_type in backpack_contents)
+		var/obj/item/thing = check_type
+		if(isnull(thing))
+			continue
+		if(TYPE_IS_ABSTRACT(thing))
+			. += "backpack includes abstract type '[thing]'"
+
+	if(uniform && (outfit_flags & OUTFIT_HAS_VITALS_SENSOR))
+		if(!ispath(uniform, /obj/item/clothing))
+			. += "outfit is flagged for sensors, but uniform cannot take accessories"
+		var/succeeded = FALSE
+		var/obj/item/sensor = new /obj/item/clothing/accessory/vitals_sensor
+		if(uniform)
+			var/obj/item/clothing/wear_uniform = new uniform // sadly we need to read a list
+			if(wear_uniform.can_attach_accessory(sensor))
+				succeeded = TRUE
+			qdel(wear_uniform)
+		if(!succeeded)
+			. += "outfit is flagged for sensors, but uniform does not accept sensors"
+		qdel(sensor)
+
 /decl/hierarchy/outfit/proc/pre_equip(mob/living/carbon/human/H)
-	if(flags & OUTFIT_RESET_EQUIPMENT)
+	if(outfit_flags & OUTFIT_RESET_EQUIPMENT)
 		H.delete_inventory(TRUE)
 
 /decl/hierarchy/outfit/proc/post_equip(mob/living/carbon/human/H)
-	if(flags & OUTFIT_HAS_JETPACK)
+	if(outfit_flags & OUTFIT_HAS_JETPACK)
 		var/obj/item/tank/jetpack/J = locate(/obj/item/tank/jetpack) in H
 		if(!J)
 			return
@@ -84,6 +123,16 @@ var/global/list/outfits_decls_by_type_
 
 	if(!(OUTFIT_ADJUSTMENT_SKIP_POST_EQUIP & equip_adjustments))
 		post_equip(H)
+
+	if(outfit_flags & OUTFIT_HAS_VITALS_SENSOR)
+		var/obj/item/clothing/accessory/vitals_sensor/sensor = new(get_turf(H))
+		for(var/check_slot in global.vitals_sensor_equip_slots)
+			var/obj/item/clothing/equipped = H.get_equipped_item(check_slot)
+			if(istype(equipped) && !(locate(/obj/item/clothing/accessory/vitals_sensor) in equipped.accessories) && equipped.can_attach_accessory(sensor))
+				equipped.attach_accessory(null, sensor)
+				break
+		if(isturf(sensor))
+			H.put_in_hands(sensor)
 
 	return 1
 
@@ -137,7 +186,7 @@ var/global/list/outfits_decls_by_type_
 	for(var/hand in hands)
 		H.put_in_hands(new hand(H))
 
-	if((flags & OUTFIT_HAS_BACKPACK) && !(OUTFIT_ADJUSTMENT_SKIP_BACKPACK & equip_adjustments))
+	if((outfit_flags & OUTFIT_HAS_BACKPACK) && !(OUTFIT_ADJUSTMENT_SKIP_BACKPACK & equip_adjustments))
 		var/decl/backpack_outfit/bo
 		var/metadata
 
@@ -158,7 +207,7 @@ var/global/list/outfits_decls_by_type_
 				H.equip_to_slot_or_del(backpack, slot_back_str)
 
 	if(H.species && !(OUTFIT_ADJUSTMENT_SKIP_SURVIVAL_GEAR & equip_adjustments))
-		if(flags & OUTFIT_EXTENDED_SURVIVAL)
+		if(outfit_flags & OUTFIT_EXTENDED_SURVIVAL)
 			H.species.equip_survival_gear(H, /obj/item/storage/box/engineer)
 		else if(H.client?.prefs?.survival_box_choice && global.survival_box_choices[H.client.prefs.survival_box_choice])
 			var/decl/survival_box_option/box = global.survival_box_choices[H.client.prefs.survival_box_choice]
@@ -187,8 +236,6 @@ var/global/list/outfits_decls_by_type_
 			W.update_icon()
 	H.update_icon()
 	H.set_id_info(W)
-	if(H.mind?.initial_account)
-		W.associated_account_id = H.mind.initial_account.account_id
 	equip_pda(H, assignment, equip_adjustments)
 	if(H.equip_to_slot_or_store_or_drop(W, id_slot))
 		return W

@@ -32,8 +32,9 @@
 
 	if(air?.volume || liquid?.total_volume)
 		temporarily_store_fluids()
-		QDEL_NULL(air)
-		QDEL_NULL(liquid)
+
+	QDEL_NULL(air)
+	QDEL_NULL(liquid)
 
 	for(var/obj/machinery/atmospherics/pipe/P in members)
 		P.parent = null
@@ -51,17 +52,20 @@
 		for(var/obj/machinery/atmospherics/pipe/member in members)
 			if(!member.check_pressure(pressure))
 				members.Remove(member)
+
+				// Safety check.
+				if(member.parent == src)
+					member.parent = null
 				break //Only delete 1 pipe per process
 
 /datum/pipeline/proc/temporarily_store_fluids()
 	//Update individual gas_mixtures by volume ratio
 
 	var/liquid_transfer_per_pipe = min(REAGENT_UNITS_PER_PIPE, (liquid && length(members)) ? (liquid.total_volume / length(members)) : 0)
-	if(!liquid_transfer_per_pipe && !liquid_transfer_per_pipe)
+	if(!air?.volume && !liquid_transfer_per_pipe)
 		return
 
 	for(var/obj/machinery/atmospherics/pipe/member in members)
-
 		if(air?.volume)
 			member.air_temporary = new
 			member.air_temporary.copy_from(air)
@@ -69,7 +73,7 @@
 			member.air_temporary.multiply(member.volume / air.volume)
 
 		if(liquid_transfer_per_pipe)
-			member.liquid_temporary = new(REAGENT_UNITS_PER_PIPE, src)
+			member.liquid_temporary = new(REAGENT_UNITS_PER_PIPE, member)
 			liquid.trans_to_holder(member.liquid_temporary, liquid_transfer_per_pipe)
 
 /datum/pipeline/proc/build_pipeline(obj/machinery/atmospherics/pipe/base)
@@ -255,7 +259,7 @@
 
 			air.temperature -= heat/total_heat_capacity
 			// Only increase the temperature of the target if it's simulated.
-			if(istype(target, /turf/simulated))
+			if(target.simulated)
 				target.temperature += heat/target.heat_capacity
 
 	if(network)
@@ -286,6 +290,6 @@
 	// Previously, the temperature would enter equilibrium at 26C or 294K.
 	// Only would happen if both sides (all 2 square meters of surface area) were exposed to sunlight.  We now assume it aligned edge on.
 	// It currently should stabilise at 129.6K or -143.6C
-	. -= surface * STEFAN_BOLTZMANN_CONSTANT * thermal_conductivity * (surface_temperature - COSMIC_RADIATION_TEMPERATURE) ** 4
+	. -= surface * STEFAN_BOLTZMANN_CONSTANT * thermal_conductivity * (surface_temperature  ** 4 - COSMIC_RADIATION_TEMPERATURE ** 4)
 
 #undef REAGENT_UNITS_PER_PIPE

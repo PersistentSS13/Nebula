@@ -14,12 +14,14 @@ var/global/exterior_broken_states = icon_states('icons/turf/exterior/broken.dmi'
 	name = "concrete"
 	desc = "A flat expanse of artificial stone-like artificial material."
 	icon = 'icons/turf/exterior/concrete.dmi'
-	diggable = FALSE
 	var/broken
 	var/burned
 
+/turf/exterior/concrete/can_be_dug()
+	return FALSE
+
 /turf/exterior/concrete/flooded
-	flooded = TRUE
+	flooded = /decl/material/liquid/water
 	color = COLOR_LIQUID_WATER
 
 /turf/exterior/concrete/Initialize(var/ml)
@@ -39,8 +41,10 @@ var/global/exterior_broken_states = icon_states('icons/turf/exterior/broken.dmi'
 /turf/exterior/concrete/reinforced
 	name = "reinforced concrete"
 	desc = "Stone-like artificial material. It has been reinforced with an unknown compound."
+	icon_state = "preview_reinforced"
 
 /turf/exterior/concrete/reinforced/Initialize(ml)
+	icon_state = "0" //Clear mapper icon
 	LAZYDISTINCTADD(decals, "hexacrete")
 	. = ..()
 
@@ -51,3 +55,11 @@ var/global/exterior_broken_states = icon_states('icons/turf/exterior/broken.dmi'
 	name = "asphalt"
 	color = COLOR_GRAY40
 	base_color = COLOR_GRAY40
+
+/turf/exterior/concrete/slab
+	name = "concrete slab"
+	desc = "A slab of stone-like artificial material."
+	icon_state = "preview_inset"
+/turf/exterior/concrete/reinforced/Initialize(ml)
+	icon_state = "0" //Clear mapper icon
+	. = ..()

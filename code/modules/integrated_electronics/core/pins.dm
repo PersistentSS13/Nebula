@@ -27,6 +27,14 @@ D [1]/  ||
 	var/pin_type			// IC_INPUT, IC_OUTPUT, IC_ACTIVATOR - used in saving assembly wiring
 	var/ord
 
+SAVED_VAR(/datum/integrated_io, name)
+SAVED_VAR(/datum/integrated_io, holder)
+SAVED_VAR(/datum/integrated_io, data)
+SAVED_VAR(/datum/integrated_io, linked)
+SAVED_VAR(/datum/integrated_io, io_type)
+SAVED_VAR(/datum/integrated_io, pin_type)
+SAVED_VAR(/datum/integrated_io, ord)
+
 /datum/integrated_io/New(loc, _name, _data, _pin_type,_ord)
 	name = _name
 	if(_data)

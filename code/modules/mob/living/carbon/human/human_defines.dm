@@ -1,20 +1,10 @@
 /mob/living/carbon/human
 
-	var/h_style
-	var/f_style
-
-	var/hair_colour
-	var/facial_hair_colour
-	var/skin_colour
-	var/eye_colour
-
 	var/regenerate_body_icon = FALSE // If true, the next icon update will also regenerate the body.
 
 	var/skin_tone = 0  //Skin tone
 
 	var/damage_multiplier = 1 //multiplies melee combat damage
-
-	var/lip_style = null	//no lipstick by default- arguably misleading, as it could be used for general makeup
 
 	var/list/worn_underwear = list()
 
@@ -70,8 +60,6 @@
 	var/became_older
 	var/became_younger
 
-	var/list/appearance_descriptors
-
 	var/list/smell_cooldown
 
 	/// var for caching last getHalloss() run to avoid looping through organs over and over and over again
@@ -84,9 +72,48 @@
 
 	ai = /datum/ai/human
 
+	/// PS13 The object we last safe-slept on. Used for moving characters to safe locations on loads.
+	var/obj/home_spawn
+
+
 /mob/living/carbon/human/proc/get_age()
 	. = LAZYACCESS(appearance_descriptors, "age") || 30
 
 /mob/living/carbon/human/proc/set_age(var/val)
 	var/datum/appearance_descriptor/age = LAZYACCESS(species.appearance_descriptors, "age")
 	LAZYSET(appearance_descriptors, "age", age.sanitize_value(val))
+
+
+SAVED_VAR(/mob/living/carbon/human, _skin_colour)
+SAVED_VAR(/mob/living/carbon/human, skin_tone)
+SAVED_VAR(/mob/living/carbon/human, damage_multiplier)
+SAVED_VAR(/mob/living/carbon/human, blood_type)
+SAVED_VAR(/mob/living/carbon/human, worn_underwear)
+SAVED_VAR(/mob/living/carbon/human, cultural_info)
+SAVED_VAR(/mob/living/carbon/human, voice)
+SAVED_VAR(/mob/living/carbon/human, last_dam)
+SAVED_VAR(/mob/living/carbon/human, remoteview_target)
+SAVED_VAR(/mob/living/carbon/human, hand_blood_color)
+SAVED_VAR(/mob/living/carbon/human, flavor_texts)
+SAVED_VAR(/mob/living/carbon/human, pulling_punches)
+SAVED_VAR(/mob/living/carbon/human, last_attack)
+SAVED_VAR(/mob/living/carbon/human, flash_protection)
+SAVED_VAR(/mob/living/carbon/human, equipment_tint_total)
+SAVED_VAR(/mob/living/carbon/human, equipment_darkness_modifier)
+SAVED_VAR(/mob/living/carbon/human, equipment_vision_flags)
+SAVED_VAR(/mob/living/carbon/human, equipment_see_invis)
+SAVED_VAR(/mob/living/carbon/human, equipment_prescription)
+SAVED_VAR(/mob/living/carbon/human, equipment_light_protection)
+SAVED_VAR(/mob/living/carbon/human, char_branch)
+SAVED_VAR(/mob/living/carbon/human, char_rank)
+SAVED_VAR(/mob/living/carbon/human, stance_damage)
+SAVED_VAR(/mob/living/carbon/human, default_attack)
+SAVED_VAR(/mob/living/carbon/human, shock_stage)
+SAVED_VAR(/mob/living/carbon/human, became_older)
+SAVED_VAR(/mob/living/carbon/human, became_younger)
+SAVED_VAR(/mob/living/carbon/human, appearance_descriptors)
+SAVED_VAR(/mob/living/carbon/human, skin_state)
+SAVED_VAR(/mob/living/carbon/human, embedded_flag)
+SAVED_VAR(/mob/living/carbon/human, stamina)
+SAVED_VAR(/mob/living/carbon/human, vessel)
+SAVED_VAR(/mob/living/carbon/human, home_spawn)

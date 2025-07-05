@@ -11,6 +11,13 @@
 	var/datum/dna/dna
 	var/backup_date
 
+SAVED_VAR(/datum/computer_file/data/cloning, mob_age)
+SAVED_VAR(/datum/computer_file/data/cloning, skill_list)
+SAVED_VAR(/datum/computer_file/data/cloning, languages)
+SAVED_VAR(/datum/computer_file/data/cloning, mind_id)
+SAVED_VAR(/datum/computer_file/data/cloning, dna)
+SAVED_VAR(/datum/computer_file/data/cloning, backup_date)
+
 // Initializes all the data on a backup with an existing mob.
 /datum/computer_file/data/cloning/proc/initialize_backup(var/mob/living/H)
 	languages = H.languages.Copy()
@@ -23,8 +30,8 @@
 		mob_age = H.mind.age
 	dna = H.dna.Clone()
 	backup_date = world.realtime
-	var/prefix = copytext(num2hex(backup_date, 8),1,5)
-	var/postfix = copytext(num2text(world.timeofday, 6), 2, 7)
+	var/prefix = copytext(num2hex_padded(backup_date, 8),1,5)
+	var/postfix = copytext(num2hex_padded(world.timeofday, 6), 2, 7)
 	filename = "[prefix]_clone_[postfix]"
 	calculate_size()
 

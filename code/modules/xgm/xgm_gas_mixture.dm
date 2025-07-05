@@ -19,6 +19,12 @@
 	///The last cached color of the gas mixture
 	var/tmp/cached_mix_color
 
+SAVED_VAR(/datum/gas_mixture, gas)
+SAVED_VAR(/datum/gas_mixture, temperature)
+SAVED_VAR(/datum/gas_mixture, total_moles)
+SAVED_VAR(/datum/gas_mixture, volume)
+SAVED_VAR(/datum/gas_mixture, group_multiplier)
+
 /datum/gas_mixture/New(_volume, _temperature, _group_multiplier)
 	if(!isnull(_volume))
 		volume = _volume
@@ -260,7 +266,7 @@
 /datum/gas_mixture/proc/remove_ratio(ratio, out_group_multiplier = 1)
 	if(ratio <= 0)
 		return null
-	out_group_multiplier = clamp(1, out_group_multiplier, group_multiplier)
+	out_group_multiplier = clamp(out_group_multiplier, 1, group_multiplier)
 
 	ratio = min(ratio, 1)
 
@@ -571,3 +577,21 @@
 		cached_mix_color = rgb(colors[1] / total_color_weight, colors[2] / total_color_weight, colors[3] / total_color_weight, colors[4] / total_color_weight)
 
 	return cached_mix_color
+
+//Update the gasmix after VV tempering
+/decl/vv_set_handler/gas_mixture_handler
+	handled_type = /datum/gas_mixture
+	handled_vars = list("total_moles", "temperature", "volume")
+	predicates = list(/proc/is_num_predicate)
+
+/decl/vv_set_handler/gas_mixture_handler/handle_set_var(var/datum/gas_mixture/GM, variable, var_value, client)
+	GM.update_values()
+
+//Update gasmix when the gas list changes
+/decl/vv_set_handler/gas_mixture_gases_handler
+	handled_type = /datum/gas_mixture
+	handled_vars = list("gas")
+	predicates = null
+
+/decl/vv_set_handler/gas_mixture_gases_handler/handle_set_var(var/datum/gas_mixture/GM, variable, var_value, client)
+	GM.update_values()

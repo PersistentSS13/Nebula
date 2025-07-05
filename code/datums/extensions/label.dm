@@ -4,6 +4,8 @@
 	var/atom/atom_holder
 	var/list/labels
 
+SAVED_VAR(/datum/extension/labels,  labels)
+
 /datum/extension/labels/New()
 	..()
 	atom_holder = holder

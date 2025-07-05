@@ -2,6 +2,10 @@
 	name = "ground"
 	icon = 'icons/turf/exterior/barren.dmi'
 	icon_edge_layer = EXT_EDGE_BARREN
+	is_fundament_turf = TRUE
+
+/turf/exterior/barren/airless
+	initial_gas = null
 
 /turf/exterior/barren/Initialize()
 	if(prob(20))

@@ -4,11 +4,11 @@
 	real_name = "corgi"
 	desc = "It's a corgi."
 	icon = 'icons/mob/simple_animal/corgi.dmi'
-	speak = list("YAP", "Woof!", "Bark!", "AUUUUUU")
-	speak_emote = list("barks", "woofs")
-	emote_hear = list("barks", "woofs", "yaps","pants")
-	emote_see = list("shakes its head", "shivers")
-	speak_chance = 1
+	speak_emote  = list("barks", "woofs")
+	emote_speech = list("YAP", "Woof!", "Bark!", "AUUUUUU")
+	emote_hear   = list("barks", "woofs", "yaps","pants")
+	emote_see    = list("shakes its head", "shivers")
+	speak_chance = 0.5
 	turns_per_move = 10
 	response_disarm = "bops"
 	see_in_dark = 5
@@ -17,6 +17,7 @@
 	holder_type = /obj/item/holder/corgi
 	pass_flags = PASS_FLAG_TABLE
 	base_animal_type = /mob/living/simple_animal/corgi
+	can_buckle = TRUE
 
 	meat_type = /obj/item/chems/food/meat/corgi
 	meat_amount = 3
@@ -129,6 +130,7 @@
 	meat_amount = 1
 	skin_amount = 3
 	bone_amount = 3
+	can_buckle = FALSE
 
 /mob/living/simple_animal/corgi/puppy/get_bodytype()
 	return GET_DECL(/decl/bodytype/animal/puppy)

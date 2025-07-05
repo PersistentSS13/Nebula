@@ -6,6 +6,8 @@
 
 	var/registered_name = null
 
+SAVED_VAR(/obj/structure/closet/secure_closet/personal, registered_name)
+
 /obj/structure/closet/secure_closet/personal/WillContain()
 	return list(
 		new /datum/atom_creator/weighted(list(/obj/item/storage/backpack, /obj/item/storage/backpack/satchel/grey)),
@@ -22,6 +24,10 @@
 
 /obj/structure/closet/secure_closet/personal/cabinet
 	closet_appearance = /decl/closet_appearance/cabinet/secure
+	//mapper preview
+	icon  =  'icons/obj/closets/bases/cabinet.dmi'
+	icon_state = "base"
+	color      = WOOD_COLOR_RICH
 
 /obj/structure/closet/secure_closet/personal/cabinet/WillContain()
 	return list(/obj/item/storage/backpack/satchel/grey/withwallet, /obj/item/radio/headset)

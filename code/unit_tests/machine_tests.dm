@@ -11,7 +11,13 @@
 		for(var/path in machine.maximum_component_parts)
 			if(machine.number_of_components(path) > machine.maximum_component_parts[path])
 				failed[machine.type] = TRUE
-				log_bad("[log_info_line(machine)] had too many components of type [path].")
+				var/parts_list = ""
+				for(var/obj/item/apart as anything in machine.component_parts)
+					if(istype(apart))
+						parts_list += "\n[apart.type]"
+					else
+						parts_list += "\npath:[apart]"
+				log_bad("[log_info_line(machine)] had too many components of type [path].\nContained parts: [parts_list]")
 		if(!failed[machine.type])
 			passed[machine.type] = TRUE
 

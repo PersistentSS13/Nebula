@@ -5,7 +5,7 @@
 	desc = "A strange, ridged chunk of some glassy red material. Achingly cold to the touch."
 	w_class = ITEM_SIZE_SMALL
 	slot_flags = SLOT_LOWER_BODY
-	origin_tech = "{'wormholes':4,'materials':4}"
+	origin_tech = @'{"wormholes":4,"materials":4}'
 	material = /decl/material/solid/gemstone/crystal
 	var/full = SOULSTONE_EMPTY
 	var/is_evil = 1
@@ -45,16 +45,16 @@
 /obj/item/soulstone/attackby(var/obj/item/I, var/mob/user)
 	..()
 	if(is_evil && istype(I, /obj/item/nullrod))
-		to_chat(user, "<span class='notice'>You cleanse \the [src] of taint, purging its shackles to its creator..</span>")
+		to_chat(user, SPAN_NOTICE("You cleanse \the [src] of taint, purging its shackles to its creator."))
 		is_evil = 0
 		return
 	if(I.force >= 5)
 		if(full != SOULSTONE_CRACKED)
-			user.visible_message("<span class='warning'>\The [user] hits \the [src] with \the [I], and it breaks.[shade.client ? " You hear a terrible scream!" : ""]</span>", "<span class='warning'>You hit \the [src] with \the [I], and it cracks.[shade.client ? " You hear a terrible scream!" : ""]</span>", shade.client ? "You hear a scream." : null)
+			user.visible_message(SPAN_WARNING("\The [user] hits \the [src] with \the [I], and it breaks.[shade.client ? " You hear a terrible scream!" : ""]"), SPAN_WARNING("You hit \the [src] with \the [I], and it cracks.[shade.client ? " You hear a terrible scream!" : ""]"), shade.client ? "You hear a scream." : null)
 			playsound(loc, 'sound/effects/Glasshit.ogg', 75)
 			set_full(SOULSTONE_CRACKED)
 		else
-			user.visible_message("<span class='danger'>\The [user] shatters \the [src] with \the [I]!</span>")
+			user.visible_message(SPAN_DANGER("\The [user] shatters \the [src] with \the [I]!"))
 			shatter()
 
 /obj/item/soulstone/attack(var/mob/living/simple_animal/M, var/mob/user)

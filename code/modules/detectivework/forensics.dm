@@ -1,4 +1,4 @@
-
+#define MAX_HIDDEN_PRINTS 25
 /atom/var/list/fingerprintshidden
 /atom/var/fingerprintslast
 
@@ -10,14 +10,20 @@
 	fingerprintslast = M.key
 	if(!fingerprintshidden)
 		fingerprintshidden = list()
-	if (ishuman(M))
-		var/mob/living/carbon/human/H = M
-		if (H.get_equipped_item(slot_gloves_str))
-			src.fingerprintshidden += "\[[time_stamp()]\] (Wearing gloves). Real name: [H.real_name], Key: [H.key]"
-			return 0
 
-	src.fingerprintshidden += "\[[time_stamp()]\] Real name: [M.real_name], Key: [M.key]"
-	return 1
+	var/print_to_add
+	var/mob/living/carbon/human/H = M
+	if(ishuman(M) && H.get_equipped_item(slot_gloves_str))
+		print_to_add = "\[[time_stamp()]\] (Wearing gloves). Real name: [H.real_name], Key: [H.key]"
+		. = FALSE
+	else
+		print_to_add = "\[[time_stamp()]\] Real name: [M.real_name], Key: [M.key]"
+		. = TRUE
+
+	//Persistence: Make sure we don't end up with a million entries in here.
+	if(length(fingerprintshidden) >= MAX_HIDDEN_PRINTS)
+		fingerprintshidden = fingerprintshidden.Cut(1,2)
+	fingerprintshidden += print_to_add
 
 /atom/proc/add_fingerprint(mob/M, ignoregloves, obj/item/tool)
 	if(isnull(M)) return

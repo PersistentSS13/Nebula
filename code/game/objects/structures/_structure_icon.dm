@@ -1,7 +1,7 @@
 var/global/list/default_blend_objects = list(
 	/obj/machinery/door,
 	/obj/structure/door,
-	/obj/structure/plasticflaps,
+	/obj/structure/flaps,
 	/turf/simulated/wall,
 	/turf/exterior/wall,
 	/turf/unsimulated/wall,

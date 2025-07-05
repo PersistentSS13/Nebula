@@ -1,3 +1,5 @@
+//#TODO: Probably move this whole submodule to the base game folder?
+
 /decl/hierarchy/chargen
 	var/ID = "none"                        // ID of this chargen-entry. Needs to be unique.
 	name = "None"                          // Name of the chargen-entry. This is what the player sees.

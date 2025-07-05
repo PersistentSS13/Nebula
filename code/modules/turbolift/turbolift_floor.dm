@@ -10,6 +10,13 @@
 	var/list/doors = list()
 	var/obj/structure/lift/button/ext_panel
 
+SAVED_VAR(/datum/turbolift_floor, label)
+SAVED_VAR(/datum/turbolift_floor, name)
+SAVED_VAR(/datum/turbolift_floor, announce_str)
+SAVED_VAR(/datum/turbolift_floor, arrival_sound)
+SAVED_VAR(/datum/turbolift_floor, doors)
+SAVED_VAR(/datum/turbolift_floor, ext_panel)
+
 /datum/turbolift_floor/proc/set_area_ref(var/ref)
 	var/area/turbolift/A = locate(ref)
 	if(!istype(A))

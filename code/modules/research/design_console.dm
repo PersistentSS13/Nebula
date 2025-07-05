@@ -1,9 +1,11 @@
 /obj/machinery/computer/design_console
 	name = "design database console"
 	desc = "A console for interfacing with a research and development design network."
+	base_type = /obj/machinery/computer/design_console
 
 	var/initial_network_id
 	var/initial_network_key
+	var/initial_network_tag
 	var/list/local_cache
 	var/obj/item/disk/design_disk/disk
 	var/obj/machinery/design_database/viewing_database
@@ -11,7 +13,10 @@
 
 /obj/machinery/computer/design_console/Initialize()
 	. = ..()
-	set_extension(src, /datum/extension/network_device, initial_network_id, initial_network_key, RECEIVER_STRONG_WIRELESS)
+	var/datum/extension/network_device/D = get_or_create_extension(src, /datum/extension/network_device, initial_network_id, initial_network_key, RECEIVER_STRONG_WIRELESS)
+	if(istype(D) && length(initial_network_tag))
+		D.set_network_tag(initial_network_tag)
+
 
 /obj/machinery/computer/design_console/modify_mapped_vars(map_hash)
 	..()

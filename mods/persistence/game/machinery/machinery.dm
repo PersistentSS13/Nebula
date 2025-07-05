@@ -68,8 +68,6 @@ SAVED_VAR(/obj/item/stock_parts/capacitor, charge)
 
 SAVED_VAR(/obj/item/stock_parts/computer/ai_slot, stored_card)
 
-SAVED_VAR(/obj/item/stock_parts/computer/battery_module, battery)
-
 SAVED_VAR(/obj/item/stock_parts/computer/hard_drive, stored_files)
 SAVED_VAR(/obj/item/stock_parts/computer/hard_drive, used_capacity)
 

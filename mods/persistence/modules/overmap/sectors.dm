@@ -11,8 +11,8 @@
 
 /obj/effect/overmap/visitable/Initialize()
 	. = ..()
-	events_repository.register(/decl/observ/world_saving_start_event, SSpersistence, src, .proc/on_saving_start)
-	events_repository.register(/decl/observ/world_saving_finish_event, SSpersistence, src, .proc/on_saving_end)
+	events_repository.register(/decl/observ/world_saving_start_event, SSpersistence, src, PROC_REF(on_saving_start))
+	events_repository.register(/decl/observ/world_saving_finish_event, SSpersistence, src, PROC_REF(on_saving_end))
 	if(!last_due)
 		last_due = world.realtime //#FIXME: Use REALTIMEOFDAY since world.realtime doesn't handle midnight rollover
 

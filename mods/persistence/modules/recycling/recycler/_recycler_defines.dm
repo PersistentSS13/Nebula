@@ -48,14 +48,13 @@
 	if(isbrain(L))
 		return L
 
-	var/obj/item/organ/internal/brain/brain = GET_INTERNAL_ORGAN(L, BP_BRAIN)
-	if(istype(brain) && !isnull(brain.brainmob))
-		return brain.brainmob
+	//Returns the brainmob from the brain slot.
+	var/obj/item/organ/internal/brain = GET_INTERNAL_ORGAN(L, BP_BRAIN)
+	var/mob/brainmob = brain.get_brainmob(FALSE)
+	if(istype(brain) && brainmob)
+		return brainmob
 
-	var/obj/item/organ/internal/posibrain/posibrain = GET_INTERNAL_ORGAN(L, BP_POSIBRAIN)
-	if(istype(posibrain) && !isnull(posibrain.brainmob))
-		return posibrain.brainmob
-
+	//If not available return the brain mob from the stack.
 	var/obj/item/organ/internal/stack/neuralstack = GET_INTERNAL_ORGAN(L, BP_STACK)
 	if(istype(neuralstack) && !isnull(neuralstack.stackmob))
 		return neuralstack.stackmob

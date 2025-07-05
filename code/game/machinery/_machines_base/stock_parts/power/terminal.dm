@@ -12,11 +12,11 @@
 	if(status & PART_STAT_ACTIVE)
 		machine.update_power_channel(cached_channel)
 		unset_status(machine, PART_STAT_ACTIVE)
-	qdel(terminal) // Will call unset_terminal().
+	QDEL_NULL(terminal) // Will call unset_terminal().
 	..()
 
 /obj/item/stock_parts/power/terminal/Destroy()
-	qdel(terminal)
+	QDEL_NULL(terminal)
 	. = ..()
 
 /obj/item/stock_parts/power/terminal/machine_process(var/obj/machinery/machine)
@@ -72,21 +72,22 @@
 	terminal = new_terminal
 	terminal.master = src
 
-	events_repository.register(/decl/observ/destroyed, terminal, src, .proc/unset_terminal)
+	events_repository.register(/decl/observ/destroyed, terminal, src, PROC_REF(unset_terminal))
 	terminal.queue_icon_update()
 
-	set_extension(src, /datum/extension/event_registration/shuttle_stationary, GET_DECL(/decl/observ/moved), machine, .proc/machine_moved, get_area(src))
+	set_extension(src, /datum/extension/event_registration/shuttle_stationary, GET_DECL(/decl/observ/moved), machine, PROC_REF(machine_moved), get_area(src))
 	set_status(machine, PART_STAT_CONNECTED)
 	start_processing(machine)
 
 /obj/item/stock_parts/power/terminal/proc/machine_moved(var/obj/machinery/machine, var/turf/old_loc, var/turf/new_loc)
 	if(!terminal)
-		events_repository.unregister(/decl/observ/moved, machine, src, .proc/machine_moved)
+		events_repository.unregister(/decl/observ/moved, machine, src, PROC_REF(machine_moved))
 		return
 	if(istype(new_loc) && (terminal.loc == get_step(new_loc, terminal_dir)))
 		return     // This location is fine
+	// TODO: disconnect and drop the terminal as an item instead of deleting it.
 	machine.visible_message(SPAN_WARNING("The terminal is ripped out of \the [machine]!"))
-	qdel(terminal) // will handle everything via the destroyed event
+	QDEL_NULL(terminal) // will handle everything via the destroyed event
 
 /obj/item/stock_parts/power/terminal/proc/make_terminal(var/obj/machinery/machine)
 	if(!machine)

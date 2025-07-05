@@ -169,9 +169,6 @@ Turf and target are seperate in case you want to teleport some distance from a t
 			return 1
 	return 0
 
-/proc/sign(x)
-	return x!=0?x/abs(x):0
-
 /proc/getline(atom/M,atom/N)//Ultra-Fast Bresenham Line-Drawing Algorithm
 	var/px=M.x		//starting x
 	var/py=M.y
@@ -203,7 +200,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 			line+=locate(px,py,M.z)
 	return line
 
-#define LOCATE_COORDS(X, Y, Z) locate(clamp(1, X, world.maxx), clamp(1, Y, world.maxy), Z)
+#define LOCATE_COORDS(X, Y, Z) locate(clamp(X, 1, world.maxx), clamp(Y, 1, world.maxy), Z)
 /proc/getcircle(turf/center, var/radius) //Uses a fast Bresenham rasterization algorithm to return the turfs in a thin circle.
 	if(!radius) return list(center)
 
@@ -230,7 +227,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 
 #undef LOCATE_COORDS
 
-#define LOCATE_COORDS_SAFE(X, Y, Z) locate(clamp(TRANSITIONEDGE + 1, X, world.maxx - TRANSITIONEDGE), clamp(TRANSITIONEDGE + 1, Y, world.maxy - TRANSITIONEDGE), Z)
+#define LOCATE_COORDS_SAFE(X, Y, Z) locate(clamp(X, TRANSITIONEDGE + 1, world.maxx - TRANSITIONEDGE), clamp(Y, TRANSITIONEDGE + 1, world.maxy - TRANSITIONEDGE), Z)
 /proc/getcirclesafe(turf/center, var/radius) //Uses a fast Bresenham rasterization algorithm to return the turfs in a thin circle.
 	if(!radius) return list(center)
 
@@ -275,10 +272,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 
 //Ensure the frequency is within bounds of what it should be sending/recieving at
 /proc/sanitize_frequency(var/f, var/low = PUBLIC_LOW_FREQ, var/high = PUBLIC_HIGH_FREQ)
-	f = round(f)
-	f = max(low, f)
-	f = min(high, f)
-	return f
+	return clamp(round(f), low, high)
 
 //Turns 1479 into 147.9
 /proc/format_frequency(var/f)
@@ -709,7 +703,7 @@ Turf and target are seperate in case you want to teleport some distance from a t
 //For items that can puncture e.g. thick plastic but aren't necessarily sharp
 //Returns 1 if the given item is capable of popping things like balloons, inflatable barriers, or cutting police tape.
 /obj/item/proc/can_puncture()
-	return src.sharp
+	return sharp
 
 /obj/item/screwdriver/can_puncture()
 	return 1
@@ -721,9 +715,6 @@ Turf and target are seperate in case you want to teleport some distance from a t
 	return 1
 
 /obj/item/screwdriver/can_puncture()
-	return 1
-
-/obj/item/shovel/can_puncture() //includes spades
 	return 1
 
 /obj/item/flame/can_puncture()
@@ -776,16 +767,10 @@ var/global/list/WALLITEMS = list(
 	return 0
 
 /proc/get_random_colour(var/simple = FALSE, var/lower = 0, var/upper = 255)
-	var/colour
 	if(simple)
-		colour = pick(list("FF0000","FF7F00","FFFF00","00FF00","0000FF","4B0082","8F00FF"))
+		return pick(list("#ff0000","#ff7f00","#ffff00","#00ff00","#0000ff","#4b0082","#8f00ff"))
 	else
-		for(var/i=1;i<=3;i++)
-			var/temp_col = "[num2hex(rand(lower,upper))]"
-			if(length(temp_col )<2)
-				temp_col = "0[temp_col]"
-			colour += temp_col
-	return "#[colour]"
+		return rgb(rand(lower, upper), rand(lower, upper), rand(lower, upper))
 
 // call to generate a stack trace and print to runtime logs
 /proc/get_stack_trace(msg, file, line)

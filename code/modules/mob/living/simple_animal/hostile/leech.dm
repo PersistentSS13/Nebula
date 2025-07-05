@@ -2,8 +2,7 @@
 	name = "megaleech"
 	desc = "A green leech the size of a common snake."
 	icon = 'icons/mob/simple_animal/megaleech.dmi'
-	health = 15
-	maxHealth = 15
+	max_health = 15
 	harm_intent_damage = 5
 	natural_weapon = /obj/item/natural_weapon/bite/weak
 	pass_flags = PASS_FLAG_TABLE
@@ -20,15 +19,13 @@
 	adapt_to_current_level()
 	. = ..()
 
-/mob/living/simple_animal/hostile/leech/Life()
+/mob/living/simple_animal/hostile/leech/handle_regular_status_updates()
 	. = ..()
-	if(!.)
-		return FALSE
-
-	if(target_mob)
-		belly -= 3
-	else
-		belly -= 1
+	if(.)
+		if(target_mob)
+			belly -= 3
+		else
+			belly -= 1
 
 /mob/living/simple_animal/hostile/leech/AttackingTarget()
 	. = ..()
@@ -38,8 +35,8 @@
 		if(istype(S) && !length(S.breaches))
 			return
 		H.remove_blood_simple(suck_potency)
-		if(health < maxHealth)
-			health += suck_potency / 1.5
+		if(current_health < get_max_health())
+			heal_overall_damage(suck_potency / 1.5)
 		belly += clamp(suck_potency, 0, 100)
 
 /obj/structure/leech_spawner
@@ -60,7 +57,7 @@
 
 /obj/structure/leech_spawner/LateInitialize()
 	..()
-	proxy_listener = new /datum/proximity_trigger/square(src, .proc/burst, .proc/burst, 5)
+	proxy_listener = new /datum/proximity_trigger/square(src, PROC_REF(burst), PROC_REF(burst), 5)
 	proxy_listener.register_turfs()
 
 /obj/structure/leech_spawner/Destroy()
@@ -70,9 +67,9 @@
 /obj/structure/leech_spawner/proc/burst(var/mob/living/carbon/victim)
 	if(!proxy_listener || !istype(victim) || !(victim in view(5, src)))
 		return
+	QDEL_NULL(proxy_listener) // delete prior to spawning the leeches to avoid infinite recursion
 	for(var/i in 1 to 12)
 		new leech_type(get_turf(src))
 	visible_message(SPAN_MFAUNA("A swarm of leeches burst out from \the [src]!"))
 	icon_state = "reeds_empty"
 	desc = "Some alien reeds."
-	QDEL_NULL(proxy_listener)

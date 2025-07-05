@@ -1,4 +1,4 @@
-// TODO: remove the robot.mmi and robot.cell variables and completely rely on the robot component system
+// TODO: remove the robot.central_processor and robot.cell variables and completely rely on the robot component system
 
 /datum/robot_component/var/name
 /datum/robot_component/var/installed = 0
@@ -17,8 +17,18 @@
 // The wrapped device(e.g. radio), only set if external_type isn't null
 /datum/robot_component/var/obj/item/wrapped = null
 
+SAVED_VAR(/datum/robot_component, installed)
+SAVED_VAR(/datum/robot_component, powered)
+SAVED_VAR(/datum/robot_component, toggled)
+SAVED_VAR(/datum/robot_component, brute_damage)
+SAVED_VAR(/datum/robot_component, electronics_damage)
+SAVED_VAR(/datum/robot_component, owner)
+SAVED_VAR(/datum/robot_component, external_type)
+SAVED_VAR(/datum/robot_component, wrapped)
+
 /datum/robot_component/New(mob/living/silicon/robot/R)
-	src.owner = R
+	if(R)
+		owner = R
 
 /datum/robot_component/proc/accepts_component(var/obj/item/thing)
 	. = istype(thing, external_type)
@@ -122,6 +132,8 @@
 	max_damage = 50
 	var/obj/item/cell/stored_cell = null
 
+SAVED_VAR(/datum/robot_component/cell, stored_cell)
+
 /datum/robot_component/cell/destroy()
 	..()
 	stored_cell = owner.cell
@@ -222,31 +234,34 @@
 	icon = 'icons/obj/robot_component.dmi'
 	icon_state = "working"
 	material = /decl/material/solid/metal/steel
-	health = 30
+	current_health = 30
 	max_health = 30
 	var/burn_damage = 0
 	var/brute_damage = 0
 	var/icon_state_broken = "broken"
 
 /obj/item/robot_parts/robot_component/check_health(lastdamage, lastdamtype, lastdamflags, consumed)
+	var/current_max_health = get_max_health()
 	if(lastdamage > 0)
 		if(lastdamtype == BRUTE)
-			brute_damage = clamp(lastdamage, 0, max_health)
+			brute_damage = clamp(lastdamage, 0, current_max_health)
 		if(lastdamtype == BURN || lastdamtype == ELECTROCUTE)
-			burn_damage = clamp(lastdamage, 0, max_health)
+			burn_damage = clamp(lastdamage, 0, current_max_health)
 
 	//Health works differently for this thing
-	health = clamp(max_health - (brute_damage + burn_damage), 0, max_health)
+	current_health = clamp(current_max_health - (brute_damage + burn_damage), 0, current_max_health)
 	. = ..()
 
 /obj/item/robot_parts/robot_component/proc/set_bruteloss(var/amount)
-	brute_damage = clamp(amount, 0, max_health)
-	health = max_health - (brute_damage + burn_damage)
+	var/current_max_health = get_max_health()
+	brute_damage = clamp(amount, 0, current_max_health)
+	current_health = current_max_health - (brute_damage + burn_damage)
 	check_health(amount, BRUTE)
 
 /obj/item/robot_parts/robot_component/proc/set_burnloss(var/amount)
-	burn_damage = clamp(amount, 0, max_health)
-	health = max_health - (brute_damage + burn_damage)
+	var/current_max_health = get_max_health()
+	burn_damage = clamp(amount, 0, current_max_health)
+	current_health = current_max_health - (brute_damage + burn_damage)
 	check_health(amount, BURN)
 
 /obj/item/robot_parts/robot_component/physically_destroyed(skip_qdel)
@@ -258,7 +273,7 @@
 	. = ..()
 
 /obj/item/robot_parts/robot_component/proc/is_functional()
-	return ((brute_damage + burn_damage) < max_health)
+	return ((brute_damage + burn_damage) < get_max_health())
 
 /obj/item/robot_parts/robot_component/binary_communication_device
 	name = "binary communication device"

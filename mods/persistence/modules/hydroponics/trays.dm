@@ -40,7 +40,7 @@
 
 /obj/machinery/portable_atmospherics/hydroponics/soil/attackby(obj/item/O, mob/user)
 	if(IS_SHOVEL(O))
-		var/obj/item/shovel/S = O
+		var/obj/item/tool/shovel/S = O
 		if(S.do_tool_interaction(TOOL_SHOVEL, user, src, 10 SECONDS, "flattening", "flattening", null, null, SKILL_HAULING) && !QDELETED(O))
 			physically_destroyed()
 		return TRUE

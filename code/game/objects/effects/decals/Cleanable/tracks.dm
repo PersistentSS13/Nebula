@@ -23,6 +23,11 @@ var/global/list/image/fluidtrack_cache=list()
 	var/fresh=1
 	var/image/overlay
 
+SAVED_VAR(/datum/fluidtrack, direction)
+SAVED_VAR(/datum/fluidtrack, basecolor)
+SAVED_VAR(/datum/fluidtrack, wet)
+SAVED_VAR(/datum/fluidtrack, fresh)
+
 /datum/fluidtrack/New(_direction,_color,_wet)
 	src.direction=_direction
 	src.basecolor=_color
@@ -61,6 +66,12 @@ var/global/list/image/fluidtrack_cache=list()
 
 	// List of laid tracks and their colors.
 	var/list/datum/fluidtrack/stack=list()
+
+SAVED_VAR(/obj/effect/decal/cleanable/blood/tracks, dirs)
+SAVED_VAR(/obj/effect/decal/cleanable/blood/tracks, coming_state)
+SAVED_VAR(/obj/effect/decal/cleanable/blood/tracks, going_state)
+SAVED_VAR(/obj/effect/decal/cleanable/blood/tracks, setdirs)
+SAVED_VAR(/obj/effect/decal/cleanable/blood/tracks, stack)
 
 	/**
 	* Add tracks to an existing trail.

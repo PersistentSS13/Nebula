@@ -10,19 +10,23 @@
 	company_short   = "Outreach"
 	system_name     = "Outreach System"
 	dock_name       = "Outreach Docks"
+	id_hud_icons    = 'icons/hud.dmi' //Has more hud icon than the base nebula one
 
 	allowed_latejoin_spawns = list(/decl/spawnpoint/cryo)
 	default_spawn = /decl/spawnpoint/cryo
-	starting_money   = 5000
+	starting_money   = 0
 	department_money = 0
 	salary_modifier  = 0.2
 
 	lobby_screens = list(
 		'maps/outreach/lobby/exoplanet.png'
 	)
-	num_exoplanets = 0
+	num_exoplanets = 0 //Keep at 0, this is for randomly generated exoplanets.
 	overmap_ids = list(OVERMAP_ID_SPACE = /datum/overmap) //Default to null overmap, which prevents overmap marker from initializing properly
 	welcome_sound = 'sound/music/stingers/stinger_scifi.ogg'
 
 /datum/map/outreach/get_map_info()
-	return "You are en route to Outreach, a desolate planet previously targeted for mining operations, but now largely abandoned. Colonists come from a wide variety of backgrounds, but universally with only the shirt on their backs."
+	return {"
+	You've arrived on <b>[full_name]</b>, a now now largely abandoned, desolate mining colony. A haven for caravaneers, vagabonds, and the destitutes.
+	Wherever you hail from, you hope you can hack together a sort of existence for yourself here on the frontier. Strike the earth!
+	"}

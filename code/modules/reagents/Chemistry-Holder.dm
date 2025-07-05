@@ -1,5 +1,19 @@
 var/global/obj/temp_reagents_holder = new
 
+/atom/proc/add_to_reagents(reagent_type, amount, data, safety = FALSE, defer_update = FALSE)
+	return reagents?.add_reagent(reagent_type, amount, data, safety, defer_update)
+
+/atom/proc/remove_from_reagents(reagent_type, amount, safety = FALSE, defer_update = FALSE)
+	return reagents?.remove_reagent(reagent_type, amount, safety, defer_update)
+
+/atom/proc/remove_any_reagents(amount = 1, defer_update = FALSE)
+	return reagents?.remove_any(amount, defer_update)
+
+/atom/proc/get_reagent_space()
+	if(!reagents?.maximum_volume)
+		return 0
+	return reagents.maximum_volume - reagents.total_volume
+
 /datum/reagents
 	var/primary_reagent
 	var/list/reagent_volumes
@@ -8,6 +22,12 @@ var/global/obj/temp_reagents_holder = new
 	var/maximum_volume = 120
 	var/atom/my_atom
 	var/cached_color
+
+SAVED_VAR(/datum/reagents, reagent_volumes)
+SAVED_VAR(/datum/reagents, reagent_data)
+SAVED_VAR(/datum/reagents, total_volume)
+SAVED_VAR(/datum/reagents, maximum_volume)
+SAVED_VAR(/datum/reagents, my_atom)
 
 /datum/reagents/New(var/maximum_volume = 120, var/atom/my_atom)
 	src.maximum_volume = maximum_volume
@@ -24,6 +44,8 @@ var/global/obj/temp_reagents_holder = new
 	if(my_atom)
 		if(my_atom.reagents == src)
 			my_atom.reagents = null
+			if(total_volume > 0) // we can assume 0 reagents and null reagents are broadly identical for the purposes of atom logic
+				my_atom.on_reagent_change()
 		my_atom = null
 
 /datum/reagents/GetCloneArgs()
@@ -91,7 +113,7 @@ var/global/obj/temp_reagents_holder = new
 		var/replace_sound
 
 		if(!(check_flags & ATOM_FLAG_NO_PHASE_CHANGE))
-			if(!isnull(R.chilling_point) && R.type != R.bypass_cooling_products_for_root_type && LAZYLEN(R.chilling_products) && temperature <= R.chilling_point)
+			if(!isnull(R.chilling_point) && R.type != R.bypass_chilling_products_for_root_type && LAZYLEN(R.chilling_products) && temperature <= R.chilling_point)
 				replace_self_with = R.chilling_products
 				if(R.chilling_message)
 					replace_message = "\The [lowertext(R.name)] [R.chilling_message]"
@@ -174,6 +196,9 @@ var/global/obj/temp_reagents_holder = new
 
 /* Holder-to-chemical */
 /datum/reagents/proc/handle_update(var/safety)
+	if(QDELETED(src))
+		return
+	SSfluids.holders_to_update -= src
 	update_total()
 	if(!safety)
 		HANDLE_REACTIONS(src)
@@ -300,6 +325,9 @@ var/global/obj/temp_reagents_holder = new
 /* Holder-to-holder and similar procs */
 /datum/reagents/proc/remove_any(var/amount = 1, var/defer_update = FALSE) // Removes up to [amount] of reagents from [src]. Returns actual amount removed.
 
+	if(amount <= 0)
+		return 0
+
 	if(amount >= total_volume)
 		. = total_volume
 		clear_reagents()
@@ -382,6 +410,9 @@ var/global/obj/temp_reagents_holder = new
 
 //Splashing reagents is messier than trans_to, the target's loc gets some of the reagents as well.
 /datum/reagents/proc/splash(var/atom/target, var/amount = 1, var/multiplier = 1, var/copy = 0, var/min_spill=0, var/max_spill=60, var/defer_update = FALSE)
+
+	if(!istype(target))
+		return
 
 	if(isturf(target))
 		trans_to_turf(target, amount, multiplier, copy, defer_update = defer_update)
@@ -506,7 +537,7 @@ var/global/obj/temp_reagents_holder = new
 		current.touch_turf(target, REAGENT_VOLUME(src, rtype), src)
 	var/dirtiness = get_dirtiness()
 	if(dirtiness <= DIRTINESS_CLEAN)
-		target.clean_blood()
+		target.clean()
 		target.remove_cleanables()
 	if(dirtiness != DIRTINESS_NEUTRAL)
 		if(dirtiness > DIRTINESS_NEUTRAL)
@@ -524,10 +555,7 @@ var/global/obj/temp_reagents_holder = new
 				for(var/obj/effect/decal/cleanable/blood/B in target)
 					qdel(B)
 			if(dirtiness <= DIRTINESS_CLEAN)
-				target.clean_blood()
-				if(istype(target, /turf/simulated))
-					var/turf/simulated/simulated_turf = target
-					simulated_turf.dirt = 0
+				target.clean()
 
 /datum/reagents/proc/touch_obj(var/obj/target)
 	if(!target || !istype(target) || !target.simulated)
@@ -580,9 +608,9 @@ var/global/obj/temp_reagents_holder = new
 	R.touch_turf(target)
 	if(R?.total_volume <= FLUID_QDEL_POINT || QDELETED(target))
 		return
-	var/obj/effect/fluid/F = locate() in target
-	if(!F) F = new(target)
-	trans_to_holder(F.reagents, amount, multiplier, copy, defer_update = defer_update)
+	if(!target.reagents)
+		target.create_reagents(FLUID_MAX_DEPTH)
+	trans_to_holder(target.reagents, amount, multiplier, copy, defer_update = defer_update)
 
 /datum/reagents/proc/trans_to_obj(var/obj/target, var/amount = 1, var/multiplier = 1, var/copy = 0, var/defer_update = FALSE) // Objects may or may not; if they do, it's probably a beaker or something and we need to transfer properly; otherwise, just touch.
 	if(!target || !target.simulated)

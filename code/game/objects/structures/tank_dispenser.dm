@@ -10,6 +10,9 @@
 	var/list/oxygen_tanks =   6
 	var/list/hydrogen_tanks = 6
 
+SAVED_VAR(/obj/structure/tank_rack, oxygen_tanks)
+SAVED_VAR(/obj/structure/tank_rack, hydrogen_tanks)
+
 /obj/structure/tank_rack/Initialize()
 	. = ..()
 

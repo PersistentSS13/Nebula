@@ -6,7 +6,7 @@ var/global/list/closets = list()
 	icon = 'icons/obj/closets/bases/closet.dmi'
 	icon_state = "base"
 	density = TRUE
-	maxhealth = 100
+	max_health = 100
 	material = /decl/material/solid/metal/steel
 	tool_interaction_flags = TOOL_INTERACTION_ANCHOR
 
@@ -27,6 +27,11 @@ var/global/list/closets = list()
 	var/broken = FALSE
 	var/opened = FALSE
 	var/locked = FALSE
+
+SAVED_VAR(/obj/structure/closet, welded)
+SAVED_VAR(/obj/structure/closet, broken)
+SAVED_VAR(/obj/structure/closet, opened)
+SAVED_VAR(/obj/structure/closet, locked)
 
 /obj/structure/closet/Destroy()
 	global.closets -= src
@@ -313,7 +318,7 @@ var/global/list/closets = list()
 	)
 	physically_destroyed()
 
-/obj/structure/closet/receive_mouse_drop(atom/dropping, mob/user)
+/obj/structure/closet/receive_mouse_drop(atom/dropping, mob/user, params)
 	. = ..()
 	var/atom/movable/AM = dropping
 	if(!. && istype(AM) && opened && !istype(AM, /obj/structure/closet) && AM.simulated && !AM.anchored && (large || !ismob(AM)))

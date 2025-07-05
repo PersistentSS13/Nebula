@@ -1,45 +1,7 @@
-#define HUMAN_EATING_NO_ISSUE		0
-#define HUMAN_EATING_NBP_MOUTH		1
-#define HUMAN_EATING_BLOCKED_MOUTH	2
-
 #define add_clothing_protection(A)	\
 	var/obj/item/clothing/C = A; \
 	flash_protection += C.flash_protection; \
 	equipment_tint_total += C.tint;
-
-/mob/living/carbon/human/can_eat(var/food, var/feedback = 1)
-	var/list/status = can_eat_status()
-	if(status[1] == HUMAN_EATING_NO_ISSUE)
-		return 1
-	if(feedback)
-		if(status[1] == HUMAN_EATING_NBP_MOUTH)
-			to_chat(src, "Where do you intend to put \the [food]? You don't have a mouth!")
-		else if(status[1] == HUMAN_EATING_BLOCKED_MOUTH)
-			to_chat(src, "<span class='warning'>\The [status[2]] is in the way!</span>")
-	return 0
-
-/mob/living/carbon/human/can_force_feed(var/feeder, var/food, var/feedback = 1)
-	var/list/status = can_eat_status()
-	if(status[1] == HUMAN_EATING_NO_ISSUE)
-		return 1
-	if(feedback)
-		if(status[1] == HUMAN_EATING_NBP_MOUTH)
-			to_chat(feeder, "Where do you intend to put \the [food]? \The [src] doesn't have a mouth!")
-		else if(status[1] == HUMAN_EATING_BLOCKED_MOUTH)
-			to_chat(feeder, "<span class='warning'>\The [status[2]] is in the way!</span>")
-	return 0
-
-/mob/living/carbon/human/proc/can_eat_status()
-	if(!check_has_mouth())
-		return list(HUMAN_EATING_NBP_MOUTH)
-	var/obj/item/blocked = check_mouth_coverage()
-	if(blocked)
-		return list(HUMAN_EATING_BLOCKED_MOUTH, blocked)
-	return list(HUMAN_EATING_NO_ISSUE)
-
-#undef HUMAN_EATING_NO_ISSUE
-#undef HUMAN_EATING_NBP_MOUTH
-#undef HUMAN_EATING_BLOCKED_MOUTH
 
 /mob/living/carbon/human/proc/update_equipment_vision()
 	flash_protection = 0
@@ -77,8 +39,8 @@
 			equipment_darkness_modifier += G.darkness_view
 			equipment_vision_flags |= G.vision_flags
 			equipment_light_protection += G.light_protection
-			if(G.overlay)
-				equipment_overlays |= G.overlay
+			if(G.screen_overlay)
+				equipment_overlays |= G.screen_overlay
 			if(G.see_invisible >= 0)
 				if(equipment_see_invis)
 					equipment_see_invis = min(equipment_see_invis, G.see_invisible)

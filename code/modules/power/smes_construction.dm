@@ -12,7 +12,7 @@
 	icon = 'icons/obj/items/stock_parts/stock_parts.dmi'
 	icon_state = "smes_coil"
 	w_class = ITEM_SIZE_LARGE							// It's LARGE (backpack size)
-	origin_tech = "{'materials':7,'powerstorage':7,'engineering':5}"
+	origin_tech = @'{"materials":7,"powerstorage":7,"engineering":5}'
 	base_type = /obj/item/stock_parts/smes_coil
 	part_flags = PART_FLAG_HAND_REMOVE
 	material = /decl/material/solid/metal/steel
@@ -137,7 +137,7 @@
 		capacity *= 1.2
 		input_level_max *= 2
 		output_level_max *= 2
-	charge = clamp(0, charge, capacity)
+	charge = clamp(charge, 0, capacity)
 
 // Proc: total_system_failure()
 // Parameters: 2 (intensity - how strong the failure is, user - person which caused the failure)
@@ -220,7 +220,7 @@
 			// Sparks, Near - instantkill shock, Strong EMP, 25% light overload, 5% APC failure. 50% of SMES explosion. This is bad.
 			spark_at(src, amount = 10, cardinal_only = TRUE)
 			to_chat(h_user, SPAN_WARNING("Massive electrical arc sparks between you and [src].<br>Last thing you can think about is <span class='danger'>\"Oh shit...\"</span>"))
-			// Remember, we have few gigajoules of electricity here.. Turn them into crispy toast.
+			// Remember, we have few gigajoules of electricity here. Turn them into crispy toast.
 			h_user.electrocute_act(rand(170,210), src, def_zone = ran_zone(null))
 			SET_STATUS_MAX(h_user, STAT_PARA, 8)
 			spawn(0)
@@ -243,7 +243,7 @@
 						return
 					src.ping("DANGER! Magnetic containment field failure in 3 ... 2 ... 1 ...")
 					explosion(src.loc,1,2,4,8)
-					// Not sure if this is necessary, but just in case the SMES *somehow* survived..
+					// Not sure if this is necessary, but just in case the SMES *somehow* survived.
 					qdel(src)
 
 /obj/machinery/power/smes/buildable/proc/check_total_system_failure(var/mob/user)
@@ -376,14 +376,14 @@
 // Parameters: 1 (new_input - New input value in Watts)
 // Description: Sets input setting on this SMES. Trims it if limits are exceeded.
 /obj/machinery/power/smes/buildable/proc/set_input(var/new_input = 0)
-	input_level = clamp(0, new_input, input_level_max)
+	input_level = clamp(new_input, 0, input_level_max)
 	update_icon()
 
 // Proc: set_output()
 // Parameters: 1 (new_output - New output value in Watts)
 // Description: Sets output setting on this SMES. Trims it if limits are exceeded.
 /obj/machinery/power/smes/buildable/proc/set_output(var/new_output = 0)
-	output_level = clamp(0, new_output, output_level_max)
+	output_level = clamp(new_output, 0, output_level_max)
 	update_icon()
 
 /obj/machinery/power/smes/buildable/emp_act(var/severity)

@@ -6,6 +6,9 @@ var/global/list/all_objectives = list()
 	var/datum/mind/target            //If they are focused on a particular person.
 	var/target_amount = 0            //If they are focused on a particular number. Steal objectives have their own counter.
 
+SAVED_VAR(/datum/objective, owner)
+SAVED_VAR(/datum/objective, target)
+
 /datum/objective/New(var/text)
 	global.all_objectives |= src
 	if(text)

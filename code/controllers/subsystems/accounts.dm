@@ -33,11 +33,11 @@ SUBSYSTEM_DEF(money_accounts)
 		if(istype(curr_account, /datum/money_account/child))
 			var/datum/money_account/child/curr_child = curr_account
 
-			if(curr_child.withdrawal_limit && (curr_child.last_withdraw_period + config.withdraw_period <= current_time))
+			if(curr_child.withdrawal_limit && (curr_child.last_withdraw_period + get_config_value(/decl/config/num/withdraw_period) <= current_time))
 				curr_child.current_withdrawal = 0
 				curr_child.last_withdraw_period = current_time
 
-			if(curr_child.interest_rate && (curr_child.last_interest_period + config.interest_period <= current_time))
+			if(curr_child.interest_rate && (curr_child.last_interest_period + get_config_value(/decl/config/num/interest_period) <= current_time))
 				curr_child.accrue_interest()
 				curr_child.last_interest_period = current_time
 

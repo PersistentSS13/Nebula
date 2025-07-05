@@ -195,17 +195,17 @@
 	var/mob/living/carbon/human/H = get_pin_data_as_type(IC_INPUT, 1, /mob/living)
 	if(!istype(H)) //Invalid input
 		return
-	if(H in view(get_turf(src))) // Like medbot's analyzer it can be used in range..
+	if(H in view(get_turf(src))) // Like the medbot's analyzer it can be used at range.
 
-
+		var/current_max_health = H.get_max_health()
 		var/obj/item/organ/internal/brain = GET_INTERNAL_ORGAN(H, BP_BRAIN)
 		set_pin_data(IC_OUTPUT, 1, (brain && H.stat != DEAD))
 		set_pin_data(IC_OUTPUT, 2, (H.stat == CONSCIOUS))
-		set_pin_data(IC_OUTPUT, 3, damage_to_severity(100 * H.getBruteLoss() / H.maxHealth))
-		set_pin_data(IC_OUTPUT, 4, damage_to_severity(100 * H.getFireLoss() / H.maxHealth))
-		set_pin_data(IC_OUTPUT, 5, damage_to_severity(100 * H.getToxLoss() / H.maxHealth))
-		set_pin_data(IC_OUTPUT, 6, damage_to_severity(100 * H.getOxyLoss() / H.maxHealth))
-		set_pin_data(IC_OUTPUT, 7, damage_to_severity(100 * H.getCloneLoss() / H.maxHealth))
+		set_pin_data(IC_OUTPUT, 3, damage_to_severity(100 * H.getBruteLoss() / current_max_health))
+		set_pin_data(IC_OUTPUT, 4, damage_to_severity(100 * H.getFireLoss()  / current_max_health))
+		set_pin_data(IC_OUTPUT, 5, damage_to_severity(100 * H.getToxLoss()   / current_max_health))
+		set_pin_data(IC_OUTPUT, 6, damage_to_severity(100 * H.getOxyLoss()   / current_max_health))
+		set_pin_data(IC_OUTPUT, 7, damage_to_severity(100 * H.getCloneLoss() / current_max_health))
 		set_pin_data(IC_OUTPUT, 8, H.get_pulse_as_number())
 		set_pin_data(IC_OUTPUT, 9, H.get_blood_oxygenation())
 		set_pin_data(IC_OUTPUT, 10, damage_to_severity(H.get_shock()))
@@ -254,7 +254,7 @@
 		return
 	for(var/i=1, i<=outputs.len, i++)
 		set_pin_data(IC_OUTPUT, i, null)
-	if(H in view(get_turf(src))) // Like medbot's analyzer it can be used in range..
+	if(H in view(get_turf(src))) // Like the medbot's analyzer it can be used at range.
 		if(H.seed)
 			set_pin_data(IC_OUTPUT, 1, H.seed.seed_name)
 			set_pin_data(IC_OUTPUT, 2, H.age)
@@ -297,7 +297,7 @@
 		return
 	for(var/i=1, i<=outputs.len, i++)
 		set_pin_data(IC_OUTPUT, i, null)
-	if(H in view(get_turf(src))) // Like medbot's analyzer it can be used in range..
+	if(H in view(get_turf(src))) // Like the medbot's analyzer it can be used at range.
 		if(H.seed)
 			for(var/chem_path in H.seed.chems)
 				var/decl/material/R = chem_path
@@ -648,7 +648,7 @@
 	. = ..()
 	set_pin_data(IC_INPUT, 1, frequency)
 	set_pin_data(IC_INPUT, 2, code)
-	addtimer(CALLBACK(src, .proc/set_frequency,frequency), 40)
+	addtimer(CALLBACK(src, PROC_REF(set_frequency),frequency), 40)
 
 /obj/item/integrated_circuit/input/signaler/Destroy()
 	radio_controller.remove_object(src,frequency)

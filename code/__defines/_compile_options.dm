@@ -2,8 +2,5 @@
 // 1 will enable set background. 0 will disable set background.
 #define BACKGROUND_ENABLED 0
 
-#define REQUIRED_DM_VERSION 514
-
-#if DM_VERSION < REQUIRED_DM_VERSION
-#warn Nebula is not tested on BYOND versions older than 514. The code may not compile, and if it does compile it may have severe problems.
-#endif
+///If set, the persistence SS implementation on nebula is disabled and gutted out.
+#define NO_NEB_PERSISTENCE 1

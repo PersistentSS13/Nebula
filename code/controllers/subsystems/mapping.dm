@@ -11,7 +11,7 @@ SUBSYSTEM_DEF(mapping)
 	var/list/map_templates_by_category = list()
 	var/list/map_templates_by_type =     list()
 	var/list/banned_maps =               list()
-	var/list/banned_ruin_names =         list()
+	var/list/banned_template_names =     list()
 
 	// Listing .dmm filenames in the file at this location will blacklist any templates that include them from being used.
 	// Maps must be the full file path to be properly included. ex. "maps/random_ruins/away_sites/example.dmm"
@@ -73,6 +73,11 @@ SUBSYSTEM_DEF(mapping)
 	for(var/datum/map_template/MT as anything in get_all_template_instances())
 		register_map_template(MT)
 
+	// Load any queued map template markers.
+	for(var/obj/abstract/landmark/map_load_mark/queued_mark in queued_markers)
+		queued_mark.load_subtemplate()
+	queued_markers.Cut()
+
 	// Populate overmap.
 	if(length(global.using_map.overmap_ids))
 		for(var/overmap_id in global.using_map.overmap_ids)
@@ -90,6 +95,8 @@ SUBSYSTEM_DEF(mapping)
 		level.setup_level_data()
 
 	old_maxz = world.maxz
+	//PS13 Build utility levels
+	global.using_map.build_utility_sites()
 	//PS13 Build main map sites templates
 	global.using_map.build_main_sites()
 	// Build away sites.
@@ -121,7 +128,7 @@ SUBSYSTEM_DEF(mapping)
 
 	// Initialize z-level objects.
 #ifdef UNIT_TEST
-	config.roundstart_level_generation = FALSE //#FIXME: Shouldn't this be set before running level_data/setup_level_data()?
+	set_config_value(/decl/config/toggle/roundstart_level_generation, FALSE) //#FIXME: Shouldn't this be set before running level_data/setup_level_data()?
 #endif
 
 	. = ..()

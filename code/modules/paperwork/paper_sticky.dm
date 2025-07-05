@@ -13,7 +13,7 @@
 	var/papers         = 50
 	var/tmp/max_papers = 50
 	var/paper_type     = /obj/item/paper/sticky
-	var/obj/item/paper/top                        //The instanciated paper on the top of the pad, if there's one
+	var/obj/item/paper/top                        //The instantiated paper on the top of the pad, if there's one
 
 /obj/item/sticky_pad/Initialize(ml, material_key)
 	. = ..()
@@ -97,7 +97,7 @@
 
 /obj/item/paper/sticky/Initialize()
 	. = ..()
-	events_repository.register(/decl/observ/moved, src, src, /obj/item/paper/sticky/proc/reset_persistence_tracking)
+	events_repository.register(/decl/observ/moved, src, src, TYPE_PROC_REF(/obj/item/paper/sticky, reset_persistence_tracking))
 
 /obj/item/paper/sticky/proc/reset_persistence_tracking()
 	SSpersistence.forget_value(src, /decl/persistence_handler/paper/sticky)

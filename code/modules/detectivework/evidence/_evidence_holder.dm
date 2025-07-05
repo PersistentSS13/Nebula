@@ -3,6 +3,8 @@
 	expected_type = /atom
 	var/list/evidence // type=instance list of evidence types
 
+SAVED_VAR(/datum/extension/forensic_evidence, evidence)
+
 /datum/extension/forensic_evidence/Destroy()
 	. = ..()
 	for(var/T in evidence)
@@ -21,7 +23,7 @@
 	var/datum/forensics/F = LAZYACCESS(evidence, evidence_type)
 	evidence -= evidence_type
 	qdel(F)
-	
+
 /datum/extension/forensic_evidence/proc/has_evidence(evidence_type)
 	return (evidence_type in evidence)
 

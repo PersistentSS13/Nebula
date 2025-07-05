@@ -77,7 +77,7 @@
 /turf/simulated/wall/r_wall,
 /area/outreach/outpost/engineering/b2/geothermals)
 "ap" = (
-/turf/exterior/water/outreach,
+/turf/exterior/chlorine_sand/muriatic_acid_swamp,
 /area/exoplanet/outreach/underground/d2)
 "aq" = (
 /obj/structure/wall_frame/concrete,

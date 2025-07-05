@@ -4,8 +4,8 @@
 /obj/structure/disposalconstruct
 	name = "disposal pipe segment"
 	desc = "A huge pipe segment used for constructing disposal systems."
-	icon = 'icons/obj/pipes/disposal.dmi'
 	icon_state = "conpipe-s"
+	icon = 'icons/obj/pipes/disposal_pipe.dmi'
 	anchored = FALSE
 	density = FALSE
 	material = /decl/material/solid/metal/steel
@@ -16,6 +16,8 @@
 	var/turn = DISPOSAL_FLIP_FLIP
 	var/constructed_path = /obj/structure/disposalpipe
 	var/built_icon_state
+
+SAVED_VAR(/obj/structure/disposalconstruct, dpdir)
 
 /obj/structure/disposalconstruct/Initialize(mapload, var/P = null)
 	. = ..(mapload)

@@ -12,6 +12,16 @@
 	var/list/read_access = list()  // The access required to edit the field.
 	var/list/write_access = list() // The access required to view the field.
 
+SAVED_VAR(/datum/report_field, name)
+SAVED_VAR(/datum/report_field, value)
+SAVED_VAR(/datum/report_field, can_edit)
+SAVED_VAR(/datum/report_field, required)
+SAVED_VAR(/datum/report_field, ID)
+SAVED_VAR(/datum/report_field, needs_big_box)
+SAVED_VAR(/datum/report_field, ignore_value)
+SAVED_VAR(/datum/report_field, write_access)
+SAVED_VAR(/datum/report_field, read_access)
+
 /datum/report_field/New(datum/computer_file/report/report)
 	owner = report
 	..()
@@ -40,7 +50,7 @@
 		return (OS_READ_ACCESS | OS_WRITE_ACCESS)
 	if(!LAZYLEN(read_access) || has_access(read_access, accesses))
 		. |= OS_READ_ACCESS
-		
+
 		if(!LAZYLEN(write_access) || has_access(write_access, accesses))
 			. |= OS_WRITE_ACCESS
 

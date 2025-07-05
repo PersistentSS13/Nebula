@@ -25,7 +25,7 @@
 /turf/exterior/barren/outreach,
 /area/exoplanet/outreach)
 "ad" = (
-/turf/exterior/open,
+/turf/open,
 /area/exoplanet/outreach)
 "ae" = (
 /turf/simulated/wall/r_wall,
@@ -133,7 +133,7 @@
 /turf/exterior/chlorine_sand/outreach,
 /area/exoplanet/outreach)
 "aE" = (
-/turf/exterior/water/outreach,
+/turf/exterior/chlorine_sand/muriatic_acid_swamp,
 /area/exoplanet/outreach)
 "aF" = (
 /obj/effect/floor_decal/industrial/warning/dust/corner,
@@ -217,7 +217,7 @@
 /obj/structure/sign/warning/fall{
 	pixel_y = 24
 	},
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/maint/waste/ground)
 "aU" = (
 /turf/simulated/wall/concrete,
@@ -238,7 +238,7 @@
 	icon_state = "up-supply";
 	dir = 1
 	},
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/maint/atmos/ground)
 "aX" = (
 /turf/simulated/wall,
@@ -658,7 +658,7 @@
 /turf/exterior/concrete/reinforced,
 /area/exoplanet/outreach)
 "ce" = (
-/turf/simulated/open,
+/turf/open,
 /area/turbolift/outreach/ground_floor)
 "cf" = (
 /obj/machinery/light/small{
@@ -1428,7 +1428,7 @@
 /turf/simulated/floor/plating,
 /area/outreach/outpost/maint/passage/ground/northwest)
 "dV" = (
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/stairwell/ground)
 "dW" = (
 /obj/machinery/door/airlock/glass/civilian{
@@ -1705,7 +1705,7 @@
 	icon_state = "tube_map";
 	dir = 8
 	},
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/stairwell/ground)
 "eD" = (
 /obj/structure/cable/yellow{
@@ -2377,7 +2377,7 @@
 	icon_state = "pipe-u";
 	dir = 1
 	},
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/maint/atmos/ground)
 "fJ" = (
 /obj/structure/disposalpipe/segment/bent,
@@ -2393,7 +2393,7 @@
 "fL" = (
 /obj/structure/ladder,
 /obj/structure/lattice,
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/maint/power/ground)
 "fM" = (
 /obj/structure/cable/yellow{
@@ -2403,7 +2403,7 @@
 /obj/structure/sign/warning/fall{
 	pixel_y = 24
 	},
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/maint/power/ground)
 "fN" = (
 /obj/machinery/alarm,
@@ -3131,7 +3131,7 @@
 /turf/simulated/floor/airless,
 /area/exoplanet/outreach)
 "hp" = (
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/janitorial)
 "hq" = (
 /turf/simulated/wall,
@@ -5987,7 +5987,7 @@
 	icon_state = "pipe-d";
 	dir = 1
 	},
-/turf/simulated/open,
+/turf/open,
 /area/outreach/outpost/maint/atmos/ground)
 "nF" = (
 /obj/structure/disposalpipe/junction{

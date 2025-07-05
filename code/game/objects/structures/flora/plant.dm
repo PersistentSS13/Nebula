@@ -8,6 +8,10 @@
 	var/datum/seed/plant
 	var/harvestable
 
+/obj/structure/flora/plant/large
+	opacity = TRUE
+	density = TRUE
+
 /* Notes for future work moving logic off hydrotrays onto plants themselves:
 /obj/structure/flora/plant/Process()
 	// check our immediate environment
@@ -52,12 +56,11 @@
 	. = ..()
 	icon_state = "blank"
 	color = null
-	set_overlays(plant.get_appearance(dead = dead, growth_stage = growth_stage, can_harvest = length(harvestable)))
+	set_overlays(plant.get_appearance(dead = dead, growth_stage = growth_stage, can_harvest = !!harvestable))
 
 /obj/structure/flora/plant/attackby(obj/item/O, mob/user)
 
-	// TODO: tool categories or something.
-	if(istype(O, /obj/item/shovel) || istype(O, /obj/item/hatchet) || istype(O, /obj/item/twohanded/fireaxe))
+	if(IS_SHOVEL(O) || IS_HATCHET(O))
 		user.visible_message(SPAN_NOTICE("\The [user] uproots \the [src] with \the [O]!"))
 		physically_destroyed()
 		return TRUE

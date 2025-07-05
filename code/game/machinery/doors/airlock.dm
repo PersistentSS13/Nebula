@@ -23,6 +23,9 @@ var/global/list/airlock_overlays = list()
 	base_type = /obj/machinery/door/airlock
 	frame_type = /obj/structure/door_assembly
 
+	icon_state_open   = "open"
+	icon_state_closed = "closed"
+
 	var/aiControlDisabled = 0 //If 1, AI control is disabled until the AI hacks back in and disables the lock. If 2, the AI has bypassed the lock. If -1, the control is enabled but the AI had bypassed it earlier, so if it is disabled again the AI would have no trouble getting back in.
 	var/hackProof = 0 // if 1, this door can't be hacked by the AI
 	var/electrified_until = 0			//World time when the door is no longer electrified. -1 if it is permanently electrified until someone fixes it.
@@ -32,6 +35,10 @@ var/global/list/airlock_overlays = list()
 	var/shockedby = list()              //Some sort of admin logging var
 	var/welded = null
 	var/locked = FALSE
+	/// If TRUE, when operating goes from TRUE to FALSE (i.e. door finishes closing/opening), the door will lock itself.
+	var/locking = FALSE
+	/// If TRUE, when operating goes from TRUE to FALSE (i.e. door finishes closing/opening), the door will unlock itself.
+	var/unlocking = FALSE
 	var/lock_cut_state = BOLTS_FINE
 	var/lights = 1 // Lights show by default
 	var/aiDisabledIdScanner = 0
@@ -292,23 +299,23 @@ About the new airlock wires panel:
 /obj/machinery/door/airlock/on_update_icon(state=0, override=0)
 
 	if(set_dir_on_update)
-		if(connections & (NORTH|SOUTH) == (NORTH|SOUTH))
+		if((connections & (NORTH|SOUTH)) == (NORTH|SOUTH))
 			set_dir(EAST)
-		else if (connections & (EAST|WEST) == (EAST|WEST))
+		else if ((connections & (EAST|WEST)) == (EAST|WEST))
 			set_dir(SOUTH)
 
 	switch(state)
 		if(0)
 			if(density)
-				icon_state = "closed"
+				icon_state = icon_state_closed
 				state = AIRLOCK_CLOSED
 			else
-				icon_state = "open"
+				icon_state = icon_state_open
 				state = AIRLOCK_OPEN
 		if(AIRLOCK_OPEN)
-			icon_state = "open"
+			icon_state = icon_state_open
 		if(AIRLOCK_CLOSED)
-			icon_state = "closed"
+			icon_state = icon_state_closed
 		if(AIRLOCK_OPENING, AIRLOCK_CLOSING, AIRLOCK_EMAG, AIRLOCK_DENY)
 			icon_state = ""
 
@@ -397,7 +404,7 @@ About the new airlock wires panel:
 
 		if(stat & BROKEN)
 			damage_overlay = sparks_broken_file
-		else if(health < maxhealth * 3/4)
+		else if(current_health < get_max_health() * 3/4)
 			damage_overlay = sparks_damaged_file
 
 	if(welded)
@@ -764,7 +771,7 @@ About the new airlock wires panel:
 			return TRUE
 		else if(!repairing)
 			// Add some minor damage as evidence of forcing.
-			if(health >= maxhealth)
+			if(current_health >= get_max_health())
 				take_damage(1)
 			if(arePowerSystemsOn())
 				to_chat(user, SPAN_WARNING("The airlock's motors resist your efforts to force it."))
@@ -821,10 +828,10 @@ About the new airlock wires panel:
 		var/obj/item/twohanded/fireaxe/F = I
 		if (F.wielded)
 			playsound(src, 'sound/weapons/smash.ogg', 100, 1)
-			health -= F.force_wielded * 2
-			if(health <= 0)
+			current_health -= F.force_wielded * 2
+			if(current_health <= 0)
 				user.visible_message(SPAN_DANGER("[user] smashes \the [I] into the airlock's control panel! It explodes in a shower of sparks!"), SPAN_DANGER("You smash \the [I] into the airlock's control panel! It explodes in a shower of sparks!"))
-				health = 0
+				current_health = 0
 				set_broken(TRUE)
 			else
 				user.visible_message(SPAN_DANGER("[user] smashes \the [I] into the airlock's control panel!"))
@@ -886,7 +893,7 @@ About the new airlock wires panel:
 
 /obj/machinery/door/airlock/open(var/forced=0)
 	if(!can_open(forced))
-		return 0
+		return FALSE
 	use_power_oneoff(360)	//360 W seems much more appropriate for an actuator moving an industrial door capable of crushing people
 
 	//if the door is unpowered then it doesn't make sense to hear the woosh of a pneumatic actuator
@@ -895,7 +902,15 @@ About the new airlock wires panel:
 	else
 		playsound(src.loc, pick(open_sound_unpowered), 100, 1)
 
-	return ..()
+	. = ..()
+	if(.)
+		// lock and unlock handle updating for us, we don't want duplicate updates
+		if(locking)
+			lock()
+		else if(unlocking)
+			unlock()
+		else
+			toggle_input_toggle() // this sends an update to anything listening for our status, like docking/airlock controllers
 
 /obj/machinery/door/airlock/can_open(var/forced=0)
 	if(QDELETED(src) || brace)
@@ -922,7 +937,7 @@ About the new airlock wires panel:
 
 /obj/machinery/door/airlock/close(var/forced=0)
 	if(!can_close(forced))
-		return 0
+		return FALSE
 
 	if(safe)
 		for(var/turf/turf in locs)
@@ -932,7 +947,7 @@ About the new airlock wires panel:
 						playsound(src.loc, close_failure_blocked, 30, 0, -3)
 						next_beep_at = world.time + SecondsToTicks(10)
 					close_door_at = world.time + 6
-					return
+					return FALSE
 
 	for(var/turf/turf in locs)
 		for(var/atom/movable/AM in turf)
@@ -946,35 +961,54 @@ About the new airlock wires panel:
 	else
 		playsound(src.loc, pick(close_sound_unpowered), 100, 1)
 
-	..()
+	. = ..()
+	if(.)
+		// lock and unlock handle updating for us, we don't want duplicate updates
+		if(locking)
+			lock()
+		else if(unlocking)
+			unlock()
+		else
+			toggle_input_toggle() // this sends an update to anything listening for our status, like docking/airlock controllers
 
 /obj/machinery/door/airlock/proc/lock(var/forced=0)
 	if(locked)
-		return 0
+		return FALSE
 
-	if (operating && !forced) return 0
+	if (operating && !forced)
+		unlocking = FALSE
+		locking = TRUE
+		return FALSE
 
-	if (lock_cut_state == BOLTS_CUT) return 0 //what bolts?
+	if (lock_cut_state == BOLTS_CUT) return FALSE //what bolts?
 
 	src.locked = TRUE
 	playsound(src, bolts_dropping, 30, 0, -6)
 	audible_message("You hear a click from the bottom of the door.", hearing_distance = 1)
 	update_icon()
-	return 1
+	toggle_input_toggle() // this sends an update to anything listening for our status, like docking/airlock controllers
+	return TRUE
 
 /obj/machinery/door/airlock/proc/unlock(var/forced=0)
 	if(!src.locked)
-		return
+		return FALSE
 
 	if (!forced)
+		if(!src.arePowerSystemsOn() || isWireCut(AIRLOCK_WIRE_DOOR_BOLTS))
+			return FALSE
+		if(operating)
+			locking = FALSE
+			unlocking = TRUE
+			return FALSE
 		if(operating || !src.arePowerSystemsOn() || isWireCut(AIRLOCK_WIRE_DOOR_BOLTS))
-			return
+			return FALSE
 
 	src.locked = FALSE
 	playsound(src, bolts_rising, 30, 0, -6)
 	audible_message("You hear a click from the bottom of the door.", hearing_distance = 1)
 	update_icon()
-	return 1
+	toggle_input_toggle() // this sends an update to anything listening for our status, like docking/airlock controllers
+	return TRUE
 
 /obj/machinery/door/airlock/proc/toggle_lock(var/forced = 0)
 	return locked ? unlock() : lock()
@@ -986,6 +1020,7 @@ About the new airlock wires panel:
 
 /obj/machinery/door/airlock/Initialize(var/mapload, var/d, var/populate_parts = TRUE, obj/structure/door_assembly/assembly = null)
 	. = ..()
+
 	//wires
 	var/turf/T = get_turf(loc)
 	if(T && isAdminLevel(T.z))
@@ -1002,6 +1037,8 @@ About the new airlock wires panel:
 		brace.forceMove(src)
 		if(brace.electronics)
 			brace.req_access = get_req_access()
+		queue_icon_update()
+	else if(!begins_closed)
 		queue_icon_update()
 
 	if (glass)
@@ -1021,7 +1058,7 @@ About the new airlock wires panel:
 				glass = TRUE
 				set_opacity(0)
 				hitsound = 'sound/effects/Glasshit.ogg'
-				maxhealth = 300
+				max_health = 300
 				explosion_resistance = 5
 			else
 				door_color = mat.color

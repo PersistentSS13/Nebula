@@ -12,7 +12,7 @@
 	status_flags = PASSEMOTES
 	a_intent =     I_HURT
 	mob_size =     MOB_SIZE_LARGE
-	atom_flags = ATOM_FLAG_SHIELD_CONTENTS | ATOM_FLAG_NO_TEMP_CHANGE | ATOM_FLAG_BLOCK_DIAGONAL_FACING
+	atom_flags = ATOM_FLAG_SHIELD_CONTENTS | ATOM_FLAG_BLOCK_DIAGONAL_FACING
 
 	meat_type = null
 	meat_amount = 0
@@ -119,8 +119,6 @@
 		if(source_frame.material)
 			material = source_frame.material
 
-	updatehealth()
-
 	// Generate hardpoint list.
 	var/list/component_descriptions
 	for(var/obj/item/mech_component/comp in list(arms, legs, head, body))
@@ -177,7 +175,7 @@
 
 	for(var/hardpoint in hardpoint_hud_elements)
 		var/obj/screen/exosuit/hardpoint/H = hardpoint_hud_elements[hardpoint]
-		H.owner = null
+		H.owner_ref = null
 		H.holding = null
 		qdel(H)
 	hardpoint_hud_elements.Cut()
@@ -241,3 +239,13 @@
 		hud_power_control?.queue_icon_update()
 	else
 		to_chat(user, SPAN_WARNING("Error: No power cell was detected."))
+
+// Dump exhaled air into the environment to avoid the tank filling
+// up with CO2 and the cockpit filling up with N2. This isn't an
+// ideal fix; regulators or something would be a better solution.
+/mob/living/exosuit/merge_exhaled_volume(datum/gas_mixture/exhaled)
+	return loc?.merge_exhaled_volume(exhaled)
+
+// Override this to avoid triggering the ancient vore code.
+/mob/living/exosuit/relaymove(mob/living/user, direction)
+	return

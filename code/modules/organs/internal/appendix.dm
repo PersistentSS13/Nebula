@@ -5,6 +5,8 @@
 	organ_tag = BP_APPENDIX
 	var/inflamed = 0
 
+SAVED_VAR(/obj/item/organ/internal/appendix, inflamed)
+
 /obj/item/organ/internal/appendix/on_update_icon()
 	..()
 	if(inflamed)

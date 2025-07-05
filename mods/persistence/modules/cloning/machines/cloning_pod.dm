@@ -25,6 +25,9 @@
 	var/disallow_occupant_types = list()
 	var/error
 
+SAVED_VAR(/obj/machinery/cloning_pod, occupant)
+SAVED_VAR(/obj/machinery/cloning_pod, error)
+
 /obj/machinery/cloning_pod/Initialize()
 	. = ..()
 	set_extension(src, /datum/extension/network_device/cloning_pod, initial_network_id, initial_network_key, RECEIVER_STRONG_WIRELESS)

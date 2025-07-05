@@ -57,7 +57,7 @@
 		log_error("An interest account modification was created for a non-child account!")
 
 /datum/account_modification/modify_interest/New(n_affecting)
-	mod_delay = config.interest_mod_delay
+	mod_delay = get_config_value(/decl/config/num/interest_mod_delay)
 	. = ..()
 
 /datum/account_modification/modify_interest/modify_account()
@@ -100,7 +100,7 @@
 		log_error("A withdrawal limit account modification was created for a non-child account!")
 
 /datum/account_modification/modify_withdrawal/New(n_affecting)
-	mod_delay = config.withdraw_mod_delay
+	mod_delay = get_config_value(/decl/config/num/withdraw_mod_delay)
 	. = ..()
 
 /datum/account_modification/modify_withdrawal/modify_account()
@@ -134,7 +134,7 @@
 
 
 /datum/account_modification/modify_transaction/New(n_affecting)
-	mod_delay = config.transaction_mod_delay
+	mod_delay = get_config_value(/decl/config/num/transaction_mod_delay)
 	. = ..()
 
 /datum/account_modification/modify_transaction/modify_account()
@@ -185,7 +185,7 @@
 		log_error("A fractional reserve account modification was created for a non-parent account!")
 
 /datum/account_modification/modify_fractional_reserve/New(n_affecting, n_frac_reserve)
-	mod_delay = config.fractional_reserve_mod_delay
+	mod_delay = get_config_value(/decl/config/num/fractional_reserve_mod_delay)
 	. = ..()
 
 /datum/account_modification/modify_fractional_reserve/modify_account()
@@ -215,7 +215,7 @@
 	allow_cancel = FALSE
 
 /datum/account_modification/theft_prevention/New()
-	mod_delay = config.anti_tamper_mod_delay
+	mod_delay = get_config_value(/decl/config/num/anti_tamper_mod_delay)
 	. = ..()
 
 /datum/account_modification/theft_prevention/get_notification()

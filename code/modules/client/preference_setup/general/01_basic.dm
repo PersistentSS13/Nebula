@@ -78,16 +78,16 @@
 	var/decl/species/S = get_species_by_key(pref.species)
 	for(var/decl/bodytype/B in S.available_bodytypes)
 		if(B.name == pref.bodytype)
-			. += "<span class='linkOn'>[capitalize(B.name)]</span>"
+			. += "<span class='linkOn'>[capitalize(B.pref_name)]</span>"
 		else
-			. += "<a href='?src=\ref[src];bodytype=\ref[B]'>[capitalize(B.name)]</a>"
+			. += "<a href='?src=\ref[src];bodytype=\ref[B]'>[capitalize(B.pref_name)]</a>"
 
 	. += "<br><b>Pronouns:</b> "
-	for(var/decl/pronouns/G in S.available_pronouns)
-		if(G.name == pref.gender)
-			. += "<span class='linkOn'>[G.pronoun_string]</span>"
+	for(var/decl/pronouns/pronouns in S.available_pronouns)
+		if(pronouns.name == pref.gender)
+			. += "<span class='linkOn'>[pronouns.pronoun_string]</span>"
 		else
-			. += "<a href='?src=\ref[src];gender=\ref[G]'>[G.pronoun_string]</a>"
+			. += "<a href='?src=\ref[src];gender=\ref[pronouns]'>[pronouns.pronoun_string]</a>"
 
 	. += "<br><b>Spawnpoint</b>:"
 	var/decl/spawnpoint/spawnpoint = GET_DECL(pref.spawnpoint)
@@ -112,6 +112,12 @@
 
 			if(new_name)
 				pref.real_name = new_name
+				// Update comments record, if it exists.
+				if(pref.comments_record_id)
+					var/datum/character_information/comments = SScharacter_info.get_record(pref.comments_record_id, TRUE)
+					if(comments)
+						comments.char_name = pref.real_name
+						comments.update_fields()
 				return TOPIC_REFRESH
 			else
 				to_chat(user, "<span class='warning'>Invalid name. Your name should be at least 2 and at most [MAX_NAME_LEN] characters long. It may only contain the characters A-Z, a-z, -, ' and .</span>")
@@ -137,13 +143,7 @@
 			pref.bodytype = new_body.name
 			if(new_body.associated_gender) // Set to default for male/female to avoid confusing people
 				pref.gender = new_body.associated_gender
-			var/decl/sprite_accessory/hair/hairstyle = GET_DECL(pref.h_style)
-			if(!hairstyle?.accessory_is_available(null, S, new_body))
-				pref.h_style = new_body.default_h_style
-			var/decl/sprite_accessory/hair/facialhairstyle = GET_DECL(pref.f_style)
-			if(!facialhairstyle?.accessory_is_available(null, S, new_body))
-				pref.f_style = new_body.default_f_style
-			new_body.handle_post_bodytype_pref_set(pref)
+		new_body.handle_post_bodytype_pref_set(pref)
 		return TOPIC_REFRESH_UPDATE_PREVIEW
 
 	else if(href_list["spawnpoint"])

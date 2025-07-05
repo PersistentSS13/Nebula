@@ -155,6 +155,9 @@
 /turf/simulated/floor/reinforced/n20
 	initial_gas = list(/decl/material/gas/nitrous_oxide = ATMOSTANK_NITROUSOXIDE)
 
+/turf/simulated/floor/reinforced/chlorine
+	initial_gas = list(/decl/material/gas/chlorine = ATMOSTANK_CO2)
+
 /turf/simulated/floor/reinforced/elevator_shaft
 	name             = "elevator shaft floor"
 	icon             = 'icons/turf/floors.dmi'
@@ -198,6 +201,11 @@
 	name = "white floor"
 	icon_state = "white"
 	initial_flooring = /decl/flooring/tiling/white
+
+/turf/simulated/floor/tiled/checkered
+	name = "checkered floor"
+	icon_state = "white-checkered"
+	initial_flooring = /decl/flooring/tiling/checkered
 
 /turf/simulated/floor/tiled/white/monotile
 	name = "floor"
@@ -277,10 +285,16 @@
 	initial_flooring = /decl/flooring/tiling/tech/grid
 
 /turf/simulated/floor/lino
-	name = "lino"
+	name = "linoleum"
 	icon = 'icons/turf/flooring/linoleum.dmi'
 	icon_state = "lino"
 	initial_flooring = /decl/flooring/linoleum
+
+/turf/simulated/floor/lino/light
+	name = "light linoleum"
+	icon = 'icons/turf/flooring/linoleum.dmi'
+	icon_state = "base"
+	initial_flooring = /decl/flooring/linoleum/light
 
 //ATMOS PREMADES
 /turf/simulated/floor/reinforced/airless
@@ -311,69 +325,10 @@
 /turf/simulated/floor/greengrid/nitrogen
 	initial_gas = list(/decl/material/gas/nitrogen = MOLES_N2STANDARD)
 
-// Placeholders
-/turf/simulated/floor/airless/lava
-	name = "lava"
-	icon = 'icons/turf/flooring/lava.dmi'
-	icon_state = "lava"
-
-/turf/simulated/floor/ice
-	name = "ice"
-	icon = 'icons/turf/exterior/ice.dmi'
-	icon_state = "0"
-
-/turf/simulated/floor/snow
-	name = "snow"
-	icon = 'icons/turf/snow.dmi'
-	icon_state = "snow"
-	initial_flooring = /decl/flooring/snow
-
-/turf/simulated/floor/light
-/turf/simulated/floor/airless/ceiling
-
-/turf/simulated/floor/beach
-	name = "beach"
-	icon = 'icons/misc/beach.dmi'
-
-/turf/simulated/floor/beach/sand
-	name = "sand"
-	icon_state = "sand"
-
-/turf/simulated/floor/beach/sand/desert
-	icon_state = "desert"
-
-/turf/simulated/floor/beach/sand/desert/Initialize()
-	. = ..()
-	icon_state = "desert[rand(0,5)]"
-
-/turf/simulated/floor/beach/coastline
-	name = "coastline"
-	icon = 'icons/misc/beach2.dmi'
-	icon_state = "sandwater"
-	turf_flags = TURF_IS_WET | TURF_IS_HOLOMAP_PATH
-
-/turf/simulated/floor/beach/water
-	name = "water"
-	icon_state = "water"
-	turf_flags = TURF_IS_WET | TURF_IS_HOLOMAP_PATH
-
-/turf/simulated/floor/beach/water/is_flooded(lying_mob, absolute)
-	. = absolute ? ..() : lying_mob
-
-/turf/simulated/floor/beach/water/update_dirt()
-	return	// Water doesn't become dirty
-
-/turf/simulated/floor/beach/water/ocean
-	icon_state = "seadeep"
-
-/turf/simulated/floor/beach/water/Initialize()
-	. = ..()
-	overlays += image("icon"='icons/misc/beach.dmi',"icon_state"="water5","layer"=MOB_LAYER+0.1)
-
 /turf/simulated/floor/crystal
 	name = "crystal floor"
 	icon = 'icons/turf/flooring/crystal.dmi'
-	icon_state = ""
+	icon_state = "crystal"
 	initial_flooring = /decl/flooring/crystal
 
 /turf/simulated/floor/glass
@@ -397,3 +352,22 @@
 	icon = 'icons/turf/flooring/pool.dmi'
 	icon_state = "pool"
 	initial_flooring = /decl/flooring/pool/deep
+
+
+/turf/simulated/floor/concrete
+	name = "concrete floor"
+	icon = 'icons/turf/flooring/concrete.dmi'
+	icon_state = "concrete"
+	initial_flooring = /decl/flooring/concrete
+
+/turf/simulated/floor/concrete/slab
+	name = "concrete slab floor"
+	icon = 'icons/turf/flooring/concrete.dmi'
+	icon_state = "slab"
+	initial_flooring = /decl/flooring/concrete/slab
+
+/turf/simulated/floor/reinforced/concrete
+	name = "reinforced concrete floor"
+	icon = 'icons/turf/flooring/concrete.dmi'
+	icon_state = "reinforced"
+	initial_flooring = /decl/flooring/reinforced/concrete

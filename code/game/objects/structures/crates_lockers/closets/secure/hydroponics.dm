@@ -2,6 +2,8 @@
 	name = "botanist's locker"
 	req_access = list(access_hydroponics)
 	closet_appearance = /decl/closet_appearance/secure_closet/hydroponics
+	//mapper preview
+	color = COLOR_GREEN_GRAY
 
 /obj/structure/closet/secure_closet/hydroponics/WillContain()
 	return list(
@@ -17,3 +19,15 @@
 		/obj/item/wirecutters/clippers,
 		/obj/item/chems/spray/plantbgone,
 	)
+
+
+/obj/structure/closet/secure_closet/hydroponics/sci
+	name = "xenoflorist's locker"
+	req_access = list(access_xenobiology)
+	closet_appearance = /decl/closet_appearance/secure_closet/hydroponics/xenoflora
+
+/obj/structure/closet/secure_closet/hydroponics/sci/WillContain()
+	. = ..()
+	. += /obj/item/clothing/head/bio_hood/scientist
+	. += /obj/item/clothing/suit/bio_suit/scientist
+	. += /obj/item/clothing/mask/

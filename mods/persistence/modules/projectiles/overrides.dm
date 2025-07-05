@@ -49,7 +49,7 @@
 /datum/fabricator_recipe/protolathe/ammo/ammo_emp_slug
 	research_excluded = TRUE
 
-/obj/item/gun/projectile/update_base_icon() // sets streamlined way for mag-fed guns to check they sprites
+/obj/item/gun/projectile/update_base_icon_state() // sets streamlined way for mag-fed guns to check they sprites
 	if(ammo_magazine)
 		if(ammo_magazine.stored_ammo.len)
 			icon_state = "[get_world_inventory_state()]-loaded"
@@ -58,7 +58,7 @@
 	else
 		icon_state = get_world_inventory_state()
 
-/obj/item/gun/projectile/pistol/update_base_icon() // pistols have a snowflake method of checking load sprites upstream, so we're making them use the same way as all the other mag-guns via this
+/obj/item/gun/projectile/pistol/update_base_icon_state() // pistols have a snowflake method of checking load sprites upstream, so we're making them use the same way as all the other mag-guns via this
 	if(ammo_magazine)
 		if(ammo_magazine.stored_ammo.len)
 			icon_state = "[get_world_inventory_state()]-loaded"

@@ -31,6 +31,17 @@
 	var/mothershuttle //tag of mothershuttle
 	var/motherdock    //tag of mothershuttle landmark, defaults to starting location
 
+SAVED_VAR(/datum/shuttle, name)
+SAVED_VAR(/datum/shuttle, display_name)
+SAVED_VAR(/datum/shuttle, shuttle_area)
+SAVED_VAR(/datum/shuttle, current_location)
+SAVED_VAR(/datum/shuttle, flags)
+SAVED_VAR(/datum/shuttle, multiz)
+SAVED_VAR(/datum/shuttle, ceiling_type)
+SAVED_VAR(/datum/shuttle, force_ceiling_on_init)
+SAVED_VAR(/datum/shuttle, mothershuttle)
+SAVED_VAR(/datum/shuttle, motherdock)
+
 /datum/shuttle/New(map_hash, var/obj/effect/shuttle_landmark/initial_location)
 	..()
 	if(!display_name)
@@ -49,7 +60,7 @@
 		for(var/area_type in shuttle_area)
 			if(istype(area_type, /area)) // If the shuttle area is already an instance, it does not need to be located.
 				areas += area_type
-				events_repository.register(/decl/observ/destroyed, area_type, src, .proc/remove_shuttle_area)
+				events_repository.register(/decl/observ/destroyed, area_type, src, PROC_REF(remove_shuttle_area))
 				continue
 			var/area/A
 			if(map_hash && islist(SSshuttle.map_hash_to_areas[map_hash]))
@@ -59,7 +70,7 @@
 			if(!istype(A))
 				CRASH("Shuttle \"[name]\" couldn't locate area [area_type].")
 			areas += A
-			events_repository.register(/decl/observ/destroyed, A, src, .proc/remove_shuttle_area)
+			events_repository.register(/decl/observ/destroyed, A, src, PROC_REF(remove_shuttle_area))
 		shuttle_area = areas
 
 	if(initial_location)
@@ -84,7 +95,7 @@
 	create_ceiling(force_ceiling_on_init)
 
 /datum/shuttle/proc/remove_shuttle_area(area/area_to_remove)
-	events_repository.unregister(/decl/observ/destroyed, area_to_remove, src, .proc/remove_shuttle_area)
+	events_repository.unregister(/decl/observ/destroyed, area_to_remove, src, PROC_REF(remove_shuttle_area))
 	SSshuttle.shuttle_areas -= area_to_remove
 	shuttle_area -= area_to_remove
 	if(!length(shuttle_area))

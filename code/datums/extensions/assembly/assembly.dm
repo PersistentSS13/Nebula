@@ -30,6 +30,10 @@
 
 	var/screen_on				= TRUE
 
+SAVED_VAR(/datum/extension/assembly, parts)
+SAVED_VAR(/datum/extension/assembly, enabled)
+SAVED_VAR(/datum/extension/assembly, damage)
+
 /datum/extension/assembly/proc/try_install_component(var/mob/living/user, var/obj/item/stock_parts/P)
 	for(var/max_part_type in max_parts)
 		if(istype(P, max_part_type))

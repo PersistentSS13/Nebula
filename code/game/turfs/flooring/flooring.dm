@@ -37,8 +37,10 @@
 	//How we smooth with other flooring
 	var/decal_layer = DECAL_LAYER
 	var/floor_smooth = SMOOTH_ALL
-	var/list/flooring_whitelist = list() //Smooth with nothing except the contents of this list
-	var/list/flooring_blacklist = list() //Smooth with everything except the contents of this list
+	/// Smooth with nothing except the types in this list. Turned into a typecache for performance reasons.
+	var/list/flooring_whitelist = list()
+	/// Smooth with everything except the types in this list. Turned into a typecache for performance reasons.
+	var/list/flooring_blacklist = list()
 
 	//How we smooth with walls
 	var/wall_smooth = SMOOTH_ALL
@@ -50,6 +52,11 @@
 	var/z_flags //same z flags used for turfs, i.e ZMIMIC_DEFAULT etc
 
 	var/height = 0
+
+/decl/flooring/Initialize()
+	. = ..()
+	flooring_whitelist = typecacheof(flooring_whitelist)
+	flooring_blacklist = typecacheof(flooring_blacklist)
 
 /decl/flooring/proc/on_remove()
 	return
@@ -156,6 +163,10 @@
 	flags = TURF_REMOVE_SCREWDRIVER
 	footstep_type = /decl/footsteps/tiles
 
+/decl/flooring/linoleum/light
+	name      = "light linoleum"
+	icon_base = "base"
+
 /decl/flooring/tiling
 	name = "floor"
 	desc = "A solid, heavy set of flooring plates."
@@ -188,6 +199,11 @@
 	desc = "How sterile."
 	color = COLOR_OFF_WHITE
 	build_type = /obj/item/stack/tile/floor_white
+
+/decl/flooring/tiling/checkered
+	icon_base = "tiled_checkered"
+	desc = "How basic."
+	build_type = /obj/item/stack/tile/floor_checkered
 
 /decl/flooring/tiling/dark
 	desc = "How ominous."
@@ -432,7 +448,34 @@
 	floor_smooth = SMOOTH_NONE
 	wall_smooth = SMOOTH_NONE
 	space_smooth = SMOOTH_NONE
-	height = -FLUID_OVER_MOB_HEAD - 50
+	height = -(FLUID_OVER_MOB_HEAD) - 50
 
 /decl/flooring/pool/deep
 	height = -FLUID_DEEP - 50
+
+/decl/flooring/concrete
+	name = "concrete floor"
+	desc = "Heavily reinforced concrete with a latticework on top of regular plating."
+	icon = 'icons/turf/flooring/concrete.dmi'
+	icon_base = "concrete"
+	build_type = /obj/item/stack/material/panel
+	build_material = /decl/material/solid/stone/concrete
+
+/decl/flooring/concrete/slab
+	name = "concrete slab floor"
+	desc = "A slab of concrete on top of regular plating."
+	icon_base = "slab"
+	build_type = /obj/item/stack/material/slab
+	build_material = /decl/material/solid/stone/concrete
+
+/decl/flooring/reinforced/concrete
+	name = "reinforced concrete floor"
+	desc = "Heavily reinforced concrete with a latticework on top of regular plating."
+	icon = 'icons/turf/flooring/concrete.dmi'
+	icon_base = "reinforced"
+	flags = TURF_REMOVE_SHOVEL | TURF_CAN_BREAK | TURF_ACID_IMMUNE
+	build_type = /obj/item/stack/material
+	build_material = /decl/material/solid/stone/concrete/reinforced
+	build_cost = 1
+	build_time = 20
+	footstep_type = /decl/footsteps/tiles

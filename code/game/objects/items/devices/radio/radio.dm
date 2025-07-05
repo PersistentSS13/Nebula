@@ -38,7 +38,6 @@
 	material = /decl/material/solid/metal/aluminium
 	matter = list(/decl/material/solid/fiberglass = MATTER_AMOUNT_REINFORCEMENT)
 
-	var/obj/item/cell/cell = /obj/item/cell/device
 	var/power_usage = 2800
 	var/last_radio_sound = -INFINITY
 	var/initial_network_id
@@ -65,6 +64,24 @@
 	var/analog_secured = list() // list of accesses used for encrypted analog, mainly for mercs/raiders
 	var/datum/radio_frequency/analog_radio_connection
 
+SAVED_VAR(/obj/item/radio, wires)
+SAVED_VAR(/obj/item/radio, panel_open)
+SAVED_VAR(/obj/item/radio, encryption_keys)
+SAVED_VAR(/obj/item/radio, on)
+SAVED_VAR(/obj/item/radio, frequency)
+SAVED_VAR(/obj/item/radio, traitor_frequency)
+SAVED_VAR(/obj/item/radio, broadcasting)
+SAVED_VAR(/obj/item/radio, listening)
+SAVED_VAR(/obj/item/radio, analog)
+SAVED_VAR(/obj/item/radio, analog_secured)
+
+/obj/item/radio/proc/get_radio_listeners()
+	for(var/mob/listener in hearers(canhear_range, get_turf(src)))
+		LAZYDISTINCTADD(., listener.resolve_to_radio_listeners())
+
+/obj/item/radio/setup_power_supply(loaded_cell_type, accepted_cell_type, power_supply_extension_type, charge_value)
+	return ..(/obj/item/cell/device, /obj/item/cell/device, /datum/extension/loaded_cell, charge_value)
+
 /obj/item/radio/get_radio(var/message_mode)
 	return src
 
@@ -90,21 +107,29 @@
 	if(analog && frequency)
 		analog_radio_connection = radio_controller.add_object(src, frequency, RADIO_CHAT)
 
-/obj/item/radio/Initialize()
+/obj/item/radio/Initialize(ml, material_key)
 	. = ..()
 	wires = new(src)
-	if(ispath(cell))
-		cell = new(src)
+	setup_power_supply()
 
 	global.listening_objects += src
 	set_frequency(sanitize_frequency(frequency, RADIO_LOW_FREQ, RADIO_HIGH_FREQ))
 	if(radio_device_type)
 		set_extension(src, /datum/extension/network_device/radio, initial_network_id, initial_network_key, RECEIVER_STRONG_WIRELESS)
 
+	if(!(persistent_id && length(encryption_keys)))
+		populate_encryption_keys()
+
+/** Create any defined encryption keys, leave alone those loaded from save. */
+/obj/item/radio/proc/populate_encryption_keys()
 	var/list/created_encryption_keys
 	for(var/keytype in encryption_keys)
 		LAZYADD(created_encryption_keys, new keytype(src))
 	encryption_keys = created_encryption_keys
+
+/obj/item/radio/after_deserialize()
+	encryption_key_capacity = max(encryption_key_capacity, length(encryption_keys))
+	. = ..()
 
 /obj/item/radio/proc/get_available_channels()
 	if(!channels)
@@ -212,9 +237,6 @@
 /obj/item/radio/proc/has_channel_access(var/mob/user, var/freq)
 	return TRUE // TODO: add antag/valid bounds checking
 
-/obj/item/radio/get_cell()
-	return cell
-
 /obj/item/radio/proc/toggle_broadcast()
 	broadcasting = !broadcasting && !(wires.IsIndexCut(WIRE_TRANSMIT) || wires.IsIndexCut(WIRE_SIGNAL))
 
@@ -282,14 +304,6 @@
 		. = TOPIC_REFRESH
 	if(href_list["nowindow"]) // here for pAIs, maybe others will want it, idk
 		return TOPIC_HANDLED
-
-	if(href_list["remove_cell"])
-		if(cell)
-			var/mob/user = usr
-			user.put_in_hands(cell)
-			to_chat(user, SPAN_NOTICE("You remove [cell] from \the [src]."))
-			cell = null
-		. = TOPIC_REFRESH
 	if(href_list["network_settings"])
 		var/datum/extension/network_device/D = get_extension(src, /datum/extension/network_device)
 		D.ui_interact(usr)
@@ -346,7 +360,7 @@
 		if(istype(M))
 			M.trigger_aiming(TARGET_CAN_RADIO)
 
-	addtimer(CALLBACK(src, .proc/transmit, M, message, message_mode, verb, speaking), 0)
+	addtimer(CALLBACK(src, PROC_REF(transmit), M, message, message_mode, verb, speaking), 0)
 
 /obj/item/radio/proc/can_transmit_binary()
 	for(var/obj/item/encryptionkey/key in encryption_keys)
@@ -490,11 +504,6 @@
 			return TRUE
 		return toggle_panel(user)
 
-	if(!cell && power_usage && istype(W, /obj/item/cell/device) && user.try_unequip(W, target = src))
-		to_chat(user, SPAN_NOTICE("You slot \the [W] into \the [src]."))
-		cell = W
-		return TRUE
-
 	. = ..()
 
 /obj/item/radio/proc/toggle_panel(var/mob/user)
@@ -509,9 +518,7 @@
 	var/list/current_channels = get_available_channels()
 	for(var/channel in current_channels)
 		LAZYSET(channels, channel, FALSE)
-	if(cell)
-		cell.emp_act(severity)
-	..()
+	return ..()
 
 /obj/item/radio/CouldUseTopic(var/mob/user)
 	..()

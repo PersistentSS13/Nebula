@@ -2,6 +2,8 @@
 	name = "armory closet"
 	desc = "Why is this here?"
 	closet_appearance = /decl/closet_appearance/tactical/alt
+	//mapper preview
+	color = COLOR_PALE_BTL_GREEN
 
 /obj/structure/closet/syndicate/personal
 	desc = "It's a storage unit for operative gear."
@@ -126,7 +128,7 @@
 		/obj/item/stack/material/ingot/mapped/silver/fifty,
 		/obj/item/stack/material/puck/mapped/uranium/fifty,
 		/obj/item/stack/material/gemstone/mapped/diamond/fifty,
-		/obj/item/stack/material/reinforced/mapped/plasteel/fifty,
+		/obj/item/stack/material/sheet/reinforced/mapped/plasteel/fifty,
 		/obj/item/stack/material/rods/fifty
 	)
 

@@ -36,21 +36,21 @@
 			borer.detach_from_host()
 	. = ..()
 
-/mob/living/carbon/remove_implant(var/obj/item/implant, var/surgical_removal = FALSE)
+/obj/item/glass_jar/Initialize()
+	accept_mobs |= /mob/living/simple_animal/borer
 	. = ..()
-	if(. && !QDELETED(implant) && isborer(implant))
+
+/mob/death(gibbed)
+	. = ..()
+	if(. && !gibbed)
+		var/mob/living/simple_animal/borer/B = HAS_BRAIN_WORMS(src)
+		if(B && B.controlling)
+			B.detach_from_host()
+
+/mob/living/carbon/human/remove_implant(obj/item/implant, surgical_removal = FALSE, obj/item/organ/external/affected)
+	if((. = ..()) && !QDELETED(implant) && isborer(implant))
 		var/mob/living/simple_animal/borer/worm = implant
 		if(worm.controlling)
 			release_control()
 		worm.detach_from_host()
 		worm.leave_host()
-
-/obj/item/glass_jar/Initialize()
-	accept_mobs |= /mob/living/simple_animal/borer
-	. = ..()
-
-/mob/death()
-	var/mob/living/simple_animal/borer/B = HAS_BRAIN_WORMS(src)
-	if(B && B.controlling)
-		B.detach_from_host()
-	. = ..()

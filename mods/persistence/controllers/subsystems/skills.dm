@@ -20,7 +20,7 @@ SUBSYSTEM_DEF(skills)
 		var/mob/target_mob = C.mob
 		if(isobserver(target_mob))
 			var/datum/mind/M = C.mob.mind
-			if(!M || isobserver(M)) continue
+			if(!M || isobserver(M)) continue //#FIXME: isobserver(M) will always be false, because M is a /datum/mind
 			target_mob = M.current
 		
 		if(target_mob && target_mob.skillset)

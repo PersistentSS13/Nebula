@@ -8,6 +8,8 @@
 	var/datum/reagents/metabolism/ingested
 	var/next_cramp = 0
 
+SAVED_VAR(/obj/item/organ/internal/stomach, ingested)
+
 /obj/item/organ/internal/stomach/Destroy()
 	QDEL_NULL(ingested)
 	. = ..()
@@ -104,8 +106,8 @@
 					qdel(M)
 					continue
 
-				M.adjustBruteLoss(3)
-				M.adjustFireLoss(3)
+				M.adjustBruteLoss(3, do_update_health = FALSE)
+				M.adjustFireLoss(3, do_update_health = FALSE)
 				M.adjustToxLoss(3)
 
 				var/digestion_product = M.get_digestion_product()

@@ -1,5 +1,3 @@
-
-
 /obj/item/organ/internal/augment/active/polytool/engineer
 	name = "engineering toolset"
 	action_button_name = "Deploy Engineering Tool"
@@ -14,7 +12,7 @@
 		/obj/item/wirecutters/finger,
 		/obj/item/multitool/finger
 	)
-	origin_tech = "{'materials':4,'magnets':3,'engineering':3}"
+	origin_tech = @'{"materials":4,"magnets":3,"engineering":3}'
 
 /obj/item/weldingtool/finger
 	name = "digital welder"

@@ -45,7 +45,7 @@
 				var/decl/special_role/godcult = GET_DECL(/decl/special_role/godcultist)
 				if(M.mind && godcult.is_antagonist(M.mind))
 					if(REAGENT_VOLUME(holder, type) > 5)
-						M.adjustHalLoss(5)
+						M.adjustHalLoss(5, do_update_health = FALSE)
 						M.adjustBruteLoss(1)
 						if(prob(10)) //Only annoy them a /bit/
 							to_chat(M,"<span class='danger'>You feel your insides curdle and burn!</span> \[<a href='?src=\ref[holder];deconvert=\ref[M]'>Give Into Purity</a>\]")
@@ -76,14 +76,14 @@
 
 	var/volume = REAGENT_VOLUME(holder, type)
 	if (environment && environment.temperature > min_temperature) // Abstracted as steam or something
-		var/removed_heat = clamp(0, volume * WATER_LATENT_HEAT, -environment.get_thermal_energy_change(min_temperature))
+		var/removed_heat = clamp(volume * WATER_LATENT_HEAT, 0, -environment.get_thermal_energy_change(min_temperature))
 		environment.add_thermal_energy(-removed_heat)
 		if (prob(5) && environment && environment.temperature > T100C)
 			T.visible_message("<span class='warning'>The water sizzles as it lands on \the [T]!</span>")
 
 	var/list/data = REAGENT_DATA(holder, type)
 	if(data && data["holy"])
-		T.holy = TRUE
+		T.turf_flags |= TURF_FLAG_HOLY
 
 /decl/material/liquid/water/touch_obj(var/obj/O, var/amount, var/datum/reagents/holder)
 	..()

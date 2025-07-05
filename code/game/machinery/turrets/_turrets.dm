@@ -12,14 +12,15 @@
 	idle_power_usage = 500
 	active_power_usage = 10 KILOWATTS
 	interact_offline = TRUE
-
 	transform_animate_time = 0.2 SECONDS
 	uncreated_component_parts = list(/obj/item/stock_parts/power/apc)
+	maximum_component_parts   = list(/obj/item/stock_parts/ammo_box = 1, /obj/item/stock_parts = 10)
+	abstract_type = /obj/machinery/turret
+
 	// Visuals.
 	var/image/turret_stand = null
 	var/image/turret_ray = null
 	var/ray_color = "#ffffffff" // Color of the ray, changed by the FSM when switching states.
-
 	var/image/transverse_left // Images for displaying the range of the turret's transverse
 	var/image/transverse_right
 
@@ -125,13 +126,11 @@
 /obj/machinery/turret/Process()
 	if(istype(installed_gun, /obj/item/gun/energy))
 		var/obj/item/gun/energy/energy_gun = installed_gun
-		if(energy_gun.power_supply)
-			var/obj/item/cell/power_cell = energy_gun.power_supply
-			if(!power_cell.fully_charged())
-				power_cell.give(active_power_usage*CELLRATE)
-				update_use_power(POWER_USE_ACTIVE)
-				return
-
+		var/obj/item/cell/power_supply = energy_gun.get_cell()
+		if(power_supply && !power_supply.fully_charged())
+			power_supply.give(active_power_usage*CELLRATE)
+			update_use_power(POWER_USE_ACTIVE)
+			return
 	update_use_power(POWER_USE_IDLE)
 
 /obj/machinery/turret/attackby(obj/item/I, mob/user)
@@ -173,7 +172,7 @@
 		if(installed_gun && is_valid_target(target?.resolve()))
 			var/atom/resolved_target = target.resolve()
 			if(istype(resolved_target))
-				addtimer(CALLBACK(src, .proc/fire_weapon, resolved_target), 0)
+				addtimer(CALLBACK(src, PROC_REF(fire_weapon), resolved_target), 0)
 		else
 			target = null
 	state_machine.evaluate()
@@ -381,7 +380,7 @@
 		to_chat(user, SPAN_WARNING("You short out \the [src]'s threat assessment circuits."))
 		visible_message("\The [src] hums oddly...")
 		enabled = FALSE
-		addtimer(CALLBACK(src, .proc/emagged_targeting), 6 SECONDS)
+		addtimer(CALLBACK(src, PROC_REF(emagged_targeting)), 6 SECONDS)
 		state_machine.evaluate()
 
 /obj/machinery/turret/proc/emagged_targeting()

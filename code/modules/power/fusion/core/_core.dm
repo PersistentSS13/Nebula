@@ -1,6 +1,8 @@
 #define MAX_FIELD_STR 10000
 #define MIN_FIELD_STR 1
 
+//#TODO: Make sure the field and core state load from save.
+
 /obj/machinery/fusion_core
 	name = "\improper R-UST Mk. 8 Tokamak core"
 	desc = "An enormous solenoid for generating extremely high power electromagnetic fields. It includes a kinetic energy harvester."
@@ -25,7 +27,7 @@
 /obj/machinery/fusion_core/mapped
 	anchored = TRUE
 
-/obj/machinery/fusion_core/Initialize()
+/obj/machinery/fusion_core/Initialize(mapload, d, populate_parts)
 	. = ..()
 	set_extension(src, /datum/extension/local_network_member)
 	if(initial_id_tag)

@@ -22,8 +22,8 @@ var/global/req_console_information = list()
 	anchored = TRUE
 	density = FALSE
 	obj_flags = OBJ_FLAG_MOVES_UNSUPPORTED
-	icon = 'icons/obj/terminals.dmi'
-	icon_state = "req_comp0"
+	icon = 'icons/obj/machines/wall/request_console.dmi'
+	icon_state = "on"
 	var/department = "Unknown" //The list of all departments on the station (Determined from this variable on each unit) Set this to the same thing if you want several consoles in one department
 	var/list/message_log = list() //List of all messages
 	var/newmessagepriority = 0
@@ -47,15 +47,15 @@ var/global/req_console_information = list()
 	uncreated_component_parts = null
 	construct_state = /decl/machine_construction/wall_frame/panel_closed
 	frame_type = /obj/item/frame/stock_offset/request_console
-	directional_offset = "{'NORTH':{'y':-32}, 'SOUTH':{'y':32}, 'EAST':{'x':32}, 'WEST':{'x':-32}}"
+	directional_offset = @'{"NORTH":{"y":32}, "SOUTH":{"y":-32}, "EAST":{"x":32}, "WEST":{"x":-32}}'
 
 /obj/machinery/network/requests_console/on_update_icon()
 	if(stat & NOPOWER)
-		if(icon_state != "req_comp_off")
-			icon_state = "req_comp_off"
+		if(icon_state != "frame")
+			icon_state = "frame"
 	else
-		if(icon_state == "req_comp_off")
-			icon_state = "req_comp[newmessagepriority]"
+		if(icon_state == "frame")
+			icon_state = "on[newmessagepriority]"
 
 /obj/machinery/network/requests_console/Initialize(mapload, d)
 	. = ..()
@@ -172,7 +172,7 @@ var/global/req_console_information = list()
 				var/obj/machinery/network/requests_console/Console = console.holder
 				if(istype(Console) && Console.department == department)
 					Console.newmessagepriority = 0
-					Console.icon_state = "req_comp0"
+					Console.icon_state = "on"
 					Console.set_light(1)
 		if(tempScreen == RCS_MAINMENU)
 			reset_message()

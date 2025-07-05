@@ -154,18 +154,6 @@ var/global/list/kleibkhar_possible_tree_seeds = list(
 		return TRUE
 	. = ..()
 
-/turf/exterior/kleibkhar_grass/fire_act(datum/gas_mixture/air, exposed_temperature, exposed_volume)
-	if((temperature > T0C + 200 && prob(5)) || temperature > T0C + 1000)
-		melt()
-
-/turf/exterior/kleibkhar_grass/melt()
-	if(icon_state != "scorched")
-		SetName("scorched ground")
-		icon_state = "scorched"
-		icon_edge_layer = -1
-		footstep_type = /decl/footsteps/asteroid
-		color = null
-
 ///////////////////////////////////////////////////////////////////////////
 // Mining Turfs
 ///////////////////////////////////////////////////////////////////////////
@@ -176,7 +164,7 @@ var/global/list/kleibkhar_possible_tree_seeds = list(
 /turf/exterior/wall/kleibkhar
 	material = /decl/material/solid/stone/sandstone
 	floor_type = /turf/exterior/barren/mining
-	open_turf_type = /turf/exterior/open
+	open_turf_type = /turf/open
 
 ///////////////////////////////////////////////////////////////////////////
 // Terraforming
@@ -205,7 +193,7 @@ var/global/list/exterior_mud_dark_radial_choices
 			to_chat(user, SPAN_WARNING("You can't manipulate the ground until you remove the plants here."))
 			return TRUE
 
-		var/obj/item/shovel/S = W
+		var/obj/item/tool/shovel/S = W
 		if(!LAZYLEN(exterior_mud_dark_radial_choices))
 			cache_radial_shovel_interactions()
 

@@ -2,6 +2,8 @@
 	name = "level-3 biohazard suit closet"
 	desc = "It's a storage unit for level-3 biohazard gear."
 	closet_appearance = /decl/closet_appearance/bio
+	//mapper preview
+	color = COLOR_PALE_ORANGE
 
 /obj/structure/closet/l3closet/general/WillContain()
 	return list(
@@ -42,8 +44,19 @@
 		/obj/item/tank/emergency/oxygen/engi
 	)
 
+/obj/structure/closet/l3closet/security/multi/WillContain()
+	return list(
+		/obj/item/clothing/suit/bio_suit/security = 5,
+		/obj/item/clothing/head/bio_hood/security = 5,
+		/obj/item/clothing/mask/gas/half = 5,
+		/obj/item/tank/emergency/oxygen/engi = 5,
+	)
+
+
 /obj/structure/closet/l3closet/janitor
 	closet_appearance = /decl/closet_appearance/bio/janitor
+	//mapper preview
+	color = COLOR_PURPLE
 
 /obj/structure/closet/l3closet/janitor/WillContain()
 	return list(
@@ -51,6 +64,14 @@
 		/obj/item/clothing/head/bio_hood/janitor,
 		/obj/item/clothing/mask/gas/half,
 		/obj/item/tank/emergency/oxygen/engi
+	)
+
+/obj/structure/closet/l3closet/janitor/multi/WillContain()
+	return list(
+		/obj/item/clothing/suit/bio_suit/janitor = 5,
+		/obj/item/clothing/head/bio_hood/janitor = 5,
+		/obj/item/clothing/mask/gas/half = 5,
+		/obj/item/tank/emergency/oxygen/engi = 5,
 	)
 
 /obj/structure/closet/l3closet/scientist
@@ -78,6 +99,28 @@
 
 
 /obj/structure/closet/l3closet/command/WillContain()
+	return list(
+		/obj/item/clothing/suit/bio_suit/cmo,
+		/obj/item/clothing/head/bio_hood/cmo,
+		/obj/item/clothing/mask/gas/half,
+		/obj/item/tank/emergency/oxygen/engi
+	)
+
+/obj/structure/closet/l3closet/medical
+	closet_appearance = /decl/closet_appearance/bio/medical
+
+/obj/structure/closet/l3closet/medical/WillContain()
+	return list(
+		/obj/item/clothing/suit/bio_suit/general = 3,
+		/obj/item/clothing/head/bio_hood/general = 3,
+		/obj/item/clothing/mask/gas/half         = 3,
+		/obj/item/tank/emergency/oxygen/engi     = 3,
+	)
+
+/obj/structure/closet/l3closet/medical/cmo
+	closet_appearance = /decl/closet_appearance/bio/command
+
+/obj/structure/closet/l3closet/medical/cmo/WillContain()
 	return list(
 		/obj/item/clothing/suit/bio_suit/cmo,
 		/obj/item/clothing/head/bio_hood/cmo,

@@ -13,6 +13,13 @@
 	var/scent_descriptor = SCENT_DESC_SMELL
 	var/scent_range = 2
 
+SAVED_VAR(/obj/effect/decal/cleanable, age)
+SAVED_VAR(/obj/effect/decal/cleanable, cleanable_scent)
+SAVED_VAR(/obj/effect/decal/cleanable, scent_type)
+SAVED_VAR(/obj/effect/decal/cleanable, scent_intensity)
+SAVED_VAR(/obj/effect/decal/cleanable, scent_descriptor)
+SAVED_VAR(/obj/effect/decal/cleanable, scent_range)
+
 /obj/effect/decal/cleanable/Initialize(var/ml, var/_age)
 	if(random_icon_states && length(src.random_icon_states) > 0)
 		src.icon_state = pick(src.random_icon_states)
@@ -38,8 +45,8 @@
 		SSpersistence.forget_value(src, /decl/persistence_handler/filth)
 	. = ..()
 
-/obj/effect/decal/cleanable/clean_blood(var/ignore = 0)
-	if(!ignore)
+/obj/effect/decal/cleanable/clean(clean_forensics = TRUE)
+	if(clean_forensics)
 		qdel(src)
 		return TRUE
 	. = ..()
