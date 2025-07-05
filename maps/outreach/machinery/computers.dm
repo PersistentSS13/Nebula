@@ -4,7 +4,6 @@
 
 /obj/machinery/computer/modular/preset/outreach
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/computer/processor_unit,
 	)
 	default_software = list(
@@ -21,7 +20,6 @@
 
 /obj/machinery/computer/modular/preset/outreach/engineering
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/computer/processor_unit,
 	)
 	default_software = list(
@@ -44,7 +42,6 @@
 
 /obj/machinery/computer/modular/preset/outreach/supply
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/power/battery/buildable/stock,
 		/obj/item/cell/super,
 		/obj/item/stock_parts/network_receiver/network_lock/buildable,
@@ -65,7 +62,6 @@
 
 /obj/machinery/computer/modular/preset/outreach/supply/public
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/computer/processor_unit,
 		/obj/item/stock_parts/computer/charge_stick_slot,
 	)
@@ -78,7 +74,6 @@
 
 /obj/machinery/computer/modular/preset/outreach/mining
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/computer/processor_unit,
 		/obj/item/stock_parts/computer/card_slot,
 		/obj/item/stock_parts/computer/drive_slot,
@@ -99,7 +94,6 @@
 
 /obj/machinery/computer/modular/preset/outreach/security
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/power/battery/buildable/stock,
 		/obj/item/cell/super,
 		/obj/item/stock_parts/network_receiver/network_lock/buildable,
@@ -128,7 +122,6 @@
 
 /obj/machinery/computer/modular/preset/outreach/security/head
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/power/battery/buildable/stock,
 		/obj/item/cell/super,
 		/obj/item/stock_parts/network_receiver/network_lock/buildable,
@@ -161,7 +154,6 @@
 
 /obj/machinery/computer/modular/preset/outreach/public
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/computer/processor_unit,
 		/obj/item/stock_parts/computer/card_slot,
 		/obj/item/stock_parts/computer/drive_slot,
@@ -178,7 +170,6 @@
 
 /obj/machinery/computer/modular/preset/outreach/command
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/power/battery/buildable/stock,
 		/obj/item/cell/super,
 		/obj/item/stock_parts/network_receiver/network_lock/buildable,
@@ -203,7 +194,6 @@
 
 /obj/machinery/computer/modular/preset/outreach/command/telecomm
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/network_receiver/network_lock/buildable,
 		/obj/item/stock_parts/computer/processor_unit/photonic,
 		/obj/item/stock_parts/computer/hard_drive/super,
@@ -257,7 +247,6 @@
 
 /obj/machinery/computer/modular/preset/outreach/command/finance
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/power/battery/buildable/stock,
 		/obj/item/cell/super,
 		/obj/item/stock_parts/network_receiver/network_lock/buildable,
@@ -287,7 +276,6 @@
 
 /obj/machinery/computer/modular/preset/outreach/medical
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/network_receiver/network_lock/buildable,
 		/obj/item/stock_parts/computer/processor_unit,
 		/obj/item/stock_parts/computer/hard_drive/advanced,
@@ -316,7 +304,6 @@
 
 /obj/machinery/computer/modular/preset/outreach/medical/cmo
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/power/battery/buildable/stock,
 		/obj/item/cell/super,
 		/obj/item/stock_parts/network_receiver/network_lock/buildable,
@@ -346,7 +333,6 @@
 
 /obj/machinery/computer/modular/preset/outreach/medical/cloning
 	uncreated_component_parts = list(
-		/obj/item/stock_parts/power/apc,
 		/obj/item/stock_parts/power/battery/buildable/turbo,
 		/obj/item/cell/super,
 		/obj/item/stock_parts/network_receiver/network_lock/buildable,
