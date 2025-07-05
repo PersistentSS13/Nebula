@@ -186,8 +186,8 @@ SAVED_VAR(/datum/mind, philotic_damage)
 
 	if(href_list["add_goal"])
 
-		var/mob/caller = locate(href_list["add_goal_caller"])
-		if(caller && caller == current) can_modify = TRUE
+		var/mob/calling_mob = locate(href_list["add_goal_caller"])
+		if(calling_mob && calling_mob == current) can_modify = TRUE
 
 		if(can_modify)
 			if(is_admin)
@@ -205,8 +205,8 @@ SAVED_VAR(/datum/mind, philotic_damage)
 	if(href_list["abandon_goal"])
 		var/datum/goal/goal = get_goal_from_href(href_list["abandon_goal"])
 
-		var/mob/caller = locate(href_list["abandon_goal_caller"])
-		if(caller && caller == current) can_modify = TRUE
+		var/mob/calling_mob = locate(href_list["abandon_goal_caller"])
+		if(calling_mob && calling_mob == current) can_modify = TRUE
 
 		if(goal && can_modify)
 			if(usr == current)
@@ -220,8 +220,8 @@ SAVED_VAR(/datum/mind, philotic_damage)
 	if(href_list["reroll_goal"])
 		var/datum/goal/goal = get_goal_from_href(href_list["reroll_goal"])
 
-		var/mob/caller = locate(href_list["reroll_goal_caller"])
-		if(caller && caller == current) can_modify = TRUE
+		var/mob/calling_mob = locate(href_list["reroll_goal_caller"])
+		if(calling_mob && calling_mob == current) can_modify = TRUE
 
 		if(goal && (goal in goals) && can_modify)
 			qdel(goal)
